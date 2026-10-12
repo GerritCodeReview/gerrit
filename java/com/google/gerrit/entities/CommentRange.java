@@ -72,8 +72,7 @@ public class CommentRange {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof CommentRange) {
-      CommentRange other = (CommentRange) obj;
+    if (obj instanceof CommentRange other) {
       return startLine == other.startLine
           && startCharacter == other.startCharacter
           && endLine == other.endLine

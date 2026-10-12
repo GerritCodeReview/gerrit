@@ -101,8 +101,8 @@ public class PermissionCollection {
         // use a common prefix like "refs/sandbox/" or "refs/heads/users/"
         // that will never be shared with non-user references, and the per-user
         // references are usually less frequent than the non-user references.
-        if (sm.getMatcher() instanceof ExpandParameters) {
-          if (!((ExpandParameters) sm.getMatcher()).matchPrefix(ref)) {
+        if (sm.getMatcher() instanceof ExpandParameters ep) {
+          if (!ep.matchPrefix(ref)) {
             continue;
           }
           perUser = true;

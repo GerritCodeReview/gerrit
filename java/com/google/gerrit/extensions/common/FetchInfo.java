@@ -29,8 +29,7 @@ public class FetchInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof FetchInfo) {
-      FetchInfo fetchInfo = (FetchInfo) o;
+    if (o instanceof FetchInfo fetchInfo) {
       return Objects.equals(url, fetchInfo.url)
           && Objects.equals(ref, fetchInfo.ref)
           && Objects.equals(commands, fetchInfo.commands);

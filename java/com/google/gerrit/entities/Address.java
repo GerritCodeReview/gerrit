@@ -76,8 +76,8 @@ public abstract class Address {
 
   @Override
   public final boolean equals(Object other) {
-    if (other instanceof Address) {
-      return email().equals(((Address) other).email());
+    if (other instanceof Address a) {
+      return email().equals(a.email());
     }
     return false;
   }

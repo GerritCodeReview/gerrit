@@ -251,16 +251,16 @@ public final class GerritLauncher {
             main.invoke(clazz.getConstructor(new Class<?>[] {}).newInstance(), new Object[] {argv});
       }
     } catch (InvocationTargetException ite) {
-      if (ite.getCause() instanceof Exception) {
-        throw (Exception) ite.getCause();
-      } else if (ite.getCause() instanceof Error) {
-        throw (Error) ite.getCause();
+      if (ite.getCause() instanceof Exception e) {
+        throw e;
+      } else if (ite.getCause() instanceof Error e) {
+        throw e;
       } else {
         throw ite;
       }
     }
-    if (res instanceof Number) {
-      return ((Number) res).intValue();
+    if (res instanceof Number number) {
+      return number.intValue();
     }
     return 0;
   }

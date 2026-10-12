@@ -90,8 +90,8 @@ public class SubmitDryRun {
       if (obj instanceof RevTag) {
         obj = rw.peel(obj);
       }
-      if (obj instanceof RevCommit) {
-        out.add((RevCommit) obj);
+      if (obj instanceof RevCommit revCommit) {
+        out.addrevCommit;
       }
     }
   }

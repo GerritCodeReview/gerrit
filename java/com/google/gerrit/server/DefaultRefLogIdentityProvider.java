@@ -84,8 +84,7 @@ public class DefaultRefLogIdentityProvider implements RefLogIdentityProvider {
   private String guessHost(IdentifiedUser user) {
     String host = null;
     SocketAddress remotePeer = user.getRemotePeer();
-    if (remotePeer instanceof InetSocketAddress) {
-      InetSocketAddress sa = (InetSocketAddress) remotePeer;
+    if (remotePeer instanceof InetSocketAddress sa) {
       InetAddress in = sa.getAddress();
       host = in != null ? in.getHostAddress() : sa.getHostName();
     }

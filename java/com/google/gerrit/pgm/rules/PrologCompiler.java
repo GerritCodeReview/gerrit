@@ -196,8 +196,8 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     if (classLoader.getParent() != null) {
       appendClasspath(cp, classLoader.getParent());
     }
-    if (classLoader instanceof URLClassLoader) {
-      for (URL url : ((URLClassLoader) classLoader).getURLs()) {
+    if (classLoader instanceof URLClassLoader uRLClassLoader) {
+      for (URL url : uRLClassLoader.getURLs()) {
         if ("file".equals(url.getProtocol())) {
           if (0 < cp.length()) {
             cp.append(File.pathSeparatorChar);

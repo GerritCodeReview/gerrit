@@ -62,15 +62,12 @@ public class RestApiQuotaEnforcer {
     String pathForQuotaReporting = RequestUtil.getRestPathWithoutIds(req);
     // Enrich the quota request we are operating on an interesting collection
     QuotaBackend.WithResource report = quotaBackend.currentUser();
-    if (rsrc instanceof ChangeResource) {
-      ChangeResource changeResource = (ChangeResource) rsrc;
+    if (rsrc instanceof ChangeResource changeResource) {
       report =
           quotaBackend.currentUser().change(changeResource.getId(), changeResource.getProject());
-    } else if (rsrc instanceof AccountResource) {
-      AccountResource accountResource = (AccountResource) rsrc;
+    } else if (rsrc instanceof AccountResource accountResource) {
       report = quotaBackend.currentUser().account(accountResource.getUser().getAccountId());
-    } else if (rsrc instanceof ProjectResource) {
-      ProjectResource projectResource = (ProjectResource) rsrc;
+    } else if (rsrc instanceof ProjectResource projectResource) {
       report = quotaBackend.currentUser().project(projectResource.getNameKey());
     }
 

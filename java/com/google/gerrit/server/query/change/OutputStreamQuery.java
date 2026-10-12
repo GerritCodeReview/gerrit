@@ -392,9 +392,9 @@ public class OutputStreamQuery {
     switch (outputFormat) {
       default:
       case TEXT:
-        if (data instanceof ChangeAttribute) {
+        if (data instanceof ChangeAttribute changeAttribute) {
           out.print("change ");
-          out.print(((ChangeAttribute) data).id);
+          out.print(changeAttribute.id);
           out.print("\n");
           showText(data, 1);
         } else {
@@ -441,16 +441,16 @@ public class OutputStreamQuery {
     out.print(indent);
     out.print(field);
     out.print(':');
-    if (value instanceof String && ((String) value).contains("\n")) {
+    if (value instanceof String string && ((String) value).contains("\n")) {
       out.print(' ');
       // Idention for multi-line text is
       // current depth indetion + length of field + length of ": "
       indent = indent(indent.length() + field.length() + spacesDepthRatio);
-      out.print(((String) value).replace("\n", "\n" + indent).trim());
+      out.print(string.replace("\n", "\n" + indent).trim());
       out.print('\n');
-    } else if (value instanceof Long && isDateField(field)) {
+    } else if (value instanceof Long long && isDateField(field)) {
       out.print(' ');
-      out.print(dtf.format(Instant.ofEpochSecond((Long) value)));
+      out.print(dtf.format(Instant.ofEpochSecondlong));
       out.print('\n');
     } else if (isPrimitive(value)) {
       out.print(' ');

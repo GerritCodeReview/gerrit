@@ -440,10 +440,9 @@ public class PrologRuleEvaluator {
             runSubmitFilters(resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
       }
       List<Term> r;
-      if (resultsTerm instanceof ListTerm) {
+      if (resultsTerm instanceof ListTerm l) {
         r = new ArrayList<>();
         for (Term t = resultsTerm; t instanceof ListTerm; ) {
-          ListTerm l = (ListTerm) t;
           r.add(l.car().dereference());
           t = l.cdr().dereference();
         }

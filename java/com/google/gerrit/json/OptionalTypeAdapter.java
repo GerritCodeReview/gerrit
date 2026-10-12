@@ -56,8 +56,8 @@ public class OptionalTypeAdapter
     // <?> type
     ParameterizedType parameterizedType =
         (ParameterizedType) new TypeLiteral<Optional<?>>() {}.getType();
-    if (typeOfT instanceof ParameterizedType) {
-      parameterizedType = (ParameterizedType) typeOfT;
+    if (typeOfT instanceof ParameterizedType parameterizedTypeVal) {
+      parameterizedType = parameterizedTypeVal;
       if (parameterizedType.getActualTypeArguments().length != 1) {
         throw new JsonParseException("Expected one parameter type in Optional.");
       }

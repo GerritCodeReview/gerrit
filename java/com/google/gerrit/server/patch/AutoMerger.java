@@ -222,8 +222,8 @@ public class AutoMerger {
     Optional<ObjectId> commit = repoView.getRef(refName);
     if (commit.isPresent()) {
       RevObject obj = repoView.getRevWalk().parseAny(commit.get());
-      if (obj instanceof RevCommit) {
-        return Optional.of((RevCommit) obj);
+      if (obj instanceof RevCommit revCommit) {
+        return Optional.ofrevCommit;
       }
     }
     return Optional.empty();

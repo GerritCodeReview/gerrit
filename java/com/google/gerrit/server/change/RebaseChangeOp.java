@@ -498,8 +498,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
         firstNonNull(Strings.emptyToNull(mergeStrategy), mergeUtil.mergeStrategyName());
 
     Merger merger = MergeUtil.newMerger(ctx.getInserter(), ctx.getRepoView().getConfig(), strategy);
-    if (merger instanceof ThreeWayMerger) {
-      ((ThreeWayMerger) merger).setBase(parentCommit);
+    if (merger instanceof ThreeWayMerger threeWayMerger) {
+      threeWayMerger.setBase(parentCommit);
     }
 
     DirCache dc = DirCache.newInCore();
@@ -531,8 +531,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
     } else {
       List<String> conflicts = ImmutableList.of();
       Map<String, ResolveMerger.MergeFailureReason> failed = ImmutableMap.of();
-      if (merger instanceof ResolveMerger) {
-        conflicts = ((ResolveMerger) merger).getUnmergedPaths();
+      if (merger instanceof ResolveMerger resolveMerger) {
+        conflicts = resolveMerger.getUnmergedPaths();
         failed = ((ResolveMerger) merger).getFailingPaths();
       }
 

@@ -463,8 +463,8 @@ public class ProjectControl {
     }
 
     private boolean can(CoreOrPluginProjectPermission perm) throws PermissionBackendException {
-      if (perm instanceof ProjectPermission) {
-        return can((ProjectPermission) perm);
+      if (perm instanceof ProjectPermission projectPermission) {
+        return canprojectPermission;
       } else if (perm instanceof PluginProjectPermission) {
         // TODO(xchangcheng): implement for plugin defined project permissions.
         return false;

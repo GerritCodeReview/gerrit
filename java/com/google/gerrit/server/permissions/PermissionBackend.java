@@ -333,8 +333,8 @@ public abstract class PermissionBackend {
         throws PermissionBackendException;
 
     public boolean test(CoreOrPluginProjectPermission perm) throws PermissionBackendException {
-      if (perm instanceof ProjectPermission) {
-        return test(EnumSet.of((ProjectPermission) perm)).contains(perm);
+      if (perm instanceof ProjectPermission projectPermission) {
+        return test(EnumSet.ofprojectPermission).contains(perm);
       }
 
       // TODO(xchangcheng): implement for plugin defined project permissions.

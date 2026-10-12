@@ -94,8 +94,8 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
     try {
       result = forProject.filter(ImmutableList.of(ref), getDelegate(), RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
-      if (e.getCause() instanceof IOException) {
-        throw (IOException) e.getCause();
+      if (e.getCause() instanceof IOException ioe) {
+        throw ioe;
       }
       throw new IOException(e);
     }

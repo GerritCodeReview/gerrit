@@ -55,8 +55,7 @@ public class AccountExternalIdInfo implements Comparable<AccountExternalIdInfo> 
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof AccountExternalIdInfo) {
-      AccountExternalIdInfo a = (AccountExternalIdInfo) o;
+    if (o instanceof AccountExternalIdInfo a) {
       return Objects.equals(a.identity, identity)
           && Objects.equals(a.emailAddress, emailAddress)
           && Objects.equals(a.trusted, trusted)

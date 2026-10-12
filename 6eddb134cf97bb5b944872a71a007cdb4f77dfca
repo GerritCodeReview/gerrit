@@ -160,6 +160,24 @@
       "parentUuid": "86893db0_a31aa993",
       "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a682a955_0de0efaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-12T23:48:22Z",
+      "side": 1,
+      "message": "I looked through the options and I don\u0027t think there\u0027s a good existing plugin. Seems like it would be fine in its own plugin, if you can find a good name for it (`queue-reporter-logFile`?). Each of the metrics reporters have a plugin and this does feel very similar. I guess if you could abstract the \"file\" part away, you could make the plugin more generically `-log4j` and then someone can use whatever appender/format/etc they want that works with log4j.",
+      "parentUuid": "b9d98202_030903c5",
+      "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

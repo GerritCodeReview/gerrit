@@ -441,7 +441,7 @@ public class OutputStreamQuery {
     out.print(indent);
     out.print(field);
     out.print(':');
-    if (value instanceof String string && ((String) value).contains("\n")) {
+    if (value instanceof String string && string.contains("\n")) {
       out.print(' ');
       // Idention for multi-line text is
       // current depth indetion + length of field + length of ": "
@@ -456,10 +456,10 @@ public class OutputStreamQuery {
       out.print(' ');
       out.print(value);
       out.print('\n');
-    } else if (value instanceof Collection) {
+    } else if (value instanceof Collection<?> collection) {
       out.print('\n');
       boolean firstElement = true;
-      for (Object thing : ((Collection<?>) value)) {
+      for (Object thing : collection) {
         // The name of the collection was initially printed at the beginning
         // of this routine.  Beginning at the second sub-element, reprint
         // the collection name so humans can separate individual elements

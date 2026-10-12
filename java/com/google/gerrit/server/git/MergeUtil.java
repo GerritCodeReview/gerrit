@@ -514,7 +514,7 @@ public class MergeUtil {
       Map<String, ResolveMerger.MergeFailureReason> failed = ImmutableMap.of();
       if (m instanceof ResolveMerger resolveMerger) {
         conflicts = resolveMerger.getUnmergedPaths();
-        failed = ((ResolveMerger) m).getFailingPaths();
+        failed = resolveMerger.getFailingPaths();
       }
 
       if (m.getResultTreeId() != null) {

@@ -525,7 +525,7 @@ public abstract class BaseCommand implements Command {
             if (thunk instanceof ProjectCommandRunnable projectCommandRunnable) {
               try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
                 projectCommandRunnable.executeParseCommand(pluginOptions);
-                projectName = ((ProjectCommandRunnable) thunk).getProjectName();
+                projectName = projectCommandRunnable.getProjectName();
                 thunk.run();
               }
             } else {

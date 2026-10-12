@@ -52,9 +52,7 @@ public class JythonShell {
     // Jython needs to inspect actual .jar files (not just classloader)
     StringBuilder classPath = new StringBuilder();
     final ClassLoader cl = getClass().getClassLoader();
-    if (cl instanceof java.net.URLClassLoader) {
-      @SuppressWarnings("resource")
-      URLClassLoader ucl = (URLClassLoader) cl;
+    if (cl instanceof URLClassLoader ucl) {
       for (URL u : ucl.getURLs()) {
         if ("file".equals(u.getProtocol())) {
           if (classPath.length() > 0) {

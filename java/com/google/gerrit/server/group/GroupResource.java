@@ -49,8 +49,8 @@ public class GroupResource implements RestResource {
 
   public Optional<GroupDescription.Internal> asInternalGroup() {
     GroupDescription.Basic group = getGroup();
-    if (group instanceof GroupDescription.Internal) {
-      return Optional.of((GroupDescription.Internal) group);
+    if (group instanceof GroupDescription.Internal internalGroup) {
+      return Optional.of(internalGroup);
     }
     return Optional.empty();
   }

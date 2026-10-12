@@ -4,7 +4,7 @@ module(name = "gerrit")
 bazel_dep(name = "bazel_features", version = "1.51.0")
 bazel_dep(name = "bazel_lib", version = "3.7.2")
 bazel_dep(name = "platforms", version = "1.1.0")
-bazel_dep(name = "rules_jvm_external", version = "7.1")
+bazel_dep(name = "rules_jvm_external", version = "7.2")
 
 # Language rules.
 bazel_dep(name = "aspect_rules_js", version = "3.4.1")
@@ -16,6 +16,14 @@ bazel_dep(name = "rules_java", version = "9.9.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.6")
 bazel_dep(name = "rules_python", version = "2.3.4")
 bazel_dep(name = "rules_shell", version = "0.8.0")
+
+# Use the GitHub release until rules_jvm_external 7.2 is available in BCR.
+archive_override(
+    module_name = "rules_jvm_external",
+    sha256 = "f1474ba3699f04ab1eab89381d64c9f906952c577524e9a9c8b3949b875bbaa0",
+    strip_prefix = "rules_jvm_external-7.2",
+    urls = ["https://github.com/bazel-contrib/rules_jvm_external/releases/download/7.2/rules_jvm_external-7.2.tar.gz"],
+)
 
 # Pin rules_java to Gerrit's chosen version. Transitive bzlmod modules can
 # otherwise raise it through MVS, which changes the Java toolchain inputs

@@ -22,6 +22,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -240,6 +242,50 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addWatchWhenExistingWatchedProjectIsHidden_reportsProjectAsNotFound()
+      throws Exception {
+    String hiddenProject = projectOperations.newProject().create().get();
+    String otherProject = projectOperations.newProject().create().get();
+
+    requestScopeOperations.setApiUser(user.id());
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo hiddenPwi = new ProjectWatchInfo();
+    hiddenPwi.project = hiddenProject;
+    projectsToWatch.add(hiddenPwi);
+    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+
+    hideProject(hiddenProject);
+
+    requestScopeOperations.setApiUser(user.id());
+    ProjectWatchInfo otherPwi = new ProjectWatchInfo();
+    otherPwi.project = otherProject;
+    projectsToWatch.add(otherPwi);
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.accounts().self().setWatchedProjects(projectsToWatch));
+    assertThat(thrown).hasMessageThat().isEqualTo("Project Not Found: " + hiddenProject);
+  }
+
+  @Test
+  public void getWatchedProjectsReportsHiddenProjectAsNotFound() throws Exception {
+    String hiddenProject = projectOperations.newProject().create().get();
+
+    requestScopeOperations.setApiUser(user.id());
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = hiddenProject;
+    gApi.accounts().self().setWatchedProjects(Lists.newArrayList(pwi));
+
+    hideProject(hiddenProject);
+
+    requestScopeOperations.setApiUser(user.id());
+    List<ProjectWatchInfo> watchedProjects = gApi.accounts().self().getWatchedProjects();
+    assertThat(watchedProjects).hasSize(1);
+    assertThat(watchedProjects.getFirst().project).isEqualTo(hiddenProject);
+    assertThat(watchedProjects.getFirst().problem).isEqualTo("Project Not Found: " + hiddenProject);
+  }
+
+  @Test
   public void deleteNonExistingProjectWatch() throws Exception {
     String projectName = project.get();
 
@@ -359,5 +405,12 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> gApi.accounts().self().setWatchedProjects(projectsToWatch));
     assertThat(t.getMessage()).isEqualTo("project name must be specified");
+  }
+
+  private void hideProject(String projectName) throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    ConfigInput configInput = new ConfigInput();
+    configInput.state = ProjectState.HIDDEN;
+    gApi.projects().name(projectName).config(configInput);
   }
 }

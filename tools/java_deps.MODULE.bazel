@@ -2,7 +2,7 @@
 #
 # This file is included from the root MODULE.bazel via include().
 # It contains the rules_jvm_external configuration for Gerrit:
-#  - forced artifact versions to keep Gerrit and JGit aligned
+#  - pinned root artifact versions to keep Gerrit and JGit aligned
 #  - excluded artifacts to prevent duplicate classes and unwanted runtimes
 #  - TOML-based dependency import + lockfile enforcement
 #
@@ -102,40 +102,6 @@ EXCLUDED_ARTIFACTS = (
     ["%s:%s" % (_FLEXMARK_GROUP, a) for a in _FLEXMARK_MODULES] +
     _OTHER_EXCLUDES
 )
-
-# Root-level dependency versions declared by Gerrit must take precedence over
-# versions contributed by layered modules (e.g. JGit) when resolving the shared
-# maven.install("external_deps") repository.
-#
-# rules_jvm_external currently lacks a mechanism for the root module to globally
-# enforce its declared versions across the layered Maven graph when using
-# bzlmod. In particular, version_conflict_policy = "pinned" still fails early
-# with duplicate artifacts when multiple modules contribute different versions.
-#
-# As a workaround, we explicitly force the root-selected versions here via
-# maven.amend_artifact(force_version = "true") for GA coordinates that may also
-# be introduced transitively by JGit.
-#
-# Versions themselves are sourced from deps.toml and the pinned lockfile.
-#
-# TODO(davido): Remove this workaround once global root version enforcement is
-# supported in rules_jvm_external:
-# https://github.com/bazel-contrib/rules_jvm_external/issues/1549
-_GERRIT_FORCED_ARTIFACTS = [
-    "args4j:args4j",
-    "com.googlecode.javaewah:JavaEWAH",
-    "commons-codec:commons-codec",
-    "org.apache.commons:commons-lang3",
-]
-
-[
-    maven.amend_artifact(
-        name = "external_deps",
-        coordinates = coord,
-        force_version = "true",
-    )
-    for coord in _GERRIT_FORCED_ARTIFACTS
-]
 
 # We consume Guice's unshaded artifact (published as the "classes"
 # classifier) plus an external OW2 ASM (see //lib/guice and tools/nongoogle.toml),

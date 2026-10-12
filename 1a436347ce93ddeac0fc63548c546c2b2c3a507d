@@ -57,6 +57,30 @@
       },
       "revId": "1a436347ce93ddeac0fc63548c546c2b2c3a507d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "394677ac_6ad2c735",
+        "filename": "java/com/google/gerrit/server/rules/prolog/PrologRuleEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T15:58:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a7e005d_5fba9118",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 0
+      },
+      "revId": "1a436347ce93ddeac0fc63548c546c2b2c3a507d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

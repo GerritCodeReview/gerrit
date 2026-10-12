@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ac00781_aa9d3739",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-12T12:38:03Z",
+      "side": 1,
+      "message": "What about changing the favicon too? The image that appears next to the browser tab.",
+      "revId": "303c9229e256df52fe2c62791eb0851eb8f72a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

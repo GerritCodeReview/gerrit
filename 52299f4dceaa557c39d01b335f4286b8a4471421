@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f69edf68_f4e1e530",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-12T18:30:34Z",
+      "side": 1,
+      "message": "Looks like screenshot failures need to be resolved too, which doesn\u0027t really look like it\u0027s caused by this change but rather flake/race condition",
+      "revId": "52299f4dceaa557c39d01b335f4286b8a4471421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41e5d4fb_0776086c",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-12T09:20:59Z",
+      "side": 1,
+      "message": "Actually, modern Java provides a much better solution:\n```suggestion\n          if (last !\u003d null \u0026\u0026 source instanceof Paginated p) {\n            // Restart source and continue if we have not filled the\n            // full limit the caller wants.\n```",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 51
+      },
+      "revId": "2aa10e9f5ecf88077a02de28ec3c37e8c575e998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

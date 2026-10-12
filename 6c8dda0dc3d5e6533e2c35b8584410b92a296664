@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae7abd47_cc65dff2",
+        "filename": "java/com/google/gerrit/index/query/AndPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T17:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba84e244_b14e25a8",
+      "revId": "6c8dda0dc3d5e6533e2c35b8584410b92a296664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a7290ff_472e2893",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-12T15:42:57Z",
       "side": 1,
       "message": "Unrelated, but this is redundant because when it is null then the instanceof gives false so the next line evaluates as false.",
+      "revId": "6c8dda0dc3d5e6533e2c35b8584410b92a296664",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e156466_d0ebb978",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T17:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a7290ff_472e2893",
       "revId": "6c8dda0dc3d5e6533e2c35b8584410b92a296664",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

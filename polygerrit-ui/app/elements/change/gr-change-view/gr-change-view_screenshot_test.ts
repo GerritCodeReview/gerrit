@@ -400,4 +400,60 @@ suite('gr-change-view screenshot tests', () => {
       document.body.removeChild(container);
     }
   });
+
+  test('commit message markdown preview', async () => {
+    await setViewport({width: 801, height: 900});
+
+    const revisions = createRevisions(3);
+    revisions['3'].commit!.message =
+      '### Test commit\n\nWith **bold** and `code`.';
+
+    const changeModel = testResolver(changeModelToken);
+    changeModel.updateStateChange({
+      ...element.change!,
+      revisions,
+    });
+    await element.updateComplete;
+
+    const container = document.createElement('div');
+    container.style.width = '801px';
+    container.style.height = '900px';
+    container.style.overflow = 'hidden';
+    container.style.display = 'block';
+    container.style.backgroundColor = 'var(--view-background-color, #fff)';
+    container.appendChild(element);
+    document.body.appendChild(container);
+
+    try {
+      await waitUntil(() => !!element.fileList);
+      await element.updateComplete;
+      if (element.fileList) {
+        await element.fileList.updateComplete;
+      }
+      await waitUntil(
+        () => !!element.shadowRoot!.querySelector('gr-file-list')
+      );
+
+      const toggleBtn = element.commitMessageEditor?.shadowRoot?.querySelector(
+        'gr-button.markdown-toggle'
+      ) as HTMLElement | null;
+      toggleBtn?.click();
+      await element.commitMessageEditor?.updateComplete;
+      await element.updateComplete;
+      await waitUntil(
+        () =>
+          !!element.shadowRoot
+            ?.querySelector('gr-formatted-text')
+            ?.shadowRoot?.querySelector('div.markdown-html h3')
+      );
+
+      await visualDiff(container, 'gr-change-view-commit-markdown-801px');
+      await visualDiffDarkTheme(
+        container,
+        'gr-change-view-commit-markdown-801px'
+      );
+    } finally {
+      document.body.removeChild(container);
+    }
+  });
 });

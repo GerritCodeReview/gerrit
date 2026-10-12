@@ -83,6 +83,7 @@ import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -1708,5 +1709,83 @@ suite('gr-change-view tests', () => {
     assert.isNull(decorator.querySelector('chat-panel'));
     assert.equal(customChat.change, element.change);
     assert.equal(customChat.revision, element.revision);
+  });
+
+  test('toggles commit message markdown and preserves state across edit', async () => {
+    element.change = createChangeViewChange();
+    element.revision = createRevision();
+    element.loggedIn = true;
+    element.loading = false;
+    await element.updateComplete;
+
+    const editor = queryAndAssert<GrEditableContent>(
+      element,
+      '#commitMessageEditor'
+    );
+    editor.isUploader = true;
+    sinon.stub(editor, 'loadEmails').resolves();
+    await editor.updateComplete;
+
+    const formattedText = queryAndAssert<HTMLElement & {markdown: boolean}>(
+      editor,
+      'gr-formatted-text'
+    );
+    assert.isFalse(formattedText.markdown);
+    assert.isFalse(formattedText.hasAttribute('markdown'));
+
+    const toggleButton = queryAndAssert<HTMLElement>(
+      editor,
+      'gr-button.markdown-toggle'
+    );
+    toggleButton.click();
+    await editor.updateComplete;
+    await element.updateComplete;
+
+    assert.isTrue(formattedText.markdown);
+    assert.isTrue(formattedText.hasAttribute('markdown'));
+
+    // Pressing Edit while in Markdown mode hides both Markdown toggle and Edit buttons
+    const editButton = queryAndAssert<HTMLElement>(
+      editor,
+      'gr-button.edit-commit-message'
+    );
+    editButton.click();
+    await waitUntil(() => editor.editing);
+    await editor.updateComplete;
+    await element.updateComplete;
+
+    assert.isTrue(editor.hideEditCommitMessage);
+    assert.isNull(
+      editor.shadowRoot?.querySelector('gr-button.markdown-toggle')
+    );
+    assert.isNull(
+      editor.shadowRoot?.querySelector('gr-button.edit-commit-message')
+    );
+
+    // Canceling edit restores the viewer with Markdown still enabled
+    const cancelButton = queryAndAssert<HTMLElement>(
+      editor,
+      'gr-button.cancel-button'
+    );
+    cancelButton.click();
+    await editor.updateComplete;
+    await element.updateComplete;
+
+    assert.isFalse(editor.editing);
+    assert.isTrue(element.commitMessageMarkdown);
+    assert.isTrue(formattedText.markdown);
+    assert.isTrue(formattedText.hasAttribute('markdown'));
+
+    // Navigating to a different change resets commitMessageMarkdown to false
+    element.change = {
+      ...createChangeViewChange(),
+      _number: 999 as NumericChangeId,
+    };
+    await element.updateComplete;
+    await editor.updateComplete;
+
+    assert.isFalse(element.commitMessageMarkdown);
+    assert.isFalse(formattedText.markdown);
+    assert.isFalse(formattedText.hasAttribute('markdown'));
   });
 });

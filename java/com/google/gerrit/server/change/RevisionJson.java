@@ -86,9 +86,11 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -283,19 +285,32 @@ public class RevisionJson {
           RevWalk rw = newRevWalk(repo)) {
         AttributesNodeProvider attributesNodeProvider =
             repo != null ? repo.createAttributesNodeProvider() : null;
+        if (has(PARENTS) && rw != null) {
+          try (Timer0.Context ignored = metrics.parentDataLatency.start()) {
+            Set<ObjectId> parentCommitIds = new LinkedHashSet<>();
+            for (PatchSet in : map.values()) {
+              if (!isWanted(in.id(), cd, limitToPsId)) {
+                continue;
+              }
+              boolean isCurrent = in.id().equals(cd.change().currentPatchSetId());
+              boolean setCommit = has(ALL_COMMITS) || (isCurrent && has(CURRENT_COMMIT));
+              boolean addFooters = isCurrent && has(COMMIT_FOOTERS);
+              if (setCommit || addFooters) {
+                RevCommit commit = rw.parseCommit(in.commitId());
+                for (RevCommit parent : commit.getParents()) {
+                  parentCommitIds.add(parent.getId());
+                }
+              }
+            }
+            if (!parentCommitIds.isEmpty()) {
+              parentDataProvider.prefetch(cd.project(), parentCommitIds);
+            }
+          }
+        }
         boolean allPatchSetsLoaded = has(ALL_REVISIONS) || has(MESSAGES);
         PatchSet priorPs = null;
         for (PatchSet in : map.values()) {
-          PatchSet.Id id = in.id();
-          boolean want;
-          if (has(ALL_REVISIONS)) {
-            want = true;
-          } else if (limitToPsId.isPresent()) {
-            want = id.equals(limitToPsId.get());
-          } else {
-            want = id.equals(cd.change().currentPatchSetId());
-          }
-          if (want) {
+          if (isWanted(in.id(), cd, limitToPsId)) {
             res.put(
                 in.commitId().name(),
                 toRevisionInfo(
@@ -438,8 +453,7 @@ public class RevisionJson {
       checkState(rw != null);
       checkState(repo != null);
       Project.NameKey project = c.getProject();
-      String rev = in.commitId().name();
-      RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
+      RevCommit commit = rw.parseCommit(in.commitId());
       rw.parseBody(commit);
       // out.branch is unset for patch sets that have no per-patch-set branch and are not the last
       // patch set. Fall back to the change's destination branch in that case, as callers below
@@ -459,9 +473,18 @@ public class RevisionJson {
       }
       if (has(PARENTS)) {
         try (Timer0.Context ignored = metrics.parentDataLatency.start()) {
-          List<ParentCommitData> parentData = new ArrayList<>();
-          for (RevCommit parent : commit.getParents()) {
-            ParentCommitData p = parentDataProvider.get(project, repo, parent.getId(), branchName);
+          RevCommit[] parents = commit.getParents();
+          if (parents.length > 1) {
+            List<ObjectId> parentIds = new ArrayList<>(parents.length);
+            for (RevCommit parent : parents) {
+              parentIds.add(parent.getId());
+            }
+            parentDataProvider.prefetch(project, parentIds);
+          }
+          List<ParentCommitData> parentData = new ArrayList<>(parents.length);
+          for (RevCommit parent : parents) {
+            ParentCommitData p =
+                parentDataProvider.get(project, repo, rw, parent.getId(), branchName);
             parentData.add(p);
           }
           out.parentsData = getParentInfo(parentData);
@@ -513,6 +536,16 @@ public class RevisionJson {
 
   private boolean has(ListChangesOption option) {
     return options.contains(option);
+  }
+
+  private boolean isWanted(PatchSet.Id id, ChangeData cd, Optional<PatchSet.Id> limitToPsId) {
+    if (has(ALL_REVISIONS)) {
+      return true;
+    }
+    if (limitToPsId.isPresent()) {
+      return id.equals(limitToPsId.get());
+    }
+    return id.equals(cd.change().currentPatchSetId());
   }
 
   private boolean isWorldReadable(ChangeData cd) throws PermissionBackendException {

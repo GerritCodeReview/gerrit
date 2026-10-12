@@ -81,6 +81,30 @@
       },
       "revId": "050aeabcb2c0b484eb3aa839e9b1924476be5de1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90cdf3b4_537eafaa",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-12T21:07:01Z",
+      "side": 1,
+      "message": "added a \"default\" marker for H2AccountPatchReviewStore",
+      "parentUuid": "758e058e_15328b54",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 8
+      },
+      "revId": "050aeabcb2c0b484eb3aa839e9b1924476be5de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

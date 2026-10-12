@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
@@ -301,6 +302,21 @@ public class UniversalGroupBackend implements GroupBackend {
         groups.addAll(knownGroups);
       }
       return groups;
+    }
+
+    @Override
+    public Iterable<Set<AccountGroup.UUID>> getKnownGroupsByBackend() {
+      return () ->
+          Iterators.concat(
+              Iterators.transform(
+                  memberships.entrySet().iterator(),
+                  entry ->
+                      Iterators.transform(
+                          entry.getValue().getKnownGroupsByBackend().iterator(),
+                          knownGroups -> {
+                            knownGroupsCount.increment(name(entry.getKey()), knownGroups.size());
+                            return knownGroups;
+                          })));
     }
   }
 

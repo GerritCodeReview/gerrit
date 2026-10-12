@@ -46,6 +46,30 @@
       },
       "revId": "2aa10e9f5ecf88077a02de28ec3c37e8c575e998",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b56ed2e9_d9ec61b7",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T12:10:04Z",
+      "side": 1,
+      "message": "I restored the original version and updated the commit message to explain why we rather no use an instanceof pattern with raw Paginated.",
+      "parentUuid": "3223ae5b_b2d21667",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 51
+      },
+      "revId": "2aa10e9f5ecf88077a02de28ec3c37e8c575e998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -44,8 +44,8 @@ public class SubmitStrategyListener implements BatchUpdateListener {
       SubmitInput input, Collection<SubmitStrategy> strategies, CommitStatus commitStatus) {
     this.strategies = strategies;
     this.commitStatus = commitStatus;
-    if (input instanceof TestSubmitInput) {
-      failAfterRefUpdates = ((TestSubmitInput) input).failAfterRefUpdates;
+    if (input instanceof TestSubmitInput testSubmitInput) {
+      failAfterRefUpdates = testSubmitInput.failAfterRefUpdates;
     } else {
       failAfterRefUpdates = false;
     }

@@ -76,8 +76,8 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     ConcurrentMap<String, CommandProvider> m = Maps.newConcurrentMap();
     for (Binding<?> b : allCommands()) {
       final Annotation annotation = b.getKey().getAnnotation();
-      if (annotation instanceof CommandName) {
-        final CommandName n = (CommandName) annotation;
+      if (annotation instanceof CommandName commandName) {
+        final CommandName n = commandName;
         if (!Commands.CMD_ROOT.equals(n) && Commands.isChild(parent, n)) {
           String descr = null;
           if (annotation instanceof Commands.NestedCommandNameImpl) {

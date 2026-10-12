@@ -442,8 +442,7 @@ public class PrologRuleEvaluator {
       List<Term> r;
       if (resultsTerm instanceof ListTerm) {
         r = new ArrayList<>();
-        for (Term t = resultsTerm; t instanceof ListTerm; ) {
-          ListTerm l = (ListTerm) t;
+        for (Term t = resultsTerm; t instanceof ListTerm l; ) {
           r.add(l.car().dereference());
           t = l.cdr().dereference();
         }

@@ -112,12 +112,10 @@ public class MailMetadataIT extends AbstractDaemonTest {
   private static void assertHeaders(Map<String, EmailHeader> have, Map<String, Object> want)
       throws Exception {
     for (Map.Entry<String, Object> entry : want.entrySet()) {
-      if (entry.getValue() instanceof String) {
-        assertThat(have)
-            .containsEntry("X-" + entry.getKey(), new StringEmailHeader((String) entry.getValue()));
-      } else if (entry.getValue() instanceof Instant) {
-        assertThat(have)
-            .containsEntry("X-" + entry.getKey(), new EmailHeader.Date((Instant) entry.getValue()));
+      if (entry.getValue() instanceof String s) {
+        assertThat(have).containsEntry("X-" + entry.getKey(), new StringEmailHeader(s));
+      } else if (entry.getValue() instanceof Instant instant) {
+        assertThat(have).containsEntry("X-" + entry.getKey(), new EmailHeader.Date(instant));
       } else {
         throw new Exception(
             "Object has unsupported type: "

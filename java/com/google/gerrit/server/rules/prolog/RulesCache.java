@@ -207,8 +207,8 @@ public class RulesCache {
       Term m = e.getMessageTerm();
       if (m instanceof StructureTerm && "syntax_error".equals(m.name()) && m.arity() >= 1) {
         StringBuilder msg = new StringBuilder();
-        if (m.arg(0) instanceof ListTerm) {
-          msg.append(Joiner.on(' ').join(((ListTerm) m.arg(0)).toJava()));
+        if (m.arg(0) instanceof ListTerm lt) {
+          msg.append(Joiner.on(' ').join(lt.toJava()));
         } else {
           msg.append(m.arg(0).toString());
         }
@@ -231,8 +231,7 @@ public class RulesCache {
   private static String prettyProlog(Term at) {
     StringBuilder b = new StringBuilder();
     for (Object o : ((ListTerm) at).toJava()) {
-      if (o instanceof Term) {
-        Term t = (Term) o;
+      if (o instanceof Term t) {
         if (!(t instanceof StructureTerm)) {
           b.append(t.toString()).append(' ');
           continue;

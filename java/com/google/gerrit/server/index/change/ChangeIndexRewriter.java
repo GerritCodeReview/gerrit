@@ -95,8 +95,8 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   }
 
   private static @Nullable EnumSet<Change.Status> extractStatus(Predicate<ChangeData> in) {
-    if (in instanceof ChangeStatusPredicate) {
-      Status status = ((ChangeStatusPredicate) in).getStatus();
+    if (in instanceof ChangeStatusPredicate changeStatusPredicate) {
+      Status status = changeStatusPredicate.getStatus();
       return status != null ? EnumSet.of(status) : null;
     } else if (in instanceof NotPredicate) {
       EnumSet<Status> s = extractStatus(in.getChild(0));

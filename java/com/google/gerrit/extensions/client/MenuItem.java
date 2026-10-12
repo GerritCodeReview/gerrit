@@ -41,8 +41,7 @@ public class MenuItem {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof MenuItem) {
-      MenuItem o = (MenuItem) obj;
+    if (obj instanceof MenuItem o) {
       return Objects.equals(url, o.url)
           && Objects.equals(name, o.name)
           && Objects.equals(target, o.target)

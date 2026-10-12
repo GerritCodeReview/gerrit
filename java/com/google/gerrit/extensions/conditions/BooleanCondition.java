@@ -143,8 +143,7 @@ public abstract class BooleanCondition {
 
     @Override
     public boolean equals(Object other) {
-      if (other instanceof And) {
-        And o = (And) other;
+      if (other instanceof And o) {
         return a.equals(o.a) && b.equals(o.b);
       }
       return false;
@@ -201,8 +200,7 @@ public abstract class BooleanCondition {
 
     @Override
     public boolean equals(Object other) {
-      if (other instanceof Or) {
-        Or o = (Or) other;
+      if (other instanceof Or o) {
         return a.equals(o.a) && b.equals(o.b);
       }
       return false;

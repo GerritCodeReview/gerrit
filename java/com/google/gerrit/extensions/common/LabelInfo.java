@@ -35,8 +35,7 @@ public class LabelInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof LabelInfo) {
-      LabelInfo labelInfo = (LabelInfo) o;
+    if (o instanceof LabelInfo labelInfo) {
       return Objects.equals(approved, labelInfo.approved)
           && Objects.equals(rejected, labelInfo.rejected)
           && Objects.equals(recommended, labelInfo.recommended)

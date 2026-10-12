@@ -208,8 +208,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected boolean isVisibleTo(Event event, CurrentUser user) throws PermissionBackendException {
-    if (event instanceof RefEvent) {
-      RefEvent refEvent = (RefEvent) event;
+    if (event instanceof RefEvent refEvent) {
       String ref = refEvent.getRefName();
       if (PatchSet.isChangeRef(ref)) {
         Change.Id cid = PatchSet.Id.fromRef(ref).changeId();
@@ -222,8 +221,8 @@ public class EventBroker implements EventDispatcher {
         }
       }
       return isVisibleTo(refEvent.getBranchNameKey(), user);
-    } else if (event instanceof ProjectEvent) {
-      return isVisibleTo(((ProjectEvent) event).getProjectNameKey(), user);
+    } else if (event instanceof ProjectEvent projectEvent) {
+      return isVisibleTo(projectEvent.getProjectNameKey(), user);
     }
     return true;
   }

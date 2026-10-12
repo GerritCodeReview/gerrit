@@ -181,8 +181,7 @@ public abstract class DynamicMap<T> implements Iterable<Extension<T>> {
 
     @Override
     public boolean equals(Object other) {
-      if (other instanceof NamePair) {
-        NamePair np = (NamePair) other;
+      if (other instanceof NamePair np) {
         return pluginName.equals(np.pluginName) && exportName.equals(np.exportName);
       }
       return false;

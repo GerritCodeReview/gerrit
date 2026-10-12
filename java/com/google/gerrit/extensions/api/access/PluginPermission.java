@@ -63,8 +63,7 @@ public class PluginPermission implements GlobalOrPluginPermission {
 
   @Override
   public boolean equals(Object other) {
-    if (other instanceof PluginPermission) {
-      PluginPermission b = (PluginPermission) other;
+    if (other instanceof PluginPermission b) {
       return pluginName.equals(b.pluginName) && capability.equals(b.capability);
     }
     return false;

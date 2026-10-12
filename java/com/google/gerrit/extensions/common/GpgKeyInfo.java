@@ -47,8 +47,7 @@ public class GpgKeyInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof GpgKeyInfo) {
-      GpgKeyInfo gpgKeyInfo = (GpgKeyInfo) o;
+    if (o instanceof GpgKeyInfo gpgKeyInfo) {
       return Objects.equals(id, gpgKeyInfo.id)
           && Objects.equals(fingerprint, gpgKeyInfo.fingerprint)
           && Objects.equals(userIds, gpgKeyInfo.userIds)

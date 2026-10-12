@@ -226,8 +226,7 @@ public class CmdLineParser {
     char next = '?';
     List<NamedOptionDef> booleans = new ArrayList<>();
     for (@SuppressWarnings("rawtypes") OptionHandler handler : parser.optionsList) {
-      if (handler.option instanceof NamedOptionDef) {
-        NamedOptionDef n = (NamedOptionDef) handler.option;
+      if (handler.option instanceof NamedOptionDef n) {
 
         if (handler instanceof BooleanOptionHandler) {
           booleans.add(n);
@@ -375,8 +374,7 @@ public class CmdLineParser {
   private static Map<String, OptionHandler> index(List<OptionHandler> in) {
     Map<String, OptionHandler> m = new HashMap<>();
     for (OptionHandler handler : in) {
-      if (handler.option instanceof NamedOptionDef) {
-        NamedOptionDef def = (NamedOptionDef) handler.option;
+      if (handler.option instanceof NamedOptionDef def) {
         if (!def.isArgument()) {
           m.put(def.name(), handler);
           for (String alias : def.aliases()) {
@@ -573,8 +571,7 @@ public class CmdLineParser {
     @Nullable
     public OptionHandler findOptionByName(String name) {
       for (OptionHandler h : optionsList) {
-        if (h.option instanceof NamedOptionDef) {
-          NamedOptionDef option = (NamedOptionDef) h.option;
+        if (h.option instanceof NamedOptionDef option) {
           if (name.equals(option.name())) {
             return h;
           }

@@ -666,8 +666,8 @@ class GitwebServlet extends HttpServlet {
    * @throws ProvisionException if the repo is not DelegateRepository or FileRepository.
    */
   private static Path getRepositoryRoot(Repository repo, Project.NameKey nameKey) {
-    if (repo instanceof DelegateRepository) {
-      return getRepositoryRoot(((DelegateRepository) repo).delegate(), nameKey);
+    if (repo instanceof DelegateRepository delegateRepository) {
+      return getRepositoryRoot(delegateRepository.delegate(), nameKey);
     }
 
     if (repo instanceof FileRepository) {

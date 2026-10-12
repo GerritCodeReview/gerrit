@@ -28,8 +28,7 @@ public class PermissionInfo {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof PermissionInfo) {
-      PermissionInfo p = (PermissionInfo) obj;
+    if (obj instanceof PermissionInfo p) {
       return Objects.equals(label, p.label)
           && Objects.equals(exclusive, p.exclusive)
           && Objects.equals(rules, p.rules);

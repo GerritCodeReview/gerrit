@@ -877,8 +877,8 @@ public final class OutgoingEmail {
     }
     for (Map.Entry<String, EmailHeader> entry : headers.entrySet()) {
       // Don't remove fromEmail from the "From" header though!
-      if (entry.getValue() instanceof AddressList && !entry.getKey().equals("From")) {
-        ((AddressList) entry.getValue()).remove(fromEmail);
+      if (entry.getValue() instanceof AddressList addressList && !entry.getKey().equals("From")) {
+        addressList.remove(fromEmail);
       }
     }
   }

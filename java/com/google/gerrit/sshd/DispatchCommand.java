@@ -93,8 +93,8 @@ final class DispatchCommand extends BaseCommand {
       final Command cmd = p.getProvider().get();
       checkRequiresCapability(cmd);
       String actualCommandName = commandName;
-      if (cmd instanceof BaseCommand) {
-        final BaseCommand bc = (BaseCommand) cmd;
+      if (cmd instanceof BaseCommand baseCommand) {
+        final BaseCommand bc = baseCommand;
         if (!getName().isEmpty()) {
           actualCommandName = getName() + " " + commandName;
         }
@@ -132,8 +132,8 @@ final class DispatchCommand extends BaseCommand {
 
   private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
     String pluginName = null;
-    if (cmd instanceof BaseCommand) {
-      pluginName = ((BaseCommand) cmd).getPluginName();
+    if (cmd instanceof BaseCommand baseCommand) {
+      pluginName = baseCommand.getPluginName();
     }
     try {
       permissionBackend

@@ -35,8 +35,8 @@ public abstract class MagicFile {
       throws IOException {
     try (RevWalk rw = new RevWalk(reader)) {
       RevCommit c;
-      if (commitId instanceof RevCommit) {
-        c = (RevCommit) commitId;
+      if (commitId instanceof RevCommit revCommit) {
+        c = revCommit;
       } else {
         c = rw.parseCommit(commitId);
       }

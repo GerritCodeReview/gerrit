@@ -50,8 +50,7 @@ public class ChangeMessageInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof ChangeMessageInfo) {
-      ChangeMessageInfo cmi = (ChangeMessageInfo) o;
+    if (o instanceof ChangeMessageInfo cmi) {
       return Objects.equals(id, cmi.id)
           && Objects.equals(tag, cmi.tag)
           && Objects.equals(author, cmi.author)

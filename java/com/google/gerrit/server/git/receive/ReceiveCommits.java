@@ -333,10 +333,11 @@ class ReceiveCommits {
   }
 
   private static RestApiException asRestApiException(Exception e) {
-    if (e instanceof RestApiException) {
-      return (RestApiException) e;
-    } else if ((e instanceof ExecutionException) && (e.getCause() instanceof RestApiException)) {
-      return (RestApiException) e.getCause();
+    if (e instanceof RestApiException restApiException) {
+      return restApiException;
+    } else if ((e instanceof ExecutionException)
+        && (e.getCause() instanceof RestApiException rae)) {
+      return rae;
     }
     return RestApiException.wrap("Error inserting change/patchset", e);
   }
@@ -1827,8 +1828,7 @@ class ReceiveCommits {
   }
 
   private static RejectionReason prohibited(AuthException e, String alreadyDisplayedResource) {
-    if (e instanceof PermissionDeniedException) {
-      PermissionDeniedException pde = (PermissionDeniedException) e;
+    if (e instanceof PermissionDeniedException pde) {
       if (pde.getResource().isPresent()
           && pde.getResource().get().equals(alreadyDisplayedResource)) {
         // Avoid repeating resource name if exactly the given name was already displayed by the

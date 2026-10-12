@@ -212,8 +212,8 @@ public class SafeProtoConverterTest {
         return null;
       }
       Type genericType = field.getGenericType();
-      if (genericType instanceof ParameterizedType) {
-        return (Class<?>) ((ParameterizedType) genericType).getActualTypeArguments()[0];
+      if (genericType instanceof ParameterizedType parameterizedType) {
+        return (Class<?>) parameterizedType.getActualTypeArguments()[0];
       }
       return null;
     }

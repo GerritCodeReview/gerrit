@@ -139,8 +139,7 @@ public class SubmitRecord {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof Label) {
-        Label l = (Label) o;
+      if (o instanceof Label l) {
         return Objects.equals(label, l.label)
             && Objects.equals(status, l.status)
             && Objects.equals(appliedBy, l.appliedBy);
@@ -201,8 +200,7 @@ public class SubmitRecord {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof SubmitRecord) {
-      SubmitRecord r = (SubmitRecord) o;
+    if (o instanceof SubmitRecord r) {
       return Objects.equals(status, r.status)
           && Objects.equals(labels, r.labels)
           && Objects.equals(errorMessage, r.errorMessage)

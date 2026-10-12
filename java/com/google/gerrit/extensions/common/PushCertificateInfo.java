@@ -22,8 +22,7 @@ public class PushCertificateInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof PushCertificateInfo) {
-      PushCertificateInfo pushCertificateInfo = (PushCertificateInfo) o;
+    if (o instanceof PushCertificateInfo pushCertificateInfo) {
       return Objects.equals(certificate, pushCertificateInfo.certificate)
           && Objects.equals(key, pushCertificateInfo.key);
     }

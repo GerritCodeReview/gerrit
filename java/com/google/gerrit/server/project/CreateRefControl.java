@@ -128,8 +128,7 @@ public class CreateRefControl {
       }
       return;
     }
-    if (object instanceof RevTag) {
-      RevTag tag = (RevTag) object;
+    if (object instanceof RevTag tag) {
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
@@ -147,8 +146,8 @@ public class CreateRefControl {
       }
 
       RevObject target = tag.getObject();
-      if (target instanceof RevCommit) {
-        checkCreateCommit(user, repo, (RevCommit) target, ps.getNameKey(), perm, forPush);
+      if (target instanceof RevCommit revCommit) {
+        checkCreateCommit(user, repo, revCommit, ps.getNameKey(), perm, forPush);
       } else {
         checkCreateRef(user, repo, destBranch, target, forPush);
       }

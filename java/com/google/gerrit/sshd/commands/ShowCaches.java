@@ -244,8 +244,7 @@ final class ShowCaches extends SshCommand {
     long oldest = now;
 
     for (IoSession s : list) {
-      if (s instanceof MinaSession) {
-        MinaSession minaSession = (MinaSession) s;
+      if (s instanceof MinaSession minaSession) {
         oldest = Math.min(oldest, minaSession.getSession().getCreationTime());
       }
     }

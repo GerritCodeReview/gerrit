@@ -76,8 +76,7 @@ public class EventRecorder implements AutoCloseable {
                   recordedEvents.put(ReviewerDeletedEvent.TYPE, e);
                 } else if (e instanceof ChangeDeletedEvent) {
                   recordedEvents.put(ChangeDeletedEvent.TYPE, e);
-                } else if (e instanceof RefEvent) {
-                  RefEvent event = (RefEvent) e;
+                } else if (e instanceof RefEvent event) {
                   String key =
                       refEventKey(
                           event.getType(), event.getProjectNameKey().get(), event.getRefName());

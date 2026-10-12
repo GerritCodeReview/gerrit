@@ -175,8 +175,7 @@ public class GetCapabilities implements RestReadView<AccountResource> {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof Range) {
-        Range range = (Range) o;
+      if (o instanceof Range range) {
         return min == range.min && max == range.max;
       }
       return false;

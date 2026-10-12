@@ -65,8 +65,7 @@ public final class PluginProjectPermission implements CoreOrPluginProjectPermiss
 
   @Override
   public boolean equals(Object other) {
-    if (other instanceof PluginProjectPermission) {
-      PluginProjectPermission b = (PluginProjectPermission) other;
+    if (other instanceof PluginProjectPermission b) {
       return pluginName.equals(b.pluginName) && permission.equals(b.permission);
     }
     return false;

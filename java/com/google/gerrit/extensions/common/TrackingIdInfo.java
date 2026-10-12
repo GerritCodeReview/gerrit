@@ -27,8 +27,7 @@ public class TrackingIdInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof TrackingIdInfo) {
-      TrackingIdInfo trackingIdInfo = (TrackingIdInfo) o;
+    if (o instanceof TrackingIdInfo trackingIdInfo) {
       return Objects.equals(system, trackingIdInfo.system) && Objects.equals(id, trackingIdInfo.id);
     }
     return false;

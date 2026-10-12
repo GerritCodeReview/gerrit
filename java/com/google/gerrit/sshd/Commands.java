@@ -64,16 +64,16 @@ public class Commands {
 
   /** Return the name of this command, possibly including any parents. */
   public static String nameOf(CommandName name) {
-    if (name instanceof NestedCommandNameImpl) {
-      return nameOf(((NestedCommandNameImpl) name).parent) + " " + name.value();
+    if (name instanceof NestedCommandNameImpl nestedCommandNameImpl) {
+      return nameOf(nestedCommandNameImpl.parent) + " " + name.value();
     }
     return name.value();
   }
 
   /** Is the second command a direct child of the first command? */
   public static boolean isChild(CommandName parent, CommandName name) {
-    if (name instanceof NestedCommandNameImpl) {
-      return parent.equals(((NestedCommandNameImpl) name).parent);
+    if (name instanceof NestedCommandNameImpl nestedCommandNameImpl) {
+      return parent.equals(nestedCommandNameImpl.parent);
     }
     if (identity().equivalent(parent, CMD_ROOT)) {
       return true;
@@ -83,8 +83,8 @@ public class Commands {
 
   @Nullable
   static CommandName parentOf(CommandName name) {
-    if (name instanceof NestedCommandNameImpl) {
-      return ((NestedCommandNameImpl) name).parent;
+    if (name instanceof NestedCommandNameImpl nestedCommandNameImpl) {
+      return nestedCommandNameImpl.parent;
     }
     return null;
   }

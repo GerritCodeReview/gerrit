@@ -109,8 +109,7 @@ public class AccountInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof AccountInfo) {
-      AccountInfo accountInfo = (AccountInfo) o;
+    if (o instanceof AccountInfo accountInfo) {
       return Objects.equals(_accountId, accountInfo._accountId)
           && Objects.equals(name, accountInfo.name)
           && Objects.equals(displayName, accountInfo.displayName)

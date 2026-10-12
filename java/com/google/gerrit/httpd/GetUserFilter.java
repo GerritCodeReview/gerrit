@@ -85,8 +85,8 @@ public class GetUserFilter implements Filter {
       if (reqEnabled) {
         req.setAttribute(USER_ATTR_KEY, loggableName);
       }
-      if (resEnabled && resp instanceof HttpServletResponse) {
-        ((HttpServletResponse) resp).addHeader(USER_ATTR_KEY, loggableName);
+      if (resEnabled && resp instanceof HttpServletResponse httpServletResponse) {
+        httpServletResponse.addHeader(USER_ATTR_KEY, loggableName);
       }
     }
     chain.doFilter(req, resp);

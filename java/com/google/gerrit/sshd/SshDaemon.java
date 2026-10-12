@@ -261,10 +261,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           protected ServerSessionImpl createSession(IoSession io) throws Exception {
             connected.incrementAndGet();
             sessionsCreated.increment();
-            if (io instanceof MinaSession) {
-              if (((MinaSession) io).getSession().getConfig() instanceof SocketSessionConfig) {
-                ((SocketSessionConfig) ((MinaSession) io).getSession().getConfig())
-                    .setKeepAlive(keepAlive);
+            if (io instanceof MinaSession minaSession) {
+              if (minaSession.getSession().getConfig() instanceof SocketSessionConfig sc) {
+                sc.setKeepAlive(keepAlive);
               }
             }
 
@@ -402,8 +401,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     }
 
     IoServiceFactory serviceFactory = getIoServiceFactory();
-    if (serviceFactory instanceof AbstractIoServiceFactory) {
-      shutdownServiceFactoryExecutor((AbstractIoServiceFactory) serviceFactory);
+    if (serviceFactory instanceof AbstractIoServiceFactory abstractIoServiceFactory) {
+      shutdownServiceFactoryExecutor(abstractIoServiceFactory);
     }
   }
 

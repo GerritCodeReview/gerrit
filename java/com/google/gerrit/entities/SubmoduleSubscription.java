@@ -55,8 +55,7 @@ public final class SubmoduleSubscription {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof SubmoduleSubscription) {
-      SubmoduleSubscription s = (SubmoduleSubscription) o;
+    if (o instanceof SubmoduleSubscription s) {
       return superProject.equals(s.superProject)
           && submodulePath.equals(s.submodulePath)
           && submodule.equals(s.submodule);

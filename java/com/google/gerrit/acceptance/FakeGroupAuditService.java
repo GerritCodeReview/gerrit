@@ -73,8 +73,8 @@ public class FakeGroupAuditService extends AuditService {
   @Override
   public void dispatch(AuditEvent action) {
     super.dispatch(action);
-    if (action instanceof HttpAuditEvent) {
-      httpEvents.add((HttpAuditEvent) action);
+    if (action instanceof HttpAuditEvent e) {
+      httpEvents.add(e);
     }
   }
 

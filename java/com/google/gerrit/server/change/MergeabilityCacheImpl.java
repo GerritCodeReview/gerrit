@@ -109,8 +109,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof EntryKey) {
-        EntryKey k = (EntryKey) o;
+      if (o instanceof EntryKey k) {
         return commit.equals(k.commit)
             && into.equals(k.into)
             && submitType == k.submitType

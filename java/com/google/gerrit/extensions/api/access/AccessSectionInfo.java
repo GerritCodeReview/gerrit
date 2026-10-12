@@ -22,8 +22,8 @@ public class AccessSectionInfo {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof AccessSectionInfo) {
-      return Objects.equals(permissions, ((AccessSectionInfo) obj).permissions);
+    if (obj instanceof AccessSectionInfo accessSectionInfo) {
+      return Objects.equals(permissions, accessSectionInfo.permissions);
     }
     return false;
   }

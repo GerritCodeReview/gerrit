@@ -77,8 +77,7 @@ class MetricInfo {
   }
 
   private void init(Metric metric, ImmutableMap<String, String> atts) {
-    if (metric instanceof BucketedMetric) {
-      BucketedMetric m = (BucketedMetric) metric;
+    if (metric instanceof BucketedMetric m) {
       if (m.getTotal() != null) {
         init(m.getTotal(), atts);
       }
@@ -90,23 +89,20 @@ class MetricInfo {
       }
       buckets = makeBuckets(fieldList, m.getCells(), atts);
 
-    } else if (metric instanceof Counter) {
-      Counter c = (Counter) metric;
+    } else if (metric instanceof Counter c) {
       count = c.getCount();
 
     } else if (metric instanceof Gauge) {
       Gauge<?> g = (Gauge<?>) metric;
       value = g.getValue();
 
-    } else if (metric instanceof Meter) {
-      Meter m = (Meter) metric;
+    } else if (metric instanceof Meter m) {
       count = m.getCount();
       rate_1m = m.getOneMinuteRate();
       rate_5m = m.getFiveMinuteRate();
       rate_15m = m.getFifteenMinuteRate();
 
-    } else if (metric instanceof Timer) {
-      Timer m = (Timer) metric;
+    } else if (metric instanceof Timer m) {
       Snapshot s = m.getSnapshot();
       count = m.getCount();
       rate_1m = m.getOneMinuteRate();
@@ -125,8 +121,7 @@ class MetricInfo {
       max = s.getMax() / div;
       std_dev = s.getStdDev() / div;
 
-    } else if (metric instanceof Histogram) {
-      Histogram m = (Histogram) metric;
+    } else if (metric instanceof Histogram m) {
       Snapshot s = m.getSnapshot();
       count = m.getCount();
 

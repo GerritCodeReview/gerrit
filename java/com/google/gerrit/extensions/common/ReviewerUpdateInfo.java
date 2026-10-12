@@ -49,8 +49,7 @@ public class ReviewerUpdateInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof ReviewerUpdateInfo) {
-      ReviewerUpdateInfo reviewerUpdateInfo = (ReviewerUpdateInfo) o;
+    if (o instanceof ReviewerUpdateInfo reviewerUpdateInfo) {
       return Objects.equals(updated, reviewerUpdateInfo.updated)
           && Objects.equals(updatedBy, reviewerUpdateInfo.updatedBy)
           && Objects.equals(realUpdatedBy, reviewerUpdateInfo.realUpdatedBy)

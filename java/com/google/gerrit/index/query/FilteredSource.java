@@ -62,10 +62,9 @@ public class FilteredSource<T> implements DataSource<T> {
             pageResultSize++;
           }
 
-          if (last != null && source instanceof Paginated) {
+          if (last != null && source instanceof Paginated p) {
             // Restart source and continue if we have not filled the
             // full limit the caller wants.
-            Paginated<T> p = (Paginated<T>) source;
             QueryOptions opts = p.getOptions();
             final int limit = opts.limit();
             int nextStart = pageResultSize;

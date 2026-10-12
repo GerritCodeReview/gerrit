@@ -1086,8 +1086,8 @@ public class MergeOp implements AutoCloseable {
         //
         // If you happen across one of these, the correct fix is to convert the
         // inner IntegrationConflictException to a ResourceConflictException.
-        if (e.getCause() instanceof IntegrationConflictException) {
-          throw (IntegrationConflictException) e.getCause();
+        if (e.getCause() instanceof IntegrationConflictException ice) {
+          throw ice;
         }
         throw new MergeUpdateException(genericMergeError(cs), e);
       }

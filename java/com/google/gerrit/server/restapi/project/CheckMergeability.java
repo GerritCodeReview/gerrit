@@ -127,10 +127,10 @@ public class CheckMergeability implements RestReadView<BranchResource> {
       }
 
       Merger m = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
-      if (m instanceof ResolveMerger && useGitattributesForMerge) {
+      if (m instanceof ResolveMerger resolveMerger && useGitattributesForMerge) {
         // We need to set the attributes provider before attempting the merge in order to read and
         // honor gitattributes merge settings correctly
-        ((ResolveMerger) m).setAttributesNodeProvider(git.createAttributesNodeProvider());
+        resolveMerger.setAttributesNodeProvider(git.createAttributesNodeProvider());
       }
       if (m.merge(false, targetCommit, sourceCommit)) {
         result.mergeable = true;
@@ -138,8 +138,8 @@ public class CheckMergeability implements RestReadView<BranchResource> {
         result.contentMerged = m.getResultTreeId().equals(targetCommit.getTree());
       } else {
         result.mergeable = false;
-        if (m instanceof ResolveMerger) {
-          result.conflicts = ((ResolveMerger) m).getUnmergedPaths();
+        if (m instanceof ResolveMerger resolveMerger) {
+          result.conflicts = resolveMerger.getUnmergedPaths();
         }
       }
     } catch (InvalidMergeStrategyException e) {

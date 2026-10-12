@@ -191,10 +191,10 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
       while (true) {
         if (unwrapped == reader) {
           break;
-        } else if (unwrapped instanceof FilterDirectoryReader) {
-          unwrapped = ((FilterDirectoryReader) unwrapped).getDelegate();
-        } else if (unwrapped instanceof FilterLeafReader) {
-          unwrapped = ((FilterLeafReader) unwrapped).getDelegate();
+        } else if (unwrapped instanceof FilterDirectoryReader filterDirectoryReader) {
+          unwrapped = filterDirectoryReader.getDelegate();
+        } else if (unwrapped instanceof FilterLeafReader filterLeafReader) {
+          unwrapped = filterLeafReader.getDelegate();
         } else {
           break;
         }

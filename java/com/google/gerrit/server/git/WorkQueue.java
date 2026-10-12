@@ -644,8 +644,8 @@ public class WorkQueue {
       // Periodic Tasks may get rescheduled if the previous run has yet to fully complete (and thus
       // passed to decorateTask() more than once), and there is no need to redecorate them if they
       // are already decorated.
-      if (runnable instanceof LoggingContextAwareRunnable) {
-        Runnable unwrappedTask = ((LoggingContextAwareRunnable) runnable).unwrap();
+      if (runnable instanceof LoggingContextAwareRunnable loggingContextAwareRunnable) {
+        Runnable unwrappedTask = loggingContextAwareRunnable.unwrap();
         if (unwrappedTask instanceof Task<?>) {
           return r;
         }
@@ -657,12 +657,12 @@ public class WorkQueue {
 
         Task<V> task;
 
-        if (runnable instanceof LoggingContextAwareRunnable) {
-          runnable = ((LoggingContextAwareRunnable) runnable).unwrap();
+        if (runnable instanceof LoggingContextAwareRunnable loggingContextAwareRunnable) {
+          runnable = loggingContextAwareRunnable.unwrap();
         }
 
-        if (runnable instanceof ProjectRunnable) {
-          task = new ProjectTask<>((ProjectRunnable) runnable, r, nanosPeriod, this, id);
+        if (runnable instanceof ProjectRunnable projectRunnable) {
+          task = new ProjectTask<>(projectRunnable, r, nanosPeriod, this, id);
         } else {
           task = new Task<>(runnable, r, nanosPeriod, this, id);
         }
@@ -725,8 +725,7 @@ public class WorkQueue {
           extension -> {
             if (isReady.isTrue()) {
               TaskListener listener = extension.get();
-              if (listener instanceof TaskParker) {
-                TaskParker parker = (TaskParker) listener;
+              if (listener instanceof TaskParker parker) {
                 if (parker.isReadyToStart(task)) {
                   readyParkers.add(parker);
                 } else {
@@ -920,8 +919,8 @@ public class WorkQueue {
             ((CancelableRunnable) runnable).cancel();
           } else if (isWaitingToStart()) {
             ((CancelableRunnable) runnable).cancel();
-          } else if (runnable instanceof CanceledWhileRunning) {
-            ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
+          } else if (runnable instanceof CanceledWhileRunning canceledWhileRunning) {
+            canceledWhileRunning.setCanceledWhileRunning();
           }
         }
         if (runnable instanceof Future<?>) {

@@ -259,8 +259,7 @@ public class PublicKeyStore implements AutoCloseable {
         }
         foundAtLeastOneKey = true;
         Object obj = it.next();
-        if (obj instanceof PGPPublicKeyRing) {
-          PGPPublicKeyRing kr = (PGPPublicKeyRing) obj;
+        if (obj instanceof PGPPublicKeyRing kr) {
           if (fp == null || Arrays.equals(fp, kr.getPublicKey().getFingerprint())) {
             keys.add(kr);
           }

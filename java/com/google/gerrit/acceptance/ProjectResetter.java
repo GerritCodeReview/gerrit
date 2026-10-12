@@ -334,8 +334,7 @@ public class ProjectResetter implements AutoCloseable {
   }
 
   private void deleteNewlyCreatedProjects() {
-    if (deleteNewProjects && repoManager instanceof InMemoryRepositoryManager) {
-      InMemoryRepositoryManager inMemoryRepoManager = (InMemoryRepositoryManager) repoManager;
+    if (deleteNewProjects && repoManager instanceof InMemoryRepositoryManager inMemoryRepoManager) {
       Sets.difference(inMemoryRepoManager.list(), savedProjectSet)
           .forEach(
               project -> {

@@ -37,8 +37,7 @@ public class TestSubmitRuleInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof TestSubmitRuleInfo) {
-      TestSubmitRuleInfo other = (TestSubmitRuleInfo) o;
+    if (o instanceof TestSubmitRuleInfo other) {
       return Objects.equals(status, other.status)
           && Objects.equals(errorMessage, other.errorMessage)
           && Objects.equals(ok, other.ok)

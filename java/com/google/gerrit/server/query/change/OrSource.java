@@ -81,8 +81,8 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
     if (cardinality < 0) {
       cardinality = 0;
       for (Predicate<ChangeData> p : getChildren()) {
-        if (p instanceof ChangeDataSource) {
-          cardinality += ((ChangeDataSource) p).getCardinality();
+        if (p instanceof ChangeDataSource changeDataSource) {
+          cardinality += changeDataSource.getCardinality();
         }
       }
     }

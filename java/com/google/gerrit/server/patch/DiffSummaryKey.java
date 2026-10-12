@@ -62,8 +62,7 @@ public class DiffSummaryKey implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof DiffSummaryKey) {
-      DiffSummaryKey k = (DiffSummaryKey) o;
+    if (o instanceof DiffSummaryKey k) {
       return Objects.equals(oldId, k.oldId)
           && Objects.equals(parentNum, k.parentNum)
           && Objects.equals(newId, k.newId)

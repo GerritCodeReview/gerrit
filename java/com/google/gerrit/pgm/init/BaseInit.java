@@ -274,8 +274,8 @@ public class BaseInit extends SiteProgram {
       final Message first = ce.getErrorMessages().iterator().next();
       Throwable why = first.getCause();
 
-      if (why instanceof Die) {
-        throw (Die) why;
+      if (why instanceof Die die) {
+        throw die;
       }
 
       final StringBuilder buf = new StringBuilder(ce.getMessage());

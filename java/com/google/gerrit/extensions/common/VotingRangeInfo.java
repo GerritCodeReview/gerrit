@@ -27,8 +27,7 @@ public class VotingRangeInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof VotingRangeInfo) {
-      VotingRangeInfo votingRangeInfo = (VotingRangeInfo) o;
+    if (o instanceof VotingRangeInfo votingRangeInfo) {
       return min == votingRangeInfo.min && max == votingRangeInfo.max;
     }
     return false;

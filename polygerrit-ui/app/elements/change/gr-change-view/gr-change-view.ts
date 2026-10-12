@@ -2405,7 +2405,7 @@ export class GrChangeView extends LitElement {
     const classes = ['header'];
     const status = this.computeChangeStatusChips()?.[0];
     if (status) {
-      classes.push(status.toLowerCase());
+      classes.push(status.toLowerCase().replace(/\s/g, '-'));
     }
     if (this.editMode) {
       classes.push('editMode');

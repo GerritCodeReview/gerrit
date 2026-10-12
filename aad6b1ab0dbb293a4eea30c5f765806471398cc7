@@ -1,0 +1,46 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5705792_f0e69a9d",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-12T22:40:52Z",
+      "side": 1,
+      "message": "Optional / follow-up note on `gr-copy-clipboard`: setting `multiline` reflects `[multiline]` on the host, which triggers `:host([multiline]) gr-button { margin-top: 0; }` in `gr-copy-clipboard.ts` (added in Ie2c39e1b for top-aligning with a visible `\u003ctextarea\u003e`). Because `gr-button` normally has `margin: calc(0px - var(--spacing-s))` (`-4px`) on all sides to cancel out its padding, setting `margin-top: 0` while `hideInput` is true makes the button\u0027s vertical margins asymmetric (`0` top vs `-4px` bottom) and shifts the copy icon down by ~2px relative to the adjacent `md-icon-button`.\n\nIt might be worth scoping those rules in `gr-copy-clipboard.ts` to `:host([multiline]:not([hideinput]))` (or having `GrCopyClipboard.copyToClipboard()` copy `this.text` directly rather than reading back `queryAndAssert(this, \u0027#input\u0027).value` from the hidden readonly input).\n\n_(from potto)_",
+      "isAi": true,
+      "revId": "aad6b1ab0dbb293a4eea30c5f765806471398cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "364f0062_cca1eddb",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-12T22:40:52Z",
+      "side": 1,
+      "message": "Nit: `copy?.text` is `\u0027line 1\\nline 2\u0027` before copying even when `multiline` is `false`, because the newline stripping only happens inside `GrCopyClipboard.copyToClipboard()` when it reads `.value` back from `#input` (`this.text \u003d queryAndAssert\u003cHTMLInputElement\u003e(this, \u0027#input\u0027).value`).\n\nIf you want this test to exercise the actual newline-stripping path, consider clicking the inner `.copyToClipboard` button (or asserting on `copy.shadowRoot?.querySelector(\u0027#input\u0027)?.value`) and verifying `copy.text` / `navigator.clipboard.writeText` still preserves `\u0027line 1\\nline 2\u0027`.\n\n_(from potto)_",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "aad6b1ab0dbb293a4eea30c5f765806471398cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

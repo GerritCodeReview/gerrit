@@ -347,11 +347,11 @@ public class ServerPlugin extends Plugin {
   @Override
   public void add(RegistrationHandle handle) {
     if (serverManager != null) {
-      if (handle instanceof ReloadableRegistrationHandle) {
+      if (handle instanceof ReloadableRegistrationHandle<?> reloadableHandle) {
         if (reloadableHandles == null) {
           reloadableHandles = new ArrayList<>();
         }
-        reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
+        reloadableHandles.add(reloadableHandle);
       }
       serverManager.add(handle);
     }

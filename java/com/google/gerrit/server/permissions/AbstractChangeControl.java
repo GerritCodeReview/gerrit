@@ -74,8 +74,8 @@ abstract class AbstractChangeControl {
       return can(changePermission);
     } else if (perm instanceof AbstractLabelPermission abstractLabelPermission) {
       return can(abstractLabelPermission);
-    } else if (perm instanceof AbstractLabelPermission.WithValue) {
-      return can((AbstractLabelPermission.WithValue) perm);
+    } else if (perm instanceof AbstractLabelPermission.WithValue labelPermissionWithValue) {
+      return can(labelPermissionWithValue);
     }
     throw new PermissionBackendException(perm + " unsupported");
   }

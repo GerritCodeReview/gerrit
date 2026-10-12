@@ -151,8 +151,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
       this.command = task.toString();
       this.queueName = task.getQueueName();
 
-      if (task instanceof ProjectTask) {
-        ProjectTask<?> projectTask = ((ProjectTask<?>) task);
+      if (task instanceof ProjectTask<?> projectTask) {
         Project.NameKey name = projectTask.getProjectNameKey();
         if (name != null) {
           this.projectName = name.get();

@@ -153,16 +153,14 @@ public class MergeMetrics {
       // the uploader are ignored, we must check if there is any MagicLabelPredicate for the
       // Code-Review label that ignores approvals of the uploader (aka has user set to non_uploader
       // or non_contributor).
-      if (predicate instanceof MagicLabelPredicates.PostFilterMagicLabelPredicate) {
-        MagicLabelPredicates.PostFilterMagicLabelPredicate magicLabelPredicate =
-            (MagicLabelPredicates.PostFilterMagicLabelPredicate) predicate;
+      if (predicate
+          instanceof MagicLabelPredicates.PostFilterMagicLabelPredicate magicLabelPredicate) {
         if (magicLabelPredicate.getLabel().equalsIgnoreCase("Code-Review")
             && magicLabelPredicate.ignoresUploaderApprovals()) {
           return true;
         }
-      } else if (predicate instanceof MagicLabelPredicates.IndexMagicLabelPredicate) {
-        MagicLabelPredicates.IndexMagicLabelPredicate magicLabelPredicate =
-            (MagicLabelPredicates.IndexMagicLabelPredicate) predicate;
+      } else if (predicate
+          instanceof MagicLabelPredicates.IndexMagicLabelPredicate magicLabelPredicate) {
         if (magicLabelPredicate.getLabel().equalsIgnoreCase("Code-Review")
             && magicLabelPredicate.ignoresUploaderApprovals()) {
           return true;

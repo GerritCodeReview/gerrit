@@ -198,10 +198,10 @@ class AutoRegisterModules {
   private void listen(java.lang.reflect.Type type, Class<?> clazz) throws InvalidPluginException {
     while (type != null) {
       Class<?> rawType;
-      if (type instanceof ParameterizedType) {
-        rawType = (Class<?>) ((ParameterizedType) type).getRawType();
-      } else if (type instanceof Class) {
-        rawType = (Class<?>) type;
+      if (type instanceof ParameterizedType parameterizedType) {
+        rawType = (Class<?>) parameterizedType.getRawType();
+      } else if (type instanceof Class<?> typeClass) {
+        rawType = typeClass;
       } else {
         return;
       }

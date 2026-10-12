@@ -503,18 +503,17 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
 
     DirCache dc = DirCache.newInCore();
-    if (merger instanceof ResolveMerger) {
+    if (merger instanceof ResolveMerger resolveMerger) {
       if (useGitattributesForMerge) {
         // We need to set the attributes provider before attempting the merge in order to read and
         // honor gitattributes merge settings correctly
-        ((ResolveMerger) merger)
-            .setAttributesNodeProvider(ctx.getRepoView().getAttributesNodeProvider());
+        resolveMerger.setAttributesNodeProvider(ctx.getRepoView().getAttributesNodeProvider());
       }
       if (allowConflicts) {
         // The DirCache must be set on ResolveMerger before calling
         // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get
         // populated.
-        ((ResolveMerger) merger).setDirCache(dc);
+        resolveMerger.setDirCache(dc);
       }
     }
 

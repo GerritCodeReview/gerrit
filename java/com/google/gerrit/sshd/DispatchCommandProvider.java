@@ -80,8 +80,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
         final CommandName n = commandName;
         if (!Commands.CMD_ROOT.equals(n) && Commands.isChild(parent, n)) {
           String descr = null;
-          if (annotation instanceof Commands.NestedCommandNameImpl) {
-            Commands.NestedCommandNameImpl impl = ((Commands.NestedCommandNameImpl) annotation);
+          if (annotation instanceof Commands.NestedCommandNameImpl impl) {
             descr = impl.descr();
           }
           m.put(n.value(), new CommandProvider((Provider<Command>) b.getProvider(), descr));

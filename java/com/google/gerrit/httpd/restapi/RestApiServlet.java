@@ -603,16 +603,16 @@ public class RestApiServlet extends HttpServlet {
             setXGerritUpdatedRefResponseHeaders(req, res);
           }
 
-          if (response instanceof Response.Redirect) {
+          if (response instanceof Response.Redirect redirect) {
             CacheHeaders.setNotCacheable(res);
-            String location = ((Response.Redirect) response).location();
+            String location = redirect.location();
             res.sendRedirect(location);
             logger.atFinest().log("REST call redirected to: %s", location);
             return;
-          } else if (response instanceof Response.Accepted) {
+          } else if (response instanceof Response.Accepted accepted) {
             CacheHeaders.setNotCacheable(res);
             res.setStatus(response.statusCode());
-            res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) response).location());
+            res.setHeader(HttpHeaders.LOCATION, accepted.location());
             logger.atFinest().log("REST call succeeded: %d", response.statusCode());
             return;
           }
@@ -996,8 +996,8 @@ public class RestApiServlet extends HttpServlet {
       return false;
     }
 
-    if (rsrc instanceof RestResource.HasLastModified) {
-      Timestamp m = ((RestResource.HasLastModified) rsrc).getLastModified();
+    if (rsrc instanceof RestResource.HasLastModified hasLastModified) {
+      Timestamp m = hasLastModified.getLastModified();
       long d = req.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
 
       // HTTP times are in seconds, database may have millisecond precision.
@@ -1051,10 +1051,8 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private void addResourceStateHeaders(HttpServletResponse res, RestResource rsrc) {
-    if (rsrc instanceof RestResource.HasLastModified) {
-      res.setDateHeader(
-          HttpHeaders.LAST_MODIFIED,
-          ((RestResource.HasLastModified) rsrc).getLastModified().getTime());
+    if (rsrc instanceof RestResource.HasLastModified hasLastModified) {
+      res.setDateHeader(HttpHeaders.LAST_MODIFIED, hasLastModified.getLastModified().getTime());
     }
   }
 
@@ -1174,7 +1172,6 @@ public class RestApiServlet extends HttpServlet {
     return (len <= 0 && type == null) || (len == 0 && isType(FORM_TYPE, type));
   }
 
-  @SuppressWarnings("rawtypes")
   private static boolean acceptsRawInput(Type type) {
     if (type instanceof Class<?> cls) {
       for (Field f : cls.getDeclaredFields()) {
@@ -1237,18 +1234,17 @@ public class RestApiServlet extends HttpServlet {
           InstantiationException,
           IllegalAccessException,
           InvocationTargetException {
-    if (type instanceof Class) {
-      Class<?> clazz = (Class<?>) type;
+    if (type instanceof Class<?> clazz) {
       Constructor<?> c = clazz.getDeclaredConstructor();
       c.setAccessible(true);
       return c.newInstance();
     }
     if (type instanceof ParameterizedType parameterizedType) {
       Type rawType = parameterizedType.getRawType();
-      if (rawType instanceof Class && List.class.isAssignableFrom((Class<?>) rawType)) {
+      if (rawType instanceof Class<?> clazz && List.class.isAssignableFrom(clazz)) {
         return new ArrayList<>();
       }
-      if (rawType instanceof Class && Map.class.isAssignableFrom((Class<?>) rawType)) {
+      if (rawType instanceof Class<?> clazz && Map.class.isAssignableFrom(clazz)) {
         return new HashMap<>();
       }
     }

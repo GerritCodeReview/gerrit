@@ -71,8 +71,8 @@ public class GroupResolver {
    */
   public GroupDescription.Internal parseInternal(String id) throws UnprocessableEntityException {
     GroupDescription.Basic group = parse(id);
-    if (group instanceof GroupDescription.Internal) {
-      return (GroupDescription.Internal) group;
+    if (group instanceof GroupDescription.Internal internalGroup) {
+      return internalGroup;
     }
 
     throw new UnprocessableEntityException(String.format("External Group Not Allowed: %s", id));

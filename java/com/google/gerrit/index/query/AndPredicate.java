@@ -130,9 +130,7 @@ public class AndPredicate<T> extends Predicate<T>
       cmp = a.estimateCost() - b.estimateCost();
     }
 
-    if (cmp == 0 && a instanceof DataSource) {
-      DataSource<?> as = (DataSource<?>) a;
-      DataSource<?> bs = (DataSource<?>) b;
+    if (cmp == 0 && a instanceof DataSource<?> as && b instanceof DataSource<?> bs) {
       cmp = as.getCardinality() - bs.getCardinality();
     }
     return cmp;

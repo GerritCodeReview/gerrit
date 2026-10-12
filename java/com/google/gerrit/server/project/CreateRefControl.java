@@ -101,10 +101,10 @@ public class CreateRefControl {
     ps.checkStatePermitsWrite();
 
     PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(destBranch);
-    if (object instanceof RevCommit) {
+    if (object instanceof RevCommit commit) {
       perm.check(RefPermission.CREATE);
       if (sourceBranches.length == 0) {
-        checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm, forPush);
+        checkCreateCommit(user, repo, commit, ps.getNameKey(), perm, forPush);
       } else {
         List<Ref> sourceRefs = new ArrayList<>();
         for (BranchNameKey src : sourceBranches) {
@@ -113,7 +113,7 @@ public class CreateRefControl {
         if (reachable.fromRefs(
             destBranch.project(),
             repo,
-            (RevCommit) object,
+            commit,
             ImmutableList.copyOf(sourceRefs),
             Optional.of(user.get()))) {
           return;

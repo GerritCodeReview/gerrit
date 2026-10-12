@@ -913,23 +913,23 @@ public class WorkQueue {
         // as running and allow it to clean up. This ensures we do
         // not invoke cancel twice.
         //
-        if (runnable instanceof CancelableRunnable) {
+        if (runnable instanceof CancelableRunnable cancelableRunnable) {
           if (runningState.compareAndSet(null, State.RUNNING)) {
             isSetRunningDuringCancellation = true;
-            ((CancelableRunnable) runnable).cancel();
+            cancelableRunnable.cancel();
           } else if (isWaitingToStart()) {
-            ((CancelableRunnable) runnable).cancel();
+            cancelableRunnable.cancel();
           } else if (runnable instanceof CanceledWhileRunning canceledWhileRunning) {
             canceledWhileRunning.setCanceledWhileRunning();
           }
         }
-        if (runnable instanceof Future<?>) {
+        if (runnable instanceof Future<?> future) {
           // Creating new futures eventually passes through
           // AbstractExecutorService#schedule, which will convert the Guava
           // Future to a Runnable, thereby making it impossible for the
           // cancellation to propagate from ScheduledThreadPool's task back to
           // the Guava future, so kludge it here.
-          ((Future<?>) runnable).cancel(mayInterruptIfRunning);
+          future.cancel(mayInterruptIfRunning);
         }
 
         if (isSetRunningDuringCancellation || runningState.get() == null) {

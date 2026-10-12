@@ -64,8 +64,7 @@ public class ConsistencyCheckInfo {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof ConsistencyProblemInfo) {
-        ConsistencyProblemInfo other = ((ConsistencyProblemInfo) o);
+      if (o instanceof ConsistencyProblemInfo other) {
         return Objects.equals(status, other.status) && Objects.equals(message, other.message);
       }
       return false;

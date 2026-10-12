@@ -150,11 +150,11 @@ public abstract class Plugin {
 
   public void add(RegistrationHandle handle) {
     if (manager != null) {
-      if (handle instanceof ReloadableRegistrationHandle) {
+      if (handle instanceof ReloadableRegistrationHandle<?> reloadableHandle) {
         if (reloadableHandles == null) {
           reloadableHandles = new ArrayList<>();
         }
-        reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
+        reloadableHandles.add(reloadableHandle);
       }
       manager.add(handle);
     }

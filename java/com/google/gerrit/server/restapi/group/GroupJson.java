@@ -39,8 +39,8 @@ import java.util.function.Supplier;
 public class GroupJson {
   public static GroupOptionsInfo createOptions(GroupDescription.Basic group) {
     GroupOptionsInfo options = new GroupOptionsInfo();
-    if (group instanceof GroupDescription.Internal
-        && ((GroupDescription.Internal) group).isVisibleToAll()) {
+    if (group instanceof GroupDescription.Internal internalGroup
+        && internalGroup.isVisibleToAll()) {
       options.visibleToAll = true;
     }
     return options;
@@ -91,8 +91,8 @@ public class GroupJson {
       throws PermissionBackendException {
     GroupInfo info = createBasicGroupInfo(group);
 
-    if (group instanceof GroupDescription.Internal) {
-      addInternalDetails(info, (GroupDescription.Internal) group, groupControlSupplier);
+    if (group instanceof GroupDescription.Internal internalGroup) {
+      addInternalDetails(info, internalGroup, groupControlSupplier);
     }
 
     return info;

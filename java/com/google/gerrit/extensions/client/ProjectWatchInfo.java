@@ -29,8 +29,7 @@ public class ProjectWatchInfo {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof ProjectWatchInfo) {
-      ProjectWatchInfo w = (ProjectWatchInfo) obj;
+    if (obj instanceof ProjectWatchInfo w) {
       return Objects.equals(project, w.project)
           && Objects.equals(filter, w.filter)
           && Objects.equals(problem, w.problem)

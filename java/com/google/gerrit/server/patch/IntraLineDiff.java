@@ -84,8 +84,7 @@ public class IntraLineDiff implements Serializable {
     for (Edit e : edits) {
       writeEdit(out, e);
 
-      if (e instanceof ReplaceEdit) {
-        ReplaceEdit r = (ReplaceEdit) e;
+      if (e instanceof ReplaceEdit r) {
         writeVarInt32(out, r.getInternalEdits().size());
         for (Edit i : r.getInternalEdits()) {
           writeEdit(out, i);
@@ -120,8 +119,8 @@ public class IntraLineDiff implements Serializable {
   }
 
   private static Edit copy(Edit edit) {
-    if (edit instanceof ReplaceEdit) {
-      return copy((ReplaceEdit) edit);
+    if (edit instanceof ReplaceEdit replaceEdit) {
+      return copy(replaceEdit);
     }
     return new Edit(edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
   }

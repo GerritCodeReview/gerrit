@@ -58,8 +58,7 @@ public class MetadataInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof MetadataInfo) {
-      MetadataInfo metadata = (MetadataInfo) o;
+    if (o instanceof MetadataInfo metadata) {
       return Objects.equals(name, metadata.name)
           && Objects.equals(value, metadata.value)
           && Objects.equals(description, metadata.description)

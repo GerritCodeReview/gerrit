@@ -100,8 +100,7 @@ public class ApprovalInfo extends AccountInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof ApprovalInfo) {
-      ApprovalInfo approvalInfo = (ApprovalInfo) o;
+    if (o instanceof ApprovalInfo approvalInfo) {
       return super.equals(o)
           && Objects.equals(tag, approvalInfo.tag)
           && Objects.equals(value, approvalInfo.value)

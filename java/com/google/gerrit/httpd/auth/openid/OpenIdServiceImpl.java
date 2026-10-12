@@ -304,15 +304,15 @@ class OpenIdServiceImpl {
 
     if (authRsp.hasExtension(SRegMessage.OPENID_NS_SREG)) {
       final MessageExtension ext = authRsp.getExtension(SRegMessage.OPENID_NS_SREG);
-      if (ext instanceof SRegResponse) {
-        sregRsp = (SRegResponse) ext;
+      if (ext instanceof SRegResponse sRegResponse) {
+        sregRsp = sRegResponse;
       }
     }
 
     if (authRsp.hasExtension(AxMessage.OPENID_NS_AX)) {
       final MessageExtension ext = authRsp.getExtension(AxMessage.OPENID_NS_AX);
-      if (ext instanceof FetchResponse) {
-        fetchRsp = (FetchResponse) ext;
+      if (ext instanceof FetchResponse fetchResponse) {
+        fetchRsp = fetchResponse;
       }
     }
 

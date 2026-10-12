@@ -307,8 +307,8 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   }
 
   private void ensureAtomicTransactions(Repository repo) throws Exception {
-    if (repo instanceof InMemoryRepository) {
-      ((InMemoryRepository) repo).setPerformsAtomicTransactions(true);
+    if (repo instanceof InMemoryRepository inMemoryRepository) {
+      inMemoryRepository.setPerformsAtomicTransactions(true);
     } else {
       assertWithMessage("performsAtomicTransactions on %s", repo)
           .that(repo.getRefDatabase().performsAtomicTransactions())

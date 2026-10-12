@@ -120,8 +120,8 @@ public abstract class NotifyConfig implements Comparable<NotifyConfig> {
 
   @Override
   public final boolean equals(Object obj) {
-    if (obj instanceof NotifyConfig) {
-      return compareTo((NotifyConfig) obj) == 0;
+    if (obj instanceof NotifyConfig notifyConfig) {
+      return compareTo(notifyConfig) == 0;
     }
     return false;
   }

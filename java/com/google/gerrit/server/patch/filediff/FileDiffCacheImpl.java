@@ -438,11 +438,11 @@ public class FileDiffCacheImpl implements FileDiffCache {
                 FileDiffOutput.createExpensive(
                     key.newFilePath(), key.oldCommit(), key.newCommit()));
           } catch (ExecutionException e) {
-            if (e.getCause() instanceof DiffNotAvailableException) {
-              throw (DiffNotAvailableException) e.getCause();
+            if (e.getCause() instanceof DiffNotAvailableException dnae) {
+              throw dnae;
             }
-            if (e.getCause() instanceof IOException) {
-              throw (IOException) e.getCause();
+            if (e.getCause() instanceof IOException ioe) {
+              throw ioe;
             }
             throw new DiffNotAvailableException(e);
           }

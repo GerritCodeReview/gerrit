@@ -104,8 +104,8 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
     // The ManualRequestContext stores the previous context. When the close() method is called,
     // the old context is restored.
     RequestContext oldContext = localContext.getContext();
-    if (oldContext instanceof ManualRequestContext) {
-      ((ManualRequestContext) oldContext).close();
+    if (oldContext instanceof ManualRequestContext manualRequestContext) {
+      manualRequestContext.close();
     }
     // The created object is not used, because the constructor of the ManualRequestContext sets the
     // active context to itself. It is not needed to explicitly call localContext.setContext after

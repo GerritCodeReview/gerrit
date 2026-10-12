@@ -94,8 +94,7 @@ public abstract class Comment {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof Range) {
-        Range r = (Range) o;
+      if (o instanceof Range r) {
         return startLine == r.startLine
             && startCharacter == r.startCharacter
             && endLine == r.endLine

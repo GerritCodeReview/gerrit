@@ -634,11 +634,11 @@ public class ChangeEditModifier {
       merger.setBase(basePatchSetCommitId);
 
       DirCache dc = DirCache.newInCore();
-      if (allowConflicts && merger instanceof ResolveMerger) {
+      if (allowConflicts && merger instanceof ResolveMerger resolveMerger) {
         // The DirCache must be set on ResolveMerger before calling
         // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get
         // populated.
-        ((ResolveMerger) merger).setDirCache(dc);
+        resolveMerger.setDirCache(dc);
       }
 
       boolean successful = merger.merge(basePatchSetCommit, editCommitId);
@@ -650,8 +650,8 @@ public class ChangeEditModifier {
         filesWithGitConflicts = null;
       } else {
         List<String> conflicts = ImmutableList.of();
-        if (merger instanceof ResolveMerger) {
-          conflicts = ((ResolveMerger) merger).getUnmergedPaths();
+        if (merger instanceof ResolveMerger resolveMerger) {
+          conflicts = resolveMerger.getUnmergedPaths();
         }
 
         if (!allowConflicts || !(merger instanceof ResolveMerger)) {

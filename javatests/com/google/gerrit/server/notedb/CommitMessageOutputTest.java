@@ -424,8 +424,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   }
 
   private RevCommit parseCommit(ObjectId id) throws Exception {
-    if (id instanceof RevCommit) {
-      return (RevCommit) id;
+    if (id instanceof RevCommit revCommit) {
+      return revCommit;
     }
     try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(id);

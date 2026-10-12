@@ -151,8 +151,8 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
                     : header));
       }
       EmailHeader titleHeader = message.headers().get("Subject");
-      if (titleHeader instanceof StringEmailHeader) {
-        emailTitle = ((StringEmailHeader) titleHeader).getString();
+      if (titleHeader instanceof StringEmailHeader s) {
+        emailTitle = s.getString();
       }
 
       return this;

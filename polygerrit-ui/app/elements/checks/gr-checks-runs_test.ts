@@ -59,6 +59,7 @@ suite('gr-checks-runs test', () => {
             </gr-button>
           </gr-tooltip-content>
         </h2>
+        <gr-checks-patchset-select></gr-checks-patchset-select>
         <div class="error">
           <div class="left">
             <gr-icon filled="" icon="error"> </gr-icon>
@@ -135,6 +136,7 @@ suite('gr-checks-runs test', () => {
             </gr-button>
           </gr-tooltip-content>
         </h2>
+        <gr-checks-patchset-select compact=""></gr-checks-patchset-select>
         <div class="error">
           <div class="left">
             <gr-icon filled="" icon="error"> </gr-icon>

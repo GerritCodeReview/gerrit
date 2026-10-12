@@ -36,7 +36,6 @@ import {
   ALL_ATTEMPTS,
   allResults,
   AttemptChoice,
-  attemptChoiceLabel,
   computeIsExpandable,
   createFixAction,
   createGetAiFixAction,
@@ -44,7 +43,6 @@ import {
   hasCompletedWithoutResults,
   iconFor,
   iconForLink,
-  isAttemptChoice,
   isCategory,
   LATEST_ATTEMPT,
   otherPrimaryLinks,
@@ -52,11 +50,9 @@ import {
   reportAiAgentGetAIFix,
   reportAiAgentSuggestionCopy,
   secondaryLinks,
-  sortAttemptChoices,
-  stringToAttemptChoice,
   tooltipForLink,
 } from '../../models/checks/checks-util';
-import {assert, assertIsDefined, unique} from '../../utils/common-util';
+import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
@@ -84,7 +80,6 @@ import {Deduping} from '../../api/reporting';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when.js';
-import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
 import './gr-checks-fix-preview';
 import {changeViewModelToken} from '../../models/views/change';
@@ -1098,11 +1093,6 @@ export class GrChecksResults extends LitElement {
           justify-content: space-between;
           align-items: flex-end;
         }
-        .headerTopRow gr-dropdown-list {
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          padding: 0 var(--spacing-m);
-        }
         .headerTopRow h2 {
           display: inline-block;
         }
@@ -1122,22 +1112,9 @@ export class GrChecksResults extends LitElement {
         .headerBottomRow {
           margin-top: var(--spacing-s);
         }
-        .headerTopRow .right,
         .headerBottomRow .right {
           display: flex;
           align-items: center;
-        }
-        .headerTopRow .right .goToLatest {
-          display: none;
-        }
-        .notLatest .headerTopRow .right .goToLatest {
-          display: block;
-        }
-        .headerTopRow .right > * {
-          margin-left: var(--spacing-m);
-        }
-        .headerTopRow .right .goToLatest gr-button {
-          --gr-button-padding: var(--spacing-s) var(--spacing-m);
         }
         .headerBottomRow gr-icon {
           color: var(--link-color);
@@ -1321,7 +1298,6 @@ export class GrChecksResults extends LitElement {
         !!this.checksPatchsetNumber &&
         this.checksPatchsetNumber !== this.latestPatchsetNumber,
     };
-    const attemptItems = this.createAttemptDropdownItems();
     return html`
       <div class=${classMap(headerClasses)}>
         <div class="headerTopRow">
@@ -1331,28 +1307,6 @@ export class GrChecksResults extends LitElement {
               <span>Loading results </span>
               <span class="loadingSpin"></span>
             </div>
-          </div>
-          <div class="right">
-            <div class="goToLatest">
-              <gr-button @click=${this.goToLatestPatchset} link
-                >Go To Latest Patchset</gr-button
-              >
-            </div>
-            ${when(
-              attemptItems.length > 0,
-              () => html` <gr-dropdown-list
-                value=${this.selectedAttempt ?? 0}
-                .items=${attemptItems}
-                @value-change=${this.onAttemptSelected}
-              ></gr-dropdown-list>`
-            )}
-            <gr-dropdown-list
-              value=${(this.checksPatchsetNumber ||
-                this.latestPatchsetNumber) ??
-              0}
-              .items=${this.createPatchsetDropdownItems()}
-              @value-change=${this.onPatchsetSelected}
-            ></gr-dropdown-list>
           </div>
         </div>
         <div class="headerBottomRow">
@@ -1472,53 +1426,6 @@ export class GrChecksResults extends LitElement {
       context="results"
       .action=${action}
     ></gr-checks-action>`;
-  }
-
-  private onAttemptSelected(e: CustomEvent<{value: string | undefined}>) {
-    const attempt = stringToAttemptChoice(e.detail.value);
-    assertIsDefined(attempt, `unexpected attempt choice ${e.detail.value}`);
-    this.getChecksModel().updateStateSetAttempt(attempt);
-  }
-
-  private onPatchsetSelected(e: CustomEvent<{value: string}>) {
-    const patchset = Number(e.detail.value) as PatchSetNumber;
-    assert(Number.isInteger(patchset), `patchset must be integer: ${patchset}`);
-    this.getChecksModel().updateStateSetPatchset(patchset);
-  }
-
-  private goToLatestPatchset() {
-    assertIsDefined(this.latestPatchsetNumber, 'latestPatchsetNumber');
-    this.getChecksModel().updateStateSetPatchset(this.latestPatchsetNumber);
-  }
-
-  private createAttemptDropdownItems() {
-    if (this.runs.every(run => run.isSingleAttempt)) return [];
-    const attempts: AttemptChoice[] = this.runs
-      .map(run => run.attempt ?? 0)
-      .filter(isAttemptChoice)
-      .filter(unique);
-    attempts.push(LATEST_ATTEMPT);
-    attempts.push(ALL_ATTEMPTS);
-    const items: DropdownItem[] = attempts.sort(sortAttemptChoices).map(a => {
-      return {
-        value: a,
-        text: attemptChoiceLabel(a),
-      };
-    });
-    return items;
-  }
-
-  private createPatchsetDropdownItems() {
-    if (!this.latestPatchsetNumber) return [];
-    return Array.from(Array(this.latestPatchsetNumber), (_, i) => {
-      assertIsDefined(this.latestPatchsetNumber, 'latestPatchsetNumber');
-      const index = this.latestPatchsetNumber - i;
-      const postfix = index === this.latestPatchsetNumber ? ' (latest)' : '';
-      return {
-        value: `${index}`,
-        text: `Patchset ${index}${postfix}`,
-      };
-    });
   }
 
   isRunSelected(run: {checkName: string}) {

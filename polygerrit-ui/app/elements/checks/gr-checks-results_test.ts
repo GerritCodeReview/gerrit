@@ -21,11 +21,10 @@ import {
 } from '../../test/test-data-generators';
 import {resolve} from '../../models/dependency';
 import {createLabelInfo} from '../../test/test-data-generators';
-import {assertIsDefined, query, queryAndAssert} from '../../utils/common-util';
+import {query, queryAndAssert} from '../../utils/common-util';
 import {stubFlags} from '../../test/test-utils';
 import {Interaction} from '../../constants/reporting';
 import {FixId, NumericChangeId, PatchSetNumber} from '../../api/rest-api';
-import {GrDropdownList} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import {getAppContext} from '../../services/app-context';
 import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
 import {testResolver} from '../../test/common-test-setup';
@@ -442,31 +441,6 @@ suite('gr-checks-results test', () => {
     await element.updateComplete;
   });
 
-  test('attempt dropdown items', async () => {
-    const attemptDropdown = queryAndAssert<GrDropdownList>(
-      element,
-      'gr-dropdown-list'
-    );
-    assertIsDefined(attemptDropdown.items);
-    assert.equal(attemptDropdown.items.length, 42);
-    assert.deepEqual(attemptDropdown.items[0], {
-      text: 'Latest Attempt',
-      value: 'latest',
-    });
-    assert.deepEqual(attemptDropdown.items[1], {
-      text: 'All Attempts',
-      value: 'all',
-    });
-    assert.deepEqual(attemptDropdown.items[2], {
-      text: 'Attempt 0',
-      value: 0,
-    });
-    assert.deepEqual(attemptDropdown.items[41], {
-      text: 'Attempt 40',
-      value: 40,
-    });
-  });
-
   test('renders', async () => {
     assert.shadowDom.equal(
       element,
@@ -479,13 +453,6 @@ suite('gr-checks-results test', () => {
                 <span> Loading results </span>
                 <span class="loadingSpin"> </span>
               </div>
-            </div>
-            <div class="right">
-              <div class="goToLatest">
-                <gr-button link=""> Go To Latest Patchset </gr-button>
-              </div>
-              <gr-dropdown-list value="latest"> </gr-dropdown-list>
-              <gr-dropdown-list value="0"> </gr-dropdown-list>
             </div>
           </div>
           <div class="headerBottomRow">

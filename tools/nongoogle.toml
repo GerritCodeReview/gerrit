@@ -40,7 +40,7 @@ impl-log4j = { module = "org.slf4j:slf4j-reload4j", version.ref = "slf4j" }
 j2objc = { module = "com.google.j2objc:j2objc-annotations", version = "1.1" }
 jcl-over-slf4j = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
 jimfs = { module = "com.google.jimfs:jimfs", version = "1.2" }
-jruby = { module = "org.jruby:jruby-complete", version = "9.1.17.0" }
+jruby = { module = "org.jruby:jruby", version = "10.1.2.0" }
 log-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 log-ext = { module = "org.slf4j:slf4j-ext", version.ref = "slf4j" }
 log4j = { module = "ch.qos.reload4j:reload4j", version = "1.2.26" }

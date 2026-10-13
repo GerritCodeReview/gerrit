@@ -14,22 +14,38 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.TestMetricMaker;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.LockSupport;
+import java.util.function.BooleanSupplier;
 import org.junit.Test;
 
 @UseSsh
 public class SshCancellationIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
+  private final TestMetricMaker testMetricMaker = TestMetricMaker.getInstance();
 
   @Test
   public void handleClientDisconnected() throws Exception {
@@ -168,5 +184,86 @@ public class SshCancellationIT extends AbstractDaemonTest {
   public void clientCanDisableDeadlineBySettingZeroAsDeadline() throws Exception {
     adminSshSession.exec("gerrit create-project --deadline 0 " + name("new"));
     adminSshSession.assertSuccess();
+  }
+
+  @Test
+  public void queryIsAbortedWhenClientDisconnectsEvenIfInterruptIsSwallowed() throws Exception {
+    createChange();
+    createChange();
+    createChange();
+
+    CountDownLatch matchingFirstChange = new CountDownLatch(1);
+    AtomicInteger matchedChanges = new AtomicInteger();
+    AtomicReference<Thread> queryThread = new AtomicReference<>();
+    AtomicReference<String> queryThreadName = new AtomicReference<>();
+    AtomicBoolean queryThreadInterrupted = new AtomicBoolean();
+    ChangeIsOperandFactory swallowInterruptOperand =
+        builder ->
+            new OperatorPredicate<>("is", "swallowinterrupt") {
+              @Override
+              public boolean isMatchable() {
+                return true;
+              }
+
+              @Override
+              public Matchable<ChangeData> asMatchable() {
+                return new Matchable<>() {
+                  @Override
+                  public boolean match(ChangeData changeData) {
+                    if (matchedChanges.incrementAndGet() == 1) {
+                      queryThread.set(Thread.currentThread());
+                      queryThreadName.set(Thread.currentThread().getName());
+                      matchingFirstChange.countDown();
+                      queryThreadInterrupted.set(
+                          waitFor(() -> Thread.currentThread().isInterrupted()));
+                      // Simulate a library that swallows the interrupt, e.g. H2 while it waits
+                      // for a lock.
+                      Thread.interrupted();
+                    }
+                    return true;
+                  }
+
+                  @Override
+                  public int getCost() {
+                    return 0;
+                  }
+                };
+              }
+            };
+
+    testMetricMaker.reset();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(swallowInterruptOperand, "swallowinterrupt")) {
+      var unused =
+          adminSshSession.execAndReturnReader(
+              String.format(
+                  "gerrit query status:open is:swallowinterrupt_%s",
+                  ExtensionRegistry.PLUGIN_NAME));
+      assertThat(matchingFirstChange.await(30, SECONDS)).isTrue();
+      adminSshSession.close();
+      assertThat(waitFor(() -> !queryThread.get().getName().equals(queryThreadName.get())))
+          .isTrue();
+    }
+
+    assertThat(queryThreadInterrupted.get()).isTrue();
+    assertThat(matchedChanges.get()).isEqualTo(1);
+    assertThat(
+            testMetricMaker.getCount(
+                "cancellation/cancelled_requests_count",
+                "SSH",
+                "",
+                RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST))
+        .isEqualTo(1);
+  }
+
+  private static boolean waitFor(BooleanSupplier condition) {
+    long deadline = System.nanoTime() + SECONDS.toNanos(30);
+    while (!condition.getAsBoolean()) {
+      if (System.nanoTime() > deadline) {
+        return false;
+      }
+      LockSupport.parkNanos(MILLISECONDS.toNanos(10));
+    }
+    return true;
   }
 }

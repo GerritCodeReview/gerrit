@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "702f4919_8bbb5741",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-13T15:15:11Z",
+      "side": 1,
+      "message": "Thanks @hariprak@google.com for your feedback, amendments accepted.",
+      "revId": "7a4725ddc94ed8248feff93885aa6c0fa72ef1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f57be6e0_e660a41f",
@@ -49,6 +66,24 @@
           ]
         }
       ],
+      "revId": "7a4725ddc94ed8248feff93885aa6c0fa72ef1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad93f84b_b882cbb0",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-13T15:15:11Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "f57be6e0_e660a41f",
       "revId": "7a4725ddc94ed8248feff93885aa6c0fa72ef1dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

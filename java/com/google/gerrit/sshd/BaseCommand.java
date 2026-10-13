@@ -385,8 +385,8 @@ public abstract class BaseCommand implements Command {
       logCauseIfRelevant(e, m);
     }
 
-    if (e instanceof Failure) {
-      final Failure f = (Failure) e;
+    if (e instanceof Failure failure) {
+      final Failure f = failure;
       try {
         err.write((f.getMessage() + "\n").getBytes(ENC));
         err.flush();
@@ -522,10 +522,10 @@ public abstract class BaseCommand implements Command {
           thisThread.setName("SSH " + taskName);
 
           try {
-            if (thunk instanceof ProjectCommandRunnable) {
+            if (thunk instanceof ProjectCommandRunnable projectCommandRunnable) {
               try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
-                ((ProjectCommandRunnable) thunk).executeParseCommand(pluginOptions);
-                projectName = ((ProjectCommandRunnable) thunk).getProjectName();
+                projectCommandRunnable.executeParseCommand(pluginOptions);
+                projectName = projectCommandRunnable.getProjectName();
                 thunk.run();
               }
             } else {

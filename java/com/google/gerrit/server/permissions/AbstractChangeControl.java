@@ -70,12 +70,12 @@ abstract class AbstractChangeControl {
   }
 
   protected boolean can(ChangePermissionOrLabel perm) throws PermissionBackendException {
-    if (perm instanceof ChangePermission) {
-      return can((ChangePermission) perm);
-    } else if (perm instanceof AbstractLabelPermission) {
-      return can((AbstractLabelPermission) perm);
-    } else if (perm instanceof AbstractLabelPermission.WithValue) {
-      return can((AbstractLabelPermission.WithValue) perm);
+    if (perm instanceof ChangePermission changePermission) {
+      return can(changePermission);
+    } else if (perm instanceof AbstractLabelPermission abstractLabelPermission) {
+      return can(abstractLabelPermission);
+    } else if (perm instanceof AbstractLabelPermission.WithValue labelPermissionWithValue) {
+      return can(labelPermissionWithValue);
     }
     throw new PermissionBackendException(perm + " unsupported");
   }
@@ -305,9 +305,9 @@ abstract class AbstractChangeControl {
   }
 
   protected static <T extends ChangePermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
-    if (permSet instanceof EnumSet) {
+    if (permSet instanceof EnumSet enumSet) {
       @SuppressWarnings({"unchecked", "rawtypes"})
-      Set<T> s = ((EnumSet) permSet).clone();
+      Set<T> s = enumSet.clone();
       s.clear();
       return s;
     }

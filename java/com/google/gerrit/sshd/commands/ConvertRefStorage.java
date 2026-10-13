@@ -76,8 +76,8 @@ public class ConvertRefStorage extends SshCommand {
     enableGracefulStop();
     Project.NameKey projectName = projectState.getNameKey();
     try (Repository repo = repoManager.openRepository(projectName)) {
-      if (repo instanceof DelegateRepository) {
-        ((DelegateRepository) repo).convertRefStorage(storageFormat.name(), writeLogs, backup);
+      if (repo instanceof DelegateRepository delegateRepository) {
+        delegateRepository.convertRefStorage(storageFormat.name(), writeLogs, backup);
       } else {
         checkState(
             repo instanceof FileRepository, "Repository is not an instance of FileRepository!");

@@ -33,8 +33,7 @@ public class CommentLinkInfo {
     if (o == this) {
       return true;
     }
-    if (o instanceof CommentLinkInfo) {
-      CommentLinkInfo that = (CommentLinkInfo) o;
+    if (o instanceof CommentLinkInfo that) {
       return Objects.equals(this.match, that.match)
           && Objects.equals(this.link, that.link)
           && Objects.equals(this.prefix, that.prefix)

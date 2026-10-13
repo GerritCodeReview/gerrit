@@ -84,8 +84,7 @@ public class AliasCommand extends BaseCommand {
 
     Command cmd = p.getProvider().get();
     checkRequiresCapability(cmd);
-    if (cmd instanceof BaseCommand) {
-      BaseCommand bc = (BaseCommand) cmd;
+    if (cmd instanceof BaseCommand bc) {
       bc.setName(getName());
       bc.setArguments(getArguments());
     }

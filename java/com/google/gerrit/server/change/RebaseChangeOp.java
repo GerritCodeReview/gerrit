@@ -498,23 +498,22 @@ public class RebaseChangeOp implements BatchUpdateOp {
         firstNonNull(Strings.emptyToNull(mergeStrategy), mergeUtil.mergeStrategyName());
 
     Merger merger = MergeUtil.newMerger(ctx.getInserter(), ctx.getRepoView().getConfig(), strategy);
-    if (merger instanceof ThreeWayMerger) {
-      ((ThreeWayMerger) merger).setBase(parentCommit);
+    if (merger instanceof ThreeWayMerger threeWayMerger) {
+      threeWayMerger.setBase(parentCommit);
     }
 
     DirCache dc = DirCache.newInCore();
-    if (merger instanceof ResolveMerger) {
+    if (merger instanceof ResolveMerger resolveMerger) {
       if (useGitattributesForMerge) {
         // We need to set the attributes provider before attempting the merge in order to read and
         // honor gitattributes merge settings correctly
-        ((ResolveMerger) merger)
-            .setAttributesNodeProvider(ctx.getRepoView().getAttributesNodeProvider());
+        resolveMerger.setAttributesNodeProvider(ctx.getRepoView().getAttributesNodeProvider());
       }
       if (allowConflicts) {
         // The DirCache must be set on ResolveMerger before calling
         // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get
         // populated.
-        ((ResolveMerger) merger).setDirCache(dc);
+        resolveMerger.setDirCache(dc);
       }
     }
 
@@ -531,9 +530,9 @@ public class RebaseChangeOp implements BatchUpdateOp {
     } else {
       List<String> conflicts = ImmutableList.of();
       Map<String, ResolveMerger.MergeFailureReason> failed = ImmutableMap.of();
-      if (merger instanceof ResolveMerger) {
-        conflicts = ((ResolveMerger) merger).getUnmergedPaths();
-        failed = ((ResolveMerger) merger).getFailingPaths();
+      if (merger instanceof ResolveMerger resolveMerger) {
+        conflicts = resolveMerger.getUnmergedPaths();
+        failed = resolveMerger.getFailingPaths();
       }
 
       if (merger.getResultTreeId() != null) {

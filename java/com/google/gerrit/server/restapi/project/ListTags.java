@@ -218,9 +218,8 @@ public class ListTags implements RestReadView<ProjectResource> {
     }
 
     ImmutableList<WebLinkInfo> webLinks = links.getTagLinks(projectState.getName(), ref.getName());
-    if (object instanceof RevTag) {
+    if (object instanceof RevTag tag) {
       // Annotated or signed tag
-      RevTag tag = (RevTag) object;
       PersonIdent tagger = tag.getTaggerIdent();
       return new TagInfo(
           ref.getName(),

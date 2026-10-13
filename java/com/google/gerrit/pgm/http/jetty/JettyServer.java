@@ -134,9 +134,8 @@ public class JettyServer {
         server.httpd.start();
         if (rewrite) {
           Connector con = server.httpd.getConnectors()[0];
-          if (con instanceof ServerConnector) {
+          if (con instanceof ServerConnector serverCon) {
             @SuppressWarnings("resource")
-            ServerConnector serverCon = (ServerConnector) con;
             String host = serverCon.getHost();
             int port = serverCon.getLocalPort();
             String url = String.format("http://%s:%d", host, port);

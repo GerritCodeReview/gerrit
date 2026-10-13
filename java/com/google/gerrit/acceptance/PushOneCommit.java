@@ -407,8 +407,7 @@ public class PushOneCommit {
     }
     if (tag != null) {
       TagCommand tagCommand = testRepo.git().tag().setName(tag.name);
-      if (tag instanceof AnnotatedTag) {
-        AnnotatedTag annotatedTag = (AnnotatedTag) tag;
+      if (tag instanceof AnnotatedTag annotatedTag) {
         tagCommand
             .setAnnotated(true)
             .setMessage(annotatedTag.message)

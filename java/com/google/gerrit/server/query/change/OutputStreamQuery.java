@@ -392,9 +392,9 @@ public class OutputStreamQuery {
     switch (outputFormat) {
       default:
       case TEXT:
-        if (data instanceof ChangeAttribute) {
+        if (data instanceof ChangeAttribute changeAttribute) {
           out.print("change ");
-          out.print(((ChangeAttribute) data).id);
+          out.print(changeAttribute.id);
           out.print("\n");
           showText(data, 1);
         } else {
@@ -441,25 +441,25 @@ public class OutputStreamQuery {
     out.print(indent);
     out.print(field);
     out.print(':');
-    if (value instanceof String && ((String) value).contains("\n")) {
+    if (value instanceof String string && string.contains("\n")) {
       out.print(' ');
       // Idention for multi-line text is
       // current depth indetion + length of field + length of ": "
       indent = indent(indent.length() + field.length() + spacesDepthRatio);
-      out.print(((String) value).replace("\n", "\n" + indent).trim());
+      out.print(string.replace("\n", "\n" + indent).trim());
       out.print('\n');
-    } else if (value instanceof Long && isDateField(field)) {
+    } else if (value instanceof Long l && isDateField(field)) {
       out.print(' ');
-      out.print(dtf.format(Instant.ofEpochSecond((Long) value)));
+      out.print(dtf.format(Instant.ofEpochSecond(l)));
       out.print('\n');
     } else if (isPrimitive(value)) {
       out.print(' ');
       out.print(value);
       out.print('\n');
-    } else if (value instanceof Collection) {
+    } else if (value instanceof Collection<?> collection) {
       out.print('\n');
       boolean firstElement = true;
-      for (Object thing : ((Collection<?>) value)) {
+      for (Object thing : collection) {
         // The name of the collection was initially printed at the beginning
         // of this routine.  Beginning at the second sub-element, reprint
         // the collection name so humans can separate individual elements

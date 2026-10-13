@@ -89,8 +89,7 @@ public abstract class Comment {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof Key) {
-        Key k = (Key) o;
+      if (o instanceof Key k) {
         return Objects.equals(uuid, k.uuid)
             && Objects.equals(filename, k.filename)
             && patchSetId == k.patchSetId;
@@ -117,8 +116,8 @@ public abstract class Comment {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof Identity) {
-        return id == ((Identity) o).id;
+      if (o instanceof Identity identity) {
+        return id == identity.id;
       }
       return false;
     }
@@ -183,8 +182,7 @@ public abstract class Comment {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof Range) {
-        Range r = (Range) o;
+      if (o instanceof Range r) {
         return startLine == r.startLine
             && startChar == r.startChar
             && endLine == r.endLine

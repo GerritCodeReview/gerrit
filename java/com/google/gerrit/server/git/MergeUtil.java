@@ -242,10 +242,10 @@ public class MergeUtil {
     m.setBase(baseCommit);
 
     DirCache dc = DirCache.newInCore();
-    if (allowConflicts && m instanceof ResolveMerger) {
+    if (allowConflicts && m instanceof ResolveMerger resolveMerger) {
       // The DirCache must be set on ResolveMerger before calling
       // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get populated.
-      ((ResolveMerger) m).setDirCache(dc);
+      resolveMerger.setDirCache(dc);
     }
 
     ObjectId tree;
@@ -488,10 +488,10 @@ public class MergeUtil {
     Merger m = newMerger(inserter, repoConfig, mergeStrategy);
 
     DirCache dc = DirCache.newInCore();
-    if (allowConflicts && m instanceof ResolveMerger) {
+    if (allowConflicts && m instanceof ResolveMerger resolveMerger) {
       // The DirCache must be set on ResolveMerger before calling
       // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get populated.
-      ((ResolveMerger) m).setDirCache(dc);
+      resolveMerger.setDirCache(dc);
     }
 
     ObjectId tree;
@@ -512,9 +512,9 @@ public class MergeUtil {
     } else {
       List<String> conflicts = ImmutableList.of();
       Map<String, ResolveMerger.MergeFailureReason> failed = ImmutableMap.of();
-      if (m instanceof ResolveMerger) {
-        conflicts = ((ResolveMerger) m).getUnmergedPaths();
-        failed = ((ResolveMerger) m).getFailingPaths();
+      if (m instanceof ResolveMerger resolveMerger) {
+        conflicts = resolveMerger.getUnmergedPaths();
+        failed = resolveMerger.getFailingPaths();
       }
 
       if (m.getResultTreeId() != null) {
@@ -1092,8 +1092,8 @@ public class MergeUtil {
         m instanceof ThreeWayMerger,
         "merge strategy %s does not support three-way merging",
         strategyName);
-    if (m instanceof ResolveMerger && useGitattributesForMerge) {
-      ((ResolveMerger) m).setAttributesNodeProvider(attributesNodeProvider);
+    if (m instanceof ResolveMerger resolveMerger && useGitattributesForMerge) {
+      resolveMerger.setAttributesNodeProvider(attributesNodeProvider);
     }
     return (ThreeWayMerger) m;
   }

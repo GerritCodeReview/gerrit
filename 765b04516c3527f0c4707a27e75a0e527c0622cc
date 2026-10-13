@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f76738d7_a2dfd152",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-13T15:38:40Z",
+      "side": 1,
+      "message": "We currently don\u0027t have a better way of knowing why the models failed to load, so I\u0027m making an assumption that it\u0027s because there is no token configured.\n\nThe logic for the current error message \"No API token configured. Add one in Settings.\" lives elsewhere and is more specific.\n\nDo we think this is acceptable or shall we propagate the proper failure reason?",
+      "range": {
+        "startLine": 385,
+        "startChar": 0,
+        "endLine": 387,
+        "endChar": 68
+      },
+      "revId": "765b04516c3527f0c4707a27e75a0e527c0622cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

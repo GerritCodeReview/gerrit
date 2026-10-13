@@ -46,6 +46,23 @@
       },
       "revId": "2b6de7966b5adff95858b5445af99b2d448a5d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe9b99d_6b09a2e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-10-13T13:27:53Z",
+      "side": 1,
+      "message": "Change 643103: Close per-test servers when a test fails or is skipped | https://gerrit-review.googlesource.com/c/gerrit/+/643103 address the leak resulting in OOM.",
+      "revId": "2b6de7966b5adff95858b5445af99b2d448a5d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

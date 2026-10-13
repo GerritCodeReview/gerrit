@@ -1124,6 +1124,20 @@ where the inherited `ALLOW` does not override it:
 A `DENY` only revokes the grant for the same group, so it cannot exclude
 a subgroup while the broad grant stands.
 
+[[category_post_review_comment]]
+=== Post Review Comment
+
+This category is intended to control who can post review comments on
+changes. `All-Projects` grants it to `Registered Users` on `refs/*` for
+new sites, and sites upgrading from an earlier release receive the same
+grant through a schema migration when it does not exist yet.
+
+[NOTE]
+Gerrit does not check this permission yet, so posting review comments is
+not restricted by it. The default grant is in place so that, once the
+permission is enforced, users who cannot vote on any label can still
+comment.
+
 
 [[example_roles]]
 == Examples of typical roles in a project

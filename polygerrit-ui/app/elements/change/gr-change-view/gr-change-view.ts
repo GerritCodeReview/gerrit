@@ -125,7 +125,7 @@ import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {chatModelToken} from '../../../models/chat/chat-model';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -279,6 +279,9 @@ export class GrChangeView extends LitElement {
 
   @state()
   private editingCommitMessage = false;
+
+  @state()
+  commitMessageMarkdown = false;
 
   @state()
   private latestCommitMessage = '';
@@ -978,6 +981,11 @@ export class GrChangeView extends LitElement {
         .commitMessage gr-formatted-text {
           overflow-wrap: anywhere;
         }
+        .commitMessage gr-formatted-text[markdown] {
+          font-family: var(--font-family);
+          font-size: var(--font-size-normal);
+          line-height: var(--line-height-normal);
+        }
         #commitMessageEditor {
           /* Account for border and padding and rounding errors. */
           min-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
@@ -1462,8 +1470,10 @@ export class GrChangeView extends LitElement {
               <gr-editable-content
                 id="commitMessageEditor"
                 .editing=${this.editingCommitMessage}
+                .markdown=${this.commitMessageMarkdown}
                 .content=${this.latestCommitMessage}
                 @editing-changed=${this.handleEditingChanged}
+                @markdown-changed=${this.handleMarkdownChanged}
                 @content-changed=${this.handleContentChanged}
                 .storageKey=${`c${this.change?._number}_rev${this.change?.current_revision}`}
                 .hideEditCommitMessage=${hideEditCommitMessage}
@@ -1472,7 +1482,7 @@ export class GrChangeView extends LitElement {
               >
                 <gr-formatted-text
                   .content=${this.latestCommitMessage}
-                  .markdown=${false}
+                  ?markdown=${this.commitMessageMarkdown}
                 ></gr-formatted-text>
               </gr-editable-content>
             </div>
@@ -1800,6 +1810,10 @@ export class GrChangeView extends LitElement {
     this.editingCommitMessage = e.detail.value;
   }
 
+  private handleMarkdownChanged(e: ValueChangedEvent<boolean>) {
+    this.commitMessageMarkdown = e.detail.value;
+  }
+
   private handleContentChanged(e: ValueChangedEvent) {
     // optimistic update
     this.latestCommitMessage = e.detail.value ?? '';
@@ -2095,8 +2109,17 @@ export class GrChangeView extends LitElement {
     }
   }
 
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('changeNum')) {
+      this.commitMessageMarkdown = false;
+    }
+  }
+
   // Private but used in tests.
   changeChanged(oldChange: ParsedChangeInfo | undefined) {
+    if (oldChange?._number !== this.change?._number) {
+      this.commitMessageMarkdown = false;
+    }
     this.allPatchSets = computeAllPatchSets(this.change);
     if (!this.change) return;
     this.labelsChanged(oldChange?.labels, this.change.labels);

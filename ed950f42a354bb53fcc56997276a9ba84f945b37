@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0430d88b_6bc2d2ed",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4816,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-13T16:33:58Z",
+      "side": 1,
+      "message": "Under what \"normal\" conditions can the repository not be opened? In case of missing permissions? Or in case of an error? If the latter, do we need to specify it in the documentation?",
+      "range": {
+        "startLine": 4816,
+        "startChar": 0,
+        "endLine": 4816,
+        "endChar": 43
+      },
+      "revId": "ed950f42a354bb53fcc56997276a9ba84f945b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e924e2f6_033c2bce",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-13T16:33:58Z",
+      "side": 1,
+      "message": "Any NON implementation of FileReftableDatabase would return `REF_DIRECTORY`. The global refdb `SharedRefDbRefDatabase` would be considered `REF_DIRECTORY`. Probably we should add a `CUSTOM` value in the Enum of the available `RefStorage`",
+      "range": {
+        "startLine": 124,
+        "startChar": 28,
+        "endLine": 124,
+        "endChar": 48
+      },
+      "revId": "ed950f42a354bb53fcc56997276a9ba84f945b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a3c231e_93110afd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-13T16:33:58Z",
+      "side": 1,
+      "message": "Why not split it into 2 separate tests?\n\nAlso, I think we are missing a test for when the values cannot be retrieved when opening the repository.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 3
+      },
+      "revId": "ed950f42a354bb53fcc56997276a9ba84f945b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

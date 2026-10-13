@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cc30490e_073658a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-13T23:50:38Z",
+      "side": 1,
+      "message": "Squashed with the child, so it\u0027s not breaking now.",
+      "parentUuid": "6e11b7c1_b68577ee",
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a539e647_fb6f26d2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27dfecaf_c09abb87",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-13T23:50:38Z",
+      "side": 1,
+      "message": "That constant is in a different package, but I refactored to share it.",
+      "parentUuid": "c5974234_4e286742",
+      "range": {
+        "startLine": 231,
+        "startChar": 15,
+        "endLine": 231,
+        "endChar": 31
+      },
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dab5bee_bfb8cff7",
@@ -71,6 +113,24 @@
       "writtenOn": "2026-09-15T13:20:17Z",
       "side": 1,
       "message": "use existing constant",
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0960583b_4044bdbe",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-13T23:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dab5bee_bfb8cff7",
       "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +152,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42fa3cf1_6d0e0349",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-13T23:50:38Z",
+      "side": 1,
+      "message": "Keeping as-is to ensure the test doesn\u0027t change with a buggy implementation.",
+      "parentUuid": "5b66d942_fd435525",
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03cec96d_c5ca6e02",
@@ -105,6 +183,24 @@
       "writtenOn": "2026-09-15T13:20:17Z",
       "side": 1,
       "message": "use existing constant for the H2 prefix",
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "610001a9_d74ba73a",
+        "filename": "javatests/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStoreTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-13T23:50:38Z",
+      "side": 1,
+      "message": "I think it\u0027s better to keep them as explicit URL literals in the assertions to verify the expected behavior. That ensures the test doesn\u0027t change with a buggy implementation.",
+      "parentUuid": "03cec96d_c5ca6e02",
       "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

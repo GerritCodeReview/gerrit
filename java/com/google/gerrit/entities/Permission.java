@@ -60,7 +60,6 @@ public abstract class Permission implements Comparable<Permission> {
   public static final String SUBMIT = "submit";
   public static final String SUBMIT_AS = "submitAs";
   public static final String TOGGLE_WORK_IN_PROGRESS_STATE = "toggleWipState";
-  public static final String POST_REVIEW_COMMENT = "postReviewComment";
   public static final String VIEW_PRIVATE_CHANGES = "viewPrivateChanges";
   public static final String AI_REVIEW = "aiReview";
 
@@ -100,7 +99,6 @@ public abstract class Permission implements Comparable<Permission> {
     NAMES_LC.add(SUBMIT.toLowerCase(Locale.US));
     NAMES_LC.add(SUBMIT_AS.toLowerCase(Locale.US));
     NAMES_LC.add(TOGGLE_WORK_IN_PROGRESS_STATE.toLowerCase(Locale.US));
-    NAMES_LC.add(POST_REVIEW_COMMENT.toLowerCase(Locale.US));
     NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase(Locale.US));
     NAMES_LC.add(AI_REVIEW.toLowerCase(Locale.US));
 

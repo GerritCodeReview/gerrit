@@ -6,7 +6,7 @@ represent the same account. However, for installations older than v3.5.x,
 the usernames were case sensitive, e.g. `johndoe` and `JohnDoe` can both exist
 as separate accounts. This could lead to issues when migrating an account
 from LDAP to an internal account, if
-xref:config-gerrit.txt#ldap.localUsernameToLowerCase[ldap.localUsernameToLowerCase]
+link:config-gerrit.html#ldap.localUsernameToLowerCase[ldap.localUsernameToLowerCase]
 was set. Such usernames can also be rather confusing for users, if they try to
 identify authors of comments or changes.
 

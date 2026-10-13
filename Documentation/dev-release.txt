@@ -276,7 +276,7 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server,role=external,window=_blank
 ** Select `com.google.gerrit` as `Project`.
 
 [[push-stable]]
-==== Push the Stable Branch
+=== Push the Stable Branch
 
 * Create the stable branch `stable-$version` in the `gerrit` project via the
 link:https://gerrit-review.googlesource.com/admin/repos/gerrit,branches[
@@ -289,7 +289,7 @@ get them merged.
 to match the branch name created.
 
 [[publish-typescript-plugin-api]]
-==== Publish TypeScript Plugin API
+=== Publish TypeScript Plugin API
 
 Only applies to major and minor releases! Not required for patch releases.
 
@@ -324,7 +324,7 @@ link:https://github.com/endoflife-date/endoflife.date/wiki/Automation[auto-creat
 for new release tags.
 
 [[announce]]
-==== Announce on Mailing List
+=== Announce on Mailing List
 
 Send an email to the mailing list to announce the release. The content of the
 announcement email is generated with the `release-announcement.py` script from

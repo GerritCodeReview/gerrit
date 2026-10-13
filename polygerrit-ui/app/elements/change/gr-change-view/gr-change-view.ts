@@ -1272,7 +1272,7 @@ export class GrChangeView extends LitElement {
       {
         label: 'URL and title',
         shortcut: 'r',
-        value: `${changeURL}: ${this.change?.subject}`,
+        value: `${changeURL} - ${this.change?.subject}`,
       },
       {
         label: 'Markdown',

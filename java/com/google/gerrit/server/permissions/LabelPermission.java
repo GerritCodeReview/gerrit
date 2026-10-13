@@ -21,7 +21,7 @@ import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.server.util.LabelVote;
 
 /** Permission representing a label. */
-public class LabelPermission extends AbstractLabelPermission {
+public final class LabelPermission extends AbstractLabelPermission {
   /**
    * Construct a reference to a label permission.
    *
@@ -66,7 +66,7 @@ public class LabelPermission extends AbstractLabelPermission {
   }
 
   /** A {@link LabelPermission} at a specific value. */
-  public static class WithValue extends AbstractLabelPermission.WithValue {
+  public static final class WithValue extends AbstractLabelPermission.WithValue {
     /**
      * Construct a reference to a label at a specific value.
      *

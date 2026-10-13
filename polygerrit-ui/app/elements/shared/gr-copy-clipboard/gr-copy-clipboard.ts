@@ -97,16 +97,16 @@ export class GrCopyClipboard extends LitElement {
         :host([nowrap]) .text {
           flex-wrap: nowrap;
         }
-        :host([multiline]) .text {
+        :host([multiline]:not([hideinput])) .text {
           align-items: flex-start;
         }
-        :host([multiline]) .text label {
+        :host([multiline]:not([hideinput])) .text label {
           margin-top: var(--spacing-s);
         }
-        :host([multiline]) .text .shortcut {
+        :host([multiline]:not([hideinput])) .text .shortcut {
           margin-top: var(--spacing-s);
         }
-        :host([multiline]) gr-button {
+        :host([multiline]:not([hideinput])) gr-button {
           margin-top: 0;
         }
         .text label {

@@ -82,6 +82,26 @@ public class H2JGitLockAccountPatchReviewStoreIT {
   }
 
   @Test
+  public void legacyFileUrlStartsAndStoresReviewedFlag() throws Exception {
+    SitePaths sitePaths = new SitePaths(temporaryFolder.getRoot().toPath());
+    Config cfg = new Config();
+    cfg.setString(
+        JdbcAccountPatchReviewStore.ACCOUNT_PATCH_REVIEW_DB,
+        null,
+        "url",
+        "jdbc:h2:file:"
+            + temporaryFolder.newFolder("legacy-account-patch-reviews").toPath().resolve("db"));
+    H2JGitLockAccountPatchReviewStore legacyStore =
+        new H2JGitLockAccountPatchReviewStore(cfg, sitePaths);
+    legacyStore.start();
+
+    var unused = legacyStore.markReviewed(PS, ACCOUNT, FILE);
+
+    assertThat(legacyStore.findReviewed(PS, ACCOUNT)).isPresent();
+    assertThat(legacyStore.findReviewed(PS, ACCOUNT).get().files()).containsExactly(FILE);
+  }
+
+  @Test
   public void concurrentMarksAreAllDurable() throws Exception {
     int nThreads = 8;
     int filesPerThread = 5;

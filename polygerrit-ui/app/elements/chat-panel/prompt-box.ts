@@ -16,6 +16,7 @@ import {repeat} from 'lit/directives/repeat.js';
 import {
   ContextItem,
   ContextItemType,
+  MISSING_API_TOKEN_ERROR_NAME,
   ModelInfo,
 } from '../../api/ai-code-review';
 import {chatModelToken, Turn} from '../../models/chat/chat-model';
@@ -30,6 +31,7 @@ import {ParsedChangeInfo} from '../../types/types';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {fire} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
+import {createSettingsUrl} from '../../models/views/settings';
 import {materialStyles} from '../../styles/gr-material-styles';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
@@ -51,6 +53,8 @@ export class PromptBox extends LitElement {
   disabledMessage = 'Review Agent is disabled.';
 
   @state() modelLoadingError?: string;
+
+  @state() modelLoadingErrorName?: string;
 
   @state() selectedModel?: ModelInfo;
 
@@ -99,6 +103,11 @@ export class PromptBox extends LitElement {
       this,
       () => this.getChatModel().modelsLoadingError$,
       x => (this.modelLoadingError = x)
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().modelsLoadingErrorName$,
+      x => (this.modelLoadingErrorName = x)
     );
     subscribe(
       this,
@@ -381,14 +390,27 @@ export class PromptBox extends LitElement {
     // This Change is implicitly added to the context, so we don't need to add it.
     // The chip makes it clear to the user that it is already in the context.
     if (!this.change) return nothing;
-    const changeContextItem: ContextItem = {
-      type_id: 'gerrit_change',
-      // Don't include link in the chip since it's already on the change page.
-      link: '',
-      title: 'This Change',
-      identifier: this.change.id,
-      tooltip: 'File diffs (against base), commit message, and comments.',
-    };
+    // When the models failed to load, the chat cannot be used: link to the
+    // settings if no API token is configured, otherwise show no chip.
+    const isMissingApiToken =
+      this.modelLoadingErrorName === MISSING_API_TOKEN_ERROR_NAME;
+    if (this.hasModelLoadingError && !isMissingApiToken) return nothing;
+    const changeContextItem: ContextItem = isMissingApiToken
+      ? {
+          type_id: 'gerrit_change',
+          link: createSettingsUrl(),
+          title: 'Set up token',
+          identifier: this.change.id,
+          tooltip: 'Open the settings to configure an API token.',
+        }
+      : {
+          type_id: 'gerrit_change',
+          // No link: the chip is already on the change page.
+          link: '',
+          title: 'This Change',
+          identifier: this.change.id,
+          tooltip: 'File diffs (against base), commit message, and comments.',
+        };
     return html`
       <context-chip
         class="this-change-context"

@@ -59,6 +59,7 @@ public class InitModule extends FactoryModule {
     step().to(InitLogging.class);
     step().to(InitCompactHeadersOptions.class);
     step().to(InitIndex.class);
+    step().to(InitLuceneOptions.class);
     step().to(InitAuth.class);
     step().to(InitAdminUser.class);
     step().to(InitLabels.class);

@@ -2428,6 +2428,22 @@ This is a product feature since JDK 25, so no
 `-XX:+UnlockExperimentalVMOptions` is required. To opt out, remove the
 option. Running site init again on JDK 25 adds it back; set
 `-XX:-UseCompactObjectHeaders` instead to persist the opt-out.
++
+During site init, Gerrit adds the following option when the index type is
+Lucene. It enables the Vector API, which Lucene can use to accelerate
+postings decoding and DocValues operations:
++
+----
+  javaOptions = --add-modules=jdk.incubator.vector
+----
++
+An existing `--add-modules` option that includes `jdk.incubator.vector`
+is preserved. The JVM prints a warning that an incubator module is in use.
+To use scalar operations, remove this option after init; running init
+again adds it back. Restart Gerrit after changing the option.
++
+These options apply to Gerrit started with `gerrit.sh`. When starting
+Gerrit directly with `java -jar`, pass the JVM option before `-jar`.
 
 [[container.daemonOpt]]container.daemonOpt::
 +

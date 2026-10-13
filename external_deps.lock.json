@@ -158,7 +158,7 @@
     "org.apache.sshd:sshd-osgi": -1294702776,
     "org.apache.sshd:sshd-scp": -734172109,
     "org.apache.sshd:sshd-sftp": -2141240943,
-    "org.asciidoctor:asciidoctorj": -432449150,
+    "org.asciidoctor:asciidoctorj": -2038258635,
     "org.assertj:assertj-core": -1145412507,
     "org.bouncycastle:bcpg-jdk18on": 219577418,
     "org.bouncycastle:bcpkix-jdk18on": 254639479,
@@ -182,7 +182,7 @@
     "org.eclipse.jetty:jetty-util": 753118393,
     "org.eclipse.jetty:jetty-util-ajax": -282298300,
     "org.hamcrest:hamcrest": -1704983590,
-    "org.jruby:jruby-complete": 544978997,
+    "org.jruby:jruby": 2078748399,
     "org.json:json": -811907600,
     "org.jsoup:jsoup": -185962132,
     "org.mockito:mockito-core": -1229333582,
@@ -217,12 +217,39 @@
     "args4j:args4j:jar:sources": -370825913,
     "ch.qos.reload4j:reload4j": -523782034,
     "ch.qos.reload4j:reload4j:jar:sources": -338991604,
-    "com.beust:jcommander": -1223620106,
-    "com.beust:jcommander:jar:sources": 1270399231,
+    "ch.randelshofer:fastdoubleparser": -1282519171,
+    "ch.randelshofer:fastdoubleparser:jar:sources": 2097810143,
+    "com.dylibso.chicory:log": -316681168,
+    "com.dylibso.chicory:log:jar:sources": 104686015,
+    "com.dylibso.chicory:runtime": -1070404169,
+    "com.dylibso.chicory:runtime:jar:sources": -1764615673,
+    "com.dylibso.chicory:wasi": 1512974207,
+    "com.dylibso.chicory:wasi:jar:sources": 73736946,
+    "com.dylibso.chicory:wasm": -204930975,
+    "com.dylibso.chicory:wasm:jar:sources": 970374469,
     "com.github.ben-manes.caffeine:caffeine": -1342502459,
     "com.github.ben-manes.caffeine:caffeine:jar:sources": 1780037606,
     "com.github.ben-manes.caffeine:guava": 1717885520,
     "com.github.ben-manes.caffeine:guava:jar:sources": 1590068668,
+    "com.github.jnr:jffi": 1596008543,
+    "com.github.jnr:jffi:jar:native": -1334695591,
+    "com.github.jnr:jffi:jar:sources": -500902186,
+    "com.github.jnr:jnr-a64asm": 238969940,
+    "com.github.jnr:jnr-a64asm:jar:sources": -1985559629,
+    "com.github.jnr:jnr-constants": 1446937876,
+    "com.github.jnr:jnr-constants:jar:sources": 1132202614,
+    "com.github.jnr:jnr-enxio": 1963399729,
+    "com.github.jnr:jnr-enxio:jar:sources": 1913626220,
+    "com.github.jnr:jnr-ffi": -7246168,
+    "com.github.jnr:jnr-ffi:jar:sources": -1060124038,
+    "com.github.jnr:jnr-netdb": -1001999952,
+    "com.github.jnr:jnr-netdb:jar:sources": -1452663111,
+    "com.github.jnr:jnr-posix": -2101697300,
+    "com.github.jnr:jnr-posix:jar:sources": -1821839137,
+    "com.github.jnr:jnr-unixsocket": 572367266,
+    "com.github.jnr:jnr-unixsocket:jar:sources": 219616201,
+    "com.github.jnr:jnr-x86asm": 2124831399,
+    "com.github.jnr:jnr-x86asm:jar:sources": 1619799649,
     "com.github.rholder:guava-retrying": -789983219,
     "com.github.rholder:guava-retrying:jar:sources": 2030887181,
     "com.google.auto.factory:auto-factory": 2025609377,
@@ -294,6 +321,12 @@
     "com.googlecode.prolog-cafe:prolog-runtime:jar:sources": 1445213194,
     "com.h2database:h2": -552414482,
     "com.h2database:h2:jar:sources": 1071831572,
+    "com.headius:backport9": -514470990,
+    "com.headius:backport9:jar:sources": -1060913623,
+    "com.headius:invokebinder": -829629371,
+    "com.headius:invokebinder:jar:sources": -1846290205,
+    "com.headius:options": 2106801967,
+    "com.headius:options:jar:sources": -1059667112,
     "com.ibm.icu:icu4j": -1725310050,
     "com.ibm.icu:icu4j:jar:sources": 163265109,
     "com.icegreen:greenmail": -151631445,
@@ -328,6 +361,14 @@
     "io.dropwizard.metrics:metrics-core:jar:sources": -1988318320,
     "io.github.java-diff-utils:java-diff-utils": -1180802694,
     "io.github.java-diff-utils:java-diff-utils:jar:sources": 1551226070,
+    "io.roastedroot:redline": -1563401986,
+    "io.roastedroot:redline-api": -694215047,
+    "io.roastedroot:redline-api:jar:sources": 979956914,
+    "io.roastedroot:redline-bridge": -370093466,
+    "io.roastedroot:redline-bridge:jar:sources": -1848320915,
+    "io.roastedroot:redline-runner-jffi": -689433931,
+    "io.roastedroot:redline-runner-jffi:jar:sources": 1629602238,
+    "io.roastedroot:redline:jar:sources": 162282201,
     "io.sweers.autotransient:autotransient": 1808939417,
     "io.sweers.autotransient:autotransient:jar:sources": -703216994,
     "jakarta.inject:jakarta.inject-api": 188991469,
@@ -340,8 +381,12 @@
     "javax.inject:javax.inject:jar:sources": 1222576539,
     "javax.servlet:javax.servlet-api": 735808080,
     "javax.servlet:javax.servlet-api:jar:sources": -2015355058,
+    "joda-time:joda-time": 2092189510,
+    "joda-time:joda-time:jar:sources": 273193335,
     "junit:junit": -1256429642,
     "junit:junit:jar:sources": 940567721,
+    "me.qmx.jitescript:jitescript": -483352198,
+    "me.qmx.jitescript:jitescript:jar:sources": 1920201576,
     "net.bytebuddy:byte-buddy": -1914258003,
     "net.bytebuddy:byte-buddy-agent": 682658697,
     "net.bytebuddy:byte-buddy-agent:jar:sources": -1164352937,
@@ -406,8 +451,10 @@
     "org.apache.sshd:sshd-osgi:jar:sources": 710209222,
     "org.apache.sshd:sshd-sftp": -948314603,
     "org.apache.sshd:sshd-sftp:jar:sources": -1268961386,
-    "org.asciidoctor:asciidoctorj": 1685789893,
-    "org.asciidoctor:asciidoctorj:jar:sources": 2091708864,
+    "org.asciidoctor:asciidoctorj": 2069108866,
+    "org.asciidoctor:asciidoctorj-api": 1059094284,
+    "org.asciidoctor:asciidoctorj-api:jar:sources": 989901516,
+    "org.asciidoctor:asciidoctorj:jar:sources": -1209916532,
     "org.assertj:assertj-core": -253199576,
     "org.assertj:assertj-core:jar:sources": -697161745,
     "org.bouncycastle:bcpg-jdk18on": 1344554762,
@@ -432,6 +479,8 @@
     "org.commonmark:commonmark-ext-yaml-front-matter": 1918089254,
     "org.commonmark:commonmark-ext-yaml-front-matter:jar:sources": -902462472,
     "org.commonmark:commonmark:jar:sources": -1511261547,
+    "org.crac:crac": 853021667,
+    "org.crac:crac:jar:sources": -1045886349,
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": 688938258,
     "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources": -873060978,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": 1759154570,
@@ -462,8 +511,21 @@
     "org.hamcrest:hamcrest-core": 649657847,
     "org.hamcrest:hamcrest-core:jar:sources": -1646511374,
     "org.hamcrest:hamcrest:jar:sources": 1394599014,
-    "org.jruby:jruby-complete": -1216064857,
-    "org.jruby:jruby-complete:jar:sources": -308329410,
+    "org.jruby.jcodings:jcodings": -670130762,
+    "org.jruby.jcodings:jcodings:jar:sources": -1788488622,
+    "org.jruby.joni:joni": 652498333,
+    "org.jruby.joni:joni:jar:sources": 1044080184,
+    "org.jruby:dirgra": -1432445703,
+    "org.jruby:dirgra:jar:sources": -1467471945,
+    "org.jruby:jruby": -962391262,
+    "org.jruby:jruby-base": -889900028,
+    "org.jruby:jruby-base:jar:sources": -679962120,
+    "org.jruby:jruby-prism": -1252895675,
+    "org.jruby:jruby-prism:jar:sources": -1968476554,
+    "org.jruby:jruby-stdlib": 1860547675,
+    "org.jruby:jruby:jar:sources": 567964875,
+    "org.jruby:jzlib": -1541291350,
+    "org.jruby:jzlib:jar:sources": -942778938,
     "org.jsoup:jsoup": 885756132,
     "org.jsoup:jsoup:jar:sources": -2058254438,
     "org.jspecify:jspecify": 117231129,
@@ -494,6 +556,10 @@
     "org.roaringbitmap:RoaringBitmap:jar:sources": -144719403,
     "org.roaringbitmap:shims": -1535336248,
     "org.roaringbitmap:shims:jar:sources": -422658237,
+    "org.ruby-lang:prism-parser-api": -1291583223,
+    "org.ruby-lang:prism-parser-api:jar:sources": 256247713,
+    "org.ruby-lang:prism-parser-wasm": 1367333582,
+    "org.ruby-lang:prism-parser-wasm:jar:sources": 2138143504,
     "org.slf4j:jcl-over-slf4j": 654857378,
     "org.slf4j:jcl-over-slf4j:jar:sources": 1447796761,
     "org.slf4j:slf4j-api": -736053657,
@@ -537,12 +603,40 @@
       },
       "version": "1.2.26"
     },
-    "com.beust:jcommander": {
+    "ch.randelshofer:fastdoubleparser": {
       "shasums": {
-        "jar": "019c12fec1ce5c02cbabb150f6ac8a86d92a0ecc9c89a549e5537283e863000c",
-        "sources": "6682ba2de6bac5950c99c7ebda6c5bfd6dde4026619fcb16f4f8de869ca78579"
+        "jar": "4242e2335299026524d331355a6cd75abdc38c8fed4402f25b5c7ce9d7668cc1",
+        "sources": "6e8815541cf5123e1dac460946227f1bbb109e0570bbbc4c6a50067bd94b2c38"
       },
-      "version": "1.35"
+      "version": "2.0.1"
+    },
+    "com.dylibso.chicory:log": {
+      "shasums": {
+        "jar": "79e4e505060d48dee4f520daa9591dbb9b9dc2e3073e1a5fcb2018bfd2d5d1f2",
+        "sources": "9454b97bc6e6b47ff3a086306afe6e15c3066e2488fe0454d555a7075e7592e9"
+      },
+      "version": "1.7.5"
+    },
+    "com.dylibso.chicory:runtime": {
+      "shasums": {
+        "jar": "cdbb2bd4e353eacff78da5dd3454694316eaa6d2950aab3d1517dca41ae4a0b2",
+        "sources": "61fbc99ed4fa699a583c37e5efec154a72f5cf12e54a8ebb876916c4c7a1bf5f"
+      },
+      "version": "1.7.5"
+    },
+    "com.dylibso.chicory:wasi": {
+      "shasums": {
+        "jar": "52f68c155b1dc4ff6df9a6b9eb84201029886561e87bc77a858bd14333c1cfbc",
+        "sources": "ba7e84336b031759b58de4c46369f5e6d2e9952dda997befc35b81578e2505c6"
+      },
+      "version": "1.7.5"
+    },
+    "com.dylibso.chicory:wasm": {
+      "shasums": {
+        "jar": "16558a66bac04f7e00ea06950f52d87ce2cfff535a54bac2115f2c13e0b3050b",
+        "sources": "c43890628fafb77b7cb884313d4d39b465006f400799a42f40f02c08b5ce422c"
+      },
+      "version": "1.7.5"
     },
     "com.github.ben-manes.caffeine:caffeine": {
       "shasums": {
@@ -557,6 +651,70 @@
         "sources": "b613b0d3f7587da0ff1eb19410d6309fd3764f607cfa1b0682aae1515a73afab"
       },
       "version": "2.9.2"
+    },
+    "com.github.jnr:jffi": {
+      "shasums": {
+        "jar": "402f3c4652ff33ef3c9deb81ee3e9487bd62a91605fe1f2bdf2e2d6f2f4bb4ff",
+        "native": "278915be4feba64d6050aab4bbfb255d5daad494ac442e4826da55d2ac81cfe5",
+        "sources": "4ea4699fbea87a8f66872e7b3c9492ce92e46ecf725c14869a17d30f9261875e"
+      },
+      "version": "1.4.3"
+    },
+    "com.github.jnr:jnr-a64asm": {
+      "shasums": {
+        "jar": "53ae5ea7fa5c284e8279aa348e7b9de4548b0cae10bfd058fa217c791875e4cf",
+        "sources": "2106b98c7d794fb01237e7243d975b9bc8450aa87bf34f93d7b5fcc651af7ff1"
+      },
+      "version": "1.0.0"
+    },
+    "com.github.jnr:jnr-constants": {
+      "shasums": {
+        "jar": "1abad8ddc450d415ee6fc62bfd3c87b9db58e71b8b2e3b04c87570f78f66e526",
+        "sources": "fa0738dfa8049c43513a5ba93ac5fd40b4022478114dd22905851ce5d5c3b8df"
+      },
+      "version": "0.11.2"
+    },
+    "com.github.jnr:jnr-enxio": {
+      "shasums": {
+        "jar": "a12d105550cf5615200e5db5b9efbd8e9a625a23e4c18eeb57669623bcd9dcbf",
+        "sources": "54de138be9553261b601187da3d109ae0d6be9df1b477422c39ab3ad386972fe"
+      },
+      "version": "0.33.3"
+    },
+    "com.github.jnr:jnr-ffi": {
+      "shasums": {
+        "jar": "c7671fa32080def6b4edbce102248f8b38a452f0ea094a233e6e8e4441075e67",
+        "sources": "06a4eb5c5051c133afe2a36796ab15e702346f3d1d64b0e93dfe9fa47bf446be"
+      },
+      "version": "2.3.3"
+    },
+    "com.github.jnr:jnr-netdb": {
+      "shasums": {
+        "jar": "24f54abd859979b6caabf4918b022c57fc0d3247def4bfe68e5a30172409fc3c",
+        "sources": "1033a0e67b5d2860dc6d17bdb4604442d7b826da81066a8d4f1019db83f602f5"
+      },
+      "version": "1.2.0"
+    },
+    "com.github.jnr:jnr-posix": {
+      "shasums": {
+        "jar": "db64bc6168e87215741807114be0a0ceb3037d85132f155d119a0419a102176b",
+        "sources": "8bcd17e851fb2ff188e5b548675c15478ad694ef0752e86f5651374a1ef50675"
+      },
+      "version": "3.2.4"
+    },
+    "com.github.jnr:jnr-unixsocket": {
+      "shasums": {
+        "jar": "002b1aac41d38de1646e48ae8dd98494d53a0ed01bc832a71c9c8957759f7e22",
+        "sources": "679b90db8bcc76da9231f984676881d1114e15225bc06110070326f462f608d0"
+      },
+      "version": "0.39.5"
+    },
+    "com.github.jnr:jnr-x86asm": {
+      "shasums": {
+        "jar": "39f3675b910e6e9b93825f8284bec9f4ad3044cd20a6f7c8ff9e2f8695ebf21e",
+        "sources": "3c983efd496f95ea5382ca014f96613786826136e0ce13d5c1cbc3097ea92ca0"
+      },
+      "version": "1.0.2"
     },
     "com.github.rholder:guava-retrying": {
       "shasums": {
@@ -809,6 +967,27 @@
       },
       "version": "2.5.250"
     },
+    "com.headius:backport9": {
+      "shasums": {
+        "jar": "89dccb0f38901d9d15280c55d3a435bb7867d93756b17a2bf99f505daf9f9a1f",
+        "sources": "281efa3625d7e481bc9e0525c4ce96fc96da33cce1683daeec399a9cb989f72c"
+      },
+      "version": "1.13"
+    },
+    "com.headius:invokebinder": {
+      "shasums": {
+        "jar": "e57f1f072c30dac4b0fe49b43987eb0b5fb1705b6f045bee10415d457df2c40b",
+        "sources": "c675b34ef57bc8e007eff9c63782cac21f6042830c322e593db15ab35d2d7b40"
+      },
+      "version": "1.16"
+    },
+    "com.headius:options": {
+      "shasums": {
+        "jar": "c4c52c7931c945792d48c6010596195359a35a82d6ac36c645f14705b9a277db",
+        "sources": "bd98465a92520607e7479222e476a5d02b1d8f4579f3bfe50b8f9ee53559be22"
+      },
+      "version": "1.6"
+    },
     "com.ibm.icu:icu4j": {
       "shasums": {
         "jar": "70627c3ff4b9077f6c3dc2156fb480821f9c1a041b645373f2a0391aae3552a1",
@@ -933,6 +1112,34 @@
       },
       "version": "4.16"
     },
+    "io.roastedroot:redline": {
+      "shasums": {
+        "jar": "6f48b5f5db15169619b0d350f79cf46954c8498ef620b76dccea2edb5f44c1f9",
+        "sources": "f3ff81cb68db03083e4fc2c7c99e141574eeb5510216b835474ab905b214c3c2"
+      },
+      "version": "0.0.5"
+    },
+    "io.roastedroot:redline-api": {
+      "shasums": {
+        "jar": "49352a589ed932fa88f8bb2c25ca5521e636cb63bd22afba2bcff1aec8d36ea6",
+        "sources": "d8fbff3a811104420b2263aee0cf0c9a52bc91397456d4d20c0f576647d9ee1c"
+      },
+      "version": "0.0.5"
+    },
+    "io.roastedroot:redline-bridge": {
+      "shasums": {
+        "jar": "2f722732b71f66bac53747d0fbe0f4f333115e933ebffad0e8bd7c5d5beb8768",
+        "sources": "2ca6b58af0ad664e1cb13e2457fefa31cb17f94420ad652683154917afa2f8bb"
+      },
+      "version": "0.0.5"
+    },
+    "io.roastedroot:redline-runner-jffi": {
+      "shasums": {
+        "jar": "13299a7e88a68429500b8a4cb7b7b18d7f0268f7a6328505465a886d8336ee31",
+        "sources": "3970d3c41b757c41057b762544f7d8c720a209c6ec2e19c06a1357cd1e264d25"
+      },
+      "version": "0.0.5"
+    },
     "io.sweers.autotransient:autotransient": {
       "shasums": {
         "jar": "914ce84508410ee1419514925f93b1855a9f7a7b5b5d02fc07f411d2a45f1bba",
@@ -975,12 +1182,26 @@
       },
       "version": "4.0.1"
     },
+    "joda-time:joda-time": {
+      "shasums": {
+        "jar": "1e2da6f9eb65f20a25d9a3186831ed2b3fb14f7a48e1ef8206135ee58cb143d3",
+        "sources": "22e583c91dc1badb59cad602e1f33dbbd79bc09f2fe32f7f65bd978caf860934"
+      },
+      "version": "2.14.0"
+    },
     "junit:junit": {
       "shasums": {
         "jar": "8e495b634469d64fb8acfa3495a065cbacc8a0fff55ce1e31007be4c16dc57d3",
         "sources": "34181df6482d40ea4c046b063cb53c7ffae94bdf1b1d62695bdf3adf9dea7e3a"
       },
       "version": "4.13.2"
+    },
+    "me.qmx.jitescript:jitescript": {
+      "shasums": {
+        "jar": "035d4afc5a27202c3e3f38c32506e3657697a4d6d97463eb25affe1cbf45efd5",
+        "sources": "87b8d0f256452a61a78dd4870d088e346400702c2602c089e2aafb6f9a078da5"
+      },
+      "version": "0.4.1"
     },
     "net.bytebuddy:byte-buddy": {
       "shasums": {
@@ -1208,10 +1429,17 @@
     },
     "org.asciidoctor:asciidoctorj": {
       "shasums": {
-        "jar": "599fd7281344ee8085caac3b8e99dc1ea1d8443918dc10f5dc0790db6a7cff7d",
-        "sources": "4ab024122aa75097053965908eeb675c2c9a00c63032072e9e5f3164d7d7ee4a"
+        "jar": "dca289ed528a5bf2de2429211d831199e205c423e2f31e54394e11a7cecb579c",
+        "sources": "d4486bb44683715c05f304b0e5fe4a6017fa62885c5e5f9611027c49c796c22b"
       },
-      "version": "1.5.8.1"
+      "version": "3.0.1"
+    },
+    "org.asciidoctor:asciidoctorj-api": {
+      "shasums": {
+        "jar": "6b5d6dc7fc43c5620751dfb880f70822db313067dfa1005f80abd3a29686d8af",
+        "sources": "733112a7c49d202c32fb6187e20a863996bb21d4a46ea4ef20871aed3aa5ed61"
+      },
+      "version": "3.0.1"
     },
     "org.assertj:assertj-core": {
       "shasums": {
@@ -1296,6 +1524,13 @@
         "sources": "5cee64663842f1e7128af9c3e62ef183ea2cf205436d27a08b7cb5be0b20edb6"
       },
       "version": "0.24.0"
+    },
+    "org.crac:crac": {
+      "shasums": {
+        "jar": "f4426e1641c8f0fa2f025a4cd7c40c285abaf265930e6717adfcaef03d034850",
+        "sources": "56f6a3d9b292cecdb2bd7d13debd7d440d6d41358e215142d75aa499fbe96747"
+      },
+      "version": "1.5.0"
     },
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": {
       "shasums": {
@@ -1402,12 +1637,60 @@
       },
       "version": "1.3"
     },
-    "org.jruby:jruby-complete": {
+    "org.jruby.jcodings:jcodings": {
       "shasums": {
-        "jar": "bdf1a7ca08161d42262b3dad5888ba6fecaf9a2da7ff9170489224f3525cb457",
-        "sources": "72de5a81b60da3db86753ac6c62a5297a6f47665df93c6480633222d6fc13ff5"
+        "jar": "0b4d0b0c1e2f1bdf17f4c30ecf5261bf62763af6f18b0fd1e743226c994ccf96",
+        "sources": "67aeddc35800a1ae92f1d9bc3300af0ab7daa8c52bd2302d5d673836a0edafaf"
       },
-      "version": "9.1.17.0"
+      "version": "1.0.64"
+    },
+    "org.jruby.joni:joni": {
+      "shasums": {
+        "jar": "6054ab5bbf2dcc633fe62a359f1b39518e591fa76c90f9d50c7abb987d1f6774",
+        "sources": "b6e681a3ba0a71f5484f1a20e9acb08a32510ac3b12f851a30cb2be4d235269f"
+      },
+      "version": "2.2.7"
+    },
+    "org.jruby:dirgra": {
+      "shasums": {
+        "jar": "2956f1c36d8d2bcbdbc3d070a4e6f59b323e280e2c829bbb3e3203dc7ea005fa",
+        "sources": "e12c0dc5719257e5cf6ec85ce4c1bd512a9db699b95b1b8e595cef6d5a75671f"
+      },
+      "version": "0.5"
+    },
+    "org.jruby:jruby": {
+      "shasums": {
+        "jar": "aa409cb9af32c8b3de2ffc9538abe784aff6c179857af3d0d6346fc4b0e645b0",
+        "sources": "49d5d9ca0c888c78b5674323c41dade523c381c21040380086ffb75f1bb285d4"
+      },
+      "version": "10.1.2.0"
+    },
+    "org.jruby:jruby-base": {
+      "shasums": {
+        "jar": "8ffad0b8422e6964ac0b28a966dadba82845c8b107124969f515f345b4db8404",
+        "sources": "e21ca23a48e81673629b010bc39529ee5f742f98b3ac3aaebcafe9142ec25824"
+      },
+      "version": "10.1.2.0"
+    },
+    "org.jruby:jruby-prism": {
+      "shasums": {
+        "jar": "b95b33a3b6e3e6c6c843a2fc35a11185782a84001480073dbaf563f8b6415e52",
+        "sources": "f1a8c7f96a5381f7840157dcc0c3073411ebb7e36227876ab3feb03b21f99533"
+      },
+      "version": "2.0.4"
+    },
+    "org.jruby:jruby-stdlib": {
+      "shasums": {
+        "jar": "93c5bfec7f3c24d40ccdc432d64dea7063a6604f61832a77600e83d3cd40fbba"
+      },
+      "version": "10.1.2.0"
+    },
+    "org.jruby:jzlib": {
+      "shasums": {
+        "jar": "97e2d8359168c484113c38837fdd74453577e6ed8575bb35eb65bc117a90b97f",
+        "sources": "9c645c94537b8d819e92637f2ee6455ae92960950923ab8f7c21682f2dc4bb05"
+      },
+      "version": "1.1.5"
     },
     "org.jsoup:jsoup": {
       "shasums": {
@@ -1514,6 +1797,20 @@
       },
       "version": "0.9.44"
     },
+    "org.ruby-lang:prism-parser-api": {
+      "shasums": {
+        "jar": "32fe119a8165b389b5a1c535dc870f034ef198cab74fc6cb006d91ae29fb21ec",
+        "sources": "c216c06429b7456e9e44859d4798298005a46b141f3401b2c3c7049493ecd80e"
+      },
+      "version": "0.0.4"
+    },
+    "org.ruby-lang:prism-parser-wasm": {
+      "shasums": {
+        "jar": "a9c5fe745b38e69009dc3f126756ff8ad8ba12658b942b49317c79702b5e251b",
+        "sources": "fceecbcc5c3665615de4677a6f1020f05fd87ed5ef6c99147fb0fdec2769f9a2"
+      },
+      "version": "0.0.4"
+    },
     "org.slf4j:jcl-over-slf4j": {
       "shasums": {
         "jar": "32f95628a4baa60ea8a5b052c8cb6e51d07b0fee3e6092414070874f69daf710",
@@ -1565,6 +1862,14 @@
     }
   },
   "dependencies": {
+    "com.dylibso.chicory:runtime": [
+      "com.dylibso.chicory:wasm"
+    ],
+    "com.dylibso.chicory:wasi": [
+      "com.dylibso.chicory:log",
+      "com.dylibso.chicory:runtime",
+      "com.dylibso.chicory:wasm"
+    ],
     "com.github.ben-manes.caffeine:caffeine": [
       "com.google.errorprone:error_prone_annotations",
       "org.checkerframework:checker-qual"
@@ -1572,6 +1877,28 @@
     "com.github.ben-manes.caffeine:guava": [
       "com.github.ben-manes.caffeine:caffeine",
       "com.google.guava:guava"
+    ],
+    "com.github.jnr:jnr-enxio": [
+      "com.github.jnr:jnr-constants"
+    ],
+    "com.github.jnr:jnr-ffi": [
+      "com.github.jnr:jffi",
+      "com.github.jnr:jffi:jar:native",
+      "com.github.jnr:jnr-a64asm",
+      "com.github.jnr:jnr-x86asm",
+      "org.ow2.asm:asm",
+      "org.ow2.asm:asm-analysis",
+      "org.ow2.asm:asm-commons",
+      "org.ow2.asm:asm-tree",
+      "org.ow2.asm:asm-util"
+    ],
+    "com.github.jnr:jnr-posix": [
+      "com.github.jnr:jnr-constants"
+    ],
+    "com.github.jnr:jnr-unixsocket": [
+      "com.github.jnr:jnr-constants",
+      "com.github.jnr:jnr-enxio",
+      "com.github.jnr:jnr-posix"
     ],
     "com.github.rholder:guava-retrying": [
       "com.google.code.findbugs:jsr305",
@@ -1717,6 +2044,27 @@
     "io.dropwizard.metrics:metrics-core": [
       "org.slf4j:slf4j-api"
     ],
+    "io.roastedroot:redline": [
+      "com.dylibso.chicory:runtime",
+      "io.roastedroot:redline-api",
+      "io.roastedroot:redline-runner-jffi"
+    ],
+    "io.roastedroot:redline-api": [
+      "com.dylibso.chicory:runtime",
+      "com.dylibso.chicory:wasm"
+    ],
+    "io.roastedroot:redline-bridge": [
+      "com.dylibso.chicory:log",
+      "com.dylibso.chicory:runtime",
+      "com.dylibso.chicory:wasi",
+      "com.dylibso.chicory:wasm"
+    ],
+    "io.roastedroot:redline-runner-jffi": [
+      "com.dylibso.chicory:runtime",
+      "com.dylibso.chicory:wasm",
+      "io.roastedroot:redline-api",
+      "io.roastedroot:redline-bridge"
+    ],
     "junit:junit": [
       "org.hamcrest:hamcrest-core"
     ],
@@ -1791,8 +2139,8 @@
       "org.slf4j:slf4j-api"
     ],
     "org.asciidoctor:asciidoctorj": [
-      "com.beust:jcommander",
-      "org.jruby:jruby-complete"
+      "org.asciidoctor:asciidoctorj-api",
+      "org.jruby:jruby"
     ],
     "org.assertj:assertj-core": [
       "net.bytebuddy:byte-buddy"
@@ -1877,6 +2225,42 @@
       "org.eclipse.jetty:jetty-util",
       "org.slf4j:slf4j-api"
     ],
+    "org.jruby.joni:joni": [
+      "org.jruby.jcodings:jcodings"
+    ],
+    "org.jruby:jruby": [
+      "org.jruby:jruby-base",
+      "org.jruby:jruby-stdlib"
+    ],
+    "org.jruby:jruby-base": [
+      "ch.randelshofer:fastdoubleparser",
+      "com.github.jnr:jffi",
+      "com.github.jnr:jffi:jar:native",
+      "com.github.jnr:jnr-constants",
+      "com.github.jnr:jnr-enxio",
+      "com.github.jnr:jnr-ffi",
+      "com.github.jnr:jnr-netdb",
+      "com.github.jnr:jnr-posix",
+      "com.github.jnr:jnr-unixsocket",
+      "com.headius:backport9",
+      "com.headius:invokebinder",
+      "com.headius:options",
+      "joda-time:joda-time",
+      "me.qmx.jitescript:jitescript",
+      "org.crac:crac",
+      "org.jruby.jcodings:jcodings",
+      "org.jruby.joni:joni",
+      "org.jruby:dirgra",
+      "org.jruby:jruby-prism",
+      "org.jruby:jzlib",
+      "org.ow2.asm:asm",
+      "org.ow2.asm:asm-commons",
+      "org.ow2.asm:asm-util"
+    ],
+    "org.jruby:jruby-prism": [
+      "org.ruby-lang:prism-parser-api",
+      "org.ruby-lang:prism-parser-wasm"
+    ],
     "org.mockito:mockito-core": [
       "net.bytebuddy:byte-buddy",
       "net.bytebuddy:byte-buddy-agent",
@@ -1911,6 +2295,14 @@
     ],
     "org.roaringbitmap:RoaringBitmap": [
       "org.roaringbitmap:shims"
+    ],
+    "org.ruby-lang:prism-parser-wasm": [
+      "com.dylibso.chicory:log",
+      "com.dylibso.chicory:runtime",
+      "com.dylibso.chicory:wasi",
+      "com.dylibso.chicory:wasm",
+      "io.roastedroot:redline",
+      "org.ruby-lang:prism-parser-api"
     ],
     "org.slf4j:jcl-over-slf4j": [
       "org.slf4j:slf4j-api"
@@ -1965,12 +2357,26 @@
       "org.apache.log4j.varia",
       "org.apache.log4j.xml"
     ],
-    "com.beust:jcommander": [
-      "com.beust.jcommander",
-      "com.beust.jcommander.converters",
-      "com.beust.jcommander.defaultprovider",
-      "com.beust.jcommander.internal",
-      "com.beust.jcommander.validators"
+    "ch.randelshofer:fastdoubleparser": [
+      "ch.randelshofer.fastdoubleparser",
+      "ch.randelshofer.fastdoubleparser.bte",
+      "ch.randelshofer.fastdoubleparser.chr"
+    ],
+    "com.dylibso.chicory:log": [
+      "com.dylibso.chicory.log"
+    ],
+    "com.dylibso.chicory:runtime": [
+      "com.dylibso.chicory.runtime",
+      "com.dylibso.chicory.runtime.alloc",
+      "com.dylibso.chicory.runtime.internal"
+    ],
+    "com.dylibso.chicory:wasi": [
+      "com.dylibso.chicory.wasi"
+    ],
+    "com.dylibso.chicory:wasm": [
+      "com.dylibso.chicory.wasm",
+      "com.dylibso.chicory.wasm.io",
+      "com.dylibso.chicory.wasm.types"
     ],
     "com.github.ben-manes.caffeine:caffeine": [
       "com.github.benmanes.caffeine",
@@ -1980,6 +2386,105 @@
     ],
     "com.github.ben-manes.caffeine:guava": [
       "com.github.benmanes.caffeine.guava"
+    ],
+    "com.github.jnr:jffi": [
+      "com.kenai.jffi",
+      "com.kenai.jffi.internal"
+    ],
+    "com.github.jnr:jnr-a64asm": [
+      "jnr.a64asm"
+    ],
+    "com.github.jnr:jnr-constants": [
+      "jnr.constants",
+      "jnr.constants.platform",
+      "jnr.constants.platform.aix",
+      "jnr.constants.platform.darwin",
+      "jnr.constants.platform.dragonflybsd",
+      "jnr.constants.platform.fake",
+      "jnr.constants.platform.freebsd",
+      "jnr.constants.platform.freebsd.aarch64",
+      "jnr.constants.platform.linux",
+      "jnr.constants.platform.linux.aarch64",
+      "jnr.constants.platform.linux.loongarch64",
+      "jnr.constants.platform.linux.mips64el",
+      "jnr.constants.platform.linux.powerpc64",
+      "jnr.constants.platform.linux.s390x",
+      "jnr.constants.platform.openbsd",
+      "jnr.constants.platform.solaris",
+      "jnr.constants.platform.windows"
+    ],
+    "com.github.jnr:jnr-enxio": [
+      "jnr.enxio.channels"
+    ],
+    "com.github.jnr:jnr-ffi": [
+      "jnr.ffi",
+      "jnr.ffi.annotations",
+      "jnr.ffi.byref",
+      "jnr.ffi.mapper",
+      "jnr.ffi.provider",
+      "jnr.ffi.provider.converters",
+      "jnr.ffi.provider.jffi",
+      "jnr.ffi.provider.jffi.platform.aarch64.darwin",
+      "jnr.ffi.provider.jffi.platform.aarch64.freebsd",
+      "jnr.ffi.provider.jffi.platform.aarch64.linux",
+      "jnr.ffi.provider.jffi.platform.aarch64.openbsd",
+      "jnr.ffi.provider.jffi.platform.aarch64.windows",
+      "jnr.ffi.provider.jffi.platform.arm.linux",
+      "jnr.ffi.provider.jffi.platform.i386.darwin",
+      "jnr.ffi.provider.jffi.platform.i386.freebsd",
+      "jnr.ffi.provider.jffi.platform.i386.linux",
+      "jnr.ffi.provider.jffi.platform.i386.midnightbsd",
+      "jnr.ffi.provider.jffi.platform.i386.openbsd",
+      "jnr.ffi.provider.jffi.platform.i386.solaris",
+      "jnr.ffi.provider.jffi.platform.i386.windows",
+      "jnr.ffi.provider.jffi.platform.loongarch64.linux",
+      "jnr.ffi.provider.jffi.platform.mips.linux",
+      "jnr.ffi.provider.jffi.platform.mips64.linux",
+      "jnr.ffi.provider.jffi.platform.mips64el.linux",
+      "jnr.ffi.provider.jffi.platform.mipsel.linux",
+      "jnr.ffi.provider.jffi.platform.ppc.aix",
+      "jnr.ffi.provider.jffi.platform.ppc.darwin",
+      "jnr.ffi.provider.jffi.platform.ppc.linux",
+      "jnr.ffi.provider.jffi.platform.ppc64.aix",
+      "jnr.ffi.provider.jffi.platform.ppc64.freebsd",
+      "jnr.ffi.provider.jffi.platform.ppc64.ibmi",
+      "jnr.ffi.provider.jffi.platform.ppc64.linux",
+      "jnr.ffi.provider.jffi.platform.ppc64.openbsd",
+      "jnr.ffi.provider.jffi.platform.ppc64le.linux",
+      "jnr.ffi.provider.jffi.platform.riscv64.linux",
+      "jnr.ffi.provider.jffi.platform.s390.linux",
+      "jnr.ffi.provider.jffi.platform.s390x.linux",
+      "jnr.ffi.provider.jffi.platform.sparc.solaris",
+      "jnr.ffi.provider.jffi.platform.sparcv9.linux",
+      "jnr.ffi.provider.jffi.platform.sparcv9.solaris",
+      "jnr.ffi.provider.jffi.platform.x86_64.darwin",
+      "jnr.ffi.provider.jffi.platform.x86_64.dragonfly",
+      "jnr.ffi.provider.jffi.platform.x86_64.freebsd",
+      "jnr.ffi.provider.jffi.platform.x86_64.linux",
+      "jnr.ffi.provider.jffi.platform.x86_64.midnightbsd",
+      "jnr.ffi.provider.jffi.platform.x86_64.openbsd",
+      "jnr.ffi.provider.jffi.platform.x86_64.solaris",
+      "jnr.ffi.provider.jffi.platform.x86_64.windows",
+      "jnr.ffi.types",
+      "jnr.ffi.util",
+      "jnr.ffi.util.ref",
+      "jnr.ffi.util.ref.internal"
+    ],
+    "com.github.jnr:jnr-netdb": [
+      "jnr.netdb"
+    ],
+    "com.github.jnr:jnr-posix": [
+      "jnr.posix",
+      "jnr.posix.util",
+      "jnr.posix.windows"
+    ],
+    "com.github.jnr:jnr-unixsocket": [
+      "jnr.unixsocket",
+      "jnr.unixsocket.impl"
+    ],
+    "com.github.jnr:jnr-x86asm": [
+      "com.kenai.jnr.x86asm",
+      "jnr.x86asm"
     ],
     "com.github.rholder:guava-retrying": [
       "com.github.rholder.retry"
@@ -2303,6 +2808,22 @@
       "org.h2.value",
       "org.h2.value.lob"
     ],
+    "com.headius:backport9": [
+      "com.headius.backport9.buffer",
+      "com.headius.backport9.modules",
+      "com.headius.backport9.modules.impl",
+      "com.headius.backport9.platform",
+      "com.headius.backport9.stack",
+      "com.headius.backport9.stack.impl"
+    ],
+    "com.headius:invokebinder": [
+      "com.headius.invokebinder",
+      "com.headius.invokebinder.transform"
+    ],
+    "com.headius:options": [
+      "com.headius.options",
+      "com.headius.options.example"
+    ],
     "com.ibm.icu:icu4j": [
       "com.ibm.icu.dev.tool.docs",
       "com.ibm.icu.impl",
@@ -2568,6 +3089,23 @@
       "com.github.difflib.text.deltamerge",
       "com.github.difflib.unifieddiff"
     ],
+    "io.roastedroot:redline": [
+      "io.roastedroot.redline"
+    ],
+    "io.roastedroot:redline-api": [
+      "io.roastedroot.redline.api",
+      "io.roastedroot.redline.api.internal"
+    ],
+    "io.roastedroot:redline-bridge": [
+      "io.roastedroot.redline.bridge"
+    ],
+    "io.roastedroot:redline-bridge:jar:sources": [
+      "io.roastedroot.redline.bridge"
+    ],
+    "io.roastedroot:redline-runner-jffi": [
+      "io.roastedroot.redline.runner",
+      "io.roastedroot.redline.runner.internal"
+    ],
     "io.sweers.autotransient:autotransient": [
       "io.sweers.autotransient"
     ],
@@ -2593,6 +3131,15 @@
       "javax.servlet.annotation",
       "javax.servlet.descriptor",
       "javax.servlet.http"
+    ],
+    "joda-time:joda-time": [
+      "org.joda.time",
+      "org.joda.time.base",
+      "org.joda.time.chrono",
+      "org.joda.time.convert",
+      "org.joda.time.field",
+      "org.joda.time.format",
+      "org.joda.time.tz"
     ],
     "junit:junit": [
       "junit.extensions",
@@ -2627,6 +3174,10 @@
       "org.junit.runners.model",
       "org.junit.runners.parameterized",
       "org.junit.validator"
+    ],
+    "me.qmx.jitescript:jitescript": [
+      "me.qmx.jitescript",
+      "me.qmx.jitescript.util"
     ],
     "net.bytebuddy:byte-buddy": [
       "net.bytebuddy",
@@ -3392,19 +3943,25 @@
       "org.apache.sshd.sftp.server"
     ],
     "org.asciidoctor:asciidoctorj": [
+      "org.asciidoctor.jruby",
+      "org.asciidoctor.jruby.ast.impl",
+      "org.asciidoctor.jruby.converter.internal",
+      "org.asciidoctor.jruby.converter.spi",
+      "org.asciidoctor.jruby.extension.internal",
+      "org.asciidoctor.jruby.extension.processorproxies",
+      "org.asciidoctor.jruby.extension.spi",
+      "org.asciidoctor.jruby.internal",
+      "org.asciidoctor.jruby.log.internal",
+      "org.asciidoctor.jruby.syntaxhighlighter.internal",
+      "org.asciidoctor.jruby.syntaxhighlighter.spi"
+    ],
+    "org.asciidoctor:asciidoctorj-api": [
       "org.asciidoctor",
       "org.asciidoctor.ast",
-      "org.asciidoctor.ast.impl",
-      "org.asciidoctor.cli",
       "org.asciidoctor.converter",
-      "org.asciidoctor.converter.internal",
-      "org.asciidoctor.converter.spi",
       "org.asciidoctor.extension",
-      "org.asciidoctor.extension.internal",
-      "org.asciidoctor.extension.spi",
-      "org.asciidoctor.internal",
       "org.asciidoctor.log",
-      "org.asciidoctor.log.internal"
+      "org.asciidoctor.syntaxhighlighter"
     ],
     "org.assertj:assertj-core": [
       "org.assertj.core.annotation",
@@ -3852,6 +4409,10 @@
       "org.commonmark.ext.front.matter",
       "org.commonmark.ext.front.matter.internal"
     ],
+    "org.crac:crac": [
+      "org.crac",
+      "org.crac.management"
+    ],
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": [
       "org.eclipse.jetty.ee11.servlet",
       "org.eclipse.jetty.ee11.servlet.internal",
@@ -3950,75 +4511,7 @@
       "org.hamcrest.core",
       "org.hamcrest.internal"
     ],
-    "org.jruby:jruby-complete": [
-      "com.headius.invokebinder",
-      "com.headius.invokebinder.transform",
-      "com.headius.modulator",
-      "com.headius.modulator.impl",
-      "com.headius.options",
-      "com.headius.options.example",
-      "com.headius.unsafe.fences",
-      "com.jcraft.jzlib",
-      "com.kenai.constantine",
-      "com.kenai.constantine.platform",
-      "com.kenai.jffi",
-      "com.kenai.jffi.internal",
-      "com.kenai.jnr.x86asm",
-      "com.martiansoftware.nailgun",
-      "com.martiansoftware.nailgun.builtins",
-      "jnr.constants",
-      "jnr.constants.platform",
-      "jnr.constants.platform.darwin",
-      "jnr.constants.platform.fake",
-      "jnr.constants.platform.freebsd",
-      "jnr.constants.platform.linux",
-      "jnr.constants.platform.openbsd",
-      "jnr.constants.platform.solaris",
-      "jnr.constants.platform.windows",
-      "jnr.enxio.channels",
-      "jnr.ffi",
-      "jnr.ffi.annotations",
-      "jnr.ffi.byref",
-      "jnr.ffi.mapper",
-      "jnr.ffi.provider",
-      "jnr.ffi.provider.converters",
-      "jnr.ffi.provider.jffi",
-      "jnr.ffi.provider.jffi.platform.aarch64.linux",
-      "jnr.ffi.provider.jffi.platform.arm.linux",
-      "jnr.ffi.provider.jffi.platform.i386.darwin",
-      "jnr.ffi.provider.jffi.platform.i386.freebsd",
-      "jnr.ffi.provider.jffi.platform.i386.linux",
-      "jnr.ffi.provider.jffi.platform.i386.openbsd",
-      "jnr.ffi.provider.jffi.platform.i386.solaris",
-      "jnr.ffi.provider.jffi.platform.i386.windows",
-      "jnr.ffi.provider.jffi.platform.mips.linux",
-      "jnr.ffi.provider.jffi.platform.mipsel.linux",
-      "jnr.ffi.provider.jffi.platform.ppc.aix",
-      "jnr.ffi.provider.jffi.platform.ppc.darwin",
-      "jnr.ffi.provider.jffi.platform.ppc.linux",
-      "jnr.ffi.provider.jffi.platform.ppc64.linux",
-      "jnr.ffi.provider.jffi.platform.ppc64le.linux",
-      "jnr.ffi.provider.jffi.platform.s390.linux",
-      "jnr.ffi.provider.jffi.platform.s390x.linux",
-      "jnr.ffi.provider.jffi.platform.sparc.solaris",
-      "jnr.ffi.provider.jffi.platform.sparcv9.linux",
-      "jnr.ffi.provider.jffi.platform.sparcv9.solaris",
-      "jnr.ffi.provider.jffi.platform.x86_64.darwin",
-      "jnr.ffi.provider.jffi.platform.x86_64.freebsd",
-      "jnr.ffi.provider.jffi.platform.x86_64.linux",
-      "jnr.ffi.provider.jffi.platform.x86_64.openbsd",
-      "jnr.ffi.provider.jffi.platform.x86_64.solaris",
-      "jnr.ffi.provider.jffi.platform.x86_64.windows",
-      "jnr.ffi.types",
-      "jnr.ffi.util",
-      "jnr.ffi.util.ref",
-      "jnr.ffi.util.ref.internal",
-      "jnr.netdb",
-      "jnr.posix",
-      "jnr.posix.util",
-      "jnr.posix.windows",
-      "jnr.unixsocket",
-      "jnr.x86asm",
+    "org.jruby.jcodings:jcodings": [
       "org.jcodings",
       "org.jcodings.ascii",
       "org.jcodings.constants",
@@ -4028,19 +4521,20 @@
       "org.jcodings.transcode",
       "org.jcodings.transcode.specific",
       "org.jcodings.unicode",
-      "org.jcodings.util",
-      "org.joda.time",
-      "org.joda.time.base",
-      "org.joda.time.chrono",
-      "org.joda.time.convert",
-      "org.joda.time.field",
-      "org.joda.time.format",
-      "org.joda.time.tz",
+      "org.jcodings.util"
+    ],
+    "org.jruby.joni:joni": [
       "org.joni",
       "org.joni.ast",
       "org.joni.bench",
       "org.joni.constants",
-      "org.joni.exception",
+      "org.joni.constants.internal",
+      "org.joni.exception"
+    ],
+    "org.jruby:dirgra": [
+      "org.jruby.dirgra"
+    ],
+    "org.jruby:jruby-base": [
       "org.jruby",
       "org.jruby.anno",
       "org.jruby.ant",
@@ -4055,9 +4549,7 @@
       "org.jruby.compiler",
       "org.jruby.compiler.impl",
       "org.jruby.compiler.util",
-      "org.jruby.dirgra",
       "org.jruby.embed",
-      "org.jruby.embed.bsf",
       "org.jruby.embed.internal",
       "org.jruby.embed.io",
       "org.jruby.embed.jsr223",
@@ -4068,9 +4560,11 @@
       "org.jruby.embed.variable",
       "org.jruby.exceptions",
       "org.jruby.ext",
+      "org.jruby.ext.api",
       "org.jruby.ext.bigdecimal",
       "org.jruby.ext.cgi.escape",
       "org.jruby.ext.coverage",
+      "org.jruby.ext.date",
       "org.jruby.ext.digest",
       "org.jruby.ext.etc",
       "org.jruby.ext.fcntl",
@@ -4078,26 +4572,24 @@
       "org.jruby.ext.ffi.io",
       "org.jruby.ext.ffi.jffi",
       "org.jruby.ext.fiber",
-      "org.jruby.ext.io.wait",
+      "org.jruby.ext.io.nonblock",
       "org.jruby.ext.jruby",
       "org.jruby.ext.mathn",
-      "org.jruby.ext.net.protocol",
-      "org.jruby.ext.nkf",
+      "org.jruby.ext.monitor",
       "org.jruby.ext.pathname",
       "org.jruby.ext.rbconfig",
       "org.jruby.ext.ripper",
-      "org.jruby.ext.securerandom",
+      "org.jruby.ext.set",
       "org.jruby.ext.socket",
-      "org.jruby.ext.stringio",
-      "org.jruby.ext.strscan",
-      "org.jruby.ext.tempfile",
       "org.jruby.ext.thread",
       "org.jruby.ext.timeout",
       "org.jruby.ext.tracepoint",
       "org.jruby.ext.zlib",
+      "org.jruby.gen",
       "org.jruby.internal.runtime",
       "org.jruby.internal.runtime.methods",
       "org.jruby.ir",
+      "org.jruby.ir.builder",
       "org.jruby.ir.dataflow",
       "org.jruby.ir.dataflow.analyses",
       "org.jruby.ir.instructions",
@@ -4113,6 +4605,8 @@
       "org.jruby.ir.representations",
       "org.jruby.ir.runtime",
       "org.jruby.ir.targets",
+      "org.jruby.ir.targets.indy",
+      "org.jruby.ir.targets.simple",
       "org.jruby.ir.transformations.inlining",
       "org.jruby.ir.util",
       "org.jruby.java.addons",
@@ -4123,7 +4617,6 @@
       "org.jruby.java.util",
       "org.jruby.javasupport",
       "org.jruby.javasupport.binding",
-      "org.jruby.javasupport.bsf",
       "org.jruby.javasupport.ext",
       "org.jruby.javasupport.proxy",
       "org.jruby.javasupport.util",
@@ -4131,20 +4624,11 @@
       "org.jruby.lexer.yacc",
       "org.jruby.main",
       "org.jruby.management",
-      "org.jruby.me.qmx.jitescript",
-      "org.jruby.me.qmx.jitescript.util",
-      "org.jruby.org.objectweb.asm",
-      "org.jruby.org.objectweb.asm.commons",
-      "org.jruby.org.objectweb.asm.signature",
-      "org.jruby.org.objectweb.asm.tree",
-      "org.jruby.org.objectweb.asm.tree.analysis",
-      "org.jruby.org.objectweb.asm.util",
       "org.jruby.parser",
       "org.jruby.platform",
       "org.jruby.runtime",
       "org.jruby.runtime.backtrace",
       "org.jruby.runtime.builtin",
-      "org.jruby.runtime.callback",
       "org.jruby.runtime.callsite",
       "org.jruby.runtime.component",
       "org.jruby.runtime.encoding",
@@ -4156,16 +4640,24 @@
       "org.jruby.runtime.profile",
       "org.jruby.runtime.profile.builtin",
       "org.jruby.runtime.scope",
+      "org.jruby.runtime.scopes",
       "org.jruby.specialized",
       "org.jruby.threading",
       "org.jruby.util",
       "org.jruby.util.cli",
       "org.jruby.util.collections",
-      "org.jruby.util.encoding",
       "org.jruby.util.func",
       "org.jruby.util.io",
       "org.jruby.util.log",
-      "org.jruby.util.unsafe"
+      "org.jruby.util.time"
+    ],
+    "org.jruby:jruby-prism": [
+      "org.jruby.prism",
+      "org.jruby.prism.builder",
+      "org.jruby.prism.parser"
+    ],
+    "org.jruby:jzlib": [
+      "com.jcraft.jzlib"
     ],
     "org.jsoup:jsoup": [
       "org.jsoup",
@@ -4323,6 +4815,15 @@
     "org.roaringbitmap:shims": [
       "org.roaringbitmap"
     ],
+    "org.ruby-lang:prism-parser-api": [
+      "org.ruby_lang.prism"
+    ],
+    "org.ruby-lang:prism-parser-wasm": [
+      "org.ruby_lang.prism.wasm"
+    ],
+    "org.ruby-lang:prism-parser-wasm:jar:sources": [
+      "org.ruby_lang.prism.wasm"
+    ],
     "org.slf4j:jcl-over-slf4j": [
       "org.apache.commons.logging",
       "org.apache.commons.logging.impl"
@@ -4410,12 +4911,39 @@
       "args4j:args4j:jar:sources",
       "ch.qos.reload4j:reload4j",
       "ch.qos.reload4j:reload4j:jar:sources",
-      "com.beust:jcommander",
-      "com.beust:jcommander:jar:sources",
+      "ch.randelshofer:fastdoubleparser",
+      "ch.randelshofer:fastdoubleparser:jar:sources",
+      "com.dylibso.chicory:log",
+      "com.dylibso.chicory:log:jar:sources",
+      "com.dylibso.chicory:runtime",
+      "com.dylibso.chicory:runtime:jar:sources",
+      "com.dylibso.chicory:wasi",
+      "com.dylibso.chicory:wasi:jar:sources",
+      "com.dylibso.chicory:wasm",
+      "com.dylibso.chicory:wasm:jar:sources",
       "com.github.ben-manes.caffeine:caffeine",
       "com.github.ben-manes.caffeine:caffeine:jar:sources",
       "com.github.ben-manes.caffeine:guava",
       "com.github.ben-manes.caffeine:guava:jar:sources",
+      "com.github.jnr:jffi",
+      "com.github.jnr:jffi:jar:native",
+      "com.github.jnr:jffi:jar:sources",
+      "com.github.jnr:jnr-a64asm",
+      "com.github.jnr:jnr-a64asm:jar:sources",
+      "com.github.jnr:jnr-constants",
+      "com.github.jnr:jnr-constants:jar:sources",
+      "com.github.jnr:jnr-enxio",
+      "com.github.jnr:jnr-enxio:jar:sources",
+      "com.github.jnr:jnr-ffi",
+      "com.github.jnr:jnr-ffi:jar:sources",
+      "com.github.jnr:jnr-netdb",
+      "com.github.jnr:jnr-netdb:jar:sources",
+      "com.github.jnr:jnr-posix",
+      "com.github.jnr:jnr-posix:jar:sources",
+      "com.github.jnr:jnr-unixsocket",
+      "com.github.jnr:jnr-unixsocket:jar:sources",
+      "com.github.jnr:jnr-x86asm",
+      "com.github.jnr:jnr-x86asm:jar:sources",
       "com.github.rholder:guava-retrying",
       "com.github.rholder:guava-retrying:jar:sources",
       "com.google.auto.factory:auto-factory",
@@ -4487,6 +5015,12 @@
       "com.googlecode.prolog-cafe:prolog-runtime:jar:sources",
       "com.h2database:h2",
       "com.h2database:h2:jar:sources",
+      "com.headius:backport9",
+      "com.headius:backport9:jar:sources",
+      "com.headius:invokebinder",
+      "com.headius:invokebinder:jar:sources",
+      "com.headius:options",
+      "com.headius:options:jar:sources",
       "com.ibm.icu:icu4j",
       "com.ibm.icu:icu4j:jar:sources",
       "com.icegreen:greenmail",
@@ -4521,6 +5055,14 @@
       "io.dropwizard.metrics:metrics-core:jar:sources",
       "io.github.java-diff-utils:java-diff-utils",
       "io.github.java-diff-utils:java-diff-utils:jar:sources",
+      "io.roastedroot:redline",
+      "io.roastedroot:redline-api",
+      "io.roastedroot:redline-api:jar:sources",
+      "io.roastedroot:redline-bridge",
+      "io.roastedroot:redline-bridge:jar:sources",
+      "io.roastedroot:redline-runner-jffi",
+      "io.roastedroot:redline-runner-jffi:jar:sources",
+      "io.roastedroot:redline:jar:sources",
       "io.sweers.autotransient:autotransient",
       "io.sweers.autotransient:autotransient:jar:sources",
       "jakarta.inject:jakarta.inject-api",
@@ -4533,8 +5075,12 @@
       "javax.inject:javax.inject:jar:sources",
       "javax.servlet:javax.servlet-api",
       "javax.servlet:javax.servlet-api:jar:sources",
+      "joda-time:joda-time",
+      "joda-time:joda-time:jar:sources",
       "junit:junit",
       "junit:junit:jar:sources",
+      "me.qmx.jitescript:jitescript",
+      "me.qmx.jitescript:jitescript:jar:sources",
       "net.bytebuddy:byte-buddy",
       "net.bytebuddy:byte-buddy-agent",
       "net.bytebuddy:byte-buddy-agent:jar:sources",
@@ -4600,6 +5146,8 @@
       "org.apache.sshd:sshd-sftp",
       "org.apache.sshd:sshd-sftp:jar:sources",
       "org.asciidoctor:asciidoctorj",
+      "org.asciidoctor:asciidoctorj-api",
+      "org.asciidoctor:asciidoctorj-api:jar:sources",
       "org.asciidoctor:asciidoctorj:jar:sources",
       "org.assertj:assertj-core",
       "org.assertj:assertj-core:jar:sources",
@@ -4625,6 +5173,8 @@
       "org.commonmark:commonmark-ext-yaml-front-matter",
       "org.commonmark:commonmark-ext-yaml-front-matter:jar:sources",
       "org.commonmark:commonmark:jar:sources",
+      "org.crac:crac",
+      "org.crac:crac:jar:sources",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-nested",
@@ -4655,8 +5205,21 @@
       "org.hamcrest:hamcrest-core",
       "org.hamcrest:hamcrest-core:jar:sources",
       "org.hamcrest:hamcrest:jar:sources",
-      "org.jruby:jruby-complete",
-      "org.jruby:jruby-complete:jar:sources",
+      "org.jruby.jcodings:jcodings",
+      "org.jruby.jcodings:jcodings:jar:sources",
+      "org.jruby.joni:joni",
+      "org.jruby.joni:joni:jar:sources",
+      "org.jruby:dirgra",
+      "org.jruby:dirgra:jar:sources",
+      "org.jruby:jruby",
+      "org.jruby:jruby-base",
+      "org.jruby:jruby-base:jar:sources",
+      "org.jruby:jruby-prism",
+      "org.jruby:jruby-prism:jar:sources",
+      "org.jruby:jruby-stdlib",
+      "org.jruby:jruby:jar:sources",
+      "org.jruby:jzlib",
+      "org.jruby:jzlib:jar:sources",
       "org.jsoup:jsoup",
       "org.jsoup:jsoup:jar:sources",
       "org.jspecify:jspecify",
@@ -4687,6 +5250,10 @@
       "org.roaringbitmap:RoaringBitmap:jar:sources",
       "org.roaringbitmap:shims",
       "org.roaringbitmap:shims:jar:sources",
+      "org.ruby-lang:prism-parser-api",
+      "org.ruby-lang:prism-parser-api:jar:sources",
+      "org.ruby-lang:prism-parser-wasm",
+      "org.ruby-lang:prism-parser-wasm:jar:sources",
       "org.slf4j:jcl-over-slf4j",
       "org.slf4j:jcl-over-slf4j:jar:sources",
       "org.slf4j:slf4j-api",
@@ -4710,12 +5277,39 @@
       "args4j:args4j:jar:sources",
       "ch.qos.reload4j:reload4j",
       "ch.qos.reload4j:reload4j:jar:sources",
-      "com.beust:jcommander",
-      "com.beust:jcommander:jar:sources",
+      "ch.randelshofer:fastdoubleparser",
+      "ch.randelshofer:fastdoubleparser:jar:sources",
+      "com.dylibso.chicory:log",
+      "com.dylibso.chicory:log:jar:sources",
+      "com.dylibso.chicory:runtime",
+      "com.dylibso.chicory:runtime:jar:sources",
+      "com.dylibso.chicory:wasi",
+      "com.dylibso.chicory:wasi:jar:sources",
+      "com.dylibso.chicory:wasm",
+      "com.dylibso.chicory:wasm:jar:sources",
       "com.github.ben-manes.caffeine:caffeine",
       "com.github.ben-manes.caffeine:caffeine:jar:sources",
       "com.github.ben-manes.caffeine:guava",
       "com.github.ben-manes.caffeine:guava:jar:sources",
+      "com.github.jnr:jffi",
+      "com.github.jnr:jffi:jar:native",
+      "com.github.jnr:jffi:jar:sources",
+      "com.github.jnr:jnr-a64asm",
+      "com.github.jnr:jnr-a64asm:jar:sources",
+      "com.github.jnr:jnr-constants",
+      "com.github.jnr:jnr-constants:jar:sources",
+      "com.github.jnr:jnr-enxio",
+      "com.github.jnr:jnr-enxio:jar:sources",
+      "com.github.jnr:jnr-ffi",
+      "com.github.jnr:jnr-ffi:jar:sources",
+      "com.github.jnr:jnr-netdb",
+      "com.github.jnr:jnr-netdb:jar:sources",
+      "com.github.jnr:jnr-posix",
+      "com.github.jnr:jnr-posix:jar:sources",
+      "com.github.jnr:jnr-unixsocket",
+      "com.github.jnr:jnr-unixsocket:jar:sources",
+      "com.github.jnr:jnr-x86asm",
+      "com.github.jnr:jnr-x86asm:jar:sources",
       "com.github.rholder:guava-retrying",
       "com.github.rholder:guava-retrying:jar:sources",
       "com.google.auto.factory:auto-factory",
@@ -4787,6 +5381,12 @@
       "com.googlecode.prolog-cafe:prolog-runtime:jar:sources",
       "com.h2database:h2",
       "com.h2database:h2:jar:sources",
+      "com.headius:backport9",
+      "com.headius:backport9:jar:sources",
+      "com.headius:invokebinder",
+      "com.headius:invokebinder:jar:sources",
+      "com.headius:options",
+      "com.headius:options:jar:sources",
       "com.ibm.icu:icu4j",
       "com.ibm.icu:icu4j:jar:sources",
       "com.icegreen:greenmail",
@@ -4821,6 +5421,14 @@
       "io.dropwizard.metrics:metrics-core:jar:sources",
       "io.github.java-diff-utils:java-diff-utils",
       "io.github.java-diff-utils:java-diff-utils:jar:sources",
+      "io.roastedroot:redline",
+      "io.roastedroot:redline-api",
+      "io.roastedroot:redline-api:jar:sources",
+      "io.roastedroot:redline-bridge",
+      "io.roastedroot:redline-bridge:jar:sources",
+      "io.roastedroot:redline-runner-jffi",
+      "io.roastedroot:redline-runner-jffi:jar:sources",
+      "io.roastedroot:redline:jar:sources",
       "io.sweers.autotransient:autotransient",
       "io.sweers.autotransient:autotransient:jar:sources",
       "jakarta.inject:jakarta.inject-api",
@@ -4833,8 +5441,12 @@
       "javax.inject:javax.inject:jar:sources",
       "javax.servlet:javax.servlet-api",
       "javax.servlet:javax.servlet-api:jar:sources",
+      "joda-time:joda-time",
+      "joda-time:joda-time:jar:sources",
       "junit:junit",
       "junit:junit:jar:sources",
+      "me.qmx.jitescript:jitescript",
+      "me.qmx.jitescript:jitescript:jar:sources",
       "net.bytebuddy:byte-buddy",
       "net.bytebuddy:byte-buddy-agent",
       "net.bytebuddy:byte-buddy-agent:jar:sources",
@@ -4900,6 +5512,8 @@
       "org.apache.sshd:sshd-sftp",
       "org.apache.sshd:sshd-sftp:jar:sources",
       "org.asciidoctor:asciidoctorj",
+      "org.asciidoctor:asciidoctorj-api",
+      "org.asciidoctor:asciidoctorj-api:jar:sources",
       "org.asciidoctor:asciidoctorj:jar:sources",
       "org.assertj:assertj-core",
       "org.assertj:assertj-core:jar:sources",
@@ -4925,6 +5539,8 @@
       "org.commonmark:commonmark-ext-yaml-front-matter",
       "org.commonmark:commonmark-ext-yaml-front-matter:jar:sources",
       "org.commonmark:commonmark:jar:sources",
+      "org.crac:crac",
+      "org.crac:crac:jar:sources",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-nested",
@@ -4955,8 +5571,21 @@
       "org.hamcrest:hamcrest-core",
       "org.hamcrest:hamcrest-core:jar:sources",
       "org.hamcrest:hamcrest:jar:sources",
-      "org.jruby:jruby-complete",
-      "org.jruby:jruby-complete:jar:sources",
+      "org.jruby.jcodings:jcodings",
+      "org.jruby.jcodings:jcodings:jar:sources",
+      "org.jruby.joni:joni",
+      "org.jruby.joni:joni:jar:sources",
+      "org.jruby:dirgra",
+      "org.jruby:dirgra:jar:sources",
+      "org.jruby:jruby",
+      "org.jruby:jruby-base",
+      "org.jruby:jruby-base:jar:sources",
+      "org.jruby:jruby-prism",
+      "org.jruby:jruby-prism:jar:sources",
+      "org.jruby:jruby-stdlib",
+      "org.jruby:jruby:jar:sources",
+      "org.jruby:jzlib",
+      "org.jruby:jzlib:jar:sources",
       "org.jsoup:jsoup",
       "org.jsoup:jsoup:jar:sources",
       "org.jspecify:jspecify",
@@ -4987,6 +5616,10 @@
       "org.roaringbitmap:RoaringBitmap:jar:sources",
       "org.roaringbitmap:shims",
       "org.roaringbitmap:shims:jar:sources",
+      "org.ruby-lang:prism-parser-api",
+      "org.ruby-lang:prism-parser-api:jar:sources",
+      "org.ruby-lang:prism-parser-wasm",
+      "org.ruby-lang:prism-parser-wasm:jar:sources",
       "org.slf4j:jcl-over-slf4j",
       "org.slf4j:jcl-over-slf4j:jar:sources",
       "org.slf4j:slf4j-api",
@@ -5058,6 +5691,16 @@
     "com.ryanharter.auto.value:auto-value-gson-factory": {
       "javax.annotation.processing.Processor": [
         "com.ryanharter.auto.value.gson.factory.AutoValueGsonAdapterFactoryProcessor"
+      ]
+    },
+    "io.roastedroot:redline-runner-jffi": {
+      "io.roastedroot.redline.api.RedlineMachineFactoryProvider": [
+        "io.roastedroot.redline.runner.JffiMachineFactoryProvider"
+      ]
+    },
+    "io.roastedroot:redline-runner-jffi:jar:sources": {
+      "io.roastedroot.redline.api.RedlineMachineFactoryProvider": [
+        "io.roastedroot.redline.runner.JffiMachineFactoryProvider"
       ]
     },
     "net.sourceforge.nekohtml:nekohtml:jar:sources": {
@@ -5310,6 +5953,22 @@
         "org.apache.sshd.sftp.server.SftpSubsystemFactory"
       ]
     },
+    "org.asciidoctor:asciidoctorj": {
+      "org.asciidoctor.Asciidoctor": [
+        "org.asciidoctor.jruby.internal.JRubyAsciidoctor"
+      ],
+      "org.asciidoctor.extension.ProcessorFactory": [
+        "org.asciidoctor.jruby.internal.ProcessorFactoryImpl"
+      ]
+    },
+    "org.asciidoctor:asciidoctorj:jar:sources": {
+      "org.asciidoctor.Asciidoctor": [
+        "org.asciidoctor.jruby.internal.JRubyAsciidoctor"
+      ],
+      "org.asciidoctor.extension.ProcessorFactory": [
+        "org.asciidoctor.jruby.internal.ProcessorFactoryImpl"
+      ]
+    },
     "org.bouncycastle:bcprov-jdk18on": {
       "java.security.Provider": [
         "org.bouncycastle.jce.provider.BouncyCastleProvider",
@@ -5334,10 +5993,17 @@
         "org.eclipse.jetty.http.Http11FieldPreEncoder"
       ]
     },
-    "org.jruby:jruby-complete": {
+    "org.jruby.jcodings:jcodings": {
       "java.nio.charset.spi.CharsetProvider": [
         "org.jcodings.spi.Charsets"
-      ],
+      ]
+    },
+    "org.jruby.jcodings:jcodings:jar:sources": {
+      "java.nio.charset.spi.CharsetProvider": [
+        "org.jcodings.spi.Charsets"
+      ]
+    },
+    "org.jruby:jruby-base": {
       "java.nio.file.spi.FileTypeDetector": [
         "org.jruby.util.RubyFileTypeDetector"
       ],
@@ -5345,12 +6011,22 @@
         "org.jruby.embed.jsr223.JRubyEngineFactory"
       ]
     },
-    "org.jruby:jruby-complete:jar:sources": {
+    "org.jruby:jruby-base:jar:sources": {
       "java.nio.file.spi.FileTypeDetector": [
         "org.jruby.util.RubyFileTypeDetector"
       ],
       "javax.script.ScriptEngineFactory": [
         "org.jruby.embed.jsr223.JRubyEngineFactory"
+      ]
+    },
+    "org.jruby:jruby-prism": {
+      "org.jruby.parser.ParserProvider": [
+        "org.jruby.prism.ParserProviderPrism"
+      ]
+    },
+    "org.jruby:jruby-prism:jar:sources": {
+      "org.jruby.parser.ParserProvider": [
+        "org.jruby.prism.ParserProviderPrism"
       ]
     },
     "org.openjdk.jmh:jmh-generator-annprocess": {

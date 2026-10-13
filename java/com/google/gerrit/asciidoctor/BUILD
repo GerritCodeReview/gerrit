@@ -2,6 +2,10 @@ load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 
 java_binary(
     name = "asciidoc",
+    jvm_flags = [
+        "--enable-native-access=ALL-UNNAMED",
+        "--sun-misc-unsafe-memory-access=allow",
+    ],
     main_class = "com.google.gerrit.asciidoctor.AsciiDoctor",
     visibility = ["//visibility:public"],
     runtime_deps = [":asciidoc_lib"],
@@ -20,6 +24,10 @@ java_library(
 
 java_binary(
     name = "doc_indexer",
+    jvm_flags = [
+        "--enable-native-access=ALL-UNNAMED",
+        "--sun-misc-unsafe-memory-access=allow",
+    ],
     main_class = "com.google.gerrit.asciidoctor.DocIndexer",
     visibility = ["//visibility:public"],
     runtime_deps = [":doc_indexer_lib"],

@@ -1,6 +1,7 @@
 {
   "name": "gerrit",
   "version": "3.11.0",
+  "packageManager": "pnpm@12.13.0",
   "description": "Gerrit Code Review",
   "dependencies": {
     "@typescript-eslint/parser": "^8.32.0"

@@ -34,6 +34,14 @@ use_repo(rules_ts_ext, "npm_typescript")
 node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
 node.toolchain(node_version_from_nvmrc = "//:.nvmrc")
 
+pnpm = use_extension(
+    "@aspect_rules_js//npm:extensions.bzl",
+    "pnpm",
+    dev_dependency = True,
+)
+pnpm.pnpm(pnpm_version = "12.13.0")
+use_repo(pnpm, "pnpm")
+
 npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm")
 npm.npm_translate_lock(
     name = "npm",
@@ -68,7 +76,6 @@ npm.npm_translate_lock(
     yarn_lock = "//polygerrit-ui/app:yarn.lock",
 )
 use_repo(npm, "ui_npm")
-
 npm.npm_translate_lock(
     name = "ui_dev_npm",
     data = [
@@ -80,7 +87,6 @@ npm.npm_translate_lock(
     yarn_lock = "//polygerrit-ui:yarn.lock",
 )
 use_repo(npm, "ui_dev_npm")
-
 npm.npm_translate_lock(
     name = "tools_npm",
     data = [
@@ -92,7 +98,6 @@ npm.npm_translate_lock(
     yarn_lock = "//tools/node_tools:yarn.lock",
 )
 use_repo(npm, "tools_npm")
-
 npm.npm_translate_lock(
     name = "plugins_npm",
     data = [

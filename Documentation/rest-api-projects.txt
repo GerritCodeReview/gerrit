@@ -1696,12 +1696,15 @@ All commits in the path between the base commit and the target commit must be
 visible to the caller.
 Private changes that the caller cannot access will result in a 404 error.
 
+The `name-only` option is also required; requests without it are rejected
+with `400 Bad Request`.
+
 The response format is identical to the
 link:rest-api-changes.html#list-files[List Files] endpoint for changes.
 
 .Request
 ----
-  GET /projects/my-project/commits/6d2a3adb10e844c33617fc948dbeb88e868d396e/diff?base=a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96 HTTP/1.0
+  GET /projects/my-project/commits/6d2a3adb10e844c33617fc948dbeb88e868d396e/diff?base=a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96&name-only HTTP/1.0
 ----
 
 .Response

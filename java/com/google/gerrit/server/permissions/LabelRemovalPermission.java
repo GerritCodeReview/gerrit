@@ -21,7 +21,7 @@ import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.server.util.LabelVote;
 
 /** Permission representing a label removal. */
-public class LabelRemovalPermission extends AbstractLabelPermission {
+public final class LabelRemovalPermission extends AbstractLabelPermission {
   /**
    * Construct a reference to a label removal permission.
    *
@@ -46,7 +46,7 @@ public class LabelRemovalPermission extends AbstractLabelPermission {
   }
 
   /** A {@link LabelRemovalPermission} at a specific value. */
-  public static class WithValue extends AbstractLabelPermission.WithValue {
+  public static final class WithValue extends AbstractLabelPermission.WithValue {
     /**
      * Construct a reference to a label removal at a specific value.
      *

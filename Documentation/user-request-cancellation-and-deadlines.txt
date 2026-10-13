@@ -167,7 +167,7 @@ and the cancellation reason:
 |git push       |Client Disconnected|The error status is 'Client Closed Request'.
 |               |Server-side deadline exceeded|The error status is 'Server Deadline Exceeded'.
 |               |Client-provided deadline exceeded|The error status is 'Client Provided Deadline Exceeded'.
-|git clone/fetch|Not supported.
+|git clone/fetch 2+|Not supported.
 |=======================
 
 This means clients always get a proper error message telling the user why the

@@ -1101,6 +1101,8 @@ Exhibit B - “Incompatible With Secondary Licenses” Notice
 
 ----
 
+----
+
 Eclipse Public License, Version 1.0 (EPL-1.0)
 
 THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC
@@ -1319,7 +1321,6 @@ year after the cause of action arose. Each party waives its rights to a
 jury trial in any resulting litigation.
 ----
 
-----
 Export Control Classification Number (ECCN)
 
 As far as we know, the U.S. Export Control Classification Number

@@ -16,6 +16,41 @@
       "message": "@josiecuff@google.com @hariprak@google.com any objection on these AI guidelines?",
       "revId": "7a4725ddc94ed8248feff93885aa6c0fa72ef1dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f57be6e0_e660a41f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-10-13T15:05:25Z",
+      "side": 1,
+      "message": "Google\u0027s policy permits submissions containing tool- or AI-generated material provided that the true origins of the code are not misrepresented, while maintaining that the tool cannot be credited as an author. this section deviates from that",
+      "fixSuggestions": [
+        {
+          "fixId": "21d4f77f_ea6a66ad",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "Documentation/dev-contributing.txt",
+              "range": {
+                "startLine": 127,
+                "startChar": 0,
+                "endLine": 131,
+                "endChar": 0
+              },
+              "replacement": "We explicitly reject any assignment of authorship or co-authorship\n(e.g., `Author:` or `Co-Authored-By:` git trailers) to an AI model, bot,\nor generative tool. Submissions containing tool- or AI-generated material are\npermitted provided that the true origins of the code are not misrepresented,\nwhile maintaining that the tool cannot be credited as an author. The human\nsubmitting the change is the sole recognized responsible author of the code.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7a4725ddc94ed8248feff93885aa6c0fa72ef1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -62,7 +62,7 @@ public class H2CacheFactoryTest {
     SqlStore<String, String> store = invokeNewSqlStore(factory, def, 1L);
 
     assertThat(readField(store, "url"))
-        .isEqualTo("jdbc:h2:file:" + cacheDir.resolve("demo-cache-v2").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + cacheDir.resolve("demo-cache-v2").toAbsolutePath());
   }
 
   @SuppressWarnings("unchecked")

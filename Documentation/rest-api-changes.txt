@@ -9007,7 +9007,7 @@ The `FlowExpressionInfo` entity contains information about a flow expression. A
 flow expression defines an action that should be triggered when a condition
 becomes satisfied.
 
-[options="header",cols="1,6"]
+[options="header",cols="1,^1,5"]
 |========================
 |Field Name  ||Description
 |`condition` ||The condition which must be satisfied for the action to be

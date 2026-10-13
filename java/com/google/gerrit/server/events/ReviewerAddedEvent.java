@@ -19,7 +19,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class ReviewerAddedEvent extends PatchSetEvent {
-  static final String TYPE = "reviewer-added";
+  public static final String TYPE = "reviewer-added";
   public Supplier<AccountAttribute> reviewer;
   public Supplier<AccountAttribute> adder;
 

@@ -33,20 +33,13 @@ final class SequenceShowCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
-    int current;
-    switch (name) {
-      case "changes":
-        current = sequences.currentChangeId();
-        break;
-      case "accounts":
-        current = sequences.currentAccountId();
-        break;
-      case "groups":
-        current = sequences.currentGroupId();
-        break;
-      default:
-        throw die("Unknown sequence name: " + name);
-    }
+    int current =
+        switch (name) {
+          case "changes" -> sequences.currentChangeId();
+          case "accounts" -> sequences.currentAccountId();
+          case "groups" -> sequences.currentGroupId();
+          default -> throw die("Unknown sequence name: " + name);
+        };
     stdout.print(current);
     stdout.print('\n');
     stdout.flush();

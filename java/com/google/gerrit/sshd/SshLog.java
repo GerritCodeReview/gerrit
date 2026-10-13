@@ -188,24 +188,13 @@ class SshLog implements LifecycleListener, GerritConfigListener {
     event.setProperty(P_USER_CPU, ctx.getUserCpu() + "ms");
     event.setProperty(P_MEMORY, String.valueOf(ctx.getAllocatedMemory()));
 
-    final String status;
-    switch (exitValue) {
-      case BaseCommand.STATUS_CANCEL:
-        status = "killed";
-        break;
-
-      case BaseCommand.STATUS_NOT_FOUND:
-        status = "not-found";
-        break;
-
-      case BaseCommand.STATUS_NOT_ADMIN:
-        status = "not-admin";
-        break;
-
-      default:
-        status = String.valueOf(exitValue);
-        break;
-    }
+    final String status =
+        switch (exitValue) {
+          case BaseCommand.STATUS_CANCEL -> "killed";
+          case BaseCommand.STATUS_NOT_FOUND -> "not-found";
+          case BaseCommand.STATUS_NOT_ADMIN -> "not-admin";
+          default -> String.valueOf(exitValue);
+        };
     event.setProperty(P_STATUS, status);
     String peerAgent = sshSession.getPeerAgent();
     if (peerAgent != null) {

@@ -121,18 +121,11 @@ public class SmtpEmailSender implements EmailSender {
     smtpEncryption = cfg.getEnum("sendemail", null, "smtpencryption", Encryption.NONE);
     sslVerify = cfg.getBoolean("sendemail", null, "sslverify", true);
 
-    final int defaultPort;
-    switch (smtpEncryption) {
-      case SSL:
-        defaultPort = 465;
-        break;
-
-      case NONE:
-      case TLS:
-      default:
-        defaultPort = 25;
-        break;
-    }
+    final int defaultPort =
+        switch (smtpEncryption) {
+          case SSL -> 465;
+          case NONE, TLS -> 25;
+        };
     smtpPort = cfg.getInt("sendemail", null, "smtpserverport", defaultPort);
 
     smtpUser = cfg.getString("sendemail", null, "smtpuser");

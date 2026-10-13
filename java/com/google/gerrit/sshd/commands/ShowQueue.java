@@ -143,23 +143,11 @@ public final class ShowQueue extends SshCommand {
 
   private void print(List<TaskInfo> tasks, long now, boolean viewAll, int threadPoolSize) {
     for (TaskInfo task : tasks) {
-      String start;
-      switch (task.state) {
-        case DONE:
-        case CANCELLED:
-        case PARKED:
-        case STARTING:
-        case RUNNING:
-        case STOPPING:
-        case READY:
-          start = format(task.state);
-          break;
-        case OTHER:
-        case SLEEPING:
-        default:
-          start = time(now, task.delay);
-          break;
-      }
+      String start =
+          switch (task.state) {
+            case DONE, CANCELLED, PARKED, STARTING, RUNNING, STOPPING, READY -> format(task.state);
+            case SLEEPING, OTHER -> time(now, task.delay);
+          };
 
       // Shows information about tasks depending on the user rights
       if (viewAll || task.projectName == null) {

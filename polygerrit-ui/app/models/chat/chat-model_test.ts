@@ -12,8 +12,13 @@ import {FilesModel} from '../change/files-model';
 import {UserModel} from '../user/user-model';
 import {BehaviorSubject} from 'rxjs';
 import {createParsedChange} from '../../test/test-data-generators';
-import {AiCodeReviewProvider, ChatRequest} from '../../api/ai-code-review';
+import {
+  AiCodeReviewProvider,
+  ChatRequest,
+  MISSING_API_TOKEN_ERROR_NAME,
+} from '../../api/ai-code-review';
 
+import {waitEventLoop} from '../../test/test-utils';
 import sinon from 'sinon';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
@@ -135,6 +140,19 @@ suite('chat-model tests', () => {
     assert.isDefined(state.customActions);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     assert.deepEqual(state.customActions, customActions as any);
+  });
+
+  test('getModels rejection stores message and error name', async () => {
+    const error = new Error('No API token configured.');
+    error.name = MISSING_API_TOKEN_ERROR_NAME;
+    (provider.getModels as sinon.SinonStub).rejects(error);
+
+    changeModel.updateStateChange(createParsedChange());
+    await waitEventLoop();
+
+    const state = model.getState();
+    assert.equal(state.modelsLoadingError, 'No API token configured.');
+    assert.equal(state.modelsLoadingErrorName, MISSING_API_TOKEN_ERROR_NAME);
   });
 
   test('chat uses selected model', async () => {

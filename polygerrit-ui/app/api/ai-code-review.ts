@@ -262,6 +262,20 @@ export declare interface Models {
   privacy_url?: string;
 }
 
+/**
+ * The `name` of the error that `AiCodeReviewProvider.getModels()` rejects with
+ * when the user has not configured an API token. Gerrit then links the user to
+ * the settings, where the token can be added.
+ */
+export const MISSING_API_TOKEN_ERROR_NAME = 'MissingApiTokenError';
+
+/**
+ * The `name` of the error that `AiCodeReviewProvider.getModels()` rejects with
+ * when the provider could not load its AI providers, e.g. because of a server
+ * error. Gerrit then only shows the error message.
+ */
+export const AI_PROVIDERS_LOADING_ERROR_NAME = 'AiProvidersLoadingError';
+
 export declare interface Actions {
   /**
    * The actions available to the user. Should be displayed in the UI in the
@@ -338,6 +352,12 @@ export declare interface AiCodeReviewProvider {
 
   /**
    * Get available models for the given change.
+   *
+   * If the models cannot be loaded, reject with an `Error`. Its message is
+   * shown to the user. Set its `name` to `MISSING_API_TOKEN_ERROR_NAME` if the
+   * user has not configured an API token, so that Gerrit can link the user to
+   * the settings, or to `AI_PROVIDERS_LOADING_ERROR_NAME` if the AI providers
+   * could not be loaded.
    */
   getModels?(change: ChangeInfo): Promise<Models>;
 

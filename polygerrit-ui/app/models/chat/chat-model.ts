@@ -205,6 +205,9 @@ export declare interface ChatState extends ConversationState {
   readonly selectedModelId?: string;
   // Error message if the chat models failed to load.
   readonly modelsLoadingError?: string;
+  // Name of the error if the chat models failed to load, e.g.
+  // MISSING_API_TOKEN_ERROR_NAME.
+  readonly modelsLoadingErrorName?: string;
 
   // Chat actions for the current CL.
   readonly actions?: Actions;
@@ -258,6 +261,11 @@ export class ChatModel extends Model<ChatState> {
   readonly modelsLoadingError$: Observable<string | undefined> = select(
     this.state$,
     chatState => chatState.modelsLoadingError
+  );
+
+  readonly modelsLoadingErrorName$: Observable<string | undefined> = select(
+    this.state$,
+    chatState => chatState.modelsLoadingErrorName
   );
 
   readonly actions$: Observable<readonly Action[]> = select(
@@ -410,6 +418,7 @@ export class ChatModel extends Model<ChatState> {
         models: undefined,
         selectedModelId: undefined,
         modelsLoadingError: undefined,
+        modelsLoadingErrorName: undefined,
         actions: undefined,
         customActions: undefined,
         actionsLoadingError: undefined,
@@ -832,6 +841,7 @@ export class ChatModel extends Model<ChatState> {
         this.updateState({
           models,
           modelsLoadingError: undefined,
+          modelsLoadingErrorName: undefined,
           customActions: models.custom_actions,
         });
       })
@@ -839,6 +849,7 @@ export class ChatModel extends Model<ChatState> {
         this.updateState({
           models: undefined,
           modelsLoadingError: error.message,
+          modelsLoadingErrorName: error.name,
         });
         console.error('Failed to get chat models', error);
       });

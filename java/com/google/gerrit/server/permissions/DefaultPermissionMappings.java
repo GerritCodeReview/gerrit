@@ -193,28 +193,22 @@ public class DefaultPermissionMappings {
   }
 
   public static String labelPermissionName(AbstractLabelPermission labelPermission) {
-    if (labelPermission instanceof LabelPermission) {
-      if (labelPermission.forUser() == ForUser.ON_BEHALF_OF) {
-        return Permission.forLabelAs(labelPermission.label());
-      }
-      return Permission.forLabel(labelPermission.label());
-    } else if (labelPermission instanceof LabelRemovalPermission) {
-      return Permission.forRemoveLabel(labelPermission.label());
-    }
-    throw new IllegalStateException("invalid AbstractLabelPermission subtype");
+    return switch (labelPermission) {
+      case LabelPermission lp when lp.forUser() == ForUser.ON_BEHALF_OF ->
+          Permission.forLabelAs(lp.label());
+      case LabelPermission lp -> Permission.forLabel(lp.label());
+      case LabelRemovalPermission lrp -> Permission.forRemoveLabel(lrp.label());
+    };
   }
 
   // TODO(dborowitz): Can these share a common superinterface?
   public static String labelPermissionName(AbstractLabelPermission.WithValue labelPermission) {
-    if (labelPermission instanceof LabelPermission.WithValue) {
-      if (labelPermission.forUser() == ForUser.ON_BEHALF_OF) {
-        return Permission.forLabelAs(labelPermission.label());
-      }
-      return Permission.forLabel(labelPermission.label());
-    } else if (labelPermission instanceof LabelRemovalPermission.WithValue) {
-      return Permission.forRemoveLabel(labelPermission.label());
-    }
-    throw new IllegalStateException("invalid AbstractLabelPermission.WithValue subtype");
+    return switch (labelPermission) {
+      case LabelPermission.WithValue lp when lp.forUser() == ForUser.ON_BEHALF_OF ->
+          Permission.forLabelAs(lp.label());
+      case LabelPermission.WithValue lp -> Permission.forLabel(lp.label());
+      case LabelRemovalPermission.WithValue lrp -> Permission.forRemoveLabel(lrp.label());
+    };
   }
 
   private DefaultPermissionMappings() {}

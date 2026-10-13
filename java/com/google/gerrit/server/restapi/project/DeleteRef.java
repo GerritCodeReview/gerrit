@@ -262,25 +262,21 @@ public class DeleteRef {
   }
 
   private void appendAndLogErrorMessage(StringBuilder errorMessages, ReceiveCommand cmd) {
-    String msg;
-    switch (cmd.getResult()) {
-      case REJECTED_CURRENT_BRANCH:
-        msg = format("Cannot delete %s: it is the current branch", cmd.getRefName());
-        break;
-      case REJECTED_OTHER_REASON:
-        msg = format("Cannot delete %s: %s", cmd.getRefName(), cmd.getMessage());
-        break;
-      case LOCK_FAILURE:
-      case NOT_ATTEMPTED:
-      case OK:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_NOCREATE:
-      case REJECTED_NODELETE:
-      case REJECTED_NONFASTFORWARD:
-      default:
-        msg = format("Cannot delete %s: %s", cmd.getRefName(), cmd.getResult());
-        break;
-    }
+    String msg =
+        switch (cmd.getResult()) {
+          case REJECTED_CURRENT_BRANCH ->
+              format("Cannot delete %s: it is the current branch", cmd.getRefName());
+          case REJECTED_OTHER_REASON ->
+              format("Cannot delete %s: %s", cmd.getRefName(), cmd.getMessage());
+          case NOT_ATTEMPTED,
+              REJECTED_NOCREATE,
+              REJECTED_NODELETE,
+              REJECTED_NONFASTFORWARD,
+              REJECTED_MISSING_OBJECT,
+              LOCK_FAILURE,
+              OK ->
+              format("Cannot delete %s: %s", cmd.getRefName(), cmd.getResult());
+        };
     logger.atSevere().log("%s", msg);
     errorMessages.append(msg);
     errorMessages.append("\n");

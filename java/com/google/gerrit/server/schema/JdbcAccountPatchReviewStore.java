@@ -84,15 +84,11 @@ public abstract class JdbcAccountPatchReviewStore
       if (url == null || url.contains(H2_DB)) {
         String lockType = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, H2_LOCK_TYPE);
         switch (lockType != null ? lockType : "") {
-          case "":
-            impl = H2AccountPatchReviewStore.class;
-            break;
-          case H2_LOCK_TYPE_JGIT:
-            impl = H2JGitLockAccountPatchReviewStore.class;
-            break;
-          default:
-            throw new IllegalArgumentException(
-                "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
+          case "" -> impl = H2AccountPatchReviewStore.class;
+          case H2_LOCK_TYPE_JGIT -> impl = H2JGitLockAccountPatchReviewStore.class;
+          default ->
+              throw new IllegalArgumentException(
+                  "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
         }
       } else if (url.contains(POSTGRESQL)) {
         impl = PostgresqlAccountPatchReviewStore.class;
@@ -118,15 +114,13 @@ public abstract class JdbcAccountPatchReviewStore
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null || url.contains(H2_DB)) {
       String lockType = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, H2_LOCK_TYPE);
-      switch (lockType != null ? lockType : "") {
-        case "":
-          return new H2AccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
-        case H2_LOCK_TYPE_JGIT:
-          return new H2JGitLockAccountPatchReviewStore(cfg, sitePaths);
-        default:
-          throw new IllegalArgumentException(
-              "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
-      }
+      return switch (lockType != null ? lockType : "") {
+        case "" -> new H2AccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
+        case H2_LOCK_TYPE_JGIT -> new H2JGitLockAccountPatchReviewStore(cfg, sitePaths);
+        default ->
+            throw new IllegalArgumentException(
+                "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
+      };
     }
     if (url.contains(POSTGRESQL)) {
       return new PostgresqlAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);

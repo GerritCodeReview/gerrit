@@ -92,7 +92,18 @@ public class GerritServerTestRule implements ServerTestRule {
           // disable them using the command line flag.
           assume().that(SshMode.useSsh()).isTrue();
         }
-        statement.evaluate();
+        try {
+          statement.evaluate();
+        } catch (Throwable t) {
+          // Also stop per-test servers when the test fails or is skipped by an assumption,
+          // otherwise their threads keep the whole server reachable for the rest of the run.
+          try {
+            afterTest();
+          } catch (Throwable e) {
+            t.addSuppressed(e);
+          }
+          throw t;
+        }
         afterTest();
       }
     };
@@ -100,7 +111,7 @@ public class GerritServerTestRule implements ServerTestRule {
 
   public void afterTest() throws Exception {
     closeSsh();
-    if (server != commonServer) {
+    if (server != null && server != commonServer) {
       server.close();
       server = null;
     }

@@ -635,16 +635,11 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       input.name = Strings.nullToEmpty(input.name);
       input.email = Strings.nullToEmpty(input.email);
 
-      RefPermission perm;
-      switch (input.type) {
-        case AUTHOR:
-          perm = RefPermission.FORGE_AUTHOR;
-          break;
-        case COMMITTER:
-        default:
-          perm = RefPermission.FORGE_COMMITTER;
-          break;
-      }
+      RefPermission perm =
+          switch (input.type) {
+            case AUTHOR -> RefPermission.FORGE_AUTHOR;
+            case COMMITTER -> RefPermission.FORGE_COMMITTER;
+          };
 
       PersonIdent newIdent =
           new PersonIdent(input.name, input.email, TimeUtil.now(), serverIdent.get().getZoneId());

@@ -91,27 +91,17 @@ public class GarbageCollectionCommand extends SshCommand {
             .run(projectNames, aggressive, showProgress ? stdout : null);
     if (result.hasErrors()) {
       for (GcError e : result.getErrors()) {
-        String msg;
-        switch (e.getType()) {
-          case REPOSITORY_NOT_FOUND:
-            msg = "error: project \"" + e.getProjectName() + "\" not found";
-            break;
-          case GC_ALREADY_SCHEDULED:
-            msg =
-                "error: garbage collection for project \""
-                    + e.getProjectName()
-                    + "\" was already scheduled";
-            break;
-          case GC_FAILED:
-            msg = "error: garbage collection for project \"" + e.getProjectName() + "\" failed";
-            break;
-          default:
-            msg =
-                "error: garbage collection for project \""
-                    + e.getProjectName()
-                    + "\" failed: "
-                    + e.getType();
-        }
+        String msg =
+            switch (e.getType()) {
+              case REPOSITORY_NOT_FOUND ->
+                  "error: project \"" + e.getProjectName() + "\" not found";
+              case GC_ALREADY_SCHEDULED ->
+                  "error: garbage collection for project \""
+                      + e.getProjectName()
+                      + "\" was already scheduled";
+              case GC_FAILED ->
+                  "error: garbage collection for project \"" + e.getProjectName() + "\" failed";
+            };
         stdout.print(msg + "\n");
       }
     }

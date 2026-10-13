@@ -19,7 +19,12 @@ import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ChangeModel, changeModelToken} from '../../models/change/change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import sinon from 'sinon';
-import {ContextItem} from '../../api/ai-code-review';
+import {
+  ContextItem,
+  MISSING_API_TOKEN_ERROR_NAME,
+} from '../../api/ai-code-review';
+import {ContextChip} from './context-chip';
+import {createSettingsUrl} from '../../models/views/settings';
 
 suite('prompt-box tests', () => {
   let element: PromptBox;
@@ -116,6 +121,44 @@ suite('prompt-box tests', () => {
     });
     await element.updateComplete;
     assert.equal(element.chatInputDisabledText, 'Loading models...');
+  });
+
+  test('change chip shows This Change without link normally', () => {
+    const chip = element.shadowRoot!.querySelector<ContextChip>(
+      '.this-change-context'
+    );
+    assert.equal(chip?.contextItem?.title, 'This Change');
+    assert.equal(chip?.contextItem?.link, '');
+  });
+
+  test('change chip shows Set up token when API token is missing', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      models: undefined,
+      modelsLoadingError: 'No API token configured. Add one in Settings.',
+      modelsLoadingErrorName: MISSING_API_TOKEN_ERROR_NAME,
+    });
+    await element.updateComplete;
+    const chip = element.shadowRoot!.querySelector<ContextChip>(
+      '.this-change-context'
+    );
+    assert.equal(chip?.contextItem?.title, 'Set up token');
+    assert.equal(chip?.contextItem?.link, createSettingsUrl());
+  });
+
+  test('change chip shows This Change on other models errors', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      models: undefined,
+      modelsLoadingError: 'Internal server error',
+      modelsLoadingErrorName: 'Error',
+    });
+    await element.updateComplete;
+    const chip = element.shadowRoot!.querySelector<ContextChip>(
+      '.this-change-context'
+    );
+    assert.equal(chip?.contextItem?.title, 'This Change');
+    assert.equal(chip?.contextItem?.link, '');
   });
 
   test('updates userInput on input', async () => {

@@ -227,10 +227,6 @@ public class AllProjectsCreator {
           grant(config, refsFor, Permission.PUSH, defaultUsersGroup);
           grant(config, refsFor, Permission.PUSH_MERGE, defaultUsersGroup);
         });
-
-    config.upsertAccessSection(
-        AccessSection.ALL,
-        all -> grant(config, all, Permission.POST_REVIEW_COMMENT, defaultUsersGroup));
   }
 
   private void initDefaultAclsForServiceUsers(

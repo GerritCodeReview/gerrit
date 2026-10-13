@@ -19,10 +19,13 @@ import {fire} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {materialStyles} from '../../styles/gr-material-styles';
+import {navigationToken} from '../core/gr-navigation/gr-navigation';
 
 @customElement('context-chip')
 export class ContextChip extends LitElement {
   private readonly getChatModel = resolve(this, chatModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   @property({type: String}) text = '';
 
@@ -187,10 +190,14 @@ export class ContextChip extends LitElement {
     }
 
     const link = this.contextItem?.link?.trim();
-    if (link) {
-      const url = link.startsWith('http') ? link : `http://${link}`;
-      window.open(url, '_blank');
+    if (!link) return;
+    // Relative links point to Gerrit's own pages, so stay in the app.
+    if (link.startsWith('/')) {
+      this.getNavigation().setUrl(link);
+      return;
     }
+    const url = link.startsWith('http') ? link : `http://${link}`;
+    window.open(url, '_blank');
   }
 }
 

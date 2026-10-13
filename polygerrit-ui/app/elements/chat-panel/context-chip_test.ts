@@ -15,6 +15,7 @@ import {chatProvider, createChange} from '../../test/test-data-generators';
 import {changeModelToken} from '../../models/change/change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import {MdFilterChip} from '@material/web/chips/filter-chip';
+import {navigationToken} from '../core/gr-navigation/gr-navigation';
 
 suite('context-chip tests', () => {
   let element: ContextChip;
@@ -147,6 +148,22 @@ suite('context-chip tests', () => {
     const chip = element.shadowRoot?.querySelector('md-filter-chip');
     chip?.click();
     assert.isTrue(openSpy.calledWith('http://gerrit.test/test.ts', '_blank'));
+  });
+
+  test('navigates within the app to relative url', async () => {
+    const openSpy = sinon.spy(window, 'open');
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+    const contextItem: ContextItem = {
+      type_id: 'gerrit_change',
+      title: 'Set up token',
+      link: '/settings',
+    };
+    element.contextItem = contextItem;
+    await element.updateComplete;
+    const chip = element.shadowRoot?.querySelector('md-filter-chip');
+    chip?.click();
+    assert.isTrue(setUrlStub.calledOnceWith('/settings'));
+    assert.isFalse(openSpy.called);
   });
 
   test('has no-link class when no link', async () => {

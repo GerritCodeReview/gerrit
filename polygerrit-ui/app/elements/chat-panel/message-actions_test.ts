@@ -5,6 +5,7 @@
  */
 import '../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
+import sinon from 'sinon';
 import {
   ChatModel,
   chatModelToken,
@@ -87,6 +88,7 @@ suite('message-actions tests', () => {
           class="copy-button"
           copytargetname="Response"
           hideinput=""
+          multiline=""
         >
         </gr-copy-clipboard>
         <md-icon-button
@@ -113,6 +115,7 @@ suite('message-actions tests', () => {
           copytargetname="Response"
           hidden=""
           hideinput=""
+          multiline=""
         >
         </gr-copy-clipboard>
         <md-icon-button
@@ -146,11 +149,18 @@ suite('message-actions tests', () => {
   });
 
   test('copy clipboard has correct text', async () => {
-    const turn = createTurn('another message');
+    const clipboardStub = sinon
+      .stub(navigator.clipboard, 'writeText')
+      .returns(Promise.resolve());
+    const turn = createTurn('line 1\nline 2');
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
     await element.updateComplete;
     const copy = element.shadowRoot?.querySelector('gr-copy-clipboard');
     assert.isOk(copy);
-    assert.equal(copy?.text, 'another message');
+    await copy.updateComplete;
+    assert.isTrue(copy.multiline);
+    copy.shadowRoot?.querySelector<HTMLElement>('.copyToClipboard')?.click();
+    assert.equal(copy.text, 'line 1\nline 2');
+    assert.isTrue(clipboardStub.calledOnceWithExactly('line 1\nline 2'));
   });
 });

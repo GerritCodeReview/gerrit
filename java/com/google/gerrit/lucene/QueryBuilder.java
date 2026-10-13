@@ -76,24 +76,18 @@ public class QueryBuilder<V> {
   }
 
   public Query toQuery(Predicate<V> p) throws QueryParseException {
-    if (p instanceof AndPredicate) {
-      return and(p);
-    } else if (p instanceof OrPredicate) {
-      return or(p);
-    } else if (p instanceof NotPredicate) {
-      return not(p);
-    } else if (p instanceof Predicate.Any) {
-      return new MatchAllDocsQuery();
-    } else if (p instanceof IndexPredicate) {
-      return fieldQuery((IndexPredicate<V>) p);
-    } else if (p instanceof PostFilterPredicate) {
-      return new MatchAllDocsQuery();
-    } else {
-      throw new QueryParseException("cannot create query for index: " + p);
-    }
+    return switch (p) {
+      case AndPredicate<V> a -> and(a);
+      case OrPredicate<V> o -> or(o);
+      case NotPredicate<V> n -> not(n);
+      case Predicate.Any<V> _ -> new MatchAllDocsQuery();
+      case IndexPredicate<V> ip -> fieldQuery(ip);
+      case PostFilterPredicate<V> _ -> new MatchAllDocsQuery();
+      default -> throw new QueryParseException("cannot create query for index: " + p);
+    };
   }
 
-  private Query or(Predicate<V> p) throws QueryParseException {
+  private Query or(OrPredicate<V> p) throws QueryParseException {
     try {
       BooleanQuery.Builder q = new BooleanQuery.Builder();
       for (int i = 0; i < p.getChildCount(); i++) {
@@ -105,16 +99,16 @@ public class QueryBuilder<V> {
     }
   }
 
-  private Query and(Predicate<V> p) throws QueryParseException {
+  private Query and(AndPredicate<V> p) throws QueryParseException {
     try {
       BooleanQuery.Builder b = new BooleanQuery.Builder();
       List<Query> not = Lists.newArrayListWithCapacity(p.getChildCount());
       for (int i = 0; i < p.getChildCount(); i++) {
         Predicate<V> c = p.getChild(i);
-        if (c instanceof NotPredicate) {
-          Predicate<V> n = c.getChild(0);
-          if (n instanceof TimestampRangePredicate) {
-            b.add(notTimestamp((TimestampRangePredicate<V>) n), MUST);
+        if (c instanceof NotPredicate<V> notP) {
+          Predicate<V> n = notP.getChild(0);
+          if (n instanceof TimestampRangePredicate<V> tr) {
+            b.add(notTimestamp(tr), MUST);
           } else {
             not.add(toQuery(n));
           }
@@ -131,10 +125,10 @@ public class QueryBuilder<V> {
     }
   }
 
-  private Query not(Predicate<V> p) throws QueryParseException {
+  private Query not(NotPredicate<V> p) throws QueryParseException {
     Predicate<V> n = p.getChild(0);
-    if (n instanceof TimestampRangePredicate) {
-      return notTimestamp((TimestampRangePredicate<V>) n);
+    if (n instanceof TimestampRangePredicate<V> tr) {
+      return notTimestamp(tr);
     }
 
     // Lucene does not support negation, start with all and subtract.
@@ -181,8 +175,7 @@ public class QueryBuilder<V> {
   }
 
   private Query intRangeQuery(IndexPredicate<V> p) throws QueryParseException {
-    if (p instanceof IntegerRangePredicate) {
-      IntegerRangePredicate<V> r = (IntegerRangePredicate<V>) p;
+    if (p instanceof IntegerRangePredicate<V> r) {
       String name = r.getField().getName();
       int minimum = r.getMinimumValue();
       int maximum = r.getMaximumValue();
@@ -196,8 +189,7 @@ public class QueryBuilder<V> {
   }
 
   private Query timestampQuery(IndexPredicate<V> p) throws QueryParseException {
-    if (p instanceof TimestampRangePredicate) {
-      TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
+    if (p instanceof TimestampRangePredicate<V> r) {
       return LongPoint.newRangeQuery(
           r.getField().getName(),
           r.getMinTimestamp().toEpochMilli(),
@@ -215,13 +207,13 @@ public class QueryBuilder<V> {
   }
 
   private Query exactQuery(IndexPredicate<V> p) {
-    if (p instanceof RegexPredicate<?>) {
-      return regexQuery(p);
+    if (p instanceof RegexPredicate<V> r) {
+      return regexQuery(r);
     }
     return new TermQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
-  private Query regexQuery(IndexPredicate<V> p) {
+  private Query regexQuery(RegexPredicate<V> p) {
     String re = p.getValue();
     if (re.startsWith("^")) {
       re = re.substring(1);

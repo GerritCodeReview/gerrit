@@ -19,7 +19,9 @@ import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ChangeModel, changeModelToken} from '../../models/change/change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import sinon from 'sinon';
-import {ContextItem} from '../../api/ai-code-review';
+import {ContextItem, ModelsLoadingErrorName} from '../../api/ai-code-review';
+import {ContextChip} from './context-chip';
+import {createSettingsUrl} from '../../models/views/settings';
 
 suite('prompt-box tests', () => {
   let element: PromptBox;
@@ -116,6 +118,43 @@ suite('prompt-box tests', () => {
     });
     await element.updateComplete;
     assert.equal(element.chatInputDisabledText, 'Loading models...');
+  });
+
+  test('change chip shows This Change without link normally', () => {
+    const chip = element.shadowRoot!.querySelector<ContextChip>(
+      '.this-change-context'
+    );
+    assert.equal(chip?.contextItem?.title, 'This Change');
+    assert.equal(chip?.contextItem?.link, '');
+  });
+
+  test('change chip shows Set up token when API token is missing', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      models: undefined,
+      modelsLoadingError: 'No API token configured. Add one in Settings.',
+      modelsLoadingErrorName: ModelsLoadingErrorName.MISSING_API_TOKEN,
+    });
+    await element.updateComplete;
+    const chip = element.shadowRoot!.querySelector<ContextChip>(
+      '.this-change-context'
+    );
+    assert.equal(chip?.contextItem?.title, 'Set up token');
+    assert.equal(
+      chip?.contextItem?.link,
+      `${window.location.origin}${createSettingsUrl()}`
+    );
+  });
+
+  test('change chip is hidden when AI providers fail to load', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      models: undefined,
+      modelsLoadingError: 'Failed to load the AI providers.',
+      modelsLoadingErrorName: ModelsLoadingErrorName.AI_PROVIDERS_LOADING,
+    });
+    await element.updateComplete;
+    assert.isNull(element.shadowRoot!.querySelector('.this-change-context'));
   });
 
   test('updates userInput on input', async () => {

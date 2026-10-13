@@ -30,11 +30,11 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.Attributes;
 import org.asciidoctor.AttributesBuilder;
 import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
-import org.asciidoctor.internal.JRubyAsciidoctor;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -99,7 +99,7 @@ public class AsciiDoctor {
   }
 
   private Options createOptions(File base, File outputFile) {
-    OptionsBuilder optionsBuilder = OptionsBuilder.options();
+    OptionsBuilder optionsBuilder = Options.builder();
 
     optionsBuilder
         .backend(backend)
@@ -109,14 +109,14 @@ public class AsciiDoctor {
         .baseDir(base)
         .toFile(outputFile);
 
-    AttributesBuilder attributesBuilder = AttributesBuilder.attributes();
-    attributesBuilder.attributes(getAttributes());
+    AttributesBuilder attributesBuilder = Attributes.builder();
+    getAttributes().forEach(attributesBuilder::attribute);
     if (revnumber != null) {
       attributesBuilder.attribute(REVNUMBER_NAME, revnumber);
     }
-    optionsBuilder.attributes(attributesBuilder.get());
+    optionsBuilder.attributes(attributesBuilder.build());
 
-    return optionsBuilder.get();
+    return optionsBuilder.build();
   }
 
   private Map<String, Object> getAttributes() {
@@ -176,7 +176,7 @@ public class AsciiDoctor {
   }
 
   private void renderFiles(List<String> inputFiles, ZipOutputStream zip) throws IOException {
-    Asciidoctor asciidoctor = JRubyAsciidoctor.create();
+    Asciidoctor asciidoctor = Asciidoctor.Factory.create();
     for (String inputFile : inputFiles) {
       String outName = mapInFileToOutFile(inputFile, inExt, outExt);
       File out = bazel ? new File(outName) : new File(tmpdir, outName);
@@ -185,7 +185,7 @@ public class AsciiDoctor {
       }
       File input = new File(inputFile);
       Options options = createOptions(basedir != null ? basedir : input.getParentFile(), out);
-      asciidoctor.renderFile(input, options);
+      asciidoctor.convertFile(input, options);
       if (zip != null) {
         zipFile(out, outName, zip);
       }

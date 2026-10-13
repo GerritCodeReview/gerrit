@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0e828cc_53d14209",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-10-13T13:27:15Z",
+      "side": 1,
+      "message": "```\n$ bazel test --config\u003djava21 --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //javatests/...\n...\nINFO: Found 205 test targets...\nINFO: Elapsed time: 733.884s, Critical Path: 355.40s\nINFO: 1602 processes: 7 disk cache hit, 825 internal, 444 processwrapper-sandbox, 326 worker.\nINFO: Build completed successfully, 1602 total actions\n...\nExecuted 205 out of 205 tests: 205 tests pass.\n```\n\n```\n$ bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //javatests/...\n...\nINFO: Found 205 test targets...\nINFO: Elapsed time: 839.146s, Critical Path: 424.97s\nINFO: 1498 processes: 9 disk cache hit, 825 internal, 338 processwrapper-sandbox, 326 worker.\nINFO: Build completed successfully, 1498 total actions\nExecuted 205 out of 205 tests: 205 tests pass.\n```",
+      "revId": "7149314a9dcdc2e0843620e6a03d205250f713f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

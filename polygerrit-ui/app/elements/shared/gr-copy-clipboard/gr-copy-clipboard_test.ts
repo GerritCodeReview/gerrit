@@ -157,6 +157,20 @@ suite('gr-copy-clipboard tests', () => {
     assert.equal(getComputedStyle(mdOutlinedTextField).display, 'none');
   });
 
+  test('multiline with hideInput keeps symmetric button margins', async () => {
+    const button = queryAndAssert<GrButton>(element, 'gr-button');
+    element.multiline = true;
+    await element.updateComplete;
+    assert.equal(getComputedStyle(button).marginTop, '0px');
+
+    element.hideInput = true;
+    await element.updateComplete;
+    assert.equal(
+      getComputedStyle(button).marginTop,
+      getComputedStyle(button).marginBottom
+    );
+  });
+
   test('stop events propagation', () => {
     const divParent = document.createElement('div');
     divParent.appendChild(element);

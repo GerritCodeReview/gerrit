@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb526160_879784ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-13T06:29:52Z",
+      "side": 1,
+      "message": "@josiecuff@google.com @hariprak@google.com any objection on these AI guidelines?",
+      "revId": "7a4725ddc94ed8248feff93885aa6c0fa72ef1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

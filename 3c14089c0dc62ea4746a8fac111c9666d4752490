@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ebb8dc_02387ae6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-14T17:07:15Z",
+      "side": 1,
+      "message": "Why not squashing it with: https://gerrit-review.googlesource.com/c/gerrit/+/643244/10\n\nThis change alone doesn\u0027t provide any value IMO",
+      "revId": "3c14089c0dc62ea4746a8fac111c9666d4752490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08fa2c4e_d7cf77c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T22:09:25Z",
+      "side": 1,
+      "message": "You can mention this fixes the [issue](https://issues.gerritcodereview.com/issues/40012542):\n```suggestion\nBug: Issue 40012542\nRelease-Notes: Change default branch for newly created repositories from master to main\n```",
+      "revId": "bffacc9ab0a71f11c0a19ce40be48947de2e3287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e0b1fbe_0ba35343",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T22:09:25Z",
+      "side": 1,
+      "message": "+1 for the intent. Added comments for a few nits.",
+      "revId": "bffacc9ab0a71f11c0a19ce40be48947de2e3287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e66b03e_326dafd4",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T22:09:25Z",
+      "side": 1,
+      "message": "We should have a new constant for main, ideally in JGit.",
+      "range": {
+        "startLine": 211,
+        "startChar": 36,
+        "endLine": 211,
+        "endChar": 42
+      },
+      "revId": "bffacc9ab0a71f11c0a19ce40be48947de2e3287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0abd5c9f_b34e73c7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T22:09:25Z",
+      "side": 1,
+      "message": "I think a lot of the tests using this constant need updates.",
+      "revId": "bffacc9ab0a71f11c0a19ce40be48947de2e3287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b005fdbb_47246f12",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T22:09:25Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(gApi.projects().name(project.get()).head()).isEqualTo(\"refs/heads/main\");\n```",
+      "revId": "bffacc9ab0a71f11c0a19ce40be48947de2e3287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34ff12da_721113b9",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T22:09:25Z",
+      "side": 1,
+      "message": "Why not switch these (L814/L823) to `main` too?",
+      "revId": "bffacc9ab0a71f11c0a19ce40be48947de2e3287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f60fb707_d528ecb6",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5060,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T22:09:25Z",
+      "side": 1,
+      "message": "Switch to `main`?",
+      "revId": "bffacc9ab0a71f11c0a19ce40be48947de2e3287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

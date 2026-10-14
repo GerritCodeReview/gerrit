@@ -43,7 +43,6 @@ public class ExactValuePredicate extends ApprovalPredicate {
 
   @Override
   public boolean equals(Object other) {
-    return (other instanceof ExactValuePredicate)
-        && votingValue == ((ExactValuePredicate) other).votingValue;
+    return (other instanceof ExactValuePredicate p) && votingValue == p.votingValue;
   }
 }

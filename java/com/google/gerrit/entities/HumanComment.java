@@ -97,13 +97,12 @@ public class HumanComment extends Comment {
 
   @Override
   public boolean equals(Object otherObject) {
-    if (!(otherObject instanceof HumanComment)) {
+    if (!(otherObject instanceof HumanComment otherComment)) {
       return false;
     }
     if (!super.equals(otherObject)) {
       return false;
     }
-    HumanComment otherComment = (HumanComment) otherObject;
     return unresolved == otherComment.unresolved;
   }
 

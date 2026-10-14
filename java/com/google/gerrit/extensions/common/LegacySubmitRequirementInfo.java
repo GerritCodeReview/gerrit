@@ -33,10 +33,9 @@ public class LegacySubmitRequirementInfo {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof LegacySubmitRequirementInfo)) {
+    if (!(o instanceof LegacySubmitRequirementInfo that)) {
       return false;
     }
-    LegacySubmitRequirementInfo that = (LegacySubmitRequirementInfo) o;
     return Objects.equals(status, that.status)
         && Objects.equals(fallbackText, that.fallbackText)
         && Objects.equals(type, that.type);

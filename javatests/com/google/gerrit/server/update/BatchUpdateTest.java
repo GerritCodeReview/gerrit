@@ -37,6 +37,10 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -65,6 +69,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -128,6 +133,7 @@ public class BatchUpdateTest {
   @Inject private AbandonOp.Factory abandonOpFactory;
   @Inject @GerritPersonIdent private PersonIdent serverIdent;
   @Inject private RetryHelper retryHelper;
+  @Inject private ChangeData.Factory changeDataFactory;
   @Inject private com.google.gerrit.server.account.GroupCache groupCache;
 
   @Inject @com.google.gerrit.server.ServerInitiated
@@ -1031,5 +1037,39 @@ public class BatchUpdateTest {
     try (BatchUpdate bu = batchUpdateFactory.create(project, serviceUser, TimeUtil.now())) {
       assertThat(bu.indexAsync()).isFalse();
     }
+  }
+
+  @Test
+  public void submitRequirementsIncludingLegacy_memoizedOnChangeDataUntilReloadOrReset()
+      throws Exception {
+    Change.Id changeId = createChange();
+    ChangeData cd = changeDataFactory.create(project, changeId);
+    SubmitRequirement sr =
+        SubmitRequirement.builder()
+            .setName("Verified")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("label:Verified=+1"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+    cd.setSubmitRequirements(
+        com.google.common.collect.ImmutableMap.of(
+            sr,
+            SubmitRequirementResult.builder()
+                .submitRequirement(sr)
+                .patchSetCommitId(ObjectId.zeroId())
+                .submittabilityExpressionResult(
+                    SubmitRequirementExpressionResult.create(
+                        sr.submittabilityExpression(),
+                        SubmitRequirementExpressionResult.Status.PASS,
+                        ImmutableList.of("label:Verified=+1"),
+                        ImmutableList.of()))
+                .build()));
+
+    var first = cd.submitRequirementsIncludingLegacy();
+    var second = cd.submitRequirementsIncludingLegacy();
+    assertThat(second).isSameInstanceAs(first);
+
+    cd.reloadChange();
+    var afterReload = cd.submitRequirementsIncludingLegacy();
+    assertThat(afterReload).isNotSameInstanceAs(first);
   }
 }

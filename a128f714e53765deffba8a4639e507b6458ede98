@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df3bdad_8d73e693",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2026-10-14T12:12:31Z",
+      "side": 1,
+      "message": "I have noticed that on our instance and described the issue just a few minutes before this patch was proposed https://phabricator.wikimedia.org/T441113\n\nWe have a single key `ssh_host_ed25519_key` which is provisioned by in our config management system (Puppet).  When running init I noticed:\n```\nGenerating SSH host key ... rsa... ecdsa 256... ecdsa 384... ecdsa 521... done\nInitialized /srv/gerrit/site_path/review_site\n```\n\nWhich led to the generation of a few extra \"rogue\" keys:\n\nssh_host_rsa_key\nssh_host_ecdsa_key\nssh_host_ecdsa_384_key\nssh_host_ecdsa_521_key\n\nI would very welcome the ability to turn that behavior off.  And maybe that can target the stable versions?",
+      "revId": "a128f714e53765deffba8a4639e507b6458ede98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

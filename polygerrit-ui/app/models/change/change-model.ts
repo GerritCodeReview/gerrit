@@ -40,6 +40,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  startWith,
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -910,13 +911,23 @@ export class ChangeModel extends Model<ChangeState> {
         switchMap(changeNum => {
           this.updateStateLoading(changeNum);
           // if changeNum is undefined restApi calls return undefined.
-          const change = this.restApiService.getChangeDetail(changeNum);
-          const edit = this.restApiService.getChangeEdit(changeNum);
-          return forkJoin([change, edit]);
+          const change$ = from(this.restApiService.getChangeDetail(changeNum));
+          const edit$ = from(this.restApiService.getChangeEdit(changeNum)).pipe(
+            map(edit => edit || undefined),
+            startWith(undefined),
+            distinctUntilChanged()
+          );
+          return combineLatest([change$, edit$]);
         }),
         withLatestFrom(this.viewModel.patchNum$),
         map(([[change, edit], patchNum]) =>
-          updateChangeWithEdit(change, edit, patchNum)
+          updateChangeWithEdit(
+            change
+              ? {...change, revisions: {...change.revisions}}
+              : undefined,
+            edit,
+            patchNum
+          )
         ),
         catchError(err => {
           // Reset loading state and re-throw.

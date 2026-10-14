@@ -51,6 +51,24 @@
       "message": "The in-tree hierarchy matches the permitted subclasses.\n\nCan we confirm external plugins are not supported in subclassing these public roots or leaves?\n\nBefore this change, a plugin could write:\n\n```\nclass CustomLabelPermission extends LabelPermission {\n  CustomLabelPermission() {\n    super(\"Code-Review\");\n  }\n}\n```\n\nSealing the roots and making the leaves final restricts that API. If leaf extensibility matters, permitted non-sealed leaves would preserve it.",
       "revId": "85146b7728aae19f36e52f1a190f714bf0a1e1b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd3bec21_b33728f3",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractLabelPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T09:12:44Z",
+      "side": 1,
+      "message": "Good question. Before uploading this change I checked through (most) of the plugins and didn\u0027t find an example which extends this class hierarchy. But we can keep the root sealed and allow non-sealed leaves: this would still allow for exhaustive switch expressions.",
+      "parentUuid": "26911c0e_65e6d134",
+      "revId": "85146b7728aae19f36e52f1a190f714bf0a1e1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

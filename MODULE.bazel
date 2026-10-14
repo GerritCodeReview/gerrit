@@ -29,6 +29,16 @@ single_version_override(
 # Libraries / toolchains.
 bazel_dep(name = "protobuf", version = "36.2")
 
+# TODO(davido): Gerrit uses Java protobufs only. Disable Protobuf's transitive
+# Rust setup until upstream avoids resolving Cargo/Rust tools for non-Rust consumers.
+# https://github.com/protocolbuffers/protobuf/issues/30684
+single_version_override(
+    module_name = "protobuf",
+    patch_strip = 1,
+    patches = ["//tools/patches:protobuf-36.2-no-rust.patch"],
+    version = "36.2",
+)
+
 # In-tree modules.
 bazel_dep(name = "jgit")
 local_path_override(

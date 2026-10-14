@@ -1,0 +1,20 @@
+--- a/MODULE.bazel
++++ b/MODULE.bazel
+@@ -40,7 +40,7 @@
+ bazel_dep(name = "rules_license", version = "1.0.0")
+ bazel_dep(name = "rules_pkg", version = "1.0.1")
+ bazel_dep(name = "rules_python", version = "1.6.0")
+-bazel_dep(name = "rules_rust", version = "0.69.0")
++bazel_dep(name = "rules_rust", version = "0.69.0", dev_dependency = True)
+ 
+ bazel_dep(name = "rules_ruby", version = "0.20.1", dev_dependency = True)
+ 
+@@ -193,7 +193,7 @@
+     versions = ["1.85.0"],
+ )
+ 
+-crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate")
++crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate", dev_dependency = True)
+ crate.spec(
+     package = "googletest",
+     version = ">0.0.0",

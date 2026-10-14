@@ -388,6 +388,9 @@ public class LabelsJsonRules {
           if (psa.postSubmit()) {
             info.postSubmit = true;
           }
+          if (psa.isAi()) {
+            info.isAi = true;
+          }
         }
         if (!standard) {
           continue;
@@ -547,9 +550,12 @@ public class LabelsJsonRules {
           // user can vote on this label.
           value = perm != null && perm.test(new LabelPermission(lt.get())) ? 0 : null;
         }
-        addApproval(
-            e.getValue().label(),
-            approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date));
+        ApprovalInfo ai =
+            approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date);
+        if (psa != null && psa.isAi()) {
+          ai.isAi = true;
+        }
+        addApproval(e.getValue().label(), ai);
       }
     }
   }

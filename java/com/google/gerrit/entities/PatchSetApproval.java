@@ -72,7 +72,7 @@ public abstract class PatchSetApproval {
   }
 
   public static Builder builder() {
-    return new AutoValue_PatchSetApproval.Builder().postSubmit(false).copied(false);
+    return new AutoValue_PatchSetApproval.Builder().postSubmit(false).copied(false).isAi(false);
   }
 
   @AutoValue.Builder
@@ -91,6 +91,8 @@ public abstract class PatchSetApproval {
     public abstract Builder uuid(Optional<UUID> uuid);
 
     public abstract Builder uuid(UUID uuid);
+
+    public abstract Optional<UUID> uuid();
 
     public abstract Builder value(short value);
 
@@ -111,6 +113,12 @@ public abstract class PatchSetApproval {
     public abstract Builder postSubmit(boolean isPostSubmit);
 
     public abstract Builder copied(boolean isCopied);
+
+    public abstract boolean copied();
+
+    public abstract Builder isAi(boolean isAi);
+
+    public abstract boolean isAi();
 
     abstract PatchSetApproval autoBuild();
 
@@ -154,6 +162,8 @@ public abstract class PatchSetApproval {
   public abstract boolean postSubmit();
 
   public abstract boolean copied();
+
+  public abstract boolean isAi();
 
   public abstract Builder toBuilder();
 

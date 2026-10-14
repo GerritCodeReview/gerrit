@@ -764,6 +764,26 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void parseIsAi() throws Exception {
+    ChangeNotesState state =
+        assertParseSucceeds("Update change\n\nPatch-set: 1\nLabel: Label1=+1\nIs-ai: true\n");
+    assertThat(state.approvals()).hasSize(1);
+    assertThat(state.approvals().get(0).getValue().isAi()).isTrue();
+
+    state = assertParseSucceeds("Update change\n\nPatch-set: 1\nLabel: Label1=+1\nIs-ai: tRUe\n");
+    assertThat(state.approvals()).hasSize(1);
+    assertThat(state.approvals().get(0).getValue().isAi()).isTrue();
+
+    state = assertParseSucceeds("Update change\n\nPatch-set: 1\nLabel: Label1=+1\nIs-ai: false\n");
+    assertThat(state.approvals()).hasSize(1);
+    assertThat(state.approvals().get(0).getValue().isAi()).isFalse();
+
+    assertParseFails("Update change\n\nPatch-set: 1\nLabel: Label1=+1\nIs-ai: invalid\n");
+    assertParseFails(
+        "Update change\n\nPatch-set: 1\nLabel: Label1=+1\nIs-ai: true\nIs-ai: false\n");
+  }
+
+  @Test
   public void parseConflicts() throws Exception {
     // No conflicts information present
     assertParseSucceeds(

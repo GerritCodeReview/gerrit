@@ -21,6 +21,7 @@ import {
   CreateCommentAction,
   ModelInfo,
   Models,
+  ModelsLoadingErrorName,
   Reference,
 } from '../../api/ai-code-review';
 import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
@@ -205,6 +206,9 @@ export declare interface ChatState extends ConversationState {
   readonly selectedModelId?: string;
   // Error message if the chat models failed to load.
   readonly modelsLoadingError?: string;
+  // Name of the error if the chat models failed to load. Undefined if the
+  // provider rejected with a name that is not a ModelsLoadingErrorName.
+  readonly modelsLoadingErrorName?: ModelsLoadingErrorName;
 
   // Chat actions for the current CL.
   readonly actions?: Actions;
@@ -236,6 +240,14 @@ export interface ChatTriggerParams {
 
 export const chatModelToken = define<ChatModel>('chat-model');
 
+function isModelsLoadingErrorName(
+  name: string
+): name is ModelsLoadingErrorName {
+  return Object.values(ModelsLoadingErrorName).includes(
+    name as ModelsLoadingErrorName
+  );
+}
+
 export class ChatModel extends Model<ChatState> {
   readonly models$: Observable<Models | undefined> = select(
     this.state$,
@@ -259,6 +271,10 @@ export class ChatModel extends Model<ChatState> {
     this.state$,
     chatState => chatState.modelsLoadingError
   );
+
+  readonly modelsLoadingErrorName$: Observable<
+    ModelsLoadingErrorName | undefined
+  > = select(this.state$, chatState => chatState.modelsLoadingErrorName);
 
   readonly actions$: Observable<readonly Action[]> = select(
     this.state$,
@@ -410,6 +426,7 @@ export class ChatModel extends Model<ChatState> {
         models: undefined,
         selectedModelId: undefined,
         modelsLoadingError: undefined,
+        modelsLoadingErrorName: undefined,
         actions: undefined,
         customActions: undefined,
         actionsLoadingError: undefined,
@@ -832,6 +849,7 @@ export class ChatModel extends Model<ChatState> {
         this.updateState({
           models,
           modelsLoadingError: undefined,
+          modelsLoadingErrorName: undefined,
           customActions: models.custom_actions,
         });
       })
@@ -839,6 +857,9 @@ export class ChatModel extends Model<ChatState> {
         this.updateState({
           models: undefined,
           modelsLoadingError: error.message,
+          modelsLoadingErrorName: isModelsLoadingErrorName(error.name)
+            ? error.name
+            : undefined,
         });
         console.error('Failed to get chat models', error);
       });

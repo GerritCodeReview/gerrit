@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5606315_3f84e7c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T08:27:18Z",
+      "side": 1,
+      "message": "A major benefit from sealing a class hierarchy is the compile time exhaustiveness\ncheck for switch expressions. Do we have that benefit with this class hierarchy?",
+      "revId": "59383d7b6af5403315f8408db90ce18ea44195c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

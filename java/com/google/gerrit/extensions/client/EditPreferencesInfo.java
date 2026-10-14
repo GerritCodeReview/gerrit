@@ -40,10 +40,9 @@ public class EditPreferencesInfo {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof EditPreferencesInfo)) {
+    if (!(obj instanceof EditPreferencesInfo other)) {
       return false;
     }
-    EditPreferencesInfo other = (EditPreferencesInfo) obj;
     return Objects.equals(this.tabSize, other.tabSize)
         && Objects.equals(this.lineLength, other.lineLength)
         && Objects.equals(this.indentUnit, other.indentUnit)

@@ -30,10 +30,9 @@ public class WebLinkInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof WebLinkInfo)) {
+    if (!(o instanceof WebLinkInfo i)) {
       return false;
     }
-    WebLinkInfo i = (WebLinkInfo) o;
     return Objects.equals(name, i.name)
         && Objects.equals(tooltip, i.tooltip)
         && Objects.equals(imageUrl, i.imageUrl)

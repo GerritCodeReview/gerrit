@@ -91,7 +91,7 @@ public class ReviewerSet {
 
   @Override
   public boolean equals(Object o) {
-    return (o instanceof ReviewerSet) && table.equals(((ReviewerSet) o).table);
+    return (o instanceof ReviewerSet r) && table.equals(r.table);
   }
 
   @Override

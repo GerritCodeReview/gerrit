@@ -68,9 +68,9 @@ public class MagicValuePredicate extends ApprovalPredicate {
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof MagicValuePredicate)) {
+    if (!(other instanceof MagicValuePredicate p)) {
       return false;
     }
-    return ((MagicValuePredicate) other).value.equals(value);
+    return p.value.equals(value);
   }
 }

@@ -48,9 +48,9 @@ public class ChangeKindPredicate extends ApprovalPredicate {
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof ChangeKindPredicate)) {
+    if (!(other instanceof ChangeKindPredicate p)) {
       return false;
     }
-    return ((ChangeKindPredicate) other).changeKind.equals(changeKind);
+    return p.changeKind.equals(changeKind);
   }
 }

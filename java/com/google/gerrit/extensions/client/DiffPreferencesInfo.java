@@ -76,10 +76,9 @@ public class DiffPreferencesInfo {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof DiffPreferencesInfo)) {
+    if (!(obj instanceof DiffPreferencesInfo other)) {
       return false;
     }
-    DiffPreferencesInfo other = (DiffPreferencesInfo) obj;
     return Objects.equals(this.context, other.context)
         && Objects.equals(this.tabSize, other.tabSize)
         && Objects.equals(this.fontSize, other.fontSize)

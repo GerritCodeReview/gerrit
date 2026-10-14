@@ -91,10 +91,9 @@ public abstract class PermissionBackendCondition
 
     @Override
     public boolean equals(Object obj) {
-      if (!(obj instanceof WithUser)) {
+      if (!(obj instanceof WithUser other)) {
         return false;
       }
-      WithUser other = (WithUser) obj;
       return Objects.equals(perm, other.perm) && usersAreEqual(user, other.user);
     }
   }
@@ -136,10 +135,9 @@ public abstract class PermissionBackendCondition
 
     @Override
     public boolean equals(Object obj) {
-      if (!(obj instanceof ForProject)) {
+      if (!(obj instanceof ForProject other)) {
         return false;
       }
-      ForProject other = (ForProject) obj;
       return Objects.equals(perm, other.perm)
           && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
           && usersAreEqual(user, other.user);
@@ -182,10 +180,9 @@ public abstract class PermissionBackendCondition
 
     @Override
     public boolean equals(Object obj) {
-      if (!(obj instanceof ForRef)) {
+      if (!(obj instanceof ForRef other)) {
         return false;
       }
-      ForRef other = (ForRef) obj;
       return Objects.equals(perm, other.perm)
           && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
           && usersAreEqual(user, other.user);
@@ -229,10 +226,9 @@ public abstract class PermissionBackendCondition
 
     @Override
     public boolean equals(Object obj) {
-      if (!(obj instanceof ForChange)) {
+      if (!(obj instanceof ForChange other)) {
         return false;
       }
-      ForChange other = (ForChange) obj;
       return Objects.equals(perm, other.perm)
           && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
           && usersAreEqual(user, other.user);

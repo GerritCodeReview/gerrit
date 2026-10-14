@@ -37,10 +37,9 @@ public class GitPerson {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof GitPerson)) {
+    if (!(o instanceof GitPerson p)) {
       return false;
     }
-    GitPerson p = (GitPerson) o;
     return Objects.equals(name, p.name)
         && Objects.equals(email, p.email)
         && Objects.equals(date, p.date)

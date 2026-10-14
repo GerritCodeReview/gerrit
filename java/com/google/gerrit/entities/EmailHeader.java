@@ -65,8 +65,7 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof StringEmailHeader)
-          && Objects.equals(value, ((StringEmailHeader) o).value);
+      return (o instanceof StringEmailHeader h) && Objects.equals(value, h.value);
     }
 
     @Override
@@ -157,7 +156,7 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof Date) && Objects.equals(value, ((Date) o).value);
+      return (o instanceof Date d) && Objects.equals(value, d.value);
     }
 
     @Override
@@ -223,7 +222,7 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof AddressList) && Objects.equals(list, ((AddressList) o).list);
+      return (o instanceof AddressList a) && Objects.equals(list, a.list);
     }
 
     @Override

@@ -127,9 +127,9 @@ public class Commands {
 
     @Override
     public boolean equals(Object obj) {
-      return obj instanceof NestedCommandNameImpl
-          && parent.equals(((NestedCommandNameImpl) obj).parent)
-          && value().equals(((NestedCommandNameImpl) obj).value());
+      return obj instanceof NestedCommandNameImpl n
+          && parent.equals(n.parent)
+          && value().equals(n.value());
     }
 
     @Override

@@ -37,6 +37,7 @@ import {
 } from 'rxjs';
 import {
   catchError,
+  distinctUntilChanged,
   filter,
   map,
   switchMap,
@@ -487,6 +488,13 @@ export class ChangeModel extends Model<ChangeState> {
     RevisionUpdatedFiles | undefined
   > = select(
     this.change$.pipe(
+      distinctUntilChanged(
+        (prev, curr) =>
+          prev?._number === curr?._number &&
+          prev?.current_revision === curr?.current_revision &&
+          Object.keys(prev?.revisions ?? {}).length ===
+            Object.keys(curr?.revisions ?? {}).length
+      ),
       switchMap(change => {
         if (!change) {
           return of([change, undefined]);
@@ -699,6 +707,15 @@ export class ChangeModel extends Model<ChangeState> {
         filter(
           ([change, basePatchNum, patchNum, mergeable]) =>
             !!change && !!basePatchNum && !!patchNum && mergeable !== undefined
+        ),
+        distinctUntilChanged(
+          ([prevChange, prevBase, prevPatch, prevMergeable], [currChange, currBase, currPatch, currMergeable]) =>
+            prevChange?._number === currChange?._number &&
+            prevChange?.current_revision === currChange?.current_revision &&
+            prevChange?.status === currChange?.status &&
+            prevBase === currBase &&
+            prevPatch === currPatch &&
+            prevMergeable === currMergeable
         )
       )
       .subscribe(([change, basePatchNum, patchNum, mergeable]) => {
@@ -823,6 +840,13 @@ export class ChangeModel extends Model<ChangeState> {
   private loadMergeable() {
     return this.change$
       .pipe(
+        distinctUntilChanged(
+          (prev, curr) =>
+            prev?._number === curr?._number &&
+            prev?.current_revision === curr?.current_revision &&
+            prev?.status === curr?.status &&
+            prev?.mergeable === curr?.mergeable
+        ),
         switchMap(change => {
           if (change?._number === undefined) return of(undefined);
           if (change.mergeable !== undefined) return of(change.mergeable);

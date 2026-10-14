@@ -37,6 +37,7 @@ import {
 } from 'rxjs';
 import {
   catchError,
+  distinctUntilChanged,
   filter,
   map,
   switchMap,
@@ -303,6 +304,19 @@ export function fillFromSubmittabilityInfo(
   };
 }
 
+/** `distinctUntilChanged` comparator: true if only submittability differs. */
+export function isSameExceptSubmittability(
+  a?: ParsedChangeInfo,
+  b?: ParsedChangeInfo
+): boolean {
+  if (!a || !b) return a === b;
+  const same = (x: ParsedChangeInfo, y: ParsedChangeInfo) =>
+    (Object.keys(x) as Array<keyof ParsedChangeInfo>).every(
+      k => k === 'submittable' || k === 'submit_requirements' || x[k] === y[k]
+    );
+  return same(a, b) && same(b, a);
+}
+
 /**
  * Derives the base patchset number from all the data that can potentially
  * influence it. Mostly just returns `viewModelBasePatchNum` or PARENT, but has
@@ -487,6 +501,7 @@ export class ChangeModel extends Model<ChangeState> {
     RevisionUpdatedFiles | undefined
   > = select(
     this.change$.pipe(
+      distinctUntilChanged(isSameExceptSubmittability),
       switchMap(change => {
         if (!change) {
           return of([change, undefined]);
@@ -823,6 +838,7 @@ export class ChangeModel extends Model<ChangeState> {
   private loadMergeable() {
     return this.change$
       .pipe(
+        distinctUntilChanged(isSameExceptSubmittability),
         switchMap(change => {
           if (change?._number === undefined) return of(undefined);
           if (change.mergeable !== undefined) return of(change.mergeable);

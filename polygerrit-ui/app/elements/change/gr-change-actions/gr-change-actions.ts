@@ -98,7 +98,10 @@ import {
 import {ErrorCallback} from '../../../api/rest';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 import {resolve} from '../../../models/dependency';
-import {changeModelToken} from '../../../models/change/change-model';
+import {
+  changeModelToken,
+  isSameExceptSubmittability,
+} from '../../../models/change/change-model';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -907,7 +910,8 @@ export class GrChangeActions
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('change')) {
-      this.reload();
+      const oldChange = changedProperties.get('change') as typeof this.change;
+      if (!isSameExceptSubmittability(oldChange, this.change)) this.reload();
       this.actions = this.change?.actions ?? {};
     }
 

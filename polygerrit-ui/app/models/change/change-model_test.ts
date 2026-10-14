@@ -897,4 +897,43 @@ suite('change model tests', () => {
     changeModel.updateState({change: knownChange});
     await waitUntilObserved(changeModel.latestRevision$, x => x?._number === 2);
   });
+
+  test('loading submittability re-fires showchange but no RPCs', async () => {
+    const showChangeStub = sinon.stub(
+      testResolver(pluginLoaderToken).jsApiService,
+      'handleShowChange'
+    );
+    const getMergeableStub = stubRestApi('getMergeable').resolves(
+      createMergeable(true)
+    );
+    const getFilesStub = stubRestApi('getAllRevisionFiles').resolves({});
+    stubRestApi('getChangeDetail').resolves(knownChange);
+    const promiseSrs = mockPromise<SubmittabilityInfo | undefined>();
+    stubRestApi('getSubmittabilityInfo').callsFake(() => promiseSrs);
+    const sub = changeModel.revisionUpdatedFiles$.subscribe();
+    changeViewModel.setState({
+      ...createChangeViewState(),
+      childView: ChangeChildView.OVERVIEW,
+    });
+    await waitUntil(() => showChangeStub.callCount === 1);
+
+    promiseSrs.resolve({
+      changeNum: knownChange._number,
+      submittable: true,
+      submitRequirements: [],
+    });
+    await waitUntil(() => showChangeStub.callCount === 2);
+    sub.unsubscribe();
+
+    assert.isTrue(showChangeStub.lastCall.firstArg.change.submittable);
+    assert.equal(getMergeableStub.callCount, 1);
+    assert.equal(getFilesStub.callCount, 1);
+  });
+
+  test('non-submittability change update re-fetches mergeable', async () => {
+    const stub = stubRestApi('getMergeable').resolves(createMergeable(true));
+    changeModel.updateStateChange(knownChange);
+    changeModel.updateStateChange({...knownChange, attention_set: {}});
+    assert.equal(stub.callCount, 2);
+  });
 });

@@ -68,6 +68,7 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 import {
   ChangeModel,
   changeModelToken,
+  fillFromSubmittabilityInfo,
 } from '../../../models/change/change-model';
 import {ChatModel, chatModelToken} from '../../../models/chat/chat-model';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
@@ -3196,6 +3197,22 @@ suite('gr-change-actions tests', () => {
 
       assert.isTrue(canSubmit);
       assert.isFalse(showDialogSpy.called);
+    });
+
+    test('reloads revisionActions unless only submittability changed', async () => {
+      const stub = stubRestApi('getChangeRevisionActions').resolves({});
+      await element.reload();
+      element.change = fillFromSubmittabilityInfo(element.change, {
+        changeNum: element.change!._number,
+        submittable: true,
+        submitRequirements: [],
+      });
+      await element.updateComplete;
+      assert.equal(stub.callCount, 1);
+
+      element.change = {...element.change!, labels: {}};
+      await element.updateComplete;
+      assert.equal(stub.callCount, 2);
     });
   });
 });

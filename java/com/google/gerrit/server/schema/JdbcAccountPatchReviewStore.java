@@ -83,13 +83,14 @@ public abstract class JdbcAccountPatchReviewStore
       String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
       if (url == null || url.contains(H2_DB)) {
         String lockType = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, H2_LOCK_TYPE);
-        switch (lockType != null ? lockType : "") {
-          case "" -> impl = H2AccountPatchReviewStore.class;
-          case H2_LOCK_TYPE_JGIT -> impl = H2JGitLockAccountPatchReviewStore.class;
-          default ->
-              throw new IllegalArgumentException(
-                  "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
-        }
+        impl =
+            switch (lockType != null ? lockType : "") {
+              case "" -> H2AccountPatchReviewStore.class;
+              case H2_LOCK_TYPE_JGIT -> H2JGitLockAccountPatchReviewStore.class;
+              default ->
+                  throw new IllegalArgumentException(
+                      "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
+            };
       } else if (url.contains(POSTGRESQL)) {
         impl = PostgresqlAccountPatchReviewStore.class;
       } else if (url.contains(MYSQL)) {

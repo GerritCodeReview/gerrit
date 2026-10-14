@@ -14,12 +14,14 @@
 
 package com.google.gerrit.auth.ldap;
 
+import com.google.gerrit.common.Nullable;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 
-abstract class LdapType {
+abstract sealed class LdapType
+    permits LdapType.Rfc2307, LdapType.ActiveDirectory, LdapType.FreeIPA {
   static final LdapType RFC_2307 = new Rfc2307();
 
   @SuppressWarnings("BanJNDI") // LDAP access is inherently JNDI-based.
@@ -42,6 +44,7 @@ abstract class LdapType {
 
   abstract String groupPattern();
 
+  @Nullable
   abstract String groupMemberPattern();
 
   abstract String groupName();
@@ -52,13 +55,14 @@ abstract class LdapType {
 
   abstract String accountSshUserName();
 
+  @Nullable
   abstract String accountMemberField();
 
   abstract boolean accountMemberExpandGroups();
 
   abstract String accountPattern();
 
-  private static class Rfc2307 extends LdapType {
+  private static final class Rfc2307 extends LdapType {
     @Override
     String groupPattern() {
       return "(cn=${groupname})";
@@ -90,6 +94,7 @@ abstract class LdapType {
     }
 
     @Override
+    @Nullable
     String accountMemberField() {
       return null; // Not defined in RFC 2307
     }
@@ -105,7 +110,7 @@ abstract class LdapType {
     }
   }
 
-  private static class ActiveDirectory extends LdapType {
+  private static final class ActiveDirectory extends LdapType {
     @Override
     String groupPattern() {
       return "(&(objectClass=group)(cn=${groupname}))";
@@ -117,6 +122,7 @@ abstract class LdapType {
     }
 
     @Override
+    @Nullable
     String groupMemberPattern() {
       return null; // Active Directory uses memberOf in the account
     }
@@ -152,7 +158,7 @@ abstract class LdapType {
     }
   }
 
-  private static class FreeIPA extends LdapType {
+  private static final class FreeIPA extends LdapType {
 
     @Override
     String groupPattern() {
@@ -165,6 +171,7 @@ abstract class LdapType {
     }
 
     @Override
+    @Nullable
     String groupMemberPattern() {
       return null; // FreeIPA uses memberOf in the account
     }

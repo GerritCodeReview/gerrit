@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89bc40d1_eb2379c2",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractLabelPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-14T05:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5db59c36_b58f4a4d",
+      "revId": "85146b7728aae19f36e52f1a190f714bf0a1e1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26911c0e_65e6d134",

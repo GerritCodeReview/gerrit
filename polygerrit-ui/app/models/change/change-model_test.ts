@@ -897,4 +897,57 @@ suite('change model tests', () => {
     changeModel.updateState({change: knownChange});
     await waitUntilObserved(changeModel.latestRevision$, x => x?._number === 2);
   });
+
+  test('submittabilityInfo resolving after detail does not re-trigger getMergeable, handleShowChange, or getAllRevisionFiles', async () => {
+    await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
+    const pluginLoader = testResolver(pluginLoaderToken);
+    const showChangeStub = sinon.stub(
+      pluginLoader.jsApiService,
+      'handleShowChange'
+    );
+    const getMergeableStub = stubRestApi('getMergeable').callsFake(
+      () =>
+        new Promise(resolve =>
+          setTimeout(() => resolve(createMergeable(true)), 30)
+        )
+    );
+    const getAllRevisionFilesStub = stubRestApi('getAllRevisionFiles').resolves(
+      {}
+    );
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    stubRestApi('getChangeDetail').callsFake(() => promiseDetail);
+    const promiseSrs = mockPromise<SubmittabilityInfo | undefined>();
+    stubRestApi('getSubmittabilityInfo').callsFake(() => promiseSrs);
+
+    const revFilesSub = changeModel.revisionUpdatedFiles$.subscribe();
+    changeViewModel.setState({
+      ...createChangeViewState(),
+      childView: ChangeChildView.OVERVIEW,
+      patchNum: 2 as PatchSetNumber,
+    });
+
+    promiseDetail.resolve(knownChange);
+    await waitForLoadingStatus(LoadingStatus.LOADED);
+
+    // Wait 15ms so getMergeable #1 (30ms) is in-flight when submittabilityInfo resolves.
+    await new Promise(resolve => setTimeout(resolve, 15));
+    promiseSrs.resolve({
+      changeNum: knownChange._number,
+      submittable: true,
+      submitRequirements: [createSubmitRequirementResultInfo()],
+    });
+
+    await waitUntilObserved(
+      changeModel.mergeable$,
+      mergeable => mergeable === true,
+      'mergeable$ was never true'
+    );
+    // Allow any trailing microtasks to settle.
+    await new Promise(resolve => setTimeout(resolve, 10));
+    revFilesSub.unsubscribe();
+
+    assert.equal(getMergeableStub.callCount, 1);
+    assert.equal(getAllRevisionFilesStub.callCount, 1);
+    assert.equal(showChangeStub.callCount, 1);
+  });
 });

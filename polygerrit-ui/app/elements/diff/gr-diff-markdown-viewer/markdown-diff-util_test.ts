@@ -14,14 +14,22 @@ import {
 } from '../../../test/test-data-generators';
 import {CommentThread, UrlEncodedCommentId} from '../../../types/common';
 import {
+  alignHomologousItems,
   alignMarkdownTokens,
   attachThreadsToRows,
+  coalesceInlineDiffSegments,
+  computeNormalizedEditDistance,
   computeSequenceDiff,
   parseMarkdownBlocks,
   reconstructFileContent,
+  renderBlockquoteDiff,
+  renderCodeBlockDiff,
   renderInlineCodeSpans,
   renderInlineMarkdown,
   renderInlineTextDiff,
+  renderListDiff,
+  renderTableDiff,
+  tokenizeCodeWords,
   tokenizeWords,
 } from './markdown-diff-util';
 
@@ -140,6 +148,135 @@ suite('markdown-diff-util tests', () => {
     assert.include(rightHtml, '<code>workspace_root</code>');
     assert.include(rightHtml, '<code>$ANDROID_BUILD_TOP</code>');
     assert.include(rightHtml, '<code>.repo/</code>');
+  });
+
+  test('computeNormalizedEditDistance and coalesceInlineDiffSegments follow delta-style edit inference', () => {
+    assert.equal(
+      computeNormalizedEditDistance(
+        tokenizeWords('same sentence'),
+        tokenizeWords('same sentence')
+      ),
+      0
+    );
+    assert.equal(
+      computeNormalizedEditDistance(
+        tokenizeWords('alpha beta'),
+        tokenizeWords('gamma delta')
+      ),
+      1
+    );
+
+    const rawSegments = computeSequenceDiff(
+      tokenizeWords('Run old legacy command now.'),
+      tokenizeWords('Run new modern command now.')
+    );
+    const coalesced = coalesceInlineDiffSegments(rawSegments);
+    // The space between 'old'/'legacy' and 'new'/'modern' is coalesced into a single edit span.
+    assert.deepEqual(coalesced, [
+      {text: 'Run ', type: 'common'},
+      {text: 'old legacy', type: 'deleted'},
+      {text: 'new modern', type: 'added'},
+      {text: ' command now.', type: 'common'},
+    ]);
+  });
+
+  test('alignHomologousItems pairs modified items across insertions', () => {
+    const itemsA = ['Configure timeout in default.yaml'];
+    const itemsB = [
+      'Brand new prerequisite step',
+      'Configure timeout in production.yaml',
+    ];
+    const aligned = alignHomologousItems(itemsA, itemsB);
+    assert.equal(aligned.length, 2);
+    assert.equal(aligned[0].type, 'added');
+    assert.equal(aligned[1].type, 'modified');
+    if (aligned[1].type === 'modified') {
+      assert.equal(aligned[1].textA, 'Configure timeout in default.yaml');
+      assert.equal(aligned[1].textB, 'Configure timeout in production.yaml');
+    }
+  });
+
+  test('renderCodeBlockDiff performs within-line token diffing on homologous code lines', () => {
+    const tokensA = parseMarkdownBlocks(
+      '```bash\npython3 tools/build_experimentation/scripts/run_experiment.py --config path/to/config.json\n```'
+    );
+    const tokensB = parseMarkdownBlocks(
+      '```bash\npython3 <SKILL_DIR>/scripts/run_experiment.py --config path/to/config.json\n```'
+    );
+    assert.deepEqual(tokenizeCodeWords('python3 <SKILL_DIR>/run.py --flag'), [
+      'python3',
+      ' ',
+      '<SKILL_DIR>',
+      '/',
+      'run',
+      '.',
+      'py',
+      ' ',
+      '--flag',
+    ]);
+
+    const {leftHtml, rightHtml} = renderCodeBlockDiff(
+      tokensA[0] as never,
+      tokensB[0] as never
+    );
+    assert.include(leftHtml, 'class="diff-code-line-del"');
+    assert.include(
+      leftHtml,
+      '<del class="diff-highlight-del">tools/build_experimentation</del>'
+    );
+    assert.include(rightHtml, 'class="diff-code-line-add"');
+    assert.include(
+      rightHtml,
+      '<ins class="diff-highlight-add">&lt;SKILL_DIR&gt;</ins>'
+    );
+  });
+
+  test('renderListDiff, renderBlockquoteDiff, and renderTableDiff highlight within-element changes', () => {
+    const listA = parseMarkdownBlocks(
+      '- Enable `--legacy-auth` on startup\n- Unchanged item'
+    )[0];
+    const listB = parseMarkdownBlocks(
+      '- Enable `--oauth2-auth` on startup\n- Unchanged item\n- Added item'
+    )[0];
+    const listDiff = renderListDiff(listA as never, listB as never);
+    assert.include(
+      listDiff.leftHtml,
+      '<del class="diff-highlight-del"><code>--legacy-auth</code></del>'
+    );
+    assert.include(
+      listDiff.rightHtml,
+      '<ins class="diff-highlight-add"><code>--oauth2-auth</code></ins>'
+    );
+    assert.include(listDiff.rightHtml, 'class="diff-list-item-add"');
+
+    const quoteA = parseMarkdownBlocks('> Removed in Q3.')[0];
+    const quoteB = parseMarkdownBlocks('> Removed in Q4.')[0];
+    const quoteDiff = renderBlockquoteDiff(quoteA as never, quoteB as never);
+    assert.include(
+      quoteDiff.leftHtml,
+      '<blockquote><p>Removed in <del class="diff-highlight-del">Q3</del>.</p></blockquote>'
+    );
+    assert.include(
+      quoteDiff.rightHtml,
+      '<blockquote><p>Removed in <ins class="diff-highlight-add">Q4</ins>.</p></blockquote>'
+    );
+
+    const tableA = parseMarkdownBlocks(
+      '| Flag | Default |\n| --- | --- |\n| `--threads` | `4` |'
+    )[0];
+    const tableB = parseMarkdownBlocks(
+      '| Flag | Default |\n| --- | --- |\n| `--threads` | `8` |'
+    )[0];
+    const tableDiff = renderTableDiff(tableA as never, tableB as never);
+    assert.include(tableDiff.leftHtml, '<td><code>--threads</code></td>');
+    assert.include(
+      tableDiff.leftHtml,
+      '<td><del class="diff-highlight-del"><code>4</code></del></td>'
+    );
+    assert.include(
+      tableDiff.rightHtml,
+      '<td><ins class="diff-highlight-add"><code>8</code></ins></td>'
+    );
   });
 
   test('computeSequenceDiff', () => {

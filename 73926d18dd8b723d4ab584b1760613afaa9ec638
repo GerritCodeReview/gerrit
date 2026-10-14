@@ -22,6 +22,30 @@
       },
       "revId": "73926d18dd8b723d4ab584b1760613afaa9ec638",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d619012_b4501bcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-14T07:32:40Z",
+      "side": 1,
+      "message": "The user won\u0027t be able to type anything, it\u0027ll be a read-only panel with the error message displayed. That\u0027s the same behaviour as we have now when the API token is missing.",
+      "parentUuid": "4fbbe71e_90972fb8",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 53
+      },
+      "revId": "73926d18dd8b723d4ab584b1760613afaa9ec638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

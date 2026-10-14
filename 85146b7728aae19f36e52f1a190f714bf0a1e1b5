@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db59c36_b58f4a4d",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractLabelPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-14T05:11:36Z",
+      "side": 1,
+      "message": "This should be reformatted.",
+      "revId": "85146b7728aae19f36e52f1a190f714bf0a1e1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26911c0e_65e6d134",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractLabelPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-14T05:11:36Z",
+      "side": 1,
+      "message": "The in-tree hierarchy matches the permitted subclasses.\n\nCan we confirm external plugins are not supported in subclassing these public roots or leaves?\n\nBefore this change, a plugin could write:\n\n```\nclass CustomLabelPermission extends LabelPermission {\n  CustomLabelPermission() {\n    super(\"Code-Review\");\n  }\n}\n```\n\nSealing the roots and making the leaves final restricts that API. If leaf extensibility matters, permitted non-sealed leaves would preserve it.",
+      "revId": "85146b7728aae19f36e52f1a190f714bf0a1e1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

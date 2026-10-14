@@ -39,6 +39,30 @@
       },
       "revId": "de8fdda5edc8d156e83f62f14f2becd7dcb566c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f240316_33db9ec3",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T21:47:21Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "369581cc_0e3b5377",
+      "range": {
+        "startLine": 146,
+        "startChar": 22,
+        "endLine": 146,
+        "endChar": 27
+      },
+      "revId": "de8fdda5edc8d156e83f62f14f2becd7dcb566c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

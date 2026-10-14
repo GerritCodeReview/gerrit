@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "204481ae_6ad16029",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T15:38:17Z",
+      "side": 1,
+      "message": "\u003e This motivation is specifically about AI authorship, but we also include any other non-human contributor, such as bots and other automated tools.\n\nThe exception for CI/CD automation bot is already excluded.\nIs there anything else that you believe we do today and should also be excluded from human authorship?\n\n\u003e For example, an automated dependency update could reasonably use a bot as its technical Git author, with a human subsequently reviewing and approving the change.\n\u003e \n\u003e I don\u0027t think that should be prohibited, right?\n\nNo, we don\u0027t do automated dependency updates because of Google\u0027s `Library-Compliance` requirement.\n\nAny other examples?",
+      "parentUuid": "9e37e104_9a315ec4",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 70
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae925632_a0c3d222",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 7

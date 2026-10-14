@@ -16,6 +16,24 @@
       "message": "@ajagup@qti.qualcomm.com how does this interact with your fixes in https://gerrit-review.googlesource.com/c/gerrit/+/634644 (and parents)?",
       "revId": "ddca516936bf5542a58999b8f09bf4c281187f9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "595bb67f_86ed5241",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083706
+      },
+      "writtenOn": "2026-10-14T21:41:32Z",
+      "side": 1,
+      "message": "Thanks for pointing that out! It looks like my CL should be compatible with Ajay\u0027s stack.\n\nHowever, The new `conflictsWithAncestorOfQueriedChangeWithRebaseAlways` test from Ajay\u0027s stack caught a bug in the cherry-pick path of my CL. That\u0027s fixed in the latest patchset, all of Ajay\u0027s tests pass with this CL rebased on his stack.",
+      "parentUuid": "d80e7d8b_945bbafe",
+      "revId": "ddca516936bf5542a58999b8f09bf4c281187f9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "29b018e2a61d4e68c8fdb4bd0550411a20ec8fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8894117f_f45db25f",
+        "filename": "java/com/google/gerrit/extensions/common/ApprovalInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-14T23:22:42Z",
+      "side": 1,
+      "message": "Can you share more about this? I don\u0027t think this change adds value if we\u0027re parsing the tags. I\u0027d prefer for it to be a first-class field.",
+      "parentUuid": "e0b14ddd_e62d13ee",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 3
+      },
+      "revId": "29b018e2a61d4e68c8fdb4bd0550411a20ec8fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

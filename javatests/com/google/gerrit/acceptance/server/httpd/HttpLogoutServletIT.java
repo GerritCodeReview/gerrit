@@ -22,7 +22,6 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +46,11 @@ public class HttpLogoutServletIT extends StandaloneSiteTest {
     Config cfg = new Config();
     cfg.setString("auth", null, "logouturl", "/test-logout");
     cfg.setString("gerrit", null, "canonicalWebUrl", "https://" + LOCALHOST + ":8443/");
-    cfg.setString("httpd", null, "listenUrl", "proxy-https://" + LOCALHOST + ":" + getFreePort());
+    cfg.setString(
+        "httpd",
+        null,
+        "listenUrl",
+        "proxy-https://" + LOCALHOST + ":" + HttpTestUtil.getFreePort());
     return cfg;
   }
 
@@ -101,12 +104,6 @@ public class HttpLogoutServletIT extends StandaloneSiteTest {
       return Optional.of(new URIish(uri));
     } catch (URISyntaxException e) {
       return Optional.empty();
-    }
-  }
-
-  private static int getFreePort() throws IOException {
-    try (ServerSocket s = new ServerSocket(0)) {
-      return s.getLocalPort();
     }
   }
 }

@@ -70,6 +70,8 @@ import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.ProxyConnectionFactory;
+import org.eclipse.jetty.server.ProxyCustomizer;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
@@ -104,17 +106,24 @@ public class JettyServer {
            * }
            * </code>
            *
-           * What we want to achieve here is to remember what it was the original proxy address before
-           * calling super.customize() and give the possibility to fetch it later down the chain.
+           * What we want to achieve here is to remember the original proxy address before calling
+           * super.customize() and give the possibility to fetch it later down the chain. When
+           * PROXY protocol is enabled, ProxyCustomizer has already exposed the underlying socket
+           * peer address through its request attribute.
            */
-          request.setAttribute(
-              RemoteUserUtil.PROXY_REMOTE_ADDRESS_ATTR,
-              ((InetSocketAddress) request.getConnectionMetaData().getRemoteSocketAddress())
-                  .getAddress()
-                  .getHostAddress());
+          String proxyRemoteAddress =
+              (String) request.getAttribute(ProxyCustomizer.REMOTE_ADDRESS_ATTRIBUTE_NAME);
+          if (proxyRemoteAddress == null) {
+            proxyRemoteAddress =
+                ((InetSocketAddress) request.getConnectionMetaData().getRemoteSocketAddress())
+                    .getAddress()
+                    .getHostAddress();
+          }
+          request.setAttribute(RemoteUserUtil.PROXY_REMOTE_ADDRESS_ATTR, proxyRemoteAddress);
           return super.customize(request, responseHeaders);
         }
       };
+  private static final ProxyCustomizer PROXY_CUSTOMIZER = new ProxyCustomizer();
 
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
@@ -335,11 +344,13 @@ public class JettyServer {
     final int acceptors = cfg.getInt("httpd", "acceptorThreads", 0);
     final int selectors = cfg.getInt("httpd", "selectorThreads", 2);
     final AuthType authType = cfg.getEnum("auth", null, "type", AuthType.OPENID);
+    final boolean enableProxyProtocol = cfg.getBoolean("httpd", null, "enableProxyProtocol", false);
 
-    reverseProxy = isReverseProxied(listenUrls);
+    boolean allReverseProxy = true;
     final Connector[] connectors = new Connector[listenUrls.length];
     for (int idx = 0; idx < listenUrls.length; idx++) {
       final URI u = listenUrls[idx];
+      final String scheme = u.getScheme();
       final int defaultPort;
       final ServerConnector c;
       HttpConfiguration config = defaultConfig(requestHeaderSize);
@@ -371,10 +382,10 @@ public class JettyServer {
                   UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING,
                   UriCompliance.Violation.SUSPICIOUS_PATH_CHARACTERS)));
 
-      if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
+      if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(scheme)) {
         throw new IllegalArgumentException(
             "Protocol '"
-                + u.getScheme()
+                + scheme
                 + "' "
                 + " not supported in httpd.listenurl '"
                 + u
@@ -383,11 +394,13 @@ public class JettyServer {
                 + "'; only 'https' is supported");
       }
 
-      if ("http".equals(u.getScheme())) {
+      if ("http".equals(scheme)) {
+        allReverseProxy = false;
         defaultPort = 80;
-        c = newServerConnector(server, acceptors, selectors, config);
+        c = newServerConnector(server, acceptors, selectors, config, false);
 
-      } else if ("https".equals(u.getScheme())) {
+      } else if ("https".equals(scheme)) {
+        allReverseProxy = false;
         SslContextFactory.Server ssl = new SslContextFactory.Server();
         final Path keystore = getFile(cfg, "sslkeystore", "etc/keystore");
         String password = cfg.getString("httpd", null, "sslkeypassword");
@@ -423,41 +436,43 @@ public class JettyServer {
                 new SslConnectionFactory(ssl, "http/1.1"),
                 new HttpConnectionFactory(config));
 
-      } else if ("proxy-http".equals(u.getScheme())) {
+      } else if ("proxy-http".equals(scheme) || "proxy-https".equals(scheme)) {
         defaultPort = 8080;
+        // Add the proxy customizer first so the forwarding customizer can record the underlying
+        // peer address used for authentication before applying X-Forwarded-For to the request.
+        if (enableProxyProtocol) {
+          config.addCustomizer(PROXY_CUSTOMIZER);
+        }
         config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
-        c = newServerConnector(server, acceptors, selectors, config);
+        if ("proxy-https".equals(scheme)) {
+          // For a proxy that terminates TLS, mark every request as HTTPS
+          // unconditionally. ForwardedRequestCustomizer alone only sets
+          // isSecure() when the proxy sends X-Forwarded-Proto=https or
+          // X-Proxied-Https=on; this wrapper covers proxies that don't.
+          // Jetty 12's HttpConfiguration.Customizer returns a (possibly
+          // wrapped) Request, so wrap the URI's scheme and override isSecure().
+          config.addCustomizer(
+              (request, responseHeaders) ->
+                  new Request.Wrapper(request) {
+                    @Override
+                    public HttpURI getHttpURI() {
+                      return HttpURI.build(super.getHttpURI())
+                          .scheme(HttpScheme.HTTPS.asString())
+                          .asImmutable();
+                    }
 
-      } else if ("proxy-https".equals(u.getScheme())) {
-        defaultPort = 8080;
-        config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
-        // For a proxy that terminates TLS, mark every request as HTTPS
-        // unconditionally. ForwardedRequestCustomizer alone only sets
-        // isSecure() when the proxy sends X-Forwarded-Proto=https or
-        // X-Proxied-Https=on; this wrapper covers proxies that don't.
-        // Jetty 12's HttpConfiguration.Customizer returns a (possibly
-        // wrapped) Request, so wrap the URI's scheme and override isSecure().
-        config.addCustomizer(
-            (request, responseHeaders) ->
-                new Request.Wrapper(request) {
-                  @Override
-                  public HttpURI getHttpURI() {
-                    return HttpURI.build(super.getHttpURI())
-                        .scheme(HttpScheme.HTTPS.asString())
-                        .asImmutable();
-                  }
-
-                  @Override
-                  public boolean isSecure() {
-                    return true;
-                  }
-                });
-        c = newServerConnector(server, acceptors, selectors, config);
+                    @Override
+                    public boolean isSecure() {
+                      return true;
+                    }
+                  });
+        }
+        c = newServerConnector(server, acceptors, selectors, config, enableProxyProtocol);
 
       } else {
         throw new IllegalArgumentException(
             "Protocol '"
-                + u.getScheme()
+                + scheme
                 + "' "
                 + " not supported in httpd.listenurl '"
                 + u
@@ -490,13 +505,30 @@ public class JettyServer {
       c.setIdleTimeout(cfg.getTimeUnit("httpd", null, "idleTimeout", 30000L, MILLISECONDS));
       connectors[idx] = c;
     }
+    reverseProxy = allReverseProxy;
     return connectors;
   }
 
-  private static ServerConnector newServerConnector(
-      Server server, int acceptors, int selectors, HttpConfiguration config) {
-    return new ServerConnector(
-        server, null, null, null, acceptors, selectors, new HttpConnectionFactory(config));
+  @VisibleForTesting
+  static ServerConnector newServerConnector(
+      Server server,
+      int acceptors,
+      int selectors,
+      HttpConfiguration config,
+      boolean enableProxyProtocol) {
+    HttpConnectionFactory http = new HttpConnectionFactory(config);
+    if (enableProxyProtocol) {
+      return new ServerConnector(
+          server,
+          null,
+          null,
+          null,
+          acceptors,
+          selectors,
+          new ProxyConnectionFactory(http.getProtocol()),
+          http);
+    }
+    return new ServerConnector(server, null, null, null, acceptors, selectors, http);
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {
@@ -518,15 +550,6 @@ public class JettyServer {
     // Revisit if slow-client mitigation becomes desirable.
 
     return config;
-  }
-
-  static boolean isReverseProxied(URI[] listenUrls) {
-    for (URI u : listenUrls) {
-      if ("http".equals(u.getScheme()) || "https".equals(u.getScheme())) {
-        return false;
-      }
-    }
-    return true;
   }
 
   static URI[] listenURLs(Config cfg) {

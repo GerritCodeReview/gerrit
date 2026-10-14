@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d64817_fee699da",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-14T18:05:36Z",
+      "side": 1,
+      "message": "I would add the requirement that the commit message shall be written by the contributor without AI assistance as a first line of defense against AI slop contributions. If the contributor isn\u0027t able to write the commit message I would assume the contributor doesn\u0027t understand what the AI model generated and would reject it.",
+      "revId": "51c5004d811b1ec254515fc0c08f4fd4cd913070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77113700_fccbc18e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-14T18:05:36Z",
+      "side": 1,
+      "message": "```suggestion\nBy pushing a code change to Gerrit, the author and the signer of the\n```",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 147,
+        "endChar": 25
+      },
+      "revId": "51c5004d811b1ec254515fc0c08f4fd4cd913070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b7b2d47_027c038e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-14T18:05:36Z",
+      "side": 1,
+      "message": "```suggestion\nYou must possess a thorough understanding of the code you are\npushing. If you cannot confidently explain how the AI-generated code\n```",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 11
+      },
+      "revId": "51c5004d811b1ec254515fc0c08f4fd4cd913070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb24fba6_77d58719",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-14T18:05:36Z",
+      "side": 1,
+      "message": "```suggestion\narchitecture and security, it must not be pushed. Relying on AI is not\n```",
+      "revId": "51c5004d811b1ec254515fc0c08f4fd4cd913070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

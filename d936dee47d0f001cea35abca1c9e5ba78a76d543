@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae925632_a0c3d222",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-14T12:18:52Z",
+      "side": 1,
+      "message": "I think this makes sense, but I believe we should encourage disclosing AI-assisted contributions. Other Google projects do that [1]. If we don\u0027t want to explicitly mention the tool, we can just add a generic git trailer `Assisted-By: AI` or any other way of making it clear.\n\nWe could ask to add it only if the AI-generated content was \"substantial\".\n\n[1]: https://github.com/google/gvisor/blob/master/CONTRIBUTING.md#label-ai-assisted-work",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 66
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1aff9eec_eb4f28f9",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 7
@@ -235,6 +258,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01dd55ea_cc569655",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-14T12:18:52Z",
+      "side": 1,
+      "message": "+1\n\nThat would require a process change and should be introduced and documented. Furthermore, it would require a configuration change to enforce it AFAIK.",
+      "parentUuid": "d81b1ebd_67f634dc",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 27
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "250e87b4_74348a17",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 7
@@ -246,6 +293,30 @@
       "writtenOn": "2026-10-14T07:31:31Z",
       "side": 1,
       "message": "How would contributors realistically certify that the AI tools they use don\u0027t infringe any third-party copyrights?\n\nThey can review the generated output and check for known licensing issues, but they can\u0027t verify the model\u0027s training data or guarantee that no protected material was reproduced.\n\nI think we should frame this as \"due diligence\", ensure they have the rights to submit the generated code, and disclose any known third-party licensing restrictions. This is also what the Google CLA actually requires in Section 5. [1]\n\n```\nYou represent that Your Contribution submissions include complete details of any third-party license or \nother restriction (including, but not limited to, related patents and trademarks) of which you are \npersonally aware and which are associated with any part of Your Contributions.\n```\n\n[1] https://cla.developers.google.com/about/google-individual",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 66
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22e6629e_97eafd17",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-14T12:18:52Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "250e87b4_74348a17",
       "range": {
         "startLine": 170,
         "startChar": 0,

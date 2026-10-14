@@ -92,19 +92,9 @@ public class GerritServerTestRule implements ServerTestRule {
           // disable them using the command line flag.
           assume().that(SshMode.useSsh()).isTrue();
         }
-        try {
+        try (AutoCloseable ignored = GerritServerTestRule.this::afterTest) {
           statement.evaluate();
-        } catch (Throwable t) {
-          // Also stop per-test servers when the test fails or is skipped by an assumption,
-          // otherwise their threads keep the whole server reachable for the rest of the run.
-          try {
-            afterTest();
-          } catch (Throwable e) {
-            t.addSuppressed(e);
-          }
-          throw t;
         }
-        afterTest();
       }
     };
   }

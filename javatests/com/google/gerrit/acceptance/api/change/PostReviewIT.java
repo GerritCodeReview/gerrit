@@ -1415,6 +1415,22 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(commentInfo.isAi).isTrue();
   }
 
+  @Test
+  public void postVoteWithAiTagSetsIsAi() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput input = ReviewInput.recommend();
+    input.tag = "ai-coverage";
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    List<com.google.gerrit.extensions.common.ApprovalInfo> approvals =
+        change.labels.get(LabelId.CODE_REVIEW).all;
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals.get(0).tag).isEqualTo("ai-coverage");
+    assertThat(approvals.get(0).isAi).isTrue();
+  }
+
   private static void assertAttentionSet(
       ImmutableSet<AttentionSetUpdate> attentionSet, Account.Id... accounts) {
     assertThat(attentionSet.stream().map(AttentionSetUpdate::account).collect(Collectors.toList()))

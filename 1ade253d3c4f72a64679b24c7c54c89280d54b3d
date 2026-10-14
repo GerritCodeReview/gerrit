@@ -1,0 +1,306 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a94102f2_7244c357",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "nit: repeated \"recent\"",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f08a954e_600c5be7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "Unless I\u0027m missing something, the Google CLA has no explicit mentions of AI. I\u0027m all for clarifying our policy/expectations around AI assisted contributions, but this feels like we might be overstating the \"need\". In general, I\u0027m hesitant to add legaese-sounding text to our docs without review from a lawyer. It\u0027s fine if we\u0027re just pointing to another legal doc (like the Google CLA) that contributors already must accept, but it\u0027s a lot iffier when it looks like we\u0027re doing interpretation of that doc. Which isn\u0027t to say we can\u0027t add rules, I just think if we\u0027re using a legal basis for the new rules, then we need legal advice. If the rules are just \"project requirements\" that we\u0027re deciding on, that feels a lot safer.",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe53b063_4f973178",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "In case you weren\u0027t aware, we already have this text in [`SUBMITTING_PATCHES`](https://gerrit.googlesource.com/gerrit/+/refs/changes/63/641963/18/SUBMITTING_PATCHES#58):\n```\nAll submissions to Google Open Source projects need to follow Google’s\nContributor License Agreement (CLA), in which contributors agree that\ntheir contribution is an original work of authorship. This doesn’t\nprohibit the use of coding assistance tools, but what’s submitted does\nneed to be a contributor’s original creation.\n```\n\nI think that covers a lot (but not all) of what we\u0027re trying to say below.",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ae45a88_83c74daf",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "Reword to include a link and the specific bits from the CLA we\u0027re referencing.\n```suggestion\nrecognize the productivity benefits they offer our contributors. However,\nto protect the integrity, security, and legal standing of the Gerrit Code\nReview project, contributions using generative AI continue to be subject\nto the link:dev-cla.html[Google CLA,role\u003dexternal,window\u003d_blank],\nparticularly its points on contributions being your original creations.\n```",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 41
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a75c9218_b991d72c",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "I think this heading is misleading, as it\u0027s using \"author\" in a legal sense. We\u0027re not requiring that a human types the contribution into an editor and that\u0027s what \"author\" is likely to be assumed to mean at a glance. I think broader wording for the heading and specifics in the body will work better here:\n```suggestion\n\u003d\u003d\u003d\u003d Contribution Attribution\n```",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74cc5e97_e8984c60",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "```suggestion\nAttribution of a commit must exclusively belong to a human contributor.\n```",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e631c951_3a9b236c",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "I saw there was discussion that we don\u0027t want to require `Assisted-By:` footers. Do we want to discourage them here?\n\n```suggestion\nsubmitting the change is the sole recognized responsible author of the code.\n\nWe prefer omitting `Assisted-By:` footers crediting AI or other tools as\nthere isn\u0027t clear value from including such a footer.\n```",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c9dfedd_0eb1dcb1",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "Can we widen this to \"without express permission from the maintainers/ESC\" and use the existing automated jobs as an example?",
+      "range": {
+        "startLine": 139,
+        "startChar": 10,
+        "endLine": 141,
+        "endChar": 69
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5bc067a_53a4bc53",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "I think this is too much. Using an agent or script to push a new patch set shouldn\u0027t be prohibited. I\u0027m fine with saying it shouldn\u0027t be fully automated, but if a human reviewed the commits and then says \"push the new patch sets\", I think that should be allowed.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 40
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f6ea3cb_265995fe",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "Sorry, I pretty strongly disagree with this one. I get the desire to prevent slop, but this isn\u0027t the right way to do it. I see nothing wrong with any contributor using AI to generate a commit message, so long as they understand it and can answer reasonable questions about it.",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5bece1_3192dff3",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "What does \"the author of _**the intent**_ of the change\" (my emphasis added) mean?",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4624cc5_cd6ae88e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "What does \"authorship responsibility\" mean? \"Compliance\" with what? This section seems like it could be going contrary to section 6 in the CLA about contributions being \"AS-IS\".",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 68
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b643838_6c2da905",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "This section seems like a great guideline to have. Given me comment above about commit messages, I would add some text here about understanding the commit message.",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c889c1a1_951eab7e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "```suggestion\narchitecture and security, do not contribute it. Relying on AI is not\n```",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8327b8a1_a5d91128",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "I don\u0027t think we should be copying/re-representing the Google CLA in our doc. If Google changes it in a way that\u0027s different from what we have here, that\u0027s a problem. I would remove this section completely and replace it with a reference as I noted above.",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af98ca2_26019524",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T23:42:37Z",
+      "side": 1,
+      "message": "Isn\u0027t this point 7, not 6? https://cla.developers.google.com/about/google-individual",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

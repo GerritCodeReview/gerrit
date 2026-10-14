@@ -70,14 +70,13 @@ abstract class AbstractChangeControl {
   }
 
   protected boolean can(ChangePermissionOrLabel perm) throws PermissionBackendException {
-    if (perm instanceof ChangePermission changePermission) {
-      return can(changePermission);
-    } else if (perm instanceof AbstractLabelPermission abstractLabelPermission) {
-      return can(abstractLabelPermission);
-    } else if (perm instanceof AbstractLabelPermission.WithValue labelPermissionWithValue) {
-      return can(labelPermissionWithValue);
-    }
-    throw new PermissionBackendException(perm + " unsupported");
+    return switch (perm) {
+      case ChangePermission changePermission -> can(changePermission);
+      case AbstractLabelPermission abstractLabelPermission -> can(abstractLabelPermission);
+      case AbstractLabelPermission.WithValue labelPermissionWithValue ->
+          can(labelPermissionWithValue);
+      case null, default -> throw new PermissionBackendException(perm + " unsupported");
+    };
   }
 
   protected boolean can(ChangePermission perm) throws PermissionBackendException {

@@ -178,13 +178,13 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private boolean can(GlobalOrPluginPermission perm) throws PermissionBackendException {
-      if (perm instanceof GlobalPermission globalPermission) {
-        return can(globalPermission);
-      } else if (perm instanceof PluginPermission pluginPermission) {
-        return has(DefaultPermissionMappings.pluginCapabilityName(pluginPermission))
-            || (pluginPermission.fallBackToAdmin() && isAdmin());
-      }
-      throw new PermissionBackendException(perm + " unsupported");
+      return switch (perm) {
+        case GlobalPermission globalPermission -> can(globalPermission);
+        case PluginPermission pluginPermission ->
+            has(DefaultPermissionMappings.pluginCapabilityName(pluginPermission))
+                || (pluginPermission.fallBackToAdmin() && isAdmin());
+        case null, default -> throw new PermissionBackendException(perm + " unsupported");
+      };
     }
 
     private boolean can(GlobalPermission perm) throws PermissionBackendException {

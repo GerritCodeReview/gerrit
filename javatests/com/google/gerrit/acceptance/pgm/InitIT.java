@@ -14,13 +14,16 @@
 
 package com.google.gerrit.acceptance.pgm;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
@@ -80,6 +83,45 @@ public class InitIT extends StandaloneSiteTest {
 
     // Verify that projects index files haven't been updated
     assertThat(projectsLastModified).isEqualTo(projectsLastModifiedAfterInit);
+  }
+
+  @Test
+  public void initGeneratesMissingSshHostKeys() throws Exception {
+    assertThat(existingSshHostKeys()).containsExactlyElementsIn(allSshHostKeys());
+
+    Files.delete(sitePaths.ssh_rsa);
+    Files.delete(sitePaths.ssh_ecdsa_256);
+    initSite();
+
+    assertThat(existingSshHostKeys()).containsExactlyElementsIn(allSshHostKeys());
+  }
+
+  @Test
+  @GerritConfig(name = "sshd.generateHostKeys", value = "false")
+  public void initDoesNotGenerateSshHostKeysIfDisabled() throws Exception {
+    assertThat(existingSshHostKeys()).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "sshd.generateHostKeys", value = "false")
+  public void initDoesNotGenerateMissingSshHostKeysIfDisabled() throws Exception {
+    Files.writeString(sitePaths.ssh_ed25519, "provisioned host key");
+    initSite();
+
+    assertThat(existingSshHostKeys()).containsExactly(sitePaths.ssh_ed25519);
+  }
+
+  private ImmutableList<Path> allSshHostKeys() {
+    return ImmutableList.of(
+        sitePaths.ssh_rsa,
+        sitePaths.ssh_ed25519,
+        sitePaths.ssh_ecdsa_256,
+        sitePaths.ssh_ecdsa_384,
+        sitePaths.ssh_ecdsa_521);
+  }
+
+  private ImmutableList<Path> existingSshHostKeys() {
+    return allSshHostKeys().stream().filter(Files::exists).collect(toImmutableList());
   }
 
   private void initSite() throws Exception {

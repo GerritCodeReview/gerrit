@@ -94,6 +94,30 @@
       },
       "revId": "b2b051a22958ddab9e920faf8e93642095ce16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9957ca79_cf95dc22",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-14T13:06:36Z",
+      "side": 1,
+      "message": "Yeah, with a bit more digging, I can generate an absolute url for settings, so will use that without needing to change this bit here. Will abandon this change.",
+      "parentUuid": "7ad0f801_fb4eefe2",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 66
+      },
+      "revId": "b2b051a22958ddab9e920faf8e93642095ce16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -954,8 +954,13 @@ export class GrChangeActions
     }
     const change = this.change;
     this.revisionActions = undefined;
+    // `current` instead of `latestPatchNum`, so that the request matches the
+    // preload in index.html. They only differ if a patch set is uploaded
+    // between loading the change and its actions. That is harmless: revision
+    // actions are sent for `latestPatchNum` and validated by the server, and
+    // send() refuses to act on a stale change.
     return this.restApiService
-      .getChangeRevisionActions(this.changeNum, this.latestPatchNum)
+      .getChangeRevisionActions(this.changeNum, CURRENT)
       .then(revisionActions => {
         this.revisionActions = revisionActions ?? {};
         this.sendShowRevisionActions({

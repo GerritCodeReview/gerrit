@@ -356,6 +356,21 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(params?.['context-padding'], 3);
   });
 
+  test('getChangeRevisionActions for current matches preload', async () => {
+    sinon.stub(element, 'getRepoName').resolves('test/repo' as RepoName);
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves({} as unknown as ParsedJSON);
+    await element.getChangeRevisionActions(42 as NumericChangeId, 'current');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].url,
+      '/changes/test%2Frepo~42/revisions/current/actions'
+    );
+    // Preloading in index.html only matches requests without Accept header.
+    assert.isTrue(fetchStub.lastCall.args[1]);
+  });
+
   test('legacy n,z key in change url is replaced', async () => {
     const stub = sinon
       .stub(element._restApiHelper, 'fetchJSON')

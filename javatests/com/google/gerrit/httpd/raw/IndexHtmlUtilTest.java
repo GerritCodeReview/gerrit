@@ -22,6 +22,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.config.Config;
@@ -177,7 +178,33 @@ public class IndexHtmlUtilTest {
     assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
         .containsAtLeast(
             "defaultChangeDetailHex", "896394",
-            "changeRequestsPath", "changes/project~123");
+            "changeRequestsPath", "changes/project~123",
+            "preloadRevisionActions", true);
+    assertThat(dynamicTemplateData(gerritApi, requestedPath, "")).doesNotContainKey("changeNum");
+  }
+
+  @Test
+  public void usePreloadRestOnDiffPageWithoutRevisionActions() throws Exception {
+    Accounts accountsApi = mock(Accounts.class);
+    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
+
+    Server serverApi = mock(Server.class);
+    when(serverApi.getVersion()).thenReturn("123");
+    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
+    when(serverApi.getInfo()).thenReturn(new ServerInfo());
+
+    Config configApi = mock(Config.class);
+    when(configApi.server()).thenReturn(serverApi);
+
+    GerritApi gerritApi = mock(GerritApi.class);
+    when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.config()).thenReturn(configApi);
+
+    ImmutableMap<String, Object> data =
+        dynamicTemplateData(gerritApi, "/c/project/+/123/1/foo.txt", "");
+    assertThat(data).containsEntry("changeRequestsPath", "changes/project~123");
+    // gr-diff-view does not render change actions.
+    assertThat(data).doesNotContainKey("preloadRevisionActions");
   }
 
   @Test

@@ -311,6 +311,75 @@ public class IndexServletTest {
     verify(serverApi, times(2)).getInfo();
   }
 
+  @Test
+  public void changePagePreloadsCurrentRevisionActionsForAuthenticatedUser() throws Exception {
+    String output = renderChangePage("/c/chromium/src/+/12345", /* authenticated= */ true);
+    // Must match the URL requested by gr-change-actions (no Accept header, see
+    // GrRestApiServiceImpl.getChangeRevisionActions).
+    assertThat(output)
+        .contains(
+            "<link rel=\"preload\""
+                + " href=\"/changes/chromium%2Fsrc~12345/revisions/current/actions\""
+                + " as=\"fetch\" type=\"application/json\" crossorigin=\"anonymous\"");
+    assertThat(output).doesNotContain("q=change:");
+  }
+
+  @Test
+  public void changePageDoesNotPreloadRevisionActionsForAnonymousUser() throws Exception {
+    String output = renderChangePage("/c/chromium/src/+/12345", /* authenticated= */ false);
+    assertThat(output).contains("/changes/chromium%2Fsrc~12345/comments");
+    assertThat(output).doesNotContain("/revisions/current/actions");
+    assertThat(output).doesNotContain("q=change:");
+  }
+
+  @Test
+  public void diffPageDoesNotPreloadRevisionActions() throws Exception {
+    String output =
+        renderChangePage("/c/chromium/src/+/12345/1/foo.txt", /* authenticated= */ true);
+    assertThat(output).contains("/changes/chromium%2Fsrc~12345/comments");
+    assertThat(output).doesNotContain("/revisions/current/actions");
+  }
+
+  private static String renderChangePage(String path, boolean authenticated) throws Exception {
+    Accounts accountsApi = mock(Accounts.class);
+    if (authenticated) {
+      when(accountsApi.self()).thenReturn(mock(AccountApi.class));
+    } else {
+      when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
+    }
+
+    Server serverApi = mock(Server.class);
+    when(serverApi.getVersion()).thenReturn("123");
+    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
+    when(serverApi.getInfo()).thenReturn(new ServerInfo());
+
+    Config configApi = mock(Config.class);
+    when(configApi.server()).thenReturn(serverApi);
+
+    GerritApi gerritApi = mock(GerritApi.class);
+    when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.config()).thenReturn(configApi);
+
+    IndexServlet servlet =
+        new IndexServlet(
+            "http://gerrit.example.com/",
+            null,
+            null,
+            gerritApi,
+            new ConfigExperimentFeatures(new org.eclipse.jgit.lib.Config()));
+    FakeHttpServletRequest request =
+        new FakeHttpServletRequest() {
+          @Override
+          @SuppressWarnings("JdkObsolete")
+          public StringBuffer getRequestURL() {
+            return new StringBuffer("http://gerrit.example.com" + path);
+          }
+        };
+    FakeHttpServletResponse response = new FakeHttpServletResponse();
+    servlet.doGet(request, response);
+    return response.getActualBodyString();
+  }
+
   private ManualRequestContext mockGerritApi(CurrentUser currentUser) throws RestApiException {
     ManualRequestContext ctx = new ManualRequestContext(currentUser, threadLocalRequestContext);
     if (currentUser.isIdentifiedUser()) {

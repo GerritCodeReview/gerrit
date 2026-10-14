@@ -146,7 +146,10 @@ public class IndexHtmlUtil {
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
-        data.put("changeNum", IndexPreloadingUtil.computeChangeNum(requestedPath, page).get());
+        if (page == RequestedPage.CHANGE) {
+          // Only the change page shows change actions, the diff page doesn't.
+          data.put("preloadRevisionActions", true);
+        }
       }
       case PROFILE, DASHBOARD, PAGE_WITHOUT_PRELOADING -> {
         // Dashboard is preloaded queries are added later when we check user is

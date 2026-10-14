@@ -71,6 +71,7 @@ import {
 } from '../../../models/change/change-model';
 import {ChatModel, chatModelToken} from '../../../models/chat/chat-model';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
@@ -3077,11 +3078,14 @@ suite('gr-change-actions tests', () => {
     let element: GrChangeActions;
 
     let changeRevisionActions: ActionNameToActionInfoMap = {};
+    let getChangeRevisionActionsStub: SinonStubbedMember<
+      RestApiService['getChangeRevisionActions']
+    >;
 
     setup(async () => {
-      stubRestApi('getChangeRevisionActions').returns(
-        Promise.resolve(changeRevisionActions)
-      );
+      getChangeRevisionActionsStub = stubRestApi(
+        'getChangeRevisionActions'
+      ).returns(Promise.resolve(changeRevisionActions));
       stubRestApi('send').returns(Promise.resolve(new Response()));
 
       sinon
@@ -3100,6 +3104,15 @@ suite('gr-change-actions tests', () => {
       stubRestApi('getRepoBranches').returns(Promise.resolve([]));
       await element.updateComplete;
       await element.reload();
+    });
+
+    test('requests actions of the current revision', () => {
+      // Must match the revisions/current/actions preload in index.html.
+      assert.isTrue(getChangeRevisionActionsStub.called);
+      assert.deepEqual(getChangeRevisionActionsStub.lastCall.args, [
+        42 as NumericChangeId,
+        'current',
+      ]);
     });
 
     test('confirmSubmitDialog and confirmRebase properties are changed', () => {

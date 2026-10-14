@@ -1562,13 +1562,18 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getChangeRevisionActions(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    revisionId: RevisionId
   ): Promise<ActionNameToActionInfoMap | undefined> {
-    const url = await this._changeBaseURL(changeNum, patchNum);
-    return this._restApiHelper.fetchJSON({
-      url: `${url}/actions`,
-      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/actions`,
-    }) as Promise<ActionNameToActionInfoMap | undefined>;
+    const url = await this._changeBaseURL(changeNum, revisionId);
+    // Match the other preloaded requests (no Accept header) so this can be
+    // served from the index.html preload.
+    return this._restApiHelper.fetchJSON(
+      {
+        url: `${url}/actions`,
+        anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/actions`,
+      },
+      /* noAcceptHeader */ true
+    ) as Promise<ActionNameToActionInfoMap | undefined>;
   }
 
   getChangeSuggestedReviewers(

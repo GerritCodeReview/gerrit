@@ -22,6 +22,30 @@
       },
       "revId": "b2b051a22958ddab9e920faf8e93642095ce16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01fbbe16_37794764",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-14T07:44:31Z",
+      "side": 1,
+      "message": "Later in the series I use `createSettingsUrl`, this seem to deliberately not return a fully qualified URL, so I didn\u0027t want to change that as its used in a lot of places.\n\nYour point is valid, however, this line was simply moved in this change, not modified. I believe what you suggest should maybe be a follow-up change if we think it\u0027s an issue?",
+      "parentUuid": "5f2985fd_fd498300",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 66
+      },
+      "revId": "b2b051a22958ddab9e920faf8e93642095ce16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

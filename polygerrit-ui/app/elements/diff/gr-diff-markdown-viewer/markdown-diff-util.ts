@@ -68,9 +68,40 @@ export function parseMarkdownBlocks(markdown: string): MarkdownToken[] {
   return result;
 }
 
-/** Tokenize text into words, whitespace, and punctuation for fine-grained inline diffing. */
+/**
+ * Tokenize text into inline code spans, words, whitespace, and punctuation for
+ * fine-grained inline diffing.
+ */
 export function tokenizeWords(text: string): string[] {
-  return text.match(/\s+|[^\s\w]+|\w+/g) || [];
+  return (
+    text.match(/``(?:[^`\n]|`[^`\n])+``|`[^`\n]+`|\s+|[^\s\w`]+|\w+|`+/g) || []
+  );
+}
+
+/**
+ * Render text with inline backtick code spans (`...` or ``...``) converted to
+ * <code> elements and all text safely HTML-escaped.
+ */
+export function renderInlineCodeSpans(text: string): string {
+  const codeSpanRegex = /``((?:[^`\n]|`[^`\n])+)``|`([^`\n]+)`/g;
+  let result = '';
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = codeSpanRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      result += htmlEscape(text.slice(lastIndex, match.index)).toString();
+    }
+    const rawCode = match[1] ?? match[2];
+    result += `<code>${htmlEscape(rawCode).toString()}</code>`;
+    lastIndex = codeSpanRegex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    result += htmlEscape(text.slice(lastIndex)).toString();
+  }
+
+  return result;
 }
 
 /** Compute LCS-based diff between two arrays of strings (e.g. words or lines). */
@@ -149,14 +180,14 @@ export function renderInlineTextDiff(
   let rightContent = '';
 
   for (const seg of mergedSegments) {
-    const escaped = htmlEscape(seg.text).toString();
+    const rendered = renderInlineCodeSpans(seg.text);
     if (seg.type === 'common') {
-      leftContent += escaped;
-      rightContent += escaped;
+      leftContent += rendered;
+      rightContent += rendered;
     } else if (seg.type === 'deleted') {
-      leftContent += `<del class="diff-highlight-del">${escaped}</del>`;
+      leftContent += `<del class="diff-highlight-del">${rendered}</del>`;
     } else if (seg.type === 'added') {
-      rightContent += `<ins class="diff-highlight-add">${escaped}</ins>`;
+      rightContent += `<ins class="diff-highlight-add">${rendered}</ins>`;
     }
   }
 

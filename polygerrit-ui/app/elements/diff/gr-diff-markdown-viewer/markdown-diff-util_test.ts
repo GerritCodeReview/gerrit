@@ -19,6 +19,8 @@ import {
   computeSequenceDiff,
   parseMarkdownBlocks,
   reconstructFileContent,
+  renderInlineCodeSpans,
+  renderInlineTextDiff,
   tokenizeWords,
 } from './markdown-diff-util';
 
@@ -67,6 +69,45 @@ suite('markdown-diff-util tests', () => {
       'you',
       '?',
     ]);
+  });
+
+  test('tokenizeWords keeps inline code spans atomic and separates adjacent punctuation', () => {
+    const words = tokenizeWords(
+      'Located at [`scripts/run_experiment.py`](scripts/run_experiment.py) (`<SKILL_DIR>`, `--workspace-root`, `` `code` ``).'
+    );
+    assert.include(words, '`scripts/run_experiment.py`');
+    assert.include(words, '`<SKILL_DIR>`');
+    assert.include(words, '`--workspace-root`');
+    assert.include(words, '`` `code` ``');
+    assert.equal(words[4], '[');
+    assert.equal(words[5], '`scripts/run_experiment.py`');
+    assert.equal(words[6], '](');
+  });
+
+  test('renderInlineCodeSpans converts backtick blocks to <code> and escapes HTML', () => {
+    const rendered = renderInlineCodeSpans(
+      'Relative to `SKILL.md` (`<SKILL_DIR>`), `--workspace-root`, `$ANDROID_BUILD_TOP`, `.repo/`, and `` `code` ``.'
+    );
+    assert.equal(
+      rendered,
+      'Relative to <code>SKILL.md</code> (<code>&lt;SKILL_DIR&gt;</code>), <code>--workspace-root</code>, <code>$ANDROID_BUILD_TOP</code>, <code>.repo/</code>, and <code> `code` </code>.'
+    );
+  });
+
+  test('renderInlineTextDiff renders single backtick code blocks inside modified paragraphs', () => {
+    const textA =
+      'The generalized runner script is located at [run_experiment.py](file:///path/to/workspace/tools/build_experimentation/scripts/run_experiment.py).';
+    const textB =
+      'The generalized runner script is located at [`scripts/run_experiment.py`](scripts/run_experiment.py) (relative to this `SKILL.md` directory, `<SKILL_DIR>`). It automatically resolves the workspace root from `--workspace-root`, `workspace_root` in the JSON config, `$ANDROID_BUILD_TOP`, or the nearest ancestor directory containing `.repo/`.';
+
+    const {rightHtml} = renderInlineTextDiff(textA, textB, 'p');
+    assert.include(rightHtml, '<code>scripts/run_experiment.py</code>');
+    assert.include(rightHtml, '<code>SKILL.md</code>');
+    assert.include(rightHtml, '<code>&lt;SKILL_DIR&gt;</code>');
+    assert.include(rightHtml, '<code>--workspace-root</code>');
+    assert.include(rightHtml, '<code>workspace_root</code>');
+    assert.include(rightHtml, '<code>$ANDROID_BUILD_TOP</code>');
+    assert.include(rightHtml, '<code>.repo/</code>');
   });
 
   test('computeSequenceDiff', () => {

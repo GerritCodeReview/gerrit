@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb4b0b0f_07e48608",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T17:37:59Z",
+      "side": 1,
+      "message": "Can you add the release notes footer?\n```suggestion\nChange-Id: I7d555c72556b6e66645b7bb78965965abc3730f0\nRelease-Notes: skip\n```",
+      "revId": "e5e493e77e34db153eaf8836e8ee271c8a111e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

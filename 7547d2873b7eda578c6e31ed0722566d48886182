@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6177f94_4fa112a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T12:08:13Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Fix cache.directory in Gerrit documentation\n```",
+      "revId": "7547d2873b7eda578c6e31ed0722566d48886182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

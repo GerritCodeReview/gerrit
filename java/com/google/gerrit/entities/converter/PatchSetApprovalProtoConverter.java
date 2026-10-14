@@ -44,6 +44,9 @@ public enum PatchSetApprovalProtoConverter
 
     patchSetApproval.uuid().ifPresent(uuid -> builder.setUuid(uuid.get()));
     patchSetApproval.tag().ifPresent(builder::setTag);
+    if (patchSetApproval.isAi()) {
+      builder.setIsAi(true);
+    }
     Account.Id realAccountId = patchSetApproval.realAccountId();
     // PatchSetApproval#getRealAccountId automatically delegates to PatchSetApproval#getAccountId if
     // the real author is not set. However, the previous protobuf representation kept
@@ -64,7 +67,8 @@ public enum PatchSetApprovalProtoConverter
             .value(proto.getValue())
             .granted(Instant.ofEpochMilli(proto.getGranted()))
             .postSubmit(proto.getPostSubmit())
-            .copied(proto.getCopied());
+            .copied(proto.getCopied())
+            .isAi(proto.getIsAi());
     if (proto.hasUuid()) {
       builder.uuid(PatchSetApproval.uuid(proto.getUuid()));
     }

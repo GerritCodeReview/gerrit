@@ -46,6 +46,30 @@
       },
       "revId": "b2b051a22958ddab9e920faf8e93642095ce16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1693365_47d7cdff",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-10-14T09:35:13Z",
+      "side": 1,
+      "message": "but what is the problem you are trying to fix? AFAICT the function in question should work, it is being used to populate parts of Gerrit e.g. https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/gr-app-element.ts#271, otherwise calling settings would fail from Gerrit anyway right?",
+      "parentUuid": "01fbbe16_37794764",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 66
+      },
+      "revId": "b2b051a22958ddab9e920faf8e93642095ce16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

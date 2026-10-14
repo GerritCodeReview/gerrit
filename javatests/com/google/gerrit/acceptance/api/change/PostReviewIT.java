@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -62,6 +63,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -1413,6 +1415,77 @@ public class PostReviewIT extends AbstractDaemonTest {
     com.google.gerrit.extensions.common.CommentInfo commentInfo = comments.get(0);
     assertThat(commentInfo.message).isEqualTo("AI draft");
     assertThat(commentInfo.isAi).isTrue();
+  }
+
+  @Test
+  public void postVoteWithIsAi() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder codeReview =
+          labelBuilder(
+                  LabelId.CODE_REVIEW,
+                  value(2, "Looks good to me, approved"),
+                  value(1, "Looks good to me, but someone else must approve"),
+                  value(0, "No score"),
+                  value(-1, "I would prefer this is not submitted as is"),
+                  value(-2, "This shall not be submitted"))
+              .setCopyCondition("is:ANY");
+      u.getConfig().upsertLabelType(codeReview.build());
+      u.save();
+    }
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput input = ReviewInput.recommend();
+    input.isAi = true;
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    List<ApprovalInfo> approvals = change.labels.get(LabelId.CODE_REVIEW).all;
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals.get(0).value).isEqualTo(1);
+    assertThat(approvals.get(0).isAi).isTrue();
+
+    ListMultimap<String, ApprovalInfo> votes = gApi.changes().id(r.getChangeId()).current().votes();
+    assertThat(votes.get(LabelId.CODE_REVIEW)).hasSize(1);
+    assertThat(votes.get(LabelId.CODE_REVIEW).get(0).isAi).isTrue();
+
+    // Re-voting with the same numeric value and isAi = false clears isAi.
+    ReviewInput updateInput = ReviewInput.recommend();
+    updateInput.isAi = false;
+    gApi.changes().id(r.getChangeId()).current().review(updateInput);
+
+    change = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    approvals = change.labels.get(LabelId.CODE_REVIEW).all;
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals.get(0).value).isEqualTo(1);
+    assertThat(approvals.get(0).isAi).isNull();
+
+    // Vote +2 with isAi = true on PS1, amend to PS2, and verify copied vote preserves isAi.
+    ReviewInput approveInput = ReviewInput.approve();
+    approveInput.isAi = true;
+    gApi.changes().id(r.getChangeId()).current().review(approveInput);
+
+    amendChange(r.getChangeId());
+
+    change = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    approvals = change.labels.get(LabelId.CODE_REVIEW).all;
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals.get(0).value).isEqualTo(2);
+    assertThat(approvals.get(0).isAi).isTrue();
+
+    votes = gApi.changes().id(r.getChangeId()).current().votes();
+    assertThat(votes.get(LabelId.CODE_REVIEW)).hasSize(1);
+    assertThat(votes.get(LabelId.CODE_REVIEW).get(0).isAi).isTrue();
+
+    // Submit the change and verify isAi is preserved on the submitted change.
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    change = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    approvals = change.labels.get(LabelId.CODE_REVIEW).all;
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals.get(0).value).isEqualTo(2);
+    assertThat(approvals.get(0).isAi).isTrue();
   }
 
   private static void assertAttentionSet(

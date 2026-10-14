@@ -1102,7 +1102,7 @@ public class TestKeys {
         qdx2vbbJxy1bfTYxb0AYXe/+k23W7EIdBtMGOYwrX01oTfSIKbM+gDrHswSYXdOy
         ziatLaUBSQfyG656lGGZO/aArLZb4dgGeBHBwhXTufFDIYl3X94zfQ==
         =BG9Z
-        -----END PGP PUBLIC KEY BLOCK-----
+        -----END PGP PUBLIC KEY BLOCK-----\
         """,
         """
         -----BEGIN PGP PRIVATE KEY BLOCK-----
@@ -1143,7 +1143,7 @@ public class TestKeys {
         b0AYXe/+k23W7EIdBtMGOYwrX01oTfSIKbM+gDrHswSYXdOyziatLaUBSQfyG656
         lGGZO/aArLZb4dgGeBHBwhXTufFDIYl3X94zfQ==
         =RbPm
-        -----END PGP PRIVATE KEY BLOCK-----
+        -----END PGP PRIVATE KEY BLOCK-----\
         """);
   }
 }

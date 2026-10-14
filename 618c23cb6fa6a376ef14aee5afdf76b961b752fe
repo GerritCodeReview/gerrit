@@ -34,6 +34,24 @@
       "parentUuid": "6d674856_e8da025e",
       "revId": "618c23cb6fa6a376ef14aee5afdf76b961b752fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "134af13e_4eba2b87",
+        "filename": "java/com/google/gerrit/gpg/testing/TestKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-14T08:33:00Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "1cc44630_50d1f903",
+      "revId": "618c23cb6fa6a376ef14aee5afdf76b961b752fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -17,8 +17,13 @@ import {
   ContextItem,
   ContextItemType,
   ModelInfo,
+  ModelsLoadingErrorName,
 } from '../../api/ai-code-review';
-import {chatModelToken, Turn} from '../../models/chat/chat-model';
+import {
+  chatModelToken,
+  ModelsLoadingError,
+  Turn,
+} from '../../models/chat/chat-model';
 import {changeModelToken} from '../../models/change/change-model';
 import {
   contextItemEquals,
@@ -29,7 +34,9 @@ import {resolve} from '../../models/dependency';
 import {ParsedChangeInfo} from '../../types/types';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {fire} from '../../utils/event-util';
+import {generateAbsoluteUrl} from '../../utils/url-util';
 import {subscribe} from '../lit/subscription-controller';
+import {createSettingsUrl} from '../../models/views/settings';
 import {materialStyles} from '../../styles/gr-material-styles';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
@@ -50,7 +57,7 @@ export class PromptBox extends LitElement {
   @property({type: String})
   disabledMessage = 'Review Agent is disabled.';
 
-  @state() modelLoadingError?: string;
+  @state() modelsLoadingError?: ModelsLoadingError;
 
   @state() selectedModel?: ModelInfo;
 
@@ -98,7 +105,7 @@ export class PromptBox extends LitElement {
     subscribe(
       this,
       () => this.getChatModel().modelsLoadingError$,
-      x => (this.modelLoadingError = x)
+      x => (this.modelsLoadingError = x)
     );
     subscribe(
       this,
@@ -161,18 +168,13 @@ export class PromptBox extends LitElement {
     return this.turns[this.turns.length - 1];
   }
 
-  private get hasModelLoadingError(): boolean {
-    return this.modelLoadingError !== undefined;
-  }
-
   get chatInputDisabledText() {
-    if (this.hasModelLoadingError) {
-      // getModels() rejected: show the provider's reason, or a generic
-      // message if it rejected without one.
-      return (
-        this.modelLoadingError ||
-        'Failed to load models. Please reload the page.'
-      );
+    if (this.modelsLoadingError) {
+      const {name, message} = this.modelsLoadingError;
+      if (name && message) {
+        return message;
+      }
+      return 'Failed to load models. Please reload the page.';
     }
     if (!this.selectedModel) {
       return 'Loading models...';
@@ -381,14 +383,36 @@ export class PromptBox extends LitElement {
     // This Change is implicitly added to the context, so we don't need to add it.
     // The chip makes it clear to the user that it is already in the context.
     if (!this.change) return nothing;
-    const changeContextItem: ContextItem = {
-      type_id: 'gerrit_change',
-      // Don't include link in the chip since it's already on the change page.
-      link: '',
-      title: 'This Change',
-      identifier: this.change.id,
-      tooltip: 'File diffs (against base), commit message, and comments.',
-    };
+    let changeContextItem: ContextItem;
+    if (this.modelsLoadingError) {
+      switch (this.modelsLoadingError.name) {
+        case ModelsLoadingErrorName.MISSING_API_TOKEN:
+          changeContextItem = {
+            type_id: 'gerrit_change',
+            link: generateAbsoluteUrl(createSettingsUrl()),
+            title: 'Set up token',
+            identifier: this.change.id,
+            tooltip: 'Open the settings to configure an API token.',
+          };
+          break;
+        case ModelsLoadingErrorName.AI_PROVIDERS_LOADING:
+        default:
+          // The chat cannot be used: show no chip, only the error message.
+          return nothing;
+      }
+    } else if (this.selectedModel) {
+      changeContextItem = {
+        type_id: 'gerrit_change',
+        // Don't include link in the chip since it's already on the change page.
+        link: '',
+        title: 'This Change',
+        identifier: this.change.id,
+        tooltip: 'File diffs (against base), commit message, and comments.',
+      };
+    } else {
+      // getModels() has not completed yet.
+      return nothing;
+    }
     return html`
       <context-chip
         class="this-change-context"

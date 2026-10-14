@@ -109,7 +109,7 @@ public abstract class RequestScopePropagator {
   public final Runnable wrap(Runnable runnable) {
     final Callable<Object> wrapped = wrap(Executors.callable(runnable));
 
-    if (runnable instanceof ProjectRunnable) {
+    if (runnable instanceof ProjectRunnable projectRunnable) {
       return new ProjectRunnable() {
         @Override
         public void run() {
@@ -123,17 +123,17 @@ public abstract class RequestScopePropagator {
 
         @Override
         public Project.NameKey getProjectNameKey() {
-          return ((ProjectRunnable) runnable).getProjectNameKey();
+          return projectRunnable.getProjectNameKey();
         }
 
         @Override
         public String getRemoteName() {
-          return ((ProjectRunnable) runnable).getRemoteName();
+          return projectRunnable.getRemoteName();
         }
 
         @Override
         public boolean hasCustomizedPrint() {
-          return ((ProjectRunnable) runnable).hasCustomizedPrint();
+          return projectRunnable.hasCustomizedPrint();
         }
 
         @Override

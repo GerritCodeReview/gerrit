@@ -385,6 +385,9 @@ public class LabelsJsonRules {
           info.permittedVotingRange = pvr.getOrDefault(type.get().getName(), null);
           info.setDate(psa.granted());
           info.tag = psa.tag().orElse(null);
+          if (ApprovalInfo.isAiTag(info.tag)) {
+            info.isAi = true;
+          }
           if (psa.postSubmit()) {
             info.postSubmit = true;
           }

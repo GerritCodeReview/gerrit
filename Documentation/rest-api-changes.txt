@@ -7685,6 +7685,8 @@ NOTE: To apply different tags on different votes/comments multiple
 invocations of the REST call are required.
 |`post_submit` |not set if `false`|
 If true, this vote was made after the change was submitted.
+|`is_ai`       |not set if `false`|
+Whether this vote was created by an AI agent.
 |===========================
 
 [[attention-set-info]]

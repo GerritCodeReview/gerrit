@@ -69,11 +69,15 @@ export function parseMarkdownBlocks(markdown: string): MarkdownToken[] {
 }
 
 /**
- * Tokenize text into inline code spans, words, whitespace, and punctuation for
- * fine-grained inline diffing.
+ * Tokenize text into markdown links, inline code spans, words, whitespace, and
+ * punctuation for fine-grained inline diffing.
  */
 export function tokenizeWords(text: string): string[] {
-  return text.match(/``[^`\n]+``|`[^`\n]+`|\s+|[^\s\w`]+|\w+|`+/g) || [];
+  return (
+    text.match(
+      /\[[^\]\n]+\]\([^)\n]+\)|``[^`\n]+``|`[^`\n]+`|\s+|[^\s\w`[]+|\w+|`+|\[+/g
+    ) || []
+  );
 }
 
 /**
@@ -93,6 +97,43 @@ export function renderInlineCodeSpans(text: string): string {
     const rawCode = match[1] ?? match[2];
     result += `<code>${htmlEscape(rawCode).toString()}</code>`;
     lastIndex = codeSpanRegex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    result += htmlEscape(text.slice(lastIndex)).toString();
+  }
+
+  return result;
+}
+
+/**
+ * Render text with markdown links ([label](url)) converted to <a> elements and
+ * inline backtick code spans converted to <code> elements, with all text and
+ * URL attributes safely HTML-escaped.
+ */
+export function renderInlineMarkdown(text: string): string {
+  const inlineMarkdownRegex =
+    /\[([^\]\n]+)\]\(([^)\n]+)\)|``([^`\n]+)``|`([^`\n]+)`/g;
+  let result = '';
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = inlineMarkdownRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      result += htmlEscape(text.slice(lastIndex, match.index)).toString();
+    }
+    if (match[1] !== undefined && match[2] !== undefined) {
+      const labelHtml = renderInlineCodeSpans(match[1]);
+      const rawTarget = match[2].trim();
+      const spaceIdx = rawTarget.indexOf(' ');
+      const rawUrl = spaceIdx === -1 ? rawTarget : rawTarget.slice(0, spaceIdx);
+      const escapedUrl = htmlEscape(rawUrl).toString();
+      result += `<a href="${escapedUrl}">${labelHtml}</a>`;
+    } else {
+      const rawCode = match[3] ?? match[4];
+      result += `<code>${htmlEscape(rawCode).toString()}</code>`;
+    }
+    lastIndex = inlineMarkdownRegex.lastIndex;
   }
 
   if (lastIndex < text.length) {
@@ -178,7 +219,7 @@ export function renderInlineTextDiff(
   let rightContent = '';
 
   for (const seg of mergedSegments) {
-    const rendered = renderInlineCodeSpans(seg.text);
+    const rendered = renderInlineMarkdown(seg.text);
     if (seg.type === 'common') {
       leftContent += rendered;
       rightContent += rendered;

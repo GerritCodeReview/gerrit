@@ -435,6 +435,10 @@ export class GrDiffMarkdownViewer extends LitElement {
           margin-top: 0;
           margin-bottom: var(--spacing-xs, 4px);
         }
+        a {
+          color: var(--link-color, #1a73e8);
+          text-decoration: underline;
+        }
         code {
           font-family: var(--monospace-font-family, 'Roboto Mono', monospace);
           font-size: var(--font-size-code, 12px);

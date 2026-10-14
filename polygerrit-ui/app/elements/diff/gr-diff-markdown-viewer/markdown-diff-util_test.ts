@@ -20,6 +20,7 @@ import {
   parseMarkdownBlocks,
   reconstructFileContent,
   renderInlineCodeSpans,
+  renderInlineMarkdown,
   renderInlineTextDiff,
   tokenizeWords,
 } from './markdown-diff-util';
@@ -71,16 +72,22 @@ suite('markdown-diff-util tests', () => {
     ]);
   });
 
-  test('tokenizeWords keeps inline code spans atomic and separates adjacent punctuation', () => {
+  test('tokenizeWords keeps markdown links and inline code spans atomic and separates adjacent punctuation', () => {
     const words = tokenizeWords(
-      'Located at [`scripts/run_experiment.py`](scripts/run_experiment.py) (`<SKILL_DIR>`, `--workspace-root`).'
+      'Located at ([`scripts/run_experiment.py`](scripts/run_experiment.py)) and [`<SKILL_DIR>`], `--workspace-root`.'
     );
-    assert.include(words, '`scripts/run_experiment.py`');
+    assert.include(
+      words,
+      '[`scripts/run_experiment.py`](scripts/run_experiment.py)'
+    );
     assert.include(words, '`<SKILL_DIR>`');
     assert.include(words, '`--workspace-root`');
-    assert.equal(words[4], '[');
-    assert.equal(words[5], '`scripts/run_experiment.py`');
-    assert.equal(words[6], '](');
+    assert.equal(words[4], '(');
+    assert.equal(
+      words[5],
+      '[`scripts/run_experiment.py`](scripts/run_experiment.py)'
+    );
+    assert.equal(words[6], ')');
   });
 
   test('renderInlineCodeSpans converts backtick blocks to <code> and escapes HTML', () => {
@@ -93,14 +100,31 @@ suite('markdown-diff-util tests', () => {
     );
   });
 
-  test('renderInlineTextDiff renders single backtick code blocks inside modified paragraphs', () => {
+  test('renderInlineMarkdown converts markdown links and nested inline code spans to <a> and <code>', () => {
+    const rendered = renderInlineMarkdown(
+      'Located at [`scripts/run_experiment.py`](scripts/run_experiment.py) and [docs](https://example.com "Docs").'
+    );
+    assert.equal(
+      rendered,
+      'Located at <a href="scripts/run_experiment.py"><code>scripts/run_experiment.py</code></a> and <a href="https://example.com">docs</a>.'
+    );
+  });
+
+  test('renderInlineTextDiff renders markdown links and single backtick code blocks inside modified paragraphs', () => {
     const textA =
       'The generalized runner script is located at [run_experiment.py](file:///path/to/workspace/tools/build_experimentation/scripts/run_experiment.py).';
     const textB =
       'The generalized runner script is located at [`scripts/run_experiment.py`](scripts/run_experiment.py) (relative to this `SKILL.md` directory, `<SKILL_DIR>`). It automatically resolves the workspace root from `--workspace-root`, `workspace_root` in the JSON config, `$ANDROID_BUILD_TOP`, or the nearest ancestor directory containing `.repo/`.';
 
-    const {rightHtml} = renderInlineTextDiff(textA, textB, 'p');
-    assert.include(rightHtml, '<code>scripts/run_experiment.py</code>');
+    const {leftHtml, rightHtml} = renderInlineTextDiff(textA, textB, 'p');
+    assert.include(
+      leftHtml,
+      '<a href="file:///path/to/workspace/tools/build_experimentation/scripts/run_experiment.py">run_experiment.py</a>'
+    );
+    assert.include(
+      rightHtml,
+      '<a href="scripts/run_experiment.py"><code>scripts/run_experiment.py</code></a>'
+    );
     assert.include(rightHtml, '<code>SKILL.md</code>');
     assert.include(rightHtml, '<code>&lt;SKILL_DIR&gt;</code>');
     assert.include(rightHtml, '<code>--workspace-root</code>');

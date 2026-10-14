@@ -137,6 +137,14 @@ suite('gr-diff-markdown-viewer tests', () => {
     assert.isNotNull(headingCode);
     assert.equal(headingCode.textContent, 'new_script.py');
 
+    const linkEl = modifiedRights[1].querySelector<HTMLAnchorElement>('p a');
+    assert.isNotNull(linkEl);
+    assert.equal(linkEl.getAttribute('href'), 'scripts/run_experiment.py');
+    assert.equal(
+      linkEl.querySelector('code')?.textContent,
+      'scripts/run_experiment.py'
+    );
+
     const paragraphCodes = Array.from(
       modifiedRights[1].querySelectorAll('p code')
     ).map(el => el.textContent);

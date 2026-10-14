@@ -27,7 +27,7 @@ where COMMAND is one of
   war_deploy
 
 and build_args is the argument passed to the Bazel build command, e.g.,
-  --config:java21
+  --config=java25
 
 Set VERBOSE in the environment to get more information.
 

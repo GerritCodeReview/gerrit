@@ -3197,5 +3197,34 @@ suite('gr-change-actions tests', () => {
       assert.isTrue(canSubmit);
       assert.isFalse(showDialogSpy.called);
     });
+
+    test('updating submittabilityInfo on change does not reload revisionActions', async () => {
+      const getRevisionActionsStub = stubRestApi(
+        'getChangeRevisionActions'
+      ).resolves({
+        submit: {
+          method: HttpMethod.POST,
+          label: 'Submit',
+          title: 'Submit patch set 2 into master',
+          enabled: true,
+        },
+      });
+      await element.reload();
+      assert.equal(getRevisionActionsStub.callCount, 1);
+      assert.isDefined(element.revisionActions);
+
+      // Simulate fillFromSubmittabilityInfo cloning element.change with updated
+      // submittable and submit_requirements while revisions/status/current_revision
+      // remain unchanged (b/570699368).
+      element.change = {
+        ...element.change!,
+        submittable: true,
+        submit_requirements: [],
+      };
+      await element.updateComplete;
+
+      assert.equal(getRevisionActionsStub.callCount, 1);
+      assert.isDefined(element.revisionActions);
+    });
   });
 });

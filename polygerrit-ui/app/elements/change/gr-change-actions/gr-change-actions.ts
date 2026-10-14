@@ -907,7 +907,12 @@ export class GrChangeActions
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('change')) {
-      this.reload();
+      const oldChange = changedProperties.get('change') as
+        | ParsedChangeInfo
+        | undefined;
+      if (this.shouldReloadActions(oldChange, this.change)) {
+        this.reload();
+      }
       this.actions = this.change?.actions ?? {};
     }
 
@@ -946,6 +951,19 @@ export class GrChangeActions
       // Agent chat panel if the user had clicked the button while it was loading.
       fire(this, 'ai-chat', {});
     }
+  }
+
+  private shouldReloadActions(
+    oldChange?: ParsedChangeInfo,
+    newChange?: ParsedChangeInfo
+  ): boolean {
+    if (!oldChange || !newChange) return true;
+    return (
+      oldChange._number !== newChange._number ||
+      oldChange.current_revision !== newChange.current_revision ||
+      oldChange.status !== newChange.status ||
+      oldChange.revisions !== newChange.revisions
+    );
   }
 
   reload() {

@@ -117,4 +117,53 @@ suite('gr-diff-markdown-viewer screenshot tests', () => {
       'gr-diff-markdown-viewer-inline-code-unified'
     );
   });
+
+  test('rich diff showcase with lists, tables, blockquotes, and code blocks', async () => {
+    element.diff = {
+      ...createDiff(),
+      meta_a: {name: 'README.md', content_type: 'text/markdown', lines: 30},
+      meta_b: {name: 'README.md', content_type: 'text/markdown', lines: 32},
+      content: [
+        {
+          a: [
+            '# Service Configuration Guide',
+            '',
+            '> Note: Legacy v1 endpoints are deprecated and will be removed in Q3.',
+            '',
+            '- Enable `--legacy-auth` when starting the local worker.',
+            '- Configure timeout in `config/default.yaml` (default: `30s`).',
+            '- Upload logs to [metrics-v1](https://example.com/metrics/v1).',
+            '',
+            '| Flag | Default | Description |',
+            '| --- | --- | --- |',
+            '| `--threads` | `4` | Worker thread pool size |',
+            '| `--timeout` | `30s` | Request deadline per RPC |',
+          ],
+          b: [
+            '# Service Configuration Guide',
+            '',
+            '> Note: Legacy v1 endpoints are deprecated and will be removed in Q4.',
+            '',
+            '- Enable `--oauth2-auth` when starting the local worker.',
+            '- Configure timeout in `config/production.yaml` (default: `60s`).',
+            '- Upload logs to [metrics-v2](https://example.com/metrics/v2).',
+            '- Verify health check at `/healthz` before traffic cutover.',
+            '',
+            '| Flag | Default | Description |',
+            '| --- | --- | --- |',
+            '| `--threads` | `8` | Worker thread pool size |',
+            '| `--timeout` | `60s` | Request deadline per streaming RPC |',
+          ],
+        },
+      ],
+    };
+    await element.updateComplete;
+    await document.fonts?.ready;
+
+    await visualDiff(element, 'gr-diff-markdown-viewer-delta-showcase');
+    await visualDiffDarkTheme(
+      element,
+      'gr-diff-markdown-viewer-delta-showcase'
+    );
+  });
 });

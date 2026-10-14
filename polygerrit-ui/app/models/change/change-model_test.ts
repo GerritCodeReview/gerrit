@@ -957,4 +957,64 @@ suite('change model tests', () => {
     assert.equal(getAllRevisionFilesStub.callCount, 1);
     assert.equal(showChangeStub.callCount, 1);
   });
+
+  test('loadChange emits changeDetail without waiting for getChangeEdit and does not re-emit when edit is undefined', async () => {
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    stubRestApi('getChangeDetail').callsFake(() => promiseDetail);
+    const promiseEdit = mockPromise<ReturnType<typeof createEditInfo> | undefined>();
+    stubRestApi('getChangeEdit').callsFake(() => promiseEdit);
+
+    const emittedChanges: ParsedChangeInfo[] = [];
+    const sub = changeModel.change$.subscribe(c => {
+      if (c) emittedChanges.push(c);
+    });
+
+    const startMs = performance.now();
+    changeViewModel.setState(createChangeViewState());
+    promiseDetail.resolve(knownChange);
+
+    // Wait 40ms before resolving getChangeEdit to measure whether loadChange blocks on getChangeEdit.
+    setTimeout(() => promiseEdit.resolve(undefined), 40);
+
+    const state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    const loadedElapsedMs = performance.now() - startMs;
+    assert.isDefined(state.change);
+    assert.isBelow(
+      loadedElapsedMs,
+      35,
+      'loadChange should not block on pending getChangeEdit'
+    );
+
+    await promiseEdit;
+    await new Promise(resolve => setTimeout(resolve, 5));
+    sub.unsubscribe();
+
+    // eslint-disable-next-line no-console
+    console.info(
+      `[BENCHMARK] loadChange with 40ms getChangeEdit: loadedAt=${loadedElapsedMs.toFixed(1)}ms, change$ emissions=${emittedChanges.length}`
+    );
+
+    assert.equal(emittedChanges.length, 1);
+  });
+
+  test('loadChange updates change when getChangeEdit resolves with an edit after getChangeDetail', async () => {
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    stubRestApi('getChangeDetail').callsFake(() => promiseDetail);
+    const promiseEdit = mockPromise<ReturnType<typeof createEditInfo> | undefined>();
+    stubRestApi('getChangeEdit').callsFake(() => promiseEdit);
+
+    changeViewModel.setState(createChangeViewState());
+    promiseDetail.resolve(knownChange);
+    let state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.equal(state.change?.current_revision, 'abc' as CommitId);
+
+    const edit = createEditInfo();
+    promiseEdit.resolve(edit);
+    state = await waitUntilObserved(
+      changeModel.state$,
+      s => s.change?.current_revision === edit.commit.commit,
+      'Edit revision was never applied'
+    );
+    assert.equal(state.change?.current_revision, edit.commit.commit);
+  });
 });

@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritImportedServerIdsProvider;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
+import com.google.gerrit.server.git.AllUsersRepositoryProvider;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.notedb.RepoSequence.DisabledGitRefUpdatedRepoGroupsSequenceProvider;
 import com.google.gerrit.server.query.change.ChangeNumberBitmapMaskAlgorithm;
@@ -58,6 +59,7 @@ public class SchemaModule extends FactoryModule {
     bind(AllProjectsName.class).toProvider(AllProjectsNameProvider.class).in(SINGLETON);
 
     bind(AllUsersName.class).toProvider(AllUsersNameProvider.class).in(SINGLETON);
+    install(new AllUsersRepositoryProvider.Module());
 
     bind(String.class)
         .annotatedWith(AnonymousCowardName.class)

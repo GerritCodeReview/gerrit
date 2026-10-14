@@ -63,6 +63,24 @@
       "message": "Change 643103: Close per-test servers when a test fails or is skipped | https://gerrit-review.googlesource.com/c/gerrit/+/643103 address the leak resulting in OOM.",
       "revId": "2b6de7966b5adff95858b5445af99b2d448a5d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8de57b89_fd06a1b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T05:49:09Z",
+      "side": 1,
+      "message": "Good stuff that you found out the root cause of the problem: it\u0027s best to fix the issue rather than mitigate the consequences.",
+      "parentUuid": "cfe9b99d_6b09a2e3",
+      "revId": "2b6de7966b5adff95858b5445af99b2d448a5d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

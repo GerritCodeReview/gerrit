@@ -363,10 +363,9 @@ public abstract class Comment {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof Comment)) {
+    if (!(o instanceof Comment c)) {
       return false;
     }
-    Comment c = (Comment) o;
     return Objects.equals(key, c.key)
         && lineNbr == c.lineNbr
         && Objects.equals(author, c.author)

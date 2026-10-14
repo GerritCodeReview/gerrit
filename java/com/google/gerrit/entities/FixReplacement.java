@@ -52,10 +52,9 @@ public final class FixReplacement {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof FixReplacement)) {
+    if (!(o instanceof FixReplacement f)) {
       return false;
     }
-    FixReplacement f = (FixReplacement) o;
     return Objects.equals(path, f.path)
         && Objects.equals(range, f.range)
         && Objects.equals(replacement, f.replacement);

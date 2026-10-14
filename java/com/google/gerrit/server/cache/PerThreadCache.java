@@ -84,10 +84,9 @@ public class PerThreadCache implements AutoCloseable {
 
     @Override
     public boolean equals(Object o) {
-      if (!(o instanceof Key)) {
+      if (!(o instanceof Key<?> other)) {
         return false;
       }
-      Key<?> other = (Key<?>) o;
       return this.clazz == other.clazz && this.identifiers.equals(other.identifiers);
     }
   }

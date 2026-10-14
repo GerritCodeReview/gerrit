@@ -182,7 +182,7 @@ public class WebSessionManager {
 
     @Override
     public boolean equals(Object obj) {
-      return obj instanceof Key && token.equals(((Key) obj).token);
+      return obj instanceof Key k && token.equals(k.token);
     }
   }
 

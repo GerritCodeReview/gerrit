@@ -248,7 +248,7 @@ public abstract class Response<T> {
 
     @Override
     public boolean equals(Object o) {
-      return o instanceof Redirect && ((Redirect) o).location.equals(location);
+      return o instanceof Redirect r && r.location.equals(location);
     }
 
     @Override
@@ -306,7 +306,7 @@ public abstract class Response<T> {
 
     @Override
     public boolean equals(Object o) {
-      return o instanceof Accepted && ((Accepted) o).location.equals(location);
+      return o instanceof Accepted a && a.location.equals(location);
     }
 
     @Override

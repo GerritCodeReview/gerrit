@@ -89,10 +89,9 @@ public class OAuthToken implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof OAuthToken)) {
+    if (!(o instanceof OAuthToken t)) {
       return false;
     }
-    OAuthToken t = (OAuthToken) o;
     return token.equals(t.token)
         && secret.equals(t.secret)
         && raw.equals(t.raw)

@@ -355,6 +355,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d29a1289_139c7e3b",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T16:43:54Z",
+      "side": 1,
+      "message": "Resolving as this point is already being discussed at [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/641963/comment/ae925632_a0c3d222/",
+      "parentUuid": "3ff54d34_afd42abf",
+      "range": {
+        "startLine": 129,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 64
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a91ac1dc_f1911c63",

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e13d26e_6ff0f4bb",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T18:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88f44110_fa790e13",
+      "revId": "51c5004d811b1ec254515fc0c08f4fd4cd913070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77113700_fccbc18e",
@@ -49,6 +67,30 @@
       "writtenOn": "2026-10-14T18:05:36Z",
       "side": 1,
       "message": "```suggestion\nBy pushing a code change to Gerrit, the author and the signer of the\n```",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 147,
+        "endChar": 25
+      },
+      "revId": "51c5004d811b1ec254515fc0c08f4fd4cd913070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "318a3da4_43dc2a54",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T18:19:55Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "77113700_fccbc18e",
       "range": {
         "startLine": 147,
         "startChar": 3,

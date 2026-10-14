@@ -70,6 +70,30 @@
       },
       "revId": "b2b051a22958ddab9e920faf8e93642095ce16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad0f801_fb4eefe2",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-14T11:04:22Z",
+      "side": 1,
+      "message": "So, `createSettingsUrl()` returns the canonical path, which usually starts with `/`, i.e. `/settings`, this would correctly re-route to the settings page as expected (see L196), if it wasn\u0027t that this line changes it to `http:///settings`, because it doesn\u0027t start with `http`.\n\nYou\u0027re right to question this though, In trying to be conservative, I didn\u0027t dig deep enough into why we have this line to begin with. It looks like it was questioned when it was introduced too [1] and the suggested fix was never applied.\n\nMaybe this line could go all together replaced by the `getNavigation`.\nLet me do some further digging and I\u0027ll get back to you.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/522821/comment/d1281df4_2365b82e/",
+      "parentUuid": "b1693365_47d7cdff",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 66
+      },
+      "revId": "b2b051a22958ddab9e920faf8e93642095ce16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

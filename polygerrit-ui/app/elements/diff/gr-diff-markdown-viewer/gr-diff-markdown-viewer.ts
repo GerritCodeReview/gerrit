@@ -357,51 +357,83 @@ export class GrDiffMarkdownViewer extends LitElement {
         ins {
           background-color: var(--dark-add-highlight-color, #aaf2aa);
           text-decoration: none;
-          border-radius: 2px;
-          padding: 1px 2px;
+          border-radius: 3px;
+          padding: 1px 3px;
+          box-decoration-break: clone;
+          -webkit-box-decoration-break: clone;
         }
         .diff-highlight-del,
         del {
           background-color: var(--dark-remove-highlight-color, #ffcdd2);
-          text-decoration: line-through;
-          border-radius: 2px;
-          padding: 1px 2px;
+          text-decoration: none;
+          border-radius: 3px;
+          padding: 1px 3px;
+          box-decoration-break: clone;
+          -webkit-box-decoration-break: clone;
         }
-        .diff-cell.deleted :not(pre) > code,
-        .diff-cell.modified-left :not(pre) > code,
-        .unified-block.deleted :not(pre) > code,
+        .diff-cell.deleted :not(pre):not(del):not(ins) > code,
+        .diff-cell.modified-left :not(pre):not(del):not(ins) > code,
+        .unified-block.deleted :not(pre):not(del):not(ins) > code,
+        .diff-cell.added :not(pre):not(del):not(ins) > code,
+        .diff-cell.modified-right :not(pre):not(del):not(ins) > code,
+        .unified-block.added :not(pre):not(del):not(ins) > code {
+          background-color: var(--disabled-background, rgba(60, 64, 67, 0.12));
+          border: 1px solid var(--border-color, #dadce0);
+        }
         del code {
-          background-color: var(--disabled-background, rgba(60, 64, 67, 0.12));
-          border: 1px solid var(--border-color, #dadce0);
+          background-color: var(--dark-remove-highlight-color, #ffcdd2);
+          border: 1px solid rgba(207, 34, 46, 0.45);
         }
-        .diff-cell.added :not(pre) > code,
-        .diff-cell.modified-right :not(pre) > code,
-        .unified-block.added :not(pre) > code,
         ins code {
-          background-color: var(--disabled-background, rgba(60, 64, 67, 0.12));
-          border: 1px solid var(--border-color, #dadce0);
+          background-color: var(--dark-add-highlight-color, #aaf2aa);
+          border: 1px solid rgba(46, 160, 67, 0.45);
         }
         .diff-cell.deleted pre,
         .diff-cell.modified-left pre,
         .unified-block.deleted pre {
-          background-color: rgba(0, 0, 0, 0.03);
-          border-color: rgba(207, 34, 46, 0.2);
+          background-color: var(--view-background-color, #ffffff);
+          border-color: rgba(207, 34, 46, 0.25);
         }
         .diff-cell.added pre,
         .diff-cell.modified-right pre,
         .unified-block.added pre {
-          background-color: rgba(0, 0, 0, 0.03);
-          border-color: rgba(46, 160, 67, 0.2);
+          background-color: var(--view-background-color, #ffffff);
+          border-color: rgba(46, 160, 67, 0.25);
         }
         pre .diff-highlight-del {
           display: inline-block;
-          width: 100%;
+          min-width: 100%;
           box-sizing: border-box;
         }
         pre .diff-highlight-add {
           display: inline-block;
-          width: 100%;
+          min-width: 100%;
           box-sizing: border-box;
+        }
+        pre .diff-code-line-del {
+          display: inline-block;
+          min-width: 100%;
+          box-sizing: border-box;
+          background-color: var(--light-remove-highlight-color, #ffebee);
+          border-radius: 2px;
+          padding: 1px 4px;
+        }
+        pre .diff-code-line-add {
+          display: inline-block;
+          min-width: 100%;
+          box-sizing: border-box;
+          background-color: var(--light-add-highlight-color, #d8fed8);
+          border-radius: 2px;
+          padding: 1px 4px;
+        }
+        pre .diff-code-line-del .diff-highlight-del,
+        pre .diff-code-line-add .diff-highlight-add {
+          display: inline;
+          min-width: 0;
+          width: auto;
+          padding: 1px 3px;
+          border-radius: 3px;
+          font-weight: var(--font-weight-medium, 500);
         }
         .diff-cell.deleted th,
         .diff-cell.modified-left th,
@@ -459,7 +491,8 @@ export class GrDiffMarkdownViewer extends LitElement {
           padding: 0;
           font-size: var(--font-size-code, 12px);
           display: block;
-          white-space: pre;
+          white-space: pre-wrap;
+          overflow-wrap: break-word;
         }
         blockquote {
           border-left: 4px solid var(--border-color, #d0d7de);
@@ -487,6 +520,29 @@ export class GrDiffMarkdownViewer extends LitElement {
         th {
           background-color: var(--background-color-secondary, #f8f9fa);
           font-weight: var(--font-weight-bold, 600);
+        }
+        li.diff-list-item-placeholder {
+          visibility: hidden;
+          user-select: none;
+        }
+        li.diff-list-item-placeholder::after {
+          content: '\\00a0';
+        }
+        th.diff-table-cell-placeholder,
+        td.diff-table-cell-placeholder {
+          background-color: var(
+            --diff-blank-background-color,
+            rgba(0, 0, 0, 0.02)
+          );
+          user-select: none;
+        }
+        tr.diff-table-row-placeholder td.diff-table-cell-placeholder::after {
+          content: '\\00a0';
+          visibility: hidden;
+        }
+        .unified-block li.diff-list-item-placeholder,
+        .unified-block tr.diff-table-row-placeholder {
+          display: none;
         }
       `,
     ];

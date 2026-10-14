@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "428627b6_4d189606",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T22:39:54Z",
+      "side": 1,
+      "message": "I have verified E2E that:\n- I can start a Gerrit on master with this change; no issues reported\n- The `postReviewComment \u003d group Registered Users` is effectively ignored\n- I can add more permissions to the project; it is still considered valid\n\nIn a nutshell, this revert does not create any regression, because even with the merged change the permission *was ignored anyway*, so it works (or doesn\u0027t work) exactly as before.",
+      "revId": "ee6c7297a9d3c1ca89f56d67e672f602017eb81c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

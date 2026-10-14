@@ -17,6 +17,7 @@ import {
   ContextItem,
   ContextItemType,
   ModelInfo,
+  ModelsLoadingErrorName,
 } from '../../api/ai-code-review';
 import {chatModelToken, Turn} from '../../models/chat/chat-model';
 import {changeModelToken} from '../../models/change/change-model';
@@ -29,7 +30,9 @@ import {resolve} from '../../models/dependency';
 import {ParsedChangeInfo} from '../../types/types';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {fire} from '../../utils/event-util';
+import {generateAbsoluteUrl} from '../../utils/url-util';
 import {subscribe} from '../lit/subscription-controller';
+import {createSettingsUrl} from '../../models/views/settings';
 import {materialStyles} from '../../styles/gr-material-styles';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
@@ -51,6 +54,8 @@ export class PromptBox extends LitElement {
   disabledMessage = 'Review Agent is disabled.';
 
   @state() modelLoadingError?: string;
+
+  @state() modelLoadingErrorName?: string;
 
   @state() selectedModel?: ModelInfo;
 
@@ -99,6 +104,11 @@ export class PromptBox extends LitElement {
       this,
       () => this.getChatModel().modelsLoadingError$,
       x => (this.modelLoadingError = x)
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().modelsLoadingErrorName$,
+      x => (this.modelLoadingErrorName = x)
     );
     subscribe(
       this,
@@ -381,14 +391,36 @@ export class PromptBox extends LitElement {
     // This Change is implicitly added to the context, so we don't need to add it.
     // The chip makes it clear to the user that it is already in the context.
     if (!this.change) return nothing;
-    const changeContextItem: ContextItem = {
-      type_id: 'gerrit_change',
-      // Don't include link in the chip since it's already on the change page.
-      link: '',
-      title: 'This Change',
-      identifier: this.change.id,
-      tooltip: 'File diffs (against base), commit message, and comments.',
-    };
+    let changeContextItem: ContextItem;
+    if (!this.hasModelLoadingError) {
+      changeContextItem = {
+        type_id: 'gerrit_change',
+        // Don't include link in the chip since it's already on the change page.
+        link: '',
+        title: 'This Change',
+        identifier: this.change.id,
+        tooltip: 'File diffs (against base), commit message, and comments.',
+      };
+    } else {
+      switch (this.modelLoadingErrorName) {
+        case ModelsLoadingErrorName.MISSING_API_TOKEN:
+          // Link to the settings, where the user can add the token. The link
+          // is absolute, so the context chip opens it in a new tab like any
+          // other link and the chat stays as it is.
+          changeContextItem = {
+            type_id: 'gerrit_change',
+            link: generateAbsoluteUrl(createSettingsUrl()),
+            title: 'Set up token',
+            identifier: this.change.id,
+            tooltip: 'Open the settings to configure an API token.',
+          };
+          break;
+        case ModelsLoadingErrorName.AI_PROVIDERS_LOADING:
+        default:
+          // The chat cannot be used: show no chip, only the error message.
+          return nothing;
+      }
+    }
     return html`
       <context-chip
         class="this-change-context"

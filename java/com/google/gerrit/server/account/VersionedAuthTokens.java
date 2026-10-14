@@ -116,7 +116,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
   public static Map<String, AuthToken> parse(String s) throws ConfigInvalidException {
     Config tokenConfig = new Config();
     tokenConfig.fromText(s);
-    Map<String, AuthToken> tokens = new HashMap<>(tokenConfig.getSubsections("token").size());
+    Map<String, AuthToken> tokens = HashMap.newHashMap(tokenConfig.getSubsections("token").size());
     for (String id : tokenConfig.getSubsections("token")) {
       String expiration = tokenConfig.getString("token", id, "expiration");
       Optional<Instant> expirationInstant =

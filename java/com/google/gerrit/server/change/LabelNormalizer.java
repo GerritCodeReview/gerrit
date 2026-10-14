@@ -98,9 +98,9 @@ public class LabelNormalizer {
    * @param approvals list of approvals.
    */
   public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals) {
-    Set<PatchSetApproval> unchanged = new HashSet<>(approvals.size());
-    Set<PatchSetApproval> updated = new HashSet<>(approvals.size());
-    Set<PatchSetApproval> deleted = new HashSet<>(approvals.size());
+    Set<PatchSetApproval> unchanged = HashSet.newHashSet(approvals.size());
+    Set<PatchSetApproval> updated = HashSet.newHashSet(approvals.size());
+    Set<PatchSetApproval> deleted = HashSet.newHashSet(approvals.size());
     LabelTypes labelTypes =
         projectCache
             .get(notes.getProjectName())

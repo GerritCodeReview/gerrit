@@ -105,7 +105,7 @@ public class UiActions {
   static void evaluatePermissionBackendConditions(
       PermissionBackend perm, List<PermissionBackendCondition> conds) {
     Map<PermissionBackendCondition, PermissionBackendCondition> dedupedConds =
-        new HashMap<>(conds.size());
+        HashMap.newHashMap(conds.size());
     for (PermissionBackendCondition cond : conds) {
       dedupedConds.put(cond, cond);
     }

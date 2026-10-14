@@ -49,7 +49,7 @@ public class GroupList extends TabFile {
   public static GroupList parse(Project.NameKey project, String text, ValidationError.Sink errors)
       throws IOException {
     List<Row> rows = parse(text, FILE_NAME, TRIM, TRIM, errors);
-    Map<AccountGroup.UUID, GroupReference> groupsByUUID = new HashMap<>(rows.size());
+    Map<AccountGroup.UUID, GroupReference> groupsByUUID = HashMap.newHashMap(rows.size());
     for (Row row : rows) {
       if (row.left == null) {
         logger.atWarning().log("null field in group list for %s:\n%s", project, text);

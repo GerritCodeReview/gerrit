@@ -68,7 +68,7 @@ public class MailUtil {
     }
 
     public Set<Account.Id> getAll() {
-      final Set<Account.Id> all = new HashSet<>(reviewers.size() + cc.size());
+      final Set<Account.Id> all = HashSet.newHashSet(reviewers.size() + cc.size());
       all.addAll(reviewers);
       all.addAll(cc);
       return Collections.unmodifiableSet(all);

@@ -78,7 +78,7 @@ public class TabFile {
   }
 
   protected static Map<String, String> toMap(List<Row> rows) {
-    Map<String, String> map = new HashMap<>(rows.size());
+    Map<String, String> map = HashMap.newHashMap(rows.size());
     for (Row row : rows) {
       map.put(row.left, row.right);
     }

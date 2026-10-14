@@ -463,14 +463,13 @@ public class ProjectControl {
     }
 
     private boolean can(CoreOrPluginProjectPermission perm) throws PermissionBackendException {
-      if (perm instanceof ProjectPermission projectPermission) {
-        return can(projectPermission);
-      } else if (perm instanceof PluginProjectPermission) {
+      return switch (perm) {
+        case ProjectPermission projectPermission -> can(projectPermission);
         // TODO(xchangcheng): implement for plugin defined project permissions.
-        return false;
-      }
-
-      throw new PermissionBackendException(perm.describeForException() + " unsupported");
+        case PluginProjectPermission _ -> false;
+        case null, default ->
+            throw new PermissionBackendException(perm.describeForException() + " unsupported");
+      };
     }
 
     private boolean can(ProjectPermission perm) {

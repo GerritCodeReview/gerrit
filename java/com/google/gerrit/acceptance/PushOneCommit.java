@@ -64,23 +64,27 @@ public class PushOneCommit {
   public static final String FILE_NAME = "a.txt";
   public static final String FILE_CONTENT = "some content";
   public static final String PATCH_FILE_ONLY =
-      "diff --git a/a.txt b/a.txt\n"
-          + "new file mode 100644\n"
-          + "index 0000000..f0eec86\n"
-          + "--- /dev/null\n"
-          + "+++ b/a.txt\n"
-          + "@@ -0,0 +1 @@\n"
-          + "+some content\n"
-          + "\\ No newline at end of file\n";
+      """
+      diff --git a/a.txt b/a.txt
+      new file mode 100644
+      index 0000000..f0eec86
+      --- /dev/null
+      +++ b/a.txt
+      @@ -0,0 +1 @@
+      +some content
+      \\ No newline at end of file
+      """;
   public static final String PATCH =
-      "From %s Mon Sep 17 00:00:00 2001\n"
-          + "From: Administrator <admin@example.com>\n"
-          + "Date: %s\n"
-          + "Subject: [PATCH] test commit\n"
-          + "\n"
-          + "Change-Id: %s\n"
-          + "---\n"
-          + "\n"
+      """
+      From %s Mon Sep 17 00:00:00 2001
+      From: Administrator <admin@example.com>
+      Date: %s
+      Subject: [PATCH] test commit
+
+      Change-Id: %s
+      ---
+
+      """
           + PATCH_FILE_ONLY;
 
   public static class Module extends FactoryModule {

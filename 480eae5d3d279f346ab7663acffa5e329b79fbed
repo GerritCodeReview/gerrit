@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ececbb34_4a7f28a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T08:43:22Z",
+      "side": 1,
+      "message": "Here we again have PS2 without differences to PS1",
+      "revId": "480eae5d3d279f346ab7663acffa5e329b79fbed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

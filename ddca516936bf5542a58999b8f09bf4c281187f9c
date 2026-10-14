@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d80e7d8b_945bbafe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-14T16:54:17Z",
+      "side": 1,
+      "message": "@ajagup@qti.qualcomm.com how does this interact with your fixes in https://gerrit-review.googlesource.com/c/gerrit/+/634644 (and parents)?",
+      "revId": "ddca516936bf5542a58999b8f09bf4c281187f9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

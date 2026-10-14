@@ -125,7 +125,7 @@ link:cmd-close-connection.html[gerrit close-connection]::
 	Close the specified SSH connection.
 
 link:cmd-convert-ref-storage.html[gerrit convert-ref-storage]::
-	Convert ref storage to reftable (experimental).
+	Convert ref storage to reftable.
 
 link:cmd-create-account.html[gerrit create-account]::
 	Create a new user account.

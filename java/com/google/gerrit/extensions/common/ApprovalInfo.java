@@ -51,6 +51,9 @@ public class ApprovalInfo extends AccountInfo {
   /** Whether this vote was made after the change was submitted. */
   public Boolean postSubmit;
 
+  /** Whether this vote was created by an AI agent. */
+  public Boolean isAi;
+
   /**
    * The range the user is authorized to vote on that label.
    *
@@ -106,6 +109,7 @@ public class ApprovalInfo extends AccountInfo {
           && Objects.equals(value, approvalInfo.value)
           && Objects.equals(date, approvalInfo.date)
           && Objects.equals(postSubmit, approvalInfo.postSubmit)
+          && Objects.equals(isAi, approvalInfo.isAi)
           && Objects.equals(permittedVotingRange, approvalInfo.permittedVotingRange);
     }
     return false;
@@ -118,6 +122,6 @@ public class ApprovalInfo extends AccountInfo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), tag, value, date, postSubmit, permittedVotingRange);
+    return Objects.hash(super.hashCode(), tag, value, date, postSubmit, isAi, permittedVotingRange);
   }
 }

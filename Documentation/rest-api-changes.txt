@@ -7685,6 +7685,8 @@ NOTE: To apply different tags on different votes/comments multiple
 invocations of the REST call are required.
 |`post_submit` |not set if `false`|
 If true, this vote was made after the change was submitted.
+|`is_ai`       |not set if `false`|
+If true, this vote was created by an AI agent.
 |===========================
 
 [[attention-set-info]]
@@ -9727,6 +9729,8 @@ will be considered being the same tag with regards to the hiding rule.
 |`labels`                               |optional|
 The votes that should be added to the revision as a map that maps the
 label names to the voting values.
+|`is_ai`                                |optional|
+Whether the votes in `labels` were created by an AI agent.
 |`comments`                             |optional|
 The comments that should be added as a map that maps a file path to a
 list of link:#comment-input[CommentInput] entities.

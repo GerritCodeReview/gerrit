@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b14ddd_e62d13ee",
+        "filename": "java/com/google/gerrit/extensions/common/ApprovalInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-14T23:14:54Z",
+      "side": 1,
+      "message": "Note that for constraining the code change scope to just Polygerrit, looks like we have to leverage the tag mechanism to set the `isAi` field - otherwise we have to nontrivially modify a bunch of upstreaming protos and classes (like `PostReviewRequest`).",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 3
+      },
+      "revId": "29b018e2a61d4e68c8fdb4bd0550411a20ec8fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

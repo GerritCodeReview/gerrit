@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e47e8bb8_199363ee",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3514,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-14T17:39:33Z",
+      "side": 1,
+      "message": "what should be done when the user doesn\u0027t have this permission ?\nnot in scope of this change ?",
+      "revId": "8c93ce07daaaf0517848990c3311bca3ffddb61e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "408ac381_89e6176f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-14T17:39:33Z",
+      "side": 1,
+      "message": "force by default is false for pushHead.",
+      "revId": "8c93ce07daaaf0517848990c3311bca3ffddb61e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

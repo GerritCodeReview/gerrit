@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12394731_d7fbb9b9",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardReservoirProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T10:35:23Z",
+      "side": 1,
+      "message": "why keep the default case when the ReservoirType is an enum and the cases are already exhaustive?\nThe default case will mask a non-handled new enum value.",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 6
+      },
+      "revId": "6ac31bce01022e96ab36fc0d8e03fcc32199e7c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d54d41c_1404502f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T10:35:23Z",
+      "side": 1,
+      "message": "instead of keeping the default case, make the switch expression exhaustive",
+      "revId": "6ac31bce01022e96ab36fc0d8e03fcc32199e7c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79175026_225b05ed",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T10:35:23Z",
+      "side": 1,
+      "message": "This code is correct. However, unrelated to this change, I think that a switch statement or expression doesn\u0027t really justify itself here. The awkwardness here comes from the combination of using the ternary operator in the switch expression in order to translate a null into an empty string so that we can use `case \"\"` for both cases.\n\nThis would probably be clearer with an if-else-if expression:\n```\nif (isNullOrEmpty(lockType) {\n  impl \u003d H2AccountPatchReviewStore.class;\n} else if (lockType.eauals(H2_LOCK_TYPE_JGIT) {\n  impl \u003d H2JGitLockAccountPatchReviewStore.class;\n} else {\n  throw ...\n}\n```",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 14
+      },
+      "revId": "6ac31bce01022e96ab36fc0d8e03fcc32199e7c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

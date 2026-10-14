@@ -122,8 +122,8 @@
     "javax.servlet:javax.servlet-api": 669233360,
     "junit:junit": -744267592,
     "log4j:log4j": 182326902,
-    "net.bytebuddy:byte-buddy": 612145055,
-    "net.bytebuddy:byte-buddy-agent": -48125545,
+    "net.bytebuddy:byte-buddy": 1292203425,
+    "net.bytebuddy:byte-buddy-agent": 631932825,
     "net.java.dev.jna:jna": -867910362,
     "net.java.dev.jna:jna-platform": -561312286,
     "net.minidev:json-smart": -1043043954,
@@ -158,10 +158,10 @@
     "org.apache.sshd:sshd-sftp": 292810504,
     "org.asciidoctor:asciidoctorj": -457860213,
     "org.assertj:assertj-core": -1145412507,
-    "org.bouncycastle:bcpg-jdk18on": 915299298,
-    "org.bouncycastle:bcpkix-jdk18on": -1660815403,
-    "org.bouncycastle:bcprov-jdk18on": -1559819624,
-    "org.bouncycastle:bcutil-jdk18on": 2018001773,
+    "org.bouncycastle:bcpg-jdk18on": -892155165,
+    "org.bouncycastle:bcpkix-jdk18on": 826697430,
+    "org.bouncycastle:bcprov-jdk18on": -725331883,
+    "org.bouncycastle:bcutil-jdk18on": 210547310,
     "org.commonmark:commonmark": 1129543740,
     "org.commonmark:commonmark-ext-autolink": -1853742120,
     "org.commonmark:commonmark-ext-gfm-strikethrough": 350394231,
@@ -183,7 +183,7 @@
     "org.jruby:jruby-complete": -2103568068,
     "org.json:json": -811907600,
     "org.jsoup:jsoup": -1061087167,
-    "org.mockito:mockito-core": 1330163800,
+    "org.mockito:mockito-core": -466787559,
     "org.nibor.autolink:autolink": -342487050,
     "org.objenesis:objenesis": 748376655,
     "org.openid4java:openid4java": -1889179110,
@@ -340,10 +340,10 @@
     "javax.servlet:javax.servlet-api:jar:sources": -2015355058,
     "junit:junit": -1256429642,
     "junit:junit:jar:sources": 940567721,
-    "net.bytebuddy:byte-buddy": 570606503,
-    "net.bytebuddy:byte-buddy-agent": -647040865,
-    "net.bytebuddy:byte-buddy-agent:jar:sources": 1035878534,
-    "net.bytebuddy:byte-buddy:jar:sources": -750344117,
+    "net.bytebuddy:byte-buddy": -1914258003,
+    "net.bytebuddy:byte-buddy-agent": 682658697,
+    "net.bytebuddy:byte-buddy-agent:jar:sources": -1164352937,
+    "net.bytebuddy:byte-buddy:jar:sources": 891177431,
     "net.java.dev.jna:jna": 1622514527,
     "net.java.dev.jna:jna-platform": 1756885266,
     "net.java.dev.jna:jna-platform:jar:sources": -507721531,
@@ -404,16 +404,16 @@
     "org.apache.sshd:sshd-sftp:jar:sources": -1268961386,
     "org.asciidoctor:asciidoctorj": 1685789893,
     "org.asciidoctor:asciidoctorj:jar:sources": 2091708864,
-    "org.assertj:assertj-core": 1185991420,
+    "org.assertj:assertj-core": -253199576,
     "org.assertj:assertj-core:jar:sources": -697161745,
-    "org.bouncycastle:bcpg-jdk18on": 1314692470,
-    "org.bouncycastle:bcpg-jdk18on:jar:sources": -1476258101,
-    "org.bouncycastle:bcpkix-jdk18on": -1562281305,
-    "org.bouncycastle:bcpkix-jdk18on:jar:sources": 1945286569,
-    "org.bouncycastle:bcprov-jdk18on": -390275162,
-    "org.bouncycastle:bcprov-jdk18on:jar:sources": -2118706434,
-    "org.bouncycastle:bcutil-jdk18on": -1194874921,
-    "org.bouncycastle:bcutil-jdk18on:jar:sources": -1005159791,
+    "org.bouncycastle:bcpg-jdk18on": 1344554762,
+    "org.bouncycastle:bcpg-jdk18on:jar:sources": 1086923059,
+    "org.bouncycastle:bcpkix-jdk18on": -287047843,
+    "org.bouncycastle:bcpkix-jdk18on:jar:sources": -1855368494,
+    "org.bouncycastle:bcprov-jdk18on": -751439126,
+    "org.bouncycastle:bcprov-jdk18on:jar:sources": 485448997,
+    "org.bouncycastle:bcutil-jdk18on": -1269559261,
+    "org.bouncycastle:bcutil-jdk18on:jar:sources": 1897597974,
     "org.checkerframework:checker-compat-qual": -1467964223,
     "org.checkerframework:checker-compat-qual:jar:sources": 187825033,
     "org.checkerframework:checker-qual": -739034920,
@@ -464,8 +464,8 @@
     "org.jsoup:jsoup:jar:sources": -2058254438,
     "org.jspecify:jspecify": 117231129,
     "org.jspecify:jspecify:jar:sources": -2134060298,
-    "org.mockito:mockito-core": -1701291388,
-    "org.mockito:mockito-core:jar:sources": 1900207417,
+    "org.mockito:mockito-core": -1058138256,
+    "org.mockito:mockito-core:jar:sources": 1799409451,
     "org.nibor.autolink:autolink": -443901116,
     "org.nibor.autolink:autolink:jar:sources": -1863403724,
     "org.objenesis:objenesis": 1536526812,
@@ -980,17 +980,17 @@
     },
     "net.bytebuddy:byte-buddy": {
       "shasums": {
-        "jar": "2ed11da684a8f5b088e0222baa87461cd757e433a8dc4a03671457229d91d5fa",
-        "sources": "b1d35137942a8bff4199b8a2baa00ed3872923bc6878a6ff2731f9324fe1a2fc"
+        "jar": "b7f2b2f111c6ddc09d3d9718ca5895dde16217bb4e5f2d2a6eb571f274909a82",
+        "sources": "00560ac03d67ad6278741a87fc9046c39972daea9ab5ff3378e1b6df3fce7d40"
       },
-      "version": "1.18.12"
+      "version": "1.18.14"
     },
     "net.bytebuddy:byte-buddy-agent": {
       "shasums": {
-        "jar": "287703bea3473edf89e1b373a097e49bad04ed48b85796228f68b1474dc93cf8",
-        "sources": "d4a1b7ab677479288a48889da66ee6e5a76b331ed3fbfb832568b7fc01c6c094"
+        "jar": "6f9159206c4c7950c7ce571b534dcc6457cc27b960146724fbe70c552dd55b97",
+        "sources": "9f52d0860ad2a867af1183f9fc7a4bd41a84a1a8f4b7e69fd4f09aa61968fe95"
       },
-      "version": "1.18.12"
+      "version": "1.18.14"
     },
     "net.java.dev.jna:jna": {
       "shasums": {
@@ -1211,31 +1211,31 @@
     },
     "org.bouncycastle:bcpg-jdk18on": {
       "shasums": {
-        "jar": "39426367dc247dfaae9b1253457a39298b6b9a6c28a39b908bca829e315323dd",
-        "sources": "605b09bd826d7e4e3e0cb4faf2e9b53a6bcb452be963c91499b79fd8497685be"
+        "jar": "8a52ea45b2063f6d41b8ca94409f255a1f4604922f7451c18a7cfd3a3c5b85ab",
+        "sources": "02c36d0c102abbae4ce5c81449cf66338f6befcec2844fc07d685c412e20f1d6"
       },
-      "version": "1.85"
+      "version": "1.86"
     },
     "org.bouncycastle:bcpkix-jdk18on": {
       "shasums": {
-        "jar": "c9f82b2d4e99c4bbdfccf684e52cc06ea06a0b567bfd0d08f9c5a3f417055996",
-        "sources": "e5331f467331aba29bda6ddfb0df0da6d568928e29c2b0f20ea2fe123d802d20"
+        "jar": "8d8b41a4b149bdae8d331f059a578870954d1e3ff29f8269a9eb3ee19a7e4ef7",
+        "sources": "0bb00b50a80404e40c6465cb8012d3835d2a9100d94d16eaa9efed4587d7e34d"
       },
-      "version": "1.85"
+      "version": "1.86"
     },
     "org.bouncycastle:bcprov-jdk18on": {
       "shasums": {
-        "jar": "986b0fb92ec10e0c66b43e036ce0077e6150cfaecd1db9fb92b56672e157afe5",
-        "sources": "b37ac84b1d5435ab7b8d166c16ab9f75e09f68f8ec50479bae433939b241b03f"
+        "jar": "2af190b300cbb0b35e248ccf5f4a06b6072030aeb3da7a98ec73abe5b4cb371f",
+        "sources": "34a8b7dcb030a08ddd5356d3d5be962f9299ca5275e1460273186f8fdbe44c34"
       },
-      "version": "1.85.2"
+      "version": "1.86"
     },
     "org.bouncycastle:bcutil-jdk18on": {
       "shasums": {
-        "jar": "590f55ed5d68529239898a4a5c4f730b6e37f45d1cfa3fbe51f8485abe32c42d",
-        "sources": "b470a692878f92abf00b9c3af9147a45453250a80930df8f23f1d092c55e2d5e"
+        "jar": "1c268e15f785aafb1e4670d8d6e5f856f69475e96c162dadcd1ff9b350e9139f",
+        "sources": "a79e8cdbc04a24aecf64503eda9a4aa61019132484c64f7ce32a68ac30ef6df7"
       },
-      "version": "1.85"
+      "version": "1.86"
     },
     "org.checkerframework:checker-compat-qual": {
       "shasums": {
@@ -1414,10 +1414,10 @@
     },
     "org.mockito:mockito-core": {
       "shasums": {
-        "jar": "ae295bebd5d11fab97ab297815dc7617188b86003cbce3dfd5c0d5c3a6cc4a0c",
-        "sources": "38f869a12a1168ca8dc2a4acd090d8129a7f81afc8f1fc61582701894755fefd"
+        "jar": "97a1f835ad84075255aa37809e4379eff541273c02c6201cbad49bd5950932cd",
+        "sources": "6941ad79b3a92ba2dbd8a00570b0e2dcaf15529de4452c789454f11660f03bf7"
       },
-      "version": "5.23.0"
+      "version": "5.24.0"
     },
     "org.nibor.autolink:autolink": {
       "shasums": {
@@ -3418,6 +3418,9 @@
       "org.bouncycastle.openpgp.api.bc",
       "org.bouncycastle.openpgp.api.exception",
       "org.bouncycastle.openpgp.api.jcajce",
+      "org.bouncycastle.openpgp.api.operator",
+      "org.bouncycastle.openpgp.api.operator.bc",
+      "org.bouncycastle.openpgp.api.operator.jcajce",
       "org.bouncycastle.openpgp.api.util",
       "org.bouncycastle.openpgp.bc",
       "org.bouncycastle.openpgp.jcajce",
@@ -3429,6 +3432,9 @@
       "org.bouncycastle.cades",
       "org.bouncycastle.cert",
       "org.bouncycastle.cert.bc",
+      "org.bouncycastle.cert.c509",
+      "org.bouncycastle.cert.c509.bc",
+      "org.bouncycastle.cert.c509.jcajce",
       "org.bouncycastle.cert.cmp",
       "org.bouncycastle.cert.crmf",
       "org.bouncycastle.cert.crmf.bc",
@@ -3542,8 +3548,10 @@
       "org.bouncycastle.crypto.prng",
       "org.bouncycastle.crypto.prng.drbg",
       "org.bouncycastle.crypto.signers",
+      "org.bouncycastle.crypto.signers.lms",
       "org.bouncycastle.crypto.signers.mldsa",
       "org.bouncycastle.crypto.signers.slhdsa",
+      "org.bouncycastle.crypto.signers.xmss",
       "org.bouncycastle.crypto.threshold",
       "org.bouncycastle.crypto.tls",
       "org.bouncycastle.crypto.util",
@@ -3587,6 +3595,7 @@
       "org.bouncycastle.jcajce.provider.asymmetric.mlkem",
       "org.bouncycastle.jcajce.provider.asymmetric.rsa",
       "org.bouncycastle.jcajce.provider.asymmetric.slhdsa",
+      "org.bouncycastle.jcajce.provider.asymmetric.sm9",
       "org.bouncycastle.jcajce.provider.asymmetric.util",
       "org.bouncycastle.jcajce.provider.asymmetric.x509",
       "org.bouncycastle.jcajce.provider.config",
@@ -3621,24 +3630,19 @@
       "org.bouncycastle.math.ec.endo",
       "org.bouncycastle.math.ec.rfc7748",
       "org.bouncycastle.math.ec.rfc8032",
+      "org.bouncycastle.math.ec.sm9",
       "org.bouncycastle.math.ec.tools",
       "org.bouncycastle.math.field",
       "org.bouncycastle.math.raw",
       "org.bouncycastle.pqc.asn1",
       "org.bouncycastle.pqc.crypto",
       "org.bouncycastle.pqc.crypto.aimer",
-      "org.bouncycastle.pqc.crypto.cmce",
-      "org.bouncycastle.pqc.crypto.crystals.dilithium",
       "org.bouncycastle.pqc.crypto.faest",
       "org.bouncycastle.pqc.crypto.falcon",
-      "org.bouncycastle.pqc.crypto.frodo",
       "org.bouncycastle.pqc.crypto.haetae",
-      "org.bouncycastle.pqc.crypto.hawk",
       "org.bouncycastle.pqc.crypto.hqc",
       "org.bouncycastle.pqc.crypto.lms",
       "org.bouncycastle.pqc.crypto.mayo",
-      "org.bouncycastle.pqc.crypto.mldsa",
-      "org.bouncycastle.pqc.crypto.mlkem",
       "org.bouncycastle.pqc.crypto.mqom",
       "org.bouncycastle.pqc.crypto.newhope",
       "org.bouncycastle.pqc.crypto.ntru",
@@ -3647,7 +3651,7 @@
       "org.bouncycastle.pqc.crypto.qruov",
       "org.bouncycastle.pqc.crypto.saber",
       "org.bouncycastle.pqc.crypto.sdith",
-      "org.bouncycastle.pqc.crypto.slhdsa",
+      "org.bouncycastle.pqc.crypto.smaugt",
       "org.bouncycastle.pqc.crypto.snova",
       "org.bouncycastle.pqc.crypto.sphincs",
       "org.bouncycastle.pqc.crypto.sqisign",
@@ -3659,15 +3663,10 @@
       "org.bouncycastle.pqc.jcajce.provider",
       "org.bouncycastle.pqc.jcajce.provider.aimer",
       "org.bouncycastle.pqc.jcajce.provider.bike",
-      "org.bouncycastle.pqc.jcajce.provider.cmce",
-      "org.bouncycastle.pqc.jcajce.provider.dilithium",
       "org.bouncycastle.pqc.jcajce.provider.faest",
       "org.bouncycastle.pqc.jcajce.provider.falcon",
-      "org.bouncycastle.pqc.jcajce.provider.frodo",
       "org.bouncycastle.pqc.jcajce.provider.haetae",
-      "org.bouncycastle.pqc.jcajce.provider.hawk",
       "org.bouncycastle.pqc.jcajce.provider.hqc",
-      "org.bouncycastle.pqc.jcajce.provider.kyber",
       "org.bouncycastle.pqc.jcajce.provider.lms",
       "org.bouncycastle.pqc.jcajce.provider.mayo",
       "org.bouncycastle.pqc.jcajce.provider.mqom",
@@ -3675,21 +3674,20 @@
       "org.bouncycastle.pqc.jcajce.provider.ntru",
       "org.bouncycastle.pqc.jcajce.provider.ntruplus",
       "org.bouncycastle.pqc.jcajce.provider.ntruprime",
-      "org.bouncycastle.pqc.jcajce.provider.picnic",
       "org.bouncycastle.pqc.jcajce.provider.qruov",
       "org.bouncycastle.pqc.jcajce.provider.saber",
       "org.bouncycastle.pqc.jcajce.provider.sdith",
+      "org.bouncycastle.pqc.jcajce.provider.smaugt",
       "org.bouncycastle.pqc.jcajce.provider.snova",
       "org.bouncycastle.pqc.jcajce.provider.sphincs",
-      "org.bouncycastle.pqc.jcajce.provider.sphincsplus",
       "org.bouncycastle.pqc.jcajce.provider.sqisign",
       "org.bouncycastle.pqc.jcajce.provider.uov",
       "org.bouncycastle.pqc.jcajce.provider.util",
       "org.bouncycastle.pqc.jcajce.provider.xmss",
       "org.bouncycastle.pqc.jcajce.spec",
       "org.bouncycastle.pqc.legacy.bike",
-      "org.bouncycastle.pqc.legacy.picnic",
-      "org.bouncycastle.pqc.legacy.rainbow",
+      "org.bouncycastle.pqc.legacy.crystals.dilithium",
+      "org.bouncycastle.pqc.legacy.hawk",
       "org.bouncycastle.pqc.legacy.sphincsplus",
       "org.bouncycastle.pqc.math.ntru",
       "org.bouncycastle.pqc.math.ntru.parameters",
@@ -3734,6 +3732,8 @@
       "org.bouncycastle.asn1.rosstandart",
       "org.bouncycastle.asn1.smime",
       "org.bouncycastle.asn1.tsp",
+      "org.bouncycastle.cbor",
+      "org.bouncycastle.cbor.c509",
       "org.bouncycastle.oer",
       "org.bouncycastle.oer.its",
       "org.bouncycastle.oer.its.etsi102941",

@@ -367,17 +367,19 @@ export class GrDiffMarkdownViewer extends LitElement {
           border-radius: 2px;
           padding: 1px 2px;
         }
-        .diff-cell.deleted code,
-        .diff-cell.modified-left code,
-        .unified-block.deleted code,
+        .diff-cell.deleted :not(pre) > code,
+        .diff-cell.modified-left :not(pre) > code,
+        .unified-block.deleted :not(pre) > code,
         del code {
-          background-color: rgba(0, 0, 0, 0.05);
+          background-color: rgba(0, 0, 0, 0.08);
+          border: 1px solid rgba(0, 0, 0, 0.12);
         }
-        .diff-cell.added code,
-        .diff-cell.modified-right code,
-        .unified-block.added code,
+        .diff-cell.added :not(pre) > code,
+        .diff-cell.modified-right :not(pre) > code,
+        .unified-block.added :not(pre) > code,
         ins code {
-          background-color: rgba(0, 0, 0, 0.05);
+          background-color: rgba(0, 0, 0, 0.08);
+          border: 1px solid rgba(0, 0, 0, 0.12);
         }
         .diff-cell.deleted pre,
         .diff-cell.modified-left pre,

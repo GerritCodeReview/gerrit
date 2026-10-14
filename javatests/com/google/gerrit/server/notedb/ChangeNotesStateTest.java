@@ -1124,6 +1124,7 @@ public class ChangeNotesStateTest {
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
                 .put("copied", boolean.class)
+                .put("isAi", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

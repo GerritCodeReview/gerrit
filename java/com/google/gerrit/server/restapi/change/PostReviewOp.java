@@ -638,6 +638,9 @@ public class PostReviewOp implements BatchUpdateOp {
         getPreviousApprovals(allApprovals, approvalsByKey(current.values()));
 
     ChangeUpdate update = ctx.getUpdate(psId);
+    if (Boolean.TRUE.equals(in.isAi)) {
+      update.setIsAi(true);
+    }
     for (Map.Entry<String, Short> ent : allApprovals.entrySet()) {
       String name = ent.getKey();
       LabelType lt =
@@ -669,7 +672,8 @@ public class PostReviewOp implements BatchUpdateOp {
             c.toBuilder()
                 .value(ent.getValue())
                 .granted(ctx.getWhen())
-                .tag(Optional.ofNullable(in.tag));
+                .tag(Optional.ofNullable(in.tag))
+                .isAi(Boolean.TRUE.equals(in.isAi));
         ctx.getUser().updateRealAccountId(b::realAccountId);
         c = b.build();
         ups.add(c);
@@ -685,6 +689,7 @@ public class PostReviewOp implements BatchUpdateOp {
         c =
             ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                 .tag(Optional.ofNullable(in.tag))
+                .isAi(Boolean.TRUE.equals(in.isAi))
                 .granted(ctx.getWhen())
                 .build();
         ups.add(c);

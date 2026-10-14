@@ -50,6 +50,7 @@ public class PatchSetApprovalProtoConverterTest {
             .realAccountId(Account.id(612))
             .postSubmit(true)
             .copied(true)
+            .isAi(true)
             .build();
 
     Entities.PatchSetApproval proto = protoConverter.toProto(patchSetApproval);
@@ -71,6 +72,7 @@ public class PatchSetApprovalProtoConverterTest {
             .setRealAccountId(Entities.Account_Id.newBuilder().setId(612))
             .setPostSubmit(true)
             .setCopied(true)
+            .setIsAi(true)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -121,6 +123,7 @@ public class PatchSetApprovalProtoConverterTest {
             .realAccountId(Account.id(612))
             .postSubmit(true)
             .copied(true)
+            .isAi(true)
             .build();
 
     PatchSetApproval convertedPatchSetApproval =
@@ -169,6 +172,7 @@ public class PatchSetApprovalProtoConverterTest {
     assertThat(patchSetApproval.granted()).isEqualTo(Instant.EPOCH);
     assertThat(patchSetApproval.postSubmit()).isEqualTo(false);
     assertThat(patchSetApproval.copied()).isEqualTo(false);
+    assertThat(patchSetApproval.isAi()).isEqualTo(false);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
@@ -185,6 +189,7 @@ public class PatchSetApprovalProtoConverterTest {
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
                 .put("copied", boolean.class)
+                .put("isAi", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

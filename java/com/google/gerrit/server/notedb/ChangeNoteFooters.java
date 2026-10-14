@@ -44,6 +44,7 @@ public class ChangeNoteFooters {
   public static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
   public static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
   public static final FooterKey FOOTER_TAG = new FooterKey("Tag");
+  public static final FooterKey FOOTER_IS_AI = new FooterKey("Is-ai");
   public static final FooterKey FOOTER_THEIRS = new FooterKey("Theirs");
   public static final FooterKey FOOTER_WORK_IN_PROGRESS = new FooterKey("Work-in-progress");
   public static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");

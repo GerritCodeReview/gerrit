@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -62,6 +63,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -1413,6 +1415,25 @@ public class PostReviewIT extends AbstractDaemonTest {
     com.google.gerrit.extensions.common.CommentInfo commentInfo = comments.get(0);
     assertThat(commentInfo.message).isEqualTo("AI draft");
     assertThat(commentInfo.isAi).isTrue();
+  }
+
+  @Test
+  public void postVoteWithIsAi() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput input = ReviewInput.recommend();
+    input.isAi = true;
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    List<ApprovalInfo> approvals = change.labels.get(LabelId.CODE_REVIEW).all;
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals.get(0).value).isEqualTo(1);
+    assertThat(approvals.get(0).isAi).isTrue();
+
+    ListMultimap<String, ApprovalInfo> votes = gApi.changes().id(r.getChangeId()).current().votes();
+    assertThat(votes.get(LabelId.CODE_REVIEW)).hasSize(1);
+    assertThat(votes.get(LabelId.CODE_REVIEW).get(0).isAi).isTrue();
   }
 
   private static void assertAttentionSet(

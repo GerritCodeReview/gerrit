@@ -13,9 +13,11 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {ChangeStatus} from '../../../constants/constants';
 import {
   createAccountDetailWithId,
+  createAccountWithId,
   createChange,
   createChangeWithStatus,
 } from '../../../test/test-data-generators';
+import {YOUR_TURN} from '../../../utils/dashboard-util';
 import {
   addListenerForTest,
   mockPromise,
@@ -192,9 +194,112 @@ suite('gr-dashboard-view tests', () => {
       await element.updateComplete;
 
       assert.isTrue(getChangesStub.calledTwice);
+      assert.deepEqual(getChangesStub.secondCall.args[1], ['test1']);
       assert.isFalse(element.starsLoading);
       assert.isDefined(element.results);
       assert.isTrue(element.results[0].results[0].starred);
+    });
+
+    test('makeSecondRequestForStarredChanges maps stars to non-empty sections when empty section is hidden', async () => {
+      const change2 = {
+        ...createChange(),
+        id: '2' as ChangeInfoId,
+        starred: false,
+      };
+      const change2Starred = {...change2, starred: true};
+      // 'empty' is hidden, 'nonEmpty' has [change2], the last array is for
+      // the 'owner:self limit:1' query.
+      getChangesStub
+        .onFirstCall()
+        .returns(Promise.resolve([[], [change2], []]));
+      getChangesStub
+        .onSecondCall()
+        .returns(Promise.resolve([[change2Starred]]));
+
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
+        user: 'self',
+        sections: [
+          {name: 'empty', query: 'has:draft', hideIfEmpty: true},
+          {name: 'nonEmpty', query: 'attention:self', hideIfEmpty: true},
+        ],
+      };
+      await element.reload();
+      await element.updateComplete;
+
+      assert.isTrue(getChangesStub.calledTwice);
+      assert.deepEqual(getChangesStub.secondCall.args[1], ['attention:self']);
+      assert.equal(element.results?.length, 1);
+      assert.isTrue(element.results![0].results[0].starred);
+    });
+
+    test('makeSecondRequestForStarredChanges maps stars by change id in re-sorted Your turn section', async () => {
+      // Owned by the logged-in user (id 1), so sorted below reviewer changes.
+      const ownedChange = {
+        ...createChange(),
+        id: 'owned' as ChangeInfoId,
+        owner: createAccountWithId(1),
+      };
+      const reviewerChange = {
+        ...createChange(),
+        id: 'reviewer' as ChangeInfoId,
+        owner: createAccountWithId(2),
+      };
+      getChangesStub
+        .onFirstCall()
+        .returns(Promise.resolve([[ownedChange, reviewerChange], []]));
+      // The server omits `starred` for unstarred changes.
+      getChangesStub
+        .onSecondCall()
+        .returns(
+          Promise.resolve([[{...ownedChange, starred: true}, reviewerChange]])
+        );
+
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
+        user: 'self',
+        sections: [{name: YOUR_TURN.name, query: 'attention:self'}],
+      };
+      await element.reload();
+      await element.updateComplete;
+
+      assert.isTrue(getChangesStub.calledTwice);
+      const results = element.results![0].results;
+      assert.deepEqual(
+        results.map(c => c.id),
+        ['reviewer' as ChangeInfoId, 'owned' as ChangeInfoId]
+      );
+      assert.isNotOk(results[0].starred);
+      assert.isTrue(results[1].starred);
+    });
+
+    test('makeSecondRequestForStarredChanges does not copy stars from other changes', async () => {
+      const removedChange = {...createChange(), id: 'removed' as ChangeInfoId};
+      const keptChange = {...createChange(), id: 'kept' as ChangeInfoId};
+      getChangesStub
+        .onFirstCall()
+        .returns(Promise.resolve([[removedChange, keptChange], []]));
+      // 'removed' dropped out of the section between the two requests.
+      getChangesStub
+        .onSecondCall()
+        .returns(Promise.resolve([[{...keptChange, starred: true}]]));
+
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
+        user: 'self',
+        sections: [{name: 'test1', query: 'test1'}],
+      };
+      await element.reload();
+      await element.updateComplete;
+
+      assert.isTrue(getChangesStub.calledTwice);
+      const results = element.results![0].results;
+      assert.equal(results[0].id, 'removed' as ChangeInfoId);
+      assert.isNotOk(results[0].starred);
+      assert.isTrue(results[1].starred);
     });
 
     test('starsLoading is true during second request', async () => {

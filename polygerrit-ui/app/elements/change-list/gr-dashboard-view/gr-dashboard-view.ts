@@ -470,21 +470,25 @@ export class GrDashboardView extends LitElement {
       // (meaning they are not a "New" user).
       this.showNotificationsPrompt = !this.showNewUserHelp;
     }
-    this.results = changes
-      .map((results, i) => {
-        return {
-          name: res.sections[i].name,
-          countLabel: this.computeSectionCountLabel(results),
-          query: res.sections[i].query,
-          results: this.maybeSortResults(res.sections[i].name, results),
-          emptyStateSlotName: slotNameBySectionName.get(res.sections[i].name),
-        };
-      })
+    // Indices of sections that are shown. Excludes the trailing
+    // 'owner:self limit:1' query and empty sections with hideIfEmpty.
+    const visibleIndices = res.sections
+      .map((_, i) => i)
       .filter(
-        (section, i) =>
-          i < res.sections.length &&
-          (!res.sections[i].hideIfEmpty || section.results.length)
+        i =>
+          i < changes.length &&
+          (!res.sections[i].hideIfEmpty || changes[i].length > 0)
       );
+    this.results = visibleIndices.map(i => {
+      const section = res.sections[i];
+      return {
+        name: section.name,
+        countLabel: this.computeSectionCountLabel(changes[i]),
+        query: section.query,
+        results: this.maybeSortResults(section.name, changes[i]),
+        emptyStateSlotName: slotNameBySectionName.get(section.name),
+      };
+    });
 
     // Show the notifications prompt if the user has any results in their attention set.
     this.showNotificationsPrompt =
@@ -500,7 +504,9 @@ export class GrDashboardView extends LitElement {
         KnownExperimentId.DASHBOARD_LAZY_LOADING
       )
     ) {
-      this.makeSecondRequestForStarredChanges(queries);
+      this.makeSecondRequestForStarredChanges(
+        visibleIndices.map(i => queries[i])
+      );
     }
   }
 
@@ -522,16 +528,22 @@ export class GrDashboardView extends LitElement {
           this.starsLoading = false;
           return;
         }
-        this.results = this.results?.map((section, i) => {
+        // Match by change ID rather than position: the "Your turn" section is
+        // re-sorted client-side, and section contents can change between the
+        // two requests. The server omits `starred` for unstarred changes.
+        const starredById = new Map<string, boolean>();
+        for (const sectionResults of results) {
+          for (const change of sectionResults) {
+            starredById.set(change.id, !!change.starred);
+          }
+        }
+        this.results = this.results?.map(section => {
           return {
             ...section,
-            results: section.results.map((change, j) => {
+            results: section.results.map(change => {
               return {
                 ...change,
-                starred:
-                  results[i] && results[i][j]
-                    ? results[i][j].starred
-                    : change.starred,
+                starred: starredById.get(change.id) ?? change.starred,
               };
             }),
           };

@@ -500,7 +500,12 @@ export class GrDashboardView extends LitElement {
         KnownExperimentId.DASHBOARD_LAZY_LOADING
       )
     ) {
-      this.makeSecondRequestForStarredChanges(queries);
+      const starQueries = queries.filter(
+        (_, i) =>
+          i < res.sections.length &&
+          (!res.sections[i].hideIfEmpty || changes[i].length > 0)
+      );
+      this.makeSecondRequestForStarredChanges(starQueries);
     }
   }
 
@@ -522,16 +527,27 @@ export class GrDashboardView extends LitElement {
           this.starsLoading = false;
           return;
         }
+        const starredById = new Map<string, boolean>();
+        for (const sectionResults of results) {
+          for (const change of sectionResults) {
+            if (change.id !== undefined && change.starred !== undefined) {
+              starredById.set(change.id, change.starred);
+            }
+          }
+        }
         this.results = this.results?.map((section, i) => {
           return {
             ...section,
             results: section.results.map((change, j) => {
+              const starred =
+                change.id && starredById.has(change.id)
+                  ? starredById.get(change.id)
+                  : results[i] && results[i][j]
+                  ? results[i][j].starred
+                  : change.starred;
               return {
                 ...change,
-                starred:
-                  results[i] && results[i][j]
-                    ? results[i][j].starred
-                    : change.starred,
+                starred,
               };
             }),
           };

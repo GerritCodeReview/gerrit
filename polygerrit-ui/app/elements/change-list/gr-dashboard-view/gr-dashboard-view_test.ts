@@ -192,9 +192,43 @@ suite('gr-dashboard-view tests', () => {
       await element.updateComplete;
 
       assert.isTrue(getChangesStub.calledTwice);
+      assert.deepEqual(getChangesStub.secondCall.args[1], ['test1']);
       assert.isFalse(element.starsLoading);
       assert.isDefined(element.results);
       assert.isTrue(element.results[0].results[0].starred);
+    });
+
+    test('makeSecondRequestForStarredChanges maps stars to non-empty sections when empty section is hidden', async () => {
+      const change2 = {
+        ...createChange(),
+        id: '2' as ChangeInfoId,
+        starred: false,
+      };
+      const change2Starred = {...change2, starred: true};
+      // Section 0 ('empty') has 0 results and hideIfEmpty: true; Section 1 ('nonEmpty') has [change2]; 3rd is 'owner:self limit:1'.
+      getChangesStub
+        .onFirstCall()
+        .returns(Promise.resolve([[], [change2], []]));
+      getChangesStub
+        .onSecondCall()
+        .returns(Promise.resolve([[change2Starred]]));
+
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
+        user: 'self',
+        sections: [
+          {name: 'empty', query: 'has:draft', hideIfEmpty: true},
+          {name: 'nonEmpty', query: 'attention:self', hideIfEmpty: true},
+        ],
+      };
+      await element.reload();
+      await element.updateComplete;
+
+      assert.isTrue(getChangesStub.calledTwice);
+      assert.deepEqual(getChangesStub.secondCall.args[1], ['attention:self']);
+      assert.equal(element.results?.length, 1);
+      assert.isTrue(element.results![0].results[0].starred);
     });
 
     test('starsLoading is true during second request', async () => {

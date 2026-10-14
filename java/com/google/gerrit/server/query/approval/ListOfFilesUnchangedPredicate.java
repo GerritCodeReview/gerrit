@@ -146,10 +146,9 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof ListOfFilesUnchangedPredicate)) {
+    if (!(other instanceof ListOfFilesUnchangedPredicate o)) {
       return false;
     }
-    ListOfFilesUnchangedPredicate o = (ListOfFilesUnchangedPredicate) other;
     return Objects.equals(o.diffOperations, diffOperations)
         && Objects.equals(o.repositoryManager, repositoryManager);
   }

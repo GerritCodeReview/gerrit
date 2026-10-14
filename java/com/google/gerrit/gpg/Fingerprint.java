@@ -108,7 +108,7 @@ public class Fingerprint {
 
   @Override
   public boolean equals(Object o) {
-    return (o instanceof Fingerprint) && equalsBytes(((Fingerprint) o).fp);
+    return (o instanceof Fingerprint f) && equalsBytes(f.fp);
   }
 
   @Override

@@ -24,10 +24,9 @@ public class FixReplacementInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof FixReplacementInfo)) {
+    if (!(o instanceof FixReplacementInfo fs)) {
       return false;
     }
-    FixReplacementInfo fs = (FixReplacementInfo) o;
     return Objects.equals(path, fs.path)
         && Objects.equals(range, fs.range)
         && Objects.equals(replacement, fs.replacement);

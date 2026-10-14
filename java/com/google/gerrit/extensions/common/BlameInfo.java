@@ -28,10 +28,9 @@ public class BlameInfo {
     if (this == o) {
       return true;
     }
-    if (o == null || !(o instanceof BlameInfo)) {
+    if (o == null || !(o instanceof BlameInfo blameInfo)) {
       return false;
     }
-    BlameInfo blameInfo = (BlameInfo) o;
 
     return id.equals(blameInfo.id);
   }

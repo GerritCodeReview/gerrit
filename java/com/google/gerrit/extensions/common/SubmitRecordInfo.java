@@ -45,10 +45,9 @@ public class SubmitRecordInfo {
       if (this == o) {
         return true;
       }
-      if (!(o instanceof Label)) {
+      if (!(o instanceof Label that)) {
         return false;
       }
-      Label that = (Label) o;
       return Objects.equals(label, that.label)
           && status == that.status
           && Objects.equals(appliedBy, that.appliedBy);
@@ -71,10 +70,9 @@ public class SubmitRecordInfo {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof SubmitRecordInfo)) {
+    if (!(o instanceof SubmitRecordInfo that)) {
       return false;
     }
-    SubmitRecordInfo that = (SubmitRecordInfo) o;
     return Objects.equals(ruleName, that.ruleName)
         && status == that.status
         && Objects.equals(labels, that.labels)

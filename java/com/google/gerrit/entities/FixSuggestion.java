@@ -57,10 +57,9 @@ public final class FixSuggestion {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof FixSuggestion)) {
+    if (!(o instanceof FixSuggestion fs)) {
       return false;
     }
-    FixSuggestion fs = (FixSuggestion) o;
     return Objects.equals(fixId, fs.fixId)
         && Objects.equals(description, fs.description)
         && Objects.equals(replacements, fs.replacements);

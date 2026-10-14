@@ -109,10 +109,9 @@ public abstract class ConfiguredMimeTypes {
 
     @Override
     public boolean equals(Object o) {
-      if (!(o instanceof FnType)) {
+      if (!(o instanceof FnType other)) {
         return false;
       }
-      FnType other = (FnType) o;
       return Objects.equals(other.getType(), getType())
           && Objects.equals(other.getPattern(), getPattern());
     }
@@ -138,10 +137,9 @@ public abstract class ConfiguredMimeTypes {
 
     @Override
     public boolean equals(Object o) {
-      if (!(o instanceof ReType)) {
+      if (!(o instanceof ReType other)) {
         return false;
       }
-      ReType other = (ReType) o;
       return Objects.equals(other.getType(), getType())
           && Objects.equals(other.getPattern(), getPattern());
     }

@@ -139,8 +139,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate implements
 
   @Override
   public boolean equals(Object other) {
-    return (other instanceof ChangeStatusPredicate)
-        && Objects.equals(status, ((ChangeStatusPredicate) other).status);
+    return (other instanceof ChangeStatusPredicate p) && Objects.equals(status, p.status);
   }
 
   @Override

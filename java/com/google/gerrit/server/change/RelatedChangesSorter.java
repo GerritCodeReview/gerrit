@@ -301,10 +301,9 @@ public class RelatedChangesSorter {
 
     @Override
     public final boolean equals(Object obj) {
-      if (!(obj instanceof PatchSetData)) {
+      if (!(obj instanceof PatchSetData o)) {
         return false;
       }
-      PatchSetData o = (PatchSetData) obj;
       return Objects.equals(patchSet().id(), o.patchSet().id())
           && Objects.equals(commit(), o.commit());
     }

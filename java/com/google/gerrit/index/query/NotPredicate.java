@@ -87,8 +87,7 @@ public final class NotPredicate<T> extends Predicate<T> implements Matchable<T> 
     if (other == null) {
       return false;
     }
-    return other instanceof NotPredicate
-        && getChildren().equals(((Predicate<?>) other).getChildren());
+    return other instanceof NotPredicate p && getChildren().equals(p.getChildren());
   }
 
   @Override

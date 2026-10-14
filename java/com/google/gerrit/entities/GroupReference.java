@@ -87,7 +87,7 @@ public abstract class GroupReference implements Comparable<GroupReference> {
 
   @Override
   public final boolean equals(Object o) {
-    return o instanceof GroupReference && compareTo((GroupReference) o) == 0;
+    return o instanceof GroupReference g && compareTo(g) == 0;
   }
 
   @Override

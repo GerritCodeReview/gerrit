@@ -78,10 +78,10 @@ public class ImmutableConfig {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof ImmutableConfig)) {
+    if (!(o instanceof ImmutableConfig c)) {
       return false;
     }
-    return ((ImmutableConfig) o).stringCfg.equals(stringCfg);
+    return c.stringCfg.equals(stringCfg);
   }
 
   @Override

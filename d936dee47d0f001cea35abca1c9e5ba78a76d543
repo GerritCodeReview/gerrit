@@ -261,6 +261,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ac3993a_707d946e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T15:56:17Z",
+      "side": 1,
+      "message": "\u003e I think this section is a bit vague as it does not say what a contributor must actually do in this case.\n\nI find it very specific: it says that you can never assign authorship to the tool.\n_\"the tool cannot be credited as an author\"_ is an explicit statement. How would you phrase it for not being vague?\n\n\u003e For example, suppose a developer uses an AI assistant to generate most of a new Java class, carefully reviews and modifies it, and submits the change under their own name.\n\u003e \n\u003e Is that compliant without explicitly disclosing the AI assistance? \n\nAs long as the code is yours, you understand and agree, and you have verified that what was generated matches what you expected, then yes, I believe it is compliant.\n\nI believe everyone uses AI assistance in some shape or form: it is embedded in the IDE nowadays.\nThe fact that your IDE or AI agent proposes some code doesn\u0027t mean that it is the author. You still have to read, understand, amend, and make the code yours in some shape or form.\n\nIf you add the footer `Assisted-By: AI` in all your contributions, what is that adding to the reviewer?\nHow should a reviewer react when looking at the footer?\n\n\u003e I think we should explicitly state whether AI usage must be disclosed and, if so, where: commit message, change description, etc.\n\nI don\u0027t believe the point of these contribution guidelines is about adding an `Assisted-By: AI` footer as disclosure or using AI.\nI am using AI whilst writing this comment because it is integrated into my editing experience, and it constantly checks the sense of what I am writing and proposes fixes and more fluent ways of expressing myself.\n\nShould I also add `Assisted-By: AI` to every comment I write? I don\u0027t believe it would add anything to the communication.\n\nWhatever I am writing, as code or comments, remains mine, and I take full responsibility for it, whether it was assisted by AI or not.",
+      "parentUuid": "a53494b4_63d733e0",
+      "range": {
+        "startLine": 129,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 64
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a91ac1dc_f1911c63",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 7
@@ -284,6 +308,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbdef916_5b80d109",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T15:56:17Z",
+      "side": 1,
+      "message": "\u003e Should we actually require every patch set to be manually submitted?\n\u003e \n\u003e For example, a developer could review and validate a generated change and then have a script push it to Gerrit. That doesn\u0027t make the contribution any less accountable.\n\nI believe the concept here is that we don\u0027t allow AI agents to automatically create and submit changes for review.\nThat would generate a huge workload of contributions of unclear provenance.\n\n\u003e I think the important distinction is whether the change has been reviewed and validated by a human, rather than whether the actual upload was manual.\n\nThe point here isn\u0027t about human review, but human authorship.\nThe code review *could actually be* the part fully automated by AI, and we are coding a lot of features in Gerrit to make it possible.\n\nThe whole point here is the authorship: humans are the authors, not AI.\nIf you are a human who writes a script to submit 10 patches that you have prepared locally, then it is a manual submission, even if the push has been done by a script.\n\nAt the end of the day, the human is the one who pushes the button, but it is always a program (or script) that runs the `git push` command, isn\u0027t it?\n\n\u003e Could we focus on prohibiting autonomous changes without human involvement, rather than prohibiting automated submissions in general? That would also avoid needing specific exceptions for CI/CD and release scripts, etc.\n\nThe CI/CD and release scripts are already excluded. Do you foresee other exclusions?",
+      "parentUuid": "a91ac1dc_f1911c63",
+      "range": {
+        "startLine": 142,
+        "startChar": 66,
+        "endLine": 143,
+        "endChar": 40
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e6bfbde_3b7945a5",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 7
@@ -295,6 +343,30 @@
       "writtenOn": "2026-10-14T07:31:31Z",
       "side": 1,
       "message": "\"Total and unconditional liability\" sounds like contributors would be responsible for anything that goes wrong with their code, even bugs or issues discovered long after the contribution was merged.\n\nI was reading the CLA [1], and in Section 6 it states: \n```\n[...]\nYou provide Your Contributions on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, \neither express or implied.\n[...]\n```\n\nI think we should phrase it so that contributors are held responsible for understanding and reviewing their changes, rather than implying unlimited liability in general.\n\n\n[1] https://cla.developers.google.com/about/google-individual",
+      "range": {
+        "startLine": 148,
+        "startChar": 51,
+        "endLine": 149,
+        "endChar": 67
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15088708_0598bf8b",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T15:56:17Z",
+      "side": 1,
+      "message": "Let me rephrase this as responsibility for compliance with the CLA. This is, of course, open source; therefore, you are not responsible for the runtime.",
+      "parentUuid": "0e6bfbde_3b7945a5",
       "range": {
         "startLine": 148,
         "startChar": 51,

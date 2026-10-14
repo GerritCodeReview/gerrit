@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "634cfd7c_076d128f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T15:33:54Z",
+      "side": 1,
+      "message": "\u003e I think this makes sense, but I believe we should encourage disclosing AI-assisted contributions.\n\nI often use the AI capabilities in IntelliJ; should I then add `Assisted-By: IntelliJ`?\n\nWhat is the added value for the reviewer? Is it a warning sign of low quality? Should we also include the model?\n\n\u003e Other Google projects do that [1].\n\nIf this is a Google-specific requirement, I don\u0027t have any objections. @hariprak@google.com can you check internally at Google?\n\n\u003e If we don\u0027t want to explicitly mention the tool, we can just add a generic git trailer `Assisted-By: AI` or any other way of making it clear.\n\nI have no objection to a generic `Assisted-By: AI`, but I do not understand its value.\n\n\u003e We could ask to add it only if the AI-generated content was \"substantial\".\n\nWhat do you mean by _\"substantial\"_? 10%? 20%? 50%?\nIf the generation means _\"I don\u0027t have a clue because it was generated\"_ I fear that allowing us to simply tag the change as `Assisted-By: AI` could be used as a scapegoat for not taking responsibility.\n\nHowever, if Google has this requirement in the commit message, I would not object to it.\n\u003e \n\u003e [1]: https://github.com/google/gvisor/blob/master/CONTRIBUTING.md#label-ai-assisted-work",
+      "parentUuid": "ae925632_a0c3d222",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 66
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1aff9eec_eb4f28f9",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 7
@@ -280,6 +304,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "006162da_dff84296",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T15:33:54Z",
+      "side": 1,
+      "message": "\u003e Do we actually require DCO sign-off for Gerrit contributions?\n\nNo, we don\u0027t require `Signed-off-by` on each commit. However, we require the authorship declaration, and it *must* match the Google CLA the contributor has signed to be allowed to make changes.\n\nFrom the Google CLA:\n- _\"5. You represent that each of Your Contributions is Your original creation _\"\n- _\"7. Should You wish to submit work that is not Your original creation, You may submit it to Google separately from any Contribution\"_\n\nI am not a lawyer; however, I don\u0027t believe that the lack of a `Signed-off-by` footer in the commit would nullify the Google CLA points 5 and 7 that *we signed off* as individual or company contributors.\n\nAFAIK the fact that the contribution *must* be original creation by the author  isn\u0027t new and therefore should not go through any additional process.\n\nI am happy to rephrase it in terms of points 5. and 7. of the Google CLA rather than mentioning the DCO.",
+      "parentUuid": "01dd55ea_cc569655",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 27
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "250e87b4_74348a17",
@@ -317,6 +365,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "250e87b4_74348a17",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 66
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d09e4d0_c5a895cc",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T15:33:54Z",
+      "side": 1,
+      "message": "The point here is responsibility: you are submitting the code, and therefore you are responsible for it.\nIf you are unsure about any of the tools you are using, think twice before using them.\n\nAdding `Assisted-By: Claude` and then lifting any responsibility for potential copyright infringement is explicitly against the Google CLA and therefore should not be accepted.\n\nI can refer to the Google CLA here and add \"you are aware of\"to avoid any potential confusion. Nevertheless, you, the author, provide your code and are liable for any copyright infringement.\n\nWhen I personally use AI, I never include the output as the LLM spits it out without having gone through a careful analysis of the sources.\nMany times, after a deep investigation, I have found that the sources were misrepresented and the deductions made by AI were unreliable and therefore not trusted enough to be included.\n\nOf course, the due diligence cannot be perfect; I agree. However, it must lie on the author\u0027s side and not the reviewer\u0027s.\n\nI personally feel that allowing people to just _contribute anything_ with superficial due diligence, and then adding the requirement to include `Assisted-By: Claude` or similar, would increase the workload for reviewers. \n\nLet me know if the amended wording works for you.",
+      "parentUuid": "22e6629e_97eafd17",
       "range": {
         "startLine": 170,
         "startChar": 0,

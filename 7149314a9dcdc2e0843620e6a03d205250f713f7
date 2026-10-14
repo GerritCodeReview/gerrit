@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e97e4e48_a1861c06",
+        "filename": "java/com/google/gerrit/acceptance/GerritServerTestRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-10-14T05:51:27Z",
+      "side": 1,
+      "message": "Yeah, In JUnit 4 a failed assumption is implemented as a thrown org.junit.AssumptionViolatedException,\nwhich the runner then reports as a skipped test. Here the server rule wraps testRunner, so the per\ntest server is already started by beforeTest() when the @Before of ImplicitMergeOnSubmitExperimentsIT\ncalls assume().",
+      "parentUuid": "43ed00cf_10c12330",
+      "range": {
+        "startLine": 98,
+        "startChar": 60,
+        "endLine": 98,
+        "endChar": 90
+      },
+      "revId": "7149314a9dcdc2e0843620e6a03d205250f713f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5424a272_c81a4e0c",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-10-14T05:09:57Z",
       "side": 1,
       "message": "Should `afterTest()` then just be executed in a `finally {}` block instead?\n\nIt looks to me like whether we finish successfully or with an exception, we still need to run `afterTest()`.",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 24
+      },
+      "revId": "7149314a9dcdc2e0843620e6a03d205250f713f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef76a1a8_7b5a3ca3",
+        "filename": "java/com/google/gerrit/acceptance/GerritServerTestRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-10-14T05:51:27Z",
+      "side": 1,
+      "message": "Yeah, the only catch is if both the test and afterTest() throw, the exception from afterTest() would replace the test failure. Assuming we\u0027re fine with that, raised a successor change for this: [Run GerritServerTestRule afterTest() in a finally block](https://gerrit-review.googlesource.com/c/gerrit/+/643503)",
+      "parentUuid": "5424a272_c81a4e0c",
       "range": {
         "startLine": 101,
         "startChar": 12,

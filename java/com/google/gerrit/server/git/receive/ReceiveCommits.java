@@ -3434,7 +3434,7 @@ class ReceiveCommits {
     boolean validateNewPatchSet(RevWalk globalRevWalk)
         throws IOException, PermissionBackendException {
       try (TraceTimer traceTimer = newTimer("validateNewPatchSet")) {
-        if (!validateNewPatchSetNoteDb(globalRevWalk)) {
+        if (!validateNewPatchSetNoteDb(globalRevWalk, /* checkPatchSetLock= */ true)) {
           return false;
         }
         sameTreeWarning(globalRevWalk);
@@ -3457,7 +3457,9 @@ class ReceiveCommits {
 
     boolean validateNewPatchSetForAutoClose(RevWalk globalRevWalk)
         throws IOException, PermissionBackendException {
-      if (!validateNewPatchSetNoteDb(globalRevWalk)) {
+      // The commit is already in the target branch, so the change must be closed even if its
+      // current patch set is locked.
+      if (!validateNewPatchSetNoteDb(globalRevWalk, /* checkPatchSetLock= */ false)) {
         return false;
       }
 
@@ -3466,7 +3468,7 @@ class ReceiveCommits {
     }
 
     /** Validates the new PS against permissions and notedb status. */
-    private boolean validateNewPatchSetNoteDb(RevWalk globalRevWalk)
+    private boolean validateNewPatchSetNoteDb(RevWalk globalRevWalk, boolean checkPatchSetLock)
         throws IOException, PermissionBackendException {
       try (TraceTimer traceTimer = newTimer("validateNewPatchSetNoteDb")) {
         if (notes == null) {
@@ -3501,7 +3503,7 @@ class ReceiveCommits {
         RevCommit newCommit = globalRevWalk.parseCommit(newCommitId);
 
         // Not allowed to create a new patch set if the current patch set is locked.
-        if (psUtil.isPatchSetLocked(notes)) {
+        if (checkPatchSetLock && psUtil.isPatchSetLocked(notes)) {
           reject(
               inputCommand,
               RejectionReason.create(

@@ -64,10 +64,9 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
 
     @Override
     public boolean equals(Object o) {
-      if (!(o instanceof MyInfo)) {
+      if (!(o instanceof MyInfo i)) {
         return false;
       }
-      MyInfo i = (MyInfo) o;
       return Objects.equals(name, i.name) && Objects.equals(theAttribute, i.theAttribute);
     }
 

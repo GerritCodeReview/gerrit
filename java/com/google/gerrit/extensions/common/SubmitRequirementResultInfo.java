@@ -82,10 +82,9 @@ public class SubmitRequirementResultInfo {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof SubmitRequirementResultInfo)) {
+    if (!(o instanceof SubmitRequirementResultInfo that)) {
       return false;
     }
-    SubmitRequirementResultInfo that = (SubmitRequirementResultInfo) o;
     return isLegacy == that.isLegacy
         && Objects.equals(name, that.name)
         && Objects.equals(description, that.description)

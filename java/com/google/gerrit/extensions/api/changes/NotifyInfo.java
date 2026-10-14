@@ -34,10 +34,9 @@ public class NotifyInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof NotifyInfo)) {
+    if (!(o instanceof NotifyInfo other)) {
       return false;
     }
-    NotifyInfo other = (NotifyInfo) o;
     return Objects.equals(other.accounts, accounts);
   }
 

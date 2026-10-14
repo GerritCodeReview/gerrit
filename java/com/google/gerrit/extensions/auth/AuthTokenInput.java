@@ -31,10 +31,9 @@ public class AuthTokenInput {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof AuthTokenInput)) {
+    if (!(obj instanceof AuthTokenInput other)) {
       return false;
     }
-    AuthTokenInput other = (AuthTokenInput) obj;
     return Objects.equals(id, other.id)
         && Objects.equals(token, other.token)
         && Objects.equals(lifetime, other.lifetime);

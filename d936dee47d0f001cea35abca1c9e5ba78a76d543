@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2980a59c_9c6eb273",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T16:42:49Z",
+      "side": 1,
+      "message": "\u003e \u003e This motivation is specifically about AI authorship, but we also include any other non-human contributor, such as bots and other automated tools.\n\u003e \n\u003e The exception for CI/CD automation bot is already excluded.\n\u003e Is there anything else that you believe we do today and should also be excluded from human authorship?\n\u003e \n\u003e \u003e For example, an automated dependency update could reasonably use a bot as its technical Git author, with a human subsequently reviewing and approving the change.\n\u003e \u003e \n\u003e \u003e I don\u0027t think that should be prohibited, right?\n\u003e \n\u003e No, we don\u0027t do automated dependency updates because of Google\u0027s `Library-Compliance` requirement.\n\u003e \n\u003e Any other examples?\n\nI don\u0027t think we should forbid anything that does not already exist today, so I don\u0027t think it is relevant to just list _today\u0027s examples`.\n\nMy point was simply that, if this guide is specific to AI, referring to any non-human contributor in a generic way seems broader than what we intend to say.\n\nI don\u0027t feel strongly about this wording. Resolving.",
+      "parentUuid": "204481ae_6ad16029",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 70
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae925632_a0c3d222",
@@ -309,6 +333,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ff54d34_afd42abf",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T16:42:49Z",
+      "side": 1,
+      "message": "\u003e \u003e I think this section is a bit vague as it does not say what a contributor must actually do in this case.\n\u003e \n\u003e I find it very specific: it says that you can never assign authorship to the tool.\n\u003e _\"the tool cannot be credited as an author\"_ is an explicit statement. How would you phrase it for not being vague?\n\u003e \n\u003e \u003e For example, suppose a developer uses an AI assistant to generate most of a new Java class, carefully reviews and modifies it, and submits the change under their own name.\n\u003e \u003e \n\u003e \u003e Is that compliant without explicitly disclosing the AI assistance? \n\u003e \n\u003e As long as the code is yours, you understand and agree, and you have verified that what was generated matches what you expected, then yes, I believe it is compliant.\n\u003e \n\u003e I believe everyone uses AI assistance in some shape or form: it is embedded in the IDE nowadays.\n\u003e The fact that your IDE or AI agent proposes some code doesn\u0027t mean that it is the author. You still have to read, understand, amend, and make the code yours in some shape or form.\n\u003e \n\u003e If you add the footer `Assisted-By: AI` in all your contributions, what is that adding to the reviewer?\n\u003e How should a reviewer react when looking at the footer?\n\u003e \n\u003e \u003e I think we should explicitly state whether AI usage must be disclosed and, if so, where: commit message, change description, etc.\n\u003e \n\u003e I don\u0027t believe the point of these contribution guidelines is about adding an `Assisted-By: AI` footer as disclosure or using AI.\n\u003e I am using AI whilst writing this comment because it is integrated into my editing experience, and it constantly checks the sense of what I am writing and proposes fixes and more fluent ways of expressing myself.\n\u003e \n\u003e Should I also add `Assisted-By: AI` to every comment I write? I don\u0027t believe it would add anything to the communication.\n\u003e \n\u003e Whatever I am writing, as code or comments, remains mine, and I take full responsibility for it, whether it was assisted by AI or not.\n\n+1 agreed.\n\nHaving said that, I don\u0027t think _having_ the footer (whether it adds or not anything to the communication or not) shifts any responsibility, as it is already documented elsewhere, so I personally don\u0027t see it as harmful.\n\nI am curious to hear what the consensus on this is.",
+      "parentUuid": "8ac3993a_707d946e",
+      "range": {
+        "startLine": 129,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 64
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a91ac1dc_f1911c63",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 7
@@ -344,6 +392,30 @@
       "side": 1,
       "message": "\u003e Should we actually require every patch set to be manually submitted?\n\u003e \n\u003e For example, a developer could review and validate a generated change and then have a script push it to Gerrit. That doesn\u0027t make the contribution any less accountable.\n\nI believe the concept here is that we don\u0027t allow AI agents to automatically create and submit changes for review.\nThat would generate a huge workload of contributions of unclear provenance.\n\n\u003e I think the important distinction is whether the change has been reviewed and validated by a human, rather than whether the actual upload was manual.\n\nThe point here isn\u0027t about human review, but human authorship.\nThe code review *could actually be* the part fully automated by AI, and we are coding a lot of features in Gerrit to make it possible.\n\nThe whole point here is the authorship: humans are the authors, not AI.\nIf you are a human who writes a script to submit 10 patches that you have prepared locally, then it is a manual submission, even if the push has been done by a script.\n\nAt the end of the day, the human is the one who pushes the button, but it is always a program (or script) that runs the `git push` command, isn\u0027t it?\n\n\u003e Could we focus on prohibiting autonomous changes without human involvement, rather than prohibiting automated submissions in general? That would also avoid needing specific exceptions for CI/CD and release scripts, etc.\n\nThe CI/CD and release scripts are already excluded. Do you foresee other exclusions?",
       "parentUuid": "a91ac1dc_f1911c63",
+      "range": {
+        "startLine": 142,
+        "startChar": 66,
+        "endLine": 143,
+        "endChar": 40
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a54f320_46f3142c",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T16:42:49Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "fbdef916_5b80d109",
       "range": {
         "startLine": 142,
         "startChar": 66,
@@ -557,6 +629,30 @@
       "side": 1,
       "message": "The point here is responsibility: you are submitting the code, and therefore you are responsible for it.\nIf you are unsure about any of the tools you are using, think twice before using them.\n\nAdding `Assisted-By: Claude` and then lifting any responsibility for potential copyright infringement is explicitly against the Google CLA and therefore should not be accepted.\n\nI can refer to the Google CLA here and add \"you are aware of\"to avoid any potential confusion. Nevertheless, you, the author, provide your code and are liable for any copyright infringement.\n\nWhen I personally use AI, I never include the output as the LLM spits it out without having gone through a careful analysis of the sources.\nMany times, after a deep investigation, I have found that the sources were misrepresented and the deductions made by AI were unreliable and therefore not trusted enough to be included.\n\nOf course, the due diligence cannot be perfect; I agree. However, it must lie on the author\u0027s side and not the reviewer\u0027s.\n\nI personally feel that allowing people to just _contribute anything_ with superficial due diligence, and then adding the requirement to include `Assisted-By: Claude` or similar, would increase the workload for reviewers. \n\nLet me know if the amended wording works for you.",
       "parentUuid": "22e6629e_97eafd17",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 66
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ddbd327_72dbb7eb",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T16:42:49Z",
+      "side": 1,
+      "message": "Yep, I think referring to the CLA is the right call here.",
+      "parentUuid": "5d09e4d0_c5a895cc",
       "range": {
         "startLine": 170,
         "startChar": 0,

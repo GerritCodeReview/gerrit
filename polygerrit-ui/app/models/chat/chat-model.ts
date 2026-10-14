@@ -21,6 +21,7 @@ import {
   CreateCommentAction,
   ModelInfo,
   Models,
+  ModelsLoadingErrorName,
   Reference,
 } from '../../api/ai-code-review';
 import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
@@ -203,8 +204,8 @@ export declare interface ChatState extends ConversationState {
   readonly models?: Models;
   // Chat models for the current CL.
   readonly selectedModelId?: string;
-  // Error message if the chat models failed to load.
-  readonly modelsLoadingError?: string;
+  // Set if and only if the chat models failed to load.
+  readonly modelsLoadingError?: ModelsLoadingError;
 
   // Chat actions for the current CL.
   readonly actions?: Actions;
@@ -230,11 +231,27 @@ export const initialConversationState: ConversationState = {
   },
 };
 
+export interface ModelsLoadingError {
+  // Message of the error getModels() rejected with. May be empty.
+  readonly message: string;
+  // Undefined if the provider rejected with a name that is not a
+  // ModelsLoadingErrorName.
+  readonly name?: ModelsLoadingErrorName;
+}
+
 export interface ChatTriggerParams {
   prompt?: string;
 }
 
 export const chatModelToken = define<ChatModel>('chat-model');
+
+function isModelsLoadingErrorName(
+  name: string
+): name is ModelsLoadingErrorName {
+  return Object.values(ModelsLoadingErrorName).includes(
+    name as ModelsLoadingErrorName
+  );
+}
 
 export class ChatModel extends Model<ChatState> {
   readonly models$: Observable<Models | undefined> = select(
@@ -255,10 +272,8 @@ export class ChatModel extends Model<ChatState> {
 
   readonly selectedModel$: Observable<ModelInfo | undefined>;
 
-  readonly modelsLoadingError$: Observable<string | undefined> = select(
-    this.state$,
-    chatState => chatState.modelsLoadingError
-  );
+  readonly modelsLoadingError$: Observable<ModelsLoadingError | undefined> =
+    select(this.state$, chatState => chatState.modelsLoadingError);
 
   readonly actions$: Observable<readonly Action[]> = select(
     this.state$,
@@ -838,7 +853,10 @@ export class ChatModel extends Model<ChatState> {
       .catch((error: Error) => {
         this.updateState({
           models: undefined,
-          modelsLoadingError: error.message,
+          modelsLoadingError: {
+            message: error.message,
+            name: isModelsLoadingErrorName(error.name) ? error.name : undefined,
+          },
         });
         console.error('Failed to get chat models', error);
       });

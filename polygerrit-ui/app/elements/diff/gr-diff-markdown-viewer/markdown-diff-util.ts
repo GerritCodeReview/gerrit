@@ -68,16 +68,56 @@ export function parseMarkdownBlocks(markdown: string): MarkdownToken[] {
   return result;
 }
 
+const DOUBLE_BACKTICK_PATTERN = '``(?:[^`\\n]|`[^`\\n])+``';
+const SINGLE_BACKTICK_PATTERN = '(?<!`)`[^`\\n]+`(?!`)';
+const CODE_SPAN_PATTERN = `${DOUBLE_BACKTICK_PATTERN}|${SINGLE_BACKTICK_PATTERN}`;
+const CODE_SPAN_CAPTURE_PATTERN =
+  '``((?:[^`\\n]|`[^`\\n])+)``|(?<!`)`([^`\\n]+)`(?!`)';
+const LINK_LABEL_PATTERN = `(?:${CODE_SPAN_PATTERN}|\\[[^[\\]\\n]*\\]|[^[\\]\`\\n])+`;
+const LINK_TARGET_PATTERN =
+  '(?:\\s*<[^>\\n]+>(?:\\s+[^()\\n]*)?|(?:\\([^()\\n]*\\)|[^()\\n])+)';
+const MARKDOWN_LINK_PATTERN = `(?<!!)\\[(${LINK_LABEL_PATTERN})\\]\\((${LINK_TARGET_PATTERN})\\)`;
+
+const SAFE_URL_SCHEMES = new Set(['http:', 'https:']);
+
+function sanitizeMarkdownUrl(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  try {
+    const parsed = new URL(trimmed);
+    if (SAFE_URL_SCHEMES.has(parsed.protocol.toLowerCase())) {
+      return trimmed;
+    }
+    return 'about:invalid#zClosurez';
+  } catch {
+    // eslint-disable-next-line no-control-regex
+    const normalized = trimmed.replace(/[\u0000-\u0020]+/g, '');
+    if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(normalized)) {
+      return 'about:invalid#zClosurez';
+    }
+    return trimmed;
+  }
+}
+
+function trimCodeSpanContent(rawCode: string): string {
+  return rawCode.length >= 2 &&
+    rawCode.startsWith(' ') &&
+    rawCode.endsWith(' ') &&
+    /[^ ]/.test(rawCode)
+    ? rawCode.slice(1, -1)
+    : rawCode;
+}
+
 /**
- * Tokenize text into inline code spans, words, whitespace, and punctuation for
- * fine-grained inline diffing.
+ * Tokenize text into markdown links, inline code spans, words, whitespace, and
+ * punctuation for fine-grained inline diffing.
  */
 export function tokenizeWords(text: string): string[] {
-  return (
-    text.match(
-      /``(?:[^`\n]|`[^`\n])+``|(?<!`)`[^`\n]+`(?!`)|\s+|[^\s\w`]+|\w+|`+/g
-    ) || []
+  const tokenRegex = new RegExp(
+    `${MARKDOWN_LINK_PATTERN}|${CODE_SPAN_PATTERN}|\\s+|[^\\s\\w\`[]+|\\w+|\`+|\\[+`,
+    'g'
   );
+  return text.match(tokenRegex) || [];
 }
 
 /**
@@ -85,7 +125,7 @@ export function tokenizeWords(text: string): string[] {
  * <code> elements and all text safely HTML-escaped.
  */
 export function renderInlineCodeSpans(text: string): string {
-  const codeSpanRegex = /``((?:[^`\n]|`[^`\n])+)``|(?<!`)`([^`\n]+)`(?!`)/g;
+  const codeSpanRegex = new RegExp(CODE_SPAN_CAPTURE_PATTERN, 'g');
   let result = '';
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -94,16 +134,57 @@ export function renderInlineCodeSpans(text: string): string {
     if (match.index > lastIndex) {
       result += htmlEscape(text.slice(lastIndex, match.index)).toString();
     }
-    const rawCode = match[1] ?? match[2];
-    const trimmedCode =
-      rawCode.length >= 2 &&
-      rawCode.startsWith(' ') &&
-      rawCode.endsWith(' ') &&
-      /[^ ]/.test(rawCode)
-        ? rawCode.slice(1, -1)
-        : rawCode;
-    result += `<code>${htmlEscape(trimmedCode).toString()}</code>`;
+    const rawCode = trimCodeSpanContent(match[1] ?? match[2]);
+    result += `<code>${htmlEscape(rawCode).toString()}</code>`;
     lastIndex = codeSpanRegex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    result += htmlEscape(text.slice(lastIndex)).toString();
+  }
+
+  return result;
+}
+
+/**
+ * Render text with markdown links ([label](url)) converted to <a> elements and
+ * inline backtick code spans converted to <code> elements, with all text and
+ * URL attributes safely HTML-escaped.
+ */
+export function renderInlineMarkdown(text: string): string {
+  const inlineMarkdownRegex = new RegExp(
+    `${MARKDOWN_LINK_PATTERN}|${CODE_SPAN_CAPTURE_PATTERN}`,
+    'g'
+  );
+  let result = '';
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = inlineMarkdownRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      result += htmlEscape(text.slice(lastIndex, match.index)).toString();
+    }
+    if (match[1] !== undefined && match[2] !== undefined) {
+      const labelHtml = renderInlineCodeSpans(match[1]);
+      const rawTarget = match[2].trim();
+      let rawUrl: string;
+      if (rawTarget.startsWith('<')) {
+        const closeAngleIdx = rawTarget.indexOf('>');
+        rawUrl =
+          closeAngleIdx !== -1
+            ? rawTarget.slice(1, closeAngleIdx)
+            : rawTarget.slice(1);
+      } else {
+        const wsMatch = /\s/.exec(rawTarget);
+        rawUrl = wsMatch ? rawTarget.slice(0, wsMatch.index) : rawTarget;
+      }
+      const escapedUrl = htmlEscape(sanitizeMarkdownUrl(rawUrl)).toString();
+      result += `<a href="${escapedUrl}">${labelHtml}</a>`;
+    } else {
+      const rawCode = trimCodeSpanContent(match[3] ?? match[4]);
+      result += `<code>${htmlEscape(rawCode).toString()}</code>`;
+    }
+    lastIndex = inlineMarkdownRegex.lastIndex;
   }
 
   if (lastIndex < text.length) {
@@ -189,7 +270,7 @@ export function renderInlineTextDiff(
   let rightContent = '';
 
   for (const seg of mergedSegments) {
-    const rendered = renderInlineCodeSpans(seg.text);
+    const rendered = renderInlineMarkdown(seg.text);
     if (seg.type === 'common') {
       leftContent += rendered;
       rightContent += rendered;

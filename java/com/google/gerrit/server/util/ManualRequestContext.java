@@ -42,7 +42,6 @@ public class ManualRequestContext implements RequestContext, AutoCloseable {
 
   @Override
   public void close() {
-    @SuppressWarnings("unused")
-    var unused = requestContext.setContext(old);
+    var _ = requestContext.setContext(old);
   }
 }

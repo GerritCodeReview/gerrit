@@ -47,8 +47,7 @@ public class SetHeadCommand extends SshCommand {
     HeadInput input = new HeadInput();
     input.ref = newHead;
     try {
-      @SuppressWarnings("unused")
-      var unused = setHead.apply(new ProjectResource(project, user), input);
+      var _ = setHead.apply(new ProjectResource(project, user), input);
     } catch (UnprocessableEntityException e) {
       throw die(e);
     }

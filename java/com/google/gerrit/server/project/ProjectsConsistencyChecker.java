@@ -273,8 +273,7 @@ public class ProjectsConsistencyChecker {
         // Skip changes that we have already processed, either by this query or by
         // earlier queries.
         if (seenChanges.add(autoCloseableChange.getId())) {
-          @SuppressWarnings("unused")
-          var unused =
+          var _ =
               retryHelper
                   .changeUpdate(
                       "projectsConsistencyCheckerAutoCloseChanges",

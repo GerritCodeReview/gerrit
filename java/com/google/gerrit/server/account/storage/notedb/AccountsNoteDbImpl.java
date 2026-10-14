@@ -212,7 +212,7 @@ public class AccountsNoteDbImpl implements Accounts {
       throws IOException, ConfigInvalidException {
     AccountConfig cfg;
     CachedPreferences defaultPreferences;
-    try (Timer0.Context ignored = readSingleLatency.start()) {
+    try (Timer0.Context _ = readSingleLatency.start()) {
       cfg = new AccountConfig(accountId, allUsersName, allUsersRepository).load();
       defaultPreferences =
           CachedPreferences.fromLegacyConfig(

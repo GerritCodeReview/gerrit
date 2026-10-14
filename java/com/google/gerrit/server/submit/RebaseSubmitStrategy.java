@@ -189,8 +189,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
       PatchSet newPs;
       if (rebaseOp != null) {
-        @SuppressWarnings("unused")
-        var unused = rebaseOp.updateChange(ctx);
+        var _ = rebaseOp.updateChange(ctx);
 
         newPs = rebaseOp.getPatchSet();
       } else {

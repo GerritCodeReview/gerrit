@@ -95,8 +95,7 @@ public class OnlineExternalIdCaseSensitivityMigrator {
               }
               monitor.beginTask("Reindex accounts", ProgressMonitor.UNKNOWN);
 
-              @SuppressWarnings("unused")
-              var unused = versionManager.startReindexer("accounts", true);
+              var _ = versionManager.startReindexer("accounts", true);
             } finally {
               monitor.endTask();
             }

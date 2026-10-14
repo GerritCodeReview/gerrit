@@ -340,7 +340,7 @@ public abstract class ScheduleConfig {
       try {
         DayOfWeek dayOfWeek = formatter.parse(start, DayOfWeek::from);
         startTime = startTime.with(dayOfWeek);
-      } catch (DateTimeParseException ignored) {
+      } catch (DateTimeParseException _) {
         // Day of week is an optional parameter.
       }
       startTime = startTime.truncatedTo(ChronoUnit.MINUTES);

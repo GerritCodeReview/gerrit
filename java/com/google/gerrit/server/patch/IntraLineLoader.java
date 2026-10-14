@@ -322,7 +322,7 @@ public class IntraLineLoader implements Callable<IntraLineDiff> {
         }
       }
       return Optional.of(target.toString());
-    } catch (StringIndexOutOfBoundsException unused) {
+    } catch (StringIndexOutOfBoundsException _) {
       return Optional.empty();
     }
   }

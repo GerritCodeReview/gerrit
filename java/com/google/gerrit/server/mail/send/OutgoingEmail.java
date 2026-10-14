@@ -187,8 +187,7 @@ public final class OutgoingEmail {
   /** Format and send the message synchronously. */
   public void send() throws EmailException {
     try {
-      @SuppressWarnings("unused")
-      var unused =
+      var _ =
           args.retryHelper
               .action(
                   ActionType.SEND_EMAIL,

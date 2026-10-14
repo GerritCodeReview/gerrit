@@ -41,8 +41,7 @@ public class ReindexIndexVersion implements RestModifyView<IndexVersionResource,
       throws ResourceNotFoundException {
     IndexDefinition<?, ?, ?> def = rsrc.getIndexDefinition();
     int version = rsrc.getIndex().getSchema().getVersion();
-    @SuppressWarnings("unused")
-    var unused = indexVersionReindexer.reindex(def, version, input.reuse, input.notifyListeners);
+    var _ = indexVersionReindexer.reindex(def, version, input.reuse, input.notifyListeners);
     return Response.accepted(
         String.format("Index %s version %d submitted for reindexing", def.getName(), version));
   }

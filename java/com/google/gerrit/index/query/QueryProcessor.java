@@ -292,7 +292,7 @@ public abstract class QueryProcessor<T> {
         logger.atFine().log("Query options: %s", opts);
         // Apply index-specific rewrite first
         Predicate<T> pred;
-        try (TraceTimer ignored = TraceContext.newTimer("rewriteQuery")) {
+        try (TraceTimer _ = TraceContext.newTimer("rewriteQuery")) {
           pred = rewriter.rewrite(q, opts);
         }
         if (enforceVisibility) {
@@ -318,14 +318,14 @@ public abstract class QueryProcessor<T> {
       // Run each query asynchronously, if supported.
       List<ResultSet<T>> matches = new ArrayList<>(cnt);
       for (DataSource<T> s : sources) {
-        try (TraceTimer ignored = TraceContext.newTimer("readDataSource")) {
+        try (TraceTimer _ = TraceContext.newTimer("readDataSource")) {
           matches.add(s.read());
         }
       }
 
       out = new ArrayList<>(cnt);
       for (int i = 0; i < cnt; i++) {
-        try (TraceTimer ignored = TraceContext.newTimer("createQueryResult")) {
+        try (TraceTimer _ = TraceContext.newTimer("createQueryResult")) {
           String queryString = queryStrings != null ? queryStrings.get(i) : null;
           ImmutableList<T> matchesList = matches.get(i).toList();
           int limit = limits.get(i);

@@ -187,8 +187,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     Map<Change.Id, List<PluginDefinedInfo>> pluginInfos = getter.call(id);
     assertThat(pluginInfos.get(id)).isNull();
 
-    try (AutoCloseable ignored =
-        installPlugin("my-plugin", PluginDefinedSimpleAttributeModule.class)) {
+    try (AutoCloseable _ = installPlugin("my-plugin", PluginDefinedSimpleAttributeModule.class)) {
       pluginInfos = getter.call(id);
       assertThat(pluginInfos.get(id)).containsExactly(new MyInfo("my-plugin", "change " + id));
     }
@@ -206,8 +205,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     assertThat(pluginInfos.get(id1)).isNull();
     assertThat(pluginInfos.get(id2)).isNull();
 
-    try (AutoCloseable ignored =
-        installPlugin("my-plugin", PluginDefinedSimpleAttributeModule.class)) {
+    try (AutoCloseable _ = installPlugin("my-plugin", PluginDefinedSimpleAttributeModule.class)) {
       pluginInfos = getter.call();
       assertThat(pluginInfos.get(id1)).containsExactly(new MyInfo("my-plugin", "change " + id1));
       assertThat(pluginInfos.get(id2)).containsExactly(new MyInfo("my-plugin", "change " + id2));
@@ -227,7 +225,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     assertThat(pluginInfos.get(changeWithNoInfo)).isNull();
     assertThat(pluginInfos.get(changeWithInfo)).isNull();
 
-    try (AutoCloseable ignored =
+    try (AutoCloseable _ =
         installPlugin("my-plugin", PluginDefinedChangesByCommitBulkAttributeModule.class)) {
       pluginInfos = getter.call();
       assertThat(pluginInfos.get(changeWithNoInfo)).isNull();
@@ -250,7 +248,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     assertThat(pluginInfos.get(id1)).isNull();
     assertThat(pluginInfos.get(id2)).isNull();
 
-    try (AutoCloseable ignored =
+    try (AutoCloseable _ =
         installPlugin("my-plugin", PluginDefinedSingleCallBulkAttributeModule.class)) {
       pluginInfos = getter.call();
       assertThat(pluginInfos.get(id1)).containsExactly(new MyInfo("my-plugin", "change " + id1));
@@ -270,8 +268,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     Change.Id id = createChange().getChange().getId();
     assertThat(getterWithoutOptions.call(id).get(id)).isNull();
 
-    try (AutoCloseable ignored =
-        installPlugin("my-plugin", PluginDefinedOptionAttributeModule.class)) {
+    try (AutoCloseable _ = installPlugin("my-plugin", PluginDefinedOptionAttributeModule.class)) {
       assertThat(getterWithoutOptions.call(id).get(id))
           .containsExactly(new MyInfo("my-plugin", "opt null"));
       assertThat(
@@ -287,8 +284,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     Change.Id id = createChange().getChange().getId();
     assertThat(getter.call(id).get(id)).isNull();
 
-    try (AutoCloseable ignored =
-        installPlugin("my-plugin", PluginDefinedBulkExceptionModule.class)) {
+    try (AutoCloseable _ = installPlugin("my-plugin", PluginDefinedBulkExceptionModule.class)) {
       List<PluginDefinedInfo> outputInfos = getter.call(id).get(id);
       assertThat(outputInfos).hasSize(1);
       assertThat(outputInfos.get(0).name).isEqualTo("my-plugin");

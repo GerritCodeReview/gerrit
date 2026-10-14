@@ -178,8 +178,7 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.change();
+      var _ = cd.change();
     }
   }
 
@@ -190,8 +189,7 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.patchSets();
+      var _ = cd.patchSets();
     }
   }
 
@@ -202,8 +200,7 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.currentPatchSet();
+      var _ = cd.currentPatchSet();
     }
   }
 
@@ -214,8 +211,7 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.currentApprovals();
+      var _ = cd.currentApprovals();
     }
   }
 
@@ -226,8 +222,7 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.messages();
+      var _ = cd.messages();
     }
   }
 
@@ -242,8 +237,7 @@ public class ChangeData {
     if (!pending.isEmpty()) {
       ensureMessagesLoaded(pending);
       for (ChangeData cd : pending) {
-        @SuppressWarnings("unused")
-        var unused = cd.reviewedBy();
+        var _ = cd.reviewedBy();
       }
     }
   }
@@ -743,7 +737,7 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      var unused = cd.changeServerId();
+      var _ = cd.changeServerId();
     }
   }
 
@@ -781,8 +775,7 @@ public class ChangeData {
       }
       throwIfNotLazyLoad("branch");
 
-      @SuppressWarnings("unused")
-      var unused = change();
+      var _ = change();
     }
     return change.getDest();
   }
@@ -794,8 +787,7 @@ public class ChangeData {
       }
       throwIfNotLazyLoad("isPrivate");
 
-      @SuppressWarnings("unused")
-      var unused = change();
+      var _ = change();
     }
     return change.isPrivate();
   }
@@ -825,8 +817,7 @@ public class ChangeData {
         return Optional.empty();
       }
 
-      @SuppressWarnings("unused")
-      var unused = notes();
+      var _ = notes();
     }
     metaRevision = notes.getRevision();
     return Optional.of(metaRevision);

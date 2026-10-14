@@ -231,8 +231,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       // have an easy way to run code when this instance is done being used.
       // Each operation is run in its own thread, so we don't need to recover
       // its original context anyway.
-      @SuppressWarnings("unused")
-      var unused = threadContext.setContext(req);
+      var _ = threadContext.setContext(req);
 
       current.set(req);
 
@@ -303,8 +302,7 @@ class InProcessProtocol extends TestProtocol<Context> {
       // have an easy way to run code when this instance is done being used.
       // Each operation is run in its own thread, so we don't need to recover
       // its original context anyway.
-      @SuppressWarnings("unused")
-      var unused = threadContext.setContext(req);
+      var _ = threadContext.setContext(req);
 
       current.set(req);
       try {

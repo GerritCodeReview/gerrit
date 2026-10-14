@@ -132,7 +132,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
         return;
       }
       decrementCallersStacks.add(getCallers());
-      int unused = referenceCounter.decrementAndGet();
+      int _ = referenceCounter.decrementAndGet();
     }
 
     synchronized void incrementReferenceCounting() {
@@ -140,7 +140,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
         return;
       }
       incrementCallersStacks.add(getCallers());
-      int unused = referenceCounter.incrementAndGet();
+      int _ = referenceCounter.incrementAndGet();
     }
 
     synchronized void clear() {

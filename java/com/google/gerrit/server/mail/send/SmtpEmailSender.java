@@ -265,8 +265,7 @@ public class SmtpEmailSender implements EmailSender {
                 "Server " + smtpHost + " rejected message body: " + client.getReplyString());
           }
 
-          @SuppressWarnings("unused")
-          var unused = client.logout();
+          var _ = client.logout();
           if (rejected.length() > 0) {
             throw new EmailException(rejected.toString());
           }

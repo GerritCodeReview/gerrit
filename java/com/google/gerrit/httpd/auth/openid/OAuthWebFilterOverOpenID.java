@@ -73,8 +73,7 @@ class OAuthWebFilterOverOpenID implements Filter {
       }
       oauthSession.setServiceProvider(service);
 
-      @SuppressWarnings("unused")
-      var unused = oauthSession.login(httpRequest, httpResponse, service);
+      var _ = oauthSession.login(httpRequest, httpResponse, service);
     } else {
       chain.doFilter(httpRequest, response);
     }

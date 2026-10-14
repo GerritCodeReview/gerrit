@@ -127,8 +127,7 @@ class EmailMerge implements Runnable, RequestContext {
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", change.getId());
     } finally {
-      @SuppressWarnings("unused")
-      var unused = requestContext.setContext(old);
+      var _ = requestContext.setContext(old);
     }
   }
 

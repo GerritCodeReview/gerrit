@@ -63,8 +63,7 @@ public class RequestContextFilter implements Filter {
     try {
       chain.doFilter(request, response);
     } finally {
-      @SuppressWarnings("unused")
-      var unused = local.setContext(old);
+      var _ = local.setContext(old);
     }
   }
 }

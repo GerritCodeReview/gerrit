@@ -44,7 +44,7 @@ public class CleanupDraftComments implements RestModifyView<ConfigResource, Inpu
   @Override
   public Response<?> apply(ConfigResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
-    var unused = workQueue.getDefaultQueue().submit(cleanupRunner);
+    var _ = workQueue.getDefaultQueue().submit(cleanupRunner);
     return Response.accepted("Cleanup of draft comments submitted");
   }
 }

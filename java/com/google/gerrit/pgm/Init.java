@@ -305,8 +305,7 @@ public class Init extends BaseInit {
     getConsoleUI().message(" reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();
 
-    @SuppressWarnings("unused")
-    var unused = reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
+    var _ = reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
   }
 
   private static boolean nullOrEmpty(List<?> list) {

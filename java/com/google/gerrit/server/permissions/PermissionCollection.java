@@ -130,7 +130,7 @@ public class PermissionCollection {
      */
     PermissionCollection filter(
         Iterable<SectionMatcher> matcherList, String ref, CurrentUser user) {
-      try (Timer0.Context ignored = filterLatency.start()) {
+      try (Timer0.Context _ = filterLatency.start()) {
         if (isRE(ref)) {
           if (!containsParameters(ref)) {
             ref = RefPattern.shortestExample(ref);

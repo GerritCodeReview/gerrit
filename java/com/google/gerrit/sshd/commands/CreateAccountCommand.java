@@ -108,9 +108,7 @@ final class CreateAccountCommand extends SshCommand {
 
     input.groups = Lists.transform(groups, AccountGroup.Id::toString);
     try {
-      @SuppressWarnings("unused")
-      var unused =
-          createAccount.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(username), input);
+      var _ = createAccount.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(username), input);
     } catch (RestApiException | InvalidAuthTokenException e) {
       throw die(e.getMessage());
     }

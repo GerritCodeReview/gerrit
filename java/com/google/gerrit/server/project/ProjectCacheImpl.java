@@ -304,7 +304,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
-    try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
+    try (Timer0.Context _ = guessRelevantGroupsLatency.start()) {
       Set<AccountGroup.UUID> relevantGroupUuids =
           Streams.concat(
                   Arrays.stream(
@@ -400,7 +400,7 @@ public class ProjectCacheImpl implements ProjectCache {
     public Optional<CachedProjectConfig> load(Project.NameKey key)
         throws IOException, ExecutionException {
       try {
-        try (TraceTimer ignored =
+        try (TraceTimer _ =
                 TraceContext.newTimer(
                     "Loading project from serialized cache",
                     Metadata.builder().projectName(key.get()).build());
@@ -427,7 +427,7 @@ public class ProjectCacheImpl implements ProjectCache {
     @Override
     public ListenableFuture<Optional<CachedProjectConfig>> reload(
         Project.NameKey key, Optional<CachedProjectConfig> oldState) throws Exception {
-      try (TraceTimer ignored =
+      try (TraceTimer _ =
           TraceContext.newTimer(
               "Reload project", Metadata.builder().projectName(key.get()).build())) {
         try (Repository git = repoManager.openRepository(key)) {
@@ -475,7 +475,7 @@ public class ProjectCacheImpl implements ProjectCache {
           key.getRevision().isEmpty()
               ? null
               : ObjectIdConverter.create().fromByteString(key.getRevision());
-      try (TraceTimer ignored =
+      try (TraceTimer _ =
           TraceContext.newTimer(
               "Loading project from repo", Metadata.builder().projectName(nameKey.get()).build())) {
         try (Repository git = repoManager.openRepository(nameKey)) {

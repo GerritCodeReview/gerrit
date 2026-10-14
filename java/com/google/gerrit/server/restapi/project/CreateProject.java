@@ -189,8 +189,7 @@ public class CreateProject
         in.pluginConfigValues = input.pluginConfigValues;
         in.description = args.projectDescription;
 
-        @SuppressWarnings("unused")
-        var unused = putConfig.get().apply(projectState, in);
+        var _ = putConfig.get().apply(projectState, in);
       }
       ProjectInfo projectInfo = json.format(projectState);
       return input.initOnly ? Response.ok(projectInfo) : Response.created(projectInfo);

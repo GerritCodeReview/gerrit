@@ -105,8 +105,7 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
       if (FlushCache.WEB_SESSIONS.equals(cacheResource.getName())) {
         continue;
       }
-      @SuppressWarnings("unused")
-      var unused = flushCache.apply(cacheResource, null);
+      var _ = flushCache.apply(cacheResource, null);
     }
   }
 
@@ -132,8 +131,7 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
     }
 
     for (CacheResource rsrc : cacheResources) {
-      @SuppressWarnings("unused")
-      var unused = flushCache.apply(rsrc, null);
+      var _ = flushCache.apply(rsrc, null);
     }
   }
 }

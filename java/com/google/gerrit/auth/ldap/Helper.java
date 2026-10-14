@@ -228,7 +228,7 @@ class Helper {
   private DirContext kerberosOpen(Properties env)
       throws IOException, LoginException, NamingException {
     LoginContext ctx = new LoginContext("KerberosLogin");
-    try (Timer0.Context ignored = loginLatencyTimer.start()) {
+    try (Timer0.Context _ = loginLatencyTimer.start()) {
       ctx.login();
     }
     Subject subject = ctx.getSubject();
@@ -248,7 +248,7 @@ class Helper {
 
   DirContext authenticate(String dn, String password) throws AccountException {
     final Properties env = createContextProperties();
-    try (Timer0.Context ignored = loginLatencyTimer.start()) {
+    try (Timer0.Context _ = loginLatencyTimer.start()) {
       env.put(Context.REFERRAL, referral);
 
       if (!supportAnonymous) {
@@ -330,7 +330,7 @@ class Helper {
 
       for (LdapQuery groupMemberQuery : schema.groupMemberQueryList) {
         for (LdapQuery.Result r : groupMemberQuery.query(ctx, params, groupSearchLatencyTimer)) {
-          try (Timer0.Context ignored = groupExpansionLatencyTimer.start()) {
+          try (Timer0.Context _ = groupExpansionLatencyTimer.start()) {
             recursivelyExpandGroups(groupDNs, schema, ctx, r.getDN());
           }
         }
@@ -352,7 +352,7 @@ class Helper {
         try {
           while (groups.hasMore()) {
             final String nextDN = (String) groups.next();
-            try (Timer0.Context ignored = groupExpansionLatencyTimer.start()) {
+            try (Timer0.Context _ = groupExpansionLatencyTimer.start()) {
               recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
             }
           }

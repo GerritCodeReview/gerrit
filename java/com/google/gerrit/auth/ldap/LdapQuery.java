@@ -71,7 +71,7 @@ class LdapQuery {
 
     sc.setSearchScope(searchScope.scope());
     sc.setReturningAttributes(returnAttributes);
-    try (Timer0.Context ignored = queryTimer.start()) {
+    try (Timer0.Context _ = queryTimer.start()) {
       res = ctx.search(base, pattern.getRawPattern(), pattern.bind(params), sc);
     }
     try {

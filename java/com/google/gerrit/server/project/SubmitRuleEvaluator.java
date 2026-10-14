@@ -117,7 +117,7 @@ public class SubmitRuleEvaluator {
             TraceContext.newTimer(
                 "Evaluate submit rules",
                 Metadata.builder().changeId(cd.change().getId().get()).build());
-        Timer0.Context ignored = metrics.submitRuleEvaluationLatency.start()) {
+        Timer0.Context _ = metrics.submitRuleEvaluationLatency.start()) {
       ProjectState projectState =
           projectCache
               .get(cd.project())
@@ -182,7 +182,7 @@ public class SubmitRuleEvaluator {
    * @return record from the evaluated rules.
    */
   public SubmitTypeRecord getSubmitType(ChangeData cd) {
-    try (Timer0.Context ignored = metrics.submitTypeEvaluationLatency.start()) {
+    try (Timer0.Context _ = metrics.submitTypeEvaluationLatency.start()) {
       ProjectState projectState =
           projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
       if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {

@@ -54,8 +54,7 @@ public class AdministrateServerGroupsProvider implements Provider<ImmutableSet<G
       }
       groups = builder.build();
     } finally {
-      @SuppressWarnings("unused")
-      var unused = threadContext.setContext(ctx);
+      var _ = threadContext.setContext(ctx);
     }
   }
 

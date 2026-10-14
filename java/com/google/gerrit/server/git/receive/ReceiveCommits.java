@@ -1193,8 +1193,7 @@ class ReceiveCommits {
             insertChangesAndPatchSets(
                 globalRevWalk, ins, magicBranchCmd, newChanges, replaceProgress);
           } else {
-            @SuppressWarnings("unused")
-            var unused =
+            var _ =
                 retryHelper
                     .changeUpdate(
                         "insertPatchSets",
@@ -1757,8 +1756,7 @@ class ReceiveCommits {
 
       Optional<AuthException> err = checkRefPermission(cmd, RefPermission.DELETE);
       if (!err.isPresent()) {
-        @SuppressWarnings("unused")
-        var unused = validRefOperation(cmd);
+        var _ = validRefOperation(cmd);
       } else {
         rejectProhibited(cmd, err.get());
       }
@@ -3337,8 +3335,7 @@ class ReceiveCommits {
         for (ReplaceRequest req : replaceByChange.values()) {
           if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
             // TODO: Is it OK to ignore the return value?
-            @SuppressWarnings("unused")
-            var unused = req.validateNewPatchSet(globalRevWalk);
+            var _ = req.validateNewPatchSet(globalRevWalk);
           }
         }
       } catch (IOException | PermissionBackendException e) {
@@ -3979,8 +3976,7 @@ class ReceiveCommits {
       // TODO(dborowitz): Combine this BatchUpdate with the main one in
       // handleRegularCommands
       try {
-        @SuppressWarnings("unused")
-        var unused =
+        var _ =
             retryHelper
                 .changeUpdate(
                     "autoCloseChanges",

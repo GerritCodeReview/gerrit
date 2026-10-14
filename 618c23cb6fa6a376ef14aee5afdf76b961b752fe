@@ -16,6 +16,24 @@
       "message": "This text block adds a final newline that the original public-key string did not contain. Adding a `\\` continuation after the END marker preserves its exact value. The same applies to the private-key END marker at line 1146. Decoded comparison found these two differences; the other 38 strings match. I fixed it in change 643445.",
       "revId": "618c23cb6fa6a376ef14aee5afdf76b961b752fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cc44630_50d1f903",
+        "filename": "java/com/google/gerrit/gpg/testing/TestKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T08:30:50Z",
+      "side": 1,
+      "message": "I will take over that part from your change here",
+      "parentUuid": "6d674856_e8da025e",
+      "revId": "618c23cb6fa6a376ef14aee5afdf76b961b752fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

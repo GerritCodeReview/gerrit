@@ -24,7 +24,6 @@ import org.eclipse.jgit.transport.PostUploadHook;
 public class GitModule extends LifecycleModule {
   @Override
   protected void configure() {
-    install(new AllUsersRepositoryProvider.Module());
     factory(MetaDataUpdate.InternalFactory.class);
     bind(MetaDataUpdate.Server.class);
     DynamicSet.bind(binder(), PostUploadHook.class).to(UploadPackMetricsHook.class);

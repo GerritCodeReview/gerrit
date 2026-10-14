@@ -19,7 +19,9 @@ import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ChangeModel, changeModelToken} from '../../models/change/change-model';
 import {ParsedChangeInfo} from '../../types/types';
 import sinon from 'sinon';
-import {ContextItem} from '../../api/ai-code-review';
+import {ContextItem, ModelsLoadingErrorName} from '../../api/ai-code-review';
+import {ContextChip} from './context-chip';
+import {createSettingsUrl} from '../../models/views/settings';
 
 suite('prompt-box tests', () => {
   let element: PromptBox;
@@ -88,6 +90,7 @@ suite('prompt-box tests', () => {
       // getModels() clears the models when it rejects, so no model is selected.
       models: undefined,
       modelsLoadingError: providerError,
+      modelsLoadingErrorName: ModelsLoadingErrorName.AI_PROVIDERS_LOADING,
     });
     await element.updateComplete;
     assert.equal(element.chatInputDisabledText, providerError);
@@ -99,6 +102,23 @@ suite('prompt-box tests', () => {
       // getModels() rejected without a message (empty string).
       models: undefined,
       modelsLoadingError: '',
+      modelsLoadingErrorName: ModelsLoadingErrorName.AI_PROVIDERS_LOADING,
+    });
+    await element.updateComplete;
+    assert.equal(
+      element.chatInputDisabledText,
+      'Failed to load models. Please reload the page.'
+    );
+  });
+
+  test('chatInputDisabledText hides message of unknown error', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      // getModels() rejected with an error whose name is not a
+      // ModelsLoadingErrorName, so the chat model did not keep the name.
+      models: undefined,
+      modelsLoadingError: "Cannot read properties of undefined (reading 'x')",
+      modelsLoadingErrorName: undefined,
     });
     await element.updateComplete;
     assert.equal(
@@ -116,6 +136,54 @@ suite('prompt-box tests', () => {
     });
     await element.updateComplete;
     assert.equal(element.chatInputDisabledText, 'Loading models...');
+  });
+
+  test('change chip shows This Change without link normally', () => {
+    const chip = element.shadowRoot!.querySelector<ContextChip>(
+      '.this-change-context'
+    );
+    assert.equal(chip?.contextItem?.title, 'This Change');
+    assert.equal(chip?.contextItem?.link, '');
+  });
+
+  test('change chip is hidden while models are loading', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      // No models yet and no error: getModels() is still in flight.
+      models: undefined,
+      modelsLoadingError: undefined,
+    });
+    await element.updateComplete;
+    assert.isNull(element.shadowRoot!.querySelector('.this-change-context'));
+  });
+
+  test('change chip shows Set up token when API token is missing', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      models: undefined,
+      modelsLoadingError: 'No API token configured. Add one in Settings.',
+      modelsLoadingErrorName: ModelsLoadingErrorName.MISSING_API_TOKEN,
+    });
+    await element.updateComplete;
+    const chip = element.shadowRoot!.querySelector<ContextChip>(
+      '.this-change-context'
+    );
+    assert.equal(chip?.contextItem?.title, 'Set up token');
+    assert.equal(
+      chip?.contextItem?.link,
+      `${window.location.origin}${createSettingsUrl()}`
+    );
+  });
+
+  test('change chip is hidden when AI providers fail to load', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      models: undefined,
+      modelsLoadingError: 'Failed to load the AI providers.',
+      modelsLoadingErrorName: ModelsLoadingErrorName.AI_PROVIDERS_LOADING,
+    });
+    await element.updateComplete;
+    assert.isNull(element.shadowRoot!.querySelector('.this-change-context'));
   });
 
   test('updates userInput on input', async () => {

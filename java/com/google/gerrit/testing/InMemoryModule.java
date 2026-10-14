@@ -92,6 +92,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
+import com.google.gerrit.server.git.AllUsersRepositoryProvider;
 import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -215,6 +216,8 @@ public class InMemoryModule extends FactoryModule {
     bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
 
+    // Database resources must outlive the work queue during shutdown.
+    install(new InMemorySchemaModule());
     install(cfgInjector.getInstance(AccountCacheImpl.AccountCacheModule.class));
     install(cfgInjector.getInstance(AccountCacheImpl.AccountCacheBindingModule.class));
 
@@ -273,7 +276,6 @@ public class InMemoryModule extends FactoryModule {
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
-    install(new InMemorySchemaModule());
     install(NoSshKeyCache.module());
     install(new GerritInstanceNameModule());
     install(new GerritInstanceIdModule());
@@ -351,6 +353,7 @@ public class InMemoryModule extends FactoryModule {
       bind(AllProjectsName.class).toProvider(AllProjectsNameProvider.class).in(SINGLETON);
 
       bind(AllUsersName.class).toProvider(AllUsersNameProvider.class).in(SINGLETON);
+      install(new AllUsersRepositoryProvider.Module());
 
       bind(String.class)
           .annotatedWith(AnonymousCowardName.class)

@@ -146,11 +146,11 @@ public class ParameterizedString {
     }
   }
 
-  private abstract static class Format {
+  private abstract static sealed class Format permits Constant, Parameter {
     abstract void format(StringBuilder b, Map<String, String> p);
   }
 
-  private static class Constant extends Format {
+  private static final class Constant extends Format {
     private final String text;
 
     Constant(String text) {
@@ -163,7 +163,7 @@ public class ParameterizedString {
     }
   }
 
-  private static class Parameter extends Format {
+  private static final class Parameter extends Format {
     private final String name;
     private final List<Function> functions;
 

@@ -251,7 +251,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
 
     public Map<Change.Id, ChangeData> getChangeDataByChange(
         Project.NameKey project, ChangeData.Factory cdFactory) {
-      Map<Change.Id, ChangeData> cdByChange = new HashMap<>(privateChangeById.size());
+      Map<Change.Id, ChangeData> cdByChange = HashMap.newHashMap(privateChangeById.size());
       for (PrivateChange pc : privateChangeById.values()) {
         try {
           ChangeData cd = cdFactory.create(pc.change());

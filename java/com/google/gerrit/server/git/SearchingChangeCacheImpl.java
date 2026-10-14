@@ -153,7 +153,7 @@ public class SearchingChangeCacheImpl
                 .get()
                 .setRequestedFields(ChangeField.CHANGE_SPEC, ChangeField.REVIEWER_SPEC)
                 .byProject(key);
-        Map<Change.Id, CachedChange> result = new HashMap<>(cds.size());
+        Map<Change.Id, CachedChange> result = HashMap.newHashMap(cds.size());
         for (ChangeData cd : cds) {
           final Change.Id cdUniqueId = cd.virtualId();
           if (result.containsKey(cdUniqueId)) {

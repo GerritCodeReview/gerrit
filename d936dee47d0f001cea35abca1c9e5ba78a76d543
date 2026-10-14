@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e37e104_9a315ec4",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "This motivation is specifically about AI authorship, but we also include any other non-human contributor, such as bots and other automated tools.\n\nFor example, an automated dependency update could reasonably use a bot as its technical Git author, with a human subsequently reviewing and approving the change.\n\nI don\u0027t think that should be prohibited, right?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 70
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aff9eec_eb4f28f9",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "nit: `Author:` is normally Git commit metadata, not a commit-message trailer.",
+      "range": {
+        "startLine": 128,
+        "startChar": 7,
+        "endLine": 128,
+        "endChar": 16
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30961e95_aa3938d5",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "nit: `Author:` is normally Git commit metadata, not a commit-message trailer.",
+      "range": {
+        "startLine": 128,
+        "startChar": 7,
+        "endLine": 128,
+        "endChar": 16
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07676a20_30827db8",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "nit: `Author:` is normally Git commit metadata, not a commit-message trailer.",
+      "range": {
+        "startLine": 128,
+        "startChar": 7,
+        "endLine": 128,
+        "endChar": 16
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a53494b4_63d733e0",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "I think this section is a bit vague as it does not say what a contributor must actually do in this case.\n\nFor example, suppose a developer uses an AI assistant to generate most of a new Java class, carefully reviews and modifies it, and submits the change under their own name.\n\nIs that compliant without explicitly disclosing the AI assistance? \n\nI think we should explicitly state whether AI usage must be disclosed and, if so, where: commit message, change description, etc.",
+      "range": {
+        "startLine": 129,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 64
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a91ac1dc_f1911c63",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "Should we actually require every patch set to be manually submitted?\n\nFor example, a developer could review and validate a generated change and then have a script push it to Gerrit. That doesn\u0027t make the contribution any less accountable.\n\nI think the important distinction is whether the change has been reviewed and validated by a human, rather than whether the actual upload was manual.\n\nCould we focus on prohibiting autonomous changes without human involvement, rather than prohibiting automated submissions in general? That would also avoid needing specific exceptions for CI/CD and release scripts, etc.",
+      "range": {
+        "startLine": 142,
+        "startChar": 66,
+        "endLine": 143,
+        "endChar": 40
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e6bfbde_3b7945a5",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "\"Total and unconditional liability\" sounds like contributors would be responsible for anything that goes wrong with their code, even bugs or issues discovered long after the contribution was merged.\n\nI was reading the CLA [1], and in Section 6 it states: \n```\n[...]\nYou provide Your Contributions on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, \neither express or implied.\n[...]\n```\n\nI think we should phrase it so that contributors are held responsible for understanding and reviewing their changes, rather than implying unlimited liability in general.\n\n\n[1] https://cla.developers.google.com/about/google-individual",
+      "range": {
+        "startLine": 148,
+        "startChar": 51,
+        "endLine": 149,
+        "endChar": 67
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d81b1ebd_67f634dc",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "Do we actually require DCO sign-off for Gerrit contributions?\n\nAs far as I understand, we require the Google CLA, but we don\u0027t generally require contributors to add a `Signed-off-by:` footer.\n\nI found documentation explaining what the DCO is [1], but there is nothing in the Contribution Guidelines [2].\n\nThis seems to introduce an additional requirement that isn\u0027t part of our current contribution process. Could we clarify whether that\u0027s intentional? Otherwise, I would avoid mentioning DCO compliance here.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-signedoffby.html\n[2] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 27
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "250e87b4_74348a17",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-14T07:31:31Z",
+      "side": 1,
+      "message": "How would contributors realistically certify that the AI tools they use don\u0027t infringe any third-party copyrights?\n\nThey can review the generated output and check for known licensing issues, but they can\u0027t verify the model\u0027s training data or guarantee that no protected material was reproduced.\n\nI think we should frame this as \"due diligence\", ensure they have the rights to submit the generated code, and disclose any known third-party licensing restrictions. This is also what the Google CLA actually requires in Section 5. [1]\n\n```\nYou represent that Your Contribution submissions include complete details of any third-party license or \nother restriction (including, but not limited to, related patents and trademarks) of which you are \npersonally aware and which are associated with any part of Your Contributions.\n```\n\n[1] https://cla.developers.google.com/about/google-individual",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 66
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

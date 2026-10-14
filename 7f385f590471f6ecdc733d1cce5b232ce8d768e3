@@ -16,6 +16,24 @@
       "message": "One behavior difference: `null` previously reached the QueryParseException fallback.\nThis switch throws NPE. I found no valid caller passing `null`, so this is non-blocking.\nShould we document the non-null contract or preserve the old behavior with case null?",
       "revId": "7f385f590471f6ecdc733d1cce5b232ce8d768e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae4013c1_c26d2807",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T09:03:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f5b8bb4_4f0f8cad",
+      "revId": "7f385f590471f6ecdc733d1cce5b232ce8d768e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

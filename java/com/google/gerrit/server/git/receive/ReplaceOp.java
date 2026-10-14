@@ -487,27 +487,23 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Nullable
   private String changeKindMessage(ChangeKind changeKind) {
-    switch (changeKind) {
-      case MERGE_FIRST_PARENT_UPDATE:
-        return ": New merge patch set was added with a new first parent relative to Patch Set "
-            + priorPatchSetId.get()
-            + ".";
-      case TRIVIAL_REBASE:
-        return ": Patch Set " + priorPatchSetId.get() + " was rebased.";
-      case TRIVIAL_REBASE_WITH_MESSAGE_UPDATE:
-        return ": Patch Set " + priorPatchSetId.get() + " was rebased. Commit message was updated.";
-      case NO_CHANGE:
-        return ": New patch set was added with same tree, parent "
-            + (commit.getParentCount() != 1 ? "trees" : "tree")
-            + ", and commit message as Patch Set "
-            + priorPatchSetId.get()
-            + ".";
-      case NO_CODE_CHANGE:
-        return ": Commit message was updated.";
-      case REWORK:
-      default:
-        return null;
-    }
+    return switch (changeKind) {
+      case MERGE_FIRST_PARENT_UPDATE ->
+          ": New merge patch set was added with a new first parent relative to Patch Set "
+              + priorPatchSetId.get()
+              + ".";
+      case TRIVIAL_REBASE -> ": Patch Set " + priorPatchSetId.get() + " was rebased.";
+      case TRIVIAL_REBASE_WITH_MESSAGE_UPDATE ->
+          ": Patch Set " + priorPatchSetId.get() + " was rebased. Commit message was updated.";
+      case NO_CHANGE ->
+          ": New patch set was added with same tree, parent "
+              + (commit.getParentCount() != 1 ? "trees" : "tree")
+              + ", and commit message as Patch Set "
+              + priorPatchSetId.get()
+              + ".";
+      case NO_CODE_CHANGE -> ": Commit message was updated.";
+      default -> null;
+    };
   }
 
   private Map<String, PatchSetApproval> scanLabels(

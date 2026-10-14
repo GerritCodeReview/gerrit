@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cc969dd_ad2a99ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T08:38:13Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com: why did you upload PS2? There are no differences to PS1. This causes your +2 vote to not count and I have to approve my own change now.",
+      "revId": "c560985fcd261b25a249a011964c9305250e377f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

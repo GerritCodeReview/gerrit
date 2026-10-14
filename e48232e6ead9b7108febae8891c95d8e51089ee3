@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8938dc00_f09f927a",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-14T17:27:19Z",
+      "side": 1,
+      "message": "```suggestion\n  @state() modelLoadingErrorName?: ModelsLoadingErrorName;\n```",
+      "range": {
+        "startLine": 58,
+        "startChar": 35,
+        "endLine": 58,
+        "endChar": 41
+      },
+      "revId": "e48232e6ead9b7108febae8891c95d8e51089ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47aa1796_841e46b5",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-14T17:27:19Z",
+      "side": 1,
+      "message": "I think we should also check that `getModels` is completed.",
+      "revId": "e48232e6ead9b7108febae8891c95d8e51089ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f2f3811_e3a70d6e",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-14T17:27:19Z",
+      "side": 1,
+      "message": "What would the error look like? Will it display the raw error message?\n\nShould we also handle the `AI_PROVIDERS_LOADING` and display a message like `Failed to load the AI provider` or something similar?\n\nMaybe we could have an interface like: \n\n```\ninterface ModelsLoadingError {\n  name: ModelsLoadingErrorName;\n  message?: string;\n}\n```\n\nSo we can be explicit in the message set in the errors without risking leaking information from the error stack.",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 75
+      },
+      "revId": "e48232e6ead9b7108febae8891c95d8e51089ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8f69442_57b05a49",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-14T17:27:19Z",
+      "side": 1,
+      "message": "I think we are missing a test that invokes the “Set up token” chip and verifies that it opens in a new tab with the correct URL",
+      "revId": "e48232e6ead9b7108febae8891c95d8e51089ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

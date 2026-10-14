@@ -1416,6 +1416,18 @@ suite('gr-rest-api-service-impl tests', () => {
           parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES)
         );
       });
+
+      test('omits PARENTS option by default to avoid ChangeIndex lookup', async () => {
+        getConfigStub.resolves({
+          ...createServerInfo(),
+          receive: {enable_signed_push: undefined},
+        });
+        await element.getChangeDetail(123 as NumericChangeId);
+        const options = changeDetailStub.firstCall.args[1];
+        assert.isNotOk(
+          parseInt(options, 16) & (1 << ListChangesOption.PARENTS)
+        );
+      });
     });
 
     test('GrReviewerUpdatesParser.parse is used', async () => {

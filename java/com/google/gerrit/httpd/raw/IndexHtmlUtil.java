@@ -94,16 +94,23 @@ public class IndexHtmlUtil {
       return 0;
     }
     Matcher matcher = IndexPreloadingUtil.CHANGE_URL_PATTERN.matcher(requestedPath);
-    String basePatchNum = null;
-    if (matcher.matches()) {
-      basePatchNum = matcher.group("basePatchNum");
+    if (!matcher.matches()) {
+      matcher = IndexPreloadingUtil.DIFF_URL_PATTERN.matcher(requestedPath);
+      if (!matcher.matches()) {
+        return 0;
+      }
     }
+    String basePatchNum = matcher.group("basePatchNum");
+    String patchNum = matcher.group("patchNum");
     if (basePatchNum == null) {
       return 0; // No match is found
     }
     Integer basePatchNumInt = Ints.tryParse(basePatchNum);
     if (basePatchNumInt == null) {
       return 0; // tryParse was unable to parse
+    }
+    if (patchNum == null && basePatchNumInt > 0) {
+      return 0; // Single patchset in URL is target patchNum, so basePatchNum is PARENT (0)
     }
     return basePatchNumInt;
   }

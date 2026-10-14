@@ -46,7 +46,7 @@ public class IndexPreloadingUtil {
 
   public static final String CHANGE_CANONICAL_PATH = "/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
   public static final String BASE_PATCH_NUM_PATH_PART =
-      "(/(?<basePatchNum>-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+      "(/(?<basePatchNum>-?\\d+|edit)(\\.\\.(?<patchNum>\\d+|edit))?)";
   public static final Pattern CHANGE_URL_PATTERN =
       Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "?" + "/?$");
   public static final Pattern DIFF_URL_PATTERN =

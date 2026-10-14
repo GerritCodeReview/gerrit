@@ -16,6 +16,24 @@
       "message": "I think we should also add a note to the documentation of `core.usePerRequestRefCache` that repositories using reftable format cannot be served if this cache is enabled until we teach the server to skip usage of this cache on repositories using reftable format.",
       "revId": "602894bcf49c4a73211fdaa2418717f7add6a407",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d840f2ea_305f52f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-14T20:12:53Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bc872cad_8e788858",
+      "revId": "602894bcf49c4a73211fdaa2418717f7add6a407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

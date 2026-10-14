@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db7c5ec5_acde7ee9",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-10-14T19:24:03Z",
+      "side": 1,
+      "message": "\u003e we can push back on the excuse raised \"Well, I didn\u0027t write it; AI did\"\n\n That\u0027s a fair point. I was thinking of it more in terms of the AI is writing the responses too so there\u0027s never really a human in the loop without them telling us.\n \n But any response that comes down to \"i don\u0027t know\" is a red flag in any situation.",
+      "parentUuid": "5bf4894a_4c261d33",
+      "revId": "51c5004d811b1ec254515fc0c08f4fd4cd913070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "77113700_fccbc18e",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 12

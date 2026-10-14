@@ -32,6 +32,7 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
@@ -49,7 +50,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     implements ChangeIndex {
   ChangeSubIndex(
       Schema<ChangeData> schema,
-      Path indexDir,
+      SitePaths sitePaths,
       Config cfg,
       Path path,
       ImmutableSet<String> skipFields,
@@ -59,7 +60,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       throws IOException {
     this(
         schema,
-        indexDir,
+        sitePaths,
         LuceneDirectory.open(cfg, path),
         path.getFileName().toString(),
         skipFields,
@@ -70,7 +71,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
 
   ChangeSubIndex(
       Schema<ChangeData> schema,
-      Path indexDir,
+      SitePaths sitePaths,
       Directory dir,
       String subIndex,
       ImmutableSet<String> skipFields,
@@ -80,7 +81,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       throws IOException {
     super(
         schema,
-        indexDir,
+        sitePaths,
         dir,
         NAME,
         skipFields,

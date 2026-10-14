@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
@@ -23,6 +24,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton
@@ -44,6 +48,7 @@ public final class SitePaths {
   public final Path mail_dir;
   public final Path hooks_dir;
   public final Path static_dir;
+  public final Path index_dir;
 
   public final Path gerrit_sh;
   public final Path gerrit_service;
@@ -90,6 +95,7 @@ public final class SitePaths {
     mail_dir = etc_dir.resolve("mail");
     hooks_dir = p.resolve("hooks");
     static_dir = p.resolve("static");
+    index_dir = resolveIndexDir(p, etc_dir.resolve("gerrit.config"));
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");
     gerrit_service = bin_dir.resolve("gerrit.service");
@@ -124,6 +130,27 @@ public final class SitePaths {
       isNew = true;
     }
     this.isNew = isNew;
+  }
+
+  private static Path resolveIndexDir(Path sitePath, Path gerritConfig) throws IOException {
+    FileBasedConfig cfg = new FileBasedConfig(gerritConfig.toFile(), FS.DETECTED);
+    if (cfg.getFile().exists()) {
+      try {
+        cfg.load();
+      } catch (ConfigInvalidException e) {
+        throw new IOException("Invalid config file " + gerritConfig, e);
+      }
+    }
+    String configured = cfg.getString("index", null, "directory");
+    if (!Strings.isNullOrEmpty(configured)) {
+      Path loc = sitePath.resolve(configured).normalize();
+      try {
+        return loc.toRealPath();
+      } catch (IOException e) {
+        return loc.toAbsolutePath();
+      }
+    }
+    return sitePath.resolve("index");
   }
 
   /**

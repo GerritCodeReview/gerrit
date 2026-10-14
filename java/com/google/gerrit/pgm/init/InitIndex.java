@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.index.IndexType;
@@ -36,7 +35,6 @@ import java.nio.file.Path;
 /** Initialize the {@code index} configuration section. */
 @Singleton
 class InitIndex implements InitStep {
-  private static final String DIRECTORY = "directory";
   private final ConsoleUI ui;
   private final Section index;
   private final SitePaths site;
@@ -59,15 +57,10 @@ class InitIndex implements InitStep {
         new IndexType(
             index.select("Type", "type", IndexType.getDefault(), IndexType.getKnownTypes()));
 
-    if (Strings.isNullOrEmpty(index.get(DIRECTORY))) {
-      index.set(DIRECTORY, IndexModule.INDEX);
-    }
-    Path loc = IndexModule.indexDirectory(initFlags.cfg, site);
-    FileUtil.mkdirsOrDie(loc, "Cannot create index.directory");
-
     if ((site.isNew || isEmptySite()) && type.isLucene()) {
+      FileUtil.mkdirsOrDie(site.index_dir, "Cannot create index directory");
       for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
-        IndexUtils.setReady(loc, def.getName(), def.getLatest().getVersion(), true);
+        IndexUtils.setReady(site, def.getName(), def.getLatest().getVersion(), true);
       }
     } else {
       String message =

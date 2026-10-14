@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88f44110_fa790e13",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-14T18:13:35Z",
+      "side": 1,
+      "message": "+1, although hard to verify.",
+      "parentUuid": "49d64817_fee699da",
+      "revId": "51c5004d811b1ec254515fc0c08f4fd4cd913070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "77113700_fccbc18e",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 12

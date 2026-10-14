@@ -69,6 +69,24 @@
       "parentUuid": "26911c0e_65e6d134",
       "revId": "85146b7728aae19f36e52f1a190f714bf0a1e1b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c76cb4_2dbdfcf7",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractLabelPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-14T09:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd3bec21_b33728f3",
+      "revId": "85146b7728aae19f36e52f1a190f714bf0a1e1b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

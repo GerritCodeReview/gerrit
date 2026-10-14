@@ -531,6 +531,29 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void autocloseByChangeId_patchSetLocked() throws Exception {
+    // Create a change and lock its current patch set
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
+
+    // Amend the commit locally
+    RevCommit c = testRepo.amend(r.getCommit()).create();
+    assertThat(c).isNotEqualTo(r.getCommit());
+    testRepo.reset(c);
+
+    // Direct push it, closing it despite the lock
+    String master = "refs/heads/master";
+    assertPushOk(pushHead(testRepo, master, false), master);
+
+    // Check that new commit was added as patch set and the change was closed
+    ChangeInfo change = change(r).get();
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.revisions).hasSize(2);
+    assertThat(change.currentRevision).isEqualTo(c.name());
+  }
+
+  @Test
   public void autocloseByChangeIdViaMerge() throws Exception {
     RevCommit initialHead =
         testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));

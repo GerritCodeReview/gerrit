@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a172ea0e_3511a53f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-10-14T20:00:19Z",
+      "side": 1,
+      "message": "If the release (on plugin stop) happens when a batch is processing, then other primaries can acquire the lock and may lead to corruption? Should we add a plugin onstop listener in the store and try to drain?",
+      "range": {
+        "startLine": 151,
+        "startChar": 35,
+        "endLine": 151,
+        "endChar": 61
+      },
+      "revId": "3d34ac7be3d2b6158609a6706db225e450a1c5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

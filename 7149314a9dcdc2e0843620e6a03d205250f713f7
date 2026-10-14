@@ -16,6 +16,52 @@
       "message": "```\n$ bazel test --config\u003djava21 --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //javatests/...\n...\nINFO: Found 205 test targets...\nINFO: Elapsed time: 733.884s, Critical Path: 355.40s\nINFO: 1602 processes: 7 disk cache hit, 825 internal, 444 processwrapper-sandbox, 326 worker.\nINFO: Build completed successfully, 1602 total actions\n...\nExecuted 205 out of 205 tests: 205 tests pass.\n```\n\n```\n$ bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //javatests/...\n...\nINFO: Found 205 test targets...\nINFO: Elapsed time: 839.146s, Critical Path: 424.97s\nINFO: 1498 processes: 9 disk cache hit, 825 internal, 338 processwrapper-sandbox, 326 worker.\nINFO: Build completed successfully, 1498 total actions\nExecuted 205 out of 205 tests: 205 tests pass.\n```",
       "revId": "7149314a9dcdc2e0843620e6a03d205250f713f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43ed00cf_10c12330",
+        "filename": "java/com/google/gerrit/acceptance/GerritServerTestRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T05:09:57Z",
+      "side": 1,
+      "message": "This is interesting: I would not have expected the assumption to throw an exception.",
+      "range": {
+        "startLine": 98,
+        "startChar": 60,
+        "endLine": 98,
+        "endChar": 90
+      },
+      "revId": "7149314a9dcdc2e0843620e6a03d205250f713f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5424a272_c81a4e0c",
+        "filename": "java/com/google/gerrit/acceptance/GerritServerTestRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T05:09:57Z",
+      "side": 1,
+      "message": "Should `afterTest()` then just be executed in a `finally {}` block instead?\n\nIt looks to me like whether we finish successfully or with an exception, we still need to run `afterTest()`.",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 24
+      },
+      "revId": "7149314a9dcdc2e0843620e6a03d205250f713f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "809d7fbb_e2f6fc73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-14T23:02:25Z",
+      "side": 1,
+      "message": "I think this fix still isn\u0027t enough. Like it only addresses child but not a grandchild. With a stack P \u003c- C \u003c- D where only P has been submitted (rebased), C is reported mergeable but D is not because when D is checked, it\u0027d fall back to canMerge with the old merge base, although submitting D works",
+      "revId": "1b0918cea7aff8b5deda68166d858a92c4428f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

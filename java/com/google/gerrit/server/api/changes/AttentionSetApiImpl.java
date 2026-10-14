@@ -43,8 +43,7 @@ public class AttentionSetApiImpl implements AttentionSetApi {
   @Override
   public void remove(AttentionSetInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = removeFromAttentionSet.apply(attentionSetEntryResource, input);
+      var _ = removeFromAttentionSet.apply(attentionSetEntryResource, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot remove from attention set", e);
     }

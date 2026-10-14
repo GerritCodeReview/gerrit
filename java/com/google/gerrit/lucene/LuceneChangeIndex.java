@@ -621,8 +621,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
       if (fields.contains(field.getName())) {
-        @SuppressWarnings("unused")
-        var unused = field.setIfPossible(cd, new LuceneStoredValue(doc.get(field.getName())));
+        var _ = field.setIfPossible(cd, new LuceneStoredValue(doc.get(field.getName())));
       }
     }
     return cd;

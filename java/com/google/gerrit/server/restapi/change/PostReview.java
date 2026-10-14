@@ -496,7 +496,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Change change,
       List<ReviewerModification> reviewerModifications,
       NotifyResolver.Result notify) {
-    try (TraceContext.TraceTimer ignored =
+    try (TraceContext.TraceTimer _ =
         TraceContext.newTimer(
             getClass().getSimpleName() + "#batchEmailReviewers", Metadata.empty())) {
       List<Account.Id> to = new ArrayList<>();

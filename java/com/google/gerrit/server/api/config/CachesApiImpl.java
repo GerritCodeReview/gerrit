@@ -54,8 +54,7 @@ public class CachesApiImpl implements CachesApi {
   @Override
   public void flush() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = flushCache.apply(cache, new Input());
+      var _ = flushCache.apply(cache, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot flush cache", e);
     }

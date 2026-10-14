@@ -108,26 +108,22 @@ public class SetMembersCommand extends SshCommand {
         GroupResource resource =
             groupsCollection.parse(TopLevelResource.INSTANCE, IdString.fromUrl(groupUuid.get()));
         if (!accountsToRemove.isEmpty()) {
-          @SuppressWarnings("unused")
-          var unused = deleteMembers.apply(resource, fromMembers(accountsToRemove));
+          var _ = deleteMembers.apply(resource, fromMembers(accountsToRemove));
 
           reportMembersAction("removed from", resource, accountsToRemove);
         }
         if (!groupsToRemove.isEmpty()) {
-          @SuppressWarnings("unused")
-          var unused = deleteSubgroups.apply(resource, fromGroups(groupsToRemove));
+          var _ = deleteSubgroups.apply(resource, fromGroups(groupsToRemove));
 
           reportGroupsAction("excluded from", resource, groupsToRemove);
         }
         if (!accountsToAdd.isEmpty()) {
-          @SuppressWarnings("unused")
-          var unused = addMembers.apply(resource, fromMembers(accountsToAdd));
+          var _ = addMembers.apply(resource, fromMembers(accountsToAdd));
 
           reportMembersAction("added to", resource, accountsToAdd);
         }
         if (!groupsToInclude.isEmpty()) {
-          @SuppressWarnings("unused")
-          var unused = addSubgroups.apply(resource, fromGroups(groupsToInclude));
+          var _ = addSubgroups.apply(resource, fromGroups(groupsToInclude));
 
           reportGroupsAction("included to", resource, groupsToInclude);
         }

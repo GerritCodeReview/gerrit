@@ -190,9 +190,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     // Use a request context to execute predicates as an internal user with expanded visibility.
     // This is so that the evaluation does not depend on who is running the current request (e.g.
     // a "ownerin" predicate with group that is not visible to the person making this request).
-    try (ManualRequestContext ignored = requestContext.open()) {
-      @SuppressWarnings("unused")
-      var unused =
+    try (ManualRequestContext _ = requestContext.open()) {
+      var _ =
           queryBuilderFactory.create(requireOperatorForUpdate).parse(expression.expressionString());
     }
   }
@@ -216,7 +215,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     // change, therefore it must return the same information and result regardless of the
     // user that is running the request (e.g. a "ownerin" predicate with group that is not visible
     // to the person making this request).
-    try (ManualRequestContext ignored = requestContext.open()) {
+    try (ManualRequestContext _ = requestContext.open()) {
       return getRequirements(cd);
     }
   }
@@ -225,7 +224,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
     // This method is never used in Gerrit production code, however, its JavaDoc asserts that it
     // should be executed by running inside an internal user request context.
-    try (ManualRequestContext ignored = requestContext.open()) {
+    try (ManualRequestContext _ = requestContext.open()) {
       return evaluateRequirementInternal(sr, cd);
     }
   }
@@ -292,7 +291,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
       Callable<SubmitRequirementResult> task =
           () -> {
-            try (Timer0.Context ignored = metrics.submitRequirementEvaluatorLatency.start()) {
+            try (Timer0.Context _ = metrics.submitRequirementEvaluatorLatency.start()) {
               try (ManualRequestContext ctx =
                   userAccountId.map(requestContext::openAs).orElseGet(requestContext::open)) {
                 Optional<SubmitRequirementExpressionResult> applicabilityResult =

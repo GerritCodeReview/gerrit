@@ -72,8 +72,7 @@ class DraftApiImpl implements DraftApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteDraft.apply(draft, null);
+      var _ = deleteDraft.apply(draft, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete draft", e);
     }

@@ -186,7 +186,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       if (allUsersRepo == null) {
         return Optional.empty();
       }
-      try (TraceContext.TraceTimer ignored =
+      try (TraceContext.TraceTimer _ =
           newTimer("ChangeDraftNotesUpdate#Executor#updateAllUsersSync", Metadata.empty())) {
         return noteDbUpdateExecutor.execute(
             allUsersRepo,

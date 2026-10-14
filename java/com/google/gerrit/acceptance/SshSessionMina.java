@@ -79,8 +79,7 @@ public class SshSessionMina extends SshSession {
 
   @Override
   public void open() throws Exception {
-    @SuppressWarnings("unused")
-    var unused = getMinaSession();
+    var _ = getMinaSession();
   }
 
   @Override

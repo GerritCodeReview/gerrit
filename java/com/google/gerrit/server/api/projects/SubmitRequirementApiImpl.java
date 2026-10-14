@@ -73,8 +73,7 @@ public class SubmitRequirementApiImpl implements SubmitRequirementApi {
   @Override
   public SubmitRequirementApi create(SubmitRequirementInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = createSubmitRequirement.apply(project, IdString.fromDecoded(name), input);
+      var _ = createSubmitRequirement.apply(project, IdString.fromDecoded(name), input);
 
       // recreate project resource because project state was updated
       project =
@@ -111,8 +110,7 @@ public class SubmitRequirementApiImpl implements SubmitRequirementApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteSubmitRequirement.apply(resource(), new Input());
+      var _ = deleteSubmitRequirement.apply(resource(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot delete submit requirement", e);
     }

@@ -143,8 +143,7 @@ public class ExternalIdsConsistencyCheckerNoteDbImpl implements ExternalIdsConsi
 
     if (extId.password() != null && extId.isScheme(SCHEME_USERNAME)) {
       try {
-        @SuppressWarnings("unused")
-        var unused = HashedPassword.decode(extId.password());
+        var _ = HashedPassword.decode(extId.password());
       } catch (HashedPassword.DecoderException e) {
         addError(
             String.format(

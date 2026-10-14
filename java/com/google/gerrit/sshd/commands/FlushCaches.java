@@ -75,11 +75,9 @@ final class FlushCaches extends SshCommand {
       }
 
       if (all) {
-        @SuppressWarnings("unused")
-        var unused = postCaches.apply(new ConfigResource(), new PostCaches.Input(FLUSH_ALL));
+        var _ = postCaches.apply(new ConfigResource(), new PostCaches.Input(FLUSH_ALL));
       } else {
-        @SuppressWarnings("unused")
-        var unused = postCaches.apply(new ConfigResource(), new PostCaches.Input(FLUSH, caches));
+        var _ = postCaches.apply(new ConfigResource(), new PostCaches.Input(FLUSH, caches));
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());

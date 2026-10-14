@@ -47,8 +47,7 @@ public final class SiteInitializer {
         Path site = Path.of(sitePath);
         logger.atInfo().log("Initializing site at %s", site.toRealPath().normalize());
 
-        @SuppressWarnings("unused")
-        var unused = new BaseInit(site, false, pluginsDistribution, pluginsToInstall).run();
+        var _ = new BaseInit(site, false, pluginsDistribution, pluginsToInstall).run();
 
         return;
       }
@@ -65,8 +64,7 @@ public final class SiteInitializer {
       if (site != null) {
         logger.atInfo().log("Initializing site at %s", site.toRealPath().normalize());
 
-        @SuppressWarnings("unused")
-        var unused = new BaseInit(site, false, pluginsDistribution, pluginsToInstall).run();
+        var _ = new BaseInit(site, false, pluginsDistribution, pluginsToInstall).run();
       }
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Site init failed");

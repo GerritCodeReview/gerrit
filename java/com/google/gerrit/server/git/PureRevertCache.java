@@ -154,7 +154,7 @@ public class PureRevertCache {
 
     @Override
     public Boolean load(PureRevertKeyProto key) throws BadRequestException, IOException {
-      try (TraceContext.TraceTimer ignored =
+      try (TraceContext.TraceTimer _ =
           TraceContext.newTimer(
               "Loading pure revert",
               Metadata.builder()

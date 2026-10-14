@@ -111,8 +111,7 @@ public class GitVisibleChangeFilter {
                 // Make sure notes are available. This will trigger loading notes and throw an
                 // exception in case the change is corrupt and can't be loaded. It will then be
                 // omitted from the result.
-                @SuppressWarnings("unused")
-                var unused = cd.notes();
+                var _ = cd.notes();
 
                 return cd;
               } catch (RuntimeException e) {

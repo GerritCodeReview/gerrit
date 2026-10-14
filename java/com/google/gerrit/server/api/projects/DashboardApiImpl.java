@@ -78,8 +78,7 @@ public class DashboardApiImpl implements DashboardApi {
     SetDashboardInput input = new SetDashboardInput();
     input.id = id;
     try {
-      @SuppressWarnings("unused")
-      var unused =
+      var _ =
           set.apply(
               DashboardResource.projectDefault(project.getProjectState(), project.getUser()),
               input);

@@ -324,7 +324,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // we may have stale draft comments. Doing it in this order allows stale
       // comments to be filtered out by ChangeNotes, reflecting the fact that
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
-      try (TraceContext.TraceTimer ignored =
+      try (TraceContext.TraceTimer _ =
           newTimer("NoteDbUpdateManager#updateRepo", Metadata.empty())) {
         execute(changeRepo, dryrun, pushCert).ifPresent(bru -> resultBuilder.put(projectName, bru));
       }

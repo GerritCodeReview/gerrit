@@ -286,11 +286,9 @@ public class AccountApiImpl implements AccountApi {
   public void setActive(boolean active) throws RestApiException {
     try {
       if (active) {
-        @SuppressWarnings("unused")
-        var unused = putActive.apply(account, new Input());
+        var _ = putActive.apply(account, new Input());
       } else {
-        @SuppressWarnings("unused")
-        var unused = deleteActive.apply(account, new Input());
+        var _ = deleteActive.apply(account, new Input());
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot set active", e);
@@ -379,8 +377,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void deleteWatchedProjects(List<ProjectWatchInfo> in) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteWatchedProjects.apply(account, in);
+      var _ = deleteWatchedProjects.apply(account, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete watched projects", e);
     }
@@ -389,8 +386,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void starChange(String changeId) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = starredChangesCreate.apply(account, IdString.fromUrl(changeId), new Input());
+      var _ = starredChangesCreate.apply(account, IdString.fromUrl(changeId), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot star change", e);
     }
@@ -403,8 +399,7 @@ public class AccountApiImpl implements AccountApi {
       AccountResource.StarredChange starredChange =
           new AccountResource.StarredChange(account.getUser(), rsrc);
 
-      @SuppressWarnings("unused")
-      var unused = starredChangesDelete.apply(starredChange, new Input());
+      var _ = starredChangesDelete.apply(starredChange, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot unstar change", e);
     }
@@ -432,8 +427,7 @@ public class AccountApiImpl implements AccountApi {
   public void addEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
-      @SuppressWarnings("unused")
-      var unused = createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
+      var _ = createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot add email", e);
     }
@@ -443,8 +437,7 @@ public class AccountApiImpl implements AccountApi {
   public void deleteEmail(String email) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), email);
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteEmail.apply(rsrc, null);
+      var _ = deleteEmail.apply(rsrc, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete email", e);
     }
@@ -454,8 +447,7 @@ public class AccountApiImpl implements AccountApi {
   public EmailApi createEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
-      @SuppressWarnings("unused")
-      var unused = createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
+      var _ = createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
       return email(rsrc.getEmail());
     } catch (Exception e) {
       throw asRestApiException("Cannot create email", e);
@@ -475,8 +467,7 @@ public class AccountApiImpl implements AccountApi {
   public void setStatus(String status) throws RestApiException {
     StatusInput in = new StatusInput(status);
     try {
-      @SuppressWarnings("unused")
-      var unused = putStatus.apply(account, in);
+      var _ = putStatus.apply(account, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set status", e);
     }
@@ -486,8 +477,7 @@ public class AccountApiImpl implements AccountApi {
   public void setDisplayName(String displayName) throws RestApiException {
     DisplayNameInput in = new DisplayNameInput(displayName);
     try {
-      @SuppressWarnings("unused")
-      var unused = putDisplayName.apply(account, in);
+      var _ = putDisplayName.apply(account, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set display name", e);
     }
@@ -519,8 +509,7 @@ public class AccountApiImpl implements AccountApi {
       AccountResource.SshKey sshKeyRes =
           sshKeys.parse(account, IdString.fromDecoded(Integer.toString(seq)));
 
-      @SuppressWarnings("unused")
-      var unused = deleteSshKey.apply(sshKeyRes, null);
+      var _ = deleteSshKey.apply(sshKeyRes, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete SSH key", e);
     }
@@ -569,8 +558,7 @@ public class AccountApiImpl implements AccountApi {
       AgreementInput input = new AgreementInput();
       input.name = agreementName;
 
-      @SuppressWarnings("unused")
-      var unused = putAgreement.apply(account, input);
+      var _ = putAgreement.apply(account, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot sign agreement", e);
     }
@@ -579,8 +567,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void index() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = index.apply(account, new Input());
+      var _ = index.apply(account, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index account", e);
     }
@@ -598,8 +585,7 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void deleteExternalIds(List<String> externalIds) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteExternalIds.apply(account, externalIds);
+      var _ = deleteExternalIds.apply(account, externalIds);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete external IDs", e);
     }
@@ -620,8 +606,7 @@ public class AccountApiImpl implements AccountApi {
     NameInput input = new NameInput();
     input.name = name;
     try {
-      @SuppressWarnings("unused")
-      var unused = putName.apply(account, input);
+      var _ = putName.apply(account, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set account name", e);
     }

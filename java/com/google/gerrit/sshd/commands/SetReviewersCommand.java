@@ -125,15 +125,13 @@ public class SetReviewersCommand extends SshCommand {
       ReviewerResource rsrc = reviewerFactory.create(changeRsrc, reviewer);
       String error = null;
       try {
-        @SuppressWarnings("unused")
-        var unused =
+        var _ =
             retryHelper
                 .action(
                     RetryableAction.ActionType.CHANGE_UPDATE,
                     "removeReviewers",
                     () -> {
-                      @SuppressWarnings("unused")
-                      var unused2 = deleteReviewer.apply(rsrc, new DeleteReviewerInput());
+                      var _ = deleteReviewer.apply(rsrc, new DeleteReviewerInput());
                       return null;
                     })
                 .call();
@@ -159,8 +157,7 @@ public class SetReviewersCommand extends SshCommand {
             String value;
           };
       try {
-        @SuppressWarnings("unused")
-        var unused =
+        var _ =
             retryHelper
                 .action(
                     RetryableAction.ActionType.CHANGE_UPDATE,

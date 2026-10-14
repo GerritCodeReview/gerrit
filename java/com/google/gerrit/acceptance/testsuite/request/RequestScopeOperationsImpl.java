@@ -110,7 +110,7 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
     // The created object is not used, because the constructor of the ManualRequestContext sets the
     // active context to itself. It is not needed to explicitly call localContext.setContext after
     // an instance is created.
-    var unused = new ManualRequestContext(newUser, localContext);
+    var _ = new ManualRequestContext(newUser, localContext);
   }
 
   private IdentifiedUser createIdentifiedUser(Account.Id accountId) {

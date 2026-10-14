@@ -307,16 +307,16 @@ public class PostReviewOp implements BatchUpdateOp {
     notes = ctx.getNotes();
     ps = psUtil.get(ctx.getNotes(), psId);
     boolean dirty = false;
-    try (TraceContext.TraceTimer ignored = newTimer("insertComments")) {
+    try (TraceContext.TraceTimer _ = newTimer("insertComments")) {
       dirty |= insertComments(ctx);
     }
-    try (TraceContext.TraceTimer ignored = newTimer("updateLabels")) {
+    try (TraceContext.TraceTimer _ = newTimer("updateLabels")) {
       dirty |= updateLabels(projectState, ctx);
     }
-    try (TraceContext.TraceTimer ignored = newTimer("updateCopiedApprovals")) {
+    try (TraceContext.TraceTimer _ = newTimer("updateCopiedApprovals")) {
       dirty |= updateCopiedApprovalsOnFollowUpPatchSets(ctx);
     }
-    try (TraceContext.TraceTimer ignored = newTimer("insertMessage")) {
+    try (TraceContext.TraceTimer _ = newTimer("insertMessage")) {
       dirty |= insertMessage(ctx);
     }
 

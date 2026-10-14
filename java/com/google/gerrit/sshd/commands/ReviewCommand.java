@@ -273,8 +273,7 @@ public class ReviewCommand extends SshCommand {
     } else {
       projectName = projectState.getProject().getName();
     }
-    @SuppressWarnings("unused")
-    var unused =
+    var _ =
         retryHelper
             .action(
                 ActionType.CHANGE_UPDATE,

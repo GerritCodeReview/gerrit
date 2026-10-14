@@ -139,8 +139,7 @@ public class ChangeCleanupRunner implements Runnable {
       // abandonInactiveOpenChanges skips failures instead of throwing, so retrying will never
       // actually happen. For the purposes of this class that is fine: they'll get tried again the
       // next time the scheduled task is run.
-      @SuppressWarnings("unused")
-      var unused =
+      var _ =
           retryHelper
               .changeUpdate(
                   "abandonInactiveOpenChanges",

@@ -285,8 +285,7 @@ public class Daemon extends SiteProgram {
     }
     if (doInit) {
       try {
-        @SuppressWarnings("unused")
-        var unused = new Init(getSitePath()).run();
+        var _ = new Init(getSitePath()).run();
       } catch (Exception e) {
         throw die("Init failed", e);
       }

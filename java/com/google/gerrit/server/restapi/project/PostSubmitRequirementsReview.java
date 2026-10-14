@@ -54,7 +54,7 @@ public class PostSubmitRequirementsReview
         repoMetaDataUpdater.configChangeCreator(
             rsrc.getNameKey(), input.commitMessage, "Review submit requirements change")) {
       ProjectConfig config = creator.getConfig();
-      var unused = postSubmitRequirements.updateProjectConfig(config, input);
+      var _ = postSubmitRequirements.updateProjectConfig(config, input);
       // If config isn't updated, the createChange throws BadRequestException. We don't need
       // to explicitly check the updateProjectConfig result here.
       return creator.createChange();

@@ -134,7 +134,7 @@ public class GetBlame implements RestReadView<FileResource> {
     ListMultimap<BlameInfo, RangeInfo> ranges =
         MultimapBuilder.hashKeys().arrayListValues().build();
     List<BlameInfo> result = new ArrayList<>();
-    try (TraceContext.TraceTimer ignored =
+    try (TraceContext.TraceTimer _ =
         TraceContext.newTimer("blameCache.findLastCommit", Metadata.empty())) {
       if (blameCache.findLastCommit(repository, id, path) == null) {
         return result;
@@ -142,14 +142,13 @@ public class GetBlame implements RestReadView<FileResource> {
     }
 
     List<Region> blameRegions;
-    try (TraceContext.TraceTimer ignored =
-        TraceContext.newTimer("blameCache.get", Metadata.empty())) {
+    try (TraceContext.TraceTimer _ = TraceContext.newTimer("blameCache.get", Metadata.empty())) {
       blameRegions = blameCache.get(repository, id, path, getIgnoreIds(revWalk, id));
     }
 
     int from = 1;
     for (Region region : blameRegions) {
-      try (TraceContext.TraceTimer ignored =
+      try (TraceContext.TraceTimer _ =
           TraceContext.newTimer("process blame region", Metadata.empty())) {
         RevCommit commit = revWalk.parseCommit(region.getSourceCommit());
         BlameInfo blameInfo = toBlameInfo(commit, region.getSourceAuthor());

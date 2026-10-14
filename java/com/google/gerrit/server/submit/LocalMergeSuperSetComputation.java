@@ -196,7 +196,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
             // Backfill only changes that are still open
             if (cd.change().isNew()) {
               // Make sure that the ChangeData to backfill has evaluated submit requirements
-              Map<SubmitRequirement, SubmitRequirementResult> unused = cd.submitRequirements();
+              Map<SubmitRequirement, SubmitRequirementResult> _ = cd.submitRequirements();
               changesData.add(cd);
             }
           }

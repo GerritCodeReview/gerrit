@@ -248,7 +248,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
             TraceContext.newTimer(
                 "Mark file as reviewed",
                 Metadata.builder()
@@ -283,7 +283,7 @@ public abstract class JdbcAccountPatchReviewStore
       return;
     }
 
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
             TraceContext.newTimer(
                 "Mark files as reviewed",
                 Metadata.builder()
@@ -316,7 +316,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
             TraceContext.newTimer(
                 "Clear reviewed flag",
                 Metadata.builder()
@@ -342,7 +342,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewed(PatchSet.Id psId) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
             TraceContext.newTimer(
                 "Clear all reviewed flags of patch set",
                 Metadata.builder().patchSetId(psId.get()).build());
@@ -361,7 +361,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewed(Change.Id changeId) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
             TraceContext.newTimer(
                 "Clear all reviewed flags of change",
                 Metadata.builder().changeId(changeId.get()).build());
@@ -377,7 +377,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public void clearReviewedBy(Account.Id accountId) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
             TraceContext.newTimer(
                 "Clear all reviewed flags by user",
                 Metadata.builder().accountId(accountId.get()).build());
@@ -393,7 +393,7 @@ public abstract class JdbcAccountPatchReviewStore
 
   @Override
   public Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
             TraceContext.newTimer(
                 "Find reviewed flags",
                 Metadata.builder().patchSetId(psId.get()).accountId(accountId.get()).build());

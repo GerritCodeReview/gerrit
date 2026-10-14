@@ -53,8 +53,7 @@ final class KillCommand extends SshCommand {
       try {
         TaskResource taskRsrc = tasksCollection.parse(cfgRsrc, IdString.fromDecoded(id));
 
-        @SuppressWarnings("unused")
-        var unused = deleteTask.apply(taskRsrc, null);
+        var _ = deleteTask.apply(taskRsrc, null);
       } catch (AuthException
           | ResourceNotFoundException
           | ResourceConflictException

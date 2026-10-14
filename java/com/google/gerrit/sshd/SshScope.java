@@ -233,8 +233,7 @@ public class SshScope {
     Context old = current.get();
     current.set(ctx);
 
-    @SuppressWarnings("unused")
-    var unused = local.setContext(ctx);
+    var _ = local.setContext(ctx);
 
     return old;
   }

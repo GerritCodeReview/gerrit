@@ -66,7 +66,7 @@ public abstract class SshCommand extends BaseCommand {
     String sessionId = HexFormat.fromInt(getSession().getSessionId());
     startThread(
         () -> {
-          try (PerThreadCache ignored = PerThreadCache.create();
+          try (PerThreadCache _ = PerThreadCache.create();
               DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
             parseCommandLine(pluginOptions);
             stdout = toPrintWriter(out);

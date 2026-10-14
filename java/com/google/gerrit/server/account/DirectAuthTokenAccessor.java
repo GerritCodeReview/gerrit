@@ -115,8 +115,7 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
       return;
     }
     for (AuthToken token : getTokens(accountId)) {
-      @SuppressWarnings("unused")
-      var unused = authTokens.deleteToken(token.id());
+      var _ = authTokens.deleteToken(token.id());
     }
     commit(accountId, authTokens);
   }
@@ -125,8 +124,7 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   public void updateToken(Account.Id accountId, AuthToken token)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     VersionedAuthTokens authTokens = readFromNoteDb(accountId);
-    @SuppressWarnings("unused")
-    var unused = authTokens.deleteToken(token.id());
+    var _ = authTokens.deleteToken(token.id());
     authTokens.addToken(token);
     commit(accountId, authTokens);
   }

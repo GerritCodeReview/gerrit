@@ -73,7 +73,7 @@ public class PostLabelsReview implements RestModifyView<ProjectResource, BatchLa
         repoMetaDataUpdater.configChangeCreator(
             rsrc.getNameKey(), input.commitMessage, "Review labels change")) {
       ProjectConfig config = creator.getConfig();
-      var unused = postLabels.updateProjectConfig(config, input);
+      var _ = postLabels.updateProjectConfig(config, input);
       return creator.createChange();
     }
   }

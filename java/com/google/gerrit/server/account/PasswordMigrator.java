@@ -173,8 +173,7 @@ public class PasswordMigrator implements Runnable {
       if (tokenAccessor.getToken(accountId, PasswordMigrator.DEFAULT_ID).isPresent()) {
         logger.atFine().log("HTTP password of account %d was already migrated.", accountId.get());
       } else {
-        @SuppressWarnings("unused")
-        var unused =
+        var _ =
             tokenAccessor.addToken(
                 accountId, PasswordMigrator.DEFAULT_ID, hashedPassword, expirationDate);
       }

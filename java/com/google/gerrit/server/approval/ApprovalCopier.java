@@ -430,7 +430,7 @@ public class ApprovalCopier {
     // so that the output of the copy condition does not depend on who is running the current
     // request (e.g. a group used in this query might not be visible to the person sending this
     // request).
-    try (ManualRequestContext ignored = requestContext.open()) {
+    try (ManualRequestContext _ = requestContext.open()) {
       LinkedHashSet<String> passingAtoms = new LinkedHashSet<>();
       LinkedHashSet<String> failingAtoms = new LinkedHashSet<>();
       boolean labelCopy = evaluateCondition(labelCopyCondition, ctx, passingAtoms, failingAtoms);

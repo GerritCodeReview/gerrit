@@ -68,8 +68,7 @@ public class JythonShell {
     pyObject = findClass("org.python.core.PyObject");
     pySystemState = findClass("org.python.core.PySystemState");
 
-    @SuppressWarnings("unused")
-    var unused =
+    var _ =
         runMethod(
             pySystemState,
             pySystemState,
@@ -125,8 +124,7 @@ public class JythonShell {
   }
 
   protected void printInjectedVariable(String id) {
-    @SuppressWarnings("unused")
-    var unused =
+    var _ =
         runInterpreter(
             "exec",
             new Class<?>[] {String.class},
@@ -139,8 +137,7 @@ public class JythonShell {
     }
     reload();
 
-    @SuppressWarnings("unused")
-    var unused =
+    var _ =
         runInterpreter(
             "interact",
             new Class<?>[] {String.class, pyObject},
@@ -153,8 +150,7 @@ public class JythonShell {
   }
 
   public void set(String key, Object content) {
-    @SuppressWarnings("unused")
-    var unused =
+    var _ =
         runInterpreter(
             "set", new Class<?>[] {String.class, Object.class}, new Object[] {key, content});
 
@@ -190,8 +186,7 @@ public class JythonShell {
     try {
       File script = new File(parent, p);
       if (script.canExecute()) {
-        @SuppressWarnings("unused")
-        var unused =
+        var _ =
             runMethod0(
                 console,
                 shell,
@@ -211,8 +206,7 @@ public class JythonShell {
 
   protected void execStream(InputStream in, String p) {
     try {
-      @SuppressWarnings("unused")
-      var unused =
+      var _ =
           runMethod0(
               console,
               shell,

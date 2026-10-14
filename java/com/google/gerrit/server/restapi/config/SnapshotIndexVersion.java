@@ -42,7 +42,7 @@ public class SnapshotIndexVersion implements RestModifyView<IndexVersionResource
       id = LocalDateTime.now(ZoneId.systemDefault()).format(formatter);
     }
     Index<?, ?> index = rsrc.getIndex();
-    var unused = index.snapshot(id);
+    var _ = index.snapshot(id);
     SnapshotInfo info = new SnapshotInfo();
     info.id = id;
     return Response.ok(info);

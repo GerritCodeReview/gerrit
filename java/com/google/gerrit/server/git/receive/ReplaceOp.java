@@ -403,8 +403,7 @@ public class ReplaceOp implements BatchUpdateOp {
     if (mergedByPushOp == null) {
       resetChange(ctx);
     } else {
-      @SuppressWarnings("unused")
-      var unused = mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet)).updateChange(ctx);
+      var _ = mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet)).updateChange(ctx);
     }
 
     return true;

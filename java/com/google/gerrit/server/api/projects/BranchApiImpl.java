@@ -99,8 +99,7 @@ public class BranchApiImpl implements BranchApi {
   @Override
   public BranchApi create(BranchInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = createBranch.apply(project, IdString.fromDecoded(ref), input);
+      var _ = createBranch.apply(project, IdString.fromDecoded(ref), input);
       return this;
     } catch (Exception e) {
       throw asRestApiException("Cannot create branch", e);
@@ -119,8 +118,7 @@ public class BranchApiImpl implements BranchApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteBranch.apply(resource(), new Input());
+      var _ = deleteBranch.apply(resource(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot delete branch", e);
     }

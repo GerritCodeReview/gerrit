@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "544db14d_7f916cc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-14T03:03:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "561a0f21_375f7082",
+      "revId": "d5ad0d1dd559e4bc3787957d3b20411eedb34656",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b32abe1_3c4ddced",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d25bc5e_19a489db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-14T03:03:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b32abe1_3c4ddced",
+      "revId": "d5ad0d1dd559e4bc3787957d3b20411eedb34656",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a689f3c_fcff2837",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-10-13T23:51:34Z",
       "side": 1,
       "message": "We may need to give some thought on what happens when the plugin is reloaded. H2CustomLockAccountPatchReviewStore caches the plugin\u0027s Lock the first time it is used, so after a reload the store keeps calling an instance whose plugin has already been stopped. Should the store take its lock from the current LockManager for each batch? Or should plugin reloads simply not be supported?",
+      "revId": "d5ad0d1dd559e4bc3787957d3b20411eedb34656",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c66732_08862433",
+        "filename": "java/com/google/gerrit/server/schema/H2PluginLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-14T03:03:49Z",
+      "side": 1,
+      "message": "Modified the batching to handle plugin reloads/unload.",
+      "parentUuid": "6a689f3c_fcff2837",
       "revId": "d5ad0d1dd559e4bc3787957d3b20411eedb34656",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

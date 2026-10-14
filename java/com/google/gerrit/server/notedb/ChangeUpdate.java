@@ -31,6 +31,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CUSTOM_KEYED_VALUE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_IS_AI;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_MERGE_STRATEGY;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_NO_BASE_REASON;
@@ -187,6 +188,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private TreeMap<String, String> customKeyedValues = new TreeMap<>();
   private String changeMessage;
   private String tag;
+  private Boolean isAi;
   private PatchSetState psState;
   private List<String> groups;
   private String pushCert;
@@ -322,6 +324,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             .key(PatchSetApproval.key(getPatchSetId(), reviewer, LabelId.create(label)))
             .value(value)
             .granted(when)
+            .isAi(Boolean.TRUE.equals(isAi))
             .uuid(patchSetApprovalUuidGenerator.get(getPatchSetId(), reviewer, label, value, when))
             .build();
     approvals.put(label, reviewer, Optional.of(psa));
@@ -391,6 +394,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setTag(String tag) {
     this.tag = tag;
+  }
+
+  public void setIsAi(boolean isAi) {
+    this.isAi = isAi;
   }
 
   public void setPsDescription(String psDescription) {
@@ -814,6 +821,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (tag != null) {
       addFooter(msg, FOOTER_TAG, tag);
+    }
+
+    if (Boolean.TRUE.equals(isAi)) {
+      addFooter(msg, FOOTER_IS_AI, true);
     }
 
     if (groups != null) {

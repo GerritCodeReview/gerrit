@@ -231,10 +231,9 @@ public record ExternalId(
 
     @Override
     public final boolean equals(Object obj) {
-      if (!(obj instanceof ExternalId.Key)) {
+      if (!(obj instanceof ExternalId.Key o)) {
         return false;
       }
-      ExternalId.Key o = (ExternalId.Key) obj;
 
       return sha1().equals(o.sha1());
     }
@@ -286,10 +285,9 @@ public record ExternalId(
    */
   @Override
   public final boolean equals(Object obj) {
-    if (!(obj instanceof ExternalId)) {
+    if (!(obj instanceof ExternalId o)) {
       return false;
     }
-    ExternalId o = (ExternalId) obj;
     return Objects.equals(key(), o.key())
         && Objects.equals(accountId(), o.accountId())
         && isCaseInsensitive() == o.isCaseInsensitive()

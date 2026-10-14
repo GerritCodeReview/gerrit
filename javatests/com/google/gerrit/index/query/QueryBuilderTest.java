@@ -43,10 +43,9 @@ public class QueryBuilderTest {
 
     @Override
     public boolean equals(Object o) {
-      if (!(o instanceof TestPredicate)) {
+      if (!(o instanceof TestPredicate p)) {
         return false;
       }
-      TestPredicate p = (TestPredicate) o;
       return Objects.equals(field, p.field) && Objects.equals(value, p.value);
     }
   }

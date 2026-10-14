@@ -377,6 +377,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "818612f9_3ece3ac2",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-14T15:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15088708_0598bf8b",
+      "range": {
+        "startLine": 148,
+        "startChar": 51,
+        "endLine": 149,
+        "endChar": 67
+      },
+      "revId": "d936dee47d0f001cea35abca1c9e5ba78a76d543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d81b1ebd_67f634dc",

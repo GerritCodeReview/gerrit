@@ -33,10 +33,9 @@ public class CommitInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof CommitInfo)) {
+    if (!(o instanceof CommitInfo c)) {
       return false;
     }
-    CommitInfo c = (CommitInfo) o;
     return Objects.equals(commit, c.commit)
         && Objects.equals(parents, c.parents)
         && Objects.equals(author, c.author)

@@ -126,10 +126,9 @@ public final class ChangeMessage {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof ChangeMessage)) {
+    if (!(o instanceof ChangeMessage m)) {
       return false;
     }
-    ChangeMessage m = (ChangeMessage) o;
     return Objects.equals(key, m.key)
         && Objects.equals(author, m.author)
         && Objects.equals(writtenOn, m.writtenOn)

@@ -87,10 +87,9 @@ public class SubmitRequirementExpressionInfo {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof SubmitRequirementExpressionInfo)) {
+    if (!(o instanceof SubmitRequirementExpressionInfo that)) {
       return false;
     }
-    SubmitRequirementExpressionInfo that = (SubmitRequirementExpressionInfo) o;
     return fulfilled == that.fulfilled
         && Objects.equals(expression, that.expression)
         && Objects.equals(passingAtoms, that.passingAtoms)

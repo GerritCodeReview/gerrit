@@ -996,10 +996,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     @Override
     public boolean equals(Object other) {
-      if (!(other instanceof ByteArrayWrapper)) {
+      if (!(other instanceof ByteArrayWrapper w)) {
         return false;
       }
-      return Arrays.equals(arr, ((ByteArrayWrapper) other).arr);
+      return Arrays.equals(arr, w.arr);
     }
 
     @Override

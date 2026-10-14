@@ -16,6 +16,24 @@
       "message": "I believe you still want to guard against exceptions here, as you did before?",
       "revId": "0b00dea70806d611c8dc36ca7abaaf3b334ce527",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fe9a63f_b82df96e",
+        "filename": "java/com/google/gerrit/acceptance/GerritServerTestRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-10-14T06:09:47Z",
+      "side": 1,
+      "message": "ACK, switched to try-with-resources with afterTest() as the AutoCloseable.",
+      "parentUuid": "4818aee1_7002510e",
+      "revId": "0b00dea70806d611c8dc36ca7abaaf3b334ce527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

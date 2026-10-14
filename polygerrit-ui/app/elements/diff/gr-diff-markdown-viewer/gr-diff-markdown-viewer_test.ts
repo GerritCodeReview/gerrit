@@ -128,6 +128,14 @@ suite('gr-diff-markdown-viewer tests', () => {
     element.diff = diff;
     await element.updateComplete;
 
+    const modifiedLefts = element.shadowRoot!.querySelectorAll<HTMLElement>(
+      '.diff-cell.modified-left'
+    );
+    assert.equal(modifiedLefts.length, 2);
+    const leftLink = modifiedLefts[1].querySelector<HTMLAnchorElement>('p a');
+    assert.isNotNull(leftLink);
+    assert.equal(leftLink.textContent, 'run_experiment.py');
+
     const modifiedRights = element.shadowRoot!.querySelectorAll<HTMLElement>(
       '.diff-cell.modified-right'
     );
@@ -136,6 +144,12 @@ suite('gr-diff-markdown-viewer tests', () => {
     const headingCode = modifiedRights[0].querySelector('h2 code');
     assert.isNotNull(headingCode);
     assert.equal(headingCode.textContent, 'new_script.py');
+
+    const rightLink = modifiedRights[1].querySelector<HTMLAnchorElement>('p a');
+    assert.isNotNull(rightLink);
+    assert.equal(rightLink.getAttribute('href'), 'scripts/run_experiment.py');
+    assert.isNotNull(rightLink.querySelector('code'));
+    assert.equal(rightLink.textContent, 'scripts/run_experiment.py');
 
     const paragraphCodes = Array.from(
       modifiedRights[1].querySelectorAll('p code')

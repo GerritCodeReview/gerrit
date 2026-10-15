@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6208c77f_049bc5ee",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3635,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-15T08:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54c598a9_d0e0ffc8",
+      "range": {
+        "startLine": 3635,
+        "startChar": 70,
+        "endLine": 3635,
+        "endChar": 76
+      },
+      "revId": "1eec1780ed89b648572809942af801aba8128728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9d71cd7_a4fad4ae",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-12T06:00:38Z",
       "side": 1,
       "message": "Move the comment to just above the assertion on line 3681 similar to line 3655, it is easier to read that way. You can do the same for the comment on line 3657.",
+      "range": {
+        "startLine": 3665,
+        "startChar": 0,
+        "endLine": 3678,
+        "endChar": 16
+      },
+      "revId": "1eec1780ed89b648572809942af801aba8128728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b68e77d_fa168206",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3678,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-15T08:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9d71cd7_a4fad4ae",
       "range": {
         "startLine": 3665,
         "startChar": 0,

@@ -601,6 +601,24 @@
       "message": "Isn\u0027t this point 7, not 6? https://cla.developers.google.com/about/google-individual",
       "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f2a5f5_9c5d9129",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:24:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af98ca2_26019524",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

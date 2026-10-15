@@ -896,6 +896,8 @@ export class GrChangeView extends LitElement {
           display: flex;
           flex: 1;
           min-width: 500px;
+          /* Needed to overflow on mobile properly */
+          max-width: 100%;
         }
         .headerSubject {
           font-family: var(--header-font-family);

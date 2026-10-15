@@ -63,7 +63,7 @@ public class ReviewerByEmailSet {
 
   @Override
   public boolean equals(Object o) {
-    return (o instanceof ReviewerByEmailSet) && table.equals(((ReviewerByEmailSet) o).table);
+    return (o instanceof ReviewerByEmailSet r) && table.equals(r.table);
   }
 
   @Override

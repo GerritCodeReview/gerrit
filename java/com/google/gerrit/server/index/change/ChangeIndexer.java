@@ -628,10 +628,9 @@ public class ChangeIndexer {
 
     @Override
     public boolean equals(Object obj) {
-      if (!(obj instanceof IndexTask)) {
+      if (!(obj instanceof IndexTask other)) {
         return false;
       }
-      IndexTask other = (IndexTask) obj;
       return id.get() == other.id.get();
     }
 
@@ -704,10 +703,9 @@ public class ChangeIndexer {
 
     @Override
     public boolean equals(Object obj) {
-      if (!(obj instanceof ReindexIfStaleTask)) {
+      if (!(obj instanceof ReindexIfStaleTask other)) {
         return false;
       }
-      ReindexIfStaleTask other = (ReindexIfStaleTask) obj;
       return id.get() == other.id.get();
     }
 

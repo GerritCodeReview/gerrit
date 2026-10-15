@@ -197,10 +197,9 @@ public class GeneralPreferencesInfo {
 
   @Override
   public boolean equals(Object obj) {
-    if (!(obj instanceof GeneralPreferencesInfo)) {
+    if (!(obj instanceof GeneralPreferencesInfo other)) {
       return false;
     }
-    GeneralPreferencesInfo other = (GeneralPreferencesInfo) obj;
     return Objects.equals(this.changesPerPage, other.changesPerPage)
         && Objects.equals(this.downloadScheme, other.downloadScheme)
         && Objects.equals(this.theme, other.theme)

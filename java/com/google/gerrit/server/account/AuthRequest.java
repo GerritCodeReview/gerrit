@@ -236,8 +236,7 @@ public class AuthRequest {
   public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
-    if (!(obj instanceof AuthRequest)) return false;
-    AuthRequest other = (AuthRequest) obj;
+    if (!(obj instanceof AuthRequest other)) return false;
     return active == other.active
         && Objects.equals(authPlugin, other.authPlugin)
         && Objects.equals(authProvider, other.authProvider)

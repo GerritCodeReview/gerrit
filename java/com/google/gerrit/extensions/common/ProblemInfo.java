@@ -33,10 +33,9 @@ public class ProblemInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof ProblemInfo)) {
+    if (!(o instanceof ProblemInfo p)) {
       return false;
     }
-    ProblemInfo p = (ProblemInfo) o;
     return Objects.equals(message, p.message)
         && Objects.equals(status, p.status)
         && Objects.equals(outcome, p.outcome);

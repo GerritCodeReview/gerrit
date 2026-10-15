@@ -251,7 +251,7 @@ public abstract class BooleanCondition {
 
     @Override
     public boolean equals(Object other) {
-      return other instanceof Not ? cond.equals(((Not) other).cond) : false;
+      return other instanceof Not n ? cond.equals(n.cond) : false;
     }
 
     @Override
@@ -294,7 +294,7 @@ public abstract class BooleanCondition {
 
     @Override
     public boolean equals(Object other) {
-      return other instanceof Value ? value == ((Value) other).value : false;
+      return other instanceof Value v ? value == v.value : false;
     }
 
     @Override
@@ -337,7 +337,7 @@ public abstract class BooleanCondition {
 
     @Override
     public boolean equals(Object other) {
-      return other instanceof Lazy && supplier.equals(((Lazy) other).supplier);
+      return other instanceof Lazy l && supplier.equals(l.supplier);
     }
 
     @Override

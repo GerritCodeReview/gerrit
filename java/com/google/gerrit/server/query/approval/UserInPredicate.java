@@ -76,10 +76,9 @@ public class UserInPredicate extends ApprovalPredicate {
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof UserInPredicate)) {
+    if (!(other instanceof UserInPredicate o)) {
       return false;
     }
-    UserInPredicate o = (UserInPredicate) other;
     return Objects.equals(o.field, field) && Objects.equals(o.group, group);
   }
 }

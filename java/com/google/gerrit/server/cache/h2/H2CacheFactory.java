@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
+import com.google.gerrit.server.util.H2Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -229,7 +230,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   private <V, K> SqlStore<K, V> newSqlStore(PersistentCacheDef<K, V> def, long maxSize) {
     String cacheName = def.name() + "-v" + COMPATIBILITY_VERSION;
     StringBuilder url = new StringBuilder();
-    url.append("jdbc:h2:file:")
+    url.append(H2Url.ASYNC_PREFIX)
         .append(cacheDir.resolve(cacheName).toAbsolutePath().toString().replace(";", "\\;"));
     if (h2CacheSize >= 0) {
       url.append(";CACHE_SIZE=");

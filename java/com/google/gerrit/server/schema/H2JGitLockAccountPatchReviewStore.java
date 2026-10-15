@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.H2Url;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.File;
@@ -41,7 +42,6 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchReviewStore {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final String H2_DB_URL_PREFIX = "jdbc:h2:file:";
   private final File lockTarget;
 
   @Inject
@@ -52,12 +52,14 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
 
   @VisibleForTesting
   static File lockTargetFromUrl(String h2Url) {
-    if (!h2Url.startsWith(H2_DB_URL_PREFIX)) {
+    String path;
+    if (h2Url.startsWith(H2Url.ASYNC_PREFIX)) {
+      path = h2Url.substring(H2Url.ASYNC_PREFIX.length());
+    } else if (h2Url.startsWith(H2Url.FILE_PREFIX)) {
+      path = h2Url.substring(H2Url.FILE_PREFIX.length());
+    } else {
       throw new IllegalArgumentException("Not a valid H2 file URL: " + h2Url);
     }
-
-    // URL format: "jdbc:h2:file:/path/to/db" - where ";" in the path is escaped as "\;"
-    String path = h2Url.substring(H2_DB_URL_PREFIX.length());
 
     // Split on first unescaped ";" to drop options, then unescape "\;" in the path
     return new File(

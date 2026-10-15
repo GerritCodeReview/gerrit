@@ -66,7 +66,7 @@ public class H2CacheFactoryTest {
 
     assertThat(readField(store, "url"))
         .isEqualTo(
-            "jdbc:h2:file:"
+            "jdbc:h2:async:"
                 + cacheDir.resolve("demo-cache-v2").toAbsolutePath()
                 + ";DB_CLOSE_DELAY=-1");
   }

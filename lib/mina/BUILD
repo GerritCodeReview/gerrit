@@ -5,6 +5,7 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
+        "@external_deps//:org_apache_sshd_sshd_contrib",
         "@external_deps//:org_apache_sshd_sshd_mina",
         "@external_deps//:org_apache_sshd_sshd_osgi",
     ],
@@ -23,4 +24,11 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = ["@external_deps//:org_apache_mina_mina_core"],
+)
+
+java_library(
+    name = "contrib",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@external_deps//:org_apache_sshd_sshd_contrib"],
 )

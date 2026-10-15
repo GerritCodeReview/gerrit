@@ -25,6 +25,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "128d65a8_76550acb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-content-with-sidebar/gr-content-with-sidebar.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-15T23:34:51Z",
+      "side": 1,
+      "message": "Done. Added `if (this.hasUpdated) this.updateSidebarTop();` to `connectedCallback()`, removed the redundant `firstUpdated()`, and removed the unused `!this.sidebarWrapper` check from the guard.",
+      "parentUuid": "a938898f_3e75a826",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 9999
+      },
+      "revId": "011530017b882ae802576276483b5161a7dd6f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3d76038_e9426639",
@@ -45,6 +69,30 @@
         "endChar": 9999
       },
       "isAi": true,
+      "revId": "011530017b882ae802576276483b5161a7dd6f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f37df35_3b4378cc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-content-with-sidebar/gr-content-with-sidebar.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-15T23:34:51Z",
+      "side": 1,
+      "message": "Done. Updated `.sidebar-wrapper` top to `max(var(--sidebar-wrapper-top, 0px), var(--sidebar-top, 0px))` so any increase in `--sidebar-top` immediately pushes the drawer down natively in CSS without waiting for or being blocked by `--sidebar-wrapper-top`. We also skipped the `ResizeObserver` on `document.body` since host announcement banners are static configurations loaded at page start, and observing `document.body` would trigger unnecessary reflow checks on frequent diff and comment expansions.",
+      "parentUuid": "a3d76038_e9426639",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 9999
+      },
       "revId": "011530017b882ae802576276483b5161a7dd6f81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

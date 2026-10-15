@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.util.H2Url;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -158,6 +159,15 @@ public abstract class JdbcAccountPatchReviewStore
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null) {
       return createH2Url(sitePaths.db_dir.resolve("account_patch_reviews"));
+    }
+    url = normalizeH2Url(url);
+    return url;
+  }
+
+  @VisibleForTesting
+  static String normalizeH2Url(String url) {
+    if (url.startsWith(H2Url.FILE_PREFIX)) {
+      return H2Url.ASYNC_PREFIX + url.substring(H2Url.FILE_PREFIX.length());
     }
     return url;
   }
@@ -461,7 +471,7 @@ public abstract class JdbcAccountPatchReviewStore
   @VisibleForTesting
   static String createH2Url(Path path) {
     return new StringBuilder()
-        .append("jdbc:h2:file:")
+        .append(H2Url.ASYNC_PREFIX)
         .append(path.toAbsolutePath().toString())
         .toString()
         .replace(";", "\\;");

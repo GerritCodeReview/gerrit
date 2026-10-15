@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8057710_d419620d",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-15T12:14:53Z",
+      "side": 1,
+      "message": "the name of this method is now wrong: it returns only the parents of the `other` (btw, also strange name for the input parameter). Those parents are not necessarily \"accepted\" (where accepted here probably implies merged into the target branch).",
+      "range": {
+        "startLine": 239,
+        "startChar": 27,
+        "endLine": 239,
+        "endChar": 45
+      },
+      "revId": "24bab64da38c77b703434d5845b6c2ce6753f425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b80a5f0_f81bd25a",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "Can you add the practical reasoning Sasa shared? \"the git blame output showing AI as the author of some lines of code would every time require an additional step to find the committer\"",
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2cf6a12_952b1fda",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "I don\u0027t think this is adding value beyond what\u0027s already said in \"Comprehension and Accountability\", and I think it will lead to confusion around cases like porting changes to other branches.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 63
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dace9464_619662c6",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is accurate. For example, this prohibits cherry-picks and many other cases allowed under the CLA.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 24
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2668a122_e006be28",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "This also has issues, for example with peer programming. The Author field cannot have more than one value, so it can never reflect the entirety of the contribution. I think we\u0027re still too close to legal definitions on this.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 73
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5d0ed4_1fd2a399",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "nit: move \"even if it is AI-generated\" caveat to the start\n```suggestion\nDo not push a contribution, even if it is AI-generated, if you cannot\nconfidently articulate its exact purpose, explain how the code works,\n```",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 70
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ce58aae_e7189041",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "We could add that we encourage the use of AI to gain a better understanding of existing code.",
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

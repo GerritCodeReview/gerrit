@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9fa51d31_96a14043",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "\u003e Happy to upload a similar change to the SUBMITTING_PATCHES file also, referring to this AI policy.\n\nThat seems fine. I\u0027d be happy to see an update to `SUBMITTING_PATCHES` in this change so it\u0027s all done at once.",
+      "parentUuid": "458f794f_29a6e7b3",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ae45a88_83c74daf",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18
@@ -295,6 +313,30 @@
       "side": 1,
       "message": "There is already an exclusion of automation jobs for CI/CD validation, code maintenance, and error detection.\n\nHappy to add more exclusions and exceptions here.",
       "parentUuid": "9c9dfedd_0eb1dcb1",
+      "range": {
+        "startLine": 139,
+        "startChar": 10,
+        "endLine": 141,
+        "endChar": 69
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f39b6746_e2bc99b9",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "I was thinking it would be better to avoid maintaining a list of exclusions here. For example, I think someone mentioned the possibility of automated dependency updates, and while that might be challenging with Google rules today, if Google themselves had such a tool that could automatically update Gerrit whenever their internal deps updated, I think we would welcome that and I don\u0027t think we should have to come update this section.",
+      "parentUuid": "ee8f72b6_eb88f3d0",
       "range": {
         "startLine": 139,
         "startChar": 10,
@@ -509,6 +551,30 @@
       "side": 1,
       "message": "I agree with everything you wrote. My understanding is that the contributor has full responsibility for the whole change (including the commit message), which doesn\u0027t contradict anything you wrote.\n\nI am just telling that by explaining the same principle again on the commit message doesn\u0027t bring anything new.\n\nOf course, we don\u0027t want AI driving everything and the human being just a proxy between.",
       "parentUuid": "3380ed9a_c50a1889",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7268317b_82a68dae",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T15:40:27Z",
+      "side": 1,
+      "message": "I\u0027m agreed with Sasa. We shouldn\u0027t need to repeat for the commit message what we\u0027re saying about code in the \"Comprehension and Accountability\" section below. I liked \"the commit message is considered part of the change and, just like the source code, must be fully understood by the contributor.\"",
+      "parentUuid": "6e179623_3b0cf36d",
       "range": {
         "startLine": 145,
         "startChar": 0,

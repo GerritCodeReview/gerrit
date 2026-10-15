@@ -46,6 +46,30 @@
       },
       "revId": "29b018e2a61d4e68c8fdb4bd0550411a20ec8fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2003cb59_15a6fcaa",
+        "filename": "java/com/google/gerrit/extensions/common/ApprovalInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T19:04:40Z",
+      "side": 1,
+      "message": "Hi Becky,\nNow changed the entire CL to aim the full stack `is_ai` support.",
+      "parentUuid": "8894117f_f45db25f",
+      "range": {
+        "startLine": 99,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 3
+      },
+      "revId": "29b018e2a61d4e68c8fdb4bd0550411a20ec8fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

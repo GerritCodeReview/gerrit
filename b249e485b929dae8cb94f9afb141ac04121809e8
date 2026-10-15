@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a5ab218_baef0bd7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-10-15T22:34:36Z",
+      "side": 1,
+      "message": "Wont plugins have to do something like `DynamicItem.bind(binder(), LockManager.class).to(...)`?",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 34
+      },
+      "revId": "b249e485b929dae8cb94f9afb141ac04121809e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "818afec4_f2f73cb6",
+        "filename": "java/com/google/gerrit/server/schema/H2PluginLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-10-15T22:34:36Z",
+      "side": 1,
+      "message": "Rename `stopping` to `drainingLockManager`?",
+      "range": {
+        "startLine": 54,
+        "startChar": 42,
+        "endLine": 54,
+        "endChar": 50
+      },
+      "revId": "b249e485b929dae8cb94f9afb141ac04121809e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e28c3e02_0dcca43e",
+        "filename": "java/com/google/gerrit/server/schema/H2PluginLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-10-15T22:34:36Z",
+      "side": 1,
+      "message": "Should we add a INFO log here suggesting that we are awaiting a drain?",
+      "revId": "b249e485b929dae8cb94f9afb141ac04121809e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c86caea6_4d9a2ce3",
+        "filename": "java/com/google/gerrit/server/schema/H2PluginLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-10-15T22:34:36Z",
+      "side": 1,
+      "message": "This check is similar to the one in L65. Can it move to a helper?",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 48
+      },
+      "revId": "b249e485b929dae8cb94f9afb141ac04121809e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

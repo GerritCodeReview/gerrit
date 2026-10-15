@@ -52,6 +52,156 @@
       "parentUuid": "a89276c1_07b5bc06",
       "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0554b77b_0075af7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:10:56Z",
+      "side": 1,
+      "message": "Yeah, we used is_ai for this same things in comments, so it would be inconsistent if named differently. You can blame me for that one 😞",
+      "parentUuid": "36ba2d67_b67c5a5b",
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6cc3ce8_177677e5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:10:56Z",
+      "side": 1,
+      "message": "Collecting `aiApprovalUuids` from `approvals.values()` misses cases where the original approval is not present in `approvals`:\n1. If the original patch set where the AI vote was granted is later deleted (`PatchSetState.DELETED`), `parse()` returns early at line 576 (`if (deletedPatchSets.contains(psId)) { return; }`) before `parseApproval` is reached, while the copied approval on a newer patch set remains.\n2. `approvals` only retains the latest `PatchSetApproval.Builder` per `(psId, accountId, labelId)` (via `putIfAbsent` during reverse-chronological walk), so if an approval on an older patch set was later overwritten on that patch set without updating a follow-up patch set\u0027s copy, the original UUID is no longer in `approvals.values()`.",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1233fe8_9f660149",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:10:56Z",
+      "side": 1,
+      "message": "`isAi` here is the commit-level `Is-ai` footer parsed for the current `ChangeNotesCommit`, not a property of the copied approval. Just as `parseCopiedApproval` uses `parsedPatchSetApproval.tag()` rather than the commit-level `tag` field, it should not set `.isAi(isAi)` from the commit-level `isAi` field (otherwise, if a commit that writes `Copied-Label` footers also has `Is-ai: true`, every copied approval in that commit—including human votes from other reviewers—would be marked `isAi \u003d true`).",
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a7a1213_f775dc26",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:10:56Z",
+      "side": 1,
+      "message": "If a user or bot already has a non-copied vote on the current patch set and re-votes with the same numeric value but a different `isAi` value (e.g. re-voting with `isAi \u003d false`/`null` to replace an AI vote with a human vote, or vice versa), this condition evaluates to `false` and falls through to `else if (c !\u003d null \u0026\u0026 c.value() \u003d\u003d ent.getValue())`, silently dropping the `isAi` update.\n\nThis should also check `c.isAi() !\u003d Boolean.TRUE.equals(in.isAi)`:\n```java\n              || (inLabels.containsKey(c.label())\n                  \u0026\u0026 (c.isAi() !\u003d Boolean.TRUE.equals(in.isAi)\n                      || isApprovalCopiedOver(c, ctx.getNotes()))))) {\n```",
+      "range": {
+        "startLine": 667,
+        "startChar": 0,
+        "endLine": 670,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9ed470a_239ee0ad",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:10:56Z",
+      "side": 1,
+      "message": "`hasCopyOfWithValue` should also check `\u0026\u0026 psa.isAi() \u003d\u003d psaOrig.isAi()`. Otherwise, if an approval on an outdated patch set is re-cast with the same numeric value but a different `isAi` flag, `updateCopiedApprovalsOnFollowUpPatchSets` will skip updating the `Copied-Label` on follow-up patch sets (leaving the old UUID on the copied approval while the original patch set has a new UUID, which also breaks the UUID lookup in `ChangeNotesParser#buildApprovals`).",
+      "range": {
+        "startLine": 999,
+        "startChar": 0,
+        "endLine": 1006,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e039b9_2374bb7b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:10:56Z",
+      "side": 1,
+      "message": "Please add test coverage for:\n1. Copying an `is_ai` vote across patch sets and preserving `isAi` on submitted changes (`labelsForSubmittedChange`), as described in the commit message.\n2. Re-voting with the same numeric value and `isAi \u003d false` (or `null`) to verify that `isAi` is cleared.\n3. Unit tests in `ChangeNotesParserTest` for parsing `Is-ai: true`, `Is-ai: false`, and rejecting invalid `Is-ai` footer values.",
+      "range": {
+        "startLine": 1435,
+        "startChar": 0,
+        "endLine": 1451,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217b329f_e19b18e4",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:10:56Z",
+      "side": 1,
+      "message": "The commit message mentions adding `is_ai` to `ReviewInput` and TypeScript interfaces, but `ReviewInput` in `polygerrit-ui/app/types/common.ts` was not updated to include `is_ai?: boolean;`.",
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

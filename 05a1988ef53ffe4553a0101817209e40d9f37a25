@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "678549b0_a383af3a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T23:10:13Z",
+      "side": 1,
+      "message": "Nit: Combine identical CSS rule blocks for deleted and added inline `\u003ccode\u003e` elements.\n\nBoth rule groups apply the exact same `background-color` and `border` declarations here, so they can be merged into a single selector list.\n\n_from potto_",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 383,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "05a1988ef53ffe4553a0101817209e40d9f37a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad5e0ebb_41d9fedb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T23:10:13Z",
+      "side": 1,
+      "message": "Prevent the single-backtick regex branch from matching across unclosed double-backtick delimiters.\n\nIn `tokenizeWords` (and `codeSpanRegex` in `renderInlineCodeSpans` below), if a paragraph contains an unclosed ` `` ` followed later by another ` ` ` (e.g. `foo ``bar`), the first branch ` ``(?:[^`\\n]|`[^`\\n])+`` ` fails to match at the first backtick, and at the second backtick the second branch `` `[^`\\n]+` `` matches `` `bar` ``, converting mismatched delimiter lengths into a `\u003ccode\u003e` span. Guarding single-backtick matches with `(?\u003c!`)`[^`\\n]+`(?!`)` (until replaced by `Lexer.lexInline` in change 643703) keeps mismatched backtick sequences as literal text.\n\n_from potto_",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "05a1988ef53ffe4553a0101817209e40d9f37a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffcc9aa1_226a46d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T23:10:13Z",
+      "side": 1,
+      "message": "Strip a single leading and trailing space from inline code spans when enclosed on both ends.\n\nPer CommonMark § 6.1 (Code spans), if the string inside a backtick code span begins and ends with a space character and does not consist entirely of spaces, a single leading and trailing space is stripped (so `` `` `code` `` `` renders as `\u003ccode\u003e`code`\u003c/code\u003e` rather than `\u003ccode\u003e `code` \u003c/code\u003e`, matching `marked` in change 643703).\n\n_from potto_",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "05a1988ef53ffe4553a0101817209e40d9f37a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

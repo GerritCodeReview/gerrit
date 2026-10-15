@@ -86,6 +86,7 @@ export class MessageActions extends LitElement {
         ?hidden=${!this.isLatest}
         .text=${this.getGeminiMessageText()}
         hideInput
+        multiline
         .smallIcon=${false}
         buttonTitle="Copy response to clipboard"
         copyTargetName="Response"

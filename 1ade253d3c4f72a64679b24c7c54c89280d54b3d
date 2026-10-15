@@ -240,6 +240,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b1e7369_0758eff5",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e631c951_3a9b236c",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c9dfedd_0eb1dcb1",
@@ -265,6 +283,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee8f72b6_eb88f3d0",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "There is already an exclusion of automation jobs for CI/CD validation, code maintenance, and error detection.\n\nHappy to add more exclusions and exceptions here.",
+      "parentUuid": "9c9dfedd_0eb1dcb1",
+      "range": {
+        "startLine": 139,
+        "startChar": 10,
+        "endLine": 141,
+        "endChar": 69
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a5bc067a_53a4bc53",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18
@@ -276,6 +318,30 @@
       "writtenOn": "2026-10-14T23:42:37Z",
       "side": 1,
       "message": "I think this is too much. Using an agent or script to push a new patch set shouldn\u0027t be prohibited. I\u0027m fine with saying it shouldn\u0027t be fully automated, but if a human reviewed the commits and then says \"push the new patch sets\", I think that should be allowed.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 40
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f162604c_f56bdead",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "Done. At the end of the day, we always use _tools_ for pushing code, don\u0027t we? Even running `git push` uses the `git` tool. If you perform a `git push` from your command line or ask the Claude or Gemini tool to do it for you, there isn\u0027t much difference.",
+      "parentUuid": "a5bc067a_53a4bc53",
       "range": {
         "startLine": 142,
         "startChar": 0,
@@ -311,6 +377,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1074be4_b7520c51",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com what is your view?",
+      "parentUuid": "3f6ea3cb_265995fe",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c5bece1_3192dff3",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18
@@ -322,6 +412,24 @@
       "writtenOn": "2026-10-14T23:42:37Z",
       "side": 1,
       "message": "What does \"the author of _**the intent**_ of the change\" (my emphasis added) mean?",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd95f4b5_1eafcaba",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "Clarified what _intent_ means here.",
+      "parentUuid": "4c5bece1_3192dff3",
       "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -349,6 +457,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93ed4fb6_33a94f93",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "I am not a lawyer, so I have removed any mention of legal implications, as this is not my field and not the purpose of these guidelines.\n\nAmended in a project-focused way.\nAlso amended the title accordingly.",
+      "parentUuid": "a4624cc5_cd6ae88e",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 68
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b643838_6c2da905",
@@ -362,6 +494,24 @@
       "writtenOn": "2026-10-14T23:42:37Z",
       "side": 1,
       "message": "This section seems like a great guideline to have. Given me comment above about commit messages, I would add some text here about understanding the commit message.",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b292d319_f4441c43",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b643838_6c2da905",
       "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -383,6 +533,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16d2a54_8ece6075",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c889c1a1_951eab7e",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8327b8a1_a5d91128",
@@ -396,6 +564,24 @@
       "writtenOn": "2026-10-14T23:42:37Z",
       "side": 1,
       "message": "I don\u0027t think we should be copying/re-representing the Google CLA in our doc. If Google changes it in a way that\u0027s different from what we have here, that\u0027s a problem. I would remove this section completely and replace it with a reference as I noted above.",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca8a5e08_0e4afaa7",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:23:54Z",
+      "side": 1,
+      "message": "Agreed, that would give the impression that we are layers or that these are additions to the CLA, which are not.\n\nThese are project guidelines we give to ourselves and to all new contributors on how to use AI-assisted tools. There is no change to the legal framework at all. Good point.",
+      "parentUuid": "8327b8a1_a5d91128",
       "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

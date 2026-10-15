@@ -276,7 +276,7 @@ message PatchSetApproval_Key {
 }
 
 // Serialized form of com.google.gerrit.entities.PatchSetApproval.
-// Next ID: 11
+// Next ID: 12
 message PatchSetApproval {
   required PatchSetApproval_Key key = 1;
   optional int32 value = 2;
@@ -286,6 +286,7 @@ message PatchSetApproval {
   optional bool post_submit = 8;
   optional bool copied = 9;
   optional string uuid = 10;
+  optional bool is_ai = 11;
 
   // Deleted fields, should not be reused:
   reserved 4;  // changeOpen

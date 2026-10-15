@@ -416,7 +416,7 @@ public class ChangeNotesStateTest {
             .build();
     Entities.PatchSetApproval psa2 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a2);
     ByteString a2Bytes = Protos.toByteString(psa2);
-    assertThat(a2Bytes.size()).isEqualTo(56);
+    assertThat(a2Bytes.size()).isEqualTo(58);
     assertThat(a2Bytes).isNotEqualTo(a1Bytes);
 
     assertRoundTrip(
@@ -460,7 +460,7 @@ public class ChangeNotesStateTest {
             .build();
     Entities.PatchSetApproval psa2 = PatchSetApprovalProtoConverter.INSTANCE.toProto(a2);
     ByteString a2Bytes = Protos.toByteString(psa2);
-    assertThat(a2Bytes.size()).isEqualTo(98);
+    assertThat(a2Bytes.size()).isEqualTo(100);
     assertThat(a2Bytes).isNotEqualTo(a1Bytes);
 
     assertRoundTrip(
@@ -1124,6 +1124,7 @@ public class ChangeNotesStateTest {
                 .put("realAccountId", Account.Id.class)
                 .put("postSubmit", boolean.class)
                 .put("copied", boolean.class)
+                .put("isAi", boolean.class)
                 .put("toBuilder", PatchSetApproval.Builder.class)
                 .build());
   }

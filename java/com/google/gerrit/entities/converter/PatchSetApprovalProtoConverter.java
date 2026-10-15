@@ -40,7 +40,8 @@ public enum PatchSetApprovalProtoConverter
             .setValue(patchSetApproval.value())
             .setGranted(patchSetApproval.granted().toEpochMilli())
             .setPostSubmit(patchSetApproval.postSubmit())
-            .setCopied(patchSetApproval.copied());
+            .setCopied(patchSetApproval.copied())
+            .setIsAi(patchSetApproval.isAi());
 
     patchSetApproval.uuid().ifPresent(uuid -> builder.setUuid(uuid.get()));
     patchSetApproval.tag().ifPresent(builder::setTag);
@@ -64,7 +65,8 @@ public enum PatchSetApprovalProtoConverter
             .value(proto.getValue())
             .granted(Instant.ofEpochMilli(proto.getGranted()))
             .postSubmit(proto.getPostSubmit())
-            .copied(proto.getCopied());
+            .copied(proto.getCopied())
+            .isAi(proto.getIsAi());
     if (proto.hasUuid()) {
       builder.uuid(PatchSetApproval.uuid(proto.getUuid()));
     }

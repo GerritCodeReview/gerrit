@@ -19,9 +19,11 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.common.NoMergeBaseReason;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -155,6 +157,19 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Label: -Label1\n"
             + "Label: -Label1 Other Account <2@gerrit>\n"
             + "Subject: This is a test change\n");
+    ChangeNotesState aiState =
+        assertParseSucceeds(
+            "Update change\n"
+                + "\n"
+                + "Branch: refs/heads/master\n"
+                + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+                + "Patch-set: 1\n"
+                + "Is-ai: true\n"
+                + "Label: Label1=+1\n"
+                + "Subject: This is a test change\n");
+    assertThat(aiState.approvals()).hasSize(1);
+    assertThat(aiState.approvals().get(0).getValue().isAi()).isTrue();
+    assertParseFails("Update change\n\nPatch-set: 1\nIs-ai: invalid\nLabel: Label1=+1\n");
     assertParseFails("Update change\n\nPatch-set: 1\nLabel: Label1=X\n");
     assertParseFails("Update change\n\nPatch-set: 1\nLabel: Label1 = 1\n");
     assertParseFails("Update change\n\nPatch-set: 1\nLabel: X+Y\n");
@@ -214,22 +229,39 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   @Test
   public void parseCopiedApproval() throws Exception {
-    assertParseSucceeds(
-        "Update change\n"
-            + "\n"
-            + "Branch: refs/heads/master\n"
-            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-            + "Patch-set: 1\n"
-            + "Copied-Label: Label1=+1 Account <1@gerrit>,Other Account <2@gerrit>\n"
-            + "Copied-Label: Label2=+1 Account <1@gerrit>\n"
-            + "Copied-Label: Label3=+1 Account <1@gerrit>,Other Account <2@gerrit> :\"tag\"\n"
-            + "Copied-Label: Label4=+1 Account <1@gerrit> :\"tag with characters %^#@^( *::!\"\n"
-            + "Copied-Label: -Label1 Account <1@gerrit>,Other Account <2@gerrit>\\n"
-            + "Copied-Label: -Label1 Account <1@gerrit>\n"
-            + "Copied-Label: Label1=+1 Gerrit User 1 (name,with, comma) <1@gerrit>\n"
-            + "Copied-Label: Label2=+1 Gerrit User 1 (name,with, comma) <1@gerrit>,Gerrit User 2"
-            + " (name,with, comma) <2@gerrit>\n"
-            + "Subject: This is a test change\n");
+    ChangeNotesState copiedState =
+        assertParseSucceeds(
+            "Update change\n"
+                + "\n"
+                + "Branch: refs/heads/master\n"
+                + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+                + "Patch-set: 1\n"
+                + "Copied-Label: Label1=+1 Account <1@gerrit>,Other Account <2@gerrit>\n"
+                + "Copied-Label: Label2=+1 Account <1@gerrit>\n"
+                + "Copied-Label: Label3=+1 Account <1@gerrit>,Other Account <2@gerrit> :\"tag\"\n"
+                + "Copied-Label: Label4=+1 Account <1@gerrit> :\"tag with characters %^#@^("
+                + " *::!\"\n"
+                + "Copied-Label: -Label1 Account <1@gerrit>,Other Account <2@gerrit>\\n"
+                + "Copied-Label: -Label1 Account <1@gerrit>\n"
+                + "Copied-Label: Label1=+1 Gerrit User 1 (name,with, comma) <1@gerrit>\n"
+                + "Copied-Label: Label2=+1 Gerrit User 1 (name,with, comma) <1@gerrit>,Gerrit User"
+                + " 2 (name,with, comma) <2@gerrit>\n"
+                + "Copied-Label: Label5=+1 Account <1@gerrit>,is_ai\n"
+                + "Copied-Label: Label6=+1 Account <1@gerrit>,Other Account <2@gerrit>,is_ai"
+                + " :\"tag\"\n"
+                + "Subject: This is a test change\n");
+    assertThat(
+            copiedState.approvals().stream()
+                .map(Map.Entry::getValue)
+                .filter(psa -> psa.label().equals("Label5") || psa.label().equals("Label6"))
+                .allMatch(PatchSetApproval::isAi))
+        .isTrue();
+    assertThat(
+            copiedState.approvals().stream()
+                .map(Map.Entry::getValue)
+                .filter(psa -> !psa.label().equals("Label5") && !psa.label().equals("Label6"))
+                .noneMatch(PatchSetApproval::isAi))
+        .isTrue();
 
     assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: Label1=X\n");
     assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: Label1 = 1\n");

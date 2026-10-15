@@ -34,6 +34,24 @@
       "parentUuid": "8dbe9c33_7360520c",
       "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36ba2d67_b67c5a5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T19:43:53Z",
+      "side": 1,
+      "message": "Oh, but one caveat is that in Polygerrit, we already have protobufs which adopt `is_ai`, it might also make sense to be consistent, IMO.",
+      "parentUuid": "a89276c1_07b5bc06",
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

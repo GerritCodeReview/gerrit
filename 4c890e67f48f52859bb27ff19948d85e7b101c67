@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "390c09d6_48dbd916",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-15T15:54:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this broke it on mobile. But when you go to a change (e.g. any) and click on the dropdown, it doesn\u0027t show the copy button on mobile. See https://postimg.cc/cK5MDZGh",
+      "revId": "4c890e67f48f52859bb27ff19948d85e7b101c67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

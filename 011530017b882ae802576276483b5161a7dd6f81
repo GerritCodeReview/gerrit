@@ -1,0 +1,52 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a938898f_3e75a826",
+        "filename": "polygerrit-ui/app/elements/shared/gr-content-with-sidebar/gr-content-with-sidebar.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:43:11Z",
+      "side": 1,
+      "message": "Two lifecycle notes here:\n1. `disconnectedCallback()` removes `--sidebar-wrapper-top`, but `connectedCallback()` does not recompute it. If the element is disconnected and reconnected while `hideSide` is `false` (e.g., when reparented in the DOM), `firstUpdated()` will not run again and `updated()` will not see `hideSide` change, leaving `--sidebar-wrapper-top` unset until a scroll/resize event. Calling `if (this.hasUpdated) this.updateSidebarTop();` in `connectedCallback()` avoids this.\n2. `firstUpdated()` calling `this.updateSidebarTop()` is redundant with `updated()`, since Lit includes `hideSide` in `changedProperties` on the initial update and calls `updated()` immediately after `firstUpdated()`. (Also minor: `!this.sidebarWrapper` in the guard on line 82 is no longer needed now that `getBoundingClientRect()` is called on `this`.)\n\n_— from potto_",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "011530017b882ae802576276483b5161a7dd6f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3d76038_e9426639",
+        "filename": "polygerrit-ui/app/elements/shared/gr-content-with-sidebar/gr-content-with-sidebar.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T22:43:11Z",
+      "side": 1,
+      "message": "In `gr-change-view` and `gr-diff-view`, `--change-header-height` and `--diff-header-height` start at `0px` (in `app-theme.ts` and after `disconnectedCallback()`) and are updated asynchronously via `ResizeObserver`. Because `updateSidebarTop()` runs synchronously in `firstUpdated()`/`updated()` before the parent view\u0027s `ResizeObserver` fires, `this.topReference.getBoundingClientRect().top` initially evaluates with a `0px` header height while `this.getBoundingClientRect().top` already includes the header\u0027s DOM height—causing `--sidebar-wrapper-top` to be set even when no banner is present.\n\nIf the sticky header subsequently grows (e.g., when async status chips, actions, or diff subheader items render while the sidebar is open) or if a plugin banner (`\u003cgr-endpoint-decorator name\u003d\"banner\"\u003e`) is injected or dismissed asynchronously without a `window` `scroll`/`resize` event, `updateSidebarTop()` is not re-run. Because `.sidebar-wrapper` uses `top: var(--sidebar-wrapper-top, var(--sidebar-top, 0px))` (line 118), a stale `--sidebar-wrapper-top` overrides `--sidebar-top`, either overlapping the expanded header or leaving a gap after banner dismissal until the user scrolls.\n\nConsider:\n1. Using `top: max(var(--sidebar-wrapper-top, 0px), var(--sidebar-top, 0px));` on `.sidebar-wrapper` (line 118) so a stale `--sidebar-wrapper-top` can never pull the sidebar above `var(--sidebar-top, 0px)` when `--sidebar-top` increases.\n2. Observing layout shifts (e.g., via a `ResizeObserver` on `document.documentElement` / `document.body`) so `updateSidebarTop()` runs when header or banner heights change dynamically without a window scroll/resize.\n\n_— from potto_",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "011530017b882ae802576276483b5161a7dd6f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

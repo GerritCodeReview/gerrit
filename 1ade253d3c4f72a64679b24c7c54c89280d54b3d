@@ -449,6 +449,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c58cc11_a099bffc",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-15T14:39:01Z",
+      "side": 1,
+      "message": "Or maybe something like: the commit message is considered part of the change and, just like the source code, must be fully understood by the contributor.\n\nI mean, there is probably no need to distinguish commit message part from the source code part.",
+      "parentUuid": "6e179623_3b0cf36d",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c5bece1_3192dff3",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18

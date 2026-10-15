@@ -18,6 +18,7 @@ import static com.google.gerrit.pgm.init.api.InitUtil.hostname;
 import static java.nio.file.Files.exists;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
+import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
@@ -32,13 +33,20 @@ import java.net.InetSocketAddress;
 /** Initialize the {@code sshd} configuration section. */
 @Singleton
 public class InitSshd implements InitStep {
+  private final InitFlags flags;
   private final ConsoleUI ui;
   private final SitePaths site;
   private final Section sshd;
   private final StaleLibraryRemover remover;
 
   @Inject
-  InitSshd(ConsoleUI ui, SitePaths site, Section.Factory sections, StaleLibraryRemover remover) {
+  InitSshd(
+      InitFlags flags,
+      ConsoleUI ui,
+      SitePaths site,
+      Section.Factory sections,
+      StaleLibraryRemover remover) {
+    this.flags = flags;
     this.ui = ui;
     this.site = site;
     this.sshd = sections.get("sshd", null);
@@ -69,7 +77,9 @@ public class InitSshd implements InitStep {
     port = ui.readInt(port, "Listen on port");
     sshd.set("listenAddress", SocketUtil.format(hostname, port));
 
-    generateSshHostKeys();
+    if (flags.cfg.getBoolean("sshd", "generateHostKeys", true)) {
+      generateSshHostKeys();
+    }
     remover.remove("bc(pg|pkix|prov)-.*[.]jar");
   }
 

@@ -6464,6 +6464,14 @@ of them.
 By default uses the value of `sshd.listenAddress`.
 --
 
+[[sshd.generateHostKeys]]sshd.generateHostKeys::
++
+Whether link:pgm-init.html[init] generates missing SSH host keys in
+`'$site_path'/etc`. Set to `false` if host keys are provisioned
+externally, so that only those keys are offered to clients.
++
+By default, `true`.
+
 [[sshd.tcpKeepAlive]]sshd.tcpKeepAlive::
 +
 If `true`, enables TCP keepalive messages to the other side, so

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -84,12 +85,13 @@ public abstract class JdbcAccountPatchReviewStore
       String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
       if (url == null || url.contains(H2_DB)) {
         String lockType = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, H2_LOCK_TYPE);
-        switch (lockType != null ? lockType : "") {
-          case "" -> impl = H2AccountPatchReviewStore.class;
-          case H2_LOCK_TYPE_JGIT -> impl = H2JGitLockAccountPatchReviewStore.class;
-          default ->
-              throw new IllegalArgumentException(
-                  "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
+        if (isNullOrEmpty(lockType)) {
+          impl = H2AccountPatchReviewStore.class;
+        } else if (lockType.equals(H2_LOCK_TYPE_JGIT)) {
+          impl = H2JGitLockAccountPatchReviewStore.class;
+        } else {
+          throw new IllegalArgumentException(
+              "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
         }
       } else if (url.contains(POSTGRESQL)) {
         impl = PostgresqlAccountPatchReviewStore.class;

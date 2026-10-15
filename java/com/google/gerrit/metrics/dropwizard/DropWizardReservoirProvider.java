@@ -30,23 +30,17 @@ class DropWizardReservoirProvider {
 
   static Reservoir get(MetricsReservoirConfig config) {
     ReservoirType reservoirType = config.reservoirType();
-    switch (reservoirType) {
-      case ExponentiallyDecaying:
-        return new ExponentiallyDecayingReservoir(config.reservoirSize(), config.reservoirAlpha());
-      case SlidingTimeWindowArray:
-        return new SlidingTimeWindowArrayReservoir(
-            config.reservoirWindow().toMillis(), TimeUnit.MILLISECONDS);
-      case SlidingTimeWindow:
-        return new SlidingTimeWindowReservoir(
-            config.reservoirWindow().toMillis(), TimeUnit.MILLISECONDS);
-      case SlidingWindow:
-        return new SlidingWindowReservoir(config.reservoirSize());
-      case Uniform:
-        return new UniformReservoir(config.reservoirSize());
-
-      default:
-        throw new IllegalArgumentException(
-            "Unsupported metrics reservoir type " + reservoirType.name());
-    }
+    return switch (reservoirType) {
+      case ExponentiallyDecaying ->
+          new ExponentiallyDecayingReservoir(config.reservoirSize(), config.reservoirAlpha());
+      case SlidingTimeWindowArray ->
+          new SlidingTimeWindowArrayReservoir(
+              config.reservoirWindow().toMillis(), TimeUnit.MILLISECONDS);
+      case SlidingTimeWindow ->
+          new SlidingTimeWindowReservoir(
+              config.reservoirWindow().toMillis(), TimeUnit.MILLISECONDS);
+      case SlidingWindow -> new SlidingWindowReservoir(config.reservoirSize());
+      case Uniform -> new UniformReservoir(config.reservoirSize());
+    };
   }
 }

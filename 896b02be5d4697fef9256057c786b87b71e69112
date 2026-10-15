@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f537013_777dcf37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T22:59:46Z",
+      "side": 1,
+      "message": "Thanks Becky for the review! Now resolved all of them except for the `is_ai` naming. Given that five months ago, Becky already added `is_ai` to comments, maybe let\u0027s just stick with `is_ai`?",
+      "revId": "896b02be5d4697fef9256057c786b87b71e69112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

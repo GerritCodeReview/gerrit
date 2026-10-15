@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "791a036e_7abe093a",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-15T12:19:04Z",
+      "side": 0,
+      "message": "avoid changing methods order unnecesssarily",
+      "revId": "0c71275d84df94dabdc793a11a2e5e2a4a471dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27cbd5cd_b3c106c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-15T19:19:16Z",
+      "side": 1,
+      "message": "Batching and memoizeing makes sense",
+      "revId": "7b43251cb929ddb3bfb846b333c3a1dbacd8a9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da62dc4_dc327c80",
+        "filename": "javatests/com/google/gerrit/server/change/ParentDataProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-15T19:19:16Z",
+      "side": 1,
+      "message": "I think we don\u0027t need this in unit tests - benchmarking test",
+      "range": {
+        "startLine": 257,
+        "startChar": 14,
+        "endLine": 257,
+        "endChar": 73
+      },
+      "revId": "7b43251cb929ddb3bfb846b333c3a1dbacd8a9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

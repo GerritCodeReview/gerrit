@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae9964ad_2142b7d2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-15T17:01:32Z",
+      "side": 1,
+      "message": "should figure out how to generate lit template tags vs bare HTML to harden",
+      "range": {
+        "startLine": 591,
+        "startChar": 7,
+        "endLine": 597,
+        "endChar": 50
+      },
+      "revId": "8b5ef34d8549ef592693661353395d73eb5bd91e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

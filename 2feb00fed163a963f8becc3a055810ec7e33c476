@@ -16,6 +16,41 @@
       "message": "@milutin@google.com i\u0027m not sure if there\u0027s a better fix. Maybe you know.\n\nhttps://cdn.discordapp.com/attachments/1019941974842806302/1560314648035590165/Screen_Recording_2026-10-15_at_16.33.14.mov?ex\u003d6ad243c1\u0026is\u003d6ad0f241\u0026hm\u003d282d1735c8e276408299fb06fe2d4e44ecc6c906bcf6b8f6f4a8483c8a32b3e8\u0026\n\nIs a video of the issue.\n\nWould be nice to have the copy button on the same line as the title on mobile. But not sure how to do it that works. For instance when i tried, squshing the text caused it to go behind like the buttons next to it. E.g. Submit and so on.\n\nAn alternative fix is to allow it to wrap onto the next line.",
       "revId": "2feb00fed163a963f8becc3a055810ec7e33c476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b70ede4_85666ea2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-15T18:11:59Z",
+      "side": 1,
+      "message": "I am ok with this fix, it shouldn\u0027t change desktop and it\u0027s fixing mobile for you. Ai drafted what happen and why it broke as reply to your question",
+      "revId": "2feb00fed163a963f8becc3a055810ec7e33c476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a57c107_e6283826",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-15T18:11:59Z",
+      "side": 1,
+      "message": "Here is what happened in `305d592de7` and why squishing caused the text to overlap the action buttons on mobile:\n\n1. **History of `305d592de7`**: That change moved `line-break: anywhere;` from the mobile media query into `.headerSubject` globally (for long unbroken tokens in subjects), and also added `whitespace: no-wrap; overflow: auto;`. Because `whitespace: no-wrap` was a CSS typo, browsers ignored it at the time and titles continued wrapping. Later, `996de26f23` fixed the `lit-analyzer` warning by changing `whitespace: no-wrap` to valid `white-space: nowrap`, which activated `nowrap` and made `line-break: anywhere` right above it dead code.\n2. **Why mobile overflows \u0026 why squishing overlaps `Submit`**: In `@media screen and (max-width: 50em)` (lines 1115–1129), `.header` switches to `flex-direction: column; align-items: flex-start;`, but `.headerTitle` still inherits `flex: 1` (`flex: 1 1 0%`) from the desktop rule. In a column flex container, `flex-basis: 0%` applies to the **vertical** height (causing wrapped/squished content to overlap `.commitActions` below it), while `align-items: flex-start` leaves the horizontal width unconstrained without `max-width: 100%` / `width: 100%`.\n\nDepending on which behavior we prefer on mobile:\n- **To keep the copy button on the same line as the title** (without overlapping the buttons below): in `@media screen and (max-width: 50em)`, set `flex: initial; width: 100%; flex-wrap: nowrap;` on `.headerTitle` and `min-width: 0; flex: 1;` on `.headerSubject`.\n- **Or to allow wrapping**: remove `white-space: nowrap; overflow: auto;` from `.headerSubject` (so `line-break: anywhere;` works again) and set `flex: initial; max-width: 100%;` on `.headerTitle` in the mobile media query.",
+      "parentUuid": "ce84abf2_8e4bc8c9",
+      "revId": "2feb00fed163a963f8becc3a055810ec7e33c476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

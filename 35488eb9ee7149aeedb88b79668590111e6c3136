@@ -16,6 +16,24 @@
       "message": "Let\u0027s plan this for 3.16. I\u0027m ok with submitting it before 3.15 is final, but we need to ensure it\u0027s not cherry-picked to stable-3.15.",
       "revId": "35488eb9ee7149aeedb88b79668590111e6c3136",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9914487a_2ad0b862",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-15T03:09:16Z",
+      "side": 1,
+      "message": "Right, this is the plan: deprecate in 3.15 and merge in 3.16. I\u0027ve added `do-not-backport` hashtag for that. Done.",
+      "parentUuid": "3289405d_5afe4347",
+      "revId": "35488eb9ee7149aeedb88b79668590111e6c3136",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

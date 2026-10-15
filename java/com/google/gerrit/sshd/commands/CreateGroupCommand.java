@@ -143,8 +143,7 @@ final class CreateGroupCommand extends SshCommand {
         AddMembers.Input.fromMembers(
             initialMembers.stream().map(Object::toString).collect(toList()));
 
-    @SuppressWarnings("unused")
-    var unused = addMembers.apply(rsrc, input);
+    var _ = addMembers.apply(rsrc, input);
   }
 
   private void addSubgroups(GroupResource rsrc)
@@ -153,7 +152,6 @@ final class CreateGroupCommand extends SshCommand {
         AddSubgroups.Input.fromGroups(
             initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));
 
-    @SuppressWarnings("unused")
-    var unused = addSubgroups.apply(rsrc, input);
+    var _ = addSubgroups.apply(rsrc, input);
   }
 }

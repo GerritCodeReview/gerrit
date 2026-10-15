@@ -274,7 +274,7 @@ public class GroupsUpdate {
   @CanIgnoreReturnValue
   public InternalGroup createGroup(InternalGroupCreation groupCreation, GroupDelta groupDelta)
       throws DuplicateKeyException, IOException, ConfigInvalidException {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Creating group",
             Metadata.builder()
@@ -298,7 +298,7 @@ public class GroupsUpdate {
    */
   public void updateGroup(AccountGroup.UUID groupUuid, GroupDelta groupDelta)
       throws DuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Updating group", Metadata.builder().groupUuid(groupUuid.get()).build())) {
       Optional<Instant> updatedOn = groupDelta.getUpdatedOn();
@@ -322,7 +322,7 @@ public class GroupsUpdate {
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    */
   public void deleteGroup(AccountGroup.UUID groupUuid) throws ConfigInvalidException, IOException {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Deleting group", Metadata.builder().groupUuid(groupUuid.get()).build())) {
       DeleteResult result = deleteGroupInNoteDbWithRetry(groupUuid);

@@ -533,7 +533,7 @@ public class BatchUpdate implements AutoCloseable {
       for (Map.Entry<Change.Id, OpData<BatchUpdateOp>> e : ops.entries()) {
         BatchUpdateOp op = e.getValue().op();
         RepoContextImpl ctx = new RepoContextImpl(e.getValue().user());
-        try (TraceContext.TraceTimer ignored =
+        try (TraceContext.TraceTimer _ =
             TraceContext.newTimer(
                 op.getClass().getSimpleName() + "#updateRepo",
                 Metadata.builder().projectName(project.get()).changeId(e.getKey().get()).build())) {
@@ -731,7 +731,7 @@ public class BatchUpdate implements AutoCloseable {
           ctx = newChangeContext(opData.user(), id);
         }
         Class<? extends BatchUpdateOp> opClass = opData.op().getClass();
-        try (TraceContext.TraceTimer ignored =
+        try (TraceContext.TraceTimer _ =
             TraceContext.newTimer(
                 (opClass.isAnonymousClass() ? opClass.getName() : opClass.getSimpleName())
                     + "#updateChange",
@@ -822,7 +822,7 @@ public class BatchUpdate implements AutoCloseable {
   void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
     for (OpData<BatchUpdateOp> opData : ops.values()) {
       PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas);
-      try (TraceContext.TraceTimer ignored =
+      try (TraceContext.TraceTimer _ =
           TraceContext.newTimer(
               opData.op().getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
         opData.op().postUpdate(ctx);
@@ -831,13 +831,13 @@ public class BatchUpdate implements AutoCloseable {
 
     for (OpData<RepoOnlyOp> opData : repoOnlyOps) {
       PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas);
-      try (TraceContext.TraceTimer ignored =
+      try (TraceContext.TraceTimer _ =
           TraceContext.newTimer(
               opData.op().getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
         opData.op().postUpdate(ctx);
       }
     }
-    try (TraceContext.TraceTimer ignored =
+    try (TraceContext.TraceTimer _ =
         TraceContext.newTimer("fireAttentionSetUpdates#postUpdate", Metadata.empty())) {
       fireAttentionSetUpdateEvents(changeDatas);
     }

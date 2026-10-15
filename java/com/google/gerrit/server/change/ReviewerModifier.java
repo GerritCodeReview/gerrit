@@ -248,7 +248,7 @@ public class ReviewerModifier {
   public ReviewerModification prepare(
       ChangeNotes notes, CurrentUser user, ReviewerInput input, boolean allowGroup)
       throws IOException, PermissionBackendException, ConfigInvalidException {
-    try (TraceContext.TraceTimer ignored =
+    try (TraceContext.TraceTimer _ =
         TraceContext.newTimer(getClass().getSimpleName() + "#prepare", Metadata.empty())) {
       if (Strings.nullToEmpty(input.reviewer).trim().isEmpty()) {
         return fail(input, FailureType.NOT_FOUND, "reviewer user identifier is required");
@@ -719,8 +719,7 @@ public class ReviewerModifier {
       for (ReviewerModification addition : modifications()) {
         addition.op.setPatchSet(patchSet);
 
-        @SuppressWarnings("unused")
-        var unused = addition.op.updateChange(ctx);
+        var _ = addition.op.updateChange(ctx);
       }
     }
 

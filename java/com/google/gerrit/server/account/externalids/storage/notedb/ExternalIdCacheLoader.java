@@ -279,7 +279,7 @@ public class ExternalIdCacheLoader {
 
   private AllExternalIds reloadAllExternalIds(ObjectId notesRev)
       throws IOException, ConfigInvalidException {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Loading external IDs from scratch",
             Metadata.builder().revision(notesRev.name()).build())) {

@@ -483,8 +483,7 @@ public class ProjectApiImpl implements ProjectApi {
           .currentUser()
           .checkAny(GlobalPermission.fromAnnotation(createProject.getClass()));
 
-      @SuppressWarnings("unused")
-      var unused = createProject.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(name), in);
+      var _ = createProject.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(name), in);
 
       return projectApi.create(projects.parse(name));
     } catch (Exception e) {
@@ -557,8 +556,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void description(DescriptionInput in) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = putDescription.apply(checkExists(), in);
+      var _ = putDescription.apply(checkExists(), in);
     } catch (Exception e) {
       throw asRestApiException("Cannot put project description", e);
     }
@@ -699,8 +697,7 @@ public class ProjectApiImpl implements ProjectApi {
   public void deleteBranches(DeleteBranchesInput in) throws RestApiException {
     try {
       try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
-        @SuppressWarnings("unused")
-        var unused = deleteBranches.apply(checkExists(), in);
+        var _ = deleteBranches.apply(checkExists(), in);
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot delete branches", e);
@@ -720,8 +717,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void deleteTags(DeleteTagsInput in) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteTags.apply(checkExists(), in);
+      var _ = deleteTags.apply(checkExists(), in);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete tags", e);
     }
@@ -804,8 +800,7 @@ public class ProjectApiImpl implements ProjectApi {
     input.ref = head;
     try {
       try (RefUpdateContext ctx = RefUpdateContext.open(HEAD_MODIFICATION)) {
-        @SuppressWarnings("unused")
-        var unused = setHead.apply(checkExists(), input);
+        var _ = setHead.apply(checkExists(), input);
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot set HEAD", e);
@@ -827,8 +822,7 @@ public class ProjectApiImpl implements ProjectApi {
       ParentInput input = new ParentInput();
       input.parent = parent;
 
-      @SuppressWarnings("unused")
-      var unused = setParent.apply(checkExists(), input);
+      var _ = setParent.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set parent", e);
     }
@@ -840,8 +834,7 @@ public class ProjectApiImpl implements ProjectApi {
       IndexProjectInput input = new IndexProjectInput();
       input.indexChildren = indexChildren;
 
-      @SuppressWarnings("unused")
-      var unused = index.apply(checkExists(), input);
+      var _ = index.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot index project", e);
     }
@@ -850,8 +843,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void indexChanges() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = indexChanges.apply(checkExists(), new Input());
+      var _ = indexChanges.apply(checkExists(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index changes", e);
     }
@@ -918,8 +910,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void labels(BatchLabelInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = postLabels.apply(checkExists(), input);
+      var _ = postLabels.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot update labels", e);
     }
@@ -937,8 +928,7 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void submitRequirements(BatchSubmitRequirementInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = postSubmitRequirements.apply(checkExists(), input);
+      var _ = postSubmitRequirements.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot update submit requirements", e);
     }

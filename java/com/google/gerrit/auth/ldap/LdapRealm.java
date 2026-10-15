@@ -332,8 +332,7 @@ class LdapRealm extends AbstractRealm {
     try {
       Helper.LdapSchema schema = helper.getSchema(ctx);
 
-      @SuppressWarnings("unused")
-      var unused = helper.findAccount(schema, ctx, username, false);
+      var _ = helper.findAccount(schema, ctx, username, false);
 
       return true;
     } catch (NoSuchUserException e) {

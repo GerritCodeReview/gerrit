@@ -237,7 +237,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
                 .filter(group -> hasConfiguredName(byLowerCaseConfiguredName, group))
                 .findAny();
 
-      } catch (IOException | ConfigInvalidException ignored) {
+      } catch (IOException | ConfigInvalidException _) {
         return;
       }
 

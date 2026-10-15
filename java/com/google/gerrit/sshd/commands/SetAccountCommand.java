@@ -273,8 +273,7 @@ final class SetAccountCommand extends SshCommand {
       if (fullName != null) {
         NameInput in = new NameInput();
         in.name = fullName;
-        @SuppressWarnings("unused")
-        var unused = putName.apply(rsrc, in);
+        var _ = putName.apply(rsrc, in);
       }
 
       if (httpPassword != null || clearHttpPassword || generateHttpPassword) {
@@ -309,12 +308,10 @@ final class SetAccountCommand extends SshCommand {
       }
 
       if (active) {
-        @SuppressWarnings("unused")
-        var unused = putActive.apply(rsrc, null);
+        var _ = putActive.apply(rsrc, null);
       } else if (inactive) {
         try {
-          @SuppressWarnings("unused")
-          var unused = deleteActive.apply(rsrc, null);
+          var _ = deleteActive.apply(rsrc, null);
         } catch (ResourceNotFoundException e) {
           // user is already inactive
         }
@@ -346,8 +343,7 @@ final class SetAccountCommand extends SshCommand {
       SshKeyInput in = new SshKeyInput();
       in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "text/plain");
 
-      @SuppressWarnings("unused")
-      var unused = addSshKey.apply(rsrc, in);
+      var _ = addSshKey.apply(rsrc, in);
     }
   }
 
@@ -376,9 +372,7 @@ final class SetAccountCommand extends SshCommand {
           PermissionBackendException {
     AccountSshKey sshKey = AccountSshKey.create(user.getAccountId(), i.seq, i.sshPublicKey);
 
-    @SuppressWarnings("unused")
-    var unused =
-        deleteSshKey.apply(new AccountResource.SshKey(user.asIdentifiedUser(), sshKey), null);
+    var _ = deleteSshKey.apply(new AccountResource.SshKey(user.asIdentifiedUser(), sshKey), null);
   }
 
   private void addEmail(String email)
@@ -391,8 +385,7 @@ final class SetAccountCommand extends SshCommand {
     in.email = email;
     in.noConfirmation = true;
     try {
-      @SuppressWarnings("unused")
-      var unused = createEmail.apply(rsrc, IdString.fromDecoded(email), in);
+      var _ = createEmail.apply(rsrc, IdString.fromDecoded(email), in);
     } catch (EmailException e) {
       throw die(e.getMessage());
     }
@@ -402,14 +395,12 @@ final class SetAccountCommand extends SshCommand {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc).value();
       for (EmailInfo e : emails) {
-        @SuppressWarnings("unused")
-        var unused =
+        var _ =
             deleteEmail.apply(
                 new AccountResource.Email(user.asIdentifiedUser(), e.email), new Input());
       }
     } else {
-      @SuppressWarnings("unused")
-      var unused =
+      var _ =
           deleteEmail.apply(new AccountResource.Email(user.asIdentifiedUser(), email), new Input());
     }
   }
@@ -417,9 +408,7 @@ final class SetAccountCommand extends SshCommand {
   private void putPreferred(String email) throws Exception {
     for (EmailInfo e : getEmails.apply(rsrc).value()) {
       if (e.email.equals(email)) {
-        @SuppressWarnings("unused")
-        var unused =
-            putPreferred.apply(new AccountResource.Email(user.asIdentifiedUser(), email), null);
+        var _ = putPreferred.apply(new AccountResource.Email(user.asIdentifiedUser(), email), null);
         return;
       }
     }
@@ -458,7 +447,6 @@ final class SetAccountCommand extends SshCommand {
       ids = Collections.singletonList(externalId);
     }
 
-    @SuppressWarnings("unused")
-    var unused = deleteExternalIds.apply(rsrc, ids);
+    var _ = deleteExternalIds.apply(rsrc, ids);
   }
 }

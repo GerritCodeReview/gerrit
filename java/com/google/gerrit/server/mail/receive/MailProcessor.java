@@ -168,8 +168,7 @@ public class MailProcessor {
    * @param message {@link MailMessage} to process
    */
   public void process(MailMessage message) throws RestApiException, UpdateException {
-    @SuppressWarnings("unused")
-    var unused =
+    var _ =
         retryHelper
             .changeUpdate(
                 "processCommentsReceivedByEmail",

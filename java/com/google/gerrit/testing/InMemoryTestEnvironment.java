@@ -85,8 +85,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
   public void setApiUser(Account.Id id) {
     IdentifiedUser user = userFactory.create(id);
 
-    @SuppressWarnings("unused")
-    var unused = requestContext.setContext(() -> user);
+    var _ = requestContext.setContext(() -> user);
   }
 
   private void setUp(Object target) throws Exception {
@@ -115,8 +114,7 @@ public final class InMemoryTestEnvironment implements MethodRule {
       lifecycle.stop();
     }
     if (requestContext != null) {
-      @SuppressWarnings("unused")
-      var unused = requestContext.setContext(null);
+      var _ = requestContext.setContext(null);
     }
   }
 }

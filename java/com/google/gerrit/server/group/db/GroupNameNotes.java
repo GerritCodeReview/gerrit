@@ -244,7 +244,7 @@ public class GroupNameNotes extends VersionedMetaData {
     if (ref == null) {
       return ImmutableList.of();
     }
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
             TraceContext.newTimer(
                 "Loading all groups",
                 Metadata.builder().noteDbRefName(RefNames.REFS_GROUPNAMES).build());

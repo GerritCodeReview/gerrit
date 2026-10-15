@@ -341,8 +341,7 @@ class RevisionApiImpl implements RevisionApi {
         view = deleteReviewed;
       }
 
-      @SuppressWarnings("unused")
-      var unused = view.apply(files.parse(revision, IdString.fromDecoded(path)), new Input());
+      var _ = view.apply(files.parse(revision, IdString.fromDecoded(path)), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot update reviewed flag", e);
     }
@@ -667,8 +666,7 @@ class RevisionApiImpl implements RevisionApi {
     DescriptionInput in = new DescriptionInput();
     in.description = description;
     try {
-      @SuppressWarnings("unused")
-      var unused = putDescription.apply(revision, in);
+      var _ = putDescription.apply(revision, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set description", e);
     }

@@ -97,7 +97,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
     pwi.filter = key.filter();
     pwi.project = key.project().get();
     try {
-      var unused = projectsCollection.parse(key.project().get());
+      var _ = projectsCollection.parse(key.project().get());
     } catch (RestApiException | IOException | PermissionBackendException e) {
       pwi.problem = e.getMessage();
     }

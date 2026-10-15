@@ -326,8 +326,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
       for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
         boolean isProtoField = SchemaFieldDefs.isProtoField(field);
 
-        @SuppressWarnings("unused")
-        var unused =
+        var _ =
             field.setIfPossible(cd, new FakeStoredValue(doc.get(field.getName()), isProtoField));
       }
       return cd;

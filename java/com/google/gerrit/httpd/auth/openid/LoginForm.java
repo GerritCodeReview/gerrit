@@ -175,8 +175,7 @@ class LoginForm extends HttpServlet {
         oauthSession.setServiceProvider(oauthProvider);
         oauthSession.setLinkMode(link);
 
-        @SuppressWarnings("unused")
-        var unused = oauthSession.login(req, res, oauthProvider);
+        var _ = oauthSession.login(req, res, oauthProvider);
       }
     }
   }

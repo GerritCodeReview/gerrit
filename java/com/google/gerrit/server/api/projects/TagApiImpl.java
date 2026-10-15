@@ -66,8 +66,7 @@ public class TagApiImpl implements TagApi {
   @Override
   public TagApi create(TagInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = createTag.apply(project, IdString.fromDecoded(ref), input);
+      var _ = createTag.apply(project, IdString.fromDecoded(ref), input);
       return this;
     } catch (Exception e) {
       throw asRestApiException("Cannot create tag", e);
@@ -87,8 +86,7 @@ public class TagApiImpl implements TagApi {
   public void delete() throws RestApiException {
     try {
       try (RefUpdateContext ctx = RefUpdateContext.open(TAG_MODIFICATION)) {
-        @SuppressWarnings("unused")
-        var unused = deleteTag.apply(resource(), new Input());
+        var _ = deleteTag.apply(resource(), new Input());
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot delete tag", e);

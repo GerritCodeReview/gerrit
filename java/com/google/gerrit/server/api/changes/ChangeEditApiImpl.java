@@ -133,8 +133,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void create() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = changeEditsPost.apply(changeResource, null);
+      var _ = changeEditsPost.apply(changeResource, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot create change edit", e);
     }
@@ -143,8 +142,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteChangeEdit.apply(changeResource, new Input());
+      var _ = deleteChangeEdit.apply(changeResource, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot delete change edit", e);
     }
@@ -173,8 +171,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void publish(PublishChangeEditInput publishChangeEditInput) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = publishChangeEdit.apply(changeResource, publishChangeEditInput);
+      var _ = publishChangeEdit.apply(changeResource, publishChangeEditInput);
     } catch (Exception e) {
       throw asRestApiException("Cannot publish change edit", e);
     }
@@ -198,8 +195,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       renameInput.oldPath = oldFilePath;
       renameInput.newPath = newFilePath;
 
-      @SuppressWarnings("unused")
-      var unused = changeEditsPost.apply(changeResource, renameInput);
+      var _ = changeEditsPost.apply(changeResource, renameInput);
     } catch (Exception e) {
       throw asRestApiException("Cannot rename file of change edit", e);
     }
@@ -211,8 +207,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       ChangeEdits.Post.Input restoreInput = new ChangeEdits.Post.Input();
       restoreInput.restorePath = filePath;
 
-      @SuppressWarnings("unused")
-      var unused = changeEditsPost.apply(changeResource, restoreInput);
+      var _ = changeEditsPost.apply(changeResource, restoreInput);
     } catch (Exception e) {
       throw asRestApiException("Cannot restore file of change edit", e);
     }
@@ -221,8 +216,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void modifyFile(String filePath, FileContentInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = changeEditsPut.apply(changeResource, filePath, input);
+      var _ = changeEditsPut.apply(changeResource, filePath, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot modify file of change edit", e);
     }
@@ -231,8 +225,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void deleteFile(String filePath) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = changeEditDeleteContent.apply(changeResource, filePath);
+      var _ = changeEditDeleteContent.apply(changeResource, filePath);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete file of change edit", e);
     }
@@ -255,8 +248,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     ChangeEdits.EditMessage.Input input = new ChangeEdits.EditMessage.Input();
     input.message = newCommitMessage;
     try {
-      @SuppressWarnings("unused")
-      var unused = modifyChangeEditCommitMessage.apply(changeResource, input);
+      var _ = modifyChangeEditCommitMessage.apply(changeResource, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot modify commit message of change edit", e);
     }
@@ -270,8 +262,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     input.email = email;
     input.type = type;
     try {
-      @SuppressWarnings("unused")
-      var unused = modifyIdentity.apply(changeResource, input);
+      var _ = modifyIdentity.apply(changeResource, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot edit identity of change", e);
     }

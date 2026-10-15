@@ -189,8 +189,7 @@ public class EventRecorder implements AutoCloseable {
   }
 
   public void assertNoRefUpdatedEvents(String project, String branch) throws Exception {
-    @SuppressWarnings("unused")
-    var unused = getRefUpdatedEvents(project, branch, 0);
+    var _ = getRefUpdatedEvents(project, branch, 0);
   }
 
   public void assertRefUpdatedEvents(String project, String branch, String... expected)
@@ -249,8 +248,7 @@ public class EventRecorder implements AutoCloseable {
   }
 
   public void assertNoReviewerAddedEvents() {
-    @SuppressWarnings("unused")
-    var unused = getReviewerAddedEvents(0);
+    var _ = getReviewerAddedEvents(0);
   }
 
   public void assertReviewerDeletedEvents(String... expected) {

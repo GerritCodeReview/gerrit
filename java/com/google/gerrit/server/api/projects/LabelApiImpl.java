@@ -74,8 +74,7 @@ public class LabelApiImpl implements LabelApi {
   @Override
   public LabelApi create(LabelDefinitionInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = createLabel.apply(project, IdString.fromDecoded(label), input);
+      var _ = createLabel.apply(project, IdString.fromDecoded(label), input);
 
       // recreate project resource because project state was updated by creating the new label and
       // needs to be reloaded
@@ -112,8 +111,7 @@ public class LabelApiImpl implements LabelApi {
   @Override
   public void delete(@Nullable String commitMessage) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteLabel.apply(resource(), new InputWithCommitMessage(commitMessage));
+      var _ = deleteLabel.apply(resource(), new InputWithCommitMessage(commitMessage));
     } catch (Exception e) {
       throw asRestApiException("Cannot delete label", e);
     }

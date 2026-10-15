@@ -265,7 +265,7 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(AccountGroup.Id key) throws Exception {
-      try (TraceTimer ignored =
+      try (TraceTimer _ =
           TraceContext.newTimer(
               "Loading group by ID", Metadata.builder().groupId(key.get()).build())) {
         return groupQueryProvider.get().byId(key);
@@ -283,7 +283,7 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public Optional<InternalGroup> load(String name) throws Exception {
-      try (TraceTimer ignored =
+      try (TraceTimer _ =
           TraceContext.newTimer(
               "Loading group by name", Metadata.builder().groupName(name).build())) {
         return groupQueryProvider.get().byName(AccountGroup.nameKey(name));
@@ -321,7 +321,7 @@ public class GroupCacheImpl implements GroupCache {
       }
       Iterator<? extends String> uuidIterator = uuids.iterator();
       List<Cache.GroupKeyProto> keyList = new ArrayList<>();
-      try (TraceTimer ignored =
+      try (TraceTimer _ =
               TraceContext.newTimer(
                   "Building keys to load group(s) from serialized cache",
                   Metadata.builder().cacheName(BYUUID_NAME_PERSISTED).build());
@@ -342,7 +342,7 @@ public class GroupCacheImpl implements GroupCache {
           keyList.add(key);
         }
       }
-      try (TraceTimer ignored =
+      try (TraceTimer _ =
           TraceContext.newTimer(
               "Loading group(s) from serialized cache",
               Metadata.builder().cacheName(BYUUID_NAME_PERSISTED).build())) {
@@ -363,7 +363,7 @@ public class GroupCacheImpl implements GroupCache {
 
     @Override
     public InternalGroup load(Cache.GroupKeyProto key) throws Exception {
-      try (TraceTimer ignored =
+      try (TraceTimer _ =
           TraceContext.newTimer(
               "Loading group by UUID", Metadata.builder().groupUuid(key.getUuid()).build())) {
         ObjectId sha1 = ObjectIdConverter.create().fromByteString(key.getRevision());

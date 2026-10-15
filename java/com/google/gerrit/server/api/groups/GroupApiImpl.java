@@ -153,8 +153,7 @@ class GroupApiImpl implements GroupApi {
     NameInput in = new NameInput();
     in.name = name;
     try {
-      @SuppressWarnings("unused")
-      var unused = putName.apply(rsrc, in);
+      var _ = putName.apply(rsrc, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot put group name", e);
     }
@@ -164,8 +163,7 @@ class GroupApiImpl implements GroupApi {
   public void delete() throws RestApiException {
     DeleteGroupInput in = new DeleteGroupInput();
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteGroup.apply(rsrc, in);
+      var _ = deleteGroup.apply(rsrc, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete group", e);
     }
@@ -185,8 +183,7 @@ class GroupApiImpl implements GroupApi {
     OwnerInput in = new OwnerInput();
     in.owner = owner;
     try {
-      @SuppressWarnings("unused")
-      var unused = putOwner.apply(rsrc, in);
+      var _ = putOwner.apply(rsrc, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot put group owner", e);
     }
@@ -206,8 +203,7 @@ class GroupApiImpl implements GroupApi {
     DescriptionInput in = new DescriptionInput();
     in.description = description;
     try {
-      @SuppressWarnings("unused")
-      var unused = putDescription.apply(rsrc, in);
+      var _ = putDescription.apply(rsrc, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot put group description", e);
     }
@@ -225,8 +221,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void options(GroupOptionsInfo options) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = putOptions.apply(rsrc, options);
+      var _ = putOptions.apply(rsrc, options);
     } catch (Exception e) {
       throw asRestApiException("Cannot put group options", e);
     }
@@ -250,8 +245,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void addMembers(List<String> members) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = addMembers.apply(rsrc, AddMembers.Input.fromMembers(members));
+      var _ = addMembers.apply(rsrc, AddMembers.Input.fromMembers(members));
     } catch (Exception e) {
       throw asRestApiException("Cannot add group members", e);
     }
@@ -260,8 +254,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void removeMembers(List<String> members) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteMembers.apply(rsrc, AddMembers.Input.fromMembers(members));
+      var _ = deleteMembers.apply(rsrc, AddMembers.Input.fromMembers(members));
     } catch (Exception e) {
       throw asRestApiException("Cannot remove group members", e);
     }
@@ -279,8 +272,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void addGroups(List<String> groups) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = addSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(groups));
+      var _ = addSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(groups));
     } catch (Exception e) {
       throw asRestApiException("Cannot add subgroups", e);
     }
@@ -289,8 +281,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void removeGroups(List<String> groups) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = deleteSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(groups));
+      var _ = deleteSubgroups.apply(rsrc, AddSubgroups.Input.fromGroups(groups));
     } catch (Exception e) {
       throw asRestApiException("Cannot remove subgroups", e);
     }
@@ -308,8 +299,7 @@ class GroupApiImpl implements GroupApi {
   @Override
   public void index() throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = index.apply(rsrc, new Input());
+      var _ = index.apply(rsrc, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index group", e);
     }

@@ -145,7 +145,7 @@ public class CommentPorter {
       PatchSet targetPatchset,
       List<HumanComment> comments,
       List<HumanCommentFilter> filters) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Porting comments", Metadata.builder().patchSetId(targetPatchset.number()).build())) {
       ImmutableList<HumanCommentFilter> allFilters = addDefaultFilters(filters, targetPatchset);
@@ -208,7 +208,7 @@ public class CommentPorter {
       PatchSet originalPatchset,
       PatchSet targetPatchset,
       ImmutableList<HumanComment> comments) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Porting comments same patchset",
             Metadata.builder()
@@ -240,7 +240,7 @@ public class CommentPorter {
       PatchSet targetPatchset,
       List<HumanComment> comments,
       short side) {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Porting comments same patchset and side",
             Metadata.builder()
@@ -283,7 +283,7 @@ public class CommentPorter {
       PatchSet targetPatchset,
       short side)
       throws DiffNotAvailableException {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Loading commit mappings",
             Metadata.builder()
@@ -311,7 +311,7 @@ public class CommentPorter {
   private ImmutableSet<Mapping> loadCommitMappings(
       Project.NameKey project, ObjectId originalCommit, ObjectId targetCommit)
       throws DiffNotAvailableException {
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Computing diffs", Metadata.builder().commit(originalCommit.name()).build())) {
       Map<String, FileDiffOutput> modifiedFiles =

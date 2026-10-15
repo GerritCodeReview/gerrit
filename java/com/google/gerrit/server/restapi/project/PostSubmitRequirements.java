@@ -61,14 +61,14 @@ public class PostSubmitRequirements
       throw new UnprocessableEntityException(
           String.format("Submit requirement %s not found", name));
     }
-    var unused = updateSubmitRequirement.updateSubmitRequirement(config, input.name, input);
+    var _ = updateSubmitRequirement.updateSubmitRequirement(config, input.name, input);
     return true;
   }
 
   @Override
   protected void createItem(ProjectConfig config, SubmitRequirementInput input)
       throws BadRequestException, ResourceConflictException {
-    var unused = createSubmitRequirement.createSubmitRequirement(config, input.name, input);
+    var _ = createSubmitRequirement.createSubmitRequirement(config, input.name, input);
   }
 
   @Override

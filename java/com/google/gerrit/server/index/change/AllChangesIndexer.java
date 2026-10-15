@@ -295,7 +295,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       if (reuseExistingDocuments) {
         indexAction =
             cd -> {
-              var unused = indexer.reindexIfStale(cd);
+              var _ = indexer.reindexIfStale(cd);
             };
       } else {
         indexAction = cd -> indexer.index(cd);

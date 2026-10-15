@@ -493,7 +493,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         warmupOsPageCache();
       }
       SqlHandle c = null;
-      try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
+      try (TraceTimer _ = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
         c = acquire();
         if (bloomFilter.getEstimatedSize() <= 0) {
           try (PreparedStatement ps =

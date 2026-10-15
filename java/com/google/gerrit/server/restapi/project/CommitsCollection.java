@@ -159,7 +159,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
               .changeIndexQuery(
                   "queryChangesByProjectCommit", q -> q.enforceVisibility(true).query(pred))
               .call();
-      Set<Ref> branchesForCommitParents = new HashSet<>(changes.size());
+      Set<Ref> branchesForCommitParents = HashSet.newHashSet(changes.size());
       for (ChangeData cd : changes) {
         Ref ref = repo.exactRef(cd.change().getDest().branch());
         if (ref != null) {

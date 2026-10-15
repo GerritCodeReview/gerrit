@@ -49,7 +49,7 @@ public class XsrfCookieFilter implements Filter {
   @Override
   public void doFilter(ServletRequest req, ServletResponse rsp, FilterChain chain)
       throws IOException, ServletException {
-    try (TraceTimer ignored = TraceContext.newTimer("XsrfCookieFilter#preprocess")) {
+    try (TraceTimer _ = TraceContext.newTimer("XsrfCookieFilter#preprocess")) {
       HttpServletRequest httpRequest = (HttpServletRequest) req;
       if (!GitSmartHttpTools.isGitClient(httpRequest)) {
         WebSession s = user.get().isIdentifiedUser() ? session.get() : null;

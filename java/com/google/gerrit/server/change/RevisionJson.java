@@ -458,7 +458,7 @@ public class RevisionJson {
                 c.getId().get());
       }
       if (has(PARENTS)) {
-        try (Timer0.Context ignored = metrics.parentDataLatency.start()) {
+        try (Timer0.Context _ = metrics.parentDataLatency.start()) {
           List<ParentCommitData> parentData = new ArrayList<>();
           for (RevCommit parent : commit.getParents()) {
             ParentCommitData p = parentDataProvider.get(project, repo, parent.getId(), branchName);

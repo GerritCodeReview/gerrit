@@ -46,7 +46,7 @@ public class TopicValidator {
     if (Strings.isNullOrEmpty(topic)) {
       return;
     }
-    try (TraceTimer ignored = TraceContext.newTimer("Validate Topic Size", Metadata.empty())) {
+    try (TraceTimer _ = TraceContext.newTimer("Validate Topic Size", Metadata.empty())) {
       int topicSize =
           queryProvider.get().noFields().setLimit(topicLimit + 1).byTopicOpen(topic).size();
       if (topicSize >= topicLimit) {

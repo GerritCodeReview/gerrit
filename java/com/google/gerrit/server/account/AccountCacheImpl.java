@@ -151,7 +151,7 @@ public class AccountCacheImpl implements AccountCache {
     if (accountIds.isEmpty()) {
       return ImmutableMap.of();
     }
-    try (TraceTimer ignored =
+    try (TraceTimer _ =
         TraceContext.newTimer(
             "Loading accounts", Metadata.builder().resourceCount(accountIds.size()).build())) {
       Repository allUsers = allUsersRepository.get();
@@ -222,7 +222,7 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public CachedAccountDetails load(CachedAccountDetails.Key key) throws Exception {
-      try (TraceTimer ignored =
+      try (TraceTimer _ =
           TraceContext.newTimer(
               "Loading account", Metadata.builder().accountId(key.accountId().get()).build())) {
         AccountConfig cfg =

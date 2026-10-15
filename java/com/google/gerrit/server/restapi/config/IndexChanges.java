@@ -99,7 +99,7 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
           try {
             // Probe NoteDb: NoSuchChangeException means the change is in the index
             // but absent from disk, so it should be deleted.
-            ChangeNotes unused = notesFactory.create(changeInfo.project(), changeInfo.changeId());
+            ChangeNotes _ = notesFactory.create(changeInfo.project(), changeInfo.changeId());
           } catch (NoSuchChangeException e) {
             logger.atWarning().log(
                 "Change %s~%s missing in NoteDb", changeInfo.project(), changeInfo.changeId());

@@ -140,7 +140,7 @@ public class OAuthTokenRevoker {
     revokedListeners.runEach(OAuthTokenRevokedListener::onAllTokensRevoked);
     int processed = 0;
     for (Account.Id id : tokenCache.accountsWithCachedToken()) {
-      var unused = revoke(id, /* notifySingle= */ false);
+      var _ = revoke(id, /* notifySingle= */ false);
       processed++;
     }
     // Disk-only entries are not enumerated above; purge them locally (they cannot be revoked

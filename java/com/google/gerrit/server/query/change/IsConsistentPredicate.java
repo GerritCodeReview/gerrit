@@ -27,7 +27,7 @@ public class IsConsistentPredicate extends PostFilterPredicate<ChangeData> {
   @Override
   public boolean match(ChangeData cd) {
     try {
-      ChangeNotes ignored = cd.notes();
+      ChangeNotes _ = cd.notes();
       return true;
     } catch (NoSuchChangeException nsce) {
       return false;

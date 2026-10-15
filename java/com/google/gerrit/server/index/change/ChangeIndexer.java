@@ -565,8 +565,7 @@ public class ChangeIndexer {
         try {
           return callImpl();
         } finally {
-          @SuppressWarnings("unused")
-          var unused = context.setContext(oldCtx);
+          var _ = context.setContext(oldCtx);
         }
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Failed to execute %s", this);

@@ -346,7 +346,7 @@ public class RestApiServlet extends HttpServlet {
 
     String requestUri = requestUri(req);
 
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache _ = PerThreadCache.create()) {
       List<IdString> path = splitPath(req);
       TraceContext traceContext = globals.requestTraceContext.get();
       RequestInfo requestInfo = createRequestInfo(traceContext, req, requestUri, path);

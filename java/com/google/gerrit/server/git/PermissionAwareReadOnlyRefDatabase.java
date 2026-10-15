@@ -165,7 +165,7 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
   @Override
   @NonNull
   public Map<String, Ref> exactRef(String... refs) throws IOException {
-    Map<String, Ref> result = new HashMap<>(refs.length);
+    Map<String, Ref> result = HashMap.newHashMap(refs.length);
     for (String name : refs) {
       Ref ref = exactRef(name);
       if (ref != null) {
@@ -196,7 +196,7 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
   @NonNull
   public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
     Set<Ref> unfiltered = super.getTipsWithSha1(id);
-    Set<Ref> result = new HashSet<>(unfiltered.size());
+    Set<Ref> result = HashSet.newHashSet(unfiltered.size());
     for (Ref ref : unfiltered) {
       if (exactRef(ref.getName()) != null) {
         result.add(ref);

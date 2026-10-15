@@ -191,8 +191,7 @@ public class AttentionSetEmail {
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", changeId);
       } finally {
-        @SuppressWarnings("unused")
-        var unused = requestContext.setContext(old);
+        var _ = requestContext.setContext(old);
       }
     }
 

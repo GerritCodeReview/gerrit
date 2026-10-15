@@ -279,8 +279,7 @@ public class LabelConfigValidator implements CommitValidationListener {
       String copyCondition =
           newConfig.getString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_CONDITION);
       try {
-        @SuppressWarnings("unused")
-        var unused = approvalQueryBuilder.parse(copyCondition);
+        var _ = approvalQueryBuilder.parse(copyCondition);
       } catch (QueryParseException e) {
         validationMessageBuilder.add(
             new CommitValidationMessage(
@@ -309,8 +308,7 @@ public class LabelConfigValidator implements CommitValidationListener {
     String oldCopyCondition =
         oldConfig.getString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_CONDITION);
     try {
-      @SuppressWarnings("unused")
-      var unused = approvalQueryBuilder.parse(oldCopyCondition);
+      var _ = approvalQueryBuilder.parse(oldCopyCondition);
       return false;
     } catch (QueryParseException e) {
       return true;

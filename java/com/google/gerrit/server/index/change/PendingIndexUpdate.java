@@ -106,7 +106,7 @@ public class PendingIndexUpdate {
   public void cleanIfEmpty(Path dir) {
     try {
       Files.delete(dir);
-    } catch (NoSuchFileException | DirectoryNotEmptyException ignored) {
+    } catch (NoSuchFileException | DirectoryNotEmptyException _) {
       // Already gone or not empty.
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Failed to delete directory %s", dir);

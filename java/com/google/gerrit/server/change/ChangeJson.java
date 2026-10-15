@@ -341,7 +341,7 @@ public class ChangeJson {
 
   public List<List<ChangeInfo>> format(List<QueryResult<ChangeData>> in)
       throws PermissionBackendException {
-    try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
+    try (Timer0.Context _ = metrics.formatQueryResultsLatency.start()) {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
       CurrentUser user = userProvider.get();
       List<List<ChangeInfo>> res = new ArrayList<>(in.size());
@@ -574,7 +574,7 @@ public class ChangeJson {
       Map<Change.Id, ChangeInfo> cache,
       ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange,
       CurrentUser user) {
-    try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
+    try (Timer0.Context _ = metrics.toChangeInfosLatency.start()) {
       List<ChangeInfo> changeInfos =
           IntStream.range(0, changes.size())
               .parallel()
@@ -682,7 +682,7 @@ public class ChangeJson {
       List<PluginDefinedInfo> pluginInfosForChange,
       CurrentUser user)
       throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
-    try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
+    try (Timer0.Context _ = metrics.toChangeInfoLatency.start()) {
       return toChangeInfoImpl(cd, limitToPsId, pluginInfosForChange, user);
     }
   }

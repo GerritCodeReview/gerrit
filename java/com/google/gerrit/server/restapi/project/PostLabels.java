@@ -85,8 +85,7 @@ public class PostLabels
 
     LabelDefinitionInputValidator.validate(labelInput.name, labelInput);
 
-    @SuppressWarnings("unused")
-    var unused = createLabel.createLabelType(config, labelInput.name.trim(), labelInput);
+    var _ = createLabel.createLabelType(config, labelInput.name.trim(), labelInput);
   }
 
   @Override

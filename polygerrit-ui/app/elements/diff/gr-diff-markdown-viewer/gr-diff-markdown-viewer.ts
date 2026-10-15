@@ -249,6 +249,38 @@ export class GrDiffMarkdownViewer extends LitElement {
         .unified-block.unchanged {
           border-left-color: transparent;
         }
+        .unified-block.modified {
+          border-left-color: var(--border-color, #dadce0);
+          background-color: var(--background-color-primary, #ffffff);
+          border-radius: 0 4px 4px 0;
+        }
+        .markdown-diff-list {
+          margin: 0;
+          padding-left: var(--spacing-xl, 24px);
+          list-style-position: outside;
+        }
+        .markdown-diff-list li {
+          margin: 0;
+        }
+        .markdown-diff-list.depth-1 {
+          margin-left: var(--spacing-xl, 24px);
+        }
+        .markdown-diff-list.depth-2 {
+          margin-left: calc(var(--spacing-xl, 24px) * 2);
+        }
+        .markdown-diff-list.depth-3 {
+          margin-left: calc(var(--spacing-xl, 24px) * 3);
+        }
+        .markdown-diff-list.depth-4 {
+          margin-left: calc(var(--spacing-xl, 24px) * 4);
+        }
+        .task-list-item {
+          list-style-type: none;
+        }
+        .task-list-item input[type='checkbox'] {
+          margin: 0 6px 0 -18px;
+          vertical-align: middle;
+        }
         .cell-action-bar {
           position: absolute;
           top: 4px;
@@ -1005,7 +1037,35 @@ export class GrDiffMarkdownViewer extends LitElement {
         </div>
       `;
     }
-    // modified: render deleted (base) then added (revision)
+    // modified: render single-row inline diff when unifiedHtml is present
+    if (row.unifiedHtml) {
+      const allThreads = [...row.leftThreads, ...row.rightThreads];
+      const line = row.rightStartLine ?? row.leftStartLine;
+      const side = row.rightStartLine !== undefined ? Side.RIGHT : Side.LEFT;
+      return html`
+        <div
+          class="unified-block modified"
+          data-side=${side === Side.LEFT ? 'left' : 'right'}
+          data-line=${ifDefined(line)}
+          @mouseenter=${() => this.handleCellMouseEnter(side, line)}
+          @mouseleave=${() => this.handleCellMouseLeave()}
+        >
+          ${this.renderCommentButton(side, line)}
+          <div class="cell-content">
+            ${sanitizeHtmlToFragment(row.unifiedHtml)}
+          </div>
+          ${when(
+            allThreads.length > 0,
+            () => html`
+              <div class="threads-container">
+                ${allThreads.map(t => this.renderThread(t))}
+              </div>
+            `
+          )}
+        </div>
+      `;
+    }
+    // modified: fallback to deleted (base) then added (revision)
     return html`
       <div
         class="unified-block deleted"

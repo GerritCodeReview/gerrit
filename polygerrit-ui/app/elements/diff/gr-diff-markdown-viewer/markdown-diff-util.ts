@@ -16,6 +16,12 @@ export type DiffBlockStatus = 'unchanged' | 'added' | 'deleted' | 'modified';
 export type MarkdownToken = Token & {
   startLine?: number;
   endLine?: number;
+  text?: string;
+  ordered?: boolean;
+  itemNumber?: number;
+  depth?: number;
+  task?: boolean;
+  checked?: boolean;
 };
 
 export interface AlignedDiffRow {
@@ -24,6 +30,7 @@ export interface AlignedDiffRow {
   rightToken?: MarkdownToken;
   leftHtml?: string;
   rightHtml?: string;
+  unifiedHtml?: string;
   leftStartLine?: number;
   leftEndLine?: number;
   rightStartLine?: number;
@@ -45,6 +52,129 @@ export function reconstructFileContent(diff: DiffInfo, side: Side): string {
   return getDiffLines(diff, side).join('\n');
 }
 
+/** Extract clean text for a list item, excluding marker and task checkbox. */
+export function getCleanListItemText(tok: MarkdownToken): string {
+  const text = 'text' in tok && typeof tok.text === 'string' ? tok.text : '';
+  if (text !== '') {
+    return text.replace(/^\[[ xX]\]\s*/, '').trim();
+  }
+  return tok.raw.replace(/^\s*(\d+[.)]|[*\-+])(\s+\[[ xX]\])?\s*/, '').trim();
+}
+
+/** Wrap list item <li> HTML in <ol start="N" class="markdown-diff-list"> or <ul class="markdown-diff-list">. */
+export function wrapListItem(liContent: string, tok: MarkdownToken): string {
+  const depthClass = tok.depth ? ` depth-${tok.depth}` : '';
+  const depthStyle = tok.depth
+    ? ` style="margin-left: ${tok.depth * 24}px;"`
+    : '';
+  if (tok.ordered) {
+    const start = tok.itemNumber ?? 1;
+    return `<ol start="${start}" class="markdown-diff-list${depthClass}"${depthStyle}>${liContent}</ol>`;
+  } else {
+    return `<ul class="markdown-diff-list${depthClass}"${depthStyle}>${liContent}</ul>`;
+  }
+}
+
+/** Decompose a marked list token into individual list item tokens with exact line bounds. */
+function decomposeListToken(
+  list: Tokens.List,
+  startLine: number,
+  depth = 0
+): {tokens: MarkdownToken[]; nextLine: number} {
+  const result: MarkdownToken[] = [];
+  let lineCursor = startLine;
+  let currentNumber =
+    typeof list.start === 'number'
+      ? list.start
+      : parseInt(String(list.start), 10) || 1;
+
+  for (const item of list.items) {
+    const childLists = item.tokens
+      ? (item.tokens.filter(t => t.type === 'list') as Tokens.List[])
+      : [];
+
+    if (childLists.length === 0) {
+      const newlines = (item.raw.match(/\n/g) || []).length;
+      const itemStart = lineCursor;
+      const itemEnd = itemStart + newlines - (item.raw.endsWith('\n') ? 1 : 0);
+      lineCursor += newlines === 0 ? 1 : newlines;
+
+      const itemNumber = list.ordered ? currentNumber++ : undefined;
+      const cleanText = getCleanListItemText(item as unknown as MarkdownToken);
+
+      const itemToken: MarkdownToken = {
+        ...item,
+        type: 'list_item',
+        raw: item.raw,
+        text: cleanText,
+        tokens: item.tokens,
+        startLine: itemStart,
+        endLine: Math.max(itemStart, itemEnd),
+        ordered: list.ordered,
+        itemNumber,
+        depth,
+        task: item.task,
+        checked: item.checked,
+      };
+      result.push(itemToken);
+    } else {
+      // Child list present: separate parent sentence from child lists
+      const firstChildRaw = childLists[0].raw;
+      const childIdx = item.raw.indexOf(firstChildRaw);
+      const parentRaw =
+        childIdx !== -1 ? item.raw.slice(0, childIdx) : item.raw;
+      const parentNewlines = (parentRaw.match(/\n/g) || []).length;
+      const parentStart = lineCursor;
+      const parentEnd =
+        parentStart + parentNewlines - (parentRaw.endsWith('\n') ? 1 : 0);
+      lineCursor += parentNewlines === 0 ? 1 : parentNewlines;
+
+      const parentTokens = item.tokens
+        ? item.tokens.filter(t => t.type !== 'list')
+        : [];
+      const parentItemNumber = list.ordered ? currentNumber++ : undefined;
+
+      const cleanText = parentRaw
+        .replace(/^\s*(\d+[.)]|[*\-+])(\s+\[[ xX]\])?\s*/, '')
+        .trimEnd();
+
+      const parentToken: MarkdownToken = {
+        type: 'list_item',
+        raw: parentRaw,
+        text: cleanText,
+        tokens: parentTokens,
+        startLine: parentStart,
+        endLine: Math.max(parentStart, parentEnd),
+        ordered: list.ordered,
+        itemNumber: parentItemNumber,
+        depth,
+        task: item.task,
+        checked: item.checked,
+        loose: item.loose,
+      };
+      result.push(parentToken);
+
+      // Decompose each nested child list
+      for (const childList of childLists) {
+        const childRes = decomposeListToken(childList, lineCursor, depth + 1);
+        result.push(...childRes.tokens);
+        lineCursor = childRes.nextLine;
+      }
+
+      // Track any trailing newlines in item.raw after the last child list
+      const lastChild = childLists[childLists.length - 1];
+      const lastIdx = item.raw.indexOf(lastChild.raw);
+      if (lastIdx !== -1) {
+        const trailingRaw = item.raw.slice(lastIdx + lastChild.raw.length);
+        const trailingNewlines = (trailingRaw.match(/\n/g) || []).length;
+        lineCursor += trailingNewlines;
+      }
+    }
+  }
+
+  return {tokens: result, nextLine: lineCursor};
+}
+
 /** Parse markdown text into top-level block tokens with line number metadata. */
 export function parseMarkdownBlocks(markdown: string): MarkdownToken[] {
   if (!markdown) return [];
@@ -57,10 +187,20 @@ export function parseMarkdownBlocks(markdown: string): MarkdownToken[] {
     const newlineCount = (raw.match(/\n/g) || []).length;
     const startLine = curLine;
     const endLine = curLine + newlineCount - (raw.endsWith('\n') ? 1 : 0);
-    curLine += newlineCount;
+
     if (t.type === 'space') {
+      curLine += newlineCount;
       continue;
     }
+
+    if (t.type === 'list') {
+      const decomposed = decomposeListToken(t as Tokens.List, startLine, 0);
+      result.push(...decomposed.tokens);
+      curLine = Math.max(curLine + newlineCount, decomposed.nextLine);
+      continue;
+    }
+
+    curLine += newlineCount;
     (t as MarkdownToken).startLine = startLine;
     (t as MarkdownToken).endLine = Math.max(startLine, endLine);
     result.push(t as MarkdownToken);
@@ -120,6 +260,19 @@ export function computeSequenceDiff(
 /** Render a single marked token to standard HTML using marked. */
 export function renderTokenToHtml(token?: Token): string {
   if (!token) return '';
+  if (token.type === 'list_item') {
+    const mdToken = token as MarkdownToken;
+    const cleanText = getCleanListItemText(mdToken);
+    const marked = new Marked();
+    const parsedText = marked.parseInline(cleanText);
+    const checkedAttr = mdToken.checked ? ' checked=""' : '';
+    const check = mdToken.task
+      ? `<input type="checkbox" disabled=""${checkedAttr}> `
+      : '';
+    const taskClass = mdToken.task ? ' class="task-list-item"' : '';
+    const li = `<li${taskClass}>${check}${parsedText}</li>`;
+    return wrapListItem(li, mdToken);
+  }
   const marked = new Marked();
   return marked.parse(token.raw, {async: false}) || '';
 }
@@ -129,7 +282,7 @@ export function renderInlineTextDiff(
   textA: string,
   textB: string,
   wrapperTag = 'p'
-): {leftHtml: string; rightHtml: string} {
+): {leftHtml: string; rightHtml: string; unifiedHtml: string} {
   const wordsA = tokenizeWords(textA);
   const wordsB = tokenizeWords(textB);
   const diff = computeSequenceDiff(wordsA, wordsB);
@@ -147,22 +300,27 @@ export function renderInlineTextDiff(
 
   let leftContent = '';
   let rightContent = '';
+  let unifiedContent = '';
 
   for (const seg of mergedSegments) {
     const escaped = htmlEscape(seg.text).toString();
     if (seg.type === 'common') {
       leftContent += escaped;
       rightContent += escaped;
+      unifiedContent += escaped;
     } else if (seg.type === 'deleted') {
       leftContent += `<del class="diff-highlight-del">${escaped}</del>`;
+      unifiedContent += `<del class="diff-highlight-del">${escaped}</del>`;
     } else if (seg.type === 'added') {
       rightContent += `<ins class="diff-highlight-add">${escaped}</ins>`;
+      unifiedContent += `<ins class="diff-highlight-add">${escaped}</ins>`;
     }
   }
 
   return {
     leftHtml: `<${wrapperTag}>${leftContent}</${wrapperTag}>`,
     rightHtml: `<${wrapperTag}>${rightContent}</${wrapperTag}>`,
+    unifiedHtml: `<${wrapperTag}>${unifiedContent}</${wrapperTag}>`,
   };
 }
 
@@ -199,6 +357,94 @@ export function renderCodeBlockDiff(
   };
 }
 
+/** Render an inline diff for modified list items with <del> and <ins> tags. */
+export function renderListItemDiff(
+  tokA: MarkdownToken,
+  tokB: MarkdownToken
+): {leftHtml: string; rightHtml: string; unifiedHtml: string} {
+  const textA = getCleanListItemText(tokA);
+  const textB = getCleanListItemText(tokB);
+  const wordsA = tokenizeWords(textA);
+  const wordsB = tokenizeWords(textB);
+  const diff = computeSequenceDiff(wordsA, wordsB);
+
+  // Merge consecutive segments of the same type
+  const mergedSegments: InlineDiffSegment[] = [];
+  for (const seg of diff) {
+    const last = mergedSegments[mergedSegments.length - 1];
+    if (last && last.type === seg.type) {
+      last.text += seg.text;
+    } else {
+      mergedSegments.push({...seg});
+    }
+  }
+
+  let leftContent = '';
+  let rightContent = '';
+  let unifiedContent = '';
+
+  for (const seg of mergedSegments) {
+    const escaped = htmlEscape(seg.text).toString();
+    if (seg.type === 'common') {
+      leftContent += escaped;
+      rightContent += escaped;
+      unifiedContent += escaped;
+    } else if (seg.type === 'deleted') {
+      leftContent += `<del class="diff-highlight-del">${escaped}</del>`;
+      unifiedContent += `<del class="diff-highlight-del">${escaped}</del>`;
+    } else if (seg.type === 'added') {
+      rightContent += `<ins class="diff-highlight-add">${escaped}</ins>`;
+      unifiedContent += `<ins class="diff-highlight-add">${escaped}</ins>`;
+    }
+  }
+
+  const checkedA = tokA.checked ? ' checked=""' : '';
+  const checkA = tokA.task
+    ? `<input type="checkbox" disabled=""${checkedA}> `
+    : '';
+  const checkedB = tokB.checked ? ' checked=""' : '';
+  const checkB = tokB.task
+    ? `<input type="checkbox" disabled=""${checkedB}> `
+    : '';
+  const checkedUnified = (tokB.task ? tokB.checked : tokA.checked)
+    ? ' checked=""'
+    : '';
+  const checkUnified =
+    tokB.task || tokA.task
+      ? `<input type="checkbox" disabled=""${checkedUnified}> `
+      : '';
+
+  const classA = tokA.task ? ' class="task-list-item"' : '';
+  const classB = tokB.task ? ' class="task-list-item"' : '';
+  const classUnified = tokB.task || tokA.task ? ' class="task-list-item"' : '';
+
+  const leftLi = `<li${classA}>${checkA}${leftContent}</li>`;
+  const rightLi = `<li${classB}>${checkB}${rightContent}</li>`;
+  const unifiedLi = `<li${classUnified}>${checkUnified}${unifiedContent}</li>`;
+
+  return {
+    leftHtml: wrapListItem(leftLi, tokA),
+    rightHtml: wrapListItem(rightLi, tokB),
+    unifiedHtml: wrapListItem(unifiedLi, tokB),
+  };
+}
+
+/** Check if two tokens represent the same unchanged block content. */
+export function areTokensEqual(
+  tokA: MarkdownToken,
+  tokB: MarkdownToken
+): boolean {
+  if (tokA.type !== tokB.type) return false;
+  if (tokA.type === 'list_item') {
+    if (Boolean(tokA.ordered) !== Boolean(tokB.ordered)) return false;
+    if ((tokA.depth ?? 0) !== (tokB.depth ?? 0)) return false;
+    if (Boolean(tokA.task) !== Boolean(tokB.task)) return false;
+    if (tokA.task && tokA.checked !== tokB.checked) return false;
+    return getCleanListItemText(tokA) === getCleanListItemText(tokB);
+  }
+  return tokA.raw === tokB.raw;
+}
+
 /**
  * Align base (A) and revision (B) markdown block tokens into rows.
  * Matches exact blocks as anchors, pairs modified blocks of compatible types,
@@ -222,7 +468,7 @@ export function alignMarkdownTokens(
 
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
-      if (blocksA[i].raw === blocksB[j].raw) {
+      if (areTokensEqual(blocksA[i], blocksB[j])) {
         dp[i + 1][j + 1] = dp[i][j] + 1;
       } else {
         dp[i + 1][j + 1] = Math.max(dp[i + 1][j], dp[i][j + 1]);
@@ -235,7 +481,7 @@ export function alignMarkdownTokens(
   let i = m;
   let j = n;
   while (i > 0 && j > 0) {
-    if (blocksA[i - 1].raw === blocksB[j - 1].raw) {
+    if (areTokensEqual(blocksA[i - 1], blocksB[j - 1])) {
       anchorPairs.unshift({aIdx: i - 1, bIdx: j - 1});
       i--;
       j--;
@@ -263,7 +509,10 @@ export function alignMarkdownTokens(
       const tokB = unalignedB[idxB];
 
       const canPair =
-        tokA.type === tokB.type ||
+        (tokA.type === 'list_item' &&
+          tokB.type === 'list_item' &&
+          Boolean(tokA.ordered) === Boolean(tokB.ordered) &&
+          (tokA.depth ?? 0) === (tokB.depth ?? 0)) ||
         (tokA.type === 'paragraph' && tokB.type === 'paragraph') ||
         (tokA.type === 'heading' && tokB.type === 'heading') ||
         (tokA.type === 'code' && tokB.type === 'code');
@@ -271,8 +520,14 @@ export function alignMarkdownTokens(
       if (canPair) {
         let leftHtml: string;
         let rightHtml: string;
+        let unifiedHtml: string | undefined;
 
-        if (tokA.type === 'code' && tokB.type === 'code') {
+        if (tokA.type === 'list_item' && tokB.type === 'list_item') {
+          const diff = renderListItemDiff(tokA, tokB);
+          leftHtml = diff.leftHtml;
+          rightHtml = diff.rightHtml;
+          unifiedHtml = diff.unifiedHtml;
+        } else if (tokA.type === 'code' && tokB.type === 'code') {
           const diff = renderCodeBlockDiff(
             tokA as Tokens.Code,
             tokB as Tokens.Code
@@ -281,13 +536,23 @@ export function alignMarkdownTokens(
           rightHtml = diff.rightHtml;
         } else if (tokA.type === 'heading' && tokB.type === 'heading') {
           const depth = (tokB as Tokens.Heading).depth;
-          const diff = renderInlineTextDiff(tokA.text, tokB.text, `h${depth}`);
+          const diff = renderInlineTextDiff(
+            (tokA as Tokens.Heading).text ?? '',
+            (tokB as Tokens.Heading).text ?? '',
+            `h${depth}`
+          );
           leftHtml = diff.leftHtml;
           rightHtml = diff.rightHtml;
+          unifiedHtml = diff.unifiedHtml;
         } else if (tokA.type === 'paragraph' && tokB.type === 'paragraph') {
-          const diff = renderInlineTextDiff(tokA.text, tokB.text, 'p');
+          const diff = renderInlineTextDiff(
+            (tokA as Tokens.Paragraph).text ?? '',
+            (tokB as Tokens.Paragraph).text ?? '',
+            'p'
+          );
           leftHtml = diff.leftHtml;
           rightHtml = diff.rightHtml;
+          unifiedHtml = diff.unifiedHtml;
         } else {
           leftHtml = renderTokenToHtml(tokA);
           rightHtml = renderTokenToHtml(tokB);
@@ -299,6 +564,7 @@ export function alignMarkdownTokens(
           rightToken: tokB,
           leftHtml,
           rightHtml,
+          unifiedHtml,
           leftStartLine: tokA.startLine,
           leftEndLine: tokA.endLine,
           rightStartLine: tokB.startLine,
@@ -359,6 +625,7 @@ export function alignMarkdownTokens(
       rightToken: tokB,
       leftHtml: htmlA,
       rightHtml: htmlB,
+      unifiedHtml: htmlB,
       leftStartLine: tokA.startLine,
       leftEndLine: tokA.endLine,
       rightStartLine: tokB.startLine,

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "024283ba_6f6a714e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-15T17:49:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbf0f26b_056761d9",
+      "range": {
+        "startLine": 122,
+        "startChar": 40,
+        "endLine": 122,
+        "endChar": 44
+      },
+      "revId": "9c7f42cb4893e92489b1ad34a131f2b475a4b777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b519076f_b5323527",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ab7254a_76b2b9c7",
+        "filename": "java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-15T17:49:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b519076f_b5323527",
+      "range": {
+        "startLine": 41,
+        "startChar": 43,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "9c7f42cb4893e92489b1ad34a131f2b475a4b777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec27087f_1c470bbe",
@@ -60,6 +108,24 @@
       "writtenOn": "2026-10-15T17:39:25Z",
       "side": 1,
       "message": "The `db/` dir won\u0027t exist on a new site init, so this check will always fail. We need to create it here if it doesn\u0027t exist?",
+      "revId": "9c7f42cb4893e92489b1ad34a131f2b475a4b777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1604ee45_d925b284",
+        "filename": "java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-15T17:49:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec27087f_1c470bbe",
       "revId": "9c7f42cb4893e92489b1ad34a131f2b475a4b777",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

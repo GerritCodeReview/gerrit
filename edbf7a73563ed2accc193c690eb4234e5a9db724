@@ -16,6 +16,23 @@
       "message": "Rebased and resolved conflicts.",
       "revId": "edbf7a73563ed2accc193c690eb4234e5a9db724",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a71675a_8939a392",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-15T15:26:56Z",
+      "side": 1,
+      "message": "@milutin@google.com Could you please restore your LC+1 vote?",
+      "revId": "edbf7a73563ed2accc193c690eb4234e5a9db724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

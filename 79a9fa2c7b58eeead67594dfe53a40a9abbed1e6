@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f892da6_8a0fb158",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:41:55Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com @nasser.grainawi@oss.qualcomm.com I have amended the initial chapter to make it more welcoming and not give any impression of being anti-AI, which isn\u0027t our goal.\n\nWhat we want to achieve is to maintain a quality review process and code ownership and maintainability, areas where AI can add value that we must accept. What we want to avoid is a flood of AI slop that is automatically generated and contributed by unsupervised agents.\n\nI have also reduced the reference to the Google CLA to a bare minimum, with a simple link and a note that nothing has changed regarding the Google CLA or its associated legal responsibilities and implications.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 68
+      },
+      "revId": "79a9fa2c7b58eeead67594dfe53a40a9abbed1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -28,6 +28,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CUSTOM_KEYED_VALUE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_IS_AI;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_MERGE_STRATEGY;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_NO_BASE_REASON;
@@ -201,6 +202,7 @@ class ChangeNotesParser {
   private String originalSubject;
   private String submissionId;
   private String tag;
+  private boolean isAi;
   private RevisionNoteMap revisionNoteMap;
   private Boolean isPrivate;
   private Boolean workInProgress;
@@ -481,6 +483,7 @@ class ChangeNotesParser {
 
     createdOn = commitTimestamp;
     parseTag(commit);
+    parseIsAi(commit);
 
     PatchSetIdAndState psIdAndState = parsePatchSetIdAndState(commit);
     PatchSet.Id psId = psIdAndState.id;
@@ -939,6 +942,21 @@ class ChangeNotesParser {
     }
   }
 
+  private void parseIsAi(ChangeNotesCommit commit) throws ConfigInvalidException {
+    isAi = false;
+    String raw = parseOneFooter(commit, FOOTER_IS_AI);
+    if (raw == null) {
+      return;
+    } else if ("true".equalsIgnoreCase(raw)) {
+      isAi = true;
+      return;
+    } else if ("false".equalsIgnoreCase(raw)) {
+      isAi = false;
+      return;
+    }
+    throw invalidFooter(FOOTER_IS_AI, raw);
+  }
+
   @Nullable
   private Change.Status parseStatus(ChangeNotesCommit commit) throws ConfigInvalidException {
     List<String> statusLines = commit.getFooterLineValues(FOOTER_STATUS);
@@ -1168,6 +1186,7 @@ class ChangeNotesParser {
             .value(labelVote.value())
             .granted(ts)
             .tag(parsedPatchSetApproval.tag())
+            .isAi(parsedPatchSetApproval.isAi())
             .copied(true);
     if (realAccountId != null) {
       psa.realAccountId(realAccountId);
@@ -1227,7 +1246,8 @@ class ChangeNotesParser {
             .uuid(parsedPatchSetApproval.uuid().map(PatchSetApproval::uuid))
             .value(removedReviewers.contains(approverId) ? 0 : l.value())
             .granted(ts)
-            .tag(Optional.ofNullable(tag));
+            .tag(Optional.ofNullable(tag))
+            .isAi(isAi);
     if (!Objects.equals(realAccountId, committerId)) {
       psa.realAccountId(realAccountId);
     }

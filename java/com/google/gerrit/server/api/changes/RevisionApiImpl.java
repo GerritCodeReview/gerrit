@@ -651,6 +651,7 @@ class RevisionApiImpl implements RevisionApi {
                 Integer.valueOf(approval.value()),
                 null,
                 approval.tag().orElse(null),
+                approval.isAi() ? true : null,
                 approval.granted());
         accountLoader.put(info);
         result.get(label).add(info);

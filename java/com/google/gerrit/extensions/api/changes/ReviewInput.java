@@ -36,6 +36,9 @@ public class ReviewInput {
 
   public String tag;
 
+  /** Whether the review (votes/comments) was created by an AI agent. */
+  public Boolean isAi;
+
   public Map<String, Short> labels;
   public Map<String, List<CommentInput>> comments;
 

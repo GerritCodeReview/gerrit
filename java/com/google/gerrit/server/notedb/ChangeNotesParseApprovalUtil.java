@@ -61,8 +61,11 @@ public class ChangeNotesParseApprovalUtil {
 
     public abstract Optional<String> tag();
 
+    public abstract boolean isAi();
+
     public static Builder builder() {
-      return new AutoValue_ChangeNotesParseApprovalUtil_ParsedPatchSetApproval.Builder();
+      return new AutoValue_ChangeNotesParseApprovalUtil_ParsedPatchSetApproval.Builder()
+          .isAi(false);
     }
 
     @AutoValue.Builder
@@ -81,6 +84,8 @@ public class ChangeNotesParseApprovalUtil {
       abstract Builder realAccountIdent(Optional<String> realAccountIdent);
 
       abstract Builder tag(Optional<String> tag);
+
+      abstract Builder isAi(boolean isAi);
 
       abstract ParsedPatchSetApproval build();
     }
@@ -260,11 +265,16 @@ public class ChangeNotesParseApprovalUtil {
         checkFooter(!Strings.isNullOrEmpty(uuid), FOOTER_COPIED_LABEL, labelLine);
         rawPatchSetApproval.uuid(Optional.of(uuid));
       }
+      String identitiesStr =
+          labelLine
+              .substring(identitiesStart + 1, tagStart == -1 ? labelLine.length() : tagStart)
+              .trim();
+      if (!isRemoval && identitiesStr.endsWith(",is_ai")) {
+        rawPatchSetApproval.isAi(true);
+        identitiesStr = identitiesStr.substring(0, identitiesStr.length() - ",is_ai".length());
+      }
       // The first account is the accountId, and second (if applicable) is the realAccountId.
-      List<String> identities =
-          parseIdentities(
-              labelLine.substring(
-                  identitiesStart + 1, tagStart == -1 ? labelLine.length() : tagStart));
+      List<String> identities = parseIdentities(identitiesStr);
 
       rawPatchSetApproval.accountIdent(Optional.of(identities.get(0)));
 

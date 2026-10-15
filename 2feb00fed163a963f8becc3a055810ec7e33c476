@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce84abf2_8e4bc8c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-15T16:22:37Z",
+      "side": 1,
+      "message": "@milutin@google.com i\u0027m not sure if there\u0027s a better fix. Maybe you know.\n\nhttps://cdn.discordapp.com/attachments/1019941974842806302/1560314648035590165/Screen_Recording_2026-10-15_at_16.33.14.mov?ex\u003d6ad243c1\u0026is\u003d6ad0f241\u0026hm\u003d282d1735c8e276408299fb06fe2d4e44ecc6c906bcf6b8f6f4a8483c8a32b3e8\u0026\n\nIs a video of the issue.\n\nWould be nice to have the copy button on the same line as the title on mobile. But not sure how to do it that works. For instance when i tried, squshing the text caused it to go behind like the buttons next to it. E.g. Submit and so on.\n\nAn alternative fix is to allow it to wrap onto the next line.",
+      "revId": "2feb00fed163a963f8becc3a055810ec7e33c476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

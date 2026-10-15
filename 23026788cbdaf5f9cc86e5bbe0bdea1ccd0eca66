@@ -1,0 +1,46 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8680d56_edcb99db",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T23:10:43Z",
+      "side": 1,
+      "message": "Placing `\u003c[^\u003e\\n]+\u003e` inside the repeating `(?:...)+` group alongside `[^()\\n]` in `LINK_TARGET_PATTERN` causes two issues in this commit (resolved when switching to `Lexer.lexInline` in change 643703):\n\n1. **Over-matching across multiple links on the same line**: In CommonMark, an angle-bracketed destination (`\u003c...\u003e`) is only valid at the start of `(...)`. Because `\u003c[^\u003e\\n]+\u003e` can match at any position inside the `+` loop, a `\u003c` inside a link title and a `\u003e` in a subsequent link on the same line (e.g., `[Link 1](https://example.com/1 \"a \u003c b\") and [Link 2](https://example.com/2 \"c \u003e d\")`) matches `\u003c[^\u003e\\n]+\u003e` across the closing `)` and fuses both links into a single token.\n2. **Catastrophic backtracking (ReDoS)**: Because `\u003c[^\u003e\\n]+\u003e` and `[^()\\n]` match overlapping character sets inside `(?:...)+`, an unclosed link target containing repeated `\u003c...\u003e` segments (e.g., `\"[a](\" + \"\u003cx\u003e\".repeat(25)`) triggers exponential $O(2^k)$ backtracking.\n\nLifting the angle-bracketed destination out of the `+` loop avoids both:\n```ts\nconst LINK_TARGET_PATTERN \u003d\n  \u0027(?:\\\\s*\u003c[^\u003e\\\\n]+\u003e(?:\\\\s+[^()\\\\n]*)?|(?:\\\\([^()\\\\n]*\\\\)|[^()\\\\n])+)\u0027;\n```\n\n_from potto_",
+      "isAi": true,
+      "revId": "23026788cbdaf5f9cc86e5bbe0bdea1ccd0eca66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e34e5a2_e9954926",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-15T23:10:43Z",
+      "side": 1,
+      "message": "Two edge cases in URL extraction here:\n\n1. `rawTarget.indexOf(\u0027 \u0027)` only splits on a literal ASCII space before an optional link title, so a tab separator (e.g. `[Docs](https://example.com\\t\"Title\")`) leaves the title attached to `rawUrl`.\n2. When `renderInlineMarkdown` is called directly (outside `gr-diff-markdown-viewer`\u0027s `sanitizeHtmlToFragment`), `rawUrl` is HTML-escaped but not scheme-filtered (addressed by `sanitizeMarkdownUrl` + Lit templates in change 643703).\n\n_from potto_",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "23026788cbdaf5f9cc86e5bbe0bdea1ccd0eca66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

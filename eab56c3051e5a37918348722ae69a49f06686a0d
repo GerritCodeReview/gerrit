@@ -16,6 +16,24 @@
       "message": "I immediately misread the flag \"is-ai\" to be \"as-is\". I know this is a \"me\" problem, but can we rename it to \"ai_review\" or something more explicit?",
       "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a89276c1_07b5bc06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T19:42:39Z",
+      "side": 1,
+      "message": "I also have a feeling that Minh\u0027s concern makes sense. I\u0027m leaning towards `reviewed_by_ai`. Thoughts on this?",
+      "parentUuid": "8dbe9c33_7360520c",
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

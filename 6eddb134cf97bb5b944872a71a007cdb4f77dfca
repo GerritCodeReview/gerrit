@@ -178,6 +178,24 @@
       "parentUuid": "b9d98202_030903c5",
       "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c253334_1d083540",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-10-15T18:55:28Z",
+      "side": 1,
+      "message": "Thanks everyone for the review! I\u0027ll abandon this change and create a new plugin.",
+      "parentUuid": "a682a955_0de0efaf",
+      "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

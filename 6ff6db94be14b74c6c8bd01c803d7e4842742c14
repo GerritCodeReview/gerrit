@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cf7c77a_47d00873",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-15T19:21:58Z",
+      "side": 1,
+      "message": "Unfortunately  we cannot update rxjs because there is older version in Google and I know this change doesn\u0027t use new APIs, but I am afraid that someone other will introduce api from newer version and it will break. Sorry, I don\u0027t know when Google will update",
+      "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

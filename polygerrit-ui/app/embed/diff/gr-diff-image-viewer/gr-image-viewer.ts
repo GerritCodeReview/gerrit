@@ -254,6 +254,8 @@ export class GrImageViewer extends LitElement {
           display: flex;
           flex-direction: column;
           align-self: flex-start;
+          position: sticky;
+          top: var(--image-viewer-controls-top, 168px);
           margin: var(--spacing-m);
           padding-bottom: var(--spacing-xl);
           --md-sys-color-surface-container-highest: var(

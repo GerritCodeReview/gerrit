@@ -40,6 +40,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  startWith,
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -386,6 +387,8 @@ export class ChangeModel extends Model<ChangeState> {
   private readonly reloadSubmittabilityTrigger$ = new BehaviorSubject<void>(
     undefined
   );
+
+  private readonly editLoaded$ = new BehaviorSubject<boolean>(true);
 
   public readonly change$ = select(
     this.state$,
@@ -736,10 +739,16 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   private refuseEditForOpenChange() {
-    return combineLatest([this.revisions$, this.patchNum$, this.status$])
+    return combineLatest([
+      this.revisions$,
+      this.patchNum$,
+      this.status$,
+      this.editLoaded$,
+    ])
       .pipe(
         filter(
-          ([revisions, patchNum, status]) =>
+          ([revisions, patchNum, status, editLoaded]) =>
+            editLoaded &&
             status === ChangeStatus.NEW &&
             revisions.length > 0 &&
             patchNum === EDIT
@@ -761,10 +770,12 @@ export class ChangeModel extends Model<ChangeState> {
       this.viewModel.edit$,
       this.patchNum$,
       this.status$,
+      this.editLoaded$,
     ])
       .pipe(
         filter(
-          ([revisions, edit, patchNum, status]) =>
+          ([revisions, edit, patchNum, status, editLoaded]) =>
+            editLoaded &&
             (status === ChangeStatus.ABANDONED ||
               status === ChangeStatus.MERGED) &&
             revisions.length > 0 &&
@@ -911,23 +922,35 @@ export class ChangeModel extends Model<ChangeState> {
     return this.viewModel.changeNum$
       .pipe(
         switchMap(changeNum => {
+          this.editLoaded$.next(!changeNum);
           this.updateStateLoading(changeNum);
           // if changeNum is undefined restApi calls return undefined.
-          const change = this.restApiService.getChangeDetail(changeNum);
-          const edit = this.restApiService.getChangeEdit(changeNum);
-          return forkJoin([change, edit]);
+          const change$ = from(this.restApiService.getChangeDetail(changeNum));
+          const viewState = this.viewModel.getState();
+          const needsEdit =
+            viewState?.patchNum === EDIT ||
+            !!viewState?.edit ||
+            viewState?.childView === ChangeChildView.EDIT;
+          const editLoaded$ = from(
+            this.restApiService.getChangeEdit(changeNum)
+          ).pipe(
+            map(edit => {
+              return {edit: edit || undefined, editLoaded: true};
+            })
+          );
+          const edit$ = needsEdit
+            ? editLoaded$
+            : editLoaded$.pipe(startWith({edit: undefined, editLoaded: false}));
+          return combineLatest([change$, edit$]);
         }),
         withLatestFrom(this.viewModel.patchNum$),
-        map(([[change, edit], patchNum]) =>
-          updateChangeWithEdit(change, edit, patchNum)
-        ),
         catchError(err => {
           // Reset loading state and re-throw.
           this.updateState({loadingStatus: LoadingStatus.NOT_LOADED});
           throw err;
         })
       )
-      .subscribe(change => {
+      .subscribe(([[change, {edit, editLoaded}], patchNum]) => {
         // The change service is currently a singleton, so we have to be
         // careful to avoid situations where the application state is
         // partially set for the old change where the user is coming from,
@@ -935,7 +958,15 @@ export class ChangeModel extends Model<ChangeState> {
         // So setting the change explicitly to undefined when the user
         // moves away from diff and change pages (changeNum === undefined)
         // helps with that.
-        this.updateStateChange(change ?? undefined);
+        if (!editLoaded || edit !== undefined || this.change === undefined) {
+          const changeWithEdit = updateChangeWithEdit(
+            change ? {...change, revisions: {...change.revisions}} : undefined,
+            edit,
+            patchNum
+          );
+          this.updateStateChange(changeWithEdit ?? undefined);
+        }
+        this.editLoaded$.next(editLoaded);
       });
   }
 

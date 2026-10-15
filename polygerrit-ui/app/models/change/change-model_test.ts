@@ -35,6 +35,7 @@ import {
   ChangeInfo,
   CommitId,
   EDIT,
+  EditInfo,
   FIRST_PARENT,
   NumericChangeId,
   PARENT,
@@ -949,5 +950,125 @@ suite('change model tests', () => {
     assert.equal(getMergeableStub.callCount, 1);
     assert.equal(getAllRevisionFilesStub.callCount, 1);
     assert.equal(showChangeStub.callCount, 1);
+  });
+
+  test('loadChange emits changeDetail without waiting for getChangeEdit and does not re-emit when edit is undefined', async () => {
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    stubRestApi('getChangeDetail').callsFake(() => promiseDetail);
+    const promiseEdit = mockPromise<EditInfo | undefined>();
+    stubRestApi('getChangeEdit').callsFake(() => promiseEdit);
+
+    const emittedChanges: ParsedChangeInfo[] = [];
+    const sub = changeModel.change$.subscribe(c => {
+      if (c) emittedChanges.push(c);
+    });
+
+    changeViewModel.setState(createChangeViewState());
+    promiseDetail.resolve(knownChange);
+
+    const state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.isDefined(state.change);
+    assert.equal(emittedChanges.length, 1);
+
+    promiseEdit.resolve(undefined);
+    await promiseEdit;
+    sub.unsubscribe();
+
+    assert.equal(emittedChanges.length, 1);
+  });
+
+  test('loadChange updates change when getChangeEdit resolves with an edit after getChangeDetail', async () => {
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    stubRestApi('getChangeDetail').callsFake(() => promiseDetail);
+    const promiseEdit = mockPromise<EditInfo | undefined>();
+    stubRestApi('getChangeEdit').callsFake(() => promiseEdit);
+
+    changeViewModel.setState(createChangeViewState());
+    promiseDetail.resolve(knownChange);
+    let state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.equal(state.change?.current_revision, 'abc' as CommitId);
+
+    const edit = createEditInfo();
+    promiseEdit.resolve(edit);
+    state = await waitUntilObserved(
+      changeModel.state$,
+      s => s.change?.current_revision === edit.commit.commit,
+      'Edit revision was never applied'
+    );
+    assert.equal(state.change?.current_revision, edit.commit.commit);
+  });
+
+  test('loadChange on patchNum EDIT waits for getChangeEdit and does not prematurely refuse edit', async () => {
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    stubRestApi('getChangeDetail').callsFake(() => promiseDetail);
+    const promiseEdit = mockPromise<EditInfo | undefined>();
+    stubRestApi('getChangeEdit').callsFake(() => promiseEdit);
+    const navigateStub = sinon.stub(changeModel, 'navigateToChangeResetReload');
+
+    changeViewModel.setState({
+      ...createChangeViewState(),
+      patchNum: EDIT,
+    });
+    await waitForLoadingStatus(LoadingStatus.LOADING);
+
+    promiseDetail.resolve(knownChange);
+    await promiseDetail;
+
+    assert.equal(changeModel.getState().loadingStatus, LoadingStatus.LOADING);
+    assert.isFalse(navigateStub.called);
+
+    const edit = createEditInfo();
+    promiseEdit.resolve(edit);
+    const state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.isDefined(state.change?.revisions[`${edit.commit.commit}`]);
+    assert.isFalse(navigateStub.called);
+    await waitUntilObserved(
+      changeModel.revision$,
+      r => r?._number === EDIT,
+      'revision$ was never EDIT'
+    );
+  });
+
+  test('refuseEditForOpenChange and refuseEditForClosedChange wait for getChangeEdit before refusing edit', async () => {
+    let promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    stubRestApi('getChangeDetail').callsFake(() => promiseDetail);
+    let promiseEdit = mockPromise<EditInfo | undefined>();
+    stubRestApi('getChangeEdit').callsFake(() => promiseEdit);
+    const navigateStub = sinon.stub(changeModel, 'navigateToChangeResetReload');
+
+    changeViewModel.setState(createChangeViewState());
+    promiseDetail.resolve(knownChange);
+    await waitForLoadingStatus(LoadingStatus.LOADED);
+
+    changeViewModel.updateState({patchNum: EDIT});
+    assert.isFalse(navigateStub.called);
+
+    promiseEdit.resolve(undefined);
+    await promiseEdit;
+    assert.isTrue(navigateStub.calledOnce);
+
+    // Also verify refuseEditForClosedChange when navigating to edit mode on a
+    // merged change while getChangeEdit is still pending.
+    navigateStub.resetHistory();
+    promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    promiseEdit = mockPromise<EditInfo | undefined>();
+    changeViewModel.setState({
+      ...createChangeViewState(),
+      changeNum: 99 as NumericChangeId,
+      edit: true,
+    });
+    await waitForLoadingStatus(LoadingStatus.LOADING);
+
+    promiseDetail.resolve({
+      ...knownChange,
+      _number: 99 as NumericChangeId,
+      status: ChangeStatus.MERGED,
+    });
+    await promiseDetail;
+    assert.isFalse(navigateStub.called);
+
+    promiseEdit.resolve(undefined);
+    await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.isTrue(navigateStub.calledOnce);
   });
 });

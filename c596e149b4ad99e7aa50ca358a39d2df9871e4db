@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da696d87_f9dcef91",
+        "filename": "java/com/google/gerrit/server/submit/SubmitDryRun.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-15T14:33:08Z",
+      "side": 1,
+      "message": "IMHO `getParents` is the correct name: it describes the return value precisely and without any assumptions about what the caller does with it.",
+      "range": {
+        "startLine": 71,
+        "startChar": 31,
+        "endLine": 71,
+        "endChar": 58
+      },
+      "revId": "c596e149b4ad99e7aa50ca358a39d2df9871e4db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

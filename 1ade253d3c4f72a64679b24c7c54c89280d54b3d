@@ -425,6 +425,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e179623_3b0cf36d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T13:34:42Z",
+      "side": 1,
+      "message": "Are we in agreement if we reformulate it as: _\"The commit message can be written by the human contributor with the assistance of AI, as long as the human is in control of the meaning and the intended objective\"_?\n\nBasically, we are OK with the human + AI cooperating to write the commit message, with the human staying in the driver\u0027s seat.\n\n@matthias.sohn@gmail.com @nasser.grainawi@oss.qualcomm.com?",
+      "parentUuid": "17f146a5_3e749da1",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c5bece1_3192dff3",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18

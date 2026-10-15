@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c1580f2_c5113e78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T13:41:28Z",
+      "side": 1,
+      "message": "Nice fix @yash.chaturvedi@oss.qualcomm.com 👍",
+      "revId": "b5d24320f0c94443b7fafed8655941b954454f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

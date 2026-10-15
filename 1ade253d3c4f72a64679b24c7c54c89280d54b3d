@@ -401,6 +401,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17f146a5_3e749da1",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-15T11:36:33Z",
+      "side": 1,
+      "message": "I agree with Nasser here: there is nothing bad if the AI proposes a commit message. Of course, I check the result. The resulting commit message is often grammatically significantly better than the one I would write as a non-native english speaker.",
+      "parentUuid": "d1074be4_b7520c51",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c5bece1_3192dff3",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18

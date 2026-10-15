@@ -82,7 +82,7 @@ java_package_configuration(
         "-Xep:BadImport:ERROR",
         "-Xep:BadInstanceof:ERROR",
         "-Xep:BadShiftAmount:ERROR",
-        "-Xep:BanJNDI:WARN",
+        "-Xep:BanJNDI:ERROR",
         "-Xep:BanSerializableRead:ERROR",
         "-Xep:BigDecimalEquals:ERROR",
         "-Xep:BigDecimalLiteralDouble:ERROR",

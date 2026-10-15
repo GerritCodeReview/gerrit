@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "458f794f_29a6e7b3",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T06:21:06Z",
+      "side": 1,
+      "message": "Happy to upload a similar change to the SUBMITTING_PATCHES file also, referring to this AI policy.\n\nWe could also just have a separate AI_POLICY standalone file referenced from both of them.",
+      "parentUuid": "fe53b063_4f973178",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ae45a88_83c74daf",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18
@@ -65,6 +83,30 @@
       "writtenOn": "2026-10-14T23:42:37Z",
       "side": 1,
       "message": "Reword to include a link and the specific bits from the CLA we\u0027re referencing.\n```suggestion\nrecognize the productivity benefits they offer our contributors. However,\nto protect the integrity, security, and legal standing of the Gerrit Code\nReview project, contributions using generative AI continue to be subject\nto the link:dev-cla.html[Google CLA,role\u003dexternal,window\u003d_blank],\nparticularly its points on contributions being your original creations.\n```",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 41
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "642793ec_57123f02",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T06:21:06Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8ae45a88_83c74daf",
       "range": {
         "startLine": 119,
         "startChar": 0,

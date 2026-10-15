@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80c2fb44_f82bd3c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T19:38:03Z",
+      "side": 1,
+      "message": "Overall looks good",
+      "revId": "ea2342ad2b36f529e59c00ed4d16ff14794e29e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d78ee0_59c7b7fd",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T19:38:03Z",
+      "side": 1,
+      "message": "The `sortByRef` looks unnecessary, but I think you\u0027re using it to track the state of if refs have already been sorted and paginated. Doing that explicitly would be clearer.\n```java\n      boolean sortedAndPaginated;\n      if (ListTagSortOption.REF.equals(sortBy)) {\n        ...\n        sortedAndPaginated\u003d true;\n      }\n      // populate TagInfos\n      if (!sortedAndPaginated) { // replaces if (!sortByRef) {\n```",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 22
+      },
+      "revId": "ea2342ad2b36f529e59c00ed4d16ff14794e29e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c079f37_258d730c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-15T19:38:03Z",
+      "side": 1,
+      "message": "It\u0027s implied, but maybe mention sorting can be done before creating TagInfos too?",
+      "revId": "ea2342ad2b36f529e59c00ed4d16ff14794e29e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,31 @@
       },
       "revId": "c0fc5764d779ecd491fc9619b3dfbdc75411ea3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd7cb253_0d69bff2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-15T18:25:30Z",
+      "side": 1,
+      "message": "Done — restricted SAFE_URL_SCHEMES to only \u0027http:\u0027 and \u0027https:\u0027.",
+      "parentUuid": "f883f06d_3db6dc76",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 10
+      },
+      "isAi": true,
+      "revId": "c0fc5764d779ecd491fc9619b3dfbdc75411ea3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

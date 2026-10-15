@@ -96,6 +96,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e5ebec8_918a4d13",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T22:29:58Z",
+      "side": 1,
+      "message": "Done. Populated aiApprovalUuids during parsing (in parseAddApproval and before the early return for deleted patch sets in parse()) instead of deriving it from approvals.values().",
+      "parentUuid": "e6cc3ce8_177677e5",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1233fe8_9f660149",
@@ -114,6 +139,25 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbfb29af_8b960ed8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T22:29:58Z",
+      "side": 1,
+      "message": "Done. Removed .isAi(isAi) from parseCopiedApproval.",
+      "parentUuid": "b1233fe8_9f660149",
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a7a1213_f775dc26",
@@ -127,6 +171,31 @@
       "writtenOn": "2026-10-15T22:10:56Z",
       "side": 1,
       "message": "If a user or bot already has a non-copied vote on the current patch set and re-votes with the same numeric value but a different `isAi` value (e.g. re-voting with `isAi \u003d false`/`null` to replace an AI vote with a human vote, or vice versa), this condition evaluates to `false` and falls through to `else if (c !\u003d null \u0026\u0026 c.value() \u003d\u003d ent.getValue())`, silently dropping the `isAi` update.\n\nThis should also check `c.isAi() !\u003d Boolean.TRUE.equals(in.isAi)`:\n```java\n              || (inLabels.containsKey(c.label())\n                  \u0026\u0026 (c.isAi() !\u003d Boolean.TRUE.equals(in.isAi)\n                      || isApprovalCopiedOver(c, ctx.getNotes()))))) {\n```",
+      "range": {
+        "startLine": 667,
+        "startChar": 0,
+        "endLine": 670,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec3eea87_4b93cea3",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T22:29:58Z",
+      "side": 1,
+      "message": "Done. Guarded the c.isAi() check with inLabels.containsKey(c.label()).",
+      "parentUuid": "0a7a1213_f775dc26",
       "range": {
         "startLine": 667,
         "startChar": 0,
@@ -162,6 +231,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "538a7f9f_eeea5cb6",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T22:29:58Z",
+      "side": 1,
+      "message": "Done. Added \u0026\u0026 psa.isAi() \u003d\u003d psaOrig.isAi() to hasCopyOfWithValue.",
+      "parentUuid": "e9ed470a_239ee0ad",
+      "range": {
+        "startLine": 999,
+        "startChar": 0,
+        "endLine": 1006,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7e039b9_2374bb7b",
@@ -186,6 +280,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a295e350_9f70b070",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T22:29:58Z",
+      "side": 1,
+      "message": "Done. Added tests in PostReviewIT for clearing isAi on re-vote, copying an is_ai vote across patch sets, and preserving isAi on submitted changes, as well as unit tests in ChangeNotesParserTest for parsing Is-ai footers.",
+      "parentUuid": "d7e039b9_2374bb7b",
+      "range": {
+        "startLine": 1435,
+        "startChar": 0,
+        "endLine": 1451,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "217b329f_e19b18e4",
@@ -199,6 +318,25 @@
       "writtenOn": "2026-10-15T22:10:56Z",
       "side": 1,
       "message": "The commit message mentions adding `is_ai` to `ReviewInput` and TypeScript interfaces, but `ReviewInput` in `polygerrit-ui/app/types/common.ts` was not updated to include `is_ai?: boolean;`.",
+      "isAi": true,
+      "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f567536_4caa0b60",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-15T22:29:58Z",
+      "side": 1,
+      "message": "Done. Added is_ai?: boolean to ReviewInput in polygerrit-ui/app/types/common.ts.",
+      "parentUuid": "217b329f_e19b18e4",
       "isAi": true,
       "revId": "eab56c3051e5a37918348722ae69a49f06686a0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

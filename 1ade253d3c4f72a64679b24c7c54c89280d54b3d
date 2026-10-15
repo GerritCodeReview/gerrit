@@ -473,6 +473,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3380ed9a_c50a1889",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T14:45:08Z",
+      "side": 1,
+      "message": "\u003e Or maybe something like: the commit message is considered part of the change and, just like the source code, must be fully understood by the contributor.\n\u003e \n\u003e I mean, there is probably no need to distinguish commit message part from the source code part.\n\nI believe the commit message is more similar to the _prompt_ you give to AI: it should describe what you would like to achieve rather than the implementation.\n\nWhilst I am OK with people contributing 100% AI-generated code without supervision, as long as the contributor can say that it corresponds to what they want and agree with the quality of the implementation, I am not comfortable when the commit message is driven by the AI model and is fully 100% AI-generated without supervision.\n\nThe code *does something*, but the commit message is way more important, IMHO, because it shows what the author of the change wants to achieve and what the change is expected to deliver.\n\nI am fine with using AI to improve and control the form of the commit message, but I am not comfortable with AI driving everything, including the intended objective of the change (the commit message).",
+      "parentUuid": "7c58cc11_a099bffc",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 51
+      },
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c5bece1_3192dff3",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18

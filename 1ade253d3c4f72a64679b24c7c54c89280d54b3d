@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04138c7d_8f5380e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f08a954e_600c5be7",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe53b063_4f973178",
@@ -152,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85c2f0b4_3d3bb062",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a75c9218_b991d72c",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74cc5e97_e8984c60",
@@ -165,6 +201,24 @@
       "writtenOn": "2026-10-14T23:42:37Z",
       "side": 1,
       "message": "```suggestion\nAttribution of a commit must exclusively belong to a human contributor.\n```",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eac8c3c_03e6247e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-15T09:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74cc5e97_e8984c60",
       "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

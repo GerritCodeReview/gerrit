@@ -16,6 +16,23 @@
       "message": "Thanks!",
       "revId": "7115694bcffa7bff427d9279d78b283a28099ebf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d55bc9_d27d3277",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-15T18:43:51Z",
+      "side": 1,
+      "message": "This change does 3 things, but it looks ok",
+      "revId": "7115694bcffa7bff427d9279d78b283a28099ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

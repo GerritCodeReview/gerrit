@@ -292,8 +292,9 @@ public class LabelsJson {
       @Nullable Integer value,
       @Nullable VotingRangeInfo permittedVotingRange,
       @Nullable String tag,
+      @Nullable Boolean isAi,
       @Nullable Instant date) {
-    ApprovalInfo ai = new ApprovalInfo(id.get(), value, permittedVotingRange, tag, date);
+    ApprovalInfo ai = new ApprovalInfo(id.get(), value, permittedVotingRange, tag, isAi, date);
     accountLoader.put(ai);
     return ai;
   }
@@ -367,7 +368,7 @@ public class LabelsJson {
         pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
       }
       for (Map.Entry<String, LabelInfo> entry : labels.entrySet()) {
-        ApprovalInfo ai = approvalInfo(accountLoader, accountId, 0, null, null, null);
+        ApprovalInfo ai = approvalInfo(accountLoader, accountId, 0, null, null, null, null);
         byLabel.put(entry.getKey(), ai);
         addApproval(entry.getValue(), ai);
       }
@@ -386,6 +387,9 @@ public class LabelsJson {
           info.tag = psa.tag().orElse(null);
           if (psa.postSubmit()) {
             info.postSubmit = true;
+          }
+          if (psa.isAi()) {
+            info.isAi = true;
           }
         }
         if (!standard) {
@@ -518,6 +522,7 @@ public class LabelsJson {
         VotingRangeInfo permittedVotingRange =
             pvr == null ? null : pvr.getOrDefault(lt.get().getName(), null);
         String tag = null;
+        Boolean isAi = null;
         Instant date = null;
         PatchSetApproval psa = current.get(accountId, lt.get().getName());
         if (psa != null) {
@@ -529,6 +534,7 @@ public class LabelsJson {
             value = perm != null && perm.test(new LabelPermission(lt.get())) ? 0 : null;
           }
           tag = psa.tag().orElse(null);
+          isAi = psa.isAi() ? true : null;
           date = psa.granted();
           if (psa.postSubmit()) {
             logger.atWarning().log("unexpected post-submit approval on open change: %s", psa);
@@ -541,7 +547,7 @@ public class LabelsJson {
         }
         addApproval(
             e.getValue(),
-            approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date));
+            approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, isAi, date));
       }
     }
   }

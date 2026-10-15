@@ -28,6 +28,7 @@ public class ChangeNoteFooters {
   public static final FooterKey FOOTER_CUSTOM_KEYED_VALUE = new FooterKey("Custom-Keyed-Value");
   public static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
   public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
+  public static final FooterKey FOOTER_IS_AI = new FooterKey("Is-ai");
   public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   public static final FooterKey FOOTER_COPIED_LABEL = new FooterKey("Copied-Label");
   public static final FooterKey FOOTER_MERGE_STRATEGY = new FooterKey("Merge-Strategy");

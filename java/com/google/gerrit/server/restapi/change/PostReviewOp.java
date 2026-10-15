@@ -637,7 +637,9 @@ public class PostReviewOp implements BatchUpdateOp {
     Map<String, Short> previous =
         getPreviousApprovals(allApprovals, approvalsByKey(current.values()));
 
+    boolean isAi = Boolean.TRUE.equals(in.isAi);
     ChangeUpdate update = ctx.getUpdate(psId);
+    update.setIsAi(isAi);
     for (Map.Entry<String, Short> ent : allApprovals.entrySet()) {
       String name = ent.getKey();
       LabelType lt =
@@ -659,17 +661,19 @@ public class PostReviewOp implements BatchUpdateOp {
           del.add(c);
           update.putApproval(normName, (short) 0);
         }
-        // Only allow voting again if the values are different, if the real account differs or if
-        // the vote is copied over from a past patch-set.
+        // Only allow voting again if the values are different, if the real account differs, if
+        // isAi differs, or if the vote is copied over from a past patch-set.
       } else if (c != null
           && (c.value() != ent.getValue()
               || !c.realAccountId().equals(reviewerId)
-              || (inLabels.containsKey(c.label()) && isApprovalCopiedOver(c, ctx.getNotes())))) {
+              || (inLabels.containsKey(c.label())
+                  && (c.isAi() != isAi || isApprovalCopiedOver(c, ctx.getNotes()))))) {
         PatchSetApproval.Builder b =
             c.toBuilder()
                 .value(ent.getValue())
                 .granted(ctx.getWhen())
-                .tag(Optional.ofNullable(in.tag));
+                .tag(Optional.ofNullable(in.tag))
+                .isAi(isAi);
         ctx.getUser().updateRealAccountId(b::realAccountId);
         c = b.build();
         ups.add(c);
@@ -685,6 +689,7 @@ public class PostReviewOp implements BatchUpdateOp {
         c =
             ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                 .tag(Optional.ofNullable(in.tag))
+                .isAi(isAi)
                 .granted(ctx.getWhen())
                 .build();
         ups.add(c);
@@ -997,7 +1002,8 @@ public class PostReviewOp implements BatchUpdateOp {
         .anyMatch(
             psa ->
                 areAccountAndLabelTheSame(psa.key(), psaOrig.key())
-                    && psa.value() == psaOrig.value());
+                    && psa.value() == psaOrig.value()
+                    && psa.isAi() == psaOrig.isAi());
   }
 
   /**

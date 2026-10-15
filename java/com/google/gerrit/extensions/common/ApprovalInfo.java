@@ -51,6 +51,9 @@ public class ApprovalInfo extends AccountInfo {
   /** Whether this vote was made after the change was submitted. */
   public Boolean postSubmit;
 
+  /** Whether this vote was created by an AI agent. */
+  public Boolean isAi;
+
   /**
    * The range the user is authorized to vote on that label.
    *
@@ -69,11 +72,22 @@ public class ApprovalInfo extends AccountInfo {
       @Nullable VotingRangeInfo permittedVotingRange,
       @Nullable String tag,
       @Nullable Timestamp date) {
+    this(id, value, permittedVotingRange, tag, null, date);
+  }
+
+  public ApprovalInfo(
+      Integer id,
+      @Nullable Integer value,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
+      @Nullable Boolean isAi,
+      @Nullable Timestamp date) {
     super(id);
     this.value = value;
     this.permittedVotingRange = permittedVotingRange;
     this.date = date;
     this.tag = tag;
+    this.isAi = isAi;
   }
 
   public ApprovalInfo(
@@ -82,10 +96,21 @@ public class ApprovalInfo extends AccountInfo {
       @Nullable VotingRangeInfo permittedVotingRange,
       @Nullable String tag,
       @Nullable Instant date) {
+    this(id, value, permittedVotingRange, tag, null, date);
+  }
+
+  public ApprovalInfo(
+      Integer id,
+      @Nullable Integer value,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
+      @Nullable Boolean isAi,
+      @Nullable Instant date) {
     super(id);
     this.value = value;
     this.permittedVotingRange = permittedVotingRange;
     this.tag = tag;
+    this.isAi = isAi;
     if (date != null) {
       setDate(date);
     }
@@ -106,6 +131,7 @@ public class ApprovalInfo extends AccountInfo {
           && Objects.equals(value, approvalInfo.value)
           && Objects.equals(date, approvalInfo.date)
           && Objects.equals(postSubmit, approvalInfo.postSubmit)
+          && Objects.equals(isAi, approvalInfo.isAi)
           && Objects.equals(permittedVotingRange, approvalInfo.permittedVotingRange);
     }
     return false;
@@ -118,6 +144,6 @@ public class ApprovalInfo extends AccountInfo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), tag, value, date, postSubmit, permittedVotingRange);
+    return Objects.hash(super.hashCode(), tag, value, date, postSubmit, isAi, permittedVotingRange);
   }
 }

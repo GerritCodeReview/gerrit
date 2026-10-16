@@ -17,10 +17,16 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.util.time.TimeUtil;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.junit.After;
 import org.junit.Test;
 
 public class AuthorizedKeysTest {
@@ -56,6 +62,11 @@ public class AuthorizedKeysTest {
           + "w== john.doe@example.com";
 
   private final Account.Id accountId = Account.id(1);
+
+  @After
+  public void resetClock() {
+    TimeUtil.resetCurrentMillisSupplier();
+  }
 
   @Test
   public void test() throws Exception {
@@ -145,6 +156,42 @@ public class AuthorizedKeysTest {
   }
 
   @Test
+  public void expiryTimeIsParsed() {
+    assertExpiryTime("20300102Z", Instant.parse("2030-01-02T00:00:00Z"));
+    assertExpiryTime("203001021530Z", Instant.parse("2030-01-02T15:30:00Z"));
+    assertExpiryTime("20300102153045Z", Instant.parse("2030-01-02T15:30:45Z"));
+    assertExpiryTime(
+        "20300102", LocalDate.of(2030, 1, 2).atStartOfDay(ZoneId.systemDefault()).toInstant());
+  }
+
+  @Test
+  public void keyIsExpiredAfterExpiryTime() {
+    AccountSshKey key =
+        AuthorizedKeys.parseKey(accountId, 1, "expiry-time=\"20300102030405Z\" " + KEY1);
+    Instant expiry = Instant.parse("2030-01-02T03:04:05Z");
+    TimeUtil.setCurrentMillisSupplier(expiry::toEpochMilli);
+    assertThat(key.isExpired()).isFalse();
+    TimeUtil.setCurrentMillisSupplier(() -> expiry.plusSeconds(1).toEpochMilli());
+    assertThat(key.isExpired()).isTrue();
+  }
+
+  @Test
+  public void keyWithoutExpiryTimeIsNotExpired() {
+    assertThat(AuthorizedKeys.parseKey(accountId, 1, KEY1).isExpired()).isFalse();
+  }
+
+  @Test
+  public void invalidExpiryTimeIsKeptAsOption() {
+    for (String value : ImmutableList.of("soon", "20300231Z", "2030010", "")) {
+      String line = "expiry-time=\"" + value + "\" " + KEY1;
+      AccountSshKey key = AuthorizedKeys.parseKey(accountId, 1, line);
+      assertThat(key.expiryTime()).isEmpty();
+      assertThat(key.otherOptions()).containsExactly("expiry-time", value);
+      assertThat(AuthorizedKeys.format(key)).isEqualTo(line);
+    }
+  }
+
+  @Test
   public void optionsSurviveSerialization() {
     AccountSshKey key =
         AuthorizedKeys.parseKey(
@@ -152,12 +199,9 @@ public class AuthorizedKeysTest {
             1,
             "no-pty,!agent-forwarding,expiry-time=\"20300102Z\",command=\"echo a b\" " + KEY1);
     assertThat(key.sshPublicKey()).isEqualTo(KEY1);
-    assertThat(key.options())
-        .containsExactly(
-            "no-pty", "true",
-            "!agent-forwarding", "false",
-            "expiry-time", "20300102Z",
-            "command", "echo a b");
+    assertThat(key.expiryTime()).hasValue(Instant.parse("2030-01-02T00:00:00Z"));
+    assertThat(key.otherOptions())
+        .containsExactly("no-pty", "true", "!agent-forwarding", "false", "command", "echo a b");
 
     String line = AuthorizedKeys.format(key);
     assertThat(AuthorizedKeys.parseKey(accountId, 1, line)).isEqualTo(key);
@@ -168,13 +212,12 @@ public class AuthorizedKeysTest {
   public void optionsOfInvalidKeySurviveSerialization() {
     String content =
         AuthorizedKeys.INVALID_KEY_COMMENT_PREFIX
-            + "expiry-time=\"20300102Z\",no-pty "
+            + "expiry-time=\"20300102000000Z\",no-pty "
             + KEY1
             + "\n";
     List<Optional<AccountSshKey>> keys = AuthorizedKeys.parse(accountId, content);
     assertThat(keys.get(0).get().valid()).isFalse();
-    assertThat(keys.get(0).get().options())
-        .containsExactly("expiry-time", "20300102Z", "no-pty", "true");
+    assertThat(keys.get(0).get().expiryTime()).hasValue(Instant.parse("2030-01-02T00:00:00Z"));
     assertThat(AuthorizedKeys.serialize(keys)).isEqualTo(content);
   }
 
@@ -187,9 +230,17 @@ public class AuthorizedKeysTest {
   public void unparsableKeyIsKeptAsIs() {
     String unparsable = "ssh-rsa not-base64!! john.doe@example.com";
     AccountSshKey key = AuthorizedKeys.parseKey(accountId, 1, unparsable);
-    assertThat(key.options()).isEmpty();
+    assertThat(key.otherOptions()).isEmpty();
+    assertThat(key.expiryTime()).isEmpty();
     assertThat(AuthorizedKeys.format(key)).isEqualTo(unparsable);
     assertThat(AuthorizedKeys.format(key.asInvalid())).isEqualTo(unparsable);
+  }
+
+  private void assertExpiryTime(String value, Instant expected) {
+    AccountSshKey key =
+        AuthorizedKeys.parseKey(accountId, 1, "expiry-time=\"" + value + "\" " + KEY1);
+    assertThat(key.expiryTime()).hasValue(expected);
+    assertThat(key.otherOptions()).isEmpty();
   }
 
   private static String toWindowsLineEndings(String s) {

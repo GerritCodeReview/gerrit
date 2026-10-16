@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c09d878b_0881ebc7",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 36
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-16T19:30:04Z",
+      "side": 1,
+      "message": "couple nits\n```suggestion\nor generative tool for practical reasons: the `git blame` output showing\n`AI` as the author of some lines of code would every time require an\nadditional step to find the responsible human.\n```",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 38
+      },
+      "revId": "b147bd281188de4cbb98003430db11a097838ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

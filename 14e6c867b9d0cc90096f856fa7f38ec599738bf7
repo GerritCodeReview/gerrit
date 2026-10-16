@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33a56ebb_d99a96e6",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-16T19:30:04Z",
+      "side": 1,
+      "message": "\u003e \u003e and many other cases allowed under the CLA.\n\u003e \n\u003e I could not find the many other cases where the CLA accepts code where the contributor isn\u0027t the author. Do you have any reference?\n\nIf you look at their definition of \"You\", it has this line:\n\u003e _For legal entities, the entity making a Contribution and all other entities that control, are controlled by, or are under common control with that entity are considered to be a single Contributor._\n\nSo, for purposes of the CLA, everyone at a company is the same contributor and anyone at that company can submit anyone else\u0027s code (because the company has the copyright).",
+      "parentUuid": "33f79eed_5a9f9a2f",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 24
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2668a122_e006be28",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 32
@@ -167,6 +191,30 @@
       "side": 1,
       "message": "We are referring to _attribution_ here, not the actual writing of the code, which can be done by humans or developers.\nWhen the code is partially derived from other changes, we also add the `Co-Authored-By` as a courtesy, but that doesn\u0027t mean that the author is exempt from knowing what the code does.\n\nDo you have any suggestions here?",
       "parentUuid": "2668a122_e006be28",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 73
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a8a81e4_adeb5c39",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-16T19:30:04Z",
+      "side": 1,
+      "message": "\u003e Do you have any suggestions here?\n\nI would remove this whole section. The \"Human Attribution is Mandatory\" section above already covers the project guidelines we care to enforce. This section feels like unnecessary legalese text.",
+      "parentUuid": "ecfa48b1_255d1e5b",
       "range": {
         "startLine": 169,
         "startChar": 0,
@@ -255,6 +303,24 @@
       "side": 1,
       "message": "Whatever is not explicitly forbidden is allowed, including the general use of AI for design extraction and reverse-engineering existing code.\n\nThere are many other uses of AI; I am wondering whether they are relevant to the \"contribution\" guidelines, though.",
       "parentUuid": "2ce58aae_e7189041",
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07133223_5cb1d289",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-16T19:30:04Z",
+      "side": 1,
+      "message": "Maybe not in this section, but the overall intent of this doc is to help contributors... contribute. It does not seem out of place to suggest a tool to improve how they could do that. I\u0027m thinking something similar to what the [git project has](https://github.com/git/git/blob/master/Documentation/SubmittingPatches#L589) that reads more as \"here are ways we recommend using AI that we think benefit our project\":\n```\nWe strongly recommend using AI tools carefully and responsibly.\n \nContributors would often benefit more from AI by using it to guide and\nhelp them step by step towards producing a solution by themselves\nrather than by asking for a full solution that they would then mostly\ncopy-paste. They can also use AI to help with debugging, or with\nchecking for obvious mistakes, things that can be improved, things\nthat don’t match our style, guidelines or our feedback, before sending\nit to us.\n```\n\nAnd as a note, I generally think our AI guidelines should be as short and simple as theirs, even if we\u0027re differing a bit the guidelines themselves.",
+      "parentUuid": "23c5c690_05640531",
       "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

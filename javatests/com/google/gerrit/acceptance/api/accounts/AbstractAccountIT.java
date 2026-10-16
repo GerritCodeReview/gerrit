@@ -47,6 +47,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.StopStrategies;
+import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -1839,6 +1840,32 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
       assertThat(info.get(1).seq).isEqualTo(3);
       accountIndexedCounter.assertReindexOf(admin);
     }
+  }
+
+  @Test
+  @UseSsh
+  public void sshKeyWithOptions() throws Exception {
+    String key = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
+    gApi.accounts().self().addSshKey("no-pty,expiry-time=\"20300101Z\" " + key);
+
+    List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(2);
+    SshKeyInfo added = info.get(1);
+    assertThat(added.valid).isTrue();
+    assertThat(added.sshPublicKey).isEqualTo("expiry-time=\"20300101Z\",no-pty " + key);
+    assertThat(added.comment).isEqualTo(admin.email());
+    assertThat(added.encodedKey).isEqualTo(Splitter.on(' ').splitToList(key).get(1));
+  }
+
+  @Test
+  @UseSsh
+  public void addExistingSshKeyWithOptionsDoesNotAddKeyAgain() throws Exception {
+    String initial = TestSshKeys.publicKey(sshKeys.getKeyPair(admin), admin.email());
+    gApi.accounts().self().addSshKey("no-pty,expiry-time=\"20300101Z\" " + initial);
+
+    List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(1);
+    assertThat(info.get(0).sshPublicKey).isEqualTo(initial);
   }
 
   @Test

@@ -2639,6 +2639,35 @@ suite('gr-reply-dialog tests', () => {
       });
     });
 
+    test('sending awaits pending diff drafts before SEND_REPLY timer even without patchsetLevelGrComment', async () => {
+      element.patchsetLevelComment = undefined;
+      await element.updateComplete;
+      assert.isNotOk(element.patchsetLevelGrComment);
+
+      const pendingDraftsPromise = mockPromise();
+      const awaitPendingStub = stubRestApi('awaitPendingDiffDrafts').returns(
+        pendingDraftsPromise as Promise<void>
+      );
+      const timeStub = stubReporting('time');
+      stubSaveReview(() => {
+        return {
+          change_info: changeNoRevisions,
+        };
+      });
+
+      const sendPromise = element.send(false, false);
+      await waitEventLoop();
+
+      assert.isTrue(awaitPendingStub.calledOnce);
+      assert.isFalse(timeStub.calledWith(Timing.SEND_REPLY));
+
+      pendingDraftsPromise.resolve();
+      await sendPromise;
+
+      assert.isTrue(timeStub.calledWith(Timing.SEND_REPLY));
+      sinon.assert.callOrder(awaitPendingStub, timeStub);
+    });
+
     test('comment is auto saved when dialog is canceled', async () => {
       const patchsetLevelComment = queryAndAssert<GrComment>(
         element,

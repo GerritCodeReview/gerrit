@@ -25,6 +25,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9fac953_165fb541",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T18:12:38Z",
+      "side": 1,
+      "message": "Done — combined the identical CSS rule blocks for deleted and added inline `\u003ccode\u003e` elements.\n\n_from potto_",
+      "parentUuid": "678549b0_a383af3a",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 383,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "05a1988ef53ffe4553a0101817209e40d9f37a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad5e0ebb_41d9fedb",
@@ -49,6 +74,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7bcf87c_d0df3766",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T18:12:38Z",
+      "side": 1,
+      "message": "Done — guarded single-backtick matches with `(?\u003c!`)`[^`\\n]+`(?!`)` in `tokenizeWords` and `renderInlineCodeSpans`.\n\n_from potto_",
+      "parentUuid": "ad5e0ebb_41d9fedb",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "05a1988ef53ffe4553a0101817209e40d9f37a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffcc9aa1_226a46d4",
@@ -62,6 +112,31 @@
       "writtenOn": "2026-10-15T23:10:13Z",
       "side": 1,
       "message": "Strip a single leading and trailing space from inline code spans when enclosed on both ends.\n\nPer CommonMark § 6.1 (Code spans), if the string inside a backtick code span begins and ends with a space character and does not consist entirely of spaces, a single leading and trailing space is stripped (so `` `` `code` `` `` renders as `\u003ccode\u003e`code`\u003c/code\u003e` rather than `\u003ccode\u003e `code` \u003c/code\u003e`, matching `marked` in change 643703).\n\n_from potto_",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "05a1988ef53ffe4553a0101817209e40d9f37a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f704f6_b4eaf289",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T18:12:38Z",
+      "side": 1,
+      "message": "Done — stripped a single leading and trailing space from inline code spans per CommonMark § 6.1.\n\n_from potto_",
+      "parentUuid": "ffcc9aa1_226a46d4",
       "range": {
         "startLine": 85,
         "startChar": 0,

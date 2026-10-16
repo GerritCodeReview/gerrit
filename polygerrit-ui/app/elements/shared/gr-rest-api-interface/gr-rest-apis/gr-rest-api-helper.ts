@@ -431,6 +431,9 @@ export class GrRestApiHelper {
     if (req.useReadScheduler !== undefined) {
       fetchReq.useReadScheduler = req.useReadScheduler;
     }
+    if (req.isHighPriority !== undefined) {
+      fetchReq.isHighPriority = req.isHighPriority;
+    }
 
     let resp: Response;
     try {

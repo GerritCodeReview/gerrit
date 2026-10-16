@@ -1117,6 +1117,7 @@ export interface Base64ImageFile extends Base64File {
 export interface ReviewInput {
   message?: string;
   tag?: ReviewInputTag;
+  is_ai?: boolean;
   labels?: LabelNameToValueMap;
   comments?: PathToCommentsInputMap;
   drafts?: DraftsAction;

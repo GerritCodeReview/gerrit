@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6c9a365_0b1b26e3",
+        "filename": "java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-16T19:53:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "646888fa_11fa4157",
+      "revId": "9ff5702e05fa0cbe84fe2ba66aaf482581ee5df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0de0324a_4119a7cc",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-16T19:46:53Z",
       "side": 1,
       "message": "I think it would be good to try and read the current lock type before trying to write it so that this can be faster when it is already correct.",
+      "revId": "9ff5702e05fa0cbe84fe2ba66aaf482581ee5df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa2a9e0e_ac482f1d",
+        "filename": "java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-16T19:53:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0de0324a_4119a7cc",
       "revId": "9ff5702e05fa0cbe84fe2ba66aaf482581ee5df8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

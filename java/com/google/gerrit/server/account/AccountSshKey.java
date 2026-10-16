@@ -14,47 +14,29 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.gerrit.entities.Account;
 import java.util.List;
 
 /** An SSH key approved for use by an {@link Account}. */
-@AutoValue
-public abstract class AccountSshKey {
-  public static AccountSshKey create(Account.Id accountId, int seq, String sshPublicKey) {
-    return create(accountId, seq, sshPublicKey, true);
+public record AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
+  public AccountSshKey {
+    sshPublicKey = stripOffNewLines(sshPublicKey);
+    valid = valid && seq > 0;
   }
 
-  public static AccountSshKey createInvalid(Account.Id accountId, int seq, String sshPublicKey) {
-    return create(accountId, seq, sshPublicKey, false);
+  public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey) {
+    this(accountId, seq, sshPublicKey, true);
   }
 
-  public static AccountSshKey createInvalid(AccountSshKey key) {
-    return create(key.accountId(), key.seq(), key.sshPublicKey(), false);
-  }
-
-  public static AccountSshKey create(
-      Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
-    return new AutoValue_AccountSshKey.Builder()
-        .setAccountId(accountId)
-        .setSeq(seq)
-        .setSshPublicKey(stripOffNewLines(sshPublicKey))
-        .setValid(valid && seq > 0)
-        .build();
+  /** Returns a copy of this key that is flagged as invalid. */
+  public AccountSshKey asInvalid() {
+    return new AccountSshKey(accountId, seq, sshPublicKey, false);
   }
 
   private static String stripOffNewLines(String s) {
     return s.replace("\n", "").replace("\r", "");
   }
-
-  public abstract Account.Id accountId();
-
-  public abstract int seq();
-
-  public abstract String sshPublicKey();
-
-  public abstract boolean valid();
 
   private String publicKeyPart(int index, String defaultValue) {
     String s = sshPublicKey();
@@ -77,18 +59,5 @@ public abstract class AccountSshKey {
 
   public String comment() {
     return publicKeyPart(2, "");
-  }
-
-  @AutoValue.Builder
-  abstract static class Builder {
-    public abstract Builder setAccountId(Account.Id accountId);
-
-    public abstract Builder setSeq(int seq);
-
-    public abstract Builder setSshPublicKey(String sshPublicKey);
-
-    public abstract Builder setValid(boolean valid);
-
-    public abstract AccountSshKey build();
   }
 }

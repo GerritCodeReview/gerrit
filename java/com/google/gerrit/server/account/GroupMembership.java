@@ -25,7 +25,28 @@ import java.util.Set;
  * <p>Different accounts systems (eg. LDAP, gerrit groups) provide concrete implementations.
  */
 public interface GroupMembership {
-  GroupMembership EMPTY = new ListGroupMembership(Collections.emptySet());
+  GroupMembership EMPTY =
+      new GroupMembership() {
+        @Override
+        public boolean contains(AccountGroup.UUID groupId) {
+          return false;
+        }
+
+        @Override
+        public boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds) {
+          return false;
+        }
+
+        @Override
+        public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
+          return Collections.emptySet();
+        }
+
+        @Override
+        public Set<AccountGroup.UUID> getKnownGroups() {
+          return Collections.emptySet();
+        }
+      };
 
   /**
    * Returns {@code true} when the user this object was created for is a member of the specified

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af8e6ed7_eef70f8f",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-16T14:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35d78ee0_59c7b7fd",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 22
+      },
+      "revId": "ea2342ad2b36f529e59c00ed4d16ff14794e29e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c079f37_258d730c",
@@ -54,6 +78,24 @@
       "writtenOn": "2026-10-15T19:38:03Z",
       "side": 1,
       "message": "It\u0027s implied, but maybe mention sorting can be done before creating TagInfos too?",
+      "revId": "ea2342ad2b36f529e59c00ed4d16ff14794e29e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "252cce24_b1bdbd73",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-16T14:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c079f37_258d730c",
       "revId": "ea2342ad2b36f529e59c00ed4d16ff14794e29e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -70,6 +70,30 @@
       },
       "revId": "f56719d92d858be499efdbbd221388e150986ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "175810f4_d16affd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-16T13:32:38Z",
+      "side": 1,
+      "message": "Yeah I don\u0027t think we have anything defined anywhere for known breaking changes.\nI\u0027ve seen a `Release-Notes: breaking-change: \u003cdescription\u003e` once or twice, but nothing defined anywhere. \n\nI\u0027ve picked this up for the breaking changes section anyway, so will resolve the comment. We can continue separately if we think we need a convention for known breaking changes.",
+      "parentUuid": "de53a06b_096ae68a",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 90
+      },
+      "revId": "f56719d92d858be499efdbbd221388e150986ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

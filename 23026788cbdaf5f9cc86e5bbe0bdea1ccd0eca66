@@ -19,6 +19,25 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6db3103b_c4987197",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T18:12:52Z",
+      "side": 1,
+      "message": "Done — lifted angle-bracketed destinations out of the repeating `+` loop in `LINK_TARGET_PATTERN`.\n\n_from potto_",
+      "parentUuid": "d8680d56_edcb99db",
+      "isAi": true,
+      "revId": "23026788cbdaf5f9cc86e5bbe0bdea1ccd0eca66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e34e5a2_e9954926",
@@ -32,6 +51,31 @@
       "writtenOn": "2026-10-15T23:10:43Z",
       "side": 1,
       "message": "Two edge cases in URL extraction here:\n\n1. `rawTarget.indexOf(\u0027 \u0027)` only splits on a literal ASCII space before an optional link title, so a tab separator (e.g. `[Docs](https://example.com\\t\"Title\")`) leaves the title attached to `rawUrl`.\n2. When `renderInlineMarkdown` is called directly (outside `gr-diff-markdown-viewer`\u0027s `sanitizeHtmlToFragment`), `rawUrl` is HTML-escaped but not scheme-filtered (addressed by `sanitizeMarkdownUrl` + Lit templates in change 643703).\n\n_from potto_",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "23026788cbdaf5f9cc86e5bbe0bdea1ccd0eca66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64c0f8b_4ce3efd5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T18:12:52Z",
+      "side": 1,
+      "message": "Done — split link targets on any whitespace (`/\\s/`) and sanitized URL schemes in `renderInlineMarkdown`.\n\n_from potto_",
+      "parentUuid": "7e34e5a2_e9954926",
       "range": {
         "startLine": 138,
         "startChar": 0,

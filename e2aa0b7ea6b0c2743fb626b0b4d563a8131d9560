@@ -25,6 +25,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2633cb42_a627caf9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T16:51:18Z",
+      "side": 1,
+      "message": "Done — updated `del code` / `ins code` selector specificity so nested inline `\u003ccode\u003e` spans inside links/emphasis receive the add/delete highlight, and added rules for `.diff-list-item-del`, `.diff-list-item-add`, `tr.diff-table-row-del td`, and `tr.diff-table-row-add td`.\n\n_from potto_",
+      "parentUuid": "f37a3d92_e4c3b29e",
+      "range": {
+        "startLine": 373,
+        "startChar": 0,
+        "endLine": 389,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "e2aa0b7ea6b0c2743fb626b0b4d563a8131d9560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d1f9bcf_72a28c3e",
@@ -38,6 +63,31 @@
       "writtenOn": "2026-10-15T23:11:10Z",
       "side": 1,
       "message": "`getContainerDelimiters` returns asymmetric delimiters on combined bold+italic tokens (`***...***` or `___...___`).\n\nWhen `Lexer.lexInline(\u0027***bold italic***\u0027)` parses triple asterisks/underscores, the outer `em` token has `token.raw \u003d\u003d\u003d \u0027***bold italic***\u0027` and its child `strong` token has `innerRaw \u003d\u003d\u003d \u0027**bold italic**\u0027`. Because `innerRaw` starts with `*`, `token.raw.indexOf(innerRaw)` matches at `idx \u003d 0` instead of `idx \u003d 1`, returning `openDelim: \u0027\u0027` and `closeDelim: \u0027**\u0027`. As a result:\n- `tokenizeWords(\u0027***bold italic***\u0027)` emits `[\u0027**\u0027, \u0027bold\u0027, \u0027 \u0027, \u0027italic\u0027, \u0027**\u0027, \u0027**\u0027]` (4 trailing asterisks, so `pos` in `renderSideInlineDiff` becomes misaligned with `fullText`).\n- `innerStart` in `renderTokensWithDiffRanges` (line 764) is off by 1 character.\n\nSince container tokens (`em`, `strong`, `del`) have symmetric delimiters around `innerRaw`, computing the delimiter length via `const idx \u003d (token.raw.length - innerRaw.length) / 2` (when `idx \u003e 0 \u0026\u0026 token.raw.slice(idx, idx + innerRaw.length) \u003d\u003d\u003d innerRaw`) avoids matching part of the outer delimiter.\n\n_from potto_",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "e2aa0b7ea6b0c2743fb626b0b4d563a8131d9560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7508b661_48b2c6c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T16:51:18Z",
+      "side": 1,
+      "message": "Done — updated `getContainerDelimiters` to check the symmetric delimiter offset first so combined `***...***` and `___...___` tokens return symmetric `openDelim`/`closeDelim`.\n\n_from potto_",
+      "parentUuid": "7d1f9bcf_72a28c3e",
       "range": {
         "startLine": 105,
         "startChar": 0,
@@ -73,6 +123,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa8e2c77_ee28ff5e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T16:51:18Z",
+      "side": 1,
+      "message": "Done — handled `token.type \u003d\u003d\u003d \u0027escape\u0027` in `renderInlineAstTokens` and `renderTokensWithDiffRanges` using `(token as Tokens.Escape).text`.\n\n_from potto_",
+      "parentUuid": "595bed89_2a4a69e6",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "e2aa0b7ea6b0c2743fb626b0b4d563a8131d9560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eac53b73_2dafcc29",
@@ -86,6 +161,31 @@
       "writtenOn": "2026-10-15T23:11:10Z",
       "side": 1,
       "message": "`contentA` and `contentB` filter out whitespace (`!/^\\s+$/.test(t)`) but retain punctuation tokens (such as `.`, `,`, `|`). Because `overlapDistance` (`1 - commonCount / Math.min(contentA.length, contentB.length)`) has no length-ratio guard and is always `\u003c\u003d diceDistance`:\n\n- Any short sentence (e.g. 3–4 words ending in `.`) compared against a long, unrelated paragraph that shares a single stop word (e.g. `is` or `the`) plus a period `.` will have `commonCount \u003e\u003d 2` and `overlapDistance \u003c\u003d 0.6`, triggering a noisy word-level diff instead of a full block replacement.\n- In `renderTableDiff` (line 1143), joining cells with `\u0027 | \u0027` injects `N - 1` pipe (`\u0027|\u0027`) tokens into every row in an `N`-column table. In a 3+ column table, any two rows automatically share `\u003e\u003d 2` pipe tokens (`commonCount \u003e\u003d 2`), causing completely disjoint rows with short cells to get `overlapDistance \u003c\u003d 0.6` and be paired as `\u0027modified\u0027`.\n\nConsider excluding pure-punctuation tokens when computing `contentA`/`contentB`, bounding the length ratio for `overlapDistance`, and joining table cells with whitespace (`\u0027 \u0027`) in `renderTableDiff`.\n\n_from potto_",
+      "range": {
+        "startLine": 350,
+        "startChar": 0,
+        "endLine": 377,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "e2aa0b7ea6b0c2743fb626b0b4d563a8131d9560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "269cfe29_a33c435d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T16:51:18Z",
+      "side": 1,
+      "message": "Done — excluded pure-punctuation tokens when computing `contentA`/`contentB`, bounded the length ratio and minimum shared token count for `overlapDistance`, and joined table cells with whitespace (`\u0027 \u0027`) in `renderTableDiff`.\n\n_from potto_",
+      "parentUuid": "eac53b73_2dafcc29",
       "range": {
         "startLine": 350,
         "startChar": 0,
@@ -121,6 +221,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bd661e8_6c1f83c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T16:51:18Z",
+      "side": 1,
+      "message": "Done — added recursive nested list diffing (`splitListItemTokens`), `\u003col start\u003d...\u003e` support (`renderListContainer`), and multi-block alignment in `renderBlockquoteDiff`.\n\n_from potto_",
+      "parentUuid": "c77784aa_08232d97",
+      "range": {
+        "startLine": 995,
+        "startChar": 0,
+        "endLine": 1081,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "e2aa0b7ea6b0c2743fb626b0b4d563a8131d9560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d4159eb_68689189",
@@ -134,6 +259,31 @@
       "writtenOn": "2026-10-15T23:11:10Z",
       "side": 1,
       "message": "When `uA \u003d\u003d\u003d uB \u003e 1`, returning a positive fallback score (`0.01 + 0.1 * (1 - dist)`) for all `(a, b)` pairs of matching `type` even when `dist \u003e DEFAULT_MAX_HOMOLOGOUS_DISTANCE` can misalign blocks across insertions/deletions.\n\nFor example, if an interval has 2 blocks on each side where `A[0]` was deleted, `A[1]` was modified into `B[0]`, and an unrelated `B[1]` was added:\n- If `A[0]` and `B[1]` have the same type (e.g. `paragraph`) and `A[1]`/`B[0]` have a different type (e.g. `code` with `dist \u003e 0.6`), DP can pair `A[0]` with `B[1]`.\n\nIf the fallback is only intended to keep a single replaced block side-by-side in one row, consider restricting it to `uA \u003d\u003d\u003d 1 \u0026\u0026 uB \u003d\u003d\u003d 1`.\n\n_from potto_",
+      "range": {
+        "startLine": 1458,
+        "startChar": 0,
+        "endLine": 1470,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "e2aa0b7ea6b0c2743fb626b0b4d563a8131d9560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2ef2637_429cf665",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T16:51:18Z",
+      "side": 1,
+      "message": "Done — restricted the fallback pairing score to `uA \u003d\u003d\u003d 1 \u0026\u0026 uB \u003d\u003d\u003d 1` and tokenized fenced code blocks via `tokenizeCodeWords(t.text)`.\n\n_from potto_",
+      "parentUuid": "9d4159eb_68689189",
       "range": {
         "startLine": 1458,
         "startChar": 0,

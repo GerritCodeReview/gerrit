@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "646888fa_11fa4157",
+        "filename": "java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-16T19:46:53Z",
+      "side": 1,
+      "message": "This name leads one to believe that it is only checking for the correct type, not writing it. This made reading the tests confusing.",
+      "revId": "9ff5702e05fa0cbe84fe2ba66aaf482581ee5df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0de0324a_4119a7cc",
+        "filename": "java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-16T19:46:53Z",
+      "side": 1,
+      "message": "I think it would be good to try and read the current lock type before trying to write it so that this can be faster when it is already correct.",
+      "revId": "9ff5702e05fa0cbe84fe2ba66aaf482581ee5df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

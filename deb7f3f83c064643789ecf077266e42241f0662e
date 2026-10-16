@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2d125a0_38dd7f06",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-16T10:51:36Z",
+      "side": 1,
+      "message": "From what I understand the typescript api isn\u0027t used to export error classes, and currently I don\u0027t believe that front end plugins use exceptions? I could be wrong.\n\nThe enum would already give us the protection against typos, as once the API is published plugins will be able to use it.\n\nAs this seems to be how we handle errors across the codebase, I would lean towards leaving this as is, wdyt?",
+      "parentUuid": "daac5311_b9d53b78",
+      "revId": "deb7f3f83c064643789ecf077266e42241f0662e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80d594a4_ee0e2b61",
         "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
         "patchSetId": 16

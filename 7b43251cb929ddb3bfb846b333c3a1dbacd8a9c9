@@ -39,6 +39,31 @@
       },
       "revId": "7b43251cb929ddb3bfb846b333c3a1dbacd8a9c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f437b51a_7b89b86b",
+        "filename": "javatests/com/google/gerrit/server/change/ParentDataProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-16T17:48:18Z",
+      "side": 1,
+      "message": "Done — removed the benchmark test from ParentDataProviderTest.\n\n_(from potto)_",
+      "parentUuid": "4da62dc4_dc327c80",
+      "range": {
+        "startLine": 257,
+        "startChar": 14,
+        "endLine": 257,
+        "endChar": 73
+      },
+      "isAi": true,
+      "revId": "7b43251cb929ddb3bfb846b333c3a1dbacd8a9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

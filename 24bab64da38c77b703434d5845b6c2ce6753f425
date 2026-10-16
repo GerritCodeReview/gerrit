@@ -22,6 +22,30 @@
       },
       "revId": "24bab64da38c77b703434d5845b6c2ce6753f425",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db9803b3_4997aacf",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-16T15:05:57Z",
+      "side": 1,
+      "message": "Done. I renamed it to `getParents(RevWalk rw, ObjectId commitId)` and moved the comment explaining why we pass the parents as already accepted commits to the call site in `Loader#call()`, where the result goes to the dry run. The exception message now refers to the commit\u0027s parents.",
+      "parentUuid": "f8057710_d419620d",
+      "range": {
+        "startLine": 239,
+        "startChar": 27,
+        "endLine": 239,
+        "endChar": 45
+      },
+      "revId": "24bab64da38c77b703434d5845b6c2ce6753f425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

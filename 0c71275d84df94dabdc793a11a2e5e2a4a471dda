@@ -16,6 +16,24 @@
       "message": "avoid changing methods order unnecesssarily",
       "revId": "0c71275d84df94dabdc793a11a2e5e2a4a471dda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa5898d8_ec0155d7",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-16T15:05:57Z",
+      "side": 0,
+      "message": "I don\u0027t think any method moved here. The only change at this spot is deleting `ChangeDataCache#getAlreadyAccepted(Repository)` and its field, which are unused after this fix, so `warnWithOccasionalStackTrace` now directly follows `ChangeDataCache`.",
+      "parentUuid": "791a036e_7abe093a",
+      "revId": "0c71275d84df94dabdc793a11a2e5e2a4a471dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "068bd48d_f410180c",
       "revId": "80d3fdb1a81a6ecec813ea47117db4fad3a96f75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "385a288d_a4a9a0d8",
+        "filename": "java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-16T18:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4107347_92e5fd74",
+      "revId": "80d3fdb1a81a6ecec813ea47117db4fad3a96f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

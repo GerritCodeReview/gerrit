@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7768b6c6_6868f78d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-16T20:52:35Z",
+      "side": 1,
+      "message": "Should this be backported to 3.15? (Seems there\u0027s merge conflicts, probably because of https://gerrit-review.googlesource.com/c/gerrit/+/643550, so this would need to be adapted)",
+      "revId": "b42722cc7d5230d8dc3d461d5807d8ad516eefee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

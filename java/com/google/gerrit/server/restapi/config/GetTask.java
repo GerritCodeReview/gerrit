@@ -17,13 +17,14 @@ package com.google.gerrit.server.restapi.config;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.TaskResource;
+import com.google.gerrit.server.git.TaskInfo;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GetTask implements RestReadView<TaskResource> {
 
   @Override
-  public Response<ListTasks.TaskInfo> apply(TaskResource rsrc) {
-    return Response.ok(new ListTasks.TaskInfo(rsrc.getTask()));
+  public Response<TaskInfo> apply(TaskResource rsrc) {
+    return Response.ok(new TaskInfo(rsrc.getTask()));
   }
 }

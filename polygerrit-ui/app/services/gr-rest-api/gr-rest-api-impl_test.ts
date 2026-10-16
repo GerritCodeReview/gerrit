@@ -911,6 +911,51 @@ suite('gr-rest-api-service-impl tests', () => {
       );
     });
 
+    test('awaitPendingDiffDrafts awaits drafts sent while waiting', async () => {
+      const obj = element._pendingRequests;
+      const responses: MockPromise<Response>[] = [];
+      sinon.stub(element, '_changeBaseURL').resolves('/changes/123/1');
+      sinon.stub(element._restApiHelper, 'fetch').callsFake(() => {
+        responses.push(mockPromise<Response>());
+        return responses[responses.length - 1];
+      });
+      const draft: CommentInput = {
+        id: 'draft-id' as UrlEncodedCommentId,
+        message: 'draft message',
+      };
+
+      element._sendDiffDraftRequest(
+        HttpMethod.PUT,
+        123 as NumericChangeId,
+        1 as PatchSetNum,
+        draft
+      );
+      let awaited = false;
+      const awaitPromise = element.awaitPendingDiffDrafts().then(() => {
+        awaited = true;
+      });
+
+      // A second draft is sent while the first one is still in flight.
+      element._sendDiffDraftRequest(
+        HttpMethod.PUT,
+        123 as NumericChangeId,
+        1 as PatchSetNum,
+        draft
+      );
+      await waitEventLoop();
+      assert.equal(responses.length, 2);
+
+      responses[0].resolve(new Response(undefined, {status: 200}));
+      await waitEventLoop();
+      assert.isFalse(awaited);
+      assert.equal(obj.sendDiffDraft.length, 1);
+
+      responses[1].resolve(new Response(undefined, {status: 200}));
+      await awaitPromise;
+      assert.isTrue(awaited);
+      assert.equal(obj.sendDiffDraft.length, 0);
+    });
+
     suite('_failForCreate200', () => {
       test('_sendDiffDraftRequest checks for 200 on create', async () => {
         element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);

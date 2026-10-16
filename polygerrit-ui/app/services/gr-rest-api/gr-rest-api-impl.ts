@@ -3102,12 +3102,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return promises && promises.length;
   }
 
-  awaitPendingDiffDrafts(): Promise<void> {
-    return Promise.all(
-      this._pendingRequests[Requests.SEND_DIFF_DRAFT] || []
-    ).then(() => {
-      this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
-    });
+  /**
+   * Resolves once all diff draft requests have settled, including ones sent
+   * while waiting.
+   */
+  async awaitPendingDiffDrafts(): Promise<void> {
+    // Copy: the live array may grow while awaiting.
+    let awaited = [...(this._pendingRequests[Requests.SEND_DIFF_DRAFT] ?? [])];
+    while (awaited.length > 0) {
+      await Promise.all(awaited);
+      const settled = new Set(awaited);
+      const remaining = (
+        this._pendingRequests[Requests.SEND_DIFF_DRAFT] ?? []
+      ).filter(p => !settled.has(p));
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT] = remaining;
+      awaited = [...remaining];
+    }
   }
 
   _sendDiffDraftRequest(

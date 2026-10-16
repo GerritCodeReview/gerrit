@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daac5311_b9d53b78",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-16T10:31:12Z",
+      "side": 1,
+      "message": "Maybe we could expose the `Error` similar to this way: https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/lit/subscription-controller.ts#10 \n\n```\nexport class MissingApiTokenError extends Error {\n  override readonly name \u003d \u0027MissingApiTokenError\u0027;\n}\n\nexport class AiProvidersLoadingError extends Error {\n  override readonly name \u003d \u0027AiProvidersLoadingError\u0027;\n}\n```\n\nThis way the client could do:\n\n```\nthrow new MissingApiTokenError(\n  \u0027No API token configured. Add one in Settings.\u0027\n);\n```\n\nWithout risking, for example, a misspelling in the `name` which is the carrier of fundamental information about the error.",
+      "revId": "deb7f3f83c064643789ecf077266e42241f0662e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80d594a4_ee0e2b61",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-16T10:31:12Z",
+      "side": 1,
+      "message": "I think we are missing a similar test for an unknown model-loading error",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 164,
+        "endChar": 5
+      },
+      "revId": "deb7f3f83c064643789ecf077266e42241f0662e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

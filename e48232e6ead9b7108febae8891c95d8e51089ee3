@@ -187,6 +187,24 @@
       "parentUuid": "c8f69442_57b05a49",
       "revId": "e48232e6ead9b7108febae8891c95d8e51089ee3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00771975_60a4d13c",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-16T10:31:12Z",
+      "side": 1,
+      "message": "I think you are right. We are already asserting it on line 180.",
+      "parentUuid": "30eab215_81a0baed",
+      "revId": "e48232e6ead9b7108febae8891c95d8e51089ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

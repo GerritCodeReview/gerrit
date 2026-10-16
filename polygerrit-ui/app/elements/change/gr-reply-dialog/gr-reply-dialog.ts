@@ -51,6 +51,7 @@ import {
   isDraft,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
+  ListChangesOption,
   ReviewerInput,
   ReviewInput,
   ReviewResult,
@@ -114,7 +115,10 @@ import {
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {hasHumanReviewer} from '../../../utils/change-util';
+import {
+  hasHumanReviewer,
+  listChangesOptionsToHex,
+} from '../../../utils/change-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {
   CommentEditingChangedDetail,
@@ -1624,35 +1628,15 @@ export class GrReplyDialog extends LitElement {
       .then(result => {
         networkTimer.end();
 
-        // change-info is not set only if request resulted in error.
-        if (!result?.change_info) {
+        // result is undefined if the request resulted in an error.
+        if (!result) {
           return;
         }
 
-        // saveReview response don't contain revision information, if the
-        // newer patchset was uploaded in the meantime, we should reload.
-        const reloadRequired =
-          result.change_info.current_revision_number !==
-          this.change?.current_revision_number;
-        // Update the state right away to update comments, even if the full
-        // reload is scheduled right after.
-        const updatedChange = {
-          ...result.change_info,
-          revisions: this.change?.revisions,
-          current_revision: this.change?.current_revision,
-          current_revision_number: this.change?.current_revision_number,
-        };
-        const parseTimer = this.reporting.getTimer('SendReply - parse');
-        this.getChangeModel().updateStateChange(
-          GrReviewerUpdatesParser.parse(updatedChange as ChangeViewChangeInfo)
-        );
-        parseTimer.end();
-        if (reloadRequired) {
-          fireReload(this);
+        if (result.change_info) {
+          this.updateChangeFromChangeInfo(result.change_info);
         } else {
-          // Only reload submittability if the full reload is not triggered, to
-          // avoid duplicate requests.
-          this.getChangeModel().reloadSubmittability();
+          this.refreshChangeAfterReply();
         }
 
         this.patchsetLevelDraftMessage = '';
@@ -1677,6 +1661,53 @@ export class GrReplyDialog extends LitElement {
         if (this.autosubmitChecked) {
           await this.getFlowsModel().createAutosubmitFlow();
         }
+      });
+  }
+
+  private updateChangeFromChangeInfo(changeInfo: ChangeInfo) {
+    // saveReview / getChange response without ALL_REVISIONS doesn't contain
+    // revision information; if a newer patchset was uploaded in the meantime,
+    // we should reload.
+    const reloadRequired =
+      changeInfo.current_revision_number !==
+      this.change?.current_revision_number;
+    // Update the state right away to update comments, even if the full
+    // reload is scheduled right after.
+    const updatedChange = {
+      ...changeInfo,
+      revisions: this.change?.revisions,
+      current_revision: this.change?.current_revision,
+      current_revision_number: this.change?.current_revision_number,
+    };
+    const parseTimer = this.reporting.getTimer('SendReply - parse');
+    this.getChangeModel().updateStateChange(
+      GrReviewerUpdatesParser.parse(updatedChange as ChangeViewChangeInfo)
+    );
+    parseTimer.end();
+    if (reloadRequired) {
+      fireReload(this);
+    } else {
+      // Only reload submittability if the full reload is not triggered, to
+      // avoid duplicate requests.
+      this.getChangeModel().reloadSubmittability();
+    }
+  }
+
+  private refreshChangeAfterReply() {
+    if (!this.change) return;
+    const optionsHex = listChangesOptionsToHex(
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.DETAILED_LABELS,
+      ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.MESSAGES,
+      ListChangesOption.REVIEWER_UPDATES,
+      ListChangesOption.SKIP_DIFFSTAT
+    );
+    this.restApiService
+      .getChange(this.change._number, /* errFn=*/ undefined, optionsHex)
+      .then(changeInfo => {
+        if (!changeInfo) return;
+        this.updateChangeFromChangeInfo(changeInfo);
       });
   }
 
@@ -2136,7 +2167,7 @@ export class GrReplyDialog extends LitElement {
       this.latestPatchNum,
       review,
       errFn,
-      /* fetchDetail=*/ true
+      /* fetchDetail=*/ false
     );
   }
 

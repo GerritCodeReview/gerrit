@@ -109,6 +109,7 @@ suite('gr-reply-dialog tests', () => {
   let commentsModel: CommentsModel;
   let change: ParsedChangeInfo;
   let changeNoRevisions: ChangeInfo;
+  let getChangeStub: sinon.SinonStub;
 
   let lastId = 1;
   const makeAccount = function () {
@@ -167,7 +168,9 @@ suite('gr-reply-dialog tests', () => {
       current_revision: 'commit-id' as CommitId,
     };
 
-    stubRestApi('getChange').returns(Promise.resolve(change as ChangeInfo));
+    getChangeStub = stubRestApi('getChange').returns(
+      Promise.resolve(change as ChangeInfo)
+    );
     stubRestApi('getChangeSuggestedReviewers').returns(Promise.resolve([]));
 
     element = await fixture<GrReplyDialog>(html`
@@ -2945,6 +2948,63 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(reloadTriggered);
     // All revision information is old, but all other information is new.
     const expectedChange = {...change, labels: {Verified: createLabelInfo(-1)}};
+    assert.deepEqual(changeStateUpdateSpy.firstCall.args[0], expectedChange);
+  });
+
+  test('saveReview calls saveChangeReview with fetchDetail=false', async () => {
+    const saveChangeReviewStub = stubRestApi('saveChangeReview').returns(
+      Promise.resolve({})
+    );
+    const reviewInput: ReviewInput = {message: 'LGTM'};
+    const errFn = sinon.stub();
+
+    await element.saveReview(reviewInput, errFn);
+
+    assert.isTrue(
+      saveChangeReviewStub.calledOnceWithExactly(
+        changeNum,
+        latestPatchNum,
+        reviewInput,
+        errFn,
+        false
+      )
+    );
+  });
+
+  test('send closes dialog and ends SEND_REPLY timer before async change refresh resolves', async () => {
+    await element.updateComplete;
+    const changeModel = testResolver(changeModelToken);
+    const changeStateUpdateSpy = sinon.spy(changeModel, 'updateStateChange');
+    const getChangePromise = mockPromise<ChangeInfo | undefined>();
+    getChangeStub.resetHistory();
+    getChangeStub.returns(getChangePromise);
+    const timeEndStub = stubReporting('timeEnd');
+    const sendSpy = sinon.spy();
+    element.addEventListener('send', sendSpy);
+
+    stubSaveReview(() => {
+      return {};
+    });
+
+    await element.send(false, false);
+
+    assert.isTrue(sendSpy.calledOnce);
+    assert.isTrue(timeEndStub.calledWith(Timing.SEND_REPLY));
+    assert.isTrue(getChangeStub.calledOnce);
+    assert.isFalse(changeStateUpdateSpy.called);
+
+    const responseChange = {
+      ...change,
+      labels: {Verified: createLabelInfo(-1)},
+      revisions: undefined,
+      current_revision: undefined,
+      current_revision_number: change.current_revision_number,
+    };
+    getChangePromise.resolve(responseChange as ChangeInfo);
+    await waitEventLoop();
+
+    const expectedChange = {...change, labels: {Verified: createLabelInfo(-1)}};
+    assert.isTrue(changeStateUpdateSpy.calledOnce);
     assert.deepEqual(changeStateUpdateSpy.firstCall.args[0], expectedChange);
   });
 

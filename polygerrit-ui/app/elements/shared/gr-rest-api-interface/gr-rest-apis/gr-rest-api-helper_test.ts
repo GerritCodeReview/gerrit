@@ -231,6 +231,20 @@ suite('gr-rest-api-helper tests', () => {
       assert.deepEqual(obj, makeParsedJSON({hello: 'bonjour'}));
     });
 
+    test('POST with isHighPriority bypasses writeScheduler', async () => {
+      const promise = helper.fetchJSON({
+        fetchOptions: {
+          method: HttpMethod.POST,
+        },
+        url: '/dummy/url',
+        isHighPriority: true,
+      });
+      assert.equal(writeScheduler.scheduled.length, 0);
+      assert.isTrue(authFetchStub.called);
+      const obj = await promise;
+      assert.deepEqual(obj, makeParsedJSON({hello: 'bonjour'}));
+    });
+
     suite('error handling', () => {
       let serverErrorCalled: boolean;
       let networkErrorCalled: boolean;

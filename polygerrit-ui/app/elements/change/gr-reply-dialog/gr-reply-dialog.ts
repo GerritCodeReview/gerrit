@@ -1588,7 +1588,9 @@ export class GrReplyDialog extends LitElement {
 
     if (this.patchsetLevelGrComment) {
       this.patchsetLevelGrComment.disableAutoSaving = true;
-      await this.restApiService.awaitPendingDiffDrafts();
+    }
+    await this.restApiService.awaitPendingDiffDrafts();
+    if (this.patchsetLevelGrComment) {
       const comment =
         await this.patchsetLevelGrComment.convertToCommentInputAndOrDiscard();
       if (comment && comment.path && comment.message) {

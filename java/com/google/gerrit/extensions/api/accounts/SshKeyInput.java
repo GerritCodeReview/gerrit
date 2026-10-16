@@ -18,4 +18,5 @@ import com.google.gerrit.extensions.restapi.RawInput;
 
 public class SshKeyInput {
   public RawInput raw;
+  public String lifetime;
 }

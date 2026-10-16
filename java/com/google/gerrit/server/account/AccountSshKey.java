@@ -57,6 +57,11 @@ public record AccountSshKey(
     return expiryTime.map(t -> TimeUtil.now().isAfter(t)).orElse(false);
   }
 
+  /** Returns a copy of this key with the given expiry time. */
+  public AccountSshKey withExpiryTime(Optional<Instant> expiryTime) {
+    return new AccountSshKey(accountId, seq, sshPublicKey, valid, expiryTime, otherOptions);
+  }
+
   private static String stripOffNewLines(String s) {
     return s.replace("\n", "").replace("\r", "");
   }

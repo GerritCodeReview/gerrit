@@ -36,6 +36,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -98,10 +99,17 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     }
 
     @CanIgnoreReturnValue
-    public synchronized AccountSshKey addKey(Account.Id accountId, String pub)
+    public AccountSshKey addKey(Account.Id accountId, String pub)
+        throws IOException, ConfigInvalidException, InvalidSshKeyException {
+      return addKey(accountId, pub, Optional.empty());
+    }
+
+    @CanIgnoreReturnValue
+    public synchronized AccountSshKey addKey(
+        Account.Id accountId, String pub, Optional<Instant> expiryTime)
         throws IOException, ConfigInvalidException, InvalidSshKeyException {
       VersionedAuthorizedKeys authorizedKeys = read(accountId);
-      AccountSshKey key = authorizedKeys.addKey(pub);
+      AccountSshKey key = authorizedKeys.addKey(pub, expiryTime);
       commit(authorizedKeys);
       return key;
     }
@@ -210,13 +218,15 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * comment of the specified key.
    *
    * @param pub the public SSH key to be added
+   * @param expiryTime the time the key expires, if present
    * @return the new SSH key
    */
-  private AccountSshKey addKey(String pub) throws InvalidSshKeyException {
+  private AccountSshKey addKey(String pub, Optional<Instant> expiryTime)
+      throws InvalidSshKeyException {
     checkLoaded();
 
     int seq = keys.size() + 1;
-    AccountSshKey key = sshKeyCreator.create(accountId, seq, pub);
+    AccountSshKey key = sshKeyCreator.create(accountId, seq, pub).withExpiryTime(expiryTime);
     for (Optional<AccountSshKey> existing : keys) {
       if (existing.isPresent()
           && key.encodedKey() != null

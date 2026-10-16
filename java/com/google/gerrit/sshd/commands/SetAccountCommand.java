@@ -370,7 +370,7 @@ final class SetAccountCommand extends SshCommand {
           IOException,
           ConfigInvalidException,
           PermissionBackendException {
-    AccountSshKey sshKey = AccountSshKey.create(user.getAccountId(), i.seq, i.sshPublicKey);
+    AccountSshKey sshKey = new AccountSshKey(user.getAccountId(), i.seq, i.sshPublicKey);
 
     var _ = deleteSshKey.apply(new AccountResource.SshKey(user.asIdentifiedUser(), sshKey), null);
   }

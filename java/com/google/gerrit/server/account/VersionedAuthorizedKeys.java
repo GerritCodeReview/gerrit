@@ -144,7 +144,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   public static class SimpleSshKeyCreator implements SshKeyCreator {
     @Override
     public AccountSshKey create(Account.Id accountId, int seq, String encoded) {
-      return AccountSshKey.create(accountId, seq, encoded);
+      return new AccountSshKey(accountId, seq, encoded);
     }
   }
 
@@ -255,7 +255,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
 
     Optional<AccountSshKey> key = keys.get(seq - 1);
     if (key.isPresent() && key.get().valid()) {
-      keys.set(seq - 1, Optional.of(AccountSshKey.createInvalid(key.get())));
+      keys.set(seq - 1, Optional.of(key.get().asInvalid()));
       return true;
     }
     return false;

@@ -206,6 +206,6 @@ public class InitAdminUser implements InitStep {
       throw new IOException(String.format("Cannot add public SSH key: %s is not a file", keyFile));
     }
     String content = new String(Files.readAllBytes(p), UTF_8);
-    return AccountSshKey.create(id, 1, content);
+    return new AccountSshKey(id, 1, content);
   }
 }

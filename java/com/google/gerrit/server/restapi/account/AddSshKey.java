@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.server.mail.EmailFactories.KEY_ADDED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteSource;
 import com.google.gerrit.exceptions.EmailException;
@@ -33,24 +34,29 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.kohsuke.args4j.Option;
 
 /**
  * REST endpoint to add an SSH key for an account.
  *
  * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/sshkeys/} requests.
  */
-@Singleton
 public class AddSshKey
     implements RestCollectionModifyView<AccountResource, AccountResource.SshKey, SshKeyInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -60,6 +66,12 @@ public class AddSshKey
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
   private final EmailFactories emailFactories;
+
+  @Option(
+      name = "--lifetime",
+      metaVar = "LIFETIME",
+      usage = "How long the key can be used, for example 30d.")
+  private String lifetime;
 
   @Inject
   AddSshKey(
@@ -106,8 +118,18 @@ public class AddSshKey
           }
         }.asCharSource(UTF_8).read();
 
+    Optional<Instant> expiryFromLifetime = expiryFromLifetime(input);
+    Optional<Instant> expiryFromKey =
+        new AccountSshKey(user.getAccountId(), 1, sshPublicKey).expiryTime();
+    if (expiryFromLifetime.isPresent() && expiryFromKey.isPresent()) {
+      throw new BadRequestException(
+          "lifetime cannot be used with a key that has an expiry-time option");
+    }
+
     try {
-      AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey);
+      AccountSshKey sshKey =
+          authorizedKeys.addKey(
+              user.getAccountId(), sshPublicKey, expiryFromLifetime.or(() -> expiryFromKey));
 
       try {
         emailFactories
@@ -123,5 +145,23 @@ public class AddSshKey
     } catch (InvalidSshKeyException e) {
       throw new BadRequestException(e.getMessage());
     }
+  }
+
+  private Optional<Instant> expiryFromLifetime(SshKeyInput input) throws BadRequestException {
+    String value = lifetime != null ? lifetime : input.lifetime;
+    if (Strings.isNullOrEmpty(value)) {
+      return Optional.empty();
+    }
+
+    long seconds;
+    try {
+      seconds = ConfigUtil.getTimeUnit(value, 0, TimeUnit.SECONDS);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("invalid lifetime: " + value, e);
+    }
+    if (seconds <= 0) {
+      throw new BadRequestException("lifetime must be positive: " + value);
+    }
+    return Optional.of(TimeUtil.now().plus(Duration.ofSeconds(seconds)));
   }
 }

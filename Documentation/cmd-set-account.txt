@@ -11,6 +11,7 @@ _ssh_ -p <port> <host> _gerrit set-account_
   [--add-email <EMAIL>] [--delete-email <EMAIL> | ALL]
   [--preferred-email <EMAIL>]
   [--add-ssh-key - | <KEY>]
+  [--ssh-key-lifetime <LIFETIME>]
   [--delete-ssh-key - | <KEY> | ALL]
   [--generate-http-password]
   [--http-password <PASSWORD>]
@@ -89,6 +90,12 @@ This most likely requires double quoting the value, for example
     from the command line.
     May be supplied more than once to add multiple SSH keys
     in a single command execution.
+
+--ssh-key-lifetime::
+    How long the SSH keys added with `--add-ssh-key` can be used,
+    for example `30d`. The value is a number followed by a unit
+    (`s`, `m`, `h`, `d`, `w`, `mon` or `y`). Without it the keys
+    do not expire. Requires `--add-ssh-key`.
 
 --delete-ssh-key::
     Content of the public SSH key to remove from the account's

@@ -22,15 +22,19 @@ import com.google.gerrit.server.ssh.SshKeyCreator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
+import java.time.Instant;
+import java.util.Optional;
 
 public class SshKeyCreatorImpl implements SshKeyCreator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
-  public AccountSshKey create(Account.Id accountId, int seq, String encoded)
+  public AccountSshKey create(
+      Account.Id accountId, int seq, String encoded, Optional<Instant> expiryTime)
       throws InvalidSshKeyException {
     try {
-      AccountSshKey key = new AccountSshKey(accountId, seq, SshUtil.toOpenSshPublicKey(encoded));
+      AccountSshKey key =
+          new AccountSshKey(accountId, seq, SshUtil.toOpenSshPublicKey(encoded), expiryTime);
       SshUtil.parse(key);
       return key;
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

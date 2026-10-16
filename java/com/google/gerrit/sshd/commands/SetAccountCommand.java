@@ -113,6 +113,12 @@ final class SetAccountCommand extends SshCommand {
   private List<String> addSshKeys = new ArrayList<>();
 
   @Option(
+      name = "--ssh-key-lifetime",
+      metaVar = "LIFETIME",
+      usage = "how long the keys added with --add-ssh-key can be used, for example 30d")
+  private String sshKeyLifetime;
+
+  @Option(
       name = "--delete-ssh-key",
       metaVar = "-|KEY",
       usage = "public keys to delete from the account")
@@ -236,6 +242,9 @@ final class SetAccountCommand extends SshCommand {
         throw die("--http-password and --clear-http-password options are mutually exclusive.");
       }
     }
+    if (sshKeyLifetime != null && addSshKeys.isEmpty()) {
+      throw die("--ssh-key-lifetime requires --add-ssh-key");
+    }
     if (addSshKeys.contains("-") && deleteSshKeys.contains("-")) {
       throw die("Only one option may use the stdin");
     }
@@ -342,6 +351,7 @@ final class SetAccountCommand extends SshCommand {
     for (String sshKey : sshKeys) {
       SshKeyInput in = new SshKeyInput();
       in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "text/plain");
+      in.lifetime = sshKeyLifetime;
 
       var _ = addSshKey.apply(rsrc, in);
     }

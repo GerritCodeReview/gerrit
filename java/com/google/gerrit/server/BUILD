@@ -112,6 +112,7 @@ java_library(
         "//lib/lucene:lucene-queryparser",
         "//lib/mime4j:core",
         "//lib/mime4j:dom",
+        "//lib/mina:sshd",
         "//lib/ow2:ow2-asm",
         "//lib/ow2:ow2-asm-tree",
         "//lib/ow2:ow2-asm-util",

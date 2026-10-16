@@ -41,7 +41,7 @@ public class AuthorizedKeys {
         continue;
       } else if (line.startsWith(INVALID_KEY_COMMENT_PREFIX)) {
         String pub = line.substring(INVALID_KEY_COMMENT_PREFIX.length());
-        AccountSshKey key = AccountSshKey.createInvalid(accountId, seq++, pub);
+        AccountSshKey key = new AccountSshKey(accountId, seq++, pub, false);
         keys.add(Optional.of(key));
       } else if (line.startsWith(DELETED_KEY_COMMENT)) {
         keys.add(Optional.empty());
@@ -49,7 +49,7 @@ public class AuthorizedKeys {
       } else if (line.startsWith("#")) {
         continue;
       } else {
-        AccountSshKey key = AccountSshKey.create(accountId, seq++, line);
+        AccountSshKey key = new AccountSshKey(accountId, seq++, line);
         keys.add(Optional.of(key));
       }
     }

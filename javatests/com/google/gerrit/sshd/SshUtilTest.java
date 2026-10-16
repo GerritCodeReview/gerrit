@@ -34,7 +34,7 @@ public class SshUtilTest {
   public void shouldFailParsingOpenSshKeyWithInvalidAlgo() {
     String sshKeyWithInvalidAlgo = String.format("%s %s", INVALID_ALGO, VALID_OPENSSH_RSA_KEY);
     AccountSshKey sshKey =
-        AccountSshKey.create(TEST_ACCOUNT_ID, TEST_SSHKEY_SEQUENCE, sshKeyWithInvalidAlgo);
+        new AccountSshKey(TEST_ACCOUNT_ID, TEST_SSHKEY_SEQUENCE, sshKeyWithInvalidAlgo);
     assertThrows(InvalidKeySpecException.class, () -> SshUtil.parse(sshKey));
   }
 
@@ -43,7 +43,7 @@ public class SshUtilTest {
     String sshKeyWithValidKeyAlgo =
         String.format("%s %s", VALID_SSH_RSA_ALGO, VALID_OPENSSH_RSA_KEY);
     AccountSshKey sshKey =
-        AccountSshKey.create(TEST_ACCOUNT_ID, TEST_SSHKEY_SEQUENCE, sshKeyWithValidKeyAlgo);
+        new AccountSshKey(TEST_ACCOUNT_ID, TEST_SSHKEY_SEQUENCE, sshKeyWithValidKeyAlgo);
     assertThat(sshKey).isNotNull();
   }
 }

@@ -53,7 +53,7 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
   @UseSsh
   public void assertUsersHaveSshKeysPreconditions() throws Exception {
     List<AccountSshKey> userSshKeys = authorizedKeys.getKeys(user.id());
-    assertThat(userSshKeys).containsExactly(userSshKey, AccountSshKey.create(user.id(), 2, KEY1));
+    assertThat(userSshKeys).containsExactly(userSshKey, new AccountSshKey(user.id(), 2, KEY1));
     List<AccountSshKey> adminSshKeys = authorizedKeys.getKeys(admin.id());
     assertThat(adminSshKeys).containsExactly(adminSshKey);
   }
@@ -63,7 +63,7 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
   public void deleteSshKeyRestApi() throws Exception {
     gApi.accounts().id(user.id().get()).deleteSshKey(userSshKey.seq());
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
-    assertThat(sshKeysAfterDel).containsExactly(AccountSshKey.create(user.id(), 2, KEY1));
+    assertThat(sshKeysAfterDel).containsExactly(new AccountSshKey(user.id(), 2, KEY1));
   }
 
   @Test
@@ -73,7 +73,7 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
         .delete(String.format("/accounts/%s/sshkeys/%d", user.id(), userSshKey.seq()))
         .assertNoContent();
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
-    assertThat(sshKeysAfterDel).containsExactly(AccountSshKey.create(user.id(), 2, KEY1));
+    assertThat(sshKeysAfterDel).containsExactly(new AccountSshKey(user.id(), 2, KEY1));
   }
 
   @Test
@@ -82,7 +82,7 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
     assertThat(deleteSshKey.apply(identifiedUserFactory.create(user.id()), userSshKey))
         .isEqualTo(Response.none());
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
-    assertThat(sshKeysAfterDel).containsExactly(AccountSshKey.create(user.id(), 2, KEY1));
+    assertThat(sshKeysAfterDel).containsExactly(new AccountSshKey(user.id(), 2, KEY1));
   }
 
   @Test
@@ -92,7 +92,7 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
         .delete(String.format("/accounts/self/sshkeys/%d", userSshKey.seq()))
         .assertNoContent();
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
-    assertThat(sshKeysAfterDel).containsExactly(AccountSshKey.create(user.id(), 2, KEY1));
+    assertThat(sshKeysAfterDel).containsExactly(new AccountSshKey(user.id(), 2, KEY1));
   }
 
   @Test

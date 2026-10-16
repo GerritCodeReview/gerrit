@@ -14,6 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.common.Nullable;
+import java.sql.Timestamp;
+
 public class SshKeyInfo {
   public Integer seq;
   public String sshPublicKey;
@@ -21,4 +24,5 @@ public class SshKeyInfo {
   public String algorithm;
   public String comment;
   public Boolean valid;
+  @Nullable public Timestamp expiration;
 }

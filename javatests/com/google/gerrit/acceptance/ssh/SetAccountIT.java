@@ -22,8 +22,11 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.inject.Inject;
 import java.util.List;
@@ -35,6 +38,25 @@ import org.junit.Test;
 public class SetAccountIT extends AbstractDaemonTest {
   @Inject private ExternalIds externalIds;
   @Inject private ProjectOperations projectOperations;
+
+  @Test
+  public void setAccount_addSshKey_withLifetime() throws Exception {
+    String key = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
+    adminSshSession.exec(
+        "gerrit set-account --add-ssh-key '" + key + "' --ssh-key-lifetime 7d admin");
+    adminSshSession.assertSuccess();
+
+    List<SshKeyInfo> keys = gApi.accounts().self().listSshKeys();
+    String added = keys.get(keys.size() - 1).sshPublicKey;
+    assertThat(added).startsWith("expiry-time=\"");
+    assertThat(added).endsWith(key);
+  }
+
+  @Test
+  public void setAccount_sshKeyLifetime_requiresAddSshKey() throws Exception {
+    adminSshSession.exec("gerrit set-account --ssh-key-lifetime 7d admin");
+    adminSshSession.assertFailure();
+  }
 
   @Test
   public void setAccount_deleteExternalId_all() throws Exception {

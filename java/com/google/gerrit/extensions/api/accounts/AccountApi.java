@@ -95,6 +95,9 @@ public interface AccountApi {
   @CanIgnoreReturnValue
   SshKeyInfo addSshKey(String key) throws RestApiException;
 
+  @CanIgnoreReturnValue
+  SshKeyInfo addSshKey(String key, String lifetime) throws RestApiException;
+
   void deleteSshKey(int seq) throws RestApiException;
 
   Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException;

@@ -1846,13 +1846,13 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
   @UseSsh
   public void sshKeyWithOptions() throws Exception {
     String key = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
-    gApi.accounts().self().addSshKey("no-pty,expiry-time=\"20300101Z\" " + key);
+    gApi.accounts().self().addSshKey("no-pty,expiry-time=\"20300101000000Z\" " + key);
 
     List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     SshKeyInfo added = info.get(1);
     assertThat(added.valid).isTrue();
-    assertThat(added.sshPublicKey).isEqualTo("expiry-time=\"20300101Z\",no-pty " + key);
+    assertThat(added.sshPublicKey).isEqualTo("expiry-time=\"20300101000000Z\",no-pty " + key);
     assertThat(added.comment).isEqualTo(admin.email());
     assertThat(added.encodedKey).isEqualTo(Splitter.on(' ').splitToList(key).get(1));
   }

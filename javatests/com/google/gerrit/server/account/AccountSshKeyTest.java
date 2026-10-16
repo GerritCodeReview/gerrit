@@ -17,6 +17,9 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.util.time.TimeUtil;
+import java.time.Instant;
+import org.junit.After;
 import org.junit.Test;
 
 public class AccountSshKeyTest {
@@ -25,6 +28,58 @@ public class AccountSshKeyTest {
           + "uJBRWVonSSoz3RoAZ7bWXCVVGwchtXwUURD689wFYdiPecOrWOUgeeyRq754YWRhU+W28"
           + "vf8IZixgjCmiBhaL2gt3wff6pP+NXJpTSA4aeWE5DfNK5tZlxlSxqkKOS8JRSUeNQov5T"
           + "w== john.doe@example.com";
+
+  @After
+  public void resetClock() {
+    TimeUtil.resetCurrentMillisSupplier();
+  }
+
+  @Test
+  public void noExpiryTime() {
+    AccountSshKey key = key("");
+    assertThat(key.expiryTime()).isEmpty();
+    assertThat(key.isExpired()).isFalse();
+  }
+
+  @Test
+  public void expiryTimeWithSeconds() {
+    AccountSshKey key = key("expiry-time=\"20300102030405Z\" ");
+    Instant expiry = Instant.parse("2030-01-02T03:04:05Z");
+    assertThat(key.expiryTime()).hasValue(expiry);
+    TimeUtil.setCurrentMillisSupplier(expiry::toEpochMilli);
+    assertThat(key.isExpired()).isFalse();
+    TimeUtil.setCurrentMillisSupplier(() -> expiry.plusSeconds(1).toEpochMilli());
+    assertThat(key.isExpired()).isTrue();
+  }
+
+  @Test
+  public void expiryTimeWithMinutes() {
+    assertThat(key("expiry-time=\"203001020304Z\" ").expiryTime())
+        .hasValue(Instant.parse("2030-01-02T03:04:00Z"));
+  }
+
+  @Test
+  public void expiryTimeWithDateOnly() {
+    assertThat(key("expiry-time=\"20300102Z\" ").expiryTime())
+        .hasValue(Instant.parse("2030-01-02T00:00:00Z"));
+  }
+
+  @Test
+  public void expiryTimeAmongOtherOptions() {
+    AccountSshKey key = key("no-pty,expiry-time=\"20300102Z\",no-agent-forwarding ");
+    assertThat(key.expiryTime()).hasValue(Instant.parse("2030-01-02T00:00:00Z"));
+    assertThat(key.algorithm()).isEqualTo("ssh-rsa");
+    assertThat(key.comment()).isEqualTo("john.doe@example.com");
+  }
+
+  @Test
+  public void malformedExpiryTimeIsIgnored() {
+    for (String value : new String[] {"tomorrow", "2030", "20301340Z", "20300230Z"}) {
+      AccountSshKey key = key("expiry-time=\"" + value + "\" ");
+      assertThat(key.expiryTime()).isEmpty();
+      assertThat(key.isExpired()).isFalse();
+    }
+  }
 
   @Test
   public void optionsSurviveSerialization() {

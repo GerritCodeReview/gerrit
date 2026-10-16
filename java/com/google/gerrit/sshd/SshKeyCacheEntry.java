@@ -15,19 +15,24 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.account.AccountSshKey;
 import java.security.PublicKey;
 
 class SshKeyCacheEntry {
-  private final Account.Id accountId;
   private final PublicKey publicKey;
+  private final AccountSshKey sshKey;
 
-  SshKeyCacheEntry(Account.Id accountId, PublicKey publicKey) {
-    this.accountId = accountId;
+  SshKeyCacheEntry(PublicKey publicKey, AccountSshKey sshKey) {
     this.publicKey = publicKey;
+    this.sshKey = sshKey;
   }
 
   Account.Id getAccount() {
-    return accountId;
+    return sshKey.accountId();
+  }
+
+  boolean isExpired() {
+    return sshKey.isExpired();
   }
 
   boolean match(PublicKey inkey) {

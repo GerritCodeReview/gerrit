@@ -20,6 +20,15 @@ import com.google.common.base.Strings;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.util.time.TimeUtil;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
@@ -31,7 +40,16 @@ import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
  *     key} could not be parsed
  */
 public record AccountSshKey(
-    Account.Id accountId, int seq, boolean valid, Optional<AuthorizedKeyEntry> key, String rawKey) {
+    Account.Id accountId,
+    int seq,
+    boolean valid,
+    Optional<AuthorizedKeyEntry> key,
+    String rawKey,
+    Optional<Instant> expiryTime) {
+  private static final String EXPIRY_TIME_OPTION = "expiry-time";
+  private static final DateTimeFormatter DATE_TIME_MINUTES = formatter("uuuuMMddHHmm");
+  private static final DateTimeFormatter DATE_TIME_SECONDS = formatter("uuuuMMddHHmmss");
+
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey) {
     this(accountId, seq, sshPublicKey, true);
   }
@@ -47,9 +65,18 @@ public record AccountSshKey(
     }
   }
 
+  private AccountSshKey(
+      Account.Id accountId,
+      int seq,
+      boolean valid,
+      Optional<AuthorizedKeyEntry> key,
+      String rawKey) {
+    this(accountId, seq, valid, key, rawKey, expiryTime(key));
+  }
+
   /** Returns a copy of this key that is flagged as invalid. */
   public AccountSshKey asInvalid() {
-    return new AccountSshKey(accountId, seq, false, key, rawKey);
+    return new AccountSshKey(accountId, seq, false, key, rawKey, expiryTime);
   }
 
   /** Returns the key in the format of a line of {@code authorized_keys}, including options. */
@@ -69,6 +96,10 @@ public record AccountSshKey(
     return key.map(AuthorizedKeyEntry::getComment).orElse("");
   }
 
+  public boolean isExpired() {
+    return expiryTime.map(t -> TimeUtil.now().isAfter(t)).orElse(false);
+  }
+
   private static String format(AuthorizedKeyEntry key) {
     StringBuilder b = new StringBuilder();
     String options =
@@ -85,6 +116,11 @@ public record AccountSshKey(
     return b.toString();
   }
 
+  private static Optional<Instant> expiryTime(Optional<AuthorizedKeyEntry> key) {
+    return key.map(k -> k.getLoginOptions().get(EXPIRY_TIME_OPTION))
+        .flatMap(AccountSshKey::parseExpiryTime);
+  }
+
   /** Boolean options are parsed to {@code name=true}, and negated ones to {@code !name=false}. */
   private static String formatOption(Map.Entry<String, String> option) {
     String name = option.getKey();
@@ -99,6 +135,23 @@ public record AccountSshKey(
     return s.replace("\n", "").replace("\r", "");
   }
 
+  private static Optional<Instant> parseExpiryTime(String value) {
+    boolean utc = value.endsWith("Z");
+    String s = utc ? value.substring(0, value.length() - 1) : value;
+    try {
+      LocalDateTime t =
+          switch (s.length()) {
+            case 8 -> LocalDate.parse(s, DateTimeFormatter.BASIC_ISO_DATE).atStartOfDay();
+            case 12 -> LocalDateTime.parse(s, DATE_TIME_MINUTES);
+            case 14 -> LocalDateTime.parse(s, DATE_TIME_SECONDS);
+            default -> throw new DateTimeParseException("Invalid length", s, 0);
+          };
+      return Optional.of(t.atZone(utc ? ZoneOffset.UTC : ZoneId.systemDefault()).toInstant());
+    } catch (DateTimeParseException e) {
+      return Optional.empty();
+    }
+  }
+
   private static Optional<AuthorizedKeyEntry> parse(String sshPublicKey) {
     String s = stripOffNewLines(sshPublicKey);
     if (s.isEmpty()) {
@@ -109,5 +162,9 @@ public record AccountSshKey(
     } catch (IllegalArgumentException e) {
       return Optional.empty();
     }
+  }
+
+  private static DateTimeFormatter formatter(String pattern) {
+    return DateTimeFormatter.ofPattern(pattern).withResolverStyle(ResolverStyle.STRICT);
   }
 }

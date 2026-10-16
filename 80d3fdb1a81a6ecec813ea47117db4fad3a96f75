@@ -16,6 +16,24 @@
       "message": "This is not safe as it can still overwrite an existing file. :(",
       "revId": "80d3fdb1a81a6ecec813ea47117db4fad3a96f75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4107347_92e5fd74",
+        "filename": "java/com/google/gerrit/server/schema/H2AccountPatchReviewStore.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-16T15:38:52Z",
+      "side": 1,
+      "message": "It\u0027s sort of a chicken and egg problem, you need a lock to protect this write. My suggestion is to use the only safe approach I know of for this, and that is to use a file inside a subdirectory, and to move (rename) the new tempdirectory with a new file in it \"over\" the existing subdirectory. If the existing subdirectory is empty this will succeed atomically. If it is not, it will fail.",
+      "parentUuid": "068bd48d_f410180c",
+      "revId": "80d3fdb1a81a6ecec813ea47117db4fad3a96f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

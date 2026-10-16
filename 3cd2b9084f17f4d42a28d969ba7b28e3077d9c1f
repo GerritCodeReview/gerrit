@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24074721_0570c1bb",
+        "filename": "java/com/google/gerrit/server/schema/H2PluginLockAccountPatchReviewStore.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-16T08:44:55Z",
+      "side": 1,
+      "message": "Once the plugin is unloaded, `newLock()` throws `IllegalStateException`. `tryAcquireRaw()` catches it as a `RuntimeException`, logs it at SEVERE, and the batching lock goes on retrying with backoff until `h2LockTimeout` runs out. So each call to `getConnection()` blocks for the whole timeout (30 s by default) and logs a SEVERE stack trace up to every 500 ms. That covers reads too: `findReviewed` and the reviewed-files lookup behind the diff and file views, not only writes as the docs say. On a busy primary this ties up request threads after a plain plugin uninstall. Since this state is permanent until the plugin is reinstalled, could `getConnection()` fail fast before entering the batching lock? For example:\n```java\n@Override\npublic Connection getConnection() throws SQLException {\n  if (lockManager.get() instanceof DefaultLockManager) {\n    throw new SQLException(\"...no plugin-provided LockManager bound...\");\n  }\n  return super.getConnection();\n}\n```\nThe docs sentence about writes failing should then also mention reads.",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 3
+      },
+      "revId": "3cd2b9084f17f4d42a28d969ba7b28e3077d9c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

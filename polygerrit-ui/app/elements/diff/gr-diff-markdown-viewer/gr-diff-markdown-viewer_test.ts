@@ -105,6 +105,66 @@ suite('gr-diff-markdown-viewer tests', () => {
     assert.notEqual(styleRight.backgroundColor, 'transparent');
   });
 
+  test('renders inline single backtick code blocks in modified paragraphs and headings', async () => {
+    const diff: DiffInfo = {
+      ...createDiff(),
+      content: [
+        {
+          a: ['## Running `old_script.py`'],
+          b: ['## Running `new_script.py`'],
+        },
+        {ab: ['']},
+        {
+          a: [
+            'The generalized runner script is located at [run_experiment.py](file:///path/to/workspace/tools/build_experimentation/scripts/run_experiment.py).',
+          ],
+          b: [
+            'The generalized runner script is located at [`scripts/run_experiment.py`](scripts/run_experiment.py) (relative to this `SKILL.md` directory, `<SKILL_DIR>`). It automatically resolves the workspace root from `--workspace-root`, `workspace_root` in the JSON config, `$ANDROID_BUILD_TOP`, or the nearest ancestor directory containing `.repo/`.',
+          ],
+        },
+      ],
+    };
+
+    element.diff = diff;
+    await element.updateComplete;
+
+    const modifiedLefts = element.shadowRoot!.querySelectorAll<HTMLElement>(
+      '.diff-cell.modified-left'
+    );
+    assert.equal(modifiedLefts.length, 2);
+    const leftLink = modifiedLefts[1].querySelector<HTMLAnchorElement>('p a');
+    assert.isNotNull(leftLink);
+    assert.equal(leftLink.textContent, 'run_experiment.py');
+
+    const modifiedRights = element.shadowRoot!.querySelectorAll<HTMLElement>(
+      '.diff-cell.modified-right'
+    );
+    assert.equal(modifiedRights.length, 2);
+
+    const headingCode = modifiedRights[0].querySelector('h2 code');
+    assert.isNotNull(headingCode);
+    assert.equal(headingCode.textContent, 'new_script.py');
+
+    const rightLink = modifiedRights[1].querySelector<HTMLAnchorElement>('p a');
+    assert.isNotNull(rightLink);
+    assert.equal(rightLink.getAttribute('href'), 'scripts/run_experiment.py');
+    assert.isNotNull(rightLink.querySelector('code'));
+    assert.equal(rightLink.textContent, 'scripts/run_experiment.py');
+
+    const paragraphCodes = Array.from(
+      modifiedRights[1].querySelectorAll('p code')
+    ).map(el => el.textContent);
+    assert.deepEqual(paragraphCodes, [
+      'scripts/run_experiment.py',
+      'SKILL.md',
+      '<SKILL_DIR>',
+      '--workspace-root',
+      'workspace_root',
+      '$ANDROID_BUILD_TOP',
+      '.repo/',
+    ]);
+  });
+
   test('renders deleted block with red background in side-by-side mode', async () => {
     const diff: DiffInfo = {
       ...createDiff(),

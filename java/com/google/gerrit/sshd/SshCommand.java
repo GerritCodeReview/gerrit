@@ -26,6 +26,7 @@ import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
+import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.logging.PerformanceLogContext;
@@ -61,6 +62,8 @@ public abstract class SshCommand extends BaseCommand {
   protected PrintWriter stdout;
   protected PrintWriter stderr;
 
+  private volatile boolean destroyed;
+
   @Override
   public void start(ChannelSession channel, Environment env) throws IOException {
     String sessionId = HexFormat.fromInt(getSession().getSessionId());
@@ -82,8 +85,8 @@ public abstract class SshCommand extends BaseCommand {
               try (RequestStateContext requestStateContext =
                   RequestStateContext.open()
                       .setPerformanceSummaryProvider(performanceLogContext)
-                      .addRequestStateProvider(
-                          deadlineCheckerFactory.create(requestInfo, deadline))) {
+                      .addRequestStateProvider(deadlineCheckerFactory.create(requestInfo, deadline))
+                      .addRequestStateProvider(this::checkIfDestroyed)) {
                 requestListeners.runEach(l -> l.onRequest(requestInfo));
                 SshCommand.this.run();
               } catch (InvalidDeadlineException e) {
@@ -116,6 +119,26 @@ public abstract class SshCommand extends BaseCommand {
           }
         },
         AccessPath.SSH_COMMAND);
+  }
+
+  @Override
+  public void destroy(ChannelSession channel) {
+    destroyed = true;
+    super.destroy(channel);
+  }
+
+  /**
+   * Cancels the request once the SSH channel was destroyed (e.g. because the client disconnected).
+   *
+   * <p>{@link #destroy(ChannelSession)} also interrupts the command thread, but code that runs on
+   * that thread may clear the interrupt flag (e.g. H2 does so while waiting for a lock). Unlike the
+   * interrupt flag this state cannot be lost, so {@link RequestStateContext#abortIfCancelled()}
+   * reliably aborts the command.
+   */
+  private void checkIfDestroyed(RequestStateProvider.OnCancelled onCancelled) {
+    if (destroyed) {
+      onCancelled.onCancel(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
+    }
   }
 
   protected abstract void run() throws UnloggedFailure, Failure, Exception;

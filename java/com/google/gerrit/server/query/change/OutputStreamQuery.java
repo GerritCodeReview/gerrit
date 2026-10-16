@@ -30,8 +30,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.account.AccountAttributeLoader;
-import com.google.gerrit.server.cancellation.RequestCancelledException;
-import com.google.gerrit.server.cancellation.RequestStateProvider;
+import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -223,10 +222,7 @@ public class OutputStreamQuery {
           AccountAttributeLoader accountLoader = accountAttributeLoaderFactory.create();
           List<ChangeAttribute> changeAttributes = new ArrayList<>();
           for (ChangeData d : results.entities()) {
-            if (Thread.currentThread().isInterrupted()) {
-              throw new RequestCancelledException(
-                  RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, null);
-            }
+            RequestStateContext.abortIfCancelled();
             changeAttributes.add(
                 buildChangeAttribute(d, repos, revWalks, accountLoader, attributesNodeProviders));
           }

@@ -130,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e313f7e5_bf9c003f",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-16T10:00:16Z",
+      "side": 1,
+      "message": "I\u0027ve updated this so that if there is an unkwnon (to Gerrit) error, it\u0027ll display a default error message.",
+      "parentUuid": "6afda95f_93b90112",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 75
+      },
+      "revId": "e48232e6ead9b7108febae8891c95d8e51089ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8f69442_57b05a49",

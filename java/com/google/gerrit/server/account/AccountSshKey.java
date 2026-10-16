@@ -29,8 +29,10 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import org.apache.sshd.common.config.keys.AuthorizedKeyEntry;
 
 /**
@@ -49,13 +51,25 @@ public record AccountSshKey(
   private static final String EXPIRY_TIME_OPTION = "expiry-time";
   private static final DateTimeFormatter DATE_TIME_MINUTES = formatter("uuuuMMddHHmm");
   private static final DateTimeFormatter DATE_TIME_SECONDS = formatter("uuuuMMddHHmmss");
+  private static final DateTimeFormatter EXPIRY_TIME_FORMAT =
+      DateTimeFormatter.ofPattern("uuuuMMddHHmmss'Z'").withZone(ZoneOffset.UTC);
 
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey) {
     this(accountId, seq, sshPublicKey, true);
   }
 
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
-    this(accountId, seq, valid && seq > 0, parse(sshPublicKey), stripOffNewLines(sshPublicKey));
+    this(
+        accountId,
+        seq,
+        valid && seq > 0,
+        parse(sshPublicKey, Optional.empty()),
+        stripOffNewLines(sshPublicKey));
+  }
+
+  public AccountSshKey(
+      Account.Id accountId, int seq, String sshPublicKey, Optional<Instant> expiryTime) {
+    this(accountId, seq, seq > 0, parse(sshPublicKey, expiryTime), stripOffNewLines(sshPublicKey));
   }
 
   public AccountSshKey {
@@ -152,13 +166,22 @@ public record AccountSshKey(
     }
   }
 
-  private static Optional<AuthorizedKeyEntry> parse(String sshPublicKey) {
+  private static Optional<AuthorizedKeyEntry> parse(
+      String sshPublicKey, Optional<Instant> expiryTime) {
     String s = stripOffNewLines(sshPublicKey);
     if (s.isEmpty()) {
       return Optional.empty();
     }
     try {
-      return Optional.of(AuthorizedKeyEntry.parseAuthorizedKeyEntry(s));
+      AuthorizedKeyEntry entry = AuthorizedKeyEntry.parseAuthorizedKeyEntry(s);
+      expiryTime.ifPresent(
+          t -> {
+            Map<String, String> options = new TreeMap<>(entry.getLoginOptions());
+            options.put(
+                EXPIRY_TIME_OPTION, EXPIRY_TIME_FORMAT.format(t.truncatedTo(ChronoUnit.SECONDS)));
+            entry.setLoginOptions(options);
+          });
+      return Optional.of(entry);
     } catch (IllegalArgumentException e) {
       return Optional.empty();
     }

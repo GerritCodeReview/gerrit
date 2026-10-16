@@ -494,8 +494,14 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public SshKeyInfo addSshKey(String key) throws RestApiException {
+    return addSshKey(key, null);
+  }
+
+  @Override
+  public SshKeyInfo addSshKey(String key, @Nullable String lifetime) throws RestApiException {
     SshKeyInput in = new SshKeyInput();
     in.raw = RawInputUtil.create(key);
+    in.lifetime = lifetime;
     try {
       return addSshKey.apply(account, in).value();
     } catch (Exception e) {

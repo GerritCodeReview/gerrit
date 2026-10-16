@@ -1052,6 +1052,15 @@ link:#ssh-key-info[SshKeyInfo] entities.
       "algorithm": "ssh-rsa",
       "comment": "john.doe@example.com",
       "valid": true
+    },
+    {
+      "seq": 2,
+      "ssh_public_key": "expiry-time=\"20260214150000Z\" ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
+      "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
+      "algorithm": "ssh-rsa",
+      "comment": "john.doe@example.com",
+      "valid": true,
+      "expiration": "2026-02-14 15:00:00.000000000"
     }
   ]
 ----
@@ -1100,11 +1109,17 @@ Adds an SSH key for a user.
 The SSH public key must be provided as raw content in the request body.
 
 Trying to add an SSH key that already exists succeeds, but no new SSH
-key is persisted.
+key is persisted and the existing SSH key is not changed.
+
+The SSH key does not expire by default. The optional `lifetime` query
+parameter limits how long the SSH key can be used, for example
+`lifetime=30d`. The value is a number followed by a unit (`s`, `m`, `h`,
+`d`, `w`, `mon` or `y`) and must be positive. `lifetime` cannot be used
+if the provided SSH key has an `expiry-time` option already.
 
 .Request
 ----
-  POST /accounts/self/sshkeys HTTP/1.0
+  POST /accounts/self/sshkeys?lifetime=30d HTTP/1.0
   Content-Type: text/plain
 
   ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com
@@ -1122,11 +1137,12 @@ describes the new SSH key.
   )]}'
   {
     "seq": 2,
-    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
+    "ssh_public_key": "expiry-time=\"20260214150000Z\" ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
     "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
     "algorithm": "ssh-rsa",
     "comment": "john.doe@example.com",
-    "valid": true
+    "valid": true,
+    "expiration": "2026-02-14 15:00:00.000000000"
   }
 ----
 
@@ -3198,6 +3214,7 @@ user.
 |`algorithm`     ||The algorithm of the SSH key.
 |`comment`       |optional|The comment of the SSH key.
 |`valid`         ||Whether the SSH key is valid.
+|`expiration`    |optional|The timestamp at which the SSH key will expire
 |=============================
 
 [[username-input]]

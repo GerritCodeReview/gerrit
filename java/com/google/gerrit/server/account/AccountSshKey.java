@@ -47,7 +47,8 @@ public record AccountSshKey(
     boolean valid,
     Optional<AuthorizedKeyEntry> key,
     String rawKey,
-    Optional<Instant> expiryTime) {
+    Optional<Instant> expiryTime,
+    boolean deleted) {
   private static final String EXPIRY_TIME_OPTION = "expiry-time";
   private static final DateTimeFormatter DATE_TIME_MINUTES = formatter("uuuuMMddHHmm");
   private static final DateTimeFormatter DATE_TIME_SECONDS = formatter("uuuuMMddHHmmss");
@@ -59,17 +60,29 @@ public record AccountSshKey(
   }
 
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
+    this(accountId, seq, sshPublicKey, valid, false);
+  }
+
+  public AccountSshKey(
+      Account.Id accountId, int seq, String sshPublicKey, boolean valid, boolean deleted) {
     this(
         accountId,
         seq,
         valid && seq > 0,
         parse(sshPublicKey, Optional.empty()),
-        stripOffNewLines(sshPublicKey));
+        stripOffNewLines(sshPublicKey),
+        deleted);
   }
 
   public AccountSshKey(
       Account.Id accountId, int seq, String sshPublicKey, Optional<Instant> expiryTime) {
-    this(accountId, seq, seq > 0, parse(sshPublicKey, expiryTime), stripOffNewLines(sshPublicKey));
+    this(
+        accountId,
+        seq,
+        seq > 0,
+        parse(sshPublicKey, expiryTime),
+        stripOffNewLines(sshPublicKey),
+        false);
   }
 
   public AccountSshKey {
@@ -84,13 +97,19 @@ public record AccountSshKey(
       int seq,
       boolean valid,
       Optional<AuthorizedKeyEntry> key,
-      String rawKey) {
-    this(accountId, seq, valid, key, rawKey, expiryTime(key));
+      String rawKey,
+      boolean deleted) {
+    this(accountId, seq, valid, key, rawKey, expiryTime(key), deleted);
   }
 
   /** Returns a copy of this key that is flagged as invalid. */
   public AccountSshKey asInvalid() {
-    return new AccountSshKey(accountId, seq, false, key, rawKey, expiryTime);
+    return new AccountSshKey(accountId, seq, false, key, rawKey, expiryTime, deleted);
+  }
+
+  /** Returns a copy of this key that is flagged as deleted, retained to prevent adding it again. */
+  public AccountSshKey asDeleted() {
+    return new AccountSshKey(accountId, seq, valid, key, rawKey, expiryTime, true);
   }
 
   /** Returns the key in the format of a line of {@code authorized_keys}, including options. */
@@ -104,6 +123,13 @@ public record AccountSshKey(
 
   public @Nullable String encodedKey() {
     return key.map(k -> BaseEncoding.base64().encode(k.getKeyData())).orElse(null);
+  }
+
+  /** Returns whether both keys have the same algorithm and key data, ignoring options. */
+  public boolean hasSameKeyData(AccountSshKey other) {
+    return encodedKey() != null
+        && algorithm().equals(other.algorithm())
+        && encodedKey().equals(other.encodedKey());
   }
 
   public String comment() {

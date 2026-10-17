@@ -44,7 +44,12 @@ public class AuthorizedKeys {
         AccountSshKey key = new AccountSshKey(accountId, seq++, pub, false);
         keys.add(Optional.of(key));
       } else if (line.startsWith(DELETED_KEY_COMMENT)) {
-        keys.add(Optional.empty());
+        String pub = line.substring(DELETED_KEY_COMMENT.length());
+        // Deleted keys without the key itself were written before the key was retained.
+        keys.add(
+            pub.isEmpty()
+                ? Optional.empty()
+                : Optional.of(new AccountSshKey(accountId, seq, pub, true, true)));
         seq++;
       } else if (line.startsWith("#")) {
         continue;
@@ -60,7 +65,9 @@ public class AuthorizedKeys {
     StringBuilder b = new StringBuilder();
     for (Optional<AccountSshKey> key : keys) {
       if (key.isPresent()) {
-        if (!key.get().valid()) {
+        if (key.get().deleted()) {
+          b.append(DELETED_KEY_COMMENT).append(' ');
+        } else if (!key.get().valid()) {
           b.append(INVALID_KEY_COMMENT_PREFIX);
         }
         b.append(key.get().sshPublicKey().trim());

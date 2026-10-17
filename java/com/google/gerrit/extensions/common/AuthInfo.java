@@ -126,4 +126,11 @@ public class AuthInfo {
    * <p>The value of the {@code auth.maxAuthTokenLifetime} parameter in {@code gerrit.config}.
    */
   public long maxTokenLifetime;
+
+  /**
+   * The maximum lifetime allowed for SSH keys in minutes.
+   *
+   * <p>The value of the {@code auth.maxSshKeyLifetime} parameter in {@code gerrit.config}.
+   */
+  public long maxSshKeyLifetime;
 }

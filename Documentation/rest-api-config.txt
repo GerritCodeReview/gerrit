@@ -2243,6 +2243,9 @@ link:config-gerrit.html#auth.type[authentication type] is `LDAP`,
 |`max_token_lifetime`         |optional|
 The link:config-gerrit.html#auth.maxAuthTokenLifetime[maximum lifetime]
 of authentication tokens.
+|`max_ssh_key_lifetime`       |optional|
+The link:config-gerrit.html#auth.maxSshKeyLifetime[maximum lifetime]
+of SSH keys.
 |`auth_type`                  ||
 The authentication type that is configured on the server; see
 link:config-gerrit.html#auth.type[auth.type].

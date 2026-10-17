@@ -82,6 +82,18 @@ public class AddSshKeyIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void expiredKeyCannotBeAddedAgain() throws Exception {
+    gApi.accounts().self().addSshKey(key, "1h");
+    Instant later = now.plus(Duration.ofHours(2));
+    TimeUtil.setCurrentMillisSupplier(later::toEpochMilli);
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.accounts().self().addSshKey(key, "1h"));
+    assertThat(thrown).hasMessageThat().contains("expired");
+    assertThat(gApi.accounts().self().listSshKeys()).hasSize(2);
+  }
+
+  @Test
   public void lifetimeAsQueryParameter() throws Exception {
     RestResponse r =
         adminRestSession.postRaw("/accounts/self/sshkeys?lifetime=2h", RawInputUtil.create(key));

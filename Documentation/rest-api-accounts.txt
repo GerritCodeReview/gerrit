@@ -1117,6 +1117,9 @@ parameter limits how long the SSH key can be used, for example
 `d`, `w`, `mon` or `y`) and must be positive. `lifetime` cannot be used
 if the provided SSH key has an `expiry-time` option already.
 
+Trying to add an SSH key that already exists but has expired is rejected
+with `400 Bad Request`.
+
 .Request
 ----
   POST /accounts/self/sshkeys?lifetime=30d HTTP/1.0

@@ -753,6 +753,65 @@ suite('change model tests', () => {
     assert.equal(spy.callCount, 2);
   });
 
+  suite('reloadEdit', () => {
+    let setUrlStub: SinonStub;
+
+    setup(() => {
+      setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+      stubRestApi('getChangeDetail').callsFake(() => new Promise(() => {}));
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: TEST_NUMERIC_CHANGE_ID,
+        patchNum: EDIT,
+      });
+      changeModel.updateStateChange({
+        ...knownChange,
+        _number: TEST_NUMERIC_CHANGE_ID,
+        revisions: {
+          ...knownChange.revisions,
+          oldEdit: {...createRevision(EDIT), commit: createEditInfo().commit},
+        },
+      });
+    });
+
+    test('replaces only the edit revision', async () => {
+      const edit = {
+        ...createEditInfo(),
+        commit: {...createEditInfo().commit, commit: 'newEdit' as CommitId},
+      };
+      stubRestApi('getChangeEdit').resolves(edit);
+
+      await changeModel.reloadEdit();
+
+      const revisions = changeModel.getChange()?.revisions ?? {};
+      assert.sameMembers(Object.keys(revisions), ['sha1', 'sha2', 'newEdit']);
+      assert.equal(revisions['newEdit']._number, EDIT);
+      assert.isFalse(setUrlStub.called);
+    });
+
+    test('switches to the edit if a patchset is selected', async () => {
+      changeViewModel.updateState({patchNum: 1 as PatchSetNumber});
+      stubRestApi('getChangeEdit').resolves(createEditInfo());
+
+      await changeModel.reloadEdit();
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/edit');
+    });
+
+    test('falls back to a full reload if the edit is gone', async () => {
+      stubRestApi('getChangeEdit').resolves(undefined);
+
+      await changeModel.reloadEdit();
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42?forceReload=true'
+      );
+    });
+  });
+
   suite('auto merge base', () => {
     // `AUTO_MERGE` only exists for encoding an explicitly chosen auto-merge
     // base in the URL, it must not reach the rest of the app.

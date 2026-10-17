@@ -1056,6 +1056,45 @@ export class ChangeModel extends Model<ChangeState> {
     this.navigation.setUrl(url);
   }
 
+  /**
+   * Re-fetches only the change edit and replaces the edit revision of the
+   * current change, instead of resetting and reloading the entire change.
+   * Callers that have modified the edit (save, rename, delete, restore,
+   * upload) should use this together with `FilesModel.reload()`. Falls back to
+   * a full reload, if the edit does not exist (anymore).
+   */
+  async reloadEdit() {
+    const change = this.change;
+    if (!change) return;
+    const edit = await this.restApiService.getChangeEdit(change._number);
+    const current = this.change;
+    if (current?._number !== change._number) return;
+    if (!edit) {
+      this.navigateToChangeResetReload();
+      return;
+    }
+    const revisions = Object.fromEntries(
+      Object.entries(current.revisions ?? {}).filter(
+        ([_, rev]) => rev._number !== EDIT
+      )
+    );
+    this.updateStateChange(
+      updateChangeWithEdit(
+        {...current, revisions},
+        edit,
+        this.viewModel.getState()?.patchNum
+      )
+    );
+    // If the edit was just created while a numbered patchset was selected,
+    // then switch to the edit, so that the modification becomes visible.
+    const viewPatchNum = this.viewModel.getState()?.patchNum;
+    if (viewPatchNum !== undefined && viewPatchNum !== EDIT) {
+      this.navigation.setUrl(
+        createChangeUrl({change: current, patchNum: EDIT})
+      );
+    }
+  }
+
   navigateToEdit(editView: {path: string; lineNum?: number}) {
     if (!this.patchNum) return;
     const url = this.viewModel.editUrl({editView, patchNum: this.patchNum});

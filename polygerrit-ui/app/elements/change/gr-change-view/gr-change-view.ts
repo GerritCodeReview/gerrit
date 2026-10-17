@@ -2543,7 +2543,6 @@ export class GrChangeView extends LitElement {
         patchNum: this.viewModelPatchNum,
         basePatchNum: this.viewModelBasePatchNum,
         edit: true,
-        forceReload: true,
       })
     );
   }
@@ -2556,7 +2555,6 @@ export class GrChangeView extends LitElement {
         change: this.change,
         patchNum: this.patchNum,
         basePatchNum: this.basePatchNum,
-        forceReload: true,
       })
     );
   }

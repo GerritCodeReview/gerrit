@@ -37,6 +37,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {whenVisible} from '../../../utils/dom-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {changeModelToken} from '../../../models/change/change-model';
+import {filesModelToken} from '../../../models/change/files-model';
 import {formStyles} from '../../../styles/form-styles';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {formatBytes} from '../../../utils/file-util';
@@ -101,6 +102,8 @@ export class GrEditControls extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -538,7 +541,7 @@ export class GrEditControls extends LitElement {
         }
         this.resetUploadStatus();
         this.closeDialog(this.openDialog);
-        this.getChangeModel().navigateToChangeResetReload();
+        this.reloadEdit();
       })
       .catch(() => {
         fireAlert(this, FILE_UPLOAD_FAILURE);
@@ -561,7 +564,7 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(dialog);
-        this.getChangeModel().navigateToChangeResetReload();
+        this.reloadEdit();
       });
   }
 
@@ -579,7 +582,7 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(dialog);
-        this.getChangeModel().navigateToChangeResetReload();
+        this.reloadEdit();
       });
   }
 
@@ -597,8 +600,17 @@ export class GrEditControls extends LitElement {
           return;
         }
         this.closeDialog(dialog);
-        this.getChangeModel().navigateToChangeResetReload();
+        this.reloadEdit();
       });
+  }
+
+  /**
+   * Refreshes the edit and its files in place after a modification, instead
+   * of reloading the entire change page.
+   */
+  private async reloadEdit() {
+    await this.getChangeModel().reloadEdit();
+    this.getFilesModel().reload();
   }
 
   private queryFiles(input: string): Promise<AutocompleteSuggestion[]> {

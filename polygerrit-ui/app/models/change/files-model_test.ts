@@ -171,4 +171,39 @@ suite('files-model tests', () => {
     );
     assert.deepEqual(cleanlyMergedPaths, []);
   });
+
+  test('reload re-fetches files of the same patch range', async () => {
+    const getChangeOrEditFilesStub = stubRestApi('getChangeOrEditFiles');
+    getChangeOrEditFilesStub.resolves({
+      'file1.txt': {},
+    } as FileNameToFileInfoMap);
+    changeViewModel.setState({
+      ...createChangeViewState(),
+      changeNum: TEST_NUMERIC_CHANGE_ID,
+      patchNum: 1 as RevisionPatchSetNum,
+      basePatchNum: PARENT,
+    });
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: TEST_NUMERIC_CHANGE_ID,
+      revisions: {sha1: createRevision(1)},
+      current_revision: 'sha1' as CommitId,
+    });
+    await waitUntilObserved(filesModel.files$, f => f.length === 1);
+
+    getChangeOrEditFilesStub.resolves({
+      'file1.txt': {},
+      'file2.txt': {},
+    } as FileNameToFileInfoMap);
+    filesModel.reload();
+
+    const files = await waitUntilObserved(
+      filesModel.files$,
+      f => f.length === 2
+    );
+    assert.deepEqual(
+      files.map(f => f.__path),
+      ['file1.txt', 'file2.txt']
+    );
+  });
 });

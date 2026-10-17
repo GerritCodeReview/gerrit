@@ -1301,10 +1301,7 @@ suite('gr-change-view tests', () => {
 
       fireEdit();
       assert.isTrue(setUrlStub.called);
-      assert.equal(
-        setUrlStub.lastCall.firstArg,
-        '/c/test-project/+/42/1,edit?forceReload=true'
-      );
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1,edit');
     });
 
     test('no edit exists in revisions, latest patchset', async () => {
@@ -1318,10 +1315,7 @@ suite('gr-change-view tests', () => {
 
       fireEdit();
       assert.isTrue(setUrlStub.called);
-      assert.equal(
-        setUrlStub.lastCall.firstArg,
-        '/c/test-project/+/42,edit?forceReload=true'
-      );
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42,edit');
     });
   });
 
@@ -1341,10 +1335,7 @@ suite('gr-change-view tests', () => {
     );
 
     assert.isTrue(setUrlStub.called);
-    assert.equal(
-      setUrlStub.lastCall.firstArg,
-      '/c/test-project/+/42/1?forceReload=true'
-    );
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1');
   });
 
   suite('plugin endpoints', () => {

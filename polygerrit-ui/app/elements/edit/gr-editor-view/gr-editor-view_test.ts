@@ -32,6 +32,8 @@ import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {StorageService} from '../../../services/storage/gr-storage';
+import {changeModelToken} from '../../../models/change/change-model';
+import {filesModelToken} from '../../../models/change/files-model';
 
 suite('gr-editor-view tests', () => {
   let element: GrEditorView;
@@ -558,18 +560,41 @@ suite('gr-editor-view tests', () => {
     await promise;
   });
 
-  test('viewEditInChangeView', () => {
-    element.change = createChangeViewChange();
-    navigateStub.restore();
-    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+  suite('viewEditInChangeView', () => {
+    let setUrlStub: sinon.SinonStub;
+    let reloadEditStub: sinon.SinonStub;
 
-    element.viewEditInChangeView();
+    setup(() => {
+      element.change = createChangeViewChange();
+      navigateStub.restore();
+      setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+      reloadEditStub = sinon
+        .stub(testResolver(changeModelToken), 'reloadEdit')
+        .resolves();
+    });
 
-    assert.isTrue(setUrlStub.called);
-    assert.equal(
-      setUrlStub.lastCall.firstArg,
-      '/c/test-project/+/42,edit?forceReload=true'
-    );
+    test('without save does not reload', async () => {
+      await element.viewEditInChangeView();
+
+      assert.isTrue(setUrlStub.called);
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42,edit');
+      assert.isFalse(reloadEditStub.called);
+    });
+
+    test('after save reloads only the edit', async () => {
+      const filesReloadStub = sinon.stub(
+        testResolver(filesModelToken),
+        'reload'
+      );
+      element.successfulSave = true;
+
+      await element.viewEditInChangeView();
+
+      assert.isTrue(reloadEditStub.calledOnce);
+      assert.isTrue(filesReloadStub.calledOnce);
+      assert.isTrue(reloadEditStub.calledBefore(setUrlStub));
+      assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42,edit');
+    });
   });
 
   suite('keyboard shortcuts', () => {

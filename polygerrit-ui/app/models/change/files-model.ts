@@ -13,7 +13,14 @@ import {
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../types/common';
-import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
@@ -186,6 +193,8 @@ export class FilesModel extends Model<FilesState> {
     state => state.cleanlyMergedOldPaths
   );
 
+  private readonly reloadTrigger$ = new BehaviorSubject<void>(undefined);
+
   constructor(
     readonly changeModel: ChangeModel,
     readonly commentsModel: CommentsModel,
@@ -262,6 +271,15 @@ export class FilesModel extends Model<FilesState> {
     );
   }
 
+  /**
+   * Re-fetches the files of the current patch range. Use this after the files
+   * have changed without the patch range changing, e.g. after modifying the
+   * change edit.
+   */
+  reload() {
+    this.reloadTrigger$.next();
+  }
+
   private subscribeToFiles(
     rangeChooser: (
       basePatchNum: BasePatchSetNum,
@@ -273,6 +291,7 @@ export class FilesModel extends Model<FilesState> {
       this.changeModel.changeNum$,
       this.changeModel.basePatchNum$,
       this.changeModel.patchNum$,
+      this.reloadTrigger$,
     ])
       .pipe(
         switchMap(([changeNum, basePatchNum, patchNum]) => {

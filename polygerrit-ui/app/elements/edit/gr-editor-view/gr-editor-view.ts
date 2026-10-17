@@ -35,6 +35,7 @@ import {customElement, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {filesModelToken} from '../../../models/change/files-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {
   ChangeChildView,
@@ -109,6 +110,8 @@ export class GrEditorView extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
 
@@ -413,10 +416,17 @@ export class GrEditorView extends LitElement {
   }
 
   // private but used in test
-  viewEditInChangeView() {
+  async viewEditInChangeView() {
     if (!this.change) return;
+    // Only the edit has changed, so there is no need to reload the entire
+    // change. The edit must be loaded before navigating though, otherwise
+    // the change view would reject a just created edit as not existing.
+    if (this.successfulSave) {
+      await this.getChangeModel().reloadEdit();
+      this.getFilesModel().reload();
+    }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, edit: true, forceReload: true})
+      createChangeUrl({change: this.change, edit: true})
     );
   }
 

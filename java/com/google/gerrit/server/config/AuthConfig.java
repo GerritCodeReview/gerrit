@@ -75,6 +75,7 @@ public class AuthConfig {
   private final int externalIdsRefExpirySecs;
   private GitBasicAuthPolicy gitBasicAuthPolicy;
   private final Duration maxAuthTokenLifetime;
+  private final Duration maxSshKeyLifetime;
   private final int maxAuthTokensPerAccount;
   private final boolean httpPasswordFallbackEnabled;
   @Nullable private final String oauthTokenEncryptionKey;
@@ -148,6 +149,9 @@ public class AuthConfig {
     maxAuthTokenLifetime =
         Duration.ofMinutes(
             ConfigUtil.getTimeUnit(cfg, "auth", null, "maxAuthTokenLifetime", 0, TimeUnit.MINUTES));
+    maxSshKeyLifetime =
+        Duration.ofMinutes(
+            ConfigUtil.getTimeUnit(cfg, "auth", null, "maxSshKeyLifetime", 0, TimeUnit.MINUTES));
     maxAuthTokensPerAccount = cfg.getInt("auth", "maxAuthTokensPerAccount", 10);
   }
 
@@ -393,6 +397,13 @@ public class AuthConfig {
       return Optional.empty();
     }
     return Optional.of(maxAuthTokenLifetime);
+  }
+
+  public Optional<Duration> getMaxSshKeyLifetime() {
+    if (maxSshKeyLifetime.isZero() || maxSshKeyLifetime.isNegative()) {
+      return Optional.empty();
+    }
+    return Optional.of(maxSshKeyLifetime);
   }
 
   public int getMaxAuthTokensPerAccount() {

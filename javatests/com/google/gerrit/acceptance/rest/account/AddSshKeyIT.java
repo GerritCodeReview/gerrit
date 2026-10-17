@@ -20,6 +20,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.RawInputUtil;
@@ -79,6 +80,42 @@ public class AddSshKeyIT extends AbstractDaemonTest {
             () -> gApi.accounts().self().addSshKey("expiry-time=\"20200101Z\" " + key, "1h"));
     assertThat(thrown).hasMessageThat().contains("expiry-time");
     assertThat(gApi.accounts().self().listSshKeys()).hasSize(1);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void maxLifetimeIsAppliedAsDefault() throws Exception {
+    SshKeyInfo added = gApi.accounts().self().addSshKey(key);
+    assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(7))));
+    assertThat(lastKey().sshPublicKey).isEqualTo(expiring(Duration.ofDays(7)) + key);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void expiryTimeOptionIsCappedAtMax() throws Exception {
+    SshKeyInfo added = gApi.accounts().self().addSshKey("expiry-time=\"20990101000000Z\" " + key);
+    assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(7))));
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void shorterExpiryTimeOptionIsKept() throws Exception {
+    SshKeyInfo added = gApi.accounts().self().addSshKey(expiring(Duration.ofDays(2)) + key);
+    assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(2))));
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void lifetimeIsCappedAtMax() throws Exception {
+    SshKeyInfo added = gApi.accounts().self().addSshKey(key, "8d");
+    assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(7))));
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void shorterLifetimeIsKept() throws Exception {
+    SshKeyInfo added = gApi.accounts().self().addSshKey(key, "6d");
+    assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(6))));
   }
 
   @Test

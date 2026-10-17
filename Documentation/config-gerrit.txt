@@ -787,6 +787,19 @@ email per token per day.
 +
 Defaults to 0, 7, 14 and 21 days, if no value is set.
 
+[[auth.maxSshKeyLifetime]]auth.maxSshKeyLifetime::
++
+The maximum lifetime allowed for an SSH key, e.g. `180d`. The minimum time is
+1 minute. Values should use common unit suffixes to express their setting.
++
+If set, new SSH keys expire after this time at the latest: keys without an
+expiry get this lifetime, and a longer lifetime or `expiry-time` option is
+capped to it.
++
+If not set or if a value <= 0 is used, SSH keys can have an unlimited lifetime.
++
+Existing SSH keys will not be affected by changing this value.
+
 [[auth.httpPasswordFallbackEnabled]]auth.httpPasswordFallbackEnabled::
 +
 To provide backward compatibility Gerrit will automatically fall back to

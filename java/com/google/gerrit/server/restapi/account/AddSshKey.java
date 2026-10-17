@@ -34,6 +34,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -61,6 +62,7 @@ public class AddSshKey
     implements RestCollectionModifyView<AccountResource, AccountResource.SshKey, SshKeyInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final Optional<Duration> maxSshKeyLifetime;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
@@ -79,7 +81,9 @@ public class AddSshKey
       PermissionBackend permissionBackend,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      EmailFactories emailFactories) {
+      EmailFactories emailFactories,
+      AuthConfig authConfig) {
+    this.maxSshKeyLifetime = authConfig.getMaxSshKeyLifetime();
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
@@ -119,6 +123,17 @@ public class AddSshKey
         }.asCharSource(UTF_8).read();
 
     Optional<Instant> expiryTime = expiryFromLifetime(input);
+    if (maxSshKeyLifetime.isPresent()) {
+      Duration max = maxSshKeyLifetime.get();
+      Instant latest = TimeUtil.now().plus(max);
+      if (expiryTime.isPresent() && expiryTime.get().isAfter(latest)) {
+        throw new BadRequestException(
+            String.format(
+                "lifetime exceeds the maximum allowed lifetime of %s days %s hours %s minutes",
+                max.toDays(), max.toHoursPart(), max.toMinutesPart()));
+      }
+      expiryTime = Optional.of(expiryTime.orElse(latest));
+    }
 
     try {
       AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey, expiryTime);

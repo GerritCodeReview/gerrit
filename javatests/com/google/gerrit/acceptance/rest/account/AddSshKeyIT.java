@@ -20,6 +20,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.RawInputUtil;
@@ -64,6 +65,37 @@ public class AddSshKeyIT extends AbstractDaemonTest {
     assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(30))));
     assertThat(lastKey().sshPublicKey).isEqualTo(key);
     assertThat(lastKey().expiration).isEqualTo(added.expiration);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void maxLifetimeIsAppliedAsDefault() throws Exception {
+    SshKeyInfo added = gApi.accounts().self().addSshKey(key);
+    assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(7))));
+    assertThat(lastKey().sshPublicKey).isEqualTo(key);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void lifetimeAboveMaxIsRejected() throws Exception {
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.accounts().self().addSshKey(key, "8d"));
+    assertThat(thrown).hasMessageThat().contains("maximum allowed lifetime of 7 days");
+    assertThat(gApi.accounts().self().listSshKeys()).hasSize(1);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void lifetimeEqualToMaxIsKept() throws Exception {
+    SshKeyInfo added = gApi.accounts().self().addSshKey(key, "7d");
+    assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(7))));
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void shorterLifetimeIsKept() throws Exception {
+    SshKeyInfo added = gApi.accounts().self().addSshKey(key, "6d");
+    assertThat(added.expiration).isEqualTo(Timestamp.from(now.plus(Duration.ofDays(6))));
   }
 
   @Test

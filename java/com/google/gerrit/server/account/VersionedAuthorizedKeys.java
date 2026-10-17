@@ -27,6 +27,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -44,6 +45,7 @@ import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -162,13 +164,16 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   }
 
   private final SshKeyCreator sshKeyCreator;
+  private final boolean rejectDeletedKeys;
   private final Account.Id accountId;
   private final String ref;
   private List<Optional<AccountSshKey>> keys;
 
   @Inject
-  public VersionedAuthorizedKeys(SshKeyCreator sshKeyCreator, @Assisted Account.Id accountId) {
+  public VersionedAuthorizedKeys(
+      SshKeyCreator sshKeyCreator, @GerritServerConfig Config cfg, @Assisted Account.Id accountId) {
     this.sshKeyCreator = sshKeyCreator;
+    this.rejectDeletedKeys = cfg.getBoolean("auth", "rejectDeletedSshKeys", false);
     this.accountId = accountId;
     this.ref = RefNames.refsUsers(accountId);
   }
@@ -196,7 +201,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   /** Returns all SSH keys. */
   private List<AccountSshKey> getKeys() {
     checkLoaded();
-    return keys.stream().filter(Optional::isPresent).map(Optional::get).collect(toList());
+    return keys.stream().flatMap(Optional::stream).filter(k -> !k.deleted()).collect(toList());
   }
 
   /**
@@ -209,7 +214,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   @Nullable
   private AccountSshKey getKey(int seq) {
     checkLoaded();
-    return keys.get(seq - 1).orElse(null);
+    return keys.get(seq - 1).filter(k -> !k.deleted()).orElse(null);
   }
 
   /**
@@ -231,11 +236,13 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
 
     // Options of the keys are ignored when checking for an existing key.
     for (Optional<AccountSshKey> existing : keys) {
-      if (existing.isPresent()
-          && key.encodedKey() != null
-          && existing.get().algorithm().equals(key.algorithm())
-          && key.encodedKey().equals(existing.get().encodedKey())) {
-        return existing.get();
+      if (existing.isPresent() && key.hasSameKeyData(existing.get())) {
+        if (!existing.get().deleted()) {
+          return existing.get();
+        }
+        if (rejectDeletedKeys) {
+          throw new InvalidSshKeyException("SSH key was deleted and cannot be added again");
+        }
       }
     }
 
@@ -252,8 +259,9 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    */
   private boolean deleteKey(int seq) {
     checkLoaded();
-    if (seq <= keys.size() && keys.get(seq - 1).isPresent()) {
-      keys.set(seq - 1, Optional.empty());
+    if (seq <= keys.size() && getKey(seq) != null) {
+      keys.set(
+          seq - 1, rejectDeletedKeys ? Optional.of(getKey(seq).asDeleted()) : Optional.empty());
       return true;
     }
     return false;

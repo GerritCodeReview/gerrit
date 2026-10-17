@@ -806,6 +806,19 @@ existing token is being deleted. Expired tokens count to the limit.
 +
 Defaults to 10.
 
+[[auth.rejectDeletedSshKeys]]auth.rejectDeletedSshKeys::
++
+Whether an SSH key that was deleted can be added to the account again.
+If set to `true`, deleted keys are retained in the `authorized_keys` file
+of the account and adding them again is rejected. This prevents that a
+key that was deleted, for example because it was compromised, is added
+back. Keys are compared by their algorithm and key data, options and
+comments are ignored.
++
+If set to `false`, deleted keys are not retained and can be added again.
++
+By default, `false`.
+
 [[auth.gitOAuthProvider]]auth.gitOAuthProvider::
 +
 Selects the OAuth 2 provider to authenticate git over HTTP traffic with.

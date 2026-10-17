@@ -34,14 +34,15 @@ public record AccountSshKey(
     String sshPublicKey,
     boolean valid,
     Optional<Instant> expiryTime,
-    ImmutableMap<String, String> otherOptions) {
+    ImmutableMap<String, String> otherOptions,
+    boolean deleted) {
   public AccountSshKey {
     sshPublicKey = stripOffNewLines(sshPublicKey);
     valid = valid && seq > 0;
   }
 
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
-    this(accountId, seq, sshPublicKey, valid, Optional.empty(), ImmutableMap.of());
+    this(accountId, seq, sshPublicKey, valid, Optional.empty(), ImmutableMap.of(), false);
   }
 
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey) {
@@ -50,7 +51,13 @@ public record AccountSshKey(
 
   /** Returns a copy of this key that is flagged as invalid. */
   public AccountSshKey asInvalid() {
-    return new AccountSshKey(accountId, seq, sshPublicKey, false, expiryTime, otherOptions);
+    return new AccountSshKey(
+        accountId, seq, sshPublicKey, false, expiryTime, otherOptions, deleted);
+  }
+
+  /** Returns a copy of this key that is flagged as deleted, retained to prevent adding it again. */
+  public AccountSshKey asDeleted() {
+    return new AccountSshKey(accountId, seq, sshPublicKey, valid, expiryTime, otherOptions, true);
   }
 
   public boolean isExpired() {
@@ -59,7 +66,15 @@ public record AccountSshKey(
 
   /** Returns a copy of this key with the given expiry time. */
   public AccountSshKey withExpiryTime(Optional<Instant> expiryTime) {
-    return new AccountSshKey(accountId, seq, sshPublicKey, valid, expiryTime, otherOptions);
+    return new AccountSshKey(
+        accountId, seq, sshPublicKey, valid, expiryTime, otherOptions, deleted);
+  }
+
+  /** Returns whether both keys have the same algorithm and key data, ignoring the rest. */
+  public boolean hasSameKeyData(AccountSshKey other) {
+    return encodedKey() != null
+        && algorithm().equals(other.algorithm())
+        && encodedKey().equals(other.encodedKey());
   }
 
   private static String stripOffNewLines(String s) {

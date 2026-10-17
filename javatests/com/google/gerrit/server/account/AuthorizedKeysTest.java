@@ -124,6 +124,37 @@ public class AuthorizedKeysTest {
   }
 
   @Test
+  public void deletedKeyIsPreserved() throws Exception {
+    List<Optional<AccountSshKey>> keys = new ArrayList<>();
+    StringBuilder expected = new StringBuilder();
+
+    expected.append(addKey(keys, KEY1));
+    keys.add(Optional.of(new AccountSshKey(accountId, 2, KEY2).asDeleted()));
+    expected.append(AuthorizedKeys.DELETED_KEY_COMMENT + " " + KEY2 + "\n");
+
+    assertSerialization(keys, expected);
+    assertParse(expected, keys);
+    assertThat(AuthorizedKeys.parse(accountId, expected.toString()).get(1).get().deleted())
+        .isTrue();
+  }
+
+  @Test
+  public void deletedKeyWithoutKeyIsParsedAsDeleted() throws Exception {
+    assertThat(AuthorizedKeys.parse(accountId, AuthorizedKeys.DELETED_KEY_COMMENT + "\n"))
+        .containsExactly(Optional.empty());
+  }
+
+  @Test
+  public void hasSameKeyDataIgnoresOptionsAndComment() throws Exception {
+    AccountSshKey key = new AccountSshKey(accountId, 1, KEY1);
+    AccountSshKey withOptions =
+        AuthorizedKeys.parseKey(
+            accountId, 2, "no-pty " + KEY1.replace("john.doe@example.com", "other"));
+    assertThat(withOptions.hasSameKeyData(key)).isTrue();
+    assertThat(new AccountSshKey(accountId, 3, KEY2).hasSameKeyData(key)).isFalse();
+  }
+
+  @Test
   public void validity() throws Exception {
     AccountSshKey key = new AccountSshKey(accountId, -1, KEY1);
     assertThat(key.valid()).isFalse();

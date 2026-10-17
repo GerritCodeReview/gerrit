@@ -15,10 +15,13 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
@@ -64,6 +67,42 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
     gApi.accounts().id(user.id().get()).deleteSshKey(userSshKey.seq());
     List<AccountSshKey> sshKeysAfterDel = authorizedKeys.getKeys(user.id());
     assertThat(sshKeysAfterDel).containsExactly(new AccountSshKey(user.id(), 2, KEY1));
+  }
+
+  @Test
+  @UseSsh
+  public void deletedSshKeyCanBeAddedAgainByDefault() throws Exception {
+    gApi.accounts().id(user.id().get()).deleteSshKey(2);
+
+    gApi.accounts().id(user.id().get()).addSshKey(KEY1);
+    assertThat(authorizedKeys.getKeys(user.id())).hasSize(2);
+  }
+
+  @Test
+  @UseSsh
+  @GerritConfig(name = "auth.rejectDeletedSshKeys", value = "true")
+  public void deletedSshKeyCannotBeAddedAgain() throws Exception {
+    gApi.accounts().id(user.id().get()).deleteSshKey(2);
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.accounts().id(user.id().get()).addSshKey(KEY1));
+    assertThat(thrown).hasMessageThat().contains("deleted");
+    assertThat(authorizedKeys.getKeys(user.id())).hasSize(1);
+  }
+
+  @Test
+  @UseSsh
+  @GerritConfig(name = "auth.rejectDeletedSshKeys", value = "true")
+  public void deletedSshKeyCannotBeAddedAgainWithOptions() throws Exception {
+    gApi.accounts().id(user.id().get()).deleteSshKey(2);
+
+    assertThrows(
+        BadRequestException.class,
+        () ->
+            gApi.accounts()
+                .id(user.id().get())
+                .addSshKey("no-pty " + KEY1.replace(" john.doe@example.com", " other")));
   }
 
   @Test

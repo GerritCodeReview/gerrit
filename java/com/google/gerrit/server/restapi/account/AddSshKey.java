@@ -34,6 +34,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -61,6 +62,7 @@ public class AddSshKey
     implements RestCollectionModifyView<AccountResource, AccountResource.SshKey, SshKeyInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final Optional<Duration> maxSshKeyLifetime;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
@@ -79,7 +81,9 @@ public class AddSshKey
       PermissionBackend permissionBackend,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      EmailFactories emailFactories) {
+      EmailFactories emailFactories,
+      AuthConfig authConfig) {
+    this.maxSshKeyLifetime = authConfig.getMaxSshKeyLifetime();
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
@@ -126,10 +130,16 @@ public class AddSshKey
           "lifetime cannot be used with a key that has an expiry-time option");
     }
 
+    Optional<Instant> expiryToEnforce = expiryFromLifetime.or(() -> expiryFromKey);
+    if (maxSshKeyLifetime.isPresent()) {
+      Instant max = TimeUtil.now().plus(maxSshKeyLifetime.get());
+      Instant requested = expiryToEnforce.orElse(max);
+      expiryToEnforce = Optional.of(requested.isBefore(max) ? requested : max);
+    }
+
     try {
       AccountSshKey sshKey =
-          authorizedKeys.addKey(
-              user.getAccountId(), sshPublicKey, expiryFromLifetime.or(() -> expiryFromKey));
+          authorizedKeys.addKey(user.getAccountId(), sshPublicKey, expiryToEnforce);
 
       try {
         emailFactories

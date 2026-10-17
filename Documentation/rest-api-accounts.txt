@@ -1111,11 +1111,13 @@ The SSH public key must be provided as raw content in the request body.
 Trying to add an SSH key that already exists succeeds, but no new SSH
 key is persisted and the existing SSH key is not changed.
 
-The SSH key does not expire by default. The optional `lifetime` query
-parameter limits how long the SSH key can be used, for example
+Unless link:config-gerrit.html#auth.maxSshKeyLifetime[
+auth.maxSshKeyLifetime] is set, the SSH key does not expire by default.
+The optional `lifetime` query parameter limits how long the SSH key can be used, for example
 `lifetime=30d`. The value is a number followed by a unit (`s`, `m`, `h`,
 `d`, `w`, `mon` or `y`) and must be positive. `lifetime` cannot be used
-if the provided SSH key has an `expiry-time` option already.
+if the provided SSH key has an `expiry-time` option already. A `lifetime`
+or `expiry-time` that exceeds `auth.maxSshKeyLifetime` is capped to it.
 
 Trying to add an SSH key that already exists but has expired is rejected
 with `400 Bad Request`.

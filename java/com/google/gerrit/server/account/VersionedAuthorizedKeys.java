@@ -221,7 +221,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * Adds a new public SSH key.
    *
    * <p>If the specified public key exists already, the existing key is returned, regardless of the
-   * options of the specified key.
+   * options of the specified key, unless it has expired.
    *
    * @param pub the public SSH key to be added
    * @param expiryTime the time the key expires, if present
@@ -237,12 +237,13 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     // Options of the keys are ignored when checking for an existing key.
     for (Optional<AccountSshKey> existing : keys) {
       if (existing.isPresent() && key.hasSameKeyData(existing.get())) {
-        if (!existing.get().deleted()) {
-          return existing.get();
-        }
-        if (rejectDeletedKeys) {
+        if (rejectDeletedKeys && existing.get().deleted()) {
           throw new InvalidSshKeyException("SSH key was deleted and cannot be added again");
         }
+        if (existing.get().isExpired()) {
+          throw new InvalidSshKeyException("SSH key has expired and cannot be added again");
+        }
+        return existing.get();
       }
     }
 

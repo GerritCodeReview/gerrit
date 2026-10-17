@@ -16,6 +16,24 @@
       "message": "Storing the expiry inside authorized_keys has a problem with backwards compatibility. When the keys have \u0027# EXPIRES\u0027 and if the gerrit version is rolled back to a point that does not have this new logic, those \u0027valid\u0027 keys will now be ignored. Would it be better to instead add a new separate file where we store expirations and not change the format of authorized_keys, i.e add authorized_keys.config (similar to the existing tokens.config)?\n\nFor example:\n```\n[key \"foo\"]\n\texpiration \u003d 2026-11-16T00:00:00Z\n[key \"bar\"]\n\texpiration \u003d 2030-01-02T03:04:05Z\n```",
       "revId": "10246106169b0ed2e891b54055e3f532e0b80caf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49c334e7_6d32a306",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-17T08:38:56Z",
+      "side": 1,
+      "message": "using openssh format as discussed and broke down change in to several.",
+      "parentUuid": "166beb4e_a81009d0",
+      "revId": "10246106169b0ed2e891b54055e3f532e0b80caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -188,6 +188,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     if (authConfig.getMaxAuthTokenLifetime().isPresent()) {
       info.maxTokenLifetime = authConfig.getMaxAuthTokenLifetime().get().toMinutes();
     }
+    if (authConfig.getMaxSshKeyLifetime().isPresent()) {
+      info.maxSshKeyLifetime = authConfig.getMaxSshKeyLifetime().get().toMinutes();
+    }
 
     if (info.useContributorAgreements != null) {
       ImmutableCollection<ContributorAgreement> agreements =

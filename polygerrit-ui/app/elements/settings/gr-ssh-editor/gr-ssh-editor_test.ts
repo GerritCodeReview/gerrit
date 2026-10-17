@@ -13,7 +13,7 @@ import {
   waitEventLoop,
 } from '../../../test/test-utils';
 import {GrSshEditor} from './gr-ssh-editor';
-import {SshKeyInfo} from '../../../types/common';
+import {SshKeyInfo, Timestamp} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
 
@@ -60,6 +60,7 @@ suite('gr-ssh-editor tests', () => {
                 <tr>
                   <th class="commentColumn">Comment</th>
                   <th class="statusHeader">Status</th>
+                  <th class="expirationColumn">Expiration Date</th>
                   <th class="keyHeader">Public key</th>
                   <th></th>
                   <th></th>
@@ -69,6 +70,14 @@ suite('gr-ssh-editor tests', () => {
                 <tr>
                   <td class="commentColumn">comment-one@machine-one</td>
                   <td>Valid</td>
+                  <td class="expirationColumn">
+                    <gr-date-formatter
+                      dateformat="STD"
+                      showdateandtime=""
+                      withtooltip=""
+                    >
+                    </gr-date-formatter>
+                  </td>
                   <td>
                     <gr-button
                       aria-disabled="false"
@@ -99,6 +108,14 @@ suite('gr-ssh-editor tests', () => {
                 <tr>
                   <td class="commentColumn">comment-two@machine-two</td>
                   <td>Valid</td>
+                  <td class="expirationColumn">
+                    <gr-date-formatter
+                      dateformat="STD"
+                      showdateandtime=""
+                      withtooltip=""
+                    >
+                    </gr-date-formatter>
+                  </td>
                   <td>
                     <gr-button
                       aria-disabled="false"
@@ -173,6 +190,21 @@ suite('gr-ssh-editor tests', () => {
                 </gr-autogrow-textarea>
               </span>
             </section>
+            <section>
+              <span class="title"> Lifetime </span>
+              <span class="value">
+                <md-outlined-text-field
+                  autocomplete=""
+                  class="lifeTimeInput showBlueFocusBorder"
+                  id="lifetime"
+                  inputmode=""
+                  placeholder="Lifetime (e.g. 30d)"
+                  supporting-text="Max. allowed lifetime: unlimited. Leave empty to use maximum allowed lifetime."
+                  type="text"
+                >
+                </md-outlined-text-field>
+              </span>
+            </section>
             <gr-button
               aria-disabled="true"
               disabled=""
@@ -201,7 +233,7 @@ suite('gr-ssh-editor tests', () => {
     // Get the delete button for the last row.
     const button = query<GrButton>(
       element,
-      'tbody tr:last-of-type td:nth-child(5) gr-button'
+      'tbody tr:last-of-type td:nth-child(6) gr-button'
     );
 
     button!.click();
@@ -225,7 +257,7 @@ suite('gr-ssh-editor tests', () => {
     // Get the show button for the last row.
     const button = query<GrButton>(
       element,
-      'tbody tr:last-of-type td:nth-child(3) gr-button'
+      'tbody tr:last-of-type td:nth-child(4) gr-button'
     );
 
     button!.click();
@@ -270,10 +302,52 @@ suite('gr-ssh-editor tests', () => {
     await promise;
   });
 
+  test('expired keys are hidden by default', async () => {
+    const past = '2000-01-01 00:00:00.000000000' as Timestamp;
+    element.keys = [{...keys[0], expiration: past}, keys[1]];
+    await element.updateComplete;
+
+    assert.equal(element.shadowRoot!.querySelectorAll('tbody tr').length, 1);
+
+    const button = query<GrButton>(element, '#showExpired')!;
+    assert.equal(button.textContent!.trim(), 'Show expired keys');
+    button.click();
+    await element.updateComplete;
+
+    const rows = element.shadowRoot!.querySelectorAll('tbody tr');
+    assert.equal(rows.length, 2);
+    assert.equal(rows[0].children[1].textContent, 'Expired');
+    assert.equal(rows[1].children[1].textContent, 'Valid');
+    assert.equal(button.textContent!.trim(), 'Hide expired keys');
+  });
+
+  test('add key with lifetime', async () => {
+    const newKeyString = 'ssh-rsa <key 3> comment-three@machine-three';
+    const addStub = stubRestApi('addAccountSSHKey').resolves({
+      seq: 3,
+      ssh_public_key: newKeyString,
+      encoded_key: '<key 3>',
+      algorithm: 'ssh-rsa',
+      comment: 'comment-three@machine-three',
+      valid: true,
+    });
+
+    element.newKey = newKeyString;
+    element.newLifetime = '30d';
+    await element.updateComplete;
+
+    await element.handleAddKey();
+
+    assert.deepEqual(addStub.lastCall.args, [newKeyString, '30d']);
+    assert.equal(element.newLifetime, '');
+  });
+
   test('add invalid key', async () => {
     const newKeyString = 'not even close to valid';
 
     const addStub = stubRestApi('addAccountSSHKey').rejects(new Error('error'));
+    const alertStub = sinon.stub();
+    element.addEventListener('show-alert', alertStub);
 
     element.newKey = newKeyString;
 
@@ -287,6 +361,11 @@ suite('gr-ssh-editor tests', () => {
       assert.isFalse(element.addButton.disabled);
       assert.isFalse(element.newKeyEditor.disabled);
       assert.equal(element.keys.length, 2);
+      assert.isTrue(alertStub.calledOnce);
+      assert.equal(
+        alertStub.lastCall.args[0].detail.message,
+        'Failed to add SSH key: error'
+      );
       promise.resolve();
     });
 

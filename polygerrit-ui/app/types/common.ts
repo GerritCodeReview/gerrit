@@ -931,6 +931,7 @@ export interface SshKeyInfo {
   algorithm: string;
   comment?: string;
   valid: boolean;
+  expiration?: Timestamp;
 }
 
 /**

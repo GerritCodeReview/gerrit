@@ -82,6 +82,25 @@ export function durationString(
   return `${prefix}${years} years${suffix}`;
 }
 
+/** Formats a duration given in minutes, or "unlimited", e.g. "1y 2d 3h 4m". */
+export function formatLifetime(durationMinutes: string) {
+  if (!durationMinutes) return '';
+  if (durationMinutes === 'unlimited') return 'unlimited';
+  let minutes = parseInt(durationMinutes, 10);
+  let hours = Math.floor(minutes / 60);
+  minutes = minutes % 60;
+  let days = Math.floor(hours / 24);
+  hours = hours % 24;
+  const years = Math.floor(days / 365);
+  days = days % 365;
+  let formatted = '';
+  if (years) formatted += `${years}y `;
+  if (days) formatted += `${days}d `;
+  if (hours) formatted += `${hours}h `;
+  if (minutes) formatted += `${minutes}m`;
+  return formatted;
+}
+
 /**
  * Return true if date is within 24 hours and on the same day.
  */

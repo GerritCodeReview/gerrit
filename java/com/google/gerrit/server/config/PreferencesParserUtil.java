@@ -89,6 +89,9 @@ public class PreferencesParserUtil {
       r.changeTable = parseChangeTableColumns(cfg, defaultCfg);
       r.my = parseMyMenus(my(cfg), defaultCfg);
     }
+    // This field must distinguish a new server with threading disabled from an older
+    // server that does not support the preference at all. Keep false explicit.
+    r.threadedChanges = Boolean.TRUE.equals(r.threadedChanges);
     return r;
   }
 
@@ -107,6 +110,9 @@ public class PreferencesParserUtil {
                 : GeneralPreferencesInfo.defaults());
     r.changeTable = cfg.changeTable != null ? cfg.changeTable : Lists.newArrayList();
     r.my = parseMyMenus(cfg.my, defaultCfg);
+    // This field must distinguish a new server with threading disabled from an older
+    // server that does not support the preference at all. Keep false explicit.
+    r.threadedChanges = Boolean.TRUE.equals(r.threadedChanges);
     return r;
   }
 

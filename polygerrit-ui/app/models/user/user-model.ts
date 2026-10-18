@@ -153,6 +153,12 @@ export class UserModel extends Model<UserState> {
     preference => preference?.my ?? []
   );
 
+  /** Older servers omit the field; keep threading usable with the dev helper. */
+  readonly preferenceThreadedChanges$: Observable<boolean> = select(
+    this.preferences$,
+    preferences => preferences.threaded_changes ?? true
+  );
+
   readonly preferenceChangesPerPage$: Observable<number> = select(
     this.preferences$,
     preference => preference.changes_per_page

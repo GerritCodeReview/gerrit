@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Entities.UserPreferences;
 import com.google.gerrit.proto.Entities.UserPreferences.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.proto.Entities.UserPreferences.GeneralPreferencesInfo.DateFormat;
@@ -111,6 +112,7 @@ public class UserPreferencesConverterTest {
             .setTimeFormat(TimeFormat.HHMM_24)
             .setExpandInlineDiffs(true)
             .setRelativeDateInChangeTable(true)
+            .setThreadedChanges(false)
             .setDiffView(DiffView.UNIFIED_DIFF)
             .setSizeBarInChangeTable(true)
             .setLegacycidInChangeTable(true)
@@ -145,6 +147,32 @@ public class UserPreferencesConverterTest {
         GENERAL_PREFERENCES_INFO_CONVERTER.toProto(
             GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(originalProto));
     assertThat(resProto).isEqualTo(originalProto);
+  }
+
+  @Test
+  public void disabledThreadingIsExplicitInPreferenceJson() throws Exception {
+    var json =
+        OutputFormat.JSON
+            .newGson()
+            .toJsonTree(
+                PreferencesParserUtil.parseGeneralPreferences(
+                    new org.eclipse.jgit.lib.Config(), null, null))
+            .getAsJsonObject();
+    assertThat(json.has("threaded_changes")).isTrue();
+    assertThat(json.get("threaded_changes").getAsBoolean()).isFalse();
+  }
+
+  @Test
+  public void threadedChangesPreservesUnsetFalseAndTrue() {
+    for (Boolean value : new Boolean[] {null, false, true}) {
+      GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+      input.threadedChanges = value;
+      UserPreferences.GeneralPreferencesInfo proto =
+          GENERAL_PREFERENCES_INFO_CONVERTER.toProto(input);
+      assertThat(proto.hasThreadedChanges()).isEqualTo(value != null);
+      assertThat(GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(proto).threadedChanges)
+          .isEqualTo(value);
+    }
   }
 
   @Test

@@ -15,9 +15,15 @@ import {
   createAccountDetailWithId,
   createAccountWithEmail,
   createChange,
+  createRevision,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {ChangeInfoId, NumericChangeId, Timestamp} from '../../../api/rest-api';
+import {
+  ChangeInfoId,
+  CommitId,
+  NumericChangeId,
+  Timestamp,
+} from '../../../api/rest-api';
 import {
   query,
   queryAll,
@@ -28,7 +34,10 @@ import {
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {assert, fixture, html} from '@open-wc/testing';
-import {ColumnNames} from '../../../constants/constants';
+import {
+  ColumnNames,
+  createDefaultPreferences,
+} from '../../../constants/constants';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 
@@ -63,6 +72,59 @@ suite('gr-change-list section', () => {
         .changeSection=${changeSection}
       ></gr-change-list-section> `
     );
+    testResolver(userModelToken).setPreferences({
+      ...createDefaultPreferences(),
+      threaded_changes: true,
+    });
+    await element.updateComplete;
+  });
+
+  test('selection and bulk actions use threaded display order', async () => {
+    const base = createChange({_number: 1 as NumericChangeId});
+    const child = createChange({
+      _number: 2 as NumericChangeId,
+      current_revision: 'child' as CommitId,
+      revisions: {
+        child: {
+          ...createRevision(),
+          parents_data: [{change_number: base._number}],
+        },
+      },
+    });
+    element.changeSection = {results: [child, base]};
+    element.selectedIndex = 1;
+    await element.updateComplete;
+    const rows = queryAll<GrChangeListItem>(element, 'gr-change-list-item');
+    assert.deepEqual(
+      Array.from(rows).map(row => Number(row.change?._number)),
+      [1, 2]
+    );
+    assert.equal(rows[1].globalIndex, 1);
+    assert.isTrue(rows[1].selected);
+    assert.include(rows[1].getAttribute('aria-label'), 'depends on changes 1');
+    const toggle = sinon.stub(
+      element.bulkActionsModel,
+      'toggleSelectedChangeNum'
+    );
+    element.toggleChange(1);
+    assert.isTrue(toggle.calledOnceWithExactly(child._number));
+  });
+
+  test('uses supplied cross-project dependency edges', async () => {
+    element.changeSection = {
+      results: [
+        createChange({_number: 2 as NumericChangeId}),
+        createChange({_number: 1 as NumericChangeId}),
+      ],
+    };
+    element.dependencyEdges = [{from: 2, to: 1, type: 'depends-on'}];
+    await element.updateComplete;
+    const rows = queryAll<GrChangeListItem>(element, 'gr-change-list-item');
+    assert.deepEqual(
+      Array.from(rows).map(row => Number(row.change?._number)),
+      [1, 2]
+    );
+    assert.lengthOf(rows[1].thread!.branches, 1);
   });
 
   test('renders headers when no changes are selected', () => {

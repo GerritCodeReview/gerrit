@@ -1354,17 +1354,32 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   private getListChangesOptionsHex() {
+    // RevisionJson emits parents_data only when commit data is requested too.
+    // PARENTS alone does not open the repository or populate parent identities.
     if (
       window.DEFAULT_DETAIL_HEXES &&
       window.DEFAULT_DETAIL_HEXES.dashboardPage
     ) {
-      return window.DEFAULT_DETAIL_HEXES.dashboardPage;
+      return (
+        parseInt(window.DEFAULT_DETAIL_HEXES.dashboardPage, 16) |
+        parseInt(
+          listChangesOptionsToHex(
+            ListChangesOption.CURRENT_REVISION,
+            ListChangesOption.CURRENT_COMMIT,
+            ListChangesOption.PARENTS
+          ),
+          16
+        )
+      ).toString(16);
     }
     const options = [
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
       ListChangesOption.SUBMIT_REQUIREMENTS,
       ListChangesOption.STAR,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.CURRENT_COMMIT,
+      ListChangesOption.PARENTS,
     ];
 
     return listChangesOptionsToHex(...options);

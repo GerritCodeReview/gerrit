@@ -65,6 +65,7 @@ public final class UserPreferencesConverter {
               UserPreferences.GeneralPreferencesInfo.TimeFormat::valueOf,
               info.timeFormat);
       builder = setIfNotNull(builder, builder::setExpandInlineDiffs, info.expandInlineDiffs);
+      builder = setIfNotNull(builder, builder::setThreadedChanges, info.threadedChanges);
       builder =
           setIfNotNull(
               builder, builder::setRelativeDateInChangeTable, info.relativeDateInChangeTable);
@@ -151,6 +152,7 @@ public final class UserPreferencesConverter {
               ? GeneralPreferencesInfo.TimeFormat.valueOf(proto.getTimeFormat().name())
               : null;
       res.expandInlineDiffs = proto.hasExpandInlineDiffs() ? proto.getExpandInlineDiffs() : null;
+      res.threadedChanges = proto.hasThreadedChanges() ? proto.getThreadedChanges() : null;
       res.relativeDateInChangeTable =
           proto.hasRelativeDateInChangeTable() ? proto.getRelativeDateInChangeTable() : null;
       res.diffView =

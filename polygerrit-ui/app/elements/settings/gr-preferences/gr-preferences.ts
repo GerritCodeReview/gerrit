@@ -28,6 +28,7 @@ import {KnownExperimentId} from '../../../services/flags/flags';
 import {areNotificationsEnabled} from '../../../utils/worker-util';
 import {getDocUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
+import {browserPreferencesModelToken} from '../../../models/browser/browser-preferences-model';
 import {SuggestionsProvider} from '../../../api/suggestions';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import '@material/web/checkbox/checkbox';
@@ -68,6 +69,13 @@ export class GrPreferences extends LitElement {
 
   @query('#insertSignedOff') insertSignedOff!: MdCheckbox;
 
+  @state() private threadedChanges = true;
+
+  private readonly getBrowserPreferences = resolve(
+    this,
+    browserPreferencesModelToken
+  );
+
   @state() prefs?: PreferencesInput;
 
   @state() private originalPrefs?: PreferencesInput;
@@ -90,6 +98,13 @@ export class GrPreferences extends LitElement {
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getBrowserPreferences().threadedChanges$,
+      enabled => {
+        this.threadedChanges = enabled;
+      }
+    );
     subscribe(
       this,
       () => this.getUserModel().preferences$,
@@ -291,6 +306,22 @@ export class GrPreferences extends LitElement {
                   <div slot="headline">Plaintext only</div>
                 </md-select-option>
               </md-outlined-select>
+            </span>
+          </section>
+          <section>
+            <label class="title" for="threadedChanges"
+              >Thread change lists</label
+            >
+            <span class="value">
+              <md-checkbox
+                id="threadedChanges"
+                ?checked=${this.threadedChanges}
+                @change=${(event: Event) =>
+                  this.getBrowserPreferences().setThreadedChanges(
+                    (event.target as MdCheckbox).checked
+                  )}
+              ></md-checkbox>
+              <span>Saved immediately in this browser.</span>
             </span>
           </section>
           ${this.renderBrowserNotifications()}

@@ -27,6 +27,10 @@ import {
 } from './shortcuts/shortcuts-service';
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
+import {
+  BrowserPreferencesModel,
+  browserPreferencesModelToken,
+} from '../models/browser/browser-preferences-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {
   HighlightService,
@@ -113,6 +117,7 @@ export function createAppDependencies(
     [authServiceToken, () => appContext.authService],
     [routerModelToken, () => new RouterModel(resolver(pluginLoaderToken))],
     [userModelToken, () => new UserModel(appContext.restApiService)],
+    [browserPreferencesModelToken, () => new BrowserPreferencesModel()],
     [browserModelToken, () => new BrowserModel(resolver(userModelToken))],
     [accountsModelToken, () => new AccountsModel(appContext.restApiService)],
     [adminViewModelToken, () => new AdminViewModel()],

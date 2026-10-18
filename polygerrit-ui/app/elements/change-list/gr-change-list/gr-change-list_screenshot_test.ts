@@ -15,6 +15,7 @@ import {
   createAccountDetailWithIdNameAndEmail,
   createApproval,
   createChange,
+  createRevision,
   createServerInfo,
   createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
@@ -25,9 +26,11 @@ import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-sect
 import {
   BranchName,
   ChangeInfo,
+  CommitId,
   NumericChangeId,
   RepoName,
   Timestamp,
+  TopicName,
 } from '../../../types/common';
 import {SubmitRequirementStatus} from '../../../api/rest-api';
 import {visualDiffDarkTheme, waitUntil} from '../../../test/test-utils';
@@ -50,9 +53,81 @@ suite('gr-change-list screenshot tests', () => {
   }
 
   setup(async () => {
+    await setViewport({width: 800, height: 600});
     element = await fixture(html`<gr-change-list></gr-change-list>`);
     element.changes = createChanges(5);
     await element.updateComplete;
+  });
+
+  function threadedChanges() {
+    const changes = createChanges(6);
+    const subjects = [
+      'Introduce protocol support',
+      'Add client bindings',
+      'Document the new protocol',
+      'Exercise the client end to end',
+      'Update unrelated release notes',
+      'Add an independent feature',
+    ];
+    changes.forEach((change, index) => {
+      change.subject = subjects[index];
+      if (index < 4) change.topic = 'protocol-update' as TopicName;
+      change.current_revision = `revision-${index}` as CommitId;
+      change.revisions = {
+        [change.current_revision]: {
+          ...createRevision(),
+          parents_data:
+            index === 1 || index === 2
+              ? [{change_number: changes[0]._number}]
+              : index === 3
+              ? [{change_number: changes[1]._number}]
+              : [],
+        },
+      };
+    });
+    return [
+      changes[3],
+      changes[4],
+      changes[2],
+      changes[0],
+      changes[1],
+      changes[5],
+    ];
+  }
+
+  test('threaded dependencies and topics', async () => {
+    await setViewport({width: 1400, height: 900});
+    element.changes = threadedChanges();
+    await element.updateComplete;
+    await visualDiff(element, 'gr-change-list-threaded');
+    await visualDiffDarkTheme(element, 'gr-change-list-threaded');
+  });
+
+  test('threaded dependencies on mobile', async () => {
+    await setViewport({width: 390, height: 900});
+    element.changes = threadedChanges();
+    await element.updateComplete;
+    await visualDiff(element, 'gr-change-list-threaded-mobile');
+  });
+
+  test('cross-project dependency edges', async () => {
+    await setViewport({width: 1400, height: 900});
+    element.changes = threadedChanges().map(change => {
+      return {
+        ...change,
+        project: (change._number === 1
+          ? 'example/protocol'
+          : 'example/client') as RepoName,
+        revisions: undefined,
+      };
+    });
+    element.dependencyEdges = [
+      {from: 2, to: 1, type: 'depends-on'},
+      {from: 3, to: 1, type: 'depends-on'},
+      {from: 4, to: 2, type: 'git'},
+    ];
+    await element.updateComplete;
+    await visualDiff(element, 'gr-change-list-cross-project-threaded');
   });
 
   test('basic list', async () => {

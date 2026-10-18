@@ -29,6 +29,9 @@ import {
   createAccountDetailWithId,
   createPreferences,
 } from '../../../test/test-data-generators';
+import {browserPreferencesModelToken} from '../../../models/browser/browser-preferences-model';
+import {testResolver} from '../../../test/common-test-setup';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 suite('gr-preferences tests', () => {
@@ -73,6 +76,19 @@ suite('gr-preferences tests', () => {
     element = await fixture(html`<gr-preferences></gr-preferences>`);
 
     await element.updateComplete;
+  });
+
+  test('thread preference applies locally without editing account preferences', async () => {
+    const prefs = {...element.prefs};
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#threadedChanges');
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+    assert.isFalse(
+      testResolver(browserPreferencesModelToken).getState().threadedChanges
+    );
+    assert.deepEqual(element.prefs, prefs);
+    testResolver(browserPreferencesModelToken).setThreadedChanges(true);
   });
 
   test('renders', () => {
@@ -230,6 +246,15 @@ suite('gr-preferences tests', () => {
                     <div slot="headline">Plaintext only</div>
                   </md-select-option>
                 </md-outlined-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="threadedChanges"
+                >Thread change lists</label
+              >
+              <span class="value">
+                <md-checkbox checked="" id="threadedChanges"></md-checkbox>
+                <span>Saved immediately in this browser.</span>
               </span>
             </section>
             <section id="allowBrowserNotificationsSection">

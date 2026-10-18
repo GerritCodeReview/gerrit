@@ -1,0 +1,87 @@
+= Gerrit Code Review - JavaScript Plugin Change Dependencies API
+
+`plugin.changeDependencies().register(provider)` lets a plugin contribute
+relationships to threaded change lists. Gerrit owns ordering, rendering,
+keyboard navigation, and bulk selection. Without a provider, native Git
+threads and topic grouping continue to work.
+
+== Registration
+
+Register one provider per plugin during plugin initialization. Registering a
+second provider for the same plugin throws, including through a second API
+instance. Multiple different plugins may contribute edges.
+
+A minimal example, using two example change numbers:
+
+[source,javascript]
+----
+Gerrit.install(plugin => {
+  plugin.changeDependencies().register({
+    async fetch({changes, signal}) {
+      if (signal.aborted) return {edges: []};
+      const ids = new Set(changes.map(change => change._number));
+      return {
+        edges: ids.has(123) && ids.has(122)
+          ? [{from: 123, to: 122, type: 'depends-on'}]
+          : [],
+      };
+    },
+  });
+});
+----
+
+A real provider obtains these edges from its own backend. Gerrit does not
+call a particular plugin endpoint or interpret commit-message trailers.
+The public TypeScript contract is in
+link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/change-dependencies.ts[change-dependencies.ts].
+
+== Requests and lifecycle
+
+`fetch(request)` returns a promise of `{edges}`. A request contains:
+
+* `context`: `change-list` for search results and dashboards, or
+  `related-changes` for the relation chain on a change page.
+* `changes`: a read-only array of change identities (`_number`, `project`,
+  `branch`) and available revision identifiers (`current_revision`,
+  `current_revision_number`). These are not full `ChangeInfo` objects.
+* `signal`: an `AbortSignal`. Providers should pass it to cancellable work.
+
+Gerrit batches all displayed dashboard sections into one request per provider
+and view. Related-change requests include only entries known to represent
+current patchsets; provider edges do not modify historical entries. Native
+Git threading still includes historical entries.
+
+A new source result, including a reload with unchanged revision identifiers,
+triggers another request. Providers may coalesce overlapping network queries,
+but must not keep dependency topology indefinitely just because revision IDs
+are unchanged: reverse dependencies can change when another change is uploaded.
+
+Requests are aborted when inputs change, the view disconnects, threading is
+disabled, or thirty seconds elapse. Cancellation is cooperative; Gerrit ignores
+responses to aborted requests even if a provider cannot cancel its transport.
+Native threads render immediately. One slow or failed provider does not block
+other providers. Rejections leave native relationships usable.
+
+== Edges and result boundaries
+
+Each edge contains numeric change numbers `from` and `to`, and a `type` of
+`git` or `depends-on`. Direction is dependent to dependency. Gerrit retains
+native Git edges, combines providers' edges, and deduplicates repeated edges.
+Git ancestry takes priority when choosing one display parent. Multiple parents
+and cycles are retained in graph data even though a change is rendered once.
+
+Only relationships between requested, displayed changes participate. Dashboard
+sections and result pages remain separate: an edge does not move a change into
+another section, add rows, change result counts, or expand bulk selection.
+This version supplies edges only. Full-network expansion, extra nodes, explicit
+groups, and completeness indicators are outside this API version.
+
+== Browser preference
+
+The `Thread change lists` checkbox in Settings applies immediately to change
+lists and the relation chain. It defaults to enabled and is stored locally for
+this browser and Gerrit base path. It is not an account preference and is not
+synchronized across browsers. Other open tabs receive changes through browser
+storage events. If storage is unavailable, changes still apply in memory.
+Disabling threading restores the original result order, hides topic outlines,
+and stops dependency-provider requests.

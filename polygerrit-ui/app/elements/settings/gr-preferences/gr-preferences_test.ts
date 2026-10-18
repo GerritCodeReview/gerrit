@@ -29,6 +29,9 @@ import {
   createAccountDetailWithId,
   createPreferences,
 } from '../../../test/test-data-generators';
+import {userModelToken} from '../../../models/user/user-model';
+import {testResolver} from '../../../test/common-test-setup';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 suite('gr-preferences tests', () => {
@@ -73,6 +76,53 @@ suite('gr-preferences tests', () => {
     element = await fixture(html`<gr-preferences></gr-preferences>`);
 
     await element.updateComplete;
+  });
+
+  test('thread preference is saved as an account preference', async () => {
+    const userModel = testResolver(userModelToken);
+    userModel.setPreferences({...preferences, threaded_changes: true});
+    await element.updateComplete;
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#threadedChanges');
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+    assert.isFalse(element.prefs!.threaded_changes);
+    assert.isTrue(element.hasUnsavedChanges());
+    assert.isNotFalse(userModel.getState().preferences!.threaded_changes);
+    const save = stubRestApi('savePreferences').callsFake(async prefs => {
+      return {...preferences, ...prefs};
+    });
+    await element.save();
+    await element.updateComplete;
+    assert.isTrue(save.calledOnce);
+    assert.isFalse(save.firstCall.args[0].threaded_changes);
+    assert.isFalse(userModel.getState().preferences!.threaded_changes);
+    assert.isFalse(element.hasUnsavedChanges());
+  });
+
+  test('thread preference respects a saved false and can be re-enabled', async () => {
+    const userModel = testResolver(userModelToken);
+    userModel.setPreferences({...preferences, threaded_changes: false});
+    await element.updateComplete;
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#threadedChanges');
+    assert.isFalse(checkbox.checked);
+    assert.isFalse(element.hasUnsavedChanges());
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+    assert.isTrue(element.prefs!.threaded_changes);
+    assert.isTrue(element.hasUnsavedChanges());
+  });
+
+  test('missing thread preference uses the enabled default', async () => {
+    const legacyPreferences = {...preferences};
+    delete legacyPreferences.threaded_changes;
+    testResolver(userModelToken).setPreferences(legacyPreferences);
+    await element.updateComplete;
+    assert.isTrue(
+      queryAndAssert<MdCheckbox>(element, '#threadedChanges').checked
+    );
+    assert.isFalse(element.hasUnsavedChanges());
   });
 
   test('renders', () => {
@@ -230,6 +280,14 @@ suite('gr-preferences tests', () => {
                     <div slot="headline">Plaintext only</div>
                   </md-select-option>
                 </md-outlined-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="threadedChanges"
+                >Thread change lists</label
+              >
+              <span class="value">
+                <md-checkbox id="threadedChanges"></md-checkbox>
               </span>
             </section>
             <section id="allowBrowserNotificationsSection">

@@ -17,6 +17,7 @@ import {
   DiffLayerFactory,
   TokenHoverListener,
 } from '../../api/annotation';
+import {ChangeDependenciesProvider} from '../../api/change-dependencies';
 import {SuggestionsProvider} from '../../api/suggestions';
 import {ChangeUpdatesPublisher} from '../../api/change-updates';
 import {AiCodeReviewProvider} from '../../api/ai-code-review';
@@ -51,6 +52,11 @@ export interface FlowsPlugin {
 export interface FlowsAutosubmitPlugin {
   pluginName: string;
   provider: FlowsAutosubmitProvider;
+}
+
+export interface ChangeDependenciesPlugin {
+  pluginName: string;
+  provider: ChangeDependenciesProvider;
 }
 
 export interface SuggestionPlugin {
@@ -114,6 +120,7 @@ interface PluginsState {
    * List of plugins that have called suggestions().register().
    */
   suggestionsPlugins: SuggestionPlugin[];
+  changeDependenciesPlugins: ChangeDependenciesPlugin[];
 
   /**
    * List of plugins that have called
@@ -163,6 +170,11 @@ export class PluginsModel extends Model<PluginsState> {
     state => state.flowsAutosubmitPlugins
   );
 
+  readonly changeDependenciesPlugins$ = select(
+    this.state$,
+    state => state.changeDependenciesPlugins
+  );
+
   public suggestionsPlugins$ = select(
     this.state$,
     state => state.suggestionsPlugins
@@ -185,6 +197,7 @@ export class PluginsModel extends Model<PluginsState> {
       flowsPlugins: [],
       flowsAutosubmitPlugins: [],
       suggestionsPlugins: [],
+      changeDependenciesPlugins: [],
       tokenHighlightPlugins: [],
       diffLayerPlugins: [],
     });
@@ -244,6 +257,23 @@ export class PluginsModel extends Model<PluginsState> {
 
   registerFlowsAutosubmitProvider(plugin: FlowsAutosubmitPlugin) {
     this.registerPlugin('flowsAutosubmitPlugins', plugin, 'flows provider');
+  }
+
+  changeDependenciesRegister(plugin: ChangeDependenciesPlugin) {
+    if (
+      this.getState().changeDependenciesPlugins.some(
+        p => p.pluginName === plugin.pluginName
+      )
+    ) {
+      throw new Error(
+        'Only one dependency provider can be registered per plugin.'
+      );
+    }
+    this.registerPlugin(
+      'changeDependenciesPlugins',
+      plugin,
+      'change dependency provider'
+    );
   }
 
   suggestionsRegister(plugin: SuggestionPlugin) {

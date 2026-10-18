@@ -3036,6 +3036,9 @@ The format to display the time in.
 Allowed values are `HHMM_12`, `HHMM_24`.
 |`relative_date_in_change_table`|not set if `false`|
 Whether to show relative dates in the changes table.
+|`threaded_changes`              ||
+Whether to render change lists and the relation chain as dependency threads
+with topic grouping. Defaults to `false`.
 |`diff_view`                    ||
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
@@ -3126,6 +3129,9 @@ The format to display the time in.
 Allowed values are `HHMM_12`, `HHMM_24`.
 |`relative_date_in_change_table`|optional|
 Whether to show relative dates in the changes table.
+|`threaded_changes`              |optional|
+Whether to render change lists and the relation chain as dependency threads
+with topic grouping. Defaults to `false`.
 |`diff_view`                    |optional|
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.

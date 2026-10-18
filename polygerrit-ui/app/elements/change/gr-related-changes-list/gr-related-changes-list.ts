@@ -12,7 +12,7 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map.js';
-import {css, html, LitElement, TemplateResult} from 'lit';
+import {css, html, LitElement, PropertyValues, TemplateResult} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {getAppContext} from '../../../services/app-context';
@@ -41,6 +41,10 @@ import {
 } from '../../../models/change/change-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {createDefaultPreferences} from '../../../constants/constants';
+import '../../shared/gr-change-thread/gr-change-thread';
+import {ChangeDependencyChange} from '../../../api/change-dependencies';
+import {ChangeDependenciesController} from '../../lit/change-dependencies-controller';
+import {threadRelatedChanges} from '../../../utils/change-thread-util';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 export interface ChangeMarkersInList {
@@ -101,8 +105,47 @@ export class GrRelatedChangesList extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
+  @state() private threadedChanges = false;
+
+  private dependencyChanges: ChangeDependencyChange[] = [];
+
+  private readonly dependencies = new ChangeDependenciesController(
+    this,
+    'related-changes',
+    () => this.dependencyChanges,
+    () => this.threadedChanges
+  );
+
+  override willUpdate(changed: PropertyValues) {
+    if (changed.has('relatedChanges') || changed.has('change')) {
+      this.dependencyChanges = this.relatedChanges
+        .filter(
+          change =>
+            change._change_number !== undefined &&
+            change._revision_number !== undefined &&
+            change._revision_number === change._current_revision_number
+        )
+        .map(change => {
+          return {
+            _number: change._change_number!,
+            project: change.project,
+            branch:
+              this.change?.branch ?? ('' as ChangeDependencyChange['branch']),
+            current_revision: change.commit.commit,
+          };
+        });
+    }
+  }
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getUserModel().preferenceThreadedChanges$,
+      enabled => {
+        this.threadedChanges = enabled;
+      }
+    );
     subscribe(
       this,
       () => this.getChangeModel().change$,
@@ -306,11 +349,14 @@ export class GrRelatedChangesList extends LitElement {
     if (this.relatedChanges.length === 0) {
       return undefined;
     }
+    const rows = threadRelatedChanges(
+      this.relatedChanges,
+      this.dependencies.edges,
+      this.threadedChanges
+    );
     const relatedChangesMarkersPredicate = this.markersPredicateFactory(
       this.relatedChanges.length,
-      this.relatedChanges.findIndex(relatedChange =>
-        this._changesEqual(relatedChange, this.change)
-      ),
+      rows.findIndex(row => this._changesEqual(row.node.value, this.change)),
       sectionSize(Section.RELATED_CHANGES)
     );
     const connectedRevisions = this._computeConnectedRevisions(
@@ -322,7 +368,9 @@ export class GrRelatedChangesList extends LitElement {
     return html`<section id="relatedChanges">
       <gr-related-collapse
         .name=${'Relation chain'}
-        title="parent changes appear below child changes"
+        title=${this.threadedChanges
+          ? 'Dependencies appear above the changes that depend on them'
+          : 'parent changes appear below child changes'}
         class=${classMap({first: isFirst})}
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
@@ -340,41 +388,46 @@ export class GrRelatedChangesList extends LitElement {
             </gr-button>
           `
         )}
-        ${this.relatedChanges.map(
-          (change, index) =>
-            html`<div
-              class=${classMap({
-                ['relatedChangeLine']: true,
-                ['selected']:
-                  relatedChangesMarkersPredicate(index).showCurrentChangeArrow,
-                ['bottom']:
-                  relatedChangesMarkersPredicate(index).showBottomArrow,
-                ['show-when-collapsed']:
-                  relatedChangesMarkersPredicate(index).showWhenCollapsed,
-              })}
+        ${rows.map((row, index) => {
+          const change = row.node.value;
+          return html`<div
+            class=${classMap({
+              ['relatedChangeLine']: true,
+              ['selected']:
+                relatedChangesMarkersPredicate(index).showCurrentChangeArrow,
+              ['bottom']: relatedChangesMarkersPredicate(index).showBottomArrow,
+              ['show-when-collapsed']:
+                relatedChangesMarkersPredicate(index).showWhenCollapsed,
+            })}
+          >
+            ${this.renderMarkers(relatedChangesMarkersPredicate(index))}${row
+              .branches.length
+              ? html`<gr-change-thread
+                  aria-hidden="true"
+                  .branches=${row.branches}
+                  .maxDepth=${row.maxDepth ?? 0}
+                  .last=${row.last}
+                ></gr-change-thread>`
+              : ''}<gr-related-change
+              .change=${change}
+              .connectedRevisions=${connectedRevisions}
+              .href=${change?._change_number
+                ? createChangeUrl({
+                    changeNum: change._change_number,
+                    repo: change.project,
+                    usp: 'related-change',
+                    patchNum: change._revision_number as RevisionPatchSetNum,
+                    basePatchNum: this.computeRelatedChangeBase(change),
+                  })
+                : ''}
+              show-change-status
+              show-submittable-check
+              ><span slot="name"
+                >${change.commit.subject}</span
+              ></gr-related-change
             >
-              ${this.renderMarkers(
-                relatedChangesMarkersPredicate(index)
-              )}<gr-related-change
-                .change=${change}
-                .connectedRevisions=${connectedRevisions}
-                .href=${change?._change_number
-                  ? createChangeUrl({
-                      changeNum: change._change_number,
-                      repo: change.project,
-                      usp: 'related-change',
-                      patchNum: change._revision_number as RevisionPatchSetNum,
-                      basePatchNum: this.computeRelatedChangeBase(change),
-                    })
-                  : ''}
-                show-change-status
-                show-submittable-check
-                ><span slot="name"
-                  >${change.commit.subject}</span
-                ></gr-related-change
-              >
-            </div>`
-        )}
+          </div>`;
+        })}
       </gr-related-collapse>
     </section>`;
   }

@@ -1614,6 +1614,34 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
+  test('list requests include parent identities for threading', () => {
+    const original = window.DEFAULT_DETAIL_HEXES;
+    try {
+      window.DEFAULT_DETAIL_HEXES = undefined;
+      const defaults = parseInt(
+        element.getRequestForGetChanges().params.O!,
+        16
+      );
+      assert.isOk(defaults & (1 << ListChangesOption.CURRENT_REVISION));
+      assert.isOk(defaults & (1 << ListChangesOption.PARENTS));
+      assert.isOk(defaults & (1 << ListChangesOption.CURRENT_COMMIT));
+      window.DEFAULT_DETAIL_HEXES = {
+        ...original,
+        dashboardPage: listChangesOptionsToHex(ListChangesOption.LABELS),
+      };
+      const configured = parseInt(
+        element.getRequestForGetChanges().params.O!,
+        16
+      );
+      assert.isOk(configured & (1 << ListChangesOption.LABELS));
+      assert.isOk(configured & (1 << ListChangesOption.CURRENT_REVISION));
+      assert.isOk(configured & (1 << ListChangesOption.PARENTS));
+      assert.isOk(configured & (1 << ListChangesOption.CURRENT_COMMIT));
+    } finally {
+      window.DEFAULT_DETAIL_HEXES = original;
+    }
+  });
+
   suite('getChanges populates _projectLookup', () => {
     test('no query', async () => {
       sinon.stub(element._restApiHelper, 'fetchJSON').resolves([

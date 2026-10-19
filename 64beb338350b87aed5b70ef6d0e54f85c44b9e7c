@@ -16,6 +16,23 @@
       "message": "@milutin@google.com are you able to give your thoughts on this please? See the screenshots on discord.",
       "revId": "64beb338350b87aed5b70ef6d0e54f85c44b9e7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "678aa0f3_dd18e216",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-19T19:57:05Z",
+      "side": 1,
+      "message": "I am not that involved in Gerrit UI anymore to have opinion about this. Leaving decision to Becky",
+      "revId": "64beb338350b87aed5b70ef6d0e54f85c44b9e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

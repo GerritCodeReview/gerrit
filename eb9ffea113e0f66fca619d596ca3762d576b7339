@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7ab2e67_39f4a854",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-19T17:53:28Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "a01d5a5a_781184df",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 35
+      },
+      "revId": "eb9ffea113e0f66fca619d596ca3762d576b7339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c725253_3cbc34cc",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-10-19T17:50:41Z",
       "side": 1,
       "message": "Missing `Release-Notes: skip`",
+      "revId": "eb9ffea113e0f66fca619d596ca3762d576b7339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98bb2093_c2c1d3e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-19T17:53:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c725253_3cbc34cc",
       "revId": "eb9ffea113e0f66fca619d596ca3762d576b7339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

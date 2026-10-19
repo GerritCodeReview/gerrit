@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec1a8814_6afa3abd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done. RefDirectory-specific refs/meta/config reflog precreation is skipped for reftable, which stores reflogs in the reftable itself.",
+      "parentUuid": "f80fc829_9302debc",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 9
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbbdaac2_56f0f87b",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-13T15:33:07Z",
       "side": 1,
       "message": "Might be wroth explaining why it cannot be used with RefTable or point to the `core.usePerRequestRefCache` docuemtnation",
+      "range": {
+        "startLine": 5549,
+        "startChar": 6,
+        "endLine": 5549,
+        "endChar": 38
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b181f498_022afda4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5549,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbbdaac2_56f0f87b",
       "range": {
         "startLine": 5549,
         "startChar": 6,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcc93e0b_7d6de7b5",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4693156f_8785871d",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 71
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f21687a_4477aff9",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-10-13T15:33:07Z",
       "side": 1,
       "message": "Why not adding a specific exception? i.e.: `RefStorageNotSupportedException`",
+      "range": {
+        "startLine": 93,
+        "startChar": 16,
+        "endLine": 93,
+        "endChar": 27
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f196885_a4883ab0",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done. Added RefStorageNotSupportedException.",
+      "parentUuid": "8f21687a_4477aff9",
       "range": {
         "startLine": 93,
         "startChar": 16,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f87593f8_b88f4824",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done. Now throws RefStorageNotSupportedException, mapped to 409.",
+      "parentUuid": "46df4bb3_abf43ef0",
+      "range": {
+        "startLine": 212,
+        "startChar": 6,
+        "endLine": 212,
+        "endChar": 28
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb137bef_04fc5f39",
@@ -129,6 +249,30 @@
       "writtenOn": "2026-10-13T15:33:07Z",
       "side": 1,
       "message": "This can be moved outside the `try..catch`",
+      "range": {
+        "startLine": 237,
+        "startChar": 6,
+        "endLine": 237,
+        "endChar": 20
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d906960_289a04cd",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb137bef_04fc5f39",
       "range": {
         "startLine": 237,
         "startChar": 6,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a383d692_ae52ee69",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Correct, I looked - JGit exposes no API to query how reflogs are managed. The loose-reflog precreation is a RefDirectory implementation detail. Reftable stores reflogs internally, hence the if (!reftable) guard.",
+      "parentUuid": "ecf68e99_76b1e4af",
+      "range": {
+        "startLine": 266,
+        "startChar": 6,
+        "endLine": 266,
+        "endChar": 22
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7887334c_2f3874d3",
@@ -175,6 +343,30 @@
       "writtenOn": "2026-10-13T15:33:07Z",
       "side": 1,
       "message": "Why should the REST API know about a limitation specific to LocalDiskRepositoryManager?",
+      "range": {
+        "startLine": 141,
+        "startChar": 3,
+        "endLine": 145,
+        "endChar": 5
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f00a651b_a7986336",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done. Removed the REST pre-check; the backend already enforces it and now throws RefStorageNotSupportedException, which CreateProject maps to a 409.",
+      "parentUuid": "7887334c_2f3874d3",
       "range": {
         "startLine": 141,
         "startChar": 3,
@@ -202,6 +394,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9125a8b7_ab45aeda",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5193f76c_3f3c01c9",
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f34676c_b62fd439",
@@ -225,6 +435,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7491a80d_35d3bfc6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f34676c_b62fd439",
+      "range": {
+        "startLine": 80,
+        "startChar": 50,
+        "endLine": 80,
+        "endChar": 71
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eef10236_2c617496",
@@ -238,6 +472,30 @@
       "writtenOn": "2026-10-13T15:33:07Z",
       "side": 1,
       "message": "I think we should also assert that no reflog has been created.",
+      "range": {
+        "startLine": 83,
+        "startChar": 22,
+        "endLine": 83,
+        "endChar": 36
+      },
+      "revId": "5762a35ba392baae60bc8b2547a6c701100b6cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a690bc3e_5fce9f56",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T12:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eef10236_2c617496",
       "range": {
         "startLine": 83,
         "startChar": 22,

@@ -30,6 +30,15 @@ import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {define} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {Finalizable} from '../../../types/types';
+<<<<<<< HEAD   (9e21411592a77a110020d246fb7c3b7e0999a7fc InitSshd: Add sshd.generateHostKeys option)
+||||||| BASE   (6ce4125bbe12a4864397bb249c8af312a81d7bb2 Merge "Update h2 to 2.5.252")
+import {materialStyles} from '../../../styles/gr-material-styles';
+import {changeViewIntegrationStyles} from '../../../styles/gr-change-view-integration-shared-styles';
+=======
+import {materialStyles} from '../../../styles/gr-material-styles';
+import {changeViewIntegrationStyles} from '../../../styles/gr-change-view-integration-shared-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+>>>>>>> CHANGE (b07010d8884f9ce5a96379ea85a00377aec5d731 Allow plugins to use shared-styles)
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -86,6 +95,7 @@ export class PluginLoader implements Gerrit, Finalizable {
     form: grFormStyles,
     icon: iconStyles,
     menuPage: menuPageStyles,
+    shared: sharedStyles,
     spinner: spinnerStyles,
     subPage: subpageStyles,
     table: tableStyles,

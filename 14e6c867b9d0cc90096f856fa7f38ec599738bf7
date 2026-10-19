@@ -180,6 +180,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e68ca933_ebd46e32",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-19T21:14:43Z",
+      "side": 1,
+      "message": "\u003e Do you see any cases where an individual is authorized to upload someone else\u0027s code and claim authorship?\n\nNo. However, I think that\u0027s irrelevant if it\u0027s allowed within the corp CLA as it means my original comment on this text being inaccurate is correct. If it\u0027s inaccurate for some contributors, then it\u0027s inaccurate.",
+      "parentUuid": "ac98d78b_ffd21120",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 24
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2668a122_e006be28",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 32
@@ -263,6 +287,30 @@
       "side": 1,
       "message": "Can you suggest a non-legalese form? We are stating that even if the code is partially or fully written by AI, the author field should continue to be assigned to the signer of the CLA (for individual contributors) or to an employee of the company signing the CLA (for company-wide CLAs).",
       "parentUuid": "2a8a81e4_adeb5c39",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 73
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31e7d604_bd7ba763",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-19T21:14:43Z",
+      "side": 1,
+      "message": "\u003e We are stating that even if the code is partially or fully written by AI, the author field should continue to be assigned to the signer of the CLA (for individual contributors) or to an employee of the company signing the CLA (for company-wide CLAs).\n\nAs I said in my last reply, that\u0027s already covered in the \"Human Attribution is Mandatory\" section above. I don\u0027t think we need to repeat it or further clarify it.\n\nThough I notice even there we have the \"The human submitting the change is the sole recognized responsible author of the code.\" text, which I think also goes contrary to the CLA terms, cherry-picks, etc.",
+      "parentUuid": "05b73e04_8f4c0c84",
       "range": {
         "startLine": 169,
         "startChar": 0,
@@ -387,6 +435,24 @@
       "side": 1,
       "message": "Can you propose a follow-up change including the recommendation directive?",
       "parentUuid": "07133223_5cb1d289",
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ea88920_9116734f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-19T21:14:43Z",
+      "side": 1,
+      "message": "Sure, I can try that once this merges.",
+      "parentUuid": "8d46505d_07931c3a",
       "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

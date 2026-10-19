@@ -16,6 +16,24 @@
       "message": "Is this locktype maker ever deleted?",
       "revId": "2f02ce75b48680ccaaa55916007ebf75a5607573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e74ecb5c_eadffa9c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-19T16:02:34Z",
+      "side": 1,
+      "message": "It is not as of now.",
+      "parentUuid": "31c5e1b9_1f3c21c1",
+      "revId": "2f02ce75b48680ccaaa55916007ebf75a5607573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

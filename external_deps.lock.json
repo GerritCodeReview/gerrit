@@ -37,7 +37,7 @@
     "com.google.truth.extensions:truth-liteproto-extension": 1845738777,
     "com.google.truth.extensions:truth-proto-extension": -385644437,
     "com.google.truth:truth": 67900490,
-    "com.googlecode.javaewah:JavaEWAH": 1414179411,
+    "com.googlecode.javaewah:JavaEWAH": -592111002,
     "com.googlecode.prolog-cafe:prolog-cafeteria": 540501616,
     "com.googlecode.prolog-cafe:prolog-compiler": 626105353,
     "com.googlecode.prolog-cafe:prolog-io": -567526384,
@@ -309,8 +309,8 @@
     "com.google.truth.extensions:truth-proto-extension:jar:sources": -171856482,
     "com.google.truth:truth": -1929929434,
     "com.google.truth:truth:jar:sources": 494258718,
-    "com.googlecode.javaewah:JavaEWAH": 1782327838,
-    "com.googlecode.javaewah:JavaEWAH:jar:sources": -77762967,
+    "com.googlecode.javaewah:JavaEWAH": 536180633,
+    "com.googlecode.javaewah:JavaEWAH:jar:sources": 1003442530,
     "com.googlecode.prolog-cafe:prolog-cafeteria": 1676859953,
     "com.googlecode.prolog-cafe:prolog-cafeteria:jar:sources": -2075023034,
     "com.googlecode.prolog-cafe:prolog-compiler": 796735585,
@@ -927,10 +927,10 @@
     },
     "com.googlecode.javaewah:JavaEWAH": {
       "shasums": {
-        "jar": "b19204331ac6e204befaf508a68f52ec6b4638d9d9bacddbebd435f9c4d500f2",
-        "sources": "dff89879de1a8f5ec14b75f4ee2e32a544afd75dffa8d4d8d2494a0d981c993c"
+        "jar": "d65226949713c4c61a784f41c51167e7b0316f93764398ebba9e4336b3d954c2",
+        "sources": "abf457c01352b9e44212b131dbae4c2a878668820d168dc981b65170980eca71"
       },
-      "version": "1.1.12"
+      "version": "1.2.3"
     },
     "com.googlecode.prolog-cafe:prolog-cafeteria": {
       "shasums": {

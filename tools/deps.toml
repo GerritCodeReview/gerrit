@@ -66,7 +66,7 @@ httpclient = { module = "org.apache.httpcomponents:httpclient", version.ref = "h
 httpcore = { module = "org.apache.httpcomponents:httpcore", version = "4.4.16" }
 icu4j = { module = "com.ibm.icu:icu4j", version = "78.2" }
 jakarta-inject-api = { module = "jakarta.inject:jakarta.inject-api", version = "2.0.1" }
-JavaEWAH = { module = "com.googlecode.javaewah:JavaEWAH", version = "1.1.12" }
+JavaEWAH = { module = "com.googlecode.javaewah:JavaEWAH", version = "1.2.3" }
 javapoet = { module = "com.squareup:javapoet", version = "1.13.0" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 javax-mail = { module = "com.sun.mail:javax.mail", version.ref = "mail" }

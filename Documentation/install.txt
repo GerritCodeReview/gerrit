@@ -6,7 +6,11 @@
 
 To run the Gerrit service, the following requirement must be met on the host:
 
-* JRE, version 21 https://www.oracle.com/java/technologies/downloads/?er=221886[Download,role=external,window=_blank]
+* JRE, version 25 https://www.oracle.com/java/technologies/downloads/?er=221886[Download,role=external,window=_blank]
+
+The released `gerrit.war` is built for Java 25 and does not start on older
+Java versions. To run Gerrit on Java 21, build it from source with
+`--config=java21` (see link:dev-bazel.html[Building with Bazel]).
 
 [[download]]
 == Download Gerrit

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65fdb706_f3249367",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2026-10-19T14:59:27Z",
+      "side": 1,
+      "message": "That would save one from copy pasting the shared styles (as was done as a workaround in the zuul plugin with I15cd0591204dc950b2b2ea2cd067cb68e3642414 ).\n\npolygerrit-ui/app/styles/shared-styles.ts notably has all the CSS resets which is a blessing.\n\nI\u0027ll consider adding that to the stable releases as well, but I don\u0027t know the policy about changing the API in stable releases.",
+      "revId": "b07010d8884f9ce5a96379ea85a00377aec5d731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

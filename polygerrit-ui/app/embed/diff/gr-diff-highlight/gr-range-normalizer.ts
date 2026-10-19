@@ -26,11 +26,17 @@ export interface NormalizedRange {
  */
 export function normalize(range: Range): NormalizedRange {
   const startContainer = getContentTextParent(range.startContainer);
-  const startOffset =
-    range.startOffset + getTextOffset(startContainer, range.startContainer);
+  const startOffset = getTextOffset(
+    startContainer,
+    range.startContainer,
+    range.startOffset
+  );
   const endContainer = getContentTextParent(range.endContainer);
-  const endOffset =
-    range.endOffset + getTextOffset(endContainer, range.endContainer);
+  const endOffset = getTextOffset(
+    endContainer,
+    range.endContainer,
+    range.endOffset
+  );
   return {
     startContainer,
     startOffset,
@@ -65,10 +71,24 @@ function getContentTextParent(target: Node): Node {
  *
  * @param node The root DOM element to be searched through.
  * @param child The child element being searched for.
+ * @param offset The DOM range offset within the child.
  */
 // TODO(TS): Only export for test.
-export function getTextOffset(node: Node | null, child: Node): number {
-  let count = 0;
+export function getTextOffset(
+  node: Node | null,
+  child: Node,
+  offset = 0
+): number {
+  let count = offset;
+  if (
+    node instanceof Element &&
+    node.classList.contains('contentText') &&
+    child instanceof Element
+  ) {
+    count = [...child.childNodes]
+      .slice(0, offset)
+      .reduce((length, childNode) => length + getLength(childNode), 0);
+  }
   let stack = [node];
   while (stack.length) {
     const n = stack.pop();

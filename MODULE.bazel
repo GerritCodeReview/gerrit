@@ -39,13 +39,6 @@ single_version_override(
     version = "36.2",
 )
 
-# In-tree modules.
-bazel_dep(name = "jgit")
-local_path_override(
-    module_name = "jgit",
-    path = "./modules/jgit",
-)
-
 # Toolchain setup.
 register_toolchains("//tools:all")
 

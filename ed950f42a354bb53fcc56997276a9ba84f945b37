@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91f77404_acbf607f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4816,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T13:39:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0430d88b_6bc2d2ed",
+      "range": {
+        "startLine": 4816,
+        "startChar": 0,
+        "endLine": 4816,
+        "endChar": 43
+      },
+      "revId": "ed950f42a354bb53fcc56997276a9ba84f945b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e924e2f6_033c2bce",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4272ae0_d7c36545",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T13:39:25Z",
+      "side": 1,
+      "message": "Switched from instanceof FileReftableDatabase to reading extensions.refStorage from the repo config. That\u0027s the on-disk format, independent of runtime ref-db wrapping, so SharedRefDbRefDatabase/custom-wrapped reftable repos report their real format — no CUSTOM needed.",
+      "parentUuid": "e924e2f6_033c2bce",
+      "range": {
+        "startLine": 124,
+        "startChar": 28,
+        "endLine": 124,
+        "endChar": 48
+      },
+      "revId": "ed950f42a354bb53fcc56997276a9ba84f945b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a3c231e_93110afd",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-10-13T16:33:58Z",
       "side": 1,
       "message": "Why not split it into 2 separate tests?\n\nAlso, I think we are missing a test for when the values cannot be retrieved when opening the repository.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 3
+      },
+      "revId": "ed950f42a354bb53fcc56997276a9ba84f945b37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "842862ac_4debfeaf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-19T13:39:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a3c231e_93110afd",
       "range": {
         "startLine": 83,
         "startChar": 0,

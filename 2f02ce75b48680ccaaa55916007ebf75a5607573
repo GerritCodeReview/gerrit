@@ -52,6 +52,24 @@
       "parentUuid": "e74ecb5c_eadffa9c",
       "revId": "2f02ce75b48680ccaaa55916007ebf75a5607573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41c7d229_c4979271",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-19T22:11:41Z",
+      "side": 1,
+      "message": "Done. Plugin based doc will be updated in the change it is introduced.",
+      "parentUuid": "5c768713_2bba15ce",
+      "revId": "2f02ce75b48680ccaaa55916007ebf75a5607573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

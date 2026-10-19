@@ -34,6 +34,24 @@
       "parentUuid": "9df3bdad_8d73e693",
       "revId": "a128f714e53765deffba8a4639e507b6458ede98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df38fa79_30c36051",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2026-10-19T19:27:36Z",
+      "side": 1,
+      "message": "Paladox mentioned the your patch on the task :) A very warm thank you for the quick patch!",
+      "parentUuid": "526fadf6_59e3e6e7",
+      "revId": "a128f714e53765deffba8a4639e507b6458ede98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

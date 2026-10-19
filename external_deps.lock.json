@@ -42,7 +42,7 @@
     "com.googlecode.prolog-cafe:prolog-compiler": 626105353,
     "com.googlecode.prolog-cafe:prolog-io": -567526384,
     "com.googlecode.prolog-cafe:prolog-runtime": 1690151692,
-    "com.h2database:h2": -1803998967,
+    "com.h2database:h2": -1123940597,
     "com.ibm.icu:icu4j": -361890945,
     "com.icegreen:greenmail": -1688190659,
     "com.ryanharter.auto.value:auto-value-gson-extension": -949538944,
@@ -292,8 +292,8 @@
     "com.googlecode.prolog-cafe:prolog-io:jar:sources": 2063038283,
     "com.googlecode.prolog-cafe:prolog-runtime": -776672418,
     "com.googlecode.prolog-cafe:prolog-runtime:jar:sources": 1445213194,
-    "com.h2database:h2": -552414482,
-    "com.h2database:h2:jar:sources": 1071831572,
+    "com.h2database:h2": -708777079,
+    "com.h2database:h2:jar:sources": 857756152,
     "com.ibm.icu:icu4j": -1725310050,
     "com.ibm.icu:icu4j:jar:sources": 163265109,
     "com.icegreen:greenmail": -151631445,
@@ -804,10 +804,10 @@
     },
     "com.h2database:h2": {
       "shasums": {
-        "jar": "82a80a2ac06901b03cdb233c663d21c4f49c884bf6d0cf85022729e8db9ab86f",
-        "sources": "6c2c426f446a2493213f42f628f5ecdf180685659322e5b4f72a92ba18d5f273"
+        "jar": "90b11dc413da82070ef15fc943282c1408e6ffd34fa68998335fea8603b5ff20",
+        "sources": "ff3d277f962df614283d0a754949eea1e4685ed645f603a590f19c5dbbdb83b3"
       },
-      "version": "2.5.250"
+      "version": "2.5.252"
     },
     "com.ibm.icu:icu4j": {
       "shasums": {

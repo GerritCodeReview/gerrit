@@ -34,6 +34,24 @@
       "parentUuid": "31c5e1b9_1f3c21c1",
       "revId": "2f02ce75b48680ccaaa55916007ebf75a5607573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c768713_2bba15ce",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-19T16:06:10Z",
+      "side": 1,
+      "message": "If not, then I think we need instructions on how an admin can change locker types? Also, no need to answer here, but this seems like something to consider for how that impacts using a plugin, and reloading a new plugin implementing lock types (sounds like this requires at least a server restart to change types?).",
+      "parentUuid": "e74ecb5c_eadffa9c",
+      "revId": "2f02ce75b48680ccaaa55916007ebf75a5607573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

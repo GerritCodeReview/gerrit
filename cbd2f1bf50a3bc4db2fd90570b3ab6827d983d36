@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e307c24_cb0d4d9c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-19T22:37:18Z",
+      "side": 1,
+      "message": "Let\u0027 be more explicit here and explain that if a primary starts with a conflicting lock type, that it will fail to startup.",
+      "revId": "cbd2f1bf50a3bc4db2fd90570b3ab6827d983d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

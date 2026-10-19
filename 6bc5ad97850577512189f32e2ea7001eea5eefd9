@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b6c6d8a_1a116ceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-19T09:15:54Z",
+      "side": 1,
+      "message": "Can any Googler give an `LC +1` to these cherry-picks as well?\n\nWe\u0027d like to include them in 3.15 rc2, which we are releasing today.\n\nPerhaps @milutin@google.com?\n\nThanks a lot!",
+      "revId": "6bc5ad97850577512189f32e2ea7001eea5eefd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

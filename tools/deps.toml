@@ -22,7 +22,7 @@ antlr27 = { module = "antlr:antlr", version = "2.7.7" }
 aopalliance = { module = "aopalliance:aopalliance", version = "1.0" }
 apache-mime4j-core = { module = "org.apache.james:apache-mime4j-core", version.ref = "mime4j" }
 apache-mime4j-dom = { module = "org.apache.james:apache-mime4j-dom", version.ref = "mime4j" }
-args4j = { module = "args4j:args4j", version = "2.33" }
+args4j = { module = "args4j:args4j", version = "2.37" }
 asciidoctorj = { module = "org.asciidoctor:asciidoctorj", version = "3.0.1" }
 asm = { module = "org.ow2.asm:asm", version.ref = "ow2" }
 asm-analysis = { module = "org.ow2.asm:asm-analysis", version.ref = "ow2" }

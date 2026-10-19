@@ -3,7 +3,7 @@
   "__INPUT_ARTIFACTS_HASH": {
     "antlr:antlr": 922184171,
     "aopalliance:aopalliance": 297412442,
-    "args4j:args4j": 484840357,
+    "args4j:args4j": 1844957097,
     "ch.qos.reload4j:reload4j": 468466190,
     "com.github.ben-manes.caffeine:caffeine": -60879720,
     "com.github.ben-manes.caffeine:guava": -926584503,
@@ -211,8 +211,8 @@
     "antlr:antlr": -947608540,
     "aopalliance:aopalliance": 1403132272,
     "aopalliance:aopalliance:jar:sources": -1259601821,
-    "args4j:args4j": 208424838,
-    "args4j:args4j:jar:sources": -370825913,
+    "args4j:args4j": -209094749,
+    "args4j:args4j:jar:sources": -1304112715,
     "ch.qos.reload4j:reload4j": -523782034,
     "ch.qos.reload4j:reload4j:jar:sources": -338991604,
     "ch.randelshofer:fastdoubleparser": -1282519171,
@@ -297,7 +297,7 @@
     "com.google.jsinterop:jsinterop-annotations:jar:sources": 694679492,
     "com.google.protobuf:protobuf-java": -1812001120,
     "com.google.protobuf:protobuf-java:jar:sources": -322237137,
-    "com.google.template:soy": -408300734,
+    "com.google.template:soy": -1231924490,
     "com.google.template:soy:jar:sources": 895044971,
     "com.google.truth.extensions:truth-java8-extension": 456440921,
     "com.google.truth.extensions:truth-java8-extension:jar:sources": 1257445795,
@@ -587,10 +587,10 @@
     },
     "args4j:args4j": {
       "shasums": {
-        "jar": "91ddeaba0b24adce72291c618c00bbdce1c884755f6c4dba9c5c46e871c69ed6",
-        "sources": "a337a37bc6fc9a2d81c952f4c6ebd5db12351e994d00e112d7fe87a4dd707204"
+        "jar": "5a13b0f7ff519183e55b8f453b8faaa23b92ccf0443f1fac515fedf2246bdc18",
+        "sources": "179ee53818ef244600238091c7c6333340e86bb83c605b2fb104a427571e0d1e"
       },
-      "version": "2.33"
+      "version": "2.37"
     },
     "ch.qos.reload4j:reload4j": {
       "shasums": {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4b6089b_355dabcc",
+        "filename": "modules/gitiles",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-19T12:03:20Z",
+      "side": 1,
+      "message": "Not yet submitted",
+      "revId": "a947c85503a42c30373af3a64960f8d5fd24c966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

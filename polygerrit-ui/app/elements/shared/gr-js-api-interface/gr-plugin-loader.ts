@@ -30,6 +30,7 @@ import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {define} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {Finalizable} from '../../../types/types';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -86,6 +87,7 @@ export class PluginLoader implements Gerrit, Finalizable {
     form: grFormStyles,
     icon: iconStyles,
     menuPage: menuPageStyles,
+    shared: sharedStyles,
     spinner: spinnerStyles,
     subPage: subpageStyles,
     table: tableStyles,

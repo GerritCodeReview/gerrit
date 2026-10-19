@@ -16,6 +16,24 @@
       "message": "Should this be backported to 3.15? Seems this has merge conflicts.",
       "revId": "62d72a7dc674f763bd29d5299e951542a4c24c9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8f2397f_1637f8db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-19T11:35:32Z",
+      "side": 1,
+      "message": "Done with [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/645114",
+      "parentUuid": "0f4f14f4_35df1395",
+      "revId": "62d72a7dc674f763bd29d5299e951542a4c24c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

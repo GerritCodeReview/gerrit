@@ -1,11 +1,9 @@
 {
   "checks": {
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/06%252F645106%252F4/11/console",
-      "started": "2026-10-19T12:46:18Z",
+      "state": "NOT_STARTED",
       "created": "2026-10-19T12:46:19Z",
-      "updated": "2026-10-19T12:46:19Z"
+      "updated": "2026-10-19T13:18:58Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "RUNNING",

@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "761b6c8a_3e125e76",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-19T07:21:26Z",
+      "side": 1,
+      "message": "Cool, once we\u0027ve finalized the test, we can include it in `SUBMITTING_PATCHES`, so that we don\u0027t break the flow of the discussions here.",
+      "parentUuid": "9fa51d31_96a14043",
+      "revId": "1ade253d3c4f72a64679b24c7c54c89280d54b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ae45a88_83c74daf",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 18

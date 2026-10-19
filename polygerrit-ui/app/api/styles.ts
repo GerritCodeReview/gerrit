@@ -28,6 +28,7 @@ export declare interface Styles {
   form: Style;
   icon: Style;
   menuPage: Style;
+  shared: Style;
   spinner: Style;
   subPage: Style;
   table: Style;

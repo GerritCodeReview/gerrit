@@ -1,5 +1,6 @@
 eclipse-out
 modules/gitiles
+modules/java-prettify
 modules/jgit
 node_modules
 polygerrit-ui/node_modules

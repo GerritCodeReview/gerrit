@@ -46,14 +46,23 @@ local_path_override(
     path = "./modules/jgit",
 )
 
+bazel_dep(name = "gitiles")
+local_path_override(
+    module_name = "gitiles",
+    path = "./modules/gitiles",
+)
+
+bazel_dep(name = "java-prettify")
+local_path_override(
+    module_name = "java-prettify",
+    path = "./modules/java-prettify",
+)
+
 # Toolchain setup.
 register_toolchains("//tools:all")
 
 # Plugin packaging support: bazlets pin and generated Gerrit API version repo.
 include("//tools:bazlets.MODULE.bazel")
-
-# Repository rules for in-tree sources.
-include("//tools:repos.MODULE.bazel")
 
 # External dependency wiring is split out.
 include("//tools:java_deps.MODULE.bazel")

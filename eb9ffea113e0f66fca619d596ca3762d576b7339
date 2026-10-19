@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a01d5a5a_781184df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-19T17:50:41Z",
+      "side": 1,
+      "message": "```suggestion\nthat can theoretically deadlock if another thread initializes ListGroupMembership\n```",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 35
+      },
+      "revId": "eb9ffea113e0f66fca619d596ca3762d576b7339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c725253_3cbc34cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-19T17:50:41Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: skip`",
+      "revId": "eb9ffea113e0f66fca619d596ca3762d576b7339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

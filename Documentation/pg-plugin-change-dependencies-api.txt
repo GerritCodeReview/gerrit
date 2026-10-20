@@ -3,7 +3,7 @@
 `plugin.changeDependencies().register(provider)` lets a plugin contribute
 relationships to threaded change lists. Gerrit owns ordering, rendering,
 keyboard navigation, and bulk selection. Without a provider, Gerrit
-constructs threads using native Git relationships.
+constructs threads using native Git relationships and topics.
 
 == Registration
 
@@ -70,3 +70,10 @@ sections and result pages remain separate: an edge does not move a change into
 another section, add rows, change result counts, or expand bulk selection.
 This version supplies edges only. Full-network expansion, extra nodes, explicit
 groups, and completeness indicators are outside this API version.
+
+== Topic grouping
+
+The independent `group_topics` account preference groups and outlines visible
+non-merged changes sharing a topic. It defaults to false. Topic-only grouping
+does not request indexed dependency metadata or invoke dependency providers.
+Providers remain controlled by the separate `threaded_changes` preference.

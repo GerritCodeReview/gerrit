@@ -3039,6 +3039,10 @@ Whether to show relative dates in the changes table.
 |`threaded_changes`              |not set if `false`|
 Whether to render change lists and the relation chain as dependency threads.
 Defaults to `false`.
+|`group_topics`                  |not set if `false`|
+Whether to group and outline visible non-merged changes sharing a topic in
+change lists. Defaults to `false`, independently of `threaded_changes`.
+Topic-only grouping is flat and does not expand the query.
 |`diff_view`                    ||
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
@@ -3132,6 +3136,11 @@ Whether to show relative dates in the changes table.
 |`threaded_changes`              |optional|
 Whether to render change lists and the relation chain as dependency threads.
 Defaults to `false`.
+|`group_topics`                  |optional|
+Whether to group and outline visible changes sharing a topic in change lists.
+Defaults to `false`, independently of `threaded_changes`. With grouping enabled
+and threading disabled, groups remain flat without Git dependency rails.
+Merged changes remain standalone. This preference does not expand the query.
 |`diff_view`                    |optional|
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.

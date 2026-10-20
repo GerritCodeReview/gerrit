@@ -19,9 +19,86 @@ import {CommitId, NumericChangeId} from '../types/common';
 import {ChangeStatus} from '../constants/constants';
 
 suite('change-thread-util', () => {
-  const node = (id: string, parents: string[] = []): ThreadNode<string> => {
-    return {id, value: id, parents};
+  const node = (
+    id: string,
+    parents: string[] = [],
+    topic?: string
+  ): ThreadNode<string> => {
+    return {id, value: id, parents, topic};
   };
+
+  test('topic grouping and dependency threading support all four combinations', () => {
+    const base = createChange({
+      _number: 1 as NumericChangeId,
+      topic: 'bundle' as ReturnType<typeof createChange>['topic'],
+    });
+    const mate = createChange({
+      _number: 2 as NumericChangeId,
+      topic: base.topic,
+    });
+    const child = createChange({_number: 3 as NumericChangeId});
+    const edges = [{from: 3, to: 1, type: 'git'}] as const;
+    for (const threaded of [false, true]) {
+      for (const groupTopics of [false, true]) {
+        const rows = threadChangeList(
+          [mate, child, base],
+          [...edges],
+          threaded,
+          groupTopics
+        );
+        assert.deepEqual(
+          rows.map(row => row.node.value._number),
+          threaded || groupTopics ? [2, 1, 3] : [2, 3, 1]
+        );
+        assert.equal(
+          rows.some(row => row.branches.length > 0),
+          threaded
+        );
+        assert.equal(
+          rows.some(row => row.topicStart),
+          groupTopics
+        );
+        assert.equal(
+          rows.filter(row => row.node.topic).length,
+          groupTopics ? 2 : 0
+        );
+      }
+    }
+    const merged = {
+      ...base,
+      _number: 4 as NumericChangeId,
+      status: ChangeStatus.MERGED,
+    };
+    const rows = threadChangeList([mate, merged, base], [], false, true);
+    assert.isUndefined(
+      rows.find(row => row.node.value._number === 4)!.node.topic
+    );
+    assert.deepEqual(
+      rows.map(row => row.node.value._number),
+      [2, 1, 4]
+    );
+  });
+
+  test('flat preference keeps result order and removes topic groups', () => {
+    const changes = [2, 1].map(number =>
+      createChange({
+        _number: number as NumericChangeId,
+        topic: 'bundle' as ReturnType<typeof createChange>['topic'],
+      })
+    );
+    const rows = threadChangeList(
+      changes,
+      [{from: 2, to: 1, type: 'depends-on'}],
+      false
+    );
+    assert.deepEqual(
+      rows.map(row => Number(row.node.value._number)),
+      [2, 1]
+    );
+    assert.isTrue(
+      rows.every(row => row.branches.length === 0 && !row.node.topic)
+    );
+  });
 
   test('provider edges never attach to historical related patchsets', () => {
     const base = {
@@ -175,6 +252,100 @@ suite('change-thread-util', () => {
       rows.map(row => row.branches.length),
       [0, 1, 0]
     );
+  });
+
+  test('groups topics among siblings without inventing dependency edges', () => {
+    const rows = threadChanges([
+      node('a', [], 'bundle'),
+      node('other'),
+      node('b', [], 'bundle'),
+    ]);
+    assert.deepEqual(
+      rows.map(row => row.node.id),
+      ['a', 'b', 'other']
+    );
+    assert.isTrue(rows[0].topicStart);
+    assert.isFalse(rows[0].topicEnd);
+    assert.isFalse(rows[1].topicStart);
+    assert.isTrue(rows[1].topicEnd);
+    assert.deepEqual(rows[1].branches, []);
+  });
+
+  test('topic boundaries do not override ancestry', () => {
+    const rows = threadChanges([
+      node('child', ['base'], 'bundle'),
+      node('base', [], 'other'),
+    ]);
+    assert.deepEqual(
+      rows.map(row => row.node.id),
+      ['base', 'child']
+    );
+    assert.isTrue(rows[0].topicEnd);
+    assert.isTrue(rows[1].topicStart);
+  });
+
+  test('a topic stack shares one depth and keeps its real dependencies', () => {
+    const rows = threadChanges([
+      node('tip', ['base'], 'bundle'),
+      node('dependent', ['tip']),
+      node('unrelated'),
+      node('base', ['outside'], 'bundle'),
+      node('outside'),
+    ]);
+    assert.deepEqual(
+      rows.map(row => row.node.id),
+      ['outside', 'base', 'tip', 'dependent', 'unrelated']
+    );
+    assert.deepEqual(
+      rows.map(row => row.branches.length),
+      [0, 1, 1, 2, 0]
+    );
+    assert.deepEqual(
+      rows.map(row => row.last),
+      [true, false, true, true, true]
+    );
+    assert.deepEqual(rows[2].parents, ['base']);
+    assert.isTrue(rows[1].topicStart);
+    assert.isFalse(rows[1].topicEnd);
+    assert.isFalse(rows[2].topicStart);
+    assert.isTrue(rows[2].topicEnd);
+  });
+
+  test('groups a topic across separate branches without losing external parents', () => {
+    const rows = threadChanges([
+      node('a', ['left'], 'bundle'),
+      node('b', ['right'], 'bundle'),
+      node('left'),
+      node('right'),
+    ]);
+    assert.deepEqual(
+      rows.map(row => row.node.id),
+      ['left', 'a', 'b', 'right']
+    );
+    assert.deepEqual(rows[1].branches, rows[2].branches);
+    assert.deepEqual(rows[2].parents, ['right']);
+  });
+
+  test('topic grouping breaks display cycles without dropping changes or edges', () => {
+    const rows = threadChanges([
+      node('a', [], 'bundle'),
+      node('middle', ['a']),
+      node('b', ['middle'], 'bundle'),
+    ]);
+    assert.sameMembers(
+      rows.map(row => row.node.id),
+      ['a', 'b', 'middle']
+    );
+    assert.equal(
+      rows.find(row => row.node.id === 'a')!.branches.length,
+      rows.find(row => row.node.id === 'b')!.branches.length
+    );
+    assert.deepEqual(rows.find(row => row.node.id === 'b')!.parents, [
+      'middle',
+    ]);
+    assert.deepEqual(rows.find(row => row.node.id === 'middle')!.parents, [
+      'a',
+    ]);
   });
 
   test('missing or stale indexed metadata leaves older-server rows flat', () => {

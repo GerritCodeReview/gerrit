@@ -121,6 +121,8 @@ export class GrChangeListSection extends LitElement {
 
   @state() private threadedChanges = false;
 
+  @state() private groupTopics = false;
+
   @state()
   private narrowScreen = window.matchMedia('(max-width: 50em)').matches;
 
@@ -242,6 +244,13 @@ export class GrChangeListSection extends LitElement {
       () => this.getUserModel().preferenceThreadedChanges$,
       enabled => {
         this.threadedChanges = enabled;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().preferenceGroupTopics$,
+      enabled => {
+        this.groupTopics = enabled;
       }
     );
     provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
@@ -447,7 +456,8 @@ export class GrChangeListSection extends LitElement {
     return threadChangeList(
       this.changeSection.results,
       this.dependencyEdges,
-      this.threadedChanges
+      this.threadedChanges,
+      this.groupTopics
     );
   }
 
@@ -465,6 +475,7 @@ export class GrChangeListSection extends LitElement {
       dependencies.length
         ? `depends on changes ${dependencies.join(', ')}`
         : '',
+      change.topic ? `topic: ${change.topic}` : '',
     ]
       .filter(Boolean)
       .join(', ');

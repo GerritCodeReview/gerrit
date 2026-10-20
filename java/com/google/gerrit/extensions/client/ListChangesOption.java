@@ -100,7 +100,10 @@ public enum ListChangesOption implements ListOption {
    * Include the `parents_data` field in each revision, e.g. if it's merged in the target branch and
    * whether it points to a patch-set of another change.
    */
-  PARENTS(27);
+  PARENTS(27),
+
+  /** Include index-backed dependencies between changes returned by a query. */
+  INDEXED_DEPENDENCIES(28);
 
   private final int value;
 

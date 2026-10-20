@@ -43,6 +43,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
+import static com.google.gerrit.extensions.client.ListChangesOption.INDEXED_DEPENDENCIES;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
@@ -3435,6 +3436,151 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo actual = gApi.changes().id(r2.getChangeId()).get(ALL_REVISIONS, CURRENT_REVISION);
     assertThat(actual.revisions).hasSize(2);
     assertThat(actual.revisions.values().stream().map(r -> r._number)).isInOrder();
+  }
+
+  @Test
+  @GerritConfig(name = "index.type", value = "lucene")
+  @GerritConfig(name = "change.enableIndexedDependencies", value = "true")
+  public void indexedDependencySearchDoesNotTouchDatabase() throws Exception {
+    PushOneCommit.Result base = createChange();
+    PushOneCommit.Result child = createChange();
+    int baseNumber = base.getChange().getId().get();
+    int childNumber = child.getChange().getId().get();
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(gApi.config().server().getInfo().change.indexedDependencies).isTrue();
+    EnumSet<ListChangesOption> options = EnumSet.copyOf(IndexPreloadingUtil.DASHBOARD_OPTIONS);
+    options.add(INDEXED_DEPENDENCIES);
+    assertThat(options).contains(INDEXED_DEPENDENCIES);
+    assertThat(options).containsNoneIn(ChangeJson.REQUIRE_LAZY_LOAD);
+    assertThat(ChangeJson.REQUIRE_LAZY_LOAD).doesNotContain(INDEXED_DEPENDENCIES);
+
+    try (AutoCloseable ignored = disableNoteDb()) {
+      List<ChangeInfo> changes =
+          gApi.changes().query("project:{" + project.get() + "}").withOptions(options).get();
+      assertThat(changes).hasSize(2);
+      ChangeInfo result = changes.stream().filter(c -> c._number == childNumber).findFirst().get();
+      assertThat(result.revisions).isNull();
+      assertThat(result.indexedDependencies).isNotNull();
+      assertThat(result.indexedDependencies.revision).isEqualTo(child.getCommit().name());
+      assertThat(result.indexedDependencies.patchSetNumber).isEqualTo(1);
+      assertThat(result.indexedDependencies.parents).hasSize(1);
+      var parent = result.indexedDependencies.parents.get(0);
+      assertThat(parent.changeNumber).isEqualTo(baseNumber);
+      assertThat(parent.patchSetNumber).isEqualTo(1);
+      assertThat(parent.commitId).isEqualTo(base.getCommit().name());
+    }
+  }
+
+  @Test
+  public void indexedDependenciesIdentifyHistoricalParentPatchSet() throws Exception {
+    PushOneCommit.Result base = createChange();
+    PushOneCommit.Result child = createChange();
+    testRepo.reset(base.getCommit());
+    PushOneCommit.Result amendedBase = amendChange(base.getChangeId());
+    amendedBase.assertOkStatus();
+    int baseNumber = base.getChange().getId().get();
+    int childNumber = child.getChange().getId().get();
+    requestScopeOperations.setApiUser(user.id());
+
+    try (AutoCloseable ignored = disableNoteDb()) {
+      List<ChangeInfo> changes =
+          gApi.changes()
+              .query("project:{" + project.get() + "}")
+              .withOptions(INDEXED_DEPENDENCIES)
+              .get();
+      assertThat(changes).hasSize(2);
+      ChangeInfo result = changes.stream().filter(c -> c._number == childNumber).findFirst().get();
+      assertThat(result.indexedDependencies.parents).hasSize(1);
+      var parent = result.indexedDependencies.parents.get(0);
+      assertThat(parent.changeNumber).isEqualTo(baseNumber);
+      assertThat(parent.patchSetNumber).isEqualTo(1);
+      assertThat(parent.commitId).isEqualTo(base.getCommit().name());
+      ChangeInfo currentBase =
+          changes.stream().filter(c -> c._number == baseNumber).findFirst().get();
+      assertThat(currentBase.indexedDependencies.revision)
+          .isEqualTo(amendedBase.getCommit().name());
+      assertThat(currentBase.indexedDependencies.patchSetNumber).isEqualTo(2);
+    }
+  }
+
+  @Test
+  public void indexedDependenciesIncludeReturnedAbandonedAndWipChanges() throws Exception {
+    PushOneCommit.Result base = createChange();
+    PushOneCommit.Result child = createChange();
+    int baseNumber = base.getChange().getId().get();
+    int childNumber = child.getChange().getId().get();
+    gApi.changes().id(base.getChangeId()).abandon();
+    gApi.changes().id(child.getChangeId()).setWorkInProgress();
+    try (AutoCloseable ignored = disableNoteDb()) {
+      List<ChangeInfo> changes =
+          gApi.changes()
+              .query("project:{" + project.get() + "}")
+              .withOptions(INDEXED_DEPENDENCIES)
+              .get();
+      assertThat(changes).hasSize(2);
+      ChangeInfo result = changes.stream().filter(c -> c._number == childNumber).findFirst().get();
+      assertThat(result.indexedDependencies.parents).hasSize(1);
+      assertThat(result.indexedDependencies.parents.get(0).changeNumber).isEqualTo(baseNumber);
+      ChangeInfo abandoned =
+          changes.stream().filter(c -> c._number == baseNumber).findFirst().get();
+      assertThat(abandoned.indexedDependencies).isNotNull();
+    }
+  }
+
+  @Test
+  public void indexedDependenciesDoNotResolveParentsOutsideQueryResults() throws Exception {
+    createChange();
+    PushOneCommit.Result child = createChange();
+    try (AutoCloseable ignored = disableNoteDb()) {
+      List<ChangeInfo> changes =
+          gApi.changes()
+              .query("change:" + child.getChangeId())
+              .withOptions(INDEXED_DEPENDENCIES)
+              .get();
+      assertThat(changes).hasSize(1);
+      assertThat(changes.get(0).indexedDependencies.revision).isEqualTo(child.getCommit().name());
+      assertThat(changes.get(0).indexedDependencies.parents).isEmpty();
+    }
+  }
+
+  @Test
+  public void indexedDependenciesDoNotRevealPrivateParentChanges() throws Exception {
+    PushOneCommit.Result base = createChange();
+    PushOneCommit.Result child = createChange();
+    int childNumber = child.getChange().getId().get();
+    gApi.changes().id(base.getChangeId()).setPrivate(true);
+    requestScopeOperations.setApiUser(user.id());
+    try (AutoCloseable ignored = disableNoteDb()) {
+      List<ChangeInfo> changes =
+          gApi.changes()
+              .query("project:{" + project.get() + "}")
+              .withOptions(INDEXED_DEPENDENCIES)
+              .get();
+      assertThat(changes).hasSize(1);
+      assertThat(changes.get(0)._number).isEqualTo(childNumber);
+      assertThat(changes.get(0).indexedDependencies.parents).isEmpty();
+    }
+  }
+
+  @Test
+  public void indexedDependenciesAreOnlyIncludedWhenRequested() throws Exception {
+    createChange();
+    try (AutoCloseable ignored = disableNoteDb()) {
+      List<ChangeInfo> changes = gApi.changes().query("project:{" + project.get() + "}").get();
+      assertThat(changes).hasSize(1);
+      assertThat(changes.get(0).indexedDependencies).isNull();
+    }
+  }
+
+  @Test
+  public void indexedDependenciesCapabilityDefaultsOff() throws Exception {
+    assertThat(gApi.config().server().getInfo().change.indexedDependencies).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "change.enableIndexedDependencies", value = "true")
+  public void indexedDependenciesCapabilityCanBeEnabled() throws Exception {
+    assertThat(gApi.config().server().getInfo().change.indexedDependencies).isTrue();
   }
 
   @Test

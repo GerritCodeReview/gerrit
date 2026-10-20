@@ -67,6 +67,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final List<Extension<ChangePluginDefinedInfoFactory>>
       changePluginDefinedInfoFactoriesByPlugin = new ArrayList<>();
   private final IndexConfig indexConfig;
+  private boolean includeIndexedDependencies;
 
   @Singleton
   protected static class ChangeQueryMetrics extends QueryProcessor.Metrics {
@@ -136,9 +137,18 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         requestedFields);
   }
 
+  @CanIgnoreReturnValue
+  public ChangeQueryProcessor setIncludeIndexedDependencies(boolean include) {
+    includeIndexedDependencies = include;
+    return this;
+  }
+
   @Override
   protected Set<String> getDefaultRequestedFields() {
     Set<String> fields = super.getDefaultRequestedFields();
+    if (includeIndexedDependencies) {
+      return fields;
+    }
     return fields.stream()
         .filter(field -> !field.equals(ChangeField.CURRENT_REVISION_PARENTS_SPEC.getName()))
         .collect(toImmutableSet());

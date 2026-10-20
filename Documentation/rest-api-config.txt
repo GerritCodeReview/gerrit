@@ -2333,6 +2333,10 @@ bit is indexed.
 link:config-gerrit.html#change.conflictsPredicateEnabled[Are conflicts enabled?].
 |`allow_markdown_base64_images_in_comments`|not set if `false`|
 link:config-gerrit.html#change.allowMarkdownBase64ImagesInComments[Are markdown base64 images in comments allowed?].
+|`indexed_dependencies`|not set if `false`|
+Whether link:config-gerrit.html#change.enableIndexedDependencies[indexed
+dependency metadata] is enabled and supported by the active change index.
+Clients should request `INDEXED_DEPENDENCIES` only when this is `true`.
 |=============================
 
 [[change-index-config-info]]

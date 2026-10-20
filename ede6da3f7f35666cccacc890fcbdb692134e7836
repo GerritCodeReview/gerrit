@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6cc1b3b_5bcbef93",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:36:55Z",
+      "side": 1,
+      "message": "It joins using thh `OR` operator. Therefore, a more descriptive and precise method name would be: `asOrExpression`, `toOrExpression`, `joinWithOr`, ...",
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01df4e25_d152533d",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
         "patchSetId": 8

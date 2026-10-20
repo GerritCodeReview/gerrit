@@ -30,6 +30,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 
@@ -134,5 +135,27 @@ public class WorkQueueIT extends AbstractDaemonTest {
       assertThat(ms++).isLessThan(TIMEOUT_MILLIS);
       TimeUnit.MILLISECONDS.sleep(1);
     }
+  }
+
+  public void testCanceledOneShotTaskIsNotRescheduled() throws Exception {
+    ScheduledThreadPoolExecutor testExecutor =
+        workQueue.createQueue(POOL_CORE_SIZE, QUEUE_NAME, false);
+    WorkQueue.CancelableRunnable cancelable =
+        new WorkQueue.CancelableRunnable() {
+          @Override
+          public void run() {}
+
+          @Override
+          public void cancel() {}
+        };
+    Runnable task = (Runnable) testExecutor.schedule(cancelable, 1, TimeUnit.HOURS);
+    assertThat(((Future<?>) task).cancel(false)).isTrue();
+
+    // Simulate a pool thread that dequeued the task just before it got canceled.
+    task.run();
+
+    TimeUnit.MILLISECONDS.sleep(FIXED_RATE_SCHEDULE_INTERVAL_MILLI_SEC);
+    assertThat(testExecutor.getCompletedTaskCount()).isEqualTo(0);
+    testExecutor.shutdownNow();
   }
 }

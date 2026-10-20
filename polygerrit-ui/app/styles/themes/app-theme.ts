@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {safeStyleSheet, setStyleTextContent} from '../../utils/inner-html-util';
-import {getBaseUrl} from '../../utils/url-util';
+import {getBaseUrl} from '../../utils/base-url-util';
 
 const appThemeCss = safeStyleSheet`
   html {

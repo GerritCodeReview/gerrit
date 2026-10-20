@@ -31,6 +31,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {Finalizable} from '../../../types/types';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {changeViewIntegrationStyles} from '../../../styles/gr-change-view-integration-shared-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 enum PluginState {
   /** State that indicates the plugin is pending to be loaded. */
@@ -87,6 +88,7 @@ export class PluginLoader implements Gerrit, Finalizable {
     form: grFormStyles,
     material: materialStyles,
     menuPage: menuPageStyles,
+    shared: sharedStyles,
     spinner: spinnerStyles,
     subPage: subpageStyles,
     table: tableStyles,

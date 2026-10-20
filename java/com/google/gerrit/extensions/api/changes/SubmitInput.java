@@ -24,4 +24,10 @@ public class SubmitInput {
 
   public NotifyHandling notify = NotifyHandling.ALL;
   public Map<RecipientType, NotifyInfo> notifyDetails;
+
+  /**
+   * When set, submit the whole topic of this change even if {@code change.submitWholeTopic} is not
+   * enabled on the server. When unset, the {@code change.submitWholeTopic} configuration decides.
+   */
+  public Boolean submitWholeTopic;
 }

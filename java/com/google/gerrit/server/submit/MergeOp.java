@@ -921,7 +921,7 @@ public class MergeOp implements AutoCloseable {
                         mergeSuperSet.completeChangeSet(
                             reloadChange,
                             caller.getRealUser(),
-                            /* includingTopicClosure= */ false,
+                            Boolean.TRUE.equals(submitInput.submitWholeTopic),
                             backfill);
                     if (!indexBackedMergeChangeSet.ids().contains(reloadChange.getId())) {
                       // indexBackedChangeSet contains only open changes, if the change is missing

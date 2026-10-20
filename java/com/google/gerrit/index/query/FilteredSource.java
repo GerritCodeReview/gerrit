@@ -69,6 +69,7 @@ public class FilteredSource<T> implements DataSource<T> {
             final int limit = opts.limit();
             int nextStart = pageResultSize;
             while (pageResultSize == limit && r.size() < limit) {
+              @SuppressWarnings("unchecked")
               ResultSet<T> next = p.restart(nextStart);
               pageResultSize = 0;
               for (T data : buffer(next)) {

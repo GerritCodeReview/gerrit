@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c67f66ad_247fd0e4",
+        "filename": "MODULE.bazel",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-20T10:25:59Z",
+      "side": 1,
+      "message": "Could we group all three in-tree dependencies, including JGit, in tools/in_tree.MODULE.bazel and include it from the root module?\n\nMy intention was to keep the main MODULE.bazel concise and move related dependency declarations into dedicated fragments.\n\nI verified locally that headless and plugins/gitiles still build with the existing lockfile. This could also be done in a follow-up change, if you prefer.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "eed2c0faa41584381751fe367d83b838d44c0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

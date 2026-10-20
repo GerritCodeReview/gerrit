@@ -32,6 +32,27 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class CachedPreferencesTest {
   @Test
+  public void threadedChangesSurvivesConfigAndProtoStorage() {
+    for (boolean value : new boolean[] {false, true}) {
+      Config cfg = new Config();
+      cfg.setBoolean("general", null, "threadedChanges", value);
+      CachedPreferences stored = CachedPreferences.fromLegacyConfig(cfg);
+      assertThat(CachedPreferences.general(Optional.empty(), stored).threadedChanges)
+          .isEqualTo(value ? Boolean.TRUE : null);
+      CachedPreferences reloaded =
+          CachedPreferences.fromUserPreferencesProto(
+              UserPreferences.newBuilder()
+                  .setGeneralPreferencesInfo(
+                      UserPreferences.GeneralPreferencesInfo.newBuilder().setThreadedChanges(value))
+                  .build());
+      assertThat(CachedPreferences.general(Optional.empty(), reloaded).threadedChanges)
+          .isEqualTo(value ? Boolean.TRUE : null);
+      assertThat(stored.asConfig().getBoolean("general", "threadedChanges", !value))
+          .isEqualTo(value);
+    }
+  }
+
+  @Test
   public void gitConfig_roundTrip() throws Exception {
     Config originalCfg = new Config();
     originalCfg.fromText("[general]\n\tfoo = bar");

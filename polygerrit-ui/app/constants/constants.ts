@@ -267,6 +267,7 @@ export function createDefaultPreferences(): PreferencesInfo {
     changes_per_page: 25,
     diff_view: DiffViewMode.SIDE_BY_SIDE,
     size_bar_in_change_table: true,
+    threaded_changes: false,
     my: [],
     theme: AppTheme.AUTO,
     date_format: DateFormat.STD,

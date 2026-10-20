@@ -293,6 +293,24 @@ export class GrPreferences extends LitElement {
               </md-outlined-select>
             </span>
           </section>
+          <section>
+            <label class="title" for="threadedChanges"
+              >Thread change lists</label
+            >
+            <span class="value">
+              <md-checkbox
+                id="threadedChanges"
+                ?checked=${this.prefs?.threaded_changes ?? false}
+                @change=${(event: Event) => {
+                  if (!this.prefs) return;
+                  this.prefs.threaded_changes = (
+                    event.target as MdCheckbox
+                  ).checked;
+                  this.requestUpdate();
+                }}
+              ></md-checkbox>
+            </span>
+          </section>
           ${this.renderBrowserNotifications()}
           ${this.renderGenerateSuggestionWhenCommenting()}
           ${this.renderAiCommentAutocompletion()}
@@ -598,6 +616,8 @@ export class GrPreferences extends LitElement {
         this.prefs?.default_base_for_merges ||
       Boolean(this.originalPrefs?.relative_date_in_change_table) !==
         Boolean(this.prefs?.relative_date_in_change_table) ||
+      (this.originalPrefs?.threaded_changes ?? false) !==
+        (this.prefs?.threaded_changes ?? false) ||
       this.originalPrefs?.diff_view !== this.prefs?.diff_view ||
       Boolean(this.originalPrefs?.size_bar_in_change_table) !==
         Boolean(this.prefs?.size_bar_in_change_table) ||

@@ -23,9 +23,13 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.ListOption;
+import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.template.soy.data.SanitizedContent;
@@ -207,6 +211,35 @@ public class IndexHtmlUtilTest {
             "defaultChangeDetailHex", "896394",
             "submitRequirementsHex", "1900000",
             "changeRequestsPath", "changes/project~123");
+  }
+
+  @Test
+  public void dashboardPreloadUsesCapabilityAndPreference() throws Exception {
+    for (boolean supported : new boolean[] {false, true}) {
+      for (boolean enabled : new boolean[] {false, true}) {
+        Server serverApi = mock(Server.class);
+        ServerInfo info = new ServerInfo();
+        info.change = new ChangeConfigInfo();
+        info.change.indexedDependencies = supported;
+        when(serverApi.getInfo()).thenReturn(info);
+        when(serverApi.getVersion()).thenReturn("123");
+        when(serverApi.topMenus()).thenReturn(ImmutableList.of());
+        AccountApi account = mock(AccountApi.class);
+        GeneralPreferencesInfo preferences = GeneralPreferencesInfo.defaults();
+        preferences.threadedChanges = enabled;
+        when(account.getPreferences()).thenReturn(preferences);
+        Accounts accounts = mock(Accounts.class);
+        when(accounts.self()).thenReturn(account);
+        Config config = mock(Config.class);
+        when(config.server()).thenReturn(serverApi);
+        GerritApi api = mock(GerritApi.class);
+        when(api.accounts()).thenReturn(accounts);
+        when(api.config()).thenReturn(config);
+        assertThat(dynamicTemplateData(api, "/dashboard/self", "").get("defaultDashboardHex"))
+            .isEqualTo(
+                ListOption.toHex(IndexPreloadingUtil.dashboardOptions(supported && enabled)));
+      }
+    }
   }
 
   private static SanitizedContent ordain(String s) {

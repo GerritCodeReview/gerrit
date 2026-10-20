@@ -1071,6 +1071,7 @@ export interface PreferencesInfo {
   date_format: DateFormat;
   time_format: TimeFormat;
   relative_date_in_change_table?: boolean;
+  threaded_changes?: boolean;
   diff_view: DiffViewMode;
   size_bar_in_change_table?: boolean;
   legacycid_in_change_table?: boolean;

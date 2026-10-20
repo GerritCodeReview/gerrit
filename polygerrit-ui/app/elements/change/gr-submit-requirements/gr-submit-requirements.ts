@@ -31,6 +31,7 @@ import {
   getTriggerVotes,
   hasApprovedVote,
   hasNeutralStatus,
+  hasOnlyAiVotes,
   hasRejectedVote,
   hasVotes,
   iconForRequirement,
@@ -384,6 +385,7 @@ export class GrSubmitRequirements extends LitElement {
             .more=${(labelInfo.all ?? []).filter(
               other => other.value === approvalInfo.value
             ).length > 1}
+            ?is-ai=${hasOnlyAiVotes(labelInfo, approvalInfo)}
           ></gr-vote-chip>`
       );
     } else if (isQuickLabelInfo(labelInfo)) {

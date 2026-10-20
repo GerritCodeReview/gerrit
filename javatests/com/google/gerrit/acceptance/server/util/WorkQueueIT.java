@@ -159,4 +159,26 @@ public class WorkQueueIT extends AbstractDaemonTest {
       TimeUnit.MILLISECONDS.sleep(1);
     }
   }
+
+  public void testCanceledOneShotTaskIsNotRescheduled() throws Exception {
+    ScheduledThreadPoolExecutor testExecutor =
+        workQueue.createQueue(POOL_CORE_SIZE, QUEUE_NAME, false);
+    WorkQueue.CancelableRunnable cancelable =
+        new WorkQueue.CancelableRunnable() {
+          @Override
+          public void run() {}
+
+          @Override
+          public void cancel() {}
+        };
+    Runnable task = (Runnable) testExecutor.schedule(cancelable, 1, TimeUnit.HOURS);
+    assertThat(((Future<?>) task).cancel(false)).isTrue();
+
+    // Simulate a pool thread that dequeued the task just before it got canceled.
+    task.run();
+
+    TimeUnit.MILLISECONDS.sleep(FIXED_RATE_SCHEDULE_INTERVAL_MILLI_SEC);
+    assertThat(testExecutor.getCompletedTaskCount()).isEqualTo(0);
+    testExecutor.shutdownNow();
+  }
 }

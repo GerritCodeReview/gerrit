@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06ba12d0_40db9d54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-20T10:29:38Z",
+      "side": 1,
+      "message": "Subject is too long (max 73 chars). Use: \"Bazel: Use bazel_dep for in-tree dependencies\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 75
+      },
+      "revId": "eed2c0faa41584381751fe367d83b838d44c0504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c67f66ad_247fd0e4",
         "filename": "MODULE.bazel",
         "patchSetId": 3

@@ -6,6 +6,9 @@ npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 
+# Exposed so //tools/sbom can read the pinned Maven lockfile as a build input.
+exports_files(["external_deps.lock.json"])
+
 _JGIT_STAMPED_WAR_LIBS = ["@jgit//org.eclipse.jgit:jgit-stamped"]
 
 _JGIT_NON_STAMPED_WAR_EXCLUDES = ["libjgit.jar"]

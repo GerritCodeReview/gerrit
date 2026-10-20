@@ -17,7 +17,7 @@ package com.google.gerrit.server.securestore;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -32,9 +32,11 @@ public class SecureStoreProvider implements Provider<SecureStore> {
 
   @Inject
   protected SecureStoreProvider(
-      Injector injector, SitePaths sitePaths, @Nullable @SecureStoreClassName String className) {
+      Injector injector,
+      @SitePath Path sitePath,
+      @Nullable @SecureStoreClassName String className) {
     this.injector = injector;
-    this.libdir = sitePaths.lib_dir;
+    this.libdir = sitePath.resolve("lib");
     this.className = className;
   }
 

@@ -50,6 +50,9 @@ export class GrVoteChip extends LitElement {
   @property({type: Boolean, attribute: 'tooltip-with-who-voted'})
   tooltipWithWhoVoted = false;
 
+  @property({type: Boolean, attribute: 'is-ai', reflect: true})
+  isAi = false;
+
   /** Include the label abbreviation inside a self-contained vote badge. */
   @property({attribute: 'label-name', reflect: true})
   labelName?: string;
@@ -104,6 +107,20 @@ export class GrVoteChip extends LitElement {
           line-height: var(--gr-vote-chip-width, 16px);
           color: var(--vote-text-color);
         }
+        :host([is-ai]) .vote-chip,
+        :host([is-ai]) .chip-angle {
+          width: auto;
+          align-items: center;
+        }
+        :host([is-ai]) .vote-chip {
+          padding-left: 2px;
+          padding-right: 3px;
+        }
+        :host([is-ai]) .more > .vote-chip,
+        :host([is-ai]) .chip-angle {
+          padding-left: 1px;
+          padding-right: 2px;
+        }
         :host([label-name]) .vote-chip {
           width: auto;
           align-items: center;
@@ -116,6 +133,17 @@ export class GrVoteChip extends LitElement {
           width: 14px;
           height: 16px;
           font-size: 16px;
+        }
+        .vote-chip gr-icon.ai-icon,
+        .chip-angle gr-icon.ai-icon {
+          display: flex;
+          align-items: center;
+          color: inherit;
+          width: 12px;
+          height: 12px;
+          --gr-icon-size: 12px;
+          font-size: 12px;
+          margin-right: 1px;
         }
         .more > .vote-chip {
           position: relative;
@@ -150,11 +178,19 @@ export class GrVoteChip extends LitElement {
       has-tooltip
     >
       <div class="vote-chip ${this.computeClass()}">
-        ${this.labelName}${renderValue}
+        ${this.isAi
+          ? html`<gr-icon
+              icon="spark"
+              class="ai-icon"
+              title="AI predicted"
+            ></gr-icon>`
+          : ''}${this.labelName}${renderValue}
       </div>
       ${this.more
         ? html`<div class="chip-angle ${this.computeClass()}">
-            ${renderValue}
+            ${this.isAi
+              ? html`<gr-icon icon="spark" class="ai-icon"></gr-icon>`
+              : ''}${renderValue}
           </div>`
         : ''}
     </gr-tooltip-content>`;

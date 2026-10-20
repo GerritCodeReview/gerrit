@@ -33,6 +33,7 @@ import {
 } from '../../../types/common';
 import {createCommentThreads} from '../../../utils/comment-util';
 import {
+  createBlame,
   createChangeComments,
   createCommit,
   createDiff,
@@ -216,6 +217,23 @@ suite('gr-file-list tests', () => {
               >
               </gr-copy-clipboard>
             </a>
+            <div class="blameToggle">
+              <gr-tooltip-content
+                has-tooltip=""
+                title="Show blame, linking each line to the change that last modified it"
+              >
+                <gr-button
+                  aria-disabled="false"
+                  class="toggleBlame"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <gr-icon icon="history"></gr-icon>
+                  <span class="blameToggleLabel">Show Blame</span>
+                </gr-button>
+              </gr-tooltip-content>
+            </div>
           </span>
           <div role="gridcell">
             <div class="comments desktop">
@@ -341,6 +359,23 @@ suite('gr-file-list tests', () => {
               >
               </gr-copy-clipboard>
             </a>
+            <div class="blameToggle">
+              <gr-tooltip-content
+                has-tooltip=""
+                title="Show blame, linking each line to the change that last modified it"
+              >
+                <gr-button
+                  aria-disabled="false"
+                  class="toggleBlame"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <gr-icon icon="history"></gr-icon>
+                  <span class="blameToggleLabel">Show Blame</span>
+                </gr-button>
+              </gr-tooltip-content>
+            </div>
           </span>
         `
       );
@@ -364,6 +399,23 @@ suite('gr-file-list tests', () => {
               >
               </gr-copy-clipboard>
             </a>
+            <div class="blameToggle">
+              <gr-tooltip-content
+                has-tooltip=""
+                title="Show blame, linking each line to the change that last modified it"
+              >
+                <gr-button
+                  aria-disabled="false"
+                  class="toggleBlame"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <gr-icon icon="history"></gr-icon>
+                  <span class="blameToggleLabel">Show Blame</span>
+                </gr-button>
+              </gr-tooltip-content>
+            </div>
           </span>
         `
       );
@@ -425,7 +477,7 @@ suite('gr-file-list tests', () => {
       });
       await element.updateComplete;
       const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
-      const fileMode = query(fileRows?.[0], '.path gr-tooltip-content');
+      const fileMode = query(fileRows?.[0], '.path .file-mode-content');
       assert.notOk(fileMode);
     });
 
@@ -1425,7 +1477,7 @@ suite('gr-file-list tests', () => {
       const renderSpy = sinon.spy(element, 'renderInOrder');
 
       assert.equal(
-        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
+        queryAndAssert<GrIcon>(element, 'gr-icon.show-hide-icon').icon,
         'expand_more'
       );
       assert.equal(element.expandedFiles.size, 0);
@@ -1435,7 +1487,7 @@ suite('gr-file-list tests', () => {
       await waitEventLoop();
 
       assert.equal(
-        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
+        queryAndAssert<GrIcon>(element, 'gr-icon.show-hide-icon').icon,
         'expand_less'
       );
 
@@ -1447,7 +1499,7 @@ suite('gr-file-list tests', () => {
       await waitEventLoop();
 
       assert.equal(
-        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
+        queryAndAssert<GrIcon>(element, 'gr-icon.show-hide-icon').icon,
         'expand_more'
       );
       assert.equal(renderSpy.callCount, 1);
@@ -2578,6 +2630,85 @@ suite('gr-file-list tests', () => {
       element.style.width = '700px';
       await element.updateComplete;
       assert.equal(getComputedStyle(label).display, 'none');
+    });
+  });
+
+  suite('blame', () => {
+    let getBlameStub: sinon.SinonStub;
+
+    setup(async () => {
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
+      stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+      getBlameStub = stubRestApi('getBlame').resolves([createBlame()]);
+
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
+      element.allowBlame = true;
+      element.numFilesShown = 5;
+      element.changeNum = 42 as NumericChangeId;
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
+      element.files = [
+        normalize({}, 'modified.ts'),
+        normalize({status: FileInfoStatus.ADDED}, 'added.ts'),
+        normalize({binary: true}, 'image.png'),
+      ];
+      await element.updateComplete;
+    });
+
+    test('toggle rendered only for files with a left side', async () => {
+      const rows = queryAll(element, '.file-row');
+      assert.isOk(rows[0].querySelector('.toggleBlame'));
+      assert.isNotOk(rows[1].querySelector('.toggleBlame'));
+      assert.isNotOk(rows[2].querySelector('.toggleBlame'));
+
+      element.allowBlame = false;
+      await element.updateComplete;
+      assert.isNotOk(
+        queryAll(element, '.file-row')[0].querySelector('.toggleBlame')
+      );
+    });
+
+    test('toggle expands file, loads and hides blame', async () => {
+      assert.isFalse(element.isFileExpanded('modified.ts'));
+
+      await element.toggleBlame('modified.ts');
+      await element.updateComplete;
+
+      assert.isTrue(element.isFileExpanded('modified.ts'));
+      assert.isTrue(
+        getBlameStub.calledWithExactly(
+          42 as NumericChangeId,
+          2 as RevisionPatchSetNum,
+          'modified.ts',
+          true
+        )
+      );
+      const diffHost = queryAndAssert<GrDiffHost>(element, 'gr-diff-host');
+      assert.isOk(diffHost.blame);
+      assert.isTrue(element.blameFiles.has('modified.ts'));
+      const toggle = queryAndAssert<GrButton>(element, '.toggleBlame');
+      assert.include(toggle.textContent, 'Hide Blame');
+
+      await element.toggleBlame('modified.ts');
+      await element.updateComplete;
+
+      assert.isNull(diffHost.blame);
+      assert.isFalse(element.blameFiles.has('modified.ts'));
+      assert.isTrue(element.isFileExpanded('modified.ts'));
+    });
+
+    test('collapsing file drops blame state', async () => {
+      await element.toggleBlame('modified.ts');
+      assert.isTrue(element.blameFiles.has('modified.ts'));
+
+      element.collapseAllDiffs();
+      await element.updateComplete;
+      await element.filesExpandedPromise;
+
+      assert.isFalse(element.blameFiles.has('modified.ts'));
     });
   });
 });

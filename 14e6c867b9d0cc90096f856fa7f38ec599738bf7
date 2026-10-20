@@ -202,6 +202,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d566c7a_853a2889",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-20T11:25:51Z",
+      "side": 1,
+      "message": "I\u0027ve clarified in a way that also covers the corporate CLA.",
+      "parentUuid": "e68ca933_ebd46e32",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 24
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2668a122_e006be28",
@@ -311,6 +335,30 @@
       "side": 1,
       "message": "\u003e We are stating that even if the code is partially or fully written by AI, the author field should continue to be assigned to the signer of the CLA (for individual contributors) or to an employee of the company signing the CLA (for company-wide CLAs).\n\nAs I said in my last reply, that\u0027s already covered in the \"Human Attribution is Mandatory\" section above. I don\u0027t think we need to repeat it or further clarify it.\n\nThough I notice even there we have the \"The human submitting the change is the sole recognized responsible author of the code.\" text, which I think also goes contrary to the CLA terms, cherry-picks, etc.",
       "parentUuid": "05b73e04_8f4c0c84",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 73
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d46dcbd_6e7d7a55",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-20T11:25:51Z",
+      "side": 1,
+      "message": "Changed as a subordinate clause of the previous statement. Please review and let me know if that addresses your concerns.",
+      "parentUuid": "31e7d604_bd7ba763",
       "range": {
         "startLine": 169,
         "startChar": 0,

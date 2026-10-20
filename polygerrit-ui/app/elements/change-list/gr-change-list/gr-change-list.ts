@@ -171,6 +171,8 @@ export class GrChangeList extends LitElement {
 
   @state() private threadedChanges = false;
 
+  @state() private groupTopics = false;
+
   private dependencyChanges: ChangeDependencyChange[] = [];
 
   private readonly dependencies = new ChangeDependenciesController(
@@ -191,6 +193,13 @@ export class GrChangeList extends LitElement {
       () => this.getUserModel().preferenceThreadedChanges$,
       enabled => {
         this.threadedChanges = enabled;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().preferenceGroupTopics$,
+      enabled => {
+        this.groupTopics = enabled;
       }
     );
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
@@ -388,6 +397,7 @@ export class GrChangeList extends LitElement {
     }
     const threadKey = JSON.stringify([
       this.threadedChanges,
+      this.groupTopics,
       this.dependencyEdges,
       this.dependencies.edges,
     ]);
@@ -410,7 +420,8 @@ export class GrChangeList extends LitElement {
           const rows = threadChangeList(
             this.sections![index].results,
             [...this.dependencyEdges, ...this.dependencies.edges],
-            this.threadedChanges
+            this.threadedChanges,
+            this.groupTopics
           );
           if (sections[index] === (selected.getRootNode() as ShadowRoot).host) {
             const position = rows.findIndex(

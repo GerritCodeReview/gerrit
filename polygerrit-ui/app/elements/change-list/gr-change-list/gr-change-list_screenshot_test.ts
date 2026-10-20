@@ -29,6 +29,7 @@ import {
   NumericChangeId,
   RepoName,
   Timestamp,
+  TopicName,
 } from '../../../types/common';
 import {SubmitRequirementStatus} from '../../../api/rest-api';
 import {visualDiffDarkTheme, waitUntil} from '../../../test/test-utils';
@@ -58,6 +59,7 @@ suite('gr-change-list screenshot tests', () => {
     testResolver(userModelToken).setPreferences({
       ...createDefaultPreferences(),
       threaded_changes: true,
+      group_topics: true,
     });
     await element.updateComplete;
   });
@@ -76,6 +78,7 @@ suite('gr-change-list screenshot tests', () => {
     ];
     changes.forEach((change, index) => {
       change.subject = subjects[index];
+      if (index < 4) change.topic = 'protocol-update' as TopicName;
       change.current_revision = `revision-${index}` as CommitId;
       const parentIndex =
         index === 0
@@ -114,12 +117,23 @@ suite('gr-change-list screenshot tests', () => {
     ];
   }
 
-  test('threaded dependencies', async () => {
+  test('threaded dependencies and topics', async () => {
     await setViewport({width: 1400, height: 900});
     element.changes = threadedChanges();
     await element.updateComplete;
     await visualDiff(element, 'gr-change-list-threaded');
     await visualDiffDarkTheme(element, 'gr-change-list-threaded');
+  });
+
+  test('topic grouping without dependency threading', async () => {
+    await setViewport({width: 1400, height: 900});
+    testResolver(userModelToken).setPreferences({
+      ...createDefaultPreferences(),
+      group_topics: true,
+    });
+    element.changes = threadedChanges();
+    await element.updateComplete;
+    await visualDiff(element, 'gr-change-list-topics-only');
   });
 
   test('threaded dependencies on mobile', async () => {

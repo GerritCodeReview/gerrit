@@ -10,6 +10,7 @@ export interface ThreadNode<T> {
   id: string;
   value: T;
   parents: string[];
+  topic?: string;
 }
 
 export interface ThreadRow<T> {
@@ -23,15 +24,52 @@ export interface ThreadRow<T> {
   last: boolean;
   /** All visible dependencies, including edges outside the display tree. */
   parents: string[];
+  topicStart: boolean;
+  topicEnd: boolean;
 }
 
 /**
- * Project dependencies onto a stable base-first forest without adding rows.
- * Missing parents do not connect separate result pages or dashboard sections.
- * Cycles are broken only for display, retaining all original graph edges.
+ * Project a dependency graph onto a stable display forest. A change appears once,
+ * under its first visible parent unit. Changes sharing a topic form one unit
+ * at a common indentation level. Additional parents remain available to callers.
+ * Missing parents never introduce rows or connect separate result pages/sections.
+ * Cycles are broken only in the display tree, without discarding graph edges.
  */
 export function threadChanges<T>(nodes: ThreadNode<T>[]): ThreadRow<T>[] {
-  const rows = threadForest(nodes);
+  const byId = new Map(nodes.map((node, index) => [node.id, index]));
+  const groupIds = nodes.map((node, index) =>
+    node.topic ? `topic:${node.topic}` : `change:${index}`
+  );
+  const groups = new Map<string, ThreadNode<ThreadNode<T>[]>>();
+  nodes.forEach((node, index) => {
+    const id = groupIds[index];
+    const group = groups.get(id) ?? {id, value: [], parents: []};
+    group.value.push(node);
+    for (const parent of node.parents) {
+      const parentIndex = byId.get(parent);
+      if (parentIndex === undefined) continue;
+      const parentGroup = groupIds[parentIndex];
+      if (parentGroup !== id) group.parents.push(parentGroup);
+    }
+    groups.set(id, group);
+  });
+  // Project topics as units, then expand their members at the same depth.
+  // Internal ancestry still determines member order, and every original edge
+  // remains available even when grouping introduces a cycle between units.
+  const rows = threadForest([...groups.values()]).flatMap(groupRow => {
+    const members = threadForest(groupRow.node.value);
+    return members.map((member, position): ThreadRow<T> => {
+      return {
+        ...member,
+        index: byId.get(member.node.id)!,
+        branches: groupRow.branches,
+        last: position === members.length - 1 && groupRow.last,
+        parents: [...new Set(member.node.parents)].filter(id => byId.has(id)),
+        topicStart: !!member.node.topic && position === 0,
+        topicEnd: !!member.node.topic && position === members.length - 1,
+      };
+    });
+  });
   const maxDepth = Math.max(0, ...rows.map(row => row.branches.length));
   return rows.map(row => {
     return {...row, maxDepth};
@@ -74,7 +112,16 @@ function threadForest<T>(nodes: ThreadNode<T>[]): ThreadRow<T>[] {
   roots.forEach(rankTree);
   const orderSiblings = (indices: number[]) => {
     indices.sort((a, b) => rank[a] - rank[b]);
-    return indices;
+    const groups = new Map<string, number[]>();
+    for (const index of indices) {
+      const key = nodes[index].topic
+        ? `topic:${nodes[index].topic}`
+        : `row:${index}`;
+      const group = groups.get(key) ?? [];
+      group.push(index);
+      groups.set(key, group);
+    }
+    return [...groups.values()].flat();
   };
   const rows: ThreadRow<T>[] = [];
   const visit = (index: number, branches: boolean[], last: boolean) => {
@@ -84,6 +131,8 @@ function threadForest<T>(nodes: ThreadNode<T>[]): ThreadRow<T>[] {
       branches,
       last,
       parents: visibleParents[index],
+      topicStart: false,
+      topicEnd: false,
     });
     const ordered = orderSiblings(children[index]);
     ordered.forEach((child, position) =>
@@ -91,6 +140,11 @@ function threadForest<T>(nodes: ThreadNode<T>[]): ThreadRow<T>[] {
     );
   };
   orderSiblings(roots).forEach(index => visit(index, [], true));
+  rows.forEach((row, index) => {
+    const topic = row.node.topic;
+    row.topicStart = !!topic && rows[index - 1]?.node.topic !== topic;
+    row.topicEnd = !!topic && rows[index + 1]?.node.topic !== topic;
+  });
   return rows;
 }
 
@@ -104,7 +158,8 @@ export interface ChangeThreadEdge {
 export function threadChangeList(
   changes: ChangeInfo[],
   edges: ChangeThreadEdge[] = [],
-  threaded = true
+  threaded = true,
+  groupTopics = false
 ) {
   const key = (change: ChangeInfo) =>
     `${change.project}~${change.branch}~${change._number}`;
@@ -134,6 +189,10 @@ export function threadChangeList(
       return {
         id: key(change),
         value: change,
+        topic:
+          groupTopics && change.status !== ChangeStatus.MERGED
+            ? change.topic
+            : undefined,
         parents: (threaded && change.status !== ChangeStatus.MERGED
           ? numbers
           : []

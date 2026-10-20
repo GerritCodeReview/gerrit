@@ -80,6 +80,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.expandInlineDiffs ^= true;
     i.relativeDateInChangeTable ^= true;
     i.threadedChanges ^= true;
+    i.groupTopics ^= true;
     i.sizeBarInChangeTable ^= true;
     i.legacycidInChangeTable ^= true;
     i.muteCommonPathPrefixes ^= true;
@@ -108,6 +109,23 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.diffPageSidebar).isEqualTo(i.diffPageSidebar);
     assertThat(o.disableKeyboardShortcuts).isEqualTo(i.disableKeyboardShortcuts);
     assertThat(o.labelFilter).isEqualTo(i.labelFilter);
+  }
+
+  @Test
+  public void topicGroupingIsIndependentAndDefaultsOff() throws Exception {
+    assertThat(GeneralPreferencesInfo.defaults().groupTopics).isFalse();
+    assertThat(gApi.accounts().id(user42.id().get()).getPreferences().groupTopics).isNull();
+    for (boolean threaded : new boolean[] {false, true}) {
+      for (boolean grouped : new boolean[] {false, true}) {
+        GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+        input.threadedChanges = threaded;
+        input.groupTopics = grouped;
+        gApi.accounts().id(user42.id().get()).setPreferences(input);
+        GeneralPreferencesInfo actual = gApi.accounts().id(user42.id().get()).getPreferences();
+        assertThat(Boolean.TRUE.equals(actual.threadedChanges)).isEqualTo(threaded);
+        assertThat(Boolean.TRUE.equals(actual.groupTopics)).isEqualTo(grouped);
+      }
+    }
   }
 
   @Test

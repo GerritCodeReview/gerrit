@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01df4e25_d152533d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1488,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:31:03Z",
+      "side": 1,
+      "message": "What does \"Unchanged\" mean here?\n\nBtw, isn\u0027t this tested already by many other test cases which define single expression keys?",
+      "range": {
+        "startLine": 1488,
+        "startChar": 43,
+        "endLine": 1488,
+        "endChar": 52
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "269c63fa_a9363758",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:31:03Z",
+      "side": 1,
+      "message": "compared to the other test cases naming pattern `\u003csubject\u003e_\u003coutcome\u003e` this one misses the `_\u003coutcome\u003e` part.\n\nIn general, I would suggest to rather start from simple building blocks like reading one expression key and asserting that it works both as single and multi-expression. When such a test passes then it implies that reading each key is proper and we don\u0027t need to code many test variants for different combinations (where we can never cover all possible combinations).",
+      "range": {
+        "startLine": 1516,
+        "startChar": 14,
+        "endLine": 1516,
+        "endChar": 50
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9f09544_791f81ef",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:31:03Z",
+      "side": 1,
+      "message": "Use multi-line string literals: it both improves readability and removes boileplate",
+      "range": {
+        "startLine": 1524,
+        "startChar": 0,
+        "endLine": 1527,
+        "endChar": 61
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11f7f2b1_69de8b0a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1550,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:31:03Z",
+      "side": 1,
+      "message": "Same as previous comment... this is just one of the many combinations.",
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8e66173_3a306301",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1614,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:31:03Z",
+      "side": 1,
+      "message": "This is an exact copy of the previous block (L1608-1610) with cfg renamed to cfg2 and, therefore, this adds nothing, just repeats the same check.",
+      "range": {
+        "startLine": 1612,
+        "startChar": 0,
+        "endLine": 1614,
+        "endChar": 87
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4ba6f9a_98ad4922",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1650,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:31:03Z",
+      "side": 1,
+      "message": "Again, this is just one of the possible combinations. \nInstead of testing a (small) subset of all possible combinations write a single test which verifies that loading one expression works regardless of how many repetitions it has.",
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "013becf8_4d4882e4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:31:03Z",
+      "side": 1,
+      "message": "Same as the previous comment...",
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

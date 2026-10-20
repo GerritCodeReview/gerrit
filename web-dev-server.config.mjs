@@ -2,6 +2,28 @@ import { esbuildPlugin } from "@web/dev-server-esbuild";
 import cors from "@koa/cors";
 import path from 'node:path';
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
+
+// esbuild is not a direct dependency: use the copy that
+// @web/dev-server-esbuild runs on.
+const esbuild = createRequire(
+  createRequire(import.meta.url).resolve("@web/dev-server-esbuild")
+)("esbuild");
+
+// Scripts that production serves as bundles built by Bazel, see
+// polygerrit-ui/app/rules.bzl and lib/highlightjs/BUILD. Web workers load them
+// with importScripts(), so they must be classic scripts, not ES modules.
+const bundles = {
+  "/workers/syntax-worker.js": {
+    entryPoints: ["polygerrit-ui/app/workers/syntax-worker.ts"],
+    tsconfig: "polygerrit-ui/app/tsconfig.json",
+  },
+  "/bower_components/highlightjs/highlight.min.js": {
+    entryPoints: ["lib/highlightjs/index.js"],
+    globalName: "hljs",
+    footer: { js: "hljs = hljs.default;" },
+  },
+};
 
 /** @type {import('@web/dev-server').DevServerConfig} */
 export default {
@@ -30,6 +52,23 @@ export default {
         context.body = fs.createReadStream( fontFile );
       }
       await next();
+    },
+    // Bundle the worker scripts on request, see `bundles` above.
+    async (context, next) => {
+      const options = bundles[context.path];
+      if (!options) {
+        await next();
+        return;
+      }
+      const result = await esbuild.build({
+        ...options,
+        bundle: true,
+        format: "iife",
+        target: "es2020",
+        write: false,
+      });
+      context.type = "application/javascript";
+      context.body = result.outputFiles[0].text;
     },
     // The issue solved here is that our production index.html does not load
     // 'gr-app.js' as an ESM module due to our build process, but in development

@@ -188,6 +188,28 @@ suite('gr-change-list screenshot tests', () => {
     }
   });
 
+  test('cross-project dependency edges', async () => {
+    await setViewport({width: 1400, height: 900});
+    element.changes = threadedChanges().map(change => {
+      return {
+        ...change,
+        project: (change._number === 1
+          ? 'example/protocol'
+          : 'example/client') as RepoName,
+        indexed_dependencies: undefined,
+      };
+    });
+    element.dependencyEdges = [
+      {from: 1, to: 7, type: 'depends-on'},
+      {from: 8, to: 4, type: 'depends-on'},
+      {from: 2, to: 1, type: 'depends-on'},
+      {from: 3, to: 1, type: 'depends-on'},
+      {from: 4, to: 2, type: 'git'},
+    ];
+    await element.updateComplete;
+    await visualDiff(element, 'gr-change-list-cross-project-threaded');
+  });
+
   test('basic list', async () => {
     await visualDiff(element, 'gr-change-list');
     await visualDiffDarkTheme(element, 'gr-change-list');

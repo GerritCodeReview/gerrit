@@ -23,6 +23,29 @@ suite('change-thread-util', () => {
     return {id, value: id, parents};
   };
 
+  test('provider edges never attach to historical related patchsets', () => {
+    const base = {
+      ...createRelatedChangeAndCommitInfo(),
+      _change_number: 1 as NumericChangeId,
+      _revision_number: 2,
+      _current_revision_number: 2,
+    };
+    const historical = {
+      ...createRelatedChangeAndCommitInfo(),
+      _change_number: 2 as NumericChangeId,
+      _revision_number: 1,
+      _current_revision_number: 2,
+      commit: {...base.commit, commit: 'old' as CommitId, parents: []},
+    };
+    const rows = threadRelatedChanges(
+      [historical, base],
+      [{from: 2, to: 1, type: 'depends-on'}]
+    );
+    assert.strictEqual(rows[0].node.value, historical);
+    assert.lengthOf(rows[0].branches, 0);
+    assert.lengthOf(rows[0].parents, 0);
+  });
+
   test('disabled threading preserves native result order without rails', () => {
     const base = createChange({_number: 1 as NumericChangeId});
     const child = createChange({
@@ -40,7 +63,7 @@ suite('change-thread-util', () => {
         ],
       },
     });
-    const rows = threadChangeList([child, base], false);
+    const rows = threadChangeList([child, base], [], false);
     assert.deepEqual(
       rows.map(row => row.node.value._number),
       [2, 1]
@@ -228,6 +251,40 @@ suite('change-thread-util', () => {
     assert.isTrue(
       rows.every(row => row.parents.length === 0 && row.branches.length === 0)
     );
+  });
+
+  test('provider edges cannot connect through merged list rows', () => {
+    const changes = [1, 2, 3].map(number =>
+      createChange({_number: number as NumericChangeId})
+    );
+    changes[0].status = ChangeStatus.MERGED;
+    changes[1].status = ChangeStatus.ABANDONED;
+    const rows = threadChangeList(changes, [
+      {from: 1, to: 2, type: 'depends-on'},
+      {from: 3, to: 1, type: 'git'},
+      {from: 3, to: 2, type: 'depends-on'},
+    ]);
+    const merged = rows.find(row => row.node.value._number === 1)!;
+    const child = rows.find(row => row.node.value._number === 3)!;
+    assert.isEmpty(merged.parents);
+    assert.isEmpty(merged.branches);
+    assert.lengthOf(child.parents, 1);
+    assert.include(child.parents[0], '~2');
+  });
+
+  test('accepts cross-project typed edges and prefers Git over Depends-On', () => {
+    const changes = [1, 2, 3].map(number =>
+      createChange({_number: number as NumericChangeId})
+    );
+    const rows = threadChangeList(changes, [
+      {from: 1, to: 2, type: 'depends-on'},
+      {from: 1, to: 3, type: 'git'},
+    ]);
+    assert.deepEqual(
+      rows.map(row => row.node.value._number),
+      [3, 1, 2]
+    );
+    assert.lengthOf(rows[1].parents, 2);
   });
 
   test('threads related changes by the actual patchset commit', () => {

@@ -368,6 +368,13 @@ changeActions.setActionOverflow(type, key, overflow)
 Returns an instance of the
 link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/change-reply.ts[ChangeReplyPluginApi].
 
+[[plugin-change-dependencies]]
+=== changeDependencies
+`plugin.changeDependencies()`
+
+Returns the link:pg-plugin-change-dependencies-api.html[Change Dependencies API]
+for contributing typed edges to threaded change lists.
+
 [[checks]]
 === checks
 `plugin.checks()`

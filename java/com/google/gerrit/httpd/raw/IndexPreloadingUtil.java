@@ -91,6 +91,17 @@ public class IndexPreloadingUtil {
           ListChangesOption.SUBMIT_REQUIREMENTS,
           ListChangesOption.STAR);
 
+  /** Keep preload URLs and the injected dashboard options identical. */
+  public static ImmutableSet<ListChangesOption> dashboardOptions(boolean indexedDependencies) {
+    if (!indexedDependencies) {
+      return DASHBOARD_OPTIONS;
+    }
+    return ImmutableSet.<ListChangesOption>builder()
+        .addAll(DASHBOARD_OPTIONS)
+        .add(ListChangesOption.INDEXED_DEPENDENCIES)
+        .build();
+  }
+
   public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS =
       ImmutableSet.of(
           ListChangesOption.ALL_COMMITS,

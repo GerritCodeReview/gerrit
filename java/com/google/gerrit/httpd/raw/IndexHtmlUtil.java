@@ -28,8 +28,10 @@ import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
+import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
@@ -115,9 +117,9 @@ public class IndexHtmlUtil {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
+    ServerInfo serverInfo = serverApi.getInfo();
     initialData.put(
-        addCanonicalUrl("/config/server/info", canonicalURL),
-        serializeObject(GSON, serverApi.getInfo()));
+        addCanonicalUrl("/config/server/info", canonicalURL), serializeObject(GSON, serverInfo));
     initialData.put(
         addCanonicalUrl("/config/server/version", canonicalURL),
         serializeObject(GSON, serverApi.getVersion()));
@@ -159,9 +161,10 @@ public class IndexHtmlUtil {
       initialData.put(
           addCanonicalUrl("/accounts/self/detail", canonicalURL),
           serializeObject(GSON, accountApi.get()));
+      GeneralPreferencesInfo preferences = accountApi.getPreferences();
       initialData.put(
           addCanonicalUrl("/accounts/self/preferences", canonicalURL),
-          serializeObject(GSON, accountApi.getPreferences()));
+          serializeObject(GSON, preferences));
       initialData.put(
           addCanonicalUrl("/accounts/self/preferences.diff", canonicalURL),
           serializeObject(GSON, accountApi.getDiffPreferences()));
@@ -170,7 +173,14 @@ public class IndexHtmlUtil {
           serializeObject(GSON, accountApi.getEditPreferences()));
       data.put("userIsAuthenticated", true);
       if (page == RequestedPage.DASHBOARD) {
-        data.put("defaultDashboardHex", ListOption.toHex(IndexPreloadingUtil.DASHBOARD_OPTIONS));
+        boolean indexedDependencies =
+            serverInfo.change != null
+                && Boolean.TRUE.equals(serverInfo.change.indexedDependencies)
+                && preferences != null
+                && Boolean.TRUE.equals(preferences.threadedChanges);
+        data.put(
+            "defaultDashboardHex",
+            ListOption.toHex(IndexPreloadingUtil.dashboardOptions(indexedDependencies)));
         data.put("dashboardQuery", IndexPreloadingUtil.computeDashboardQueryList());
       }
     } catch (AuthException e) {

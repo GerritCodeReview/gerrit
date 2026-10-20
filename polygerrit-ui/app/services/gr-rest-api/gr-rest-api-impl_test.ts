@@ -31,6 +31,7 @@ import {GrRestApiServiceImpl} from './gr-rest-api-impl';
 import {
   CommentSide,
   createDefaultEditPrefs,
+  createDefaultPreferences,
   HttpMethod,
 } from '../../constants/constants';
 import {FlowInput} from '../../api/rest-api';
@@ -1612,6 +1613,92 @@ suite('gr-rest-api-service-impl tests', () => {
         q: 'change:555',
       });
     });
+  });
+
+  test('list defaults preserve the server preload options without Git options', () => {
+    const original = window.DEFAULT_DETAIL_HEXES;
+    try {
+      window.DEFAULT_DETAIL_HEXES = undefined;
+      const defaults = parseInt(
+        element.getRequestForGetChanges().params.O!,
+        16
+      );
+      for (const option of [
+        ListChangesOption.CURRENT_REVISION,
+        ListChangesOption.CURRENT_COMMIT,
+        ListChangesOption.PARENTS,
+      ]) {
+        assert.equal(defaults & (1 << option), 0);
+      }
+      const dashboardPage = listChangesOptionsToHex(
+        ListChangesOption.LABELS,
+        ListChangesOption.INDEXED_DEPENDENCIES
+      );
+      window.DEFAULT_DETAIL_HEXES = {...original, dashboardPage};
+      assert.equal(element.getRequestForGetChanges().params.O, dashboardPage);
+    } finally {
+      window.DEFAULT_DETAIL_HEXES = original;
+    }
+  });
+
+  test('indexed list data requires capability and an enabled preference', async () => {
+    const config = sinon.stub(element, 'getConfig');
+    const preferences = sinon.stub(element, 'getPreferences');
+    const fetch = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves([] as unknown as ParsedJSON);
+    for (const [support, enabled, expected] of [
+      [undefined, true, false],
+      [false, true, false],
+      [true, undefined, false],
+      [true, false, false],
+      [true, true, true],
+    ] as const) {
+      const info = createServerInfo();
+      info.change.indexed_dependencies = support;
+      config.resolves(info);
+      const prefs = createDefaultPreferences();
+      prefs.threaded_changes = enabled;
+      preferences.resolves(prefs);
+      await element.getChanges();
+      const options = parseInt(fetch.lastCall.args[0].params!.O as string, 16);
+      assert.equal(
+        !!(options & (1 << ListChangesOption.INDEXED_DEPENDENCIES)),
+        expected
+      );
+      assert.equal(options & (1 << ListChangesOption.CURRENT_COMMIT), 0);
+      assert.equal(options & (1 << ListChangesOption.PARENTS), 0);
+    }
+  });
+
+  test('indexed dashboard requests match preload and respond to preference changes', async () => {
+    const original = window.DEFAULT_DETAIL_HEXES;
+    try {
+      const dashboardPage = listChangesOptionsToHex(
+        ListChangesOption.LABELS,
+        ListChangesOption.INDEXED_DEPENDENCIES
+      );
+      window.DEFAULT_DETAIL_HEXES = {...original, dashboardPage};
+      const info = createServerInfo();
+      info.change.indexed_dependencies = true;
+      sinon.stub(element, 'getConfig').resolves(info);
+      const prefs = {...createDefaultPreferences(), threaded_changes: true};
+      sinon.stub(element, 'getPreferences').callsFake(async () => prefs);
+      const fetch = sinon
+        .stub(element._restApiHelper, 'fetchJSON')
+        .resolves([] as unknown as ParsedJSON);
+      await element.getChanges();
+      assert.equal(fetch.lastCall.args[0].params!.O, dashboardPage);
+      assert.equal(window.DEFAULT_DETAIL_HEXES.dashboardPage, dashboardPage);
+      prefs.threaded_changes = false;
+      await element.getChanges();
+      assert.equal(
+        fetch.lastCall.args[0].params!.O,
+        listChangesOptionsToHex(ListChangesOption.LABELS)
+      );
+    } finally {
+      window.DEFAULT_DETAIL_HEXES = original;
+    }
   });
 
   suite('getChanges populates _projectLookup', () => {

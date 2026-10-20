@@ -79,6 +79,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.disableKeyboardShortcuts = true;
     i.expandInlineDiffs ^= true;
     i.relativeDateInChangeTable ^= true;
+    i.threadedChanges ^= true;
     i.sizeBarInChangeTable ^= true;
     i.legacycidInChangeTable ^= true;
     i.muteCommonPathPrefixes ^= true;
@@ -107,6 +108,25 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.diffPageSidebar).isEqualTo(i.diffPageSidebar);
     assertThat(o.disableKeyboardShortcuts).isEqualTo(i.disableKeyboardShortcuts);
     assertThat(o.labelFilter).isEqualTo(i.labelFilter);
+  }
+
+  @Test
+  public void threadedChangesPersistsAndInheritsServerDefaults() throws Exception {
+    assertThat(gApi.accounts().id(user42.id().get()).getPreferences().threadedChanges).isNull();
+
+    GeneralPreferencesInfo defaults = new GeneralPreferencesInfo();
+    defaults.threadedChanges = true;
+    gApi.config().server().setDefaultPreferences(defaults);
+    assertThat(gApi.accounts().id(user42.id().get()).getPreferences().threadedChanges).isTrue();
+
+    for (boolean value : new boolean[] {false, true}) {
+      GeneralPreferencesInfo input = new GeneralPreferencesInfo();
+      input.threadedChanges = value;
+      assertThat(gApi.accounts().id(user42.id().get()).setPreferences(input).threadedChanges)
+          .isEqualTo(value);
+      assertThat(gApi.accounts().id(user42.id().get()).getPreferences().threadedChanges)
+          .isEqualTo(value);
+    }
   }
 
   @Test

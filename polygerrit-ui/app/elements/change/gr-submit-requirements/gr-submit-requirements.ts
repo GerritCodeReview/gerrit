@@ -29,6 +29,7 @@ import {
   getAllUniqueApprovals,
   getRequirements,
   getTriggerVotes,
+  hasAiVote,
   hasApprovedVote,
   hasNeutralStatus,
   hasRejectedVote,
@@ -235,17 +236,16 @@ export class GrSubmitRequirements extends LitElement {
     index: number
   ) {
     const row = html`
-     <td>${this.renderStatus(requirement)}</td>
-        <td class="name">
-          <gr-limited-text
-            class="name"
-            .text=${requirement.name}
-          ></gr-limited-text>
-        </td>
-        <td>
-          ${this.renderEndpoint(requirement, this.renderVoteCell(requirement))}
-        </td>
-      </tr>
+      <td>${this.renderStatus(requirement)}</td>
+      <td class="name">
+        <gr-limited-text
+          class="name"
+          .text=${requirement.name}
+        ></gr-limited-text>
+      </td>
+      <td>
+        ${this.renderEndpoint(requirement, this.renderVoteCell(requirement))}
+      </td>
     `;
 
     if (this.disableHovercards) {
@@ -384,6 +384,7 @@ export class GrSubmitRequirements extends LitElement {
             .more=${(labelInfo.all ?? []).filter(
               other => other.value === approvalInfo.value
             ).length > 1}
+            ?is-ai=${hasAiVote(labelInfo, approvalInfo)}
           ></gr-vote-chip>`
       );
     } else if (isQuickLabelInfo(labelInfo)) {

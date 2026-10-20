@@ -209,6 +209,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36b4403e_9acec9e9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2078,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-20T14:36:36Z",
+      "side": 1,
+      "message": "\u003e Did you consider adding an option to the existing submit-change endpoint,\n\nI agree with Sasa.\n\nThis is a lot of heavy lifting for something already in the product. Whole-topic submit is just the includingTopicClosure flag in MergeSuperSet.completeChangeSet, which MergeOp already hard-codes to false.\n\n\u003e One would rather put it into SubmitInput.\n\nRight, exposing it on SubmitInput is enough, see change 645907.\n\n\u003e However, the issue would be the getDescription() method, which currently seems to allow just having one UI action bound to a REST API endpoint. \n\nOn the getDescription() concern: that one-action-per-endpoint limit only applies to server UI actions. A second \"Submit whole topic\" button can live purely in the frontend — rendered only when the Submit action is already present and the change has a topic — firing the existing `POST /submit` with submit_whole_topic\u003dtrue (fireAction already takes a payload). So no second UiAction, no second endpoint, and no Submit subclass.",
+      "parentUuid": "4f68e378_4b1b580a",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5f3ec61_1ea729a1",
         "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
         "patchSetId": 6

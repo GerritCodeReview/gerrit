@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4431e72_64965e49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-20T16:41:42Z",
+      "side": 1,
+      "message": "Updated the implementation to honor the sys prop now. Updated the commit message to state that an explicit sshd.nioWorkers value takes precedence, while the Apache MINA sshd system property is honored when the Gerrit setting is absent.",
+      "parentUuid": "da295f19_921ca2fb",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "672b6efe2170f29eba8c04bfe43ec4908de4702a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "257e180e_04aecec1",
@@ -61,6 +85,24 @@
       "writtenOn": "2026-08-26T20:44:52Z",
       "side": 1,
       "message": "Add config docs",
+      "revId": "672b6efe2170f29eba8c04bfe43ec4908de4702a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b761060_ddf01505",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-20T16:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "257e180e_04aecec1",
       "revId": "672b6efe2170f29eba8c04bfe43ec4908de4702a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

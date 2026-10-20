@@ -16,6 +16,24 @@
       "message": "Not yet submitted",
       "revId": "a947c85503a42c30373af3a64960f8d5fd24c966",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "851bdd11_bdbb72d0",
+        "filename": "modules/gitiles",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-20T06:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4b6089b_355dabcc",
+      "revId": "a947c85503a42c30373af3a64960f8d5fd24c966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

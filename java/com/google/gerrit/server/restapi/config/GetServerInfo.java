@@ -51,6 +51,7 @@ import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormatInternal;
+import com.google.gerrit.server.change.IndexedChangeDependenciesSupport;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -101,6 +102,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final SitePaths sitePaths;
   private final @Nullable @GerritInstanceId String instanceId;
   private final PluginSetContext<ServerStateProvider> serverStateProviders;
+  private final IndexedChangeDependenciesSupport indexedDependenciesSupport;
 
   @Inject
   public GetServerInfo(
@@ -124,7 +126,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AgreementJson agreementJson,
       SitePaths sitePaths,
       @Nullable @GerritInstanceId String instanceId,
-      PluginSetContext<ServerStateProvider> serverStateProviders) {
+      PluginSetContext<ServerStateProvider> serverStateProviders,
+      IndexedChangeDependenciesSupport indexedDependenciesSupport) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.accountDefaultDisplayName = accountDefaultDisplayName;
@@ -146,6 +149,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.sitePaths = sitePaths;
     this.instanceId = instanceId;
     this.serverStateProviders = serverStateProviders;
+    this.indexedDependenciesSupport = indexedDependenciesSupport;
   }
 
   @Override
@@ -235,6 +239,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         toBoolean(config.getBoolean("change", "conflictsPredicateEnabled", true));
     info.allowMarkdownBase64ImagesInComments =
         toBoolean(config.getBoolean("change", "allowMarkdownBase64ImagesInComments", false));
+    info.indexedDependencies = toBoolean(indexedDependenciesSupport.isEnabled());
     return info;
   }
 

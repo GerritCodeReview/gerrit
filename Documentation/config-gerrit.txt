@@ -1956,6 +1956,26 @@ link:https://issues.gerritcodereview.com/issues/40009784[issue 40009784]).
 +
 By default `true`.
 
+[[change.enableIndexedDependencies]]change.enableIndexedDependencies::
++
+Advertise support for the `INDEXED_DEPENDENCIES` change-query option to
+clients. The capability is advertised only when the active change index
+contains the current-revision parent field (schema version 91 or later).
++
+Before enabling this option, upgrade all serving nodes and index writers,
+complete a change reindex, and activate the new index. This explicit rollout
+switch prevents a new frontend from requesting the option from an older
+backend during a rolling upgrade. Missing parent metadata is omitted from
+responses; list queries never backfill it from Git or NoteDb.
++
+The query option resolves direct Git parents only against changes already
+returned in the response, including abandoned changes when the query includes
+them. Merged changes remain standalone. It does not find off-page parents or determine
+whether a parent is reachable from the destination branch. Explicit API
+requests can use the option independently of this advertisement setting.
++
+By default `false`.
+
 [[change.allowMarkdownBase64ImagesInComments]]change.allowMarkdownBase64ImagesInComments::
 +
 Allows Base64 encoded images, embedded via Markdown, to be rendered in Gerrit comments.

@@ -26,6 +26,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.CUSTOM_KEYED_VALUES;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.INDEXED_DEPENDENCIES;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
@@ -75,6 +76,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.IndexedDependenciesInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.LegacySubmitRequirementInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
@@ -358,6 +360,8 @@ public class ChangeJson {
         }
         res.add(infos);
       }
+      addIndexedDependencies(
+          allChanges, res.stream().flatMap(Collection::stream).collect(toList()));
       accountLoader.fill();
       return res;
     }
@@ -379,8 +383,28 @@ public class ChangeJson {
                   }
                 })
             .collect(toList());
+    addIndexedDependencies(in, out);
     accountLoader.fill();
     return out;
+  }
+
+  private void addIndexedDependencies(Collection<ChangeData> changes, List<ChangeInfo> infos) {
+    if (!has(INDEXED_DEPENDENCIES)) {
+      return;
+    }
+    ImmutableSet<Change.Id> returnedIds =
+        infos.stream()
+            .filter(info -> info._number != null)
+            .map(info -> Change.id(info._number))
+            .collect(ImmutableSet.toImmutableSet());
+    Map<Change.Id, IndexedDependenciesInfo> dependencies =
+        IndexedChangeDependencies.resolve(
+            changes.stream().filter(cd -> returnedIds.contains(cd.getId())).collect(toList()));
+    for (ChangeInfo info : infos) {
+      if (info._number != null) {
+        info.indexedDependencies = dependencies.get(Change.id(info._number));
+      }
+    }
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id) {

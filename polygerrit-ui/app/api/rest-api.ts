@@ -360,6 +360,7 @@ export type BranchName = BrandType<string, '_branchName'>;
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#change-config-info
  */
 export declare interface ChangeConfigInfo {
+  indexed_dependencies?: boolean;
   allow_blame?: boolean;
   large_change: number;
   update_delay: number;
@@ -414,6 +415,7 @@ export declare interface ChangeInfo {
   pending_reviewers?: AccountInfo[];
   reviewer_updates?: ReviewerUpdateInfo[];
   messages?: ChangeMessageInfo[];
+  indexed_dependencies?: IndexedDependenciesInfo;
   current_revision_number: PatchSetNumber;
   current_revision?: CommitId;
   revisions?: {[revisionId: string]: RevisionInfo};
@@ -430,6 +432,17 @@ export declare interface ChangeInfo {
   contains_git_conflicts?: boolean;
   submit_requirements?: SubmitRequirementResultInfo[];
   submit_records?: SubmitRecordInfo[];
+}
+
+/** Native dependencies resolved only among the returned visible result cohort. */
+export declare interface IndexedDependenciesInfo {
+  revision: CommitId;
+  patch_set_number: number;
+  parents: {
+    change_number: NumericChangeId;
+    patch_set_number: number;
+    commit_id: CommitId;
+  }[];
 }
 
 // The ID of the change in the format "'<project>~<branch>~<Change-Id>'"

@@ -16,12 +16,13 @@ package com.google.gerrit.server.securestore;
 
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,12 +37,12 @@ import org.eclipse.jgit.util.FS;
 public class DefaultSecureStore extends SecureStore {
   private final FileBasedConfig sec;
   private final Map<String, FileBasedConfig> pluginSec;
-  private final SitePaths site;
+  private final Path etcDir;
 
   @Inject
-  DefaultSecureStore(SitePaths site) {
-    this.site = site;
-    sec = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
+  DefaultSecureStore(@SitePath Path sitePath) {
+    this.etcDir = sitePath.resolve("etc");
+    sec = new FileBasedConfig(etcDir.resolve("secure.config").toFile(), FS.DETECTED);
     try {
       sec.load();
     } catch (IOException | ConfigInvalidException e) {
@@ -64,7 +65,7 @@ public class DefaultSecureStore extends SecureStore {
       cfg = pluginSec.get(pluginName);
     } else {
       String filename = pluginName + ".secure.config";
-      File pluginConfigFile = site.etc_dir.resolve(filename).toFile();
+      File pluginConfigFile = etcDir.resolve(filename).toFile();
       if (pluginConfigFile.exists()) {
         cfg = new FileBasedConfig(pluginConfigFile, FS.DETECTED);
         try {

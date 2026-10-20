@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91907b8a_bc2067a4",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-20T21:42:22Z",
+      "side": 1,
+      "message": "In Gerrit REST API responses, human votes do not include `is_ai: false`; the field is omitted (`undefined`). To make the test closer to realistic server payloads, could we omit `is_ai` on the second approval instead of explicitly setting `is_ai: false`? E.g.:\n```typescript\n{\n  ...createApproval(),\n  value: 2,\n},\n```",
+      "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eee9c037_e9e78ea5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-20T21:42:22Z",
+      "side": 1,
+      "message": "Architectural suggestion: `gr-vote-chip` already receives `.vote` and `.label`. If we let `gr-vote-chip` resolve AI status internally (similar to `computeClass()` and `computeTooltip()`), e.g.:\n```typescript\nprivate computeIsAi(): boolean {\n  if (this.isAi) return true;\n  return hasOnlyAiVotes(this.label, this.vote);\n}\n```\nThen:\n1. `gr-submit-requirements` wouldn\u0027t need to manually compute and pass `?is-ai\u003d${hasOnlyAiVotes(labelInfo, approvalInfo)}`.\n2. Other places using `gr-vote-chip` (such as `gr-change-list-column-requirement` in the changes dashboard table and `gr-trigger-vote`) would automatically display the AI sparkle icon for AI votes without needing separate prop plumbing.",
+      "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33e1412c_b127136a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-20T21:42:22Z",
+      "side": 1,
+      "message": "Minor layout edge case: If a chip has both `circle-shape` (used by `gr-account-chip` for reviewer votes in `gr-change-metadata`) and `is-ai`, `:host([is-ai]) .vote-chip` overrides `width: auto` with the same specificity `(0, 2, 0)` because it appears later in the stylesheet. This turns the 50% border-radius circle into an elongated oval.\n\nCould we ensure `circle-shape` retains its fixed dimensions? E.g.:\n```css\n:host([circle-shape]) .vote-chip {\n  width: var(--gr-vote-chip-width, 16px);\n}\n```",
+      "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd9046c4_045aef9c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-20T21:42:22Z",
+      "side": 1,
+      "message": "Having `title\u003d\"AI predicted\"` on `\u003cgr-icon\u003e` causes two issues:\n\n1. **Conflicting tooltips**: `\u003cgr-vote-chip\u003e` is wrapped in `\u003cgr-tooltip-content\u003e`, which suppresses native tooltips to display Gerrit\u0027s custom `\u003cgr-tooltip\u003e` (e.g. `\"Approved\"`). The native HTML `title` on `\u003cgr-icon\u003e` bypasses this, causing both the browser\u0027s native OS tooltip and Gerrit\u0027s custom tooltip to appear simultaneously when hovering over the icon.\n2. **Wording**: Review votes (e.g. `Code-Review +2`) cast by an AI agent are actual review approvals, not predictions (as documented in `rest-api-changes.txt`: *\"If true, this vote was created by an AI agent\"*).\n\nCould we remove `title\u003d\"AI predicted\"` from `\u003cgr-icon\u003e`, and instead incorporate the AI indicator directly into `computeTooltip()` so that hovering anywhere on the chip provides a unified tooltip? E.g.:\n\n```typescript\nconst aiSuffix \u003d this.isAi ? \u0027 (AI vote)\u0027 : \u0027\u0027;\nif (this.tooltipWithWhoVoted \u0026\u0026 this.vote) {\n  return `${this.vote?.name}: ${voteDescription}${aiSuffix}`;\n} else {\n  return `${voteDescription}${aiSuffix}`;\n}\n```",
+      "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6472936d_e8e14aa7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-20T21:42:22Z",
+      "side": 1,
+      "message": "Do we need to render `\u003cgr-icon\u003e` inside `.chip-angle`?\n\n`.chip-angle` is positioned absolute behind `.vote-chip` at `(top: 2px, left: 2px; z-index: 1)`. Because `.vote-chip` has a solid opaque background, the spark icon inside `.chip-angle` at `x\u003d2px` is completely covered and invisible to the user.\n\nAlso, `.vote-chip` includes `${this.labelName}` while `.chip-angle` does not, so if `labelName` is present, `width: auto` will size `.chip-angle` narrower than `.vote-chip`.\n\nInstead of rendering child elements and relying on `width: auto`, could we make `.chip-angle` fill the container in CSS?\n```css\n.more \u003e .chip-angle {\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 100%;\n  height: 100%;\n  box-sizing: border-box;\n  z-index: 1;\n}\n```\nThat way `.chip-angle` automatically mirrors the exact dimensions of `.vote-chip` without needing child DOM, and we can also add `aria-hidden\u003d\"true\"` to `.chip-angle` so screen readers don\u0027t read the vote value twice.",
+      "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52706f94_e82082cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-20T21:42:22Z",
+      "side": 1,
+      "message": "Could we add a test case verifying the combination of `is-ai` and `more` (stacked AI votes) to assert the DOM and styling for `.chip-angle`?\n\nAlso, could we consider adding screenshot tests (e.g. in `gr-vote-chip_screenshot_test.ts` or `gr-submit-requirements_screenshot_test.ts`) covering single and stacked AI vote chips across both light and dark themes? Since this touches custom icon sizes, paddings, and background contrast, visual diff tests would help prevent future layout and contrast regressions.",
+      "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

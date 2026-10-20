@@ -22,6 +22,30 @@
       },
       "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d56ce2b_c0fff015",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-20T15:24:11Z",
+      "side": 1,
+      "message": "Cherry-picked commits preserve the author, so the information remains associated with the original author.\n\nCherry-picks and reverts are exceptions, though, because the person uploading the change may not be the author of the code.",
+      "parentUuid": "04f1e495_85e0cf91",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 46
+      },
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

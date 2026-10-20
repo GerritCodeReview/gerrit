@@ -113,6 +113,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -443,6 +444,7 @@ public class ChangeData {
   private Change change;
   private ChangeNotes notes;
   private CommitData commitData;
+  private CurrentRevisionParents currentRevisionParents;
   private PatchSet currentPatchSet;
   private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
@@ -875,6 +877,7 @@ public class ChangeData {
     changedLines = null;
     currentFiles = null;
     commitData = null;
+    currentRevisionParents = null;
     return loadChange();
   }
 
@@ -992,6 +995,34 @@ public class ChangeData {
       return null;
     }
     return commitData.committer();
+  }
+
+  /** Loads the immutable parent snapshot while indexing, never on index-only list reads. */
+  @Nullable
+  public CurrentRevisionParents currentRevisionParents() {
+    if (change().isMerged()) {
+      return null;
+    }
+    if (currentRevisionParents == null && lazyload() && loadCommitData()) {
+      PatchSet ps = currentPatchSet();
+      currentRevisionParents =
+          new CurrentRevisionParents(
+              CurrentRevisionParents.VERSION,
+              ps.number(),
+              ps.commitId().name(),
+              commitData.parentIds());
+    }
+    return currentRevisionParents;
+  }
+
+  /** Returns only the stored snapshot; missing old-index data must never trigger a Git read. */
+  @Nullable
+  public CurrentRevisionParents indexedCurrentRevisionParents() {
+    return currentRevisionParents;
+  }
+
+  public void setCurrentRevisionParents(@Nullable CurrentRevisionParents parents) {
+    currentRevisionParents = parents;
   }
 
   private boolean loadCommitData() {
@@ -1815,14 +1846,16 @@ public class ChangeData {
       List<FooterLine> commitFooters,
       PersonIdent author,
       PersonIdent committer,
-      int parentCount) {
+      int parentCount,
+      List<String> parentIds) {
     CommitData(RevCommit c) {
       this(
           c.getFullMessage(),
           c.getFooterLines(),
           c.getAuthorIdent(),
           c.getCommitterIdent(),
-          c.getParentCount());
+          c.getParentCount(),
+          Arrays.stream(c.getParents()).map(RevCommit::name).collect(toImmutableList()));
     }
   }
 

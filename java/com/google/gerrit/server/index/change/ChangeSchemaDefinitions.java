@@ -294,11 +294,22 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Add file count field */
+  @Deprecated
   static final Schema<ChangeData> V90 =
       new Schema.Builder<ChangeData>()
           .add(V89)
           .addIndexedFields(ChangeField.FILE_COUNT)
           .addSearchSpecs(ChangeField.FILE_COUNT_SPEC)
+          .build();
+
+  /** Store and search current revision parent IDs of unmerged changes. */
+  static final Schema<ChangeData> V91 =
+      new Schema.Builder<ChangeData>()
+          .add(V90)
+          .addIndexedFields(
+              ChangeField.CURRENT_REVISION_PARENTS_FIELD, ChangeField.CURRENT_PARENT_COMMIT_FIELD)
+          .addSearchSpecs(
+              ChangeField.CURRENT_REVISION_PARENTS_SPEC, ChangeField.CURRENT_PARENT_COMMIT_SPEC)
           .build();
 
   /**

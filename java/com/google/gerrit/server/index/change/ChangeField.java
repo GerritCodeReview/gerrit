@@ -72,6 +72,7 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gerrit.server.query.change.CurrentRevisionParents;
 import com.google.gerrit.server.query.change.MagicLabelValue;
 import com.google.gson.Gson;
 import com.google.protobuf.MessageLite;
@@ -1351,6 +1352,41 @@ public class ChangeField {
 
   public static final IndexedField<ChangeData, Iterable<Entities.PatchSet>>.SearchSpec
       PATCH_SET_SPEC = PATCH_SET_FIELD.storedOnly("_patch_set");
+
+  /**
+   * Immutable direct-parent snapshot, computed while indexing. A single stored value distinguishes
+   * a root commit's empty parent list from unavailable data in an older index.
+   */
+  public static final IndexedField<ChangeData, byte[]> CURRENT_REVISION_PARENTS_FIELD =
+      IndexedField.<ChangeData>byteArrayBuilder("CurrentRevisionParents")
+          .stored()
+          .build(
+              cd -> {
+                CurrentRevisionParents parents = cd.currentRevisionParents();
+                return parents == null ? null : GSON.toJson(parents).getBytes(UTF_8);
+              },
+              (cd, value) ->
+                  cd.setCurrentRevisionParents(
+                      value == null
+                          ? null
+                          : GSON.fromJson(new String(value, UTF_8), CurrentRevisionParents.class)));
+
+  public static final IndexedField<ChangeData, byte[]>.SearchSpec CURRENT_REVISION_PARENTS_SPEC =
+      CURRENT_REVISION_PARENTS_FIELD.storedOnly("current_revision_parents");
+
+  /** Exact direct-parent commit IDs of the current patch set of an unmerged change. */
+  public static final IndexedField<ChangeData, Iterable<String>> CURRENT_PARENT_COMMIT_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("CurrentParentCommit")
+          .size(40)
+          .build(
+              cd -> {
+                CurrentRevisionParents parents = cd.currentRevisionParents();
+                return parents == null ? ImmutableList.of() : parents.parentIds();
+              });
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec
+      CURRENT_PARENT_COMMIT_SPEC =
+          CURRENT_PARENT_COMMIT_FIELD.exact(ChangeQueryBuilder.FIELD_PARENTCOMMIT);
 
   /** Users who have edits on this change. */
   public static final IndexedField<ChangeData, Iterable<Integer>> EDITBY_FIELD =

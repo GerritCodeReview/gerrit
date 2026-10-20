@@ -51,6 +51,24 @@
       "message": "I don\u0027t think this is related to this change, but when i go to https://gerrit-review.googlesource.com/c/gerrit/+/645665 and click the diff button next to Relation chain i get:\n\n```\nAn error occurred\nYou might have not enough privileges.\n\nError 404: Not found: java/com/google/gerrit/server/cache/h2/CacheDir.java\n\nEndpoint: /projects/*/commits/*/files/*/diff\nTrace Id: 1792503738041-54d6ca44\n```",
       "revId": "98e14fbdbf3819214a8f05791b7bcfaf8510bd0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d118c1b_b0fb2b9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-20T13:44:00Z",
+      "side": 1,
+      "message": "@milutin@google.com ^",
+      "parentUuid": "3bc68713_d4b25c39",
+      "revId": "98e14fbdbf3819214a8f05791b7bcfaf8510bd0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

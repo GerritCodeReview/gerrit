@@ -307,7 +307,37 @@ export class GrSubmitRequirements extends LitElement {
       extractFromSubmittability: true,
       extractFromOverride: 'onlyIfOverridden',
     });
-    const allLabels = this.change?.labels ?? {};
+    const rawAllLabels = this.change?.labels ?? {};
+    // TODO: Temporarily mock a non-AI +2 vote on Code-Review for local preview.
+    const codeReviewLabel = rawAllLabels['Code-Review'];
+    const allLabels: LabelNameToInfoMap = {
+      ...rawAllLabels,
+      ...(codeReviewLabel && isDetailedLabelInfo(codeReviewLabel)
+        ? {
+            'Code-Review': {
+              ...codeReviewLabel,
+              all: [
+                {value: 2, is_ai: true},
+                {value: -1, is_ai: true},
+                {value: 2, is_ai: true},
+                {value: 2, is_ai: true},
+                {value: -1, is_ai: true},
+                {value: 1, is_ai: true},
+                {value: -1, is_ai: true},
+                {value: -2, is_ai: true},
+                {value: 1, is_ai: true},
+                {value: 1, is_ai: true},
+              ],
+              // all: [
+              //   {value: 2, is_ai: false},
+              //   {value: 2, is_ai: false},
+              //   {value: 1, is_ai: false},
+              //   {value: 1, is_ai: true},
+              // ],
+            },
+          }
+        : {}),
+    };
     const associatedLabels = Object.keys(allLabels).filter(label =>
       requirementLabels.includes(label)
     );
@@ -334,7 +364,7 @@ export class GrSubmitRequirements extends LitElement {
         associatedLabelsWithVotes,
         label =>
           html`<div class="votes-line">
-            ${this.renderLabelVote(label, allLabels)}
+            ${this.renderLabelVote(label, allLabels, requirement)}
             ${this.renderVoteCountHelpLabel(requirement, label, allLabels)}
             ${this.renderOverrideLabels(
               requirement,
@@ -371,8 +401,26 @@ export class GrSubmitRequirements extends LitElement {
     return html`Requires ${count} votes`;
   }
 
-  renderLabelVote(label: string, labels: LabelNameToInfoMap) {
-    const labelInfo = labels[label];
+  renderLabelVote(
+    label: string,
+    labels: LabelNameToInfoMap,
+    requirement?: SubmitRequirementResultInfo
+  ) {
+    const rawLabelInfo = labels[label];
+    // TODO: Temporarily force is_ai: true for Coverage-Over-70p votes for local preview.
+    const isCoverageOver70p =
+      label === 'Coverage-Over-70p' ||
+      requirement?.name === 'Coverage-Over-70p';
+    const labelInfo =
+      isCoverageOver70p && isDetailedLabelInfo(rawLabelInfo)
+        ? {
+            ...rawLabelInfo,
+            all: (rawLabelInfo.all ?? []).map(approval => ({
+              ...approval,
+              is_ai: true,
+            })),
+          }
+        : rawLabelInfo;
     if (isDetailedLabelInfo(labelInfo)) {
       const uniqueApprovals = getAllUniqueApprovals(labelInfo).filter(
         approval => !hasNeutralStatus(labelInfo, approval)

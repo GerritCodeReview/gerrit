@@ -196,6 +196,10 @@ export class GrChangeListItem extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues<this>) {
+    this.toggleAttribute('topic-group', !!this.thread?.node.topic);
+    this.toggleAttribute('topic-start', !!this.thread?.topicStart);
+    this.toggleAttribute('topic-end', !!this.thread?.topicEnd);
+
     // When the cursor selects this item, give it focus so that the item is read
     // out by screen readers and lets users start tabbing through the item
     if (this.selected && changedProperties.has('selected')) {
@@ -263,6 +267,20 @@ export class GrChangeListItem extends LitElement {
         .subject.threaded .container {
           flex: 1;
           min-width: 0;
+        }
+        @media only screen and (min-width: 50.001em) {
+          :host([topic-group]) .cell:first-child {
+            border-inline-start: 3px solid var(--link-color);
+          }
+          :host([topic-group]) .cell:last-child {
+            border-inline-end: 1px solid var(--link-color);
+          }
+          :host([topic-start]) .cell {
+            border-top: 1px solid var(--link-color);
+          }
+          :host([topic-end]) .cell {
+            border-bottom: 1px solid var(--link-color);
+          }
         }
         .dependencyCount {
           color: var(--deemphasized-text-color);
@@ -381,6 +399,20 @@ export class GrChangeListItem extends LitElement {
         @media only screen and (max-width: 50em) {
           :host {
             display: flex;
+          }
+          :host([topic-group]) {
+            --topic-outline-top: 0px;
+            --topic-outline-bottom: 0px;
+            box-shadow: inset 3px 0 var(--link-color),
+              inset -1px 0 var(--link-color),
+              inset 0 var(--topic-outline-top) var(--link-color),
+              inset 0 var(--topic-outline-bottom) var(--link-color);
+          }
+          :host([topic-start]) {
+            --topic-outline-top: 1px;
+          }
+          :host([topic-end]) {
+            --topic-outline-bottom: -1px;
           }
           .change-header,
           .change-subject,
@@ -592,6 +624,7 @@ export class GrChangeListItem extends LitElement {
     return [
       this.change?.subject,
       parents.length ? `Depends on: ${parents.join(', ')}` : '',
+      this.change?.topic ? `Topic: ${this.change.topic}` : '',
     ]
       .filter(Boolean)
       .join(' — ');

@@ -53,6 +53,26 @@ public class CachedPreferencesTest {
   }
 
   @Test
+  public void groupTopicsSurvivesConfigAndProtoStorage() {
+    for (boolean value : new boolean[] {false, true}) {
+      Config cfg = new Config();
+      cfg.setBoolean("general", null, "groupTopics", value);
+      CachedPreferences stored = CachedPreferences.fromLegacyConfig(cfg);
+      assertThat(CachedPreferences.general(Optional.empty(), stored).groupTopics)
+          .isEqualTo(value ? Boolean.TRUE : null);
+      CachedPreferences reloaded =
+          CachedPreferences.fromUserPreferencesProto(
+              UserPreferences.newBuilder()
+                  .setGeneralPreferencesInfo(
+                      UserPreferences.GeneralPreferencesInfo.newBuilder().setGroupTopics(value))
+                  .build());
+      assertThat(CachedPreferences.general(Optional.empty(), reloaded).groupTopics)
+          .isEqualTo(value ? Boolean.TRUE : null);
+      assertThat(stored.asConfig().getBoolean("general", "groupTopics", !value)).isEqualTo(value);
+    }
+  }
+
+  @Test
   public void gitConfig_roundTrip() throws Exception {
     Config originalCfg = new Config();
     originalCfg.fromText("[general]\n\tfoo = bar");

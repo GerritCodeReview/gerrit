@@ -27,5 +27,10 @@ suite('account thread preference screenshot', () => {
     )!;
     await visualDiff(section, 'gr-preferences-threaded-changes');
     await visualDiffDarkTheme(section, 'gr-preferences-threaded-changes');
+    const topicSection = queryAndAssert(element, '#groupTopics').closest(
+      'section'
+    )!;
+    await visualDiff(topicSection, 'gr-preferences-group-topics');
+    await visualDiffDarkTheme(topicSection, 'gr-preferences-group-topics');
   });
 });

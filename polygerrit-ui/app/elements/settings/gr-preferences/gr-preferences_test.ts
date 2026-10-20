@@ -125,6 +125,32 @@ suite('gr-preferences tests', () => {
     assert.isFalse(element.hasUnsavedChanges());
   });
 
+  test('topic grouping is saved independently of threading and defaults off', async () => {
+    const userModel = testResolver(userModelToken);
+    const legacyPreferences = {...preferences, threaded_changes: false};
+    delete legacyPreferences.group_topics;
+    userModel.setPreferences(legacyPreferences);
+    await element.updateComplete;
+    const topic = queryAndAssert<MdCheckbox>(element, '#groupTopics');
+    assert.isFalse(topic.checked);
+    assert.isFalse(element.hasUnsavedChanges());
+    topic.checked = true;
+    topic.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+    assert.isTrue(element.prefs!.group_topics);
+    assert.isFalse(element.prefs!.threaded_changes);
+    assert.isTrue(element.hasUnsavedChanges());
+    const save = stubRestApi('savePreferences').callsFake(async prefs => {
+      return {...preferences, ...prefs};
+    });
+    await element.save();
+    await element.updateComplete;
+    assert.isTrue(save.firstCall.args[0].group_topics);
+    assert.isFalse(save.firstCall.args[0].threaded_changes);
+    assert.isTrue(userModel.getState().preferences!.group_topics);
+    assert.isFalse(element.hasUnsavedChanges());
+  });
+
   test('renders', () => {
     assert.shadowDom.equal(
       element,
@@ -288,6 +314,14 @@ suite('gr-preferences tests', () => {
               >
               <span class="value">
                 <md-checkbox id="threadedChanges"></md-checkbox>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="groupTopics"
+                >Group changes by topic</label
+              >
+              <span class="value">
+                <md-checkbox id="groupTopics"></md-checkbox>
               </span>
             </section>
             <section id="allowBrowserNotificationsSection">

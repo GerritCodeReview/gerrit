@@ -95,7 +95,10 @@ suite('change dependency providers', () => {
     await waitEventLoop();
     assert.isFalse(fetch.called);
     assert.deepEqual(await numbers(), [2, 1]);
-    const legacyPreferences = {...createDefaultPreferences()};
+    const legacyPreferences = {
+      ...createDefaultPreferences(),
+      group_topics: true,
+    };
     delete legacyPreferences.threaded_changes;
     userModel.setPreferences(legacyPreferences);
     await waitEventLoop();

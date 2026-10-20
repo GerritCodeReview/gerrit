@@ -16,6 +16,41 @@
       "message": "While visualizing dependency stacks and cross-repo relationships (`Depends-On`) in change lists is an interesting problem space, **we cannot merge this change** for the following architectural and product reasons:\n\n1. **Backend performance \u0026 `INDEX_ONLY` invariant on list queries (Hard Blocker)**\n   Adding `CURRENT_REVISION`, `CURRENT_COMMIT`, and `PARENTS` to `getListChangesOptionsHex()` in `gr-rest-api-impl.ts` breaks Gerrit\u0027s `StorageConstraint.INDEX_ONLY` fast path for dashboard and search queries (see `ChangeJson.REQUIRE_LAZY_LOAD` and `ChangeIT#defaultSearchDoesNotTouchDatabase`):\n   - Requesting `CURRENT_COMMIT` + `PARENTS` forces `RevisionJson` to open the Git repository on disk for every returned change row and call `ParentDataProvider.get()`, which executes a `byCommit` index query plus a `RevWalk.isMergedInto()` commit-graph walk against the target branch for every standalone or base change. On a dashboard or search page returning 50–200 changes across multiple repositories, this introduces a severe latency and Git I/O regression for all users—even when `threaded_changes` is `false`.\n   - Mutating `window.DEFAULT_DETAIL_HEXES.dashboardPage` on the client also breaks `\u003clink rel\u003d\"preload\"\u003e` on `/dashboard/self` (injected by `IndexHtmlUtil` / `PolyGerritIndexHtml.soy` using `IndexPreloadingUtil.DASHBOARD_OPTIONS`), causing a 100% preload URL mismatch and double-fetching every dashboard query.\n   - Even if those query options were gated behind `threaded_changes \u003d\u003d\u003d true`, `CURRENT_COMMIT` + `PARENTS` is too expensive to run on bulk list endpoints. Any native Git dependency threading in change lists would first require lightweight parent change metadata to be served directly from the change index without `REQUIRE_LAZY_LOAD`, repo opens, or `RevWalk.isMergedInto()`.\n\n2. **Topic grouping vs. Git dependency semantics**\n   In `change-thread-util.ts` (`threadChanges`), collapsing a topic into a single group and overwriting `member.branches` with `groupRow.branches` causes two UX regressions:\n   - When a Git stack shares a topic (e.g., `git push -o topic\u003d...`, one of the most common Gerrit workflows) and has no external parent in the list, `groupRow.branches` is `[]`, so every change in the stack loses its `\u003cgr-change-thread\u003e` tree connectors completely.\n   - Conversely, when two unrelated changes on different branches/repos share a topic and one of them has a parent in the list, collapsing the topic places both changes under that parent\u0027s dependency connector rail—visually implying a Git dependency where none exists.\n\n3. **Frontend/backend version-skew with `threaded_changes ?? true`**\n   Defaulting `preferences.threaded_changes ?? true` when the field is `undefined` (`user-model.ts`, `gr-preferences.ts`) means that during any rolling deployment or frontend/backend version skew where the backend does not yet emit `threaded_changes`, threading is forced on for all logged-in users and cannot be disabled in Settings (saving `false` returns a payload omitting `threaded_changes`, which the UI coerces back to `true`).\n\n4. **Scope \u0026 bundling**\n   This single ~2,000-line change bundles four distinct features: (a) change-list dependency threading, (b) topic grouping/outlining, (c) reversing `\u003cgr-related-changes-list\u003e` on the change page from tip-first to base-first, and (d) a new public `plugin.changeDependencies()` API.",
       "revId": "73613c088850de0790f8ab4a24ff84556434f64c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0be7621_235dc7e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2026-10-20T18:56:36Z",
+      "side": 1,
+      "message": "@becky",
+      "revId": "73613c088850de0790f8ab4a24ff84556434f64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da883a08_5206d955",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2026-10-20T18:56:36Z",
+      "side": 1,
+      "message": "Thanks @beckysiegel@google.com that\u0027s super helpful feedback. Definitely too much for a single patch anyway, but even more so with the indexing changes.\n\nI\u0027ve broken this apart and pushed it up as a 5 stack change with hashtag threaded-change-list, hopefully in a more palatable and self-contained sequence.\n\nI removed the hack for dealing with a server that doesn\u0027t have the preference. Turns out that\u0027s actually. not needed in the pure typescript version (a server will quite happily store and return a preference object it doesn\u0027t know about, which is maybe mildly concerning but we can\u0027t really come up with an real attack vector.\n\nTopic grouping is at the end separately. I love the different workflows we see in different communities. In my world use of topic is an outlier only used in specific circumstances given the semantics of \"submit together\", and that\u0027s what\u0027s driving my desire to have it clarified in the UI as-such. But I\u0027ll admit I haven\u0027t thought deeply yet about all of the topic+thread edge cases you pointed out, mostly just split that out so it\u0027s properly a separate thought.",
+      "parentUuid": "60f6a832_c3c6a043",
+      "revId": "73613c088850de0790f8ab4a24ff84556434f64c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

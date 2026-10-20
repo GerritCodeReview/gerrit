@@ -35,6 +35,7 @@ import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {FlowsModel} from '../../../models/flows/flows-model';
 import {GrPluginStyleApi} from './gr-plugin-style-api';
 import {StylePluginApi} from '../../../api/styles';
+import {GrChangeDependenciesApi} from '../../plugins/gr-change-dependencies-api/gr-change-dependencies-api';
 import {GrSuggestionsApi} from '../../plugins/gr-suggestions-api/gr-suggestions-api';
 import {GrChangeUpdatesApi} from '../../plugins/gr-change-updates-api/gr-change-updates-api';
 import {GrAiCodeReviewApi} from '../../plugins/gr-ai-code-review-api/gr-ai-code-review-api';
@@ -224,6 +225,10 @@ export class Plugin implements PluginApi {
 
   changeUpdates(): GrChangeUpdatesApi {
     return new GrChangeUpdatesApi(this.pluginsModel, this);
+  }
+
+  changeDependencies(): GrChangeDependenciesApi {
+    return new GrChangeDependenciesApi(this.pluginsModel, this);
   }
 
   suggestions(): GrSuggestionsApi {

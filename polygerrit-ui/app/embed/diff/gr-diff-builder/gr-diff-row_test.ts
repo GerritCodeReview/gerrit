@@ -13,6 +13,7 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffViewMode, GrDiffLineType, Side} from '../../../api/diff';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {testResolver} from '../../../test/common-test-setup';
+import {queryAndAssert} from '../../../utils/common-util';
 
 interface GrDiffRowPrivate {
   layersApplied: boolean;
@@ -148,6 +149,37 @@ suite('gr-diff-row test', () => {
           </tbody>
         </table>
       `
+    );
+  });
+
+  test('blame shows short commit sha linking to search, and author', async () => {
+    const line = new GrDiffLine(GrDiffLineType.BOTH, 2, 2);
+    line.text = 'lorem ipsum';
+    element.left = line;
+    element.right = line;
+    const diffModel = testResolver(diffModelToken);
+    diffModel.updateState({
+      blameInfo: [
+        {
+          id: '1234567890abcdef1234567890abcdef12345678',
+          author: 'Jane Doe',
+          time: 1700000000,
+          commit_msg: 'Some commit',
+          ranges: [{start: 1, end: 3}],
+        },
+      ],
+    });
+    await element.updateComplete;
+
+    const link = queryAndAssert<HTMLAnchorElement>(element, 'td.blame a');
+    assert.equal(link.textContent, '1234567');
+    assert.equal(
+      link.getAttribute('href'),
+      '/q/1234567890abcdef1234567890abcdef12345678'
+    );
+    assert.equal(
+      queryAndAssert(element, 'td.blame .blameAuthor').textContent,
+      'Jane Doe'
     );
   });
 

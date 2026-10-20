@@ -133,6 +133,8 @@ import {
 } from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
+const CHANGE_ONLY_BLAME =
+  'All lines on the left side were introduced by this change.';
 
 const EVENT_AGAINST_PARENT = 'diff-against-parent';
 const EVENT_ZERO_REBASE = 'rebase-percent-zero';
@@ -1061,18 +1063,39 @@ export class GrDiffHost extends LitElement {
   }
 
   /**
-   * Load and display blame information for the base of the diff.
+   * Load and display blame information for the left side of the diff.
+   *
+   * If the left side is a base commit (PARENT or merge parent), then the blame
+   * of the base of the right patchset is loaded. If the left side is another
+   * patchset of the change, then the blame of that patchset is loaded.
+   *
+   * Lines introduced by a patchset of this change are left blank, because
+   * their blame would only point back to this change.
    */
   loadBlame(): Promise<BlameInfo[]> {
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.patchRange, 'patchRange');
     assertIsDefined(this.path, 'path');
+    const {basePatchNum, patchNum} = this.patchRange;
+    const leftIsBase = isAParent(basePatchNum);
+    // For renamed files the left side has the old path.
+    const leftPath = this.file?.basePath ?? this.path;
     return this.restApiService
-      .getBlame(this.changeNum, this.patchRange.patchNum, this.path, true)
-      .then(blame => {
-        if (!blame || !blame.length) {
-          fireAlert(this, EMPTY_BLAME);
-          return Promise.reject(EMPTY_BLAME);
+      .getBlame(
+        this.changeNum,
+        leftIsBase ? patchNum : basePatchNum,
+        leftPath,
+        leftIsBase
+      )
+      .then(response => {
+        const changeCommits = new Set(
+          Object.keys(this.change?.revisions ?? {})
+        );
+        const blame = (response ?? []).filter(b => !changeCommits.has(b.id));
+        if (!blame.length) {
+          const message = response?.length ? CHANGE_ONLY_BLAME : EMPTY_BLAME;
+          fireAlert(this, message);
+          return Promise.reject(message);
         }
 
         this.blame = blame;

@@ -23,4 +23,5 @@ public class ChangeConfigInfo {
   public String mergeabilityComputationBehavior;
   public Boolean conflictsPredicateEnabled;
   public Boolean allowMarkdownBase64ImagesInComments;
+  public Boolean indexedDependencies;
 }

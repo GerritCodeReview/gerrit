@@ -57,6 +57,9 @@ public class ChangeInfo {
 
   public String topic;
 
+  /** Dependencies on patch sets of other changes in the same query response. */
+  public IndexedDependenciesInfo indexedDependencies;
+
   /**
    * The <a href="https://www.gerritcodereview.com/design-docs/attention-set.html">attention set</a>
    * for this change. Keyed by account ID. We don't use {@link

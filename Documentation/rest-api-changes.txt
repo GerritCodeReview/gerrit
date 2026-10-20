@@ -408,6 +408,35 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
    and whether it points to a patch-set of another change.
 --
 
+[[indexed-dependencies]]
+--
+* `INDEXED_DEPENDENCIES`: include the `indexed_dependencies` field in query
+  results when a matching current-revision parent snapshot exists in the
+  change index. The stored parent snapshot is loaded only when this option
+  is requested. This option does not require `CURRENT_REVISION`,
+  `CURRENT_COMMIT`, or `PARENTS`, and does not load Git or NoteDb data or issue
+  additional parent queries. It applies to change lists, not individual
+  change-detail requests.
++
+Direct parent commits are matched against all patch sets of the visible
+non-merged changes returned in the same response (the union of results for multiple
+queries). Matches must have the same project and identify exactly one patch
+set of another change. Ambiguous, hidden, filtered-out, and off-page parents
+are omitted. No branch reachability or transitive ancestry is computed.
+An empty `parents` list therefore does not imply that the revision has no Git
+parents. Consumers rendering one section of a multi-query response should
+draw only edges whose endpoints appear in that section. Merged changes are
+standalone traversal boundaries. Abandoned and work-in-progress changes can
+participate when returned by the original query; this option never expands
+query membership. A query restricted to open changes will not reveal abandoned
+changes or their dependencies.
++
+Clients should check the `indexed_dependencies` capability in
+link:rest-api-config.html#change-config-info[ChangeConfigInfo] before
+requesting this option. Missing or incompatible index metadata leaves the
+field unset, with no fallback to Git reads.
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -7823,6 +7852,10 @@ A map that maps custom keys to custom values that are tied to a specific change,
 both in the form of strings. Only set if link:#custom-keyed-values[custom keyed
 values] are requested.
 |`change_id`          ||The Change-Id of the change.
+|`indexed_dependencies`|optional|
+link:#indexed-dependencies-info[IndexedDependenciesInfo] resolved within the
+query response. Only set when link:#indexed-dependencies[requested] and the
+index contains a snapshot matching the current patch set.
 |`subject`            ||
 The subject of the change (header line of the commit message).
 |`status`             ||
@@ -9122,6 +9155,37 @@ Each tag is listed without the 'refs/tags/' prefix.
 systems that include this change, e.g. a list of servers on which this
 change is deployed.
 |=======================
+
+[[indexed-dependencies-info]]
+=== IndexedDependenciesInfo
+The `IndexedDependenciesInfo` entity describes direct Git dependencies
+resolved within a change-query response using stored index data.
+
+[options="header",cols="1,6"]
+|=============================
+|Field Name |Description
+|`revision` |The current revision commit ID used to resolve dependencies.
+|`patch_set_number` |The current patch set number for that revision.
+|`parents` |Ordered list of link:#indexed-dependency-parent-info[IndexedDependencyParentInfo]
+entries. May be empty even when there are Git parents, because parents outside
+the returned changes or with ambiguous patch set identities are omitted.
+|=============================
+
+[[indexed-dependency-parent-info]]
+=== IndexedDependencyParentInfo
+The `IndexedDependencyParentInfo` entity identifies the exact patch set of
+another returned change referenced by a direct parent commit. It may identify
+an older patch set than the other change's current revision. A display of
+change rows must not assume such a link refers to the parent's current patch
+set. Collapsing historical revisions into change rows can produce cycles.
+
+[options="header",cols="1,6"]
+|=============================
+|Field Name |Description
+|`change_number` |The numeric ID of the parent change in the same project.
+|`patch_set_number` |The exact referenced patch set number.
+|`commit_id` |The direct parent commit ID.
+|=============================
 
 [[input-with-commit-message]]
 === InputWithCommitMessage

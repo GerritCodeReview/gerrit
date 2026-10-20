@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ecbc8370_612868de",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T13:37:16Z",
+      "side": 1,
+      "message": "Is this covered with a test?",
+      "range": {
+        "startLine": 1064,
+        "startChar": 11,
+        "endLine": 1064,
+        "endChar": 34
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01df4e25_d152533d",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
         "patchSetId": 8

@@ -104,7 +104,12 @@ import {
   FileNameToNormalizedFileInfoMap,
   filesModelToken,
 } from '../../../models/change/files-model';
-import {isImageDiff, isMarkdownDiff} from '../../../utils/diff-util';
+import {
+  canBlameFile,
+  computeBlameToggleLabel,
+  isImageDiff,
+  isMarkdownDiff,
+} from '../../../utils/diff-util';
 import '../gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import type {GrDiffMarkdownViewer} from '../gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import {formStyles} from '../../../styles/form-styles';
@@ -1313,13 +1318,11 @@ export class GrDiffView extends LitElement {
   }
 
   private renderBlameButton() {
-    if (!this.allowBlame) return;
-    const showBlameLoader = !isMagicPath(this.path) && !isImageDiff(this.diff);
-    if (!showBlameLoader) return;
-    let blameToggleLabel = 'Loading blame ...';
-    if (!this.isBlameLoading) {
-      blameToggleLabel = this.isBlameLoaded ? 'Hide Blame' : 'Show Blame';
-    }
+    if (!canBlameFile(this.allowBlame, this.path, this.file, this.diff)) return;
+    const blameToggleLabel = computeBlameToggleLabel(
+      this.isBlameLoading,
+      !!this.isBlameLoaded
+    );
     return html`<span class="separator"></span
       ><span class="blameLoader">
         <gr-button
@@ -2018,7 +2021,7 @@ export class GrDiffView extends LitElement {
    * Otherwise hide it.
    */
   private toggleBlame() {
-    if (!this.allowBlame) return;
+    if (!canBlameFile(this.allowBlame, this.path, this.file, this.diff)) return;
     assertIsDefined(this.diffHost, 'diffHost');
     if (this.isBlameLoaded) {
       this.diffHost.clearBlame();

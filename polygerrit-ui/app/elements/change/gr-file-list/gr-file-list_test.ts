@@ -21,6 +21,7 @@ import {
 import type {GrDiffMarkdownViewer} from '../../diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import {
   BasePatchSetNum,
+  BlameInfo,
   CommitId,
   EDIT,
   FIRST_PARENT,
@@ -33,6 +34,7 @@ import {
 } from '../../../types/common';
 import {createCommentThreads} from '../../../utils/comment-util';
 import {
+  createBlame,
   createChangeComments,
   createCommit,
   createDiff,
@@ -1425,7 +1427,7 @@ suite('gr-file-list tests', () => {
       const renderSpy = sinon.spy(element, 'renderInOrder');
 
       assert.equal(
-        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
+        queryAndAssert<GrIcon>(element, 'gr-icon.show-hide-icon').icon,
         'expand_more'
       );
       assert.equal(element.expandedFiles.size, 0);
@@ -1435,7 +1437,7 @@ suite('gr-file-list tests', () => {
       await waitEventLoop();
 
       assert.equal(
-        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
+        queryAndAssert<GrIcon>(element, 'gr-icon.show-hide-icon').icon,
         'expand_less'
       );
 
@@ -1447,7 +1449,7 @@ suite('gr-file-list tests', () => {
       await waitEventLoop();
 
       assert.equal(
-        queryAndAssert<GrIcon>(element, 'gr-icon').icon,
+        queryAndAssert<GrIcon>(element, 'gr-icon.show-hide-icon').icon,
         'expand_more'
       );
       assert.equal(renderSpy.callCount, 1);
@@ -2578,6 +2580,118 @@ suite('gr-file-list tests', () => {
       element.style.width = '700px';
       await element.updateComplete;
       assert.equal(getComputedStyle(label).display, 'none');
+    });
+  });
+
+  suite('blame', () => {
+    let getBlameStub: sinon.SinonStub;
+
+    setup(async () => {
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
+      stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+      getBlameStub = stubRestApi('getBlame').resolves([createBlame()]);
+
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
+      element.allowBlame = true;
+      element.numFilesShown = 5;
+      element.changeNum = 42 as NumericChangeId;
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
+      element.files = [
+        normalize({}, 'modified.ts'),
+        normalize({status: FileInfoStatus.ADDED}, 'added.ts'),
+        normalize({binary: true}, 'image.png'),
+      ];
+      await element.updateComplete;
+    });
+
+    async function expand(...paths: string[]) {
+      element.expandedFiles = new Set(paths);
+      await element.updateComplete;
+      await element.filesExpandedPromise;
+    }
+
+    test('toggle rendered only for expanded files with a left side', async () => {
+      assert.isNotOk(query(element, '.toggleBlame'));
+
+      await expand('modified.ts', 'added.ts', 'image.png');
+      const rows = queryAll(element, '.file-row');
+      assert.isOk(rows[0].querySelector('.toggleBlame'));
+      assert.isNotOk(rows[1].querySelector('.toggleBlame'));
+      assert.isNotOk(rows[2].querySelector('.toggleBlame'));
+
+      element.allowBlame = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '.toggleBlame'));
+    });
+
+    test('toggle loads and hides blame', async () => {
+      await expand('modified.ts');
+
+      await element.toggleBlame('modified.ts');
+      await element.updateComplete;
+
+      assert.isTrue(getBlameStub.calledWithExactly(42, 2, 'modified.ts', true));
+      const diffHost = queryAndAssert<GrDiffHost>(element, 'gr-diff-host');
+      assert.isOk(diffHost.blame);
+      assert.isTrue(element.blameFiles.has('modified.ts'));
+      const toggle = queryAndAssert<GrButton>(element, '.toggleBlame');
+      assert.include(toggle.textContent, 'Hide Blame');
+
+      await element.toggleBlame('modified.ts');
+      await element.updateComplete;
+
+      assert.isNull(diffHost.blame);
+      assert.isFalse(element.blameFiles.has('modified.ts'));
+      assert.include(toggle.textContent, 'Show Blame');
+    });
+
+    test('collapsing file drops blame state', async () => {
+      await expand('modified.ts');
+      await element.toggleBlame('modified.ts');
+      assert.isTrue(element.blameFiles.has('modified.ts'));
+
+      element.collapseAllDiffs();
+      await element.updateComplete;
+      await element.filesExpandedPromise;
+
+      assert.isFalse(element.blameFiles.has('modified.ts'));
+    });
+
+    test('blame resolving after collapse and re-expand is ignored', async () => {
+      const oldBlame = mockPromise<BlameInfo[]>();
+      getBlameStub.returns(oldBlame);
+      await expand('modified.ts');
+      const oldToggled = element.toggleBlame('modified.ts');
+
+      await expand();
+      await expand('modified.ts');
+      const toggle = queryAndAssert<GrButton>(element, '.toggleBlame');
+      assert.isFalse(toggle.disabled);
+      assert.include(toggle.textContent, 'Show Blame');
+
+      const newBlame = mockPromise<BlameInfo[]>();
+      getBlameStub.returns(newBlame);
+      const newToggled = element.toggleBlame('modified.ts');
+      oldBlame.resolve([createBlame()]);
+      await oldToggled;
+      await element.updateComplete;
+
+      // The old request neither shows blame nor ends the new one's loading.
+      assert.isFalse(element.blameFiles.has('modified.ts'));
+      assert.isTrue(toggle.disabled);
+      assert.include(toggle.textContent, 'Loading blame');
+
+      newBlame.resolve([createBlame()]);
+      await newToggled;
+      await element.updateComplete;
+
+      assert.isTrue(element.blameFiles.has('modified.ts'));
+      assert.isFalse(toggle.disabled);
+      assert.include(toggle.textContent, 'Hide Blame');
     });
   });
 });

@@ -44,7 +44,11 @@ import {
   PatchRange,
   RevisionPatchSetNum,
 } from '../../../types/common';
-import {isMarkdownDiff} from '../../../utils/diff-util';
+import {
+  canBlameFile,
+  computeBlameToggleLabel,
+  isMarkdownDiff,
+} from '../../../utils/diff-util';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
@@ -60,6 +64,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {filesModelToken} from '../../../models/change/files-model';
+import {configModelToken} from '../../../models/config/config-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {
   css,
@@ -279,6 +284,20 @@ export class GrFileList extends LitElement {
   @state()
   richMarkdownFiles: Set<string> = new Set();
 
+  /** Paths of expanded files that currently show blame for the left side. */
+  // Private but used in tests.
+  @state()
+  blameFiles: Set<string> = new Set();
+
+  /** Paths of expanded files whose diff host is loading blame. */
+  @state()
+  private blameLoadingHosts: Map<string, GrDiffHost> = new Map();
+
+  // Whether the server allows to show blame information.
+  // Private but used in tests.
+  @state()
+  allowBlame = false;
+
   // Private but used in tests.
   @state()
   showSizeBars = true;
@@ -338,6 +357,8 @@ export class GrFileList extends LitElement {
   private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   // private but used in test
   fileCursor = new GrCursorManager();
@@ -526,12 +547,15 @@ export class GrFileList extends LitElement {
           margin-left: var(--spacing-s);
           width: 1.9em;
         }
-        .richMarkdownToggle {
+        .richMarkdownToggle,
+        .blameToggle {
           align-items: center;
           display: inline-flex;
           margin-left: var(--spacing-xs);
           vertical-align: middle;
           white-space: nowrap;
+        }
+        .richMarkdownToggle {
           opacity: 0;
         }
         .row:hover .richMarkdownToggle,
@@ -539,10 +563,12 @@ export class GrFileList extends LitElement {
         .row.expanded .richMarkdownToggle {
           opacity: 100;
         }
-        .richMarkdownToggle gr-button {
+        .richMarkdownToggle gr-button,
+        .blameToggle gr-button {
           --gr-button-padding: 0 var(--spacing-s);
         }
-        .richMarkdownToggle gr-icon {
+        .richMarkdownToggle gr-icon,
+        .blameToggle gr-icon {
           font-size: 16px;
           margin-right: var(--spacing-xs);
         }
@@ -715,10 +741,12 @@ export class GrFileList extends LitElement {
           .fullFileName {
             display: none;
           }
-          .richMarkdownToggle .richToggleLabel {
+          .richMarkdownToggle .richToggleLabel,
+          .blameToggle .blameToggleLabel {
             display: none;
           }
-          .richMarkdownToggle gr-icon {
+          .richMarkdownToggle gr-icon,
+          .blameToggle gr-icon {
             margin-right: 0;
           }
         }
@@ -967,6 +995,13 @@ export class GrFileList extends LitElement {
       this,
       () => this.getChangeModel().basePatchNum$,
       x => (this.basePatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      serverConfig => {
+        this.allowBlame = serverConfig?.change.allow_blame ?? false;
+      }
     );
   }
 
@@ -1272,6 +1307,11 @@ export class GrFileList extends LitElement {
               .path=${file.__path}
               .projectName=${this.change?.project}
               ?noRenderOnPrefsChange=${true}
+              @is-blame-loaded-changed=${(e: ValueChangedEvent<boolean>) =>
+                this.onIsBlameLoadedChanged(
+                  e.currentTarget as GrDiffHost,
+                  e.detail.value
+                )}
               @diff-changed=${(e: CustomEvent<{value?: DiffInfo}>) => {
                 if (e.detail.value) {
                   this.diffsByPath.set(file.__path, e.detail.value);
@@ -1426,7 +1466,7 @@ export class GrFileList extends LitElement {
             copyTargetName="File path"
           ></gr-copy-clipboard>
         </a>
-        ${this.renderRichMarkdownToggle(file)}
+        ${this.renderRichMarkdownToggle(file)} ${this.renderBlameToggle(file)}
         ${when(
           file.diffs_too_expensive_to_compute,
           () => html`
@@ -1764,6 +1804,97 @@ export class GrFileList extends LitElement {
             <span class="richToggleLabel"
               >${isRich ? 'Source diff' : 'Rich diff'}</span
             >
+          </gr-button>
+        </gr-tooltip-content>
+      </div>
+    `;
+  }
+
+  /** Only expanded files have a diff host that can load the blame. */
+  private canBlame(file: NormalizedFileInfo) {
+    return (
+      canBlameFile(
+        this.allowBlame,
+        file.__path,
+        file,
+        this.diffsByPath.get(file.__path)
+      ) &&
+      this.isFileExpanded(file.__path) &&
+      !this.isShowingRichMarkdown(file.__path)
+    );
+  }
+
+  /**
+   * Shows or hides blame information of the given expanded file, as in the
+   * diff view.
+   */
+  async toggleBlame(path: string, e?: Event) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    if (this.blameLoadingHosts.has(path)) return;
+    const host = this.findDiffByPath(path, this.diffs);
+    if (!host) return;
+    if (this.blameFiles.has(path)) {
+      host.clearBlame();
+      return;
+    }
+    this.blameLoadingHosts = new Map(this.blameLoadingHosts).set(path, host);
+    try {
+      await host.loadBlame();
+    } catch {
+      // gr-diff-host has already shown an alert.
+    } finally {
+      // The file may have been collapsed and re-expanded meanwhile, with the
+      // new host loading blame on its own.
+      if (this.blameLoadingHosts.get(path) === host) {
+        const newLoading = new Map(this.blameLoadingHosts);
+        newLoading.delete(path);
+        this.blameLoadingHosts = newLoading;
+      }
+    }
+  }
+
+  private onIsBlameLoadedChanged(host: GrDiffHost, loaded: boolean) {
+    const path = host.path;
+    // Ignore discarded hosts, e.g. a blame request resolving after its file
+    // was collapsed (and possibly re-expanded with a new host).
+    if (!path || this.findDiffByPath(path, this.diffs) !== host) return;
+    if (this.blameFiles.has(path) === loaded) return;
+    const newSet = new Set(this.blameFiles);
+    if (loaded) {
+      newSet.add(path);
+    } else {
+      newSet.delete(path);
+    }
+    this.blameFiles = newSet;
+  }
+
+  private renderBlameToggle(file: NormalizedFileInfo) {
+    if (!this.canBlame(file)) return nothing;
+    const path = file.__path;
+    const isLoading = this.blameLoadingHosts.has(path);
+    const isLoaded = this.blameFiles.has(path);
+    const label = computeBlameToggleLabel(isLoading, isLoaded);
+    let tooltip =
+      'Show blame, linking each line to the change that last modified it';
+    if (isLoading) {
+      tooltip = label;
+    } else if (isLoaded) {
+      tooltip = 'Hide blame';
+    }
+    return html`
+      <div class="blameToggle">
+        <gr-tooltip-content has-tooltip title=${tooltip}>
+          <gr-button
+            link
+            class="toggleBlame"
+            ?disabled=${isLoading}
+            @click=${(e: MouseEvent) => this.toggleBlame(path, e)}
+          >
+            <gr-icon icon="history"></gr-icon>
+            <span class="blameToggleLabel">${label}</span>
           </gr-button>
         </gr-tooltip-content>
       </div>
@@ -2678,6 +2809,17 @@ export class GrFileList extends LitElement {
       if (!oldFiles || !oldFiles.has(path)) {
         newPaths.push(path);
       }
+    }
+    // Collapsed diffs are discarded, so they don't show or load blame anymore.
+    const blameFiles = [...this.blameFiles].filter(p => this.isFileExpanded(p));
+    if (blameFiles.length !== this.blameFiles.size) {
+      this.blameFiles = new Set(blameFiles);
+    }
+    const blameLoading = [...this.blameLoadingHosts].filter(([p]) =>
+      this.isFileExpanded(p)
+    );
+    if (blameLoading.length !== this.blameLoadingHosts.size) {
+      this.blameLoadingHosts = new Map(blameLoading);
     }
 
     // Required so that the newly created diff view is included in this.diffs.

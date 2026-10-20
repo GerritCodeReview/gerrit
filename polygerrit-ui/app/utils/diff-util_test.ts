@@ -7,7 +7,9 @@ import {assert} from '@open-wc/testing';
 import {DiffInfo, Side} from '../api/diff';
 import '../test/common-test-setup';
 import {createDiff} from '../test/test-data-generators';
+import {FileInfoStatus, SpecialFilePath} from '../constants/constants';
 import {
+  canBlameFile,
   getContentFromDiff,
   isFileUnchanged,
   isLineUnchanged,
@@ -260,6 +262,32 @@ suite('diff-util tests', () => {
         },
       };
       assert.isFalse(isMarkdownDiff('code', diffOther));
+    });
+  });
+
+  suite('canBlameFile()', () => {
+    const imageDiff: DiffInfo = {
+      ...createDiff(),
+      meta_a: {name: 'a.png', content_type: 'image/png', lines: 0},
+    };
+
+    test('allows a modified text file when the server allows blame', () => {
+      assert.isTrue(canBlameFile(true, 'a.txt', {}, createDiff()));
+      assert.isTrue(canBlameFile(true, 'a.txt'));
+    });
+
+    test('rejects files without a blameable left side', () => {
+      assert.isFalse(canBlameFile(false, 'a.txt'));
+      assert.isFalse(canBlameFile(true, undefined));
+      assert.isFalse(canBlameFile(true, SpecialFilePath.COMMIT_MESSAGE));
+      assert.isFalse(canBlameFile(true, 'a.png', {}, imageDiff));
+      assert.isFalse(canBlameFile(true, 'a.bin', {binary: true}));
+      assert.isFalse(
+        canBlameFile(true, 'a.txt', {diffs_too_expensive_to_compute: true})
+      );
+      assert.isFalse(
+        canBlameFile(true, 'a.txt', {status: FileInfoStatus.ADDED})
+      );
     });
   });
 });

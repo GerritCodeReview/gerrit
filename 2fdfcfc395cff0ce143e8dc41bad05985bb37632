@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff08c780_bd0e8f4f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1968,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-20T13:35:48Z",
+      "side": 1,
+      "message": "From an in person discussion some more points:\n- We believe that enabling this for everybody makes sense, since we don\u0027t see an issue with allowing submitting the whole topic in general (while communicating the limitations). It also keeps complexity in the config as low as possible.\n- The existing `change.submitWholeTopic` is then not fully catching its implementation. Thus, we could either rename the option (keeping the existing name for a release for backwards compatibility) or change the value to an enum as the current patchset does. However, since there are only two states left, we would prefer the former option.\n- Reconsidering the implementation in case this is always available, we would add the submitWholeTopic switch to the SubmitInput instead of using a dedicated REST API endpoint. In the UI this would be represented by a checkbox in the submit confirmation dialog. This dialog could then also provide the list of changes that would be submitted together.\n\n@luca.milanesio@gmail.com @milutin@google.com @nasser.grainawi@oss.qualcomm.com @david.ostrovsky@gmail.com Comments on that would be welcome.",
+      "parentUuid": "f1a27672_511fab1f",
+      "range": {
+        "startLine": 1961,
+        "startChar": 0,
+        "endLine": 1968,
+        "endChar": 12
+      },
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3299f85f_3e584dc3",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6

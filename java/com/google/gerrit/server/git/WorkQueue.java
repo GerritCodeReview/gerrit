@@ -967,7 +967,7 @@ public class WorkQueue {
             executor.remove(this);
           }
         }
-      } else {
+      } else if (isPeriodic() && !isDone()) {
         Future<?> unusedFuture = executor.schedule(this, nanosPeriod / 3, TimeUnit.NANOSECONDS);
       }
     }

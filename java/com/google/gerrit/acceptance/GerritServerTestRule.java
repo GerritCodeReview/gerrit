@@ -95,15 +95,16 @@ public class GerritServerTestRule implements ServerTestRule {
           // disable them using the command line flag.
           assume().that(SshMode.useSsh()).isTrue();
         }
-        statement.evaluate();
-        afterTest();
+        try (AutoCloseable ignored = GerritServerTestRule.this::afterTest) {
+          statement.evaluate();
+        }
       }
     };
   }
 
   public void afterTest() throws Exception {
     closeSsh();
-    if (!identity().equivalent(server, commonServer)) {
+    if (server != null && !identity().equivalent(server, commonServer)) {
       server.close();
       server = null;
     }

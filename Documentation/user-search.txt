@@ -216,6 +216,40 @@ commit:'SHA-1'::
 +
 Changes where 'SHA-1' is one of the patch sets of the change.
 
+[[parentcommit]]
+parentcommit:'SHA-1'::
++
+Unmerged changes whose current patch set has 'SHA-1' as a direct Git parent. The
+complete 40-character commit ID is required; merge commits can have multiple
+parents. Abandoned and work-in-progress changes participate; merged changes
+do not. This is an exact index lookup, not a transitive ancestry or
+destination-branch reachability calculation.
++
+For Git dependency discovery, combine this operator with `project:` and
+`branch:`. To find children of a change, query each of that change's patch-set
+commit IDs: a child can still reference an older patch set. Conversely, use
+`commit:` with an indexed direct-parent ID and `-status:merged` to find an
+unmerged parent change.
+Historical patch-set identities of unmerged changes remain indexed.
++
+The stored parent snapshot is excluded from the default field selection for
+change queries. Internal callers can retrieve it by explicitly selecting
+`current_revision_parents`.
++
+The index stores direct adjacency, not a materialized dependency closure.
+Callers can traverse it in either direction, checking visibility before a
+change participates. Index updates follow Gerrit's normal eventual consistency.
+Missing stored snapshots are unavailable data, distinct from a revision with
+zero parents; consumers must validate their version and source
+revision/patch-set identity. These stored fields are not additional REST API
+response fields.
++
+Schema 91 must be reindexed and activated before this operator is available;
+querying an older active schema returns an unsupported-operator error. Normal
+closed-change search remains available; only the new dependency fields omit
+merged changes. Abandoning or restoring a change retains its dependency
+inputs and parent postings; merging removes them.
+
 [[project]]
 project:'PROJECT', p:'PROJECT'::
 +

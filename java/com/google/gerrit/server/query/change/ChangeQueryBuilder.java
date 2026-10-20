@@ -176,6 +176,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";
+  public static final String FIELD_PARENTCOMMIT = "parentcommit";
   public static final String FIELD_COMMITTER = "committer";
   public static final String FIELD_CUSTOM_KEYED_VALUES = "custom_keyed_values";
   public static final String FIELD_DIRECTORY = "directory";
@@ -866,6 +867,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> commit(String id) {
     return ChangePredicates.commitPrefix(id);
+  }
+
+  @Operator
+  public Predicate<ChangeData> parentcommit(String id) throws QueryParseException {
+    checkOperatorAvailable(ChangeField.CURRENT_PARENT_COMMIT_SPEC, "parentcommit");
+    if (!id.matches("[0-9a-fA-F]{40}")) {
+      throw new QueryParseException("parentcommit requires a complete 40-character commit ID");
+    }
+    return ChangePredicates.parentCommit(id);
   }
 
   @Operator

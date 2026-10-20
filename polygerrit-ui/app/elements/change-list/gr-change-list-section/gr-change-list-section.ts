@@ -30,7 +30,11 @@ import {UserId} from '../../../types/common';
 import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {when} from 'lit/directives/when.js';
-import {threadChangeList, ThreadRow} from '../../../utils/change-thread-util';
+import {
+  ChangeThreadEdge,
+  threadChangeList,
+  ThreadRow,
+} from '../../../utils/change-thread-util';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {
   computeLabelShortcut,
@@ -58,6 +62,9 @@ export class GrChangeListSection extends LitElement {
 
   @property({type: Array})
   dynamicHeaderEndpoints?: string[];
+
+  @property({type: Array})
+  dependencyEdges: ChangeThreadEdge[] = [];
 
   @property({type: Object})
   changeSection!: ChangeListSection;
@@ -437,7 +444,11 @@ export class GrChangeListSection extends LitElement {
   }
 
   private get threadRows() {
-    return threadChangeList(this.changeSection.results, this.threadedChanges);
+    return threadChangeList(
+      this.changeSection.results,
+      this.dependencyEdges,
+      this.threadedChanges
+    );
   }
 
   private renderChangeRow(

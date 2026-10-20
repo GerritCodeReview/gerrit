@@ -22,6 +22,7 @@ import {
   queryAndAssert,
   stubFlags,
   waitEventLoop,
+  waitUntil,
 } from '../../../test/test-utils';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrStackDiffDialog} from './gr-stack-diff-dialog';
@@ -65,6 +66,66 @@ suite('gr-related-changes-list', () => {
       threaded_changes: true,
     });
     await element.updateComplete;
+  });
+
+  test('provider enriches current related rows and the preference restores original order', async () => {
+    const base = {
+      ...createRelatedChangeAndCommitInfo(),
+      _change_number: 1 as NumericChangeId,
+      _revision_number: 1,
+      _current_revision_number: 1,
+    };
+    const child = {
+      ...base,
+      _change_number: 2 as NumericChangeId,
+      commit: {...base.commit, commit: 'child' as CommitId, parents: []},
+    };
+    element.change = createParsedChange();
+    element.relatedChanges = [child, base];
+    let calls = 0;
+    testResolver(pluginLoaderToken).pluginsModel.changeDependenciesRegister({
+      pluginName: 'network',
+      provider: {
+        fetch: async request => {
+          calls++;
+          assert.equal(request.context, 'related-changes');
+          assert.lengthOf(request.changes, 2);
+          return {
+            edges: [
+              {
+                from: child._change_number,
+                to: base._change_number,
+                type: 'depends-on',
+              },
+            ],
+          };
+        },
+      },
+    });
+    await waitUntil(() => {
+      const rows = queryAll<GrRelatedChange>(
+        element,
+        '#relatedChanges gr-related-change'
+      );
+      return rows.length === 2 && rows[0].change === base;
+    });
+    assert.equal(calls, 1);
+    const prefs = testResolver(userModelToken);
+    prefs.setPreferences({
+      ...prefs.getState().preferences!,
+      threaded_changes: false,
+    });
+    await element.updateComplete;
+    const rows = queryAll<GrRelatedChange>(
+      element,
+      '#relatedChanges gr-related-change'
+    );
+    assert.strictEqual(rows[0].change, child);
+    assert.notExists(query(element, 'gr-change-thread'));
+    prefs.setPreferences({
+      ...prefs.getState().preferences!,
+      threaded_changes: true,
+    });
   });
 
   test('relation chain nests dependencies and keeps the selected marker', async () => {

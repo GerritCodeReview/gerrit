@@ -94,7 +94,18 @@ function threadForest<T>(nodes: ThreadNode<T>[]): ThreadRow<T>[] {
   return rows;
 }
 
-export function threadChangeList(changes: ChangeInfo[], threaded = true) {
+/** Optional typed edges, compatible with change-network's dependent -> dependency direction. */
+export interface ChangeThreadEdge {
+  from: number;
+  to: number;
+  type: 'git' | 'depends-on';
+}
+
+export function threadChangeList(
+  changes: ChangeInfo[],
+  edges: ChangeThreadEdge[] = [],
+  threaded = true
+) {
   const key = (change: ChangeInfo) =>
     `${change.project}~${change.branch}~${change._number}`;
   const byNumber = new Map(
@@ -111,7 +122,15 @@ export function threadChangeList(changes: ChangeInfo[], threaded = true) {
           indexed.revision === change.current_revision)
           ? indexed.parents
           : [];
-      const numbers = parents.map(parent => parent.change_number);
+      const extra = edges.filter(edge => edge.from === change._number);
+      // Prefer Git ancestry as the display parent when both kinds of edge exist.
+      const numbers = [
+        ...parents.map(parent => parent.change_number),
+        ...extra.filter(edge => edge.type === 'git').map(edge => edge.to),
+        ...extra
+          .filter(edge => edge.type === 'depends-on')
+          .map(edge => edge.to),
+      ];
       return {
         id: key(change),
         value: change,
@@ -129,12 +148,26 @@ export function threadChangeList(changes: ChangeInfo[], threaded = true) {
 
 export function threadRelatedChanges(
   changes: RelatedChangeAndCommitInfo[],
+  edges: ChangeThreadEdge[] = [],
   threaded = true
 ) {
   const merged = new Set(
     changes
       .filter(change => change.status === ChangeStatus.MERGED)
       .map(change => `${change.project}~${change.commit.commit}`)
+  );
+  const current = new Map(
+    changes
+      .filter(
+        change =>
+          change.status !== ChangeStatus.MERGED &&
+          change._change_number !== undefined &&
+          change._revision_number === change._current_revision_number
+      )
+      .map(change => [
+        change._change_number as number,
+        `${change.project}~${change.commit.commit}`,
+      ])
   );
   return threadChanges(
     changes.map(change => {
@@ -147,6 +180,16 @@ export function threadRelatedChanges(
                 ...change.commit.parents.map(
                   parent => `${change.project}~${parent.commit}`
                 ),
+                ...edges
+                  .filter(
+                    edge =>
+                      current.get(edge.from) ===
+                      `${change.project}~${change.commit.commit}`
+                  )
+                  .flatMap(edge => {
+                    const id = current.get(edge.to);
+                    return id ? [id] : [];
+                  }),
               ].filter(id => !merged.has(id))
             : [],
       };

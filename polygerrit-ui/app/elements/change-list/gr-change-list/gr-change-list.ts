@@ -49,7 +49,12 @@ import {
   changeTablePrefs,
   userModelToken,
 } from '../../../models/user/user-model';
-import {threadChangeList} from '../../../utils/change-thread-util';
+import {ChangeDependencyChange} from '../../../api/change-dependencies';
+import {ChangeDependenciesController} from '../../lit/change-dependencies-controller';
+import {
+  ChangeThreadEdge,
+  threadChangeList,
+} from '../../../utils/change-thread-util';
 import {configModelToken} from '../../../models/config/config-model';
 
 export interface ChangeListSection {
@@ -106,6 +111,10 @@ export class GrChangeList extends LitElement {
   @property({type: String})
   dashboardUser?: UserId | 'self';
 
+  /** Optional dependency edges supplied by a network provider. */
+  @property({type: Array})
+  dependencyEdges: ChangeThreadEdge[] = [];
+
   @property({type: Array})
   changes?: ChangeInfo[];
 
@@ -161,6 +170,15 @@ export class GrChangeList extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   @state() private threadedChanges = false;
+
+  private dependencyChanges: ChangeDependencyChange[] = [];
+
+  private readonly dependencies = new ChangeDependenciesController(
+    this,
+    'change-list',
+    () => this.dependencyChanges,
+    () => this.threadedChanges
+  );
 
   private displayedThreadKey = '';
 
@@ -297,6 +315,10 @@ export class GrChangeList extends LitElement {
     return html`
       <gr-change-list-section
         .changeSection=${changeSection}
+        .dependencyEdges=${[
+          ...this.dependencyEdges,
+          ...this.dependencies.edges,
+        ]}
         .labelNames=${labelNames}
         .dynamicHeaderEndpoints=${this.dynamicHeaderEndpoints}
         .isCursorMoving=${this.isCursorMoving}
@@ -340,7 +362,35 @@ export class GrChangeList extends LitElement {
     if (changedProperties.has('changes')) {
       this.changesChanged();
     }
-    const threadKey = JSON.stringify([this.threadedChanges]);
+    if (changedProperties.has('sections') || changedProperties.has('changes')) {
+      const changes = this.sections?.flatMap(section => section.results) ?? [];
+      this.dependencyChanges = [
+        ...new Map(
+          changes
+            .filter(change => !!change && change._number !== undefined)
+            .map(change => [
+              change._number,
+              {
+                _number: change._number,
+                project: change.project,
+                branch: change.branch,
+                current_revision:
+                  change.indexed_dependencies?.revision ??
+                  change.current_revision,
+                current_revision_number:
+                  (change.indexed_dependencies
+                    ?.patch_set_number as typeof change.current_revision_number) ??
+                  change.current_revision_number,
+              },
+            ])
+        ).values(),
+      ];
+    }
+    const threadKey = JSON.stringify([
+      this.threadedChanges,
+      this.dependencyEdges,
+      this.dependencies.edges,
+    ]);
     if (
       threadKey !== this.displayedThreadKey &&
       !changedProperties.has('sections') &&
@@ -359,6 +409,7 @@ export class GrChangeList extends LitElement {
         for (let index = 0; index < (this.sections?.length ?? 0); index++) {
           const rows = threadChangeList(
             this.sections![index].results,
+            [...this.dependencyEdges, ...this.dependencies.edges],
             this.threadedChanges
           );
           if (sections[index] === (selected.getRootNode() as ShadowRoot).host) {

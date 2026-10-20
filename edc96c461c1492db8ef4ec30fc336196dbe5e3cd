@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3db6951_a80a3fed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T10:14:32Z",
+      "side": 1,
+      "message": "I never thought about that. However, was that an intentional feature or am accidental side effect of how the @GerritServerConfig was implemented? In my understanding, the secure.config was intended to keep credentials/secrets and we use different file mode for that that (readable only by the file owner).\nI would prefer to keep this change as-is unless there is a good reason to support override of path settings from secure.config.\n\nNote that, in general, there is a cyclic dependency problem between SitePaths and @GerritServerConfig and this is the reason why SitePaths directly accesses \"gerrit.config\" in order to resolve cache dir path. Before spending additional effort on that topic, let\u0027s first agree if this is a justifiable and desirable feature. WDYT?",
+      "parentUuid": "12c4c6e2_d5310586",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "edc96c461c1492db8ef4ec30fc336196dbe5e3cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46d61a74_1cec54b5",
         "filename": "java/com/google/gerrit/server/config/SitePaths.java",
         "patchSetId": 5

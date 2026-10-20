@@ -223,5 +223,34 @@ suite('gr-vote-chip tests', () => {
         </gr-tooltip-content>`
       );
     });
+
+    test('renders AI sparkle inside vote-chip when is-ai is set', async () => {
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfo}
+          .vote=${vote}
+          is-ai
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title=""
+        >
+          <div class="positive vote-chip">
+            <gr-icon
+              class="ai-icon"
+              custom=""
+              icon="spark"
+              title="AI predicted"
+            >
+            </gr-icon>
+            +2
+          </div>
+        </gr-tooltip-content>`
+      );
+    });
   });
 });

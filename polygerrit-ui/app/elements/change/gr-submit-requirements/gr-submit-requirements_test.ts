@@ -362,4 +362,116 @@ suite('gr-submit-requirements tests', () => {
       'submit-requirement-codeowners'
     );
   });
+
+  test('renders AI sparkle icon in votes area when vote is_ai', async () => {
+    element.disableEndpoints = true;
+    const modifiedChange: ParsedChangeInfo = {
+      ...change,
+      labels: {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: true,
+            },
+          ],
+        },
+      },
+    };
+    element.change = modifiedChange;
+    await element.updateComplete;
+
+    const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+    assert.dom.equal(
+      votesCell?.[0],
+      /* HTML */ `
+        <div class="votes-cell">
+          <div class="votes">
+            <div class="votes-line">
+              <gr-vote-chip is-ai=""> </gr-vote-chip>
+            </div>
+          </div>
+        </div>
+      `
+    );
+  });
+
+  test('renders AI sparkle icon for stacked votes only when all are is_ai', async () => {
+    element.disableEndpoints = true;
+    const modifiedChange: ParsedChangeInfo = {
+      ...change,
+      labels: {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: true,
+            },
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: true,
+            },
+          ],
+        },
+      },
+    };
+    element.change = modifiedChange;
+    await element.updateComplete;
+
+    let votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+    assert.dom.equal(
+      votesCell?.[0],
+      /* HTML */ `
+        <div class="votes-cell">
+          <div class="votes">
+            <div class="votes-line">
+              <gr-vote-chip is-ai=""> </gr-vote-chip>
+            </div>
+          </div>
+        </div>
+      `
+    );
+
+    // Mix a non-AI +2 vote into the stack -> should NOT render AI sparkle
+    element.change = {
+      ...modifiedChange,
+      labels: {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: true,
+            },
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: false,
+            },
+          ],
+        },
+      },
+    };
+    await element.updateComplete;
+
+    votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+    assert.dom.equal(
+      votesCell?.[0],
+      /* HTML */ `
+        <div class="votes-cell">
+          <div class="votes">
+            <div class="votes-line">
+              <gr-vote-chip> </gr-vote-chip>
+            </div>
+          </div>
+        </div>
+      `
+    );
+  });
 });

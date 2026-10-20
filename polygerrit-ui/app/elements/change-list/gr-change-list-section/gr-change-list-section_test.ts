@@ -114,6 +114,23 @@ suite('gr-change-list section', () => {
     assert.isTrue(toggle.calledOnceWithExactly(child._number));
   });
 
+  test('uses supplied cross-project dependency edges', async () => {
+    element.changeSection = {
+      results: [
+        createChange({_number: 2 as NumericChangeId}),
+        createChange({_number: 1 as NumericChangeId}),
+      ],
+    };
+    element.dependencyEdges = [{from: 2, to: 1, type: 'depends-on'}];
+    await element.updateComplete;
+    const rows = queryAll<GrChangeListItem>(element, 'gr-change-list-item');
+    assert.deepEqual(
+      Array.from(rows).map(row => Number(row.change?._number)),
+      [1, 2]
+    );
+    assert.lengthOf(rows[1].thread!.branches, 1);
+  });
+
   test('renders headers when no changes are selected', () => {
     // TODO: Check table elements. The shadowDom helper does not understand
     // tables interacting with display: contents, even wrapping the element in a

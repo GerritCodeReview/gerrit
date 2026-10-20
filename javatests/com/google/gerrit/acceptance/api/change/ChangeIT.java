@@ -140,6 +140,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -3450,6 +3451,46 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.config().server().getInfo().change.indexedDependencies).isTrue();
     EnumSet<ListChangesOption> options = EnumSet.copyOf(IndexPreloadingUtil.DASHBOARD_OPTIONS);
     options.add(INDEXED_DEPENDENCIES);
+    assertThat(options).contains(INDEXED_DEPENDENCIES);
+    assertThat(options).containsNoneIn(ChangeJson.REQUIRE_LAZY_LOAD);
+    assertThat(ChangeJson.REQUIRE_LAZY_LOAD).doesNotContain(INDEXED_DEPENDENCIES);
+
+    try (AutoCloseable ignored = disableNoteDb()) {
+      List<ChangeInfo> changes =
+          gApi.changes().query("project:{" + project.get() + "}").withOptions(options).get();
+      assertThat(changes).hasSize(2);
+      ChangeInfo result = changes.stream().filter(c -> c._number == childNumber).findFirst().get();
+      assertThat(result.revisions).isNull();
+      assertThat(result.indexedDependencies).isNotNull();
+      assertThat(result.indexedDependencies.revision).isEqualTo(child.getCommit().name());
+      assertThat(result.indexedDependencies.patchSetNumber).isEqualTo(1);
+      assertThat(result.indexedDependencies.parents).hasSize(1);
+      var parent = result.indexedDependencies.parents.get(0);
+      assertThat(parent.changeNumber).isEqualTo(baseNumber);
+      assertThat(parent.patchSetNumber).isEqualTo(1);
+      assertThat(parent.commitId).isEqualTo(base.getCommit().name());
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "index.type", value = "lucene")
+  @GerritConfig(name = "change.enableIndexedDependencies", value = "true")
+  public void threadedSearchDoesNotTouchDatabase() throws Exception {
+    PushOneCommit.Result base = createChange();
+    PushOneCommit.Result child = createChange();
+    int baseNumber = base.getChange().getId().get();
+    int childNumber = child.getChange().getId().get();
+    requestScopeOperations.setApiUser(user.id());
+    GeneralPreferencesInfo preferences = new GeneralPreferencesInfo();
+    preferences.threadedChanges = true;
+    var savedPrefs = gApi.accounts().self().setPreferences(preferences);
+    var serverInfo = gApi.config().server().getInfo();
+    assertThat(savedPrefs.threadedChanges).isTrue();
+    assertThat(serverInfo.change.indexedDependencies).isTrue();
+    ImmutableSet<ListChangesOption> options =
+        IndexPreloadingUtil.dashboardOptions(
+            Boolean.TRUE.equals(savedPrefs.threadedChanges)
+                && Boolean.TRUE.equals(serverInfo.change.indexedDependencies));
     assertThat(options).contains(INDEXED_DEPENDENCIES);
     assertThat(options).containsNoneIn(ChangeJson.REQUIRE_LAZY_LOAD);
     assertThat(ChangeJson.REQUIRE_LAZY_LOAD).doesNotContain(INDEXED_DEPENDENCIES);

@@ -1242,7 +1242,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
    * If options is undefined then default options (see getListChangesOptionsHex) is
    * used.
    */
-  getChanges(
+  async getChanges(
     changesPerPage?: number,
     query?: string,
     offset?: 'n,z' | number,
@@ -1253,7 +1253,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       changesPerPage,
       query,
       offset,
-      options
+      options ?? (await this.getThreadedListChangesOptionsHex())
     );
 
     return Promise.resolve(
@@ -1359,10 +1359,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   private getListChangesOptionsHex() {
-    if (
-      window.DEFAULT_DETAIL_HEXES &&
-      window.DEFAULT_DETAIL_HEXES.dashboardPage
-    ) {
+    if (window.DEFAULT_DETAIL_HEXES?.dashboardPage) {
       return window.DEFAULT_DETAIL_HEXES.dashboardPage;
     }
     const options = [
@@ -1373,6 +1370,19 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     ];
 
     return listChangesOptionsToHex(...options);
+  }
+
+  private async getThreadedListChangesOptionsHex(): Promise<string> {
+    const metadata = 1 << ListChangesOption.INDEXED_DEPENDENCIES;
+    const base = parseInt(this.getListChangesOptionsHex(), 16) & ~metadata;
+    // Config and preferences are shared cached requests, normally inlined by the
+    // server. Missing support or preferences keeps older backends on the fast path.
+    const config = await this.getConfig();
+    if (!config?.change?.indexed_dependencies) return base.toString(16);
+    const preferences = await this.getPreferences();
+    return (preferences?.threaded_changes ? base | metadata : base).toString(
+      16
+    );
   }
 
   async getChangeOptionsHex(): Promise<string> {

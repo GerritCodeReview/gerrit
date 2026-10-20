@@ -7,6 +7,8 @@ import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-icon/gr-icon';
+import '../../shared/gr-change-thread/gr-change-thread';
+import {ThreadRow} from '../../../utils/change-thread-util';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
@@ -94,6 +96,9 @@ export class GrChangeListItem extends LitElement {
 
   @property({type: Array})
   labelNames?: string[];
+
+  @property({type: Object})
+  thread?: ThreadRow<ChangeInfo>;
 
   @property({type: Object})
   change?: ChangeInfo;
@@ -249,6 +254,20 @@ export class GrChangeListItem extends LitElement {
         .change-metadata,
         .votes {
           display: contents;
+        }
+        .subject.threaded > a {
+          display: flex;
+          align-items: stretch;
+          min-width: 0;
+        }
+        .subject.threaded .container {
+          flex: 1;
+          min-width: 0;
+        }
+        .dependencyCount {
+          color: var(--deemphasized-text-color);
+          font-size: var(--font-size-small);
+          margin-inline-end: var(--spacing-m);
         }
         .container {
           position: relative;
@@ -566,16 +585,42 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
+  private get subjectTitle() {
+    const parents =
+      this.thread?.parents.map(id => id.substring(id.lastIndexOf('~') + 1)) ??
+      [];
+    return [
+      this.change?.subject,
+      parents.length ? `Depends on: ${parents.join(', ')}` : '',
+    ]
+      .filter(Boolean)
+      .join(' — ');
+  }
+
   private renderCellSubject(changeUrl: string) {
     if (this.computeIsColumnHidden(ColumnNames.SUBJECT)) return;
 
     return html`
-      <td class="cell subject">
+      <td
+        class=${classMap({
+          cell: true,
+          subject: true,
+          threaded: !!this.thread?.branches.length,
+        })}
+      >
         <a
-          title=${ifDefined(this.change?.subject)}
+          title=${ifDefined(this.subjectTitle)}
           href=${changeUrl}
           @click=${this.handleChangeClick}
         >
+          ${this.thread?.branches.length
+            ? html`<gr-change-thread
+                aria-hidden="true"
+                .branches=${this.thread.branches}
+                .maxDepth=${this.thread.maxDepth ?? 0}
+                .last=${this.thread.last}
+              ></gr-change-thread>`
+            : ''}
           <div class="container">
             <div
               class=${classMap({
@@ -584,6 +629,11 @@ export class GrChangeListItem extends LitElement {
               })}
             >
               ${this.change?.subject}
+              ${this.thread && this.thread.parents.length > 1
+                ? html`<span class="dependencyCount"
+                    >(${this.thread.parents.length} dependencies)</span
+                  >`
+                : ''}
             </div>
             <div class="spacer">${this.change?.subject}</div>
             <span>&nbsp;</span>

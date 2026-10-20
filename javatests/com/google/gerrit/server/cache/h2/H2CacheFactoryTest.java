@@ -39,8 +39,6 @@ import java.util.EnumSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Nullable;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -53,13 +51,10 @@ public class H2CacheFactoryTest {
   @Test
   public void newSqlStore_setsUrl() throws Exception {
     Path siteRoot = temporaryFolder.newFolder("site").toPath();
-    Path etcDir = Files.createDirectories(siteRoot.resolve("etc"));
     Files.createDirectories(siteRoot.resolve("cache"));
-    FileBasedConfig gerritConfig =
-        new FileBasedConfig(etcDir.resolve("gerrit.config").toFile(), FS.DETECTED);
-    gerritConfig.setString("cache", null, "directory", "cache");
-    gerritConfig.save();
-    SitePaths sitePaths = new SitePaths(siteRoot);
+    Config cfg = new Config();
+    cfg.setString("cache", null, "directory", "cache");
+    SitePaths sitePaths = new SitePaths(siteRoot, cfg);
 
     H2CacheFactory factory =
         new H2CacheFactory(

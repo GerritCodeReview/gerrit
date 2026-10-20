@@ -44,42 +44,46 @@ import org.eclipse.jgit.util.FS;
 public class GerritServerConfigProvider implements Provider<Config> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final SitePaths site;
+  private final Path gerritConfig;
+  private final Path noteDbConfig;
   private final SecureStore secureStore;
 
   private final Object lock = new Object();
 
-  private GerritConfig gerritConfig;
+  private GerritConfig gerritConfigObj;
 
   @Inject
-  GerritServerConfigProvider(SitePaths site, SecureStore secureStore) {
-    this.site = site;
+  GerritServerConfigProvider(
+      @SitePath Path sitePath, SecureStore secureStore) {
+    Path etcDir = sitePath.resolve("etc");
+    this.gerritConfig = etcDir.resolve("gerrit.config");
+    this.noteDbConfig = etcDir.resolve("notedb.config");
     this.secureStore = secureStore;
-    this.gerritConfig = loadConfig();
+    this.gerritConfigObj = loadConfig();
   }
 
   @Override
   public Config get() {
     synchronized (lock) {
-      return gerritConfig;
+      return gerritConfigObj;
     }
   }
 
   protected ConfigUpdatedEvent updateConfig() {
     synchronized (lock) {
-      Config oldConfig = gerritConfig;
-      gerritConfig = loadConfig();
-      return new ConfigUpdatedEvent(oldConfig, gerritConfig);
+      Config oldConfig = gerritConfigObj;
+      gerritConfigObj = loadConfig();
+      return new ConfigUpdatedEvent(oldConfig, gerritConfigObj);
     }
   }
 
   public GerritConfig loadConfig() {
-    FileBasedConfig baseConfig = loadConfig(null, site.gerrit_config);
+    FileBasedConfig baseConfig = loadConfig(null, gerritConfig);
     if (!baseConfig.getFile().exists()) {
-      logger.atInfo().log("No %s; assuming defaults", site.gerrit_config.toAbsolutePath());
+      logger.atInfo().log("No %s; assuming defaults", gerritConfig.toAbsolutePath());
     }
 
-    FileBasedConfig noteDbConfigOverBaseConfig = loadConfig(baseConfig, site.notedb_config);
+    FileBasedConfig noteDbConfigOverBaseConfig = loadConfig(baseConfig, noteDbConfig);
     checkNoteDbConfig(noteDbConfigOverBaseConfig);
 
     return new GerritConfig(noteDbConfigOverBaseConfig, baseConfig, secureStore);

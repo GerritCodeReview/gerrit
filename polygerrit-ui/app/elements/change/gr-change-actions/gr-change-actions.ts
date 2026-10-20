@@ -55,6 +55,7 @@ import {
   RevertSubmissionInfo,
   ReviewInput,
   RevisionInfo,
+  ServerInfo,
 } from '../../../types/common';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -99,6 +100,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {configModelToken} from '../../../models/config/config-model';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -203,6 +205,16 @@ const DOWNLOAD_ACTION: UIActionInfo = {
   __type: ActionType.REVISION,
 };
 
+const SUBMIT_WHOLE_TOPIC_ACTION: UIActionInfo = {
+  enabled: true,
+  label: 'Submit whole topic',
+  title: 'Submit this change together with all open changes in its topic',
+  method: HttpMethod.POST,
+  __key: 'submitWholeTopic',
+  __primary: false,
+  __type: ActionType.REVISION,
+};
+
 const INCLUDED_IN_ACTION: UIActionInfo = {
   enabled: true,
   label: 'Included In',
@@ -278,6 +290,7 @@ const ACTIONS_WITH_ICONS = new Map<
   [QUICK_APPROVE_ACTION.key, {icon: 'check'}],
   [AI_CHAT_ACTION.__key, {icon: 'ai'}],
   [RevisionActions.SUBMIT, {icon: 'done_all'}],
+  [SUBMIT_WHOLE_TOPIC_ACTION.__key, {icon: 'done_all'}],
 ]);
 
 const EDIT_ACTIONS: Set<string> = new Set([
@@ -392,6 +405,8 @@ export class GrChangeActions
   @query('#secondaryActions') secondaryActions?: HTMLElement;
 
   @state() change?: ParsedChangeInfo;
+
+  @state() serverConfig?: ServerInfo;
 
   @property({type: Object}) actions: ActionNameToActionInfoMap = {};
 
@@ -527,6 +542,8 @@ export class GrChangeActions
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
   constructor() {
     super();
     subscribe(
@@ -558,6 +575,11 @@ export class GrChangeActions
       this,
       () => this.getChangeModel().change$,
       x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      x => (this.serverConfig = x)
     );
     subscribe(
       this,
@@ -1110,6 +1132,20 @@ export class GrChangeActions
       });
     }
     if (
+      this.revisionActions?.submit &&
+      this.change?.topic &&
+      !this.serverConfig?.change?.submit_whole_topic &&
+      !this.revisionActions.submitWholeTopic
+    ) {
+      this.revisionActions = {
+        ...this.revisionActions,
+        submitWholeTopic: SUBMIT_WHOLE_TOPIC_ACTION,
+      };
+      fire(this, 'revision-actions-changed', {
+        value: this.revisionActions,
+      });
+    }
+    if (
       !this.actions.includedIn &&
       this.change?.status === ChangeStatus.MERGED
     ) {
@@ -1645,6 +1681,17 @@ export class GrChangeActions
       case RevisionActions.DOWNLOAD:
         this.handleDownloadTap();
         break;
+      case 'submitWholeTopic':
+        if (!this.canSubmitChange()) {
+          return;
+        }
+        this.fireAction(
+          '/submit',
+          assertUIActionInfo(this.revisionActions?.submitWholeTopic),
+          true,
+          {submit_whole_topic: true}
+        );
+        break;
       case RevisionActions.SUBMIT:
         if (!this.canSubmitChange()) {
           return;
@@ -2085,6 +2132,7 @@ export class GrChangeActions
       case ChangeActions.REBASE_EDIT:
       case ChangeActions.REBASE:
       case ChangeActions.SUBMIT:
+      case 'submitWholeTopic':
         // Hide rebase dialog only if the action succeeds
         this.actionsModal?.close();
         this.hideAllDialogs();

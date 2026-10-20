@@ -68,6 +68,7 @@ export enum RevisionActions {
   CHERRYPICK = 'cherrypick',
   REBASE = 'rebase',
   SUBMIT = 'submit',
+  SUBMIT_WHOLE_TOPIC = 'submitWholeTopic',
   DOWNLOAD = 'download',
 }
 

@@ -34,6 +34,24 @@
       "parentUuid": "5b877e72_fc245f49",
       "revId": "ab2d69afba0e5499c004ba4b64f5d128f55d3ef4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5107a00f_a88ffb28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-20T09:34:58Z",
+      "side": 1,
+      "message": "I\u0027ve done https://gerrit-review.googlesource.com/c/gerrit/+/645726. I\u0027m unable to re-do the merge up rn as have to go out for a bit.",
+      "parentUuid": "ca548542_24996122",
+      "revId": "ab2d69afba0e5499c004ba4b64f5d128f55d3ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

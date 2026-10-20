@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b5c0b7_e5160bbe",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-20T22:36:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "272d93b9_4038fd43",
+      "revId": "80ae15385a0954aa784699239e6dbf8d2a114c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4e24157_cb422907",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-20T17:26:55Z",
       "side": 1,
       "message": "Can we use `getSshdThreads()` from `ThreadSettingsConfig`?",
+      "range": {
+        "startLine": 373,
+        "startChar": 40,
+        "endLine": 373,
+        "endChar": 93
+      },
+      "revId": "80ae15385a0954aa784699239e6dbf8d2a114c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e208859_a082e8be",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-20T22:36:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4e24157_cb422907",
       "range": {
         "startLine": 373,
         "startChar": 40,

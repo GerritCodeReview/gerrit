@@ -12,11 +12,9 @@ import {
 } from '../types/common';
 import {AuthType} from '../api/rest-api';
 
-export function getBaseUrl(): string {
-  // window is not defined in service worker, therefore no CANONICAL_PATH
-  if (typeof window === 'undefined') return '';
-  return self.CANONICAL_PATH || '';
-}
+import {getBaseUrl} from './base-url-util';
+
+export {getBaseUrl};
 
 export function getDocUrl(docsBaseUrl: string, relativeUrl: string): string {
   if (docsBaseUrl.endsWith('/')) {

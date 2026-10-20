@@ -30,6 +30,7 @@ import {UserId} from '../../../types/common';
 import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {when} from 'lit/directives/when.js';
+import {threadChangeList, ThreadRow} from '../../../utils/change-thread-util';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {
   computeLabelShortcut,
@@ -110,6 +111,8 @@ export class GrChangeListSection extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private isLoggedIn = false;
+
+  @state() private threadedChanges = false;
 
   @state()
   private narrowScreen = window.matchMedia('(max-width: 50em)').matches;
@@ -227,6 +230,13 @@ export class GrChangeListSection extends LitElement {
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getUserModel().preferenceThreadedChanges$,
+      enabled => {
+        this.threadedChanges = enabled;
+      }
+    );
     provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
     subscribe(
       this,
@@ -275,8 +285,8 @@ export class GrChangeListSection extends LitElement {
         ${this.isEmpty()
           ? this.renderNoChangesRow(colSpan)
           : this.renderColumnHeaders(columns)}
-        ${this.changeSection.results.map((change, index) =>
-          this.renderChangeRow(change, index, columns)
+        ${this.threadRows.map((row, index) =>
+          this.renderChangeRow(row.node.value, index, columns, row)
         )}
       </tbody>
     `;
@@ -390,10 +400,11 @@ export class GrChangeListSection extends LitElement {
               @change=${this.handleSelectAllCheckboxClicked}
             ></md-checkbox>
           `,
-          () => html` <span
-            class="loadingSpin"
-            title="Bulk actions is loading"
-          ></span>`
+          () =>
+            html` <span
+              class="loadingSpin"
+              title="Bulk actions is loading"
+            ></span>`
         )}
       </td>
     `;
@@ -425,12 +436,27 @@ export class GrChangeListSection extends LitElement {
     `;
   }
 
+  private get threadRows() {
+    return threadChangeList(this.changeSection.results, this.threadedChanges);
+  }
+
   private renderChangeRow(
     change: ChangeInfo,
     index: number,
-    columns: string[]
+    columns: string[],
+    thread: ThreadRow<ChangeInfo>
   ) {
-    const ariaLabel = this.computeAriaLabel(change);
+    const dependencies = thread.parents.map(id =>
+      id.substring(id.lastIndexOf('~') + 1)
+    );
+    const ariaLabel = [
+      this.computeAriaLabel(change),
+      dependencies.length
+        ? `depends on changes ${dependencies.join(', ')}`
+        : '',
+    ]
+      .filter(Boolean)
+      .join(', ');
     const selected = this.computeItemSelected(index);
     return html`
       <gr-change-list-item
@@ -439,6 +465,7 @@ export class GrChangeListSection extends LitElement {
         .dashboardUser=${this.dashboardUser}
         .selected=${selected}
         .change=${change}
+        .thread=${thread}
         .sectionName=${this.changeSection.name}
         .starsLoading=${this.starsLoading}
         .visibleChangeTableColumns=${columns}
@@ -483,7 +510,7 @@ export class GrChangeListSection extends LitElement {
 
   toggleChange(index: number) {
     this.bulkActionsModel.toggleSelectedChangeNum(
-      this.changeSection.results[index]._number
+      this.threadRows[index].node.value._number
     );
   }
 

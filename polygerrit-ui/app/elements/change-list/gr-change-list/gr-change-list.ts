@@ -49,6 +49,7 @@ import {
   changeTablePrefs,
   userModelToken,
 } from '../../../models/user/user-model';
+import {threadChangeList} from '../../../utils/change-thread-util';
 import {configModelToken} from '../../../models/config/config-model';
 
 export interface ChangeListSection {
@@ -159,10 +160,21 @@ export class GrChangeList extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
+  @state() private threadedChanges = false;
+
+  private displayedThreadKey = '';
+
   private cursor = new GrCursorManager();
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getUserModel().preferenceThreadedChanges$,
+      enabled => {
+        this.threadedChanges = enabled;
+      }
+    );
     this.cursor.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursor.focusOnMove = true;
     this.shortcuts.addAbstract(Shortcut.CURSOR_NEXT_CHANGE, () =>
@@ -328,6 +340,39 @@ export class GrChangeList extends LitElement {
     if (changedProperties.has('changes')) {
       this.changesChanged();
     }
+    const threadKey = JSON.stringify([this.threadedChanges]);
+    if (
+      threadKey !== this.displayedThreadKey &&
+      !changedProperties.has('sections') &&
+      !changedProperties.has('changes') &&
+      !changedProperties.has('selectedIndex')
+    ) {
+      const sections = Array.from(
+        queryAll<GrChangeListSection>(this, 'gr-change-list-section')
+      );
+      const items = sections.flatMap(section =>
+        Array.from(queryAll<GrChangeListItem>(section, 'gr-change-list-item'))
+      );
+      const selected = items[this.selectedIndex];
+      if (selected?.change) {
+        let offset = 0;
+        for (let index = 0; index < (this.sections?.length ?? 0); index++) {
+          const rows = threadChangeList(
+            this.sections![index].results,
+            this.threadedChanges
+          );
+          if (sections[index] === (selected.getRootNode() as ShadowRoot).host) {
+            const position = rows.findIndex(
+              row => row.node.value._number === selected.change!._number
+            );
+            if (position >= 0) this.selectedIndex = offset + position;
+            break;
+          }
+          offset += rows.length;
+        }
+      }
+    }
+    this.displayedThreadKey = threadKey;
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -335,6 +380,7 @@ export class GrChangeList extends LitElement {
       this.sectionsChanged();
     }
     if (changedProperties.has('selectedIndex')) {
+      this.sectionsChanged();
       fire(this, 'selected-index-changed', {
         value: this.selectedIndex ?? 0,
       });

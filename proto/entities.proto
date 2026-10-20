@@ -407,6 +407,7 @@ message UserPreferences {
     optional string diff_page_sidebar = 23 [default = "NONE"];
     optional string ai_chat_selected_model = 26;
     optional string label_filter = 27;
+    optional bool threaded_changes = 28;
   }
   optional GeneralPreferencesInfo general_preferences_info = 1;
 

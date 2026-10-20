@@ -125,6 +125,18 @@ When set, no connection pool is maintained. Each operation opens a fresh
 connection, holds the lock for the duration of that operation, and closes the
 connection immediately on completion.
 +
+All Gerrit primaries sharing the database must use the same lock type. Gerrit
+checks this at startup and fails to start if lock types conflict, preventing
+database corruption.
++
+The lock type is recorded by the first primary to start in a marker directory
+next to the database file (`<site>/db/account_patch_reviews.locktype` by
+default, or `<db file>.locktype` if `accountPatchReviewDb.url` is customised).
+The marker is never removed automatically. To change the lock type, stop all
+primaries, delete the marker directory, update `accountPatchReviewDb.h2LockType`
+on every primary and start them again. The first primary to start records the
+new lock type.
++
 Supported values:
 +
 --

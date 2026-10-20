@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8b249751_59690d84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-20T08:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86bda24b_33dc4d30",
+      "revId": "377d43e60e750d706216f83d9b903eac3129deb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "accf6b0a_09ca68fc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -48,6 +66,30 @@
       "writtenOn": "2026-05-29T10:06:48Z",
       "side": 1,
       "message": "This should reflect `bzlmod` migration and be moved to `tools/deps.toml`.",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 5
+      },
+      "revId": "377d43e60e750d706216f83d9b903eac3129deb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee04a5b6_06250bc0",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-20T08:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0efd64a0_36a51918",
       "range": {
         "startLine": 112,
         "startChar": 4,

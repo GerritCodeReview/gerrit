@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04f1e495_85e0cf91",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-20T14:29:21Z",
+      "side": 1,
+      "message": "Actually one or more steps: if a commit was cherry-picked to different branch(es) by different committers then I would have to do a research in Gerrit in order to find out which of those identified committers was the one who first contributed that code",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 46
+      },
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

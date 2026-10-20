@@ -24,9 +24,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.lib.Config;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton
@@ -80,8 +78,13 @@ public final class SitePaths {
   /** {@code true} if {@link #site_path} has not been initialized. */
   public final boolean isNew;
 
+  /** For bootstrap contexts (pre-Guice) where only layout paths are needed. */
+  public SitePaths(Path sitePath) throws IOException {
+    this(sitePath, new Config());
+  }
+
   @Inject
-  public SitePaths(@SitePath Path sitePath) throws IOException {
+  public SitePaths(@SitePath Path sitePath, @GerritServerConfig Config cfg) throws IOException {
     site_path = sitePath;
     Path p = sitePath;
 
@@ -96,7 +99,6 @@ public final class SitePaths {
     mail_dir = etc_dir.resolve("mail");
     hooks_dir = p.resolve("hooks");
     static_dir = p.resolve("static");
-    FileBasedConfig cfg = loadGerritConfig(etc_dir.resolve("gerrit.config"));
     index_dir = resolveIndexDir(p, cfg);
     cache_dir = resolveCacheDir(p, cfg);
 
@@ -135,31 +137,19 @@ public final class SitePaths {
     this.isNew = isNew;
   }
 
-  private static FileBasedConfig loadGerritConfig(Path gerritConfig) throws IOException {
-    FileBasedConfig cfg = new FileBasedConfig(gerritConfig.toFile(), FS.DETECTED);
-    if (cfg.getFile().exists()) {
-      try {
-        cfg.load();
-      } catch (ConfigInvalidException e) {
-        throw new IOException("Invalid config file " + gerritConfig, e);
-      }
-    }
-    return cfg;
-  }
-
-  private static Path resolveIndexDir(Path sitePath, FileBasedConfig cfg) throws IOException {
+  private static Path resolveIndexDir(Path sitePath, Config cfg) throws IOException {
     Path configured = resolveConfiguredPath(sitePath, cfg, "index", "directory");
     return configured != null ? configured : sitePath.resolve("index");
   }
 
   @Nullable
-  private static Path resolveCacheDir(Path sitePath, FileBasedConfig cfg) throws IOException {
+  private static Path resolveCacheDir(Path sitePath, Config cfg) throws IOException {
     return resolveConfiguredPath(sitePath, cfg, "cache", "directory");
   }
 
   @Nullable
   private static Path resolveConfiguredPath(
-      Path sitePath, FileBasedConfig cfg, String section, String key) throws IOException {
+      Path sitePath, Config cfg, String section, String key) throws IOException {
     String configured = cfg.getString(section, null, key);
     if (Strings.isNullOrEmpty(configured)) {
       return null;

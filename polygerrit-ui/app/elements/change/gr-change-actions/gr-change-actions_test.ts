@@ -13,8 +13,10 @@ import {
   createChange,
   createChangeMessages,
   createChangeViewChange,
+  createParsedChange,
   createRevision,
   createRevisions,
+  createServerInfo,
 } from '../../../test/test-data-generators';
 import {ChangeStatus, HttpMethod} from '../../../constants/constants';
 import {
@@ -763,6 +765,82 @@ suite('gr-change-actions tests', () => {
       sinon.stub(element, 'canSubmitChange').returns(false);
       element.handleSubmitConfirm();
       assert.isFalse(fireStub.called);
+    });
+
+    suite('submit whole topic button', () => {
+      function setupTopic(
+        topic: string | undefined,
+        submitWholeTopic: boolean | undefined
+      ) {
+        element.change = {
+          ...createParsedChange(),
+          topic: topic as TopicName | undefined,
+          status: ChangeStatus.NEW,
+        };
+        element.serverConfig = {
+          ...createServerInfo(),
+          change: {
+            ...createServerInfo().change,
+            submit_whole_topic: submitWholeTopic,
+          },
+        };
+        element.revisionActions = {
+          submit: {
+            enabled: true,
+            label: 'Submit',
+            method: HttpMethod.POST,
+          },
+        };
+        // Invoke the injection directly rather than through the reactive
+        // update, which would race reload() overwriting revisionActions.
+        (element as unknown as {actionsChanged(): void}).actionsChanged();
+      }
+
+      test('shown when there is a topic and the default is off', () => {
+        setupTopic('my-topic', false);
+        assert.isOk(element.revisionActions?.submitWholeTopic);
+        // Also confirm it survives rendering: getActionValues only keeps
+        // actions whose key is a RevisionActions enum member.
+        const rendered = (
+          element as unknown as {computeAllActions(): UIActionInfo[]}
+        ).computeAllActions();
+        assert.isOk(rendered.find(a => a.__key === 'submitWholeTopic'));
+      });
+
+      test('hidden when there is no topic', () => {
+        setupTopic(undefined, false);
+        assert.isNotOk(element.revisionActions?.submitWholeTopic);
+      });
+
+      test('hidden when whole-topic submit is the default', () => {
+        setupTopic('my-topic', true);
+        assert.isNotOk(element.revisionActions?.submitWholeTopic);
+      });
+
+      test('fires /submit with submit_whole_topic', () => {
+        setupTopic('my-topic', false);
+        element.revisionActions = {
+          ...element.revisionActions,
+          submitWholeTopic: {
+            enabled: true,
+            label: 'Submit whole topic',
+            method: HttpMethod.POST,
+            __key: 'submitWholeTopic',
+            __type: ActionType.REVISION,
+          } as UIActionInfo,
+        };
+        const fireStub = sinon.stub(element, 'fireAction');
+        sinon.stub(element, 'canSubmitChange').returns(true);
+        (
+          element as unknown as {handleRevisionAction(key: string): void}
+        ).handleRevisionAction('submitWholeTopic');
+        assert.deepEqual(fireStub.lastCall.args, [
+          '/submit',
+          assertUIActionInfo(element.revisionActions?.submitWholeTopic),
+          true,
+          {submit_whole_topic: true},
+        ]);
+      });
     });
 
     test('submit change with plugin hook', async () => {

@@ -133,6 +133,7 @@ public class GeneralPreferencesInfo {
   public Boolean expandInlineDiffs;
   public Boolean relativeDateInChangeTable;
   public Boolean threadedChanges;
+  public Boolean groupTopics;
   public DiffView diffView;
   public Boolean sizeBarInChangeTable;
   public Boolean legacycidInChangeTable;
@@ -210,6 +211,7 @@ public class GeneralPreferencesInfo {
         && equalBooleanPreferencesFields(
             this.relativeDateInChangeTable, other.relativeDateInChangeTable)
         && equalBooleanPreferencesFields(this.threadedChanges, other.threadedChanges)
+        && equalBooleanPreferencesFields(this.groupTopics, other.groupTopics)
         && Objects.equals(this.diffView, other.diffView)
         && equalBooleanPreferencesFields(this.sizeBarInChangeTable, other.sizeBarInChangeTable)
         && equalBooleanPreferencesFields(this.legacycidInChangeTable, other.legacycidInChangeTable)
@@ -249,6 +251,7 @@ public class GeneralPreferencesInfo {
         expandInlineDiffs,
         relativeDateInChangeTable,
         threadedChanges,
+        groupTopics,
         diffView,
         sizeBarInChangeTable,
         legacycidInChangeTable,
@@ -282,6 +285,7 @@ public class GeneralPreferencesInfo {
         .add("expandInlineDiffs", expandInlineDiffs)
         .add("relativeDateInChangeTable", relativeDateInChangeTable)
         .add("threadedChanges", threadedChanges)
+        .add("groupTopics", groupTopics)
         .add("diffView", diffView)
         .add("sizeBarInChangeTable", sizeBarInChangeTable)
         .add("legacycidInChangeTable", legacycidInChangeTable)
@@ -315,6 +319,7 @@ public class GeneralPreferencesInfo {
     p.expandInlineDiffs = false;
     p.relativeDateInChangeTable = false;
     p.threadedChanges = false;
+    p.groupTopics = false;
     p.diffView = DiffView.SIDE_BY_SIDE;
     p.sizeBarInChangeTable = true;
     p.legacycidInChangeTable = false;

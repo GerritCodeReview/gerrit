@@ -1659,6 +1659,8 @@ suite('gr-rest-api-service-impl tests', () => {
       config.resolves(info);
       const prefs = createDefaultPreferences();
       prefs.threaded_changes = enabled;
+      // Topic-only grouping must not request indexed Git metadata.
+      prefs.group_topics = true;
       preferences.resolves(prefs);
       await element.getChanges();
       const options = parseInt(fetch.lastCall.args[0].params!.O as string, 16);

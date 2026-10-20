@@ -628,8 +628,7 @@ export class GrRepo extends LitElement {
           <md-outlined-text-field
             id="maxGitObjSizeInput"
             class="showBlueFocusBorder"
-            type="number"
-            min="0"
+            type="text"
             ?disabled=${this.readOnly}
             .value=${this.repoConfig?.max_object_size_limit?.configured_value ??
             ''}

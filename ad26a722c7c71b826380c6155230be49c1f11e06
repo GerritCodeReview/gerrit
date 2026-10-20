@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f40289e_9f073edd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-20T17:48:55Z",
+      "side": 1,
+      "message": "depends on 1254289: Merge branch \u0027stable-7.4\u0027 into stable-7.5 | https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1254289",
+      "revId": "ad26a722c7c71b826380c6155230be49c1f11e06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

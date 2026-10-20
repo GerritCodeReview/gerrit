@@ -113,6 +113,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -443,6 +444,7 @@ public class ChangeData {
   private Change change;
   private ChangeNotes notes;
   private CommitData commitData;
+  private CurrentRevisionParents currentRevisionParents;
   private PatchSet currentPatchSet;
   private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
@@ -875,6 +877,7 @@ public class ChangeData {
     changedLines = null;
     currentFiles = null;
     commitData = null;
+    currentRevisionParents = null;
     return loadChange();
   }
 
@@ -992,6 +995,52 @@ public class ChangeData {
       return null;
     }
     return commitData.committer();
+  }
+
+  /**
+   * Returns the current patch set's parent snapshot, computing it if lazy loading is allowed.
+   *
+   * <p>Merged changes have no snapshot. Abandoned changes are included because they can block
+   * live changes in the same stack.
+   */
+  @Nullable
+  public CurrentRevisionParents currentUnmergedRevisionParents() {
+    if (change != null && change.isMerged()) {
+      return null;
+    }
+    if (currentRevisionParents != null || !lazyload()) {
+      return currentRevisionParents;
+    }
+
+    Change currentChange = change();
+    if (currentChange == null || currentChange.isMerged() || !loadCommitData()) {
+      return null;
+    }
+
+    PatchSet ps = currentPatchSet();
+    currentRevisionParents =
+        new CurrentRevisionParents(
+            CurrentRevisionParents.VERSION,
+            ps.number(),
+            ps.commitId().name(),
+            commitData.parentIds());
+    return currentRevisionParents;
+  }
+
+  /**
+   * Returns the available parent snapshot without loading it from Git or NoteDb.
+   *
+   * <p>Index-backed dependency queries use this to distinguish a missing stored snapshot from
+   * one that could be computed from Git. An absent snapshot stays absent even when other fields
+   * in the same query may be lazy-loaded.
+   */
+  @Nullable
+  public CurrentRevisionParents indexedCurrentRevisionParents() {
+    return currentRevisionParents;
+  }
+
+  public void setCurrentRevisionParents(@Nullable CurrentRevisionParents parents) {
+    currentRevisionParents = parents;
   }
 
   private boolean loadCommitData() {
@@ -1815,14 +1864,16 @@ public class ChangeData {
       List<FooterLine> commitFooters,
       PersonIdent author,
       PersonIdent committer,
-      int parentCount) {
+      int parentCount,
+      List<String> parentIds) {
     CommitData(RevCommit c) {
       this(
           c.getFullMessage(),
           c.getFooterLines(),
           c.getAuthorIdent(),
           c.getCommitterIdent(),
-          c.getParentCount());
+          c.getParentCount(),
+          Arrays.stream(c.getParents()).map(RevCommit::name).collect(toImmutableList()));
     }
   }
 

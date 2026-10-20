@@ -417,6 +417,22 @@ public class ChangePredicates {
   }
 
   /**
+   * Matches unmerged changes whose current patch set directly names this parent commit. Callers
+   * resolving Git dependencies must also constrain the source project and target branch. This
+   * matches a commit identity, not a transitive ancestor or an outstanding submission dependency.
+   */
+  public static Predicate<ChangeData> parentCommit(String commitId) {
+    if (!commitId.matches("[0-9a-fA-F]{40}")) {
+      throw new IllegalArgumentException("A complete 40-character parent commit ID is required");
+    }
+    return Predicate.and(
+        Predicate.or(
+            ChangeStatusPredicate.open(), ChangeStatusPredicate.forStatus(Change.Status.ABANDONED)),
+        new ChangeIndexPredicate(
+            ChangeField.CURRENT_PARENT_COMMIT_SPEC, commitId.toLowerCase(Locale.ROOT)));
+  }
+
+  /**
    * Returns a predicate that matches changes where the provided {@code message} appears in the
    * commit message. Uses full-text search semantics.
    */

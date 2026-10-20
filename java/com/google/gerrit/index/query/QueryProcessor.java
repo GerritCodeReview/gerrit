@@ -402,6 +402,11 @@ public abstract class QueryProcessor<T> {
     if (requestedFields != null) {
       return requestedFields;
     }
+    return getDefaultRequestedFields();
+  }
+
+  /** Stored fields loaded when the caller has not supplied an explicit selection. */
+  protected Set<String> getDefaultRequestedFields() {
     Index<?, T> index = indexes.getSearchIndex();
     return index != null ? index.getSchema().getStoredFields() : ImmutableSet.of();
   }

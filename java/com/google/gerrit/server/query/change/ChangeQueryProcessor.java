@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIMIT;
 
 import com.google.common.collect.ImmutableList;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.PluginDefinedInfosFactory;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -132,6 +134,14 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         limit,
         allowIncompleteResults,
         requestedFields);
+  }
+
+  @Override
+  protected Set<String> getDefaultRequestedFields() {
+    Set<String> fields = super.getDefaultRequestedFields();
+    return fields.stream()
+        .filter(field -> !field.equals(ChangeField.CURRENT_REVISION_PARENTS_SPEC.getName()))
+        .collect(toImmutableSet());
   }
 
   @Override

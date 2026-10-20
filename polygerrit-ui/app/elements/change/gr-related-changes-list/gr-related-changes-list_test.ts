@@ -18,6 +18,7 @@ import {
 } from '../../../test/test-data-generators';
 import {
   query,
+  queryAll,
   queryAndAssert,
   stubFlags,
   waitEventLoop,
@@ -59,6 +60,38 @@ suite('gr-related-changes-list', () => {
     element = await fixture(
       html`<gr-related-changes-list></gr-related-changes-list>`
     );
+    testResolver(userModelToken).setPreferences({
+      ...createDefaultPreferences(),
+      threaded_changes: true,
+    });
+    await element.updateComplete;
+  });
+
+  test('relation chain nests dependencies and keeps the selected marker', async () => {
+    const base = {
+      ...createRelatedChangeAndCommitInfo(),
+      _change_number: 1 as NumericChangeId,
+    };
+    const child = {
+      ...createRelatedChangeAndCommitInfo(),
+      _change_number: 2 as NumericChangeId,
+      commit: {
+        ...base.commit,
+        commit: 'child' as CommitId,
+        parents: [{commit: base.commit.commit, subject: base.commit.subject}],
+      },
+    };
+    element.change = {...createParsedChange(), _number: child._change_number};
+    element.latestPatchNum = 1 as PatchSetNumber;
+    element.relatedChanges = [child, base];
+    await element.updateComplete;
+    const rows = queryAll<GrRelatedChange>(
+      element,
+      '#relatedChanges gr-related-change'
+    );
+    assert.strictEqual(rows[0].change, base);
+    assert.strictEqual(rows[1].change, child);
+    assert.exists(query(element, '#relatedChanges .selected gr-change-thread'));
   });
 
   suite('show when collapsed', () => {
@@ -215,7 +248,7 @@ suite('gr-related-changes-list', () => {
             <section id="relatedChanges">
               <gr-related-collapse
                 class="first"
-                title="parent changes appear below child changes"
+                title="Dependencies appear above the changes that depend on them"
               >
                 <div class="relatedChangeLine show-when-collapsed">
                   <span class="marker space"> </span>

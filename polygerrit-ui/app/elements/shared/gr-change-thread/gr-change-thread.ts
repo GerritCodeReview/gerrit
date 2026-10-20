@@ -1,0 +1,82 @@
+/**
+ * @license
+ * Copyright 2026 Monty Taylor
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import {css, html, LitElement} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
+import {classMap} from 'lit/directives/class-map.js';
+
+/** Decorative tree rails. The enclosing row supplies the dependency description. */
+@customElement('gr-change-thread')
+export class GrChangeThread extends LitElement {
+  @property({type: Array}) branches: boolean[] = [];
+
+  @property({type: Boolean}) last = true;
+
+  @property({type: Number}) maxDepth = 0;
+
+  override willUpdate() {
+    const depth = this.branches.length;
+    const maxDepth = Math.max(depth, this.maxDepth, 1);
+    // Use one track width throughout the view, even when the deepest row must
+    // compress to fit. Shallower rows must not shift ancestor continuation lines.
+    this.style.width = `min(${12 * depth}px, ${(35 * depth) / maxDepth}%)`;
+  }
+
+  static override styles = css`
+    :host {
+      display: inline-flex;
+      flex: none;
+      align-self: stretch;
+      color: var(--deemphasized-text-color);
+      overflow: hidden;
+      max-width: 35%;
+    }
+    .rail {
+      position: relative;
+      /* Compress all tracks instead of clipping the deepest connector. */
+      flex: 1 1 12px;
+      width: 12px;
+      min-width: 0;
+      min-height: var(--line-height-normal, 20px);
+    }
+    .line::before,
+    .elbow::before {
+      content: '';
+      position: absolute;
+      left: max(0px, calc(50% - 1px));
+      top: 0;
+      bottom: 0;
+      border-left: 1px solid currentColor;
+    }
+    .elbow.last::before {
+      bottom: 50%;
+    }
+    .elbow::after {
+      content: '';
+      position: absolute;
+      left: max(0px, calc(50% - 1px));
+      right: 0;
+      top: 50%;
+      border-top: 1px solid currentColor;
+    }
+  `;
+
+  override render() {
+    if (!this.branches.length) return;
+    return html`${this.branches
+        .slice(1)
+        .map(
+          line => html`<span class=${classMap({rail: true, line})}></span>`
+        )}<span
+        class=${classMap({rail: true, elbow: true, last: this.last})}
+      ></span>`;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-thread': GrChangeThread;
+  }
+}

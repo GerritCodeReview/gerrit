@@ -329,14 +329,13 @@ export class GrDiffRow extends LitElement {
     const extras: string[] = [];
     if (isStartOfRange) extras.push('startOfRange');
     const date = new Date(commit.time * 1000).toLocaleDateString();
-    const shortName = commit.author.split(' ')[0];
     const url = `${getBaseUrl()}/q/${commit.id}`;
 
     // td.blame has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
     return html`<span class=${extras.join(' ')}
-        ><a href=${url} class="blameDate">${date}</a
-        ><span class="blameAuthor"> ${shortName}</span
+        ><a href=${url} class="blameCommit">${commit.id.substring(0, 7)}</a
+        > <span class="blameAuthor">${commit.author}</span
         ><gr-hovercard>
           <span class="blameHoverCard">
             Commit ${commit.id}<br />

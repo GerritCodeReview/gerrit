@@ -618,9 +618,77 @@ suite('gr-diff-host tests', () => {
         )
       );
       assert.isFalse(showAlertStub.called);
-      assert.equal(element.blame, mockBlame);
+      assert.deepEqual(element.blame, mockBlame);
       assert.isTrue(isBlameLoadedStub.calledOnce);
       assert.isTrue(isBlameLoadedStub.args[0][0].detail.value);
+    });
+  });
+
+  test('loadBlame against patchset blames base patchset at old path', async () => {
+    const getBlameStub = stubRestApi('getBlame').resolves([createBlame()]);
+    const changeNum = 42 as NumericChangeId;
+    element.changeNum = changeNum;
+    element.patchRange = createPatchRange(2, 3);
+    element.path = 'foo/new.baz';
+    element.file = {path: 'foo/new.baz', basePath: 'foo/old.baz'};
+    await element.updateComplete;
+
+    await element.loadBlame();
+
+    assert.isTrue(
+      getBlameStub.calledWithExactly(
+        changeNum,
+        2 as BasePatchSetNum,
+        'foo/old.baz',
+        false
+      )
+    );
+  });
+
+  suite('loadBlame with lines from this change', () => {
+    const upstream: BlameInfo = {...createBlame(), id: 'upstream-sha'};
+    const ownPatchset: BlameInfo = {...createBlame(), id: 'ps2-sha'};
+    let showAlertStub: sinon.SinonStub;
+
+    setup(async () => {
+      showAlertStub = sinon.stub();
+      element.addEventListener('show-alert', showAlertStub);
+      element.changeNum = 42 as NumericChangeId;
+      element.change = {
+        ...createChange(),
+        revisions: {
+          'ps1-sha': createRevision(1),
+          'ps2-sha': createRevision(2),
+          'ps3-sha': createRevision(3),
+        },
+      };
+      element.patchRange = createPatchRange(2, 3);
+      element.path = 'foo/bar.baz';
+      await element.updateComplete;
+    });
+
+    test('omits blame of the change own patchsets', async () => {
+      stubRestApi('getBlame').resolves([upstream, ownPatchset]);
+
+      await element.loadBlame();
+
+      assert.deepEqual(element.blame, [upstream]);
+      assert.isFalse(showAlertStub.called);
+    });
+
+    test('rejects with alert if all lines come from the change', async () => {
+      stubRestApi('getBlame').resolves([ownPatchset]);
+
+      let rejected = false;
+      await element.loadBlame().catch(() => (rejected = true));
+
+      assert.isTrue(rejected);
+      assert.isNull(element.blame);
+      assert.isTrue(showAlertStub.calledOnce);
+      assert.equal(
+        showAlertStub.args[0][0].detail.message,
+        'All lines on the left side were introduced by this change.'
+      );
     });
   });
 

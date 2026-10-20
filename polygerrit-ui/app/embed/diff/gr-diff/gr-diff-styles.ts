@@ -234,10 +234,17 @@ export const grDiffRowStyles = css`
   gr-diff-row td.blame > span.startOfRange {
     opacity: 1;
   }
-  gr-diff-row td.blame .blameDate {
+  gr-diff-row td.blame .blameCommit {
     font-family: var(--monospace-font-family);
     color: var(--link-color);
     text-decoration: none;
+  }
+  gr-diff-row td.blame .blameAuthor {
+    display: inline-block;
+    max-width: 20ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
   }
   gr-diff-row td.content div.contentText gr-diff-text:empty:after,
   gr-diff-row td.content div.contentText:empty:after {

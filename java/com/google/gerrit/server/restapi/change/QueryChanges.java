@@ -195,6 +195,8 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   private List<List<ChangeInfo>> query()
       throws BadRequestException, QueryParseException, PermissionBackendException {
     ChangeQueryProcessor queryProcessor = queryProcessorProvider.get();
+    queryProcessor.setIncludeIndexedDependencies(
+        options.contains(ListChangesOption.INDEXED_DEPENDENCIES));
     if (queryProcessor.isDisabled()) {
       throw new QueryParseException("query disabled");
     }

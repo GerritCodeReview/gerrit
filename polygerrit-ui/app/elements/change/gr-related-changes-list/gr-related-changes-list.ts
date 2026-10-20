@@ -12,7 +12,7 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map.js';
-import {css, html, LitElement, TemplateResult} from 'lit';
+import {css, html, LitElement, PropertyValues, TemplateResult} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {getAppContext} from '../../../services/app-context';
@@ -42,6 +42,8 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {createDefaultPreferences} from '../../../constants/constants';
 import '../../shared/gr-change-thread/gr-change-thread';
+import {ChangeDependencyChange} from '../../../api/change-dependencies';
+import {ChangeDependenciesController} from '../../lit/change-dependencies-controller';
 import {threadRelatedChanges} from '../../../utils/change-thread-util';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
@@ -104,6 +106,36 @@ export class GrRelatedChangesList extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   @state() private threadedChanges = false;
+
+  private dependencyChanges: ChangeDependencyChange[] = [];
+
+  private readonly dependencies = new ChangeDependenciesController(
+    this,
+    'related-changes',
+    () => this.dependencyChanges,
+    () => this.threadedChanges
+  );
+
+  override willUpdate(changed: PropertyValues) {
+    if (changed.has('relatedChanges') || changed.has('change')) {
+      this.dependencyChanges = this.relatedChanges
+        .filter(
+          change =>
+            change._change_number !== undefined &&
+            change._revision_number !== undefined &&
+            change._revision_number === change._current_revision_number
+        )
+        .map(change => {
+          return {
+            _number: change._change_number!,
+            project: change.project,
+            branch:
+              this.change?.branch ?? ('' as ChangeDependencyChange['branch']),
+            current_revision: change.commit.commit,
+          };
+        });
+    }
+  }
 
   constructor() {
     super();
@@ -319,6 +351,7 @@ export class GrRelatedChangesList extends LitElement {
     }
     const rows = threadRelatedChanges(
       this.relatedChanges,
+      this.dependencies.edges,
       this.threadedChanges
     );
     const relatedChangesMarkersPredicate = this.markersPredicateFactory(

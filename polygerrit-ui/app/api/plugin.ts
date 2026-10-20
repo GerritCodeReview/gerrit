@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {ChangeDependenciesPluginApi} from './change-dependencies';
 import {AdminPluginApi} from './admin';
 import {AnnotationPluginApi} from './annotation';
 import {ChangeReplyPluginApi} from './change-reply';
@@ -73,6 +74,7 @@ export declare interface PluginApi {
   changeActions(): ChangeActionsPluginApi;
   changeReply(): ChangeReplyPluginApi;
   changeUpdates(): ChangeUpdatesPluginApi;
+  changeDependencies(): ChangeDependenciesPluginApi;
   checks(): ChecksPluginApi;
   flows(): FlowsPluginApi;
   suggestions(): SuggestionsPluginApi;

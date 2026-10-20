@@ -133,3 +133,8 @@ export function isMarkdownDiff(path?: string, diff?: DiffInfo): boolean {
     !!contentTypeB?.startsWith('text/markdown')
   );
 }
+
+export function computeBlameToggleLabel(isLoading: boolean, isLoaded: boolean) {
+  if (isLoading) return 'Loading blame ...';
+  return isLoaded ? 'Hide Blame' : 'Show Blame';
+}

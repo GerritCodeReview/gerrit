@@ -4,7 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfo} from './rest-api';
+import {ChangeInfo, FlowInfo, FlowInput} from './rest-api';
+import {ErrorCallback} from './rest';
+
+/**
+ * Snapshot of Gerrit's Flows state for the active change.
+ */
+export declare interface FlowsStateInfo {
+  isEnabled: boolean;
+  flows: FlowInfo[];
+  loading: boolean;
+  errorMessage?: string;
+}
 
 /**
  * Information about a custom condition that can be used in a flow.
@@ -85,4 +96,49 @@ export declare interface FlowsPluginApi {
    * You cannot unregister.
    */
   registerAutosubmitProvider(provider: FlowsAutosubmitProvider): void;
+
+  /**
+   * Returns the current flows state for the active change, if available.
+   */
+  getState(): FlowsStateInfo | undefined;
+
+  /**
+   * Subscribes to changes in the active change's flows state.
+   * Returns an unsubscribe function.
+   */
+  onStateChanged(callback: (state: FlowsStateInfo) => void): () => void;
+
+  /**
+   * Creates a flow on the active change and triggers a reload of `FlowsModel`
+   * when `reload` is true (default). Stage conditions that omit the change URL
+   * prefix are automatically prefixed with `<getChangePrefix()> is `.
+   * Rejects by default when flows are disabled/unloaded or on HTTP error.
+   */
+  createFlow(
+    flowInput: FlowInput,
+    errFn?: ErrorCallback,
+    reload?: boolean
+  ): Promise<FlowInfo | undefined>;
+
+  /**
+   * Deletes a flow on the active change and triggers a reload of `FlowsModel`
+   * when `reload` is true (default).
+   * Rejects by default when flows are disabled/unloaded or on HTTP error.
+   */
+  deleteFlow(
+    flowId: string,
+    errFn?: ErrorCallback,
+    reload?: boolean
+  ): Promise<void>;
+
+  /**
+   * Reloads flows for the active change in `FlowsModel`.
+   */
+  reload(): void;
+
+  /**
+   * Returns the canonical change URL prefix (e.g. `https://example.com/c/project/+/123`)
+   * used in Gerrit Flow stage conditions.
+   */
+  getChangePrefix(change?: Pick<ChangeInfo, 'project' | '_number'>): string;
 }

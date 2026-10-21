@@ -207,7 +207,8 @@ export function createAppDependencies(
       () =>
         new PluginLoader(
           appContext.reportingService,
-          appContext.restApiService
+          appContext.restApiService,
+          () => resolver(flowsModelToken)
         ),
     ],
     [

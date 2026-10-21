@@ -47,6 +47,7 @@ import {
   computeLatestPatchNum,
   computeLatestPatchNumWithEdit,
   findEdit,
+  isMergeParent,
   sortRevisions,
 } from '../../utils/patch-set-util';
 import {
@@ -301,6 +302,35 @@ export function fillFromSubmittabilityInfo(
     submittable: submittabilityInfo.submittable,
     submit_requirements: submittabilityInfo.submitRequirements,
   };
+}
+
+export function fillFromRevisionParents(
+  change?: ParsedChangeInfo,
+  changeWithParents?: ChangeInfo | ParsedChangeInfo
+): ParsedChangeInfo | undefined {
+  if (
+    !change?.revisions ||
+    !changeWithParents?.revisions ||
+    changeWithParents._number !== change._number
+  ) {
+    return change;
+  }
+  const revisions = {...change.revisions};
+  let updated = false;
+  for (const [revId, rev] of Object.entries(changeWithParents.revisions)) {
+    if (
+      revisions[revId] &&
+      revisions[revId].parents_data === undefined &&
+      rev.parents_data !== undefined
+    ) {
+      revisions[revId] = {
+        ...revisions[revId],
+        parents_data: rev.parents_data,
+      };
+      updated = true;
+    }
+  }
+  return updated ? {...change, revisions} : change;
 }
 
 /**
@@ -646,6 +676,7 @@ export class ChangeModel extends Model<ChangeState> {
       this.loadSubmittabilityInfo(),
       this.loadMergeable(),
       this.loadReviewedFiles(),
+      this.loadRevisionParents(),
       this.setOverviewTitle(),
       this.setDiffTitle(),
       this.setEditTitle(),
@@ -818,6 +849,78 @@ export class ChangeModel extends Model<ChangeState> {
         })
       )
       .subscribe();
+  }
+
+  private loadRevisionParents() {
+    const isPatchSetBase$ = select(
+      this.basePatchNum$,
+      bp => !!bp && bp !== PARENT && !isMergeParent(bp)
+    );
+    const fetchRequest$ = select(
+      combineLatest([this.change$, isPatchSetBase$, this.submittabilityInfo$]),
+      ([change, isPatchSetBase, submittabilityInfo]) => {
+        if (!change?._number || !change.revisions) {
+          return undefined;
+        }
+        const needsAllRevisions =
+          isPatchSetBase &&
+          Object.values(change.revisions).some(
+            rev => rev._number !== EDIT && rev.parents_data === undefined
+          );
+        if (needsAllRevisions) {
+          return `${change._number}:ALL`;
+        }
+        const currentRevId = change.current_revision;
+        const currentRev = currentRevId
+          ? change.revisions[currentRevId]
+          : undefined;
+        const isSubmittable =
+          submittabilityInfo?.changeNum === change._number &&
+          !!submittabilityInfo.submittable;
+        const needsCurrentRevision =
+          change.status === ChangeStatus.NEW &&
+          !change.work_in_progress &&
+          isSubmittable &&
+          currentRev !== undefined &&
+          currentRev._number !== EDIT &&
+          currentRev.parents_data === undefined;
+        if (needsCurrentRevision) {
+          return `${change._number}:CURRENT:${currentRevId}`;
+        }
+        return undefined;
+      }
+    );
+    return fetchRequest$
+      .pipe(
+        switchMap(fetchRequest => {
+          if (!fetchRequest) {
+            return of(undefined);
+          }
+          const [changeNumStr, scope] = fetchRequest.split(':');
+          const changeNum = Number(changeNumStr) as NumericChangeId;
+          const optionsHex = listChangesOptionsToHex(
+            scope === 'ALL'
+              ? ListChangesOption.ALL_REVISIONS
+              : ListChangesOption.CURRENT_REVISION,
+            ListChangesOption.PARENTS,
+            ListChangesOption.SKIP_DIFFSTAT
+          );
+          return from(
+            this.restApiService.getChange(changeNum, undefined, optionsHex)
+          ).pipe(catchError(() => of(undefined)));
+        })
+      )
+      .subscribe(changeWithParents => {
+        if (!changeWithParents) return;
+        const currentChange = this.getState().change;
+        const change = fillFromRevisionParents(
+          currentChange,
+          changeWithParents
+        );
+        if (change !== currentChange) {
+          this.updateState({change});
+        }
+      });
   }
 
   private loadMergeable() {
@@ -1190,6 +1293,7 @@ export class ChangeModel extends Model<ChangeState> {
     }
     change = updateRevisionsWithCommitShas(change);
     change = fillFromSubmittabilityInfo(change, this.submittabilityInfo);
+    change = fillFromRevisionParents(change, this.change);
     this.updateState({
       change,
       loadingStatus: LoadingStatus.LOADED,

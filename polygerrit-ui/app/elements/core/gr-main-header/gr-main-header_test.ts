@@ -7,6 +7,7 @@ import '../../../test/common-test-setup';
 import {
   isHidden,
   query,
+  queryAndAssert,
   stubElement,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -696,5 +697,52 @@ suite('gr-main-header tests', () => {
     assert.equal(element.registerURL, '');
     assert.equal(element.registerText, 'Sign up');
     assert.isTrue(isHidden(query(element, '.registerDiv')));
+  });
+
+  test('sets --default-header-icon with base url', async () => {
+    assert.equal(
+      document.documentElement.style.getPropertyValue('--default-header-icon'),
+      'url("/diffy.png")'
+    );
+
+    const originalCanonicalPath = window.CANONICAL_PATH;
+    window.CANONICAL_PATH = '/r';
+    try {
+      await fixture<GrMainHeader>(html`<gr-main-header></gr-main-header>`);
+      assert.equal(
+        document.documentElement.style.getPropertyValue(
+          '--default-header-icon'
+        ),
+        'url("/r/diffy.png")'
+      );
+    } finally {
+      window.CANONICAL_PATH = originalCanonicalPath;
+    }
+  });
+
+  test('allows overriding --header-icon via theme stylesheet', () => {
+    const titleText = queryAndAssert(element, '.titleText');
+    assert.include(
+      getComputedStyle(titleText, '::before').backgroundImage,
+      '/diffy.png'
+    );
+
+    const customThemeEl = document.createElement('style');
+    customThemeEl.textContent = 'html { --header-icon: url("/custom.png"); }';
+    document.head.appendChild(customThemeEl);
+    try {
+      assert.include(
+        getComputedStyle(titleText, '::before').backgroundImage,
+        '/custom.png'
+      );
+
+      customThemeEl.textContent = 'html { --header-icon: none; }';
+      assert.equal(
+        getComputedStyle(titleText, '::before').backgroundImage,
+        'none'
+      );
+    } finally {
+      customThemeEl.remove();
+    }
   });
 });

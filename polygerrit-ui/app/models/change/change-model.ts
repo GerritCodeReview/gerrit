@@ -47,6 +47,7 @@ import {
   computeLatestPatchNum,
   computeLatestPatchNumWithEdit,
   findEdit,
+  isMergeParent,
   sortRevisions,
 } from '../../utils/patch-set-util';
 import {
@@ -301,6 +302,31 @@ export function fillFromSubmittabilityInfo(
     submittable: submittabilityInfo.submittable,
     submit_requirements: submittabilityInfo.submitRequirements,
   };
+}
+
+export function fillFromRevisionParents(
+  change?: ParsedChangeInfo,
+  changeWithParents?: ChangeInfo
+): ParsedChangeInfo | undefined {
+  if (
+    !change?.revisions ||
+    !changeWithParents?.revisions ||
+    changeWithParents._number !== change._number
+  ) {
+    return change;
+  }
+  const revisions = {...change.revisions};
+  let updated = false;
+  for (const [revId, rev] of Object.entries(changeWithParents.revisions)) {
+    if (revisions[revId] && rev.parents_data !== undefined) {
+      revisions[revId] = {
+        ...revisions[revId],
+        parents_data: rev.parents_data,
+      };
+      updated = true;
+    }
+  }
+  return updated ? {...change, revisions} : change;
 }
 
 /**
@@ -646,6 +672,7 @@ export class ChangeModel extends Model<ChangeState> {
       this.loadSubmittabilityInfo(),
       this.loadMergeable(),
       this.loadReviewedFiles(),
+      this.loadRevisionParents(),
       this.setOverviewTitle(),
       this.setDiffTitle(),
       this.setEditTitle(),
@@ -818,6 +845,49 @@ export class ChangeModel extends Model<ChangeState> {
         })
       )
       .subscribe();
+  }
+
+  private loadRevisionParents() {
+    return combineLatest([this.changeNum$, this.basePatchNum$])
+      .pipe(
+        switchMap(([changeNum, basePatchNum]) => {
+          const change = this.getState().change;
+          if (
+            !changeNum ||
+            !change?.revisions ||
+            !basePatchNum ||
+            basePatchNum === PARENT ||
+            isMergeParent(basePatchNum)
+          ) {
+            return of(undefined);
+          }
+          const hasMissingParentsData = Object.values(change.revisions).some(
+            rev => rev._number !== EDIT && rev.parents_data === undefined
+          );
+          if (!hasMissingParentsData) {
+            return of(undefined);
+          }
+          const optionsHex = listChangesOptionsToHex(
+            ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.PARENTS,
+            ListChangesOption.SKIP_DIFFSTAT
+          );
+          return from(
+            this.restApiService.getChange(changeNum, undefined, optionsHex)
+          );
+        })
+      )
+      .subscribe(changeWithParents => {
+        if (!changeWithParents) return;
+        const currentChange = this.getState().change;
+        const change = fillFromRevisionParents(
+          currentChange,
+          changeWithParents
+        );
+        if (change !== currentChange) {
+          this.updateState({change});
+        }
+      });
   }
 
   private loadMergeable() {

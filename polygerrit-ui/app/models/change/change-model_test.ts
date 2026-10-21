@@ -32,10 +32,12 @@ import {
 import {
   AUTO_MERGE,
   BasePatchSetNum,
+  BranchName,
   ChangeInfo,
   CommitId,
   EDIT,
   FIRST_PARENT,
+  ListChangesOption,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -69,6 +71,7 @@ import {SinonStub} from 'sinon';
 import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {ShowChangeDetail} from '../../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {SubmittabilityInfo} from '../../services/gr-rest-api/gr-rest-api';
+import {listChangesOptionsToHex} from '../../utils/change-util';
 
 suite('updateRevisionsWithCommitShas() tests', () => {
   test('undefined edit', async () => {
@@ -896,5 +899,104 @@ suite('change model tests', () => {
     changeViewModel.updateState({patchNum: 1 as PatchSetNumber});
     changeModel.updateState({change: knownChange});
     await waitUntilObserved(changeModel.latestRevision$, x => x?._number === 2);
+  });
+
+  suite('loadRevisionParents', () => {
+    test('does not fetch parents_data when basePatchNum is PARENT', async () => {
+      stubRestApi('getChangeDetail').resolves(knownChange);
+      const getChangeStub = stubRestApi('getChange').resolves(undefined);
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: knownChange._number,
+        basePatchNum: PARENT,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      assert.isFalse(getChangeStub.called);
+    });
+
+    test('lazily fetches parents_data when switching basePatchNum to a patchset', async () => {
+      stubRestApi('getChangeDetail').resolves(knownChange);
+      const parentsData1 = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent1' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ];
+      const parentsData2 = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent2' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ];
+      const getChangeStub = stubRestApi('getChange').resolves({
+        ...knownChange,
+        revisions: {
+          sha1: {...knownChange.revisions['sha1'], parents_data: parentsData1},
+          sha2: {...knownChange.revisions['sha2'], parents_data: parentsData2},
+        },
+      });
+
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: knownChange._number,
+        basePatchNum: PARENT,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      assert.isFalse(getChangeStub.called);
+
+      // Switch basePatchNum to Patchset 1 in SPA mode.
+      changeViewModel.updateState({basePatchNum: 1 as BasePatchSetNum});
+
+      await waitUntilObserved(
+        changeModel.baseRevision$,
+        rev => rev?.parents_data !== undefined
+      );
+      await waitUntilObserved(
+        changeModel.revision$,
+        rev => rev?.parents_data !== undefined
+      );
+      assert.isTrue(getChangeStub.calledOnce);
+      assert.deepEqual(getChangeStub.lastCall.args, [
+        knownChange._number,
+        undefined,
+        listChangesOptionsToHex(
+          ListChangesOption.ALL_REVISIONS,
+          ListChangesOption.PARENTS,
+          ListChangesOption.SKIP_DIFFSTAT
+        ),
+      ]);
+      assert.equal(changeModel.getState().loadingStatus, LoadingStatus.LOADED);
+    });
+
+    test('does not fetch parents_data when already present on revisions', async () => {
+      const getChangeStub = stubRestApi('getChange').resolves(undefined);
+      const parentsData = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent1' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ];
+      const changeWithParents: ParsedChangeInfo = {
+        ...knownChange,
+        revisions: {
+          sha1: {...knownChange.revisions['sha1'], parents_data: parentsData},
+          sha2: {...knownChange.revisions['sha2'], parents_data: parentsData},
+        },
+      };
+      stubRestApi('getChangeDetail').resolves(changeWithParents);
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: knownChange._number,
+        basePatchNum: 1 as BasePatchSetNum,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      assert.isFalse(getChangeStub.called);
+    });
   });
 });

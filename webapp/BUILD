@@ -10,3 +10,8 @@ genrule2(
     cmd = "cd webapp; zip -qr $$ROOT/$@ .",
     visibility = ["//visibility:public"],
 )
+
+exports_files([
+    "diffy.png",
+    "gerrit_icon.png",
+])

@@ -1202,6 +1202,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (query && query.length > 0) {
       params.q = query;
     }
+
     const request = {
       url: '/changes/',
       params: {...params, 'allow-incomplete-results': true},
@@ -1385,7 +1386,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const config = await this.getConfig(false);
 
     // This list MUST be kept in sync with
-    // ChangeIT#changeDetailsDoesNotRequireIndex and IndexPreloadingUtil#CHANGE_DETAIL_OPTIONS
+    // ChangeIT#changeDetailsDoesNotRequireIndex and IndexPreloadingUtil#CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS
     const options = [
       ListChangesOption.ALL_COMMITS,
       ListChangesOption.ALL_REVISIONS,
@@ -1397,7 +1398,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.REVIEWER_UPDATES,
       ListChangesOption.WEB_LINKS,
       ListChangesOption.SKIP_DIFFSTAT,
-      ListChangesOption.PARENTS,
     ];
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);

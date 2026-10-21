@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -25,7 +24,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.change.FileInfoJson;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.FileResource;
@@ -45,16 +43,11 @@ import org.kohsuke.args4j.Option;
 public class FilesInCommitCollection implements ChildCollection<CommitResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
   private final Provider<ListFiles> list;
-  private final GitRepositoryManager repoManager;
 
   @Inject
-  FilesInCommitCollection(
-      DynamicMap<RestView<FileResource>> views,
-      Provider<ListFiles> list,
-      GitRepositoryManager repoManager) {
+  FilesInCommitCollection(DynamicMap<RestView<FileResource>> views, Provider<ListFiles> list) {
     this.views = views;
     this.list = list;
-    this.repoManager = repoManager;
   }
 
   @Override
@@ -65,10 +58,7 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
   @Override
   public FileResource parse(CommitResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
-    if (Patch.isMagic(id.get())) {
-      return new FileResource(parent.getProjectState(), parent.getCommit(), id.get());
-    }
-    return FileResource.create(repoManager, parent.getProjectState(), parent.getCommit(), id.get());
+    return new FileResource(parent.getProjectState(), parent.getCommit(), id.get());
   }
 
   @Override

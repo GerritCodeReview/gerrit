@@ -84,10 +84,81 @@ suite('flows-model tests', () => {
     await waitUntil(() => flowsModel.getState().isEnabled);
 
     const flowInput = {stage_expressions: []};
-    await flowsModel.createFlow(flowInput);
+    const created = await flowsModel.createFlow(flowInput);
 
     assert.isTrue(createFlowStub.calledWith(123 as NumericChangeId, flowInput));
+    assert.equal(created?.uuid, 'new-flow');
     assert.isTrue(reloadSpy.called);
+  });
+
+  test('createFlow awaits enabled$ resolution and respects reload=false', async () => {
+    stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
+    stubRestApi('listFlows').resolves([]);
+    const createFlowStub = stubRestApi('createFlow').resolves(
+      createFlow({uuid: 'new-flow', stages: []})
+    );
+    const reloadSpy = sinon.spy(flowsModel, 'reload');
+
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+    });
+
+    const flowInput = {
+      stage_expressions: [
+        {
+          condition: 'wait 1d',
+          action: {name: 'add-reviewer', parameters: ['human@example.com']},
+        },
+      ],
+    };
+    const created = await flowsModel.createFlow(flowInput, undefined, false);
+
+    assert.equal(created?.uuid, 'new-flow');
+    assert.isFalse(reloadSpy.called);
+    assert.deepEqual(createFlowStub.firstCall.args[1], flowInput);
+  });
+
+  test('deleteFlow invokes errFn and skips reload on non-2xx response', async () => {
+    stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
+    stubRestApi('listFlows').resolves([]);
+    stubRestApi('deleteFlow').resolves(
+      new Response('Not found', {status: 404})
+    );
+    const reloadSpy = sinon.spy(flowsModel, 'reload');
+    const errSpy = sinon.spy();
+
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+    });
+
+    await flowsModel.deleteFlow('flow1', errSpy);
+
+    assert.isTrue(errSpy.calledOnce);
+    assert.isFalse(reloadSpy.called);
+  });
+
+  test('createFlow resolves undefined if changeNum is cleared while enabled$ is pending', async () => {
+    stubRestApi('getIfFlowsIsEnabled').returns(new Promise(() => {}));
+    const createFlowStub = stubRestApi('createFlow');
+    const errSpy = sinon.spy();
+
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+    });
+
+    const createPromise = flowsModel.createFlow(
+      {stage_expressions: []},
+      errSpy
+    );
+    changeModel.updateState({change: undefined});
+
+    const created = await createPromise;
+    assert.isUndefined(created);
+    assert.isTrue(errSpy.calledOnce);
+    assert.isFalse(createFlowStub.called);
   });
 
   test('createAutosubmitFlow uses default values', async () => {
@@ -97,10 +168,11 @@ suite('flows-model tests', () => {
       createFlow({uuid: 'auto-flow', stages: []})
     );
 
-    changeModel.updateStateChange({
+    const change = {
       ...createParsedChange(),
       _number: 123 as NumericChangeId,
-    });
+    };
+    changeModel.updateStateChange(change);
     await waitUntil(() => flowsModel.getState().isEnabled);
 
     await flowsModel.createAutosubmitFlow();
@@ -111,7 +183,7 @@ suite('flows-model tests', () => {
     assert.deepEqual(args[1], {
       stage_expressions: [
         {
-          condition: getSubmitCondition(),
+          condition: getSubmitCondition(change),
           action: {name: SUBMIT_ACTION_NAME},
         },
       ],
@@ -137,10 +209,11 @@ suite('flows-model tests', () => {
       provider,
     });
 
-    changeModel.updateStateChange({
+    const change = {
       ...createParsedChange(),
       _number: 123 as NumericChangeId,
-    });
+    };
+    changeModel.updateStateChange(change);
     await waitUntil(() => flowsModel.getState().isEnabled);
 
     await flowsModel.createAutosubmitFlow();
@@ -150,7 +223,7 @@ suite('flows-model tests', () => {
     assert.deepEqual(args[1], {
       stage_expressions: [
         {
-          condition: getChangePrefix() + ' is custom condition',
+          condition: getChangePrefix(change) + ' is custom condition',
           action: {name: 'custom action'},
         },
       ],
@@ -158,6 +231,10 @@ suite('flows-model tests', () => {
   });
 
   test('hasAutosubmitFlowAlready checks flows', async () => {
+    const change = {
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+    };
     stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
     const listFlowsStub = stubRestApi('listFlows').resolves([
       createFlow({
@@ -165,7 +242,7 @@ suite('flows-model tests', () => {
         stages: [
           {
             expression: {
-              condition: getSubmitCondition(),
+              condition: getSubmitCondition(change),
               action: {name: SUBMIT_ACTION_NAME},
             },
             state: FlowStageState.DONE,
@@ -174,10 +251,7 @@ suite('flows-model tests', () => {
       }),
     ]);
 
-    changeModel.updateStateChange({
-      ...createParsedChange(),
-      _number: 123 as NumericChangeId,
-    });
+    changeModel.updateStateChange(change);
     await waitUntil(() => flowsModel.getState().flows.length > 0);
 
     assert.isTrue(flowsModel.hasAutosubmitFlowAlready());

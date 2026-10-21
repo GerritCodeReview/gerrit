@@ -343,21 +343,25 @@ export function getParentCommit(
   rev?: RevisionInfo | EditRevisionInfo,
   index?: number
 ) {
-  const parents = rev?.parents_data ?? [];
-  const parent = parents[index ?? 0];
-  if (!parent) return '';
-  return shorten(parent.commit_id) ?? '';
+  const idx = index ?? 0;
+  const parentDataCommit = rev?.parents_data?.[idx]?.commit_id;
+  const commitParentCommit = rev?.commit?.parents?.[idx]?.commit;
+  return shorten(parentDataCommit ?? commitParentCommit) ?? '';
 }
 
 export function getParentInfoString(
   rev?: RevisionInfo | EditRevisionInfo,
   index?: number
 ) {
+  const idx = index ?? 0;
   const parents = rev?.parents_data ?? [];
-  const parent = parents[index ?? 0];
-  if (!parent || parent.is_merged_in_target_branch) return '';
+  const parent = parents[idx];
+  if (!parent) {
+    return idx > 0 && rev?.commit?.parents?.[idx] ? 'Other branch' : '';
+  }
+  if (parent.is_merged_in_target_branch) return '';
 
-  if (index === 0) {
+  if (idx === 0) {
     if (parent.change_number) {
       return `Patchset ${parent.patch_set_number} of Change ${parent.change_number}`;
     } else {

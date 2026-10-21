@@ -1488,6 +1488,9 @@ suite('gr-rest-api-service-impl tests', () => {
         assert.isNotOk(
           parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES)
         );
+        assert.isNotOk(
+          parseInt(options, 16) & (1 << ListChangesOption.PARENTS)
+        );
       });
 
       test('signed pushes enabled', async () => {

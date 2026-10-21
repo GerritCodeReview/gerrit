@@ -495,4 +495,102 @@ suite('gr-account-list tests', () => {
       assert.isTrue(removeSpy.calledTwice);
     });
   });
+
+  suite('drag and drop between gr-account-list instances', () => {
+    let sourceList: GrAccountList;
+    let targetList: GrAccountList;
+
+    setup(async () => {
+      sourceList = await fixture(
+        html`<gr-account-list
+          id="reviewers"
+          .chipDraggable=${true}
+        ></gr-account-list>`
+      );
+      targetList = await fixture(
+        html`<gr-account-list
+          id="ccs"
+          .chipDraggable=${true}
+        ></gr-account-list>`
+      );
+      sourceList.accounts = [existingAccount1, existingAccount2];
+      targetList.accounts = [];
+      await sourceList.updateComplete;
+      await targetList.updateComplete;
+    });
+
+    test('dragging a chip from sourceList to targetList moves account and fires events', async () => {
+      const sourceChangedSpy = sinon.spy();
+      const targetChangedSpy = sinon.spy();
+      const alertSpy = sinon.spy();
+      sourceList.addEventListener('accounts-changed', sourceChangedSpy);
+      targetList.addEventListener('accounts-changed', targetChangedSpy);
+      targetList.addEventListener('show-alert', alertSpy);
+
+      const chip = sourceList.accountChips[0];
+      chip.dispatchEvent(
+        new DragEvent('dragstart', {bubbles: true, cancelable: true})
+      );
+
+      targetList.dispatchEvent(
+        new DragEvent('dragover', {bubbles: true, cancelable: true})
+      );
+      assert.isTrue(targetList.classList.contains('drag-over'));
+
+      targetList.dispatchEvent(
+        new DragEvent('drop', {bubbles: true, cancelable: true})
+      );
+      await sourceList.updateComplete;
+      await targetList.updateComplete;
+
+      assert.isFalse(targetList.classList.contains('drag-over'));
+      assert.deepEqual(sourceList.accounts, [existingAccount2]);
+      assert.deepEqual(targetList.accounts, [existingAccount1]);
+      assert.isTrue(sourceChangedSpy.calledOnce);
+      assert.isTrue(targetChangedSpy.calledOnce);
+      assert.isTrue(alertSpy.calledOnce);
+    });
+
+    test('dropping onto the same list is a no-op', async () => {
+      const chip = sourceList.accountChips[0];
+      chip.dispatchEvent(
+        new DragEvent('dragstart', {bubbles: true, cancelable: true})
+      );
+
+      sourceList.dispatchEvent(
+        new DragEvent('dragover', {bubbles: true, cancelable: true})
+      );
+      assert.isFalse(sourceList.classList.contains('drag-over'));
+
+      sourceList.dispatchEvent(
+        new DragEvent('drop', {bubbles: true, cancelable: true})
+      );
+      await sourceList.updateComplete;
+
+      assert.deepEqual(sourceList.accounts, [
+        existingAccount1,
+        existingAccount2,
+      ]);
+    });
+
+    test('dropping onto a targetList whose filter rejects the account does not move it', async () => {
+      targetList.filter = () => false;
+
+      const chip = sourceList.accountChips[0];
+      chip.dispatchEvent(
+        new DragEvent('dragstart', {bubbles: true, cancelable: true})
+      );
+      targetList.dispatchEvent(
+        new DragEvent('drop', {bubbles: true, cancelable: true})
+      );
+      await sourceList.updateComplete;
+      await targetList.updateComplete;
+
+      assert.deepEqual(sourceList.accounts, [
+        existingAccount1,
+        existingAccount2,
+      ]);
+      assert.deepEqual(targetList.accounts, []);
+    });
+  });
 });

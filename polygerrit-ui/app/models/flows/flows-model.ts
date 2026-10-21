@@ -6,8 +6,14 @@
 import {BehaviorSubject, combineLatest, from, Observable, of} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ChangeModel} from '../change/change-model';
+import {
+  changeIsAbandoned,
+  changeIsMerged,
+  getCurrentRevision,
+} from '../../utils/change-util';
 import {fireServerError} from '../../utils/event-util';
-import {FlowInfo, FlowInput} from '../../api/rest-api';
+import {buildFlowCondition, getChangePrefix} from '../../utils/flows-util';
+import {ChangeInfo, FlowInfo, FlowInput} from '../../api/rest-api';
 import {ErrorCallback} from '../../api/rest';
 import {Model} from '../base/model';
 import {define} from '../dependency';
@@ -18,6 +24,8 @@ import {getAppContext} from '../../services/app-context';
 import {FlowsAutosubmitProvider, FlowsProvider} from '../../api/flows';
 import {select} from '../../utils/observable-util';
 import {isDefined} from '../../types/types';
+
+export {buildFlowCondition, getChangePrefix};
 
 export interface FlowsState {
   isEnabled: boolean;
@@ -32,26 +40,8 @@ export const flowsModelToken = define<FlowsModel>('flows-model');
 
 export const SUBMIT_ACTION_NAME = 'submit';
 
-/**
- * Matches the base change path prefix up to the change number (e.g. `/c/project/+/123`),
- * ignoring any trailing patchsets, diff ranges, comment IDs, or file paths.
- *
- * @see RoutePattern.CHANGE in `gr-router.ts` for corresponding route pattern.
- */
-const CHANGE_PREFIX_PATTERN = /^(.*?\/(?:c\/.+?\/\+)\/\d+)/;
-
 export function getSubmitCondition() {
-  return getChangePrefix() + ' is is:submittable';
-}
-
-/**
- * Returns the change URL prefix (e.g. `http://host/c/project/+/123`), stripping
- * patchset numbers, diff ranges, comment IDs, and file paths from pathname.
- */
-export function getChangePrefix() {
-  const match = window.location.pathname.match(CHANGE_PREFIX_PATTERN);
-  const pathname = match ? match[1] : window.location.pathname;
-  return window.location.origin + pathname;
+  return buildFlowCondition('is:submittable');
 }
 
 export class FlowsModel extends Model<FlowsState> {
@@ -78,6 +68,10 @@ export class FlowsModel extends Model<FlowsState> {
   );
 
   readonly enabled$: Observable<boolean>;
+
+  readonly canCreateFlow$: Observable<boolean>;
+
+  private canCreate = false;
 
   private readonly reload$ = new BehaviorSubject<void>(undefined);
 
@@ -116,6 +110,36 @@ export class FlowsModel extends Model<FlowsState> {
         );
       }),
       shareReplay(1)
+    );
+
+    this.canCreateFlow$ = select(
+      combineLatest([
+        select(this.state$, s => s.isEnabled),
+        this.changeModel.change$,
+        this.changeModel.isOwner$,
+      ]),
+      ([isEnabled, change, isOwner]) => {
+        if (
+          !isEnabled ||
+          !change ||
+          changeIsMerged(change) ||
+          changeIsAbandoned(change) ||
+          !isOwner
+        ) {
+          return false;
+        }
+        const latestUploader = getCurrentRevision(change)?.uploader;
+        return (
+          !latestUploader ||
+          latestUploader._account_id === change.owner?._account_id
+        );
+      }
+    );
+
+    this.subscriptions.push(
+      this.canCreateFlow$.subscribe(canCreate => {
+        this.canCreate = canCreate;
+      })
     );
 
     this.subscriptions.push(
@@ -176,6 +200,24 @@ export class FlowsModel extends Model<FlowsState> {
     this.reload$.next();
   }
 
+  canCreateFlow(): boolean {
+    return this.canCreate;
+  }
+
+  getChangePrefix(change?: Pick<ChangeInfo, 'project' | '_number'>): string {
+    return getChangePrefix(change ?? this.changeModel.getState().change);
+  }
+
+  buildCondition(
+    query: string,
+    change?: Pick<ChangeInfo, 'project' | '_number'>
+  ): string {
+    return buildFlowCondition(
+      query,
+      change ?? this.changeModel.getState().change
+    );
+  }
+
   async deleteFlow(flowId: string) {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;
@@ -227,6 +269,28 @@ export class FlowsModel extends Model<FlowsState> {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;
     await this.restApiService.createFlow(this.changeNum, flowInput, errFn);
+    this.reload();
+  }
+
+  async upsertFlow(
+    existingFlowId: string | undefined,
+    flowInput: FlowInput | null | undefined,
+    errFn?: ErrorCallback
+  ) {
+    if (!this.changeNum) return;
+    if (!this.getState().isEnabled) return;
+    if (!existingFlowId && !flowInput) return;
+    if (existingFlowId) {
+      try {
+        await this.restApiService.deleteFlow(this.changeNum, existingFlowId);
+      } catch (err) {
+        if (!flowInput) throw err;
+        console.warn(`Failed to delete previous flow ${existingFlowId}:`, err);
+      }
+    }
+    if (flowInput) {
+      await this.restApiService.createFlow(this.changeNum, flowInput, errFn);
+    }
     this.reload();
   }
 }

@@ -455,5 +455,32 @@ suite('gr-flows tests', () => {
       const createFlow = element.shadowRoot!.querySelector('gr-create-flow');
       assert.isNull(createFlow);
     });
+
+    test('hides gr-create-flow when current user is owner but not latest uploader', async () => {
+      const ownerId = 123 as AccountId;
+      const uploaderId = 456 as AccountId;
+      changeModel.updateState({
+        change: {
+          ...createParsedChange(),
+          _number: 123 as NumericChangeId,
+          owner: createAccountDetailWithId(ownerId),
+          revisions: {
+            rev1: {
+              ...createRevision(1),
+              uploader: createAccountDetailWithId(uploaderId),
+            },
+          },
+          current_revision: 'rev1' as CommitId,
+        },
+      });
+      userModel.setState({
+        account: createAccountDetailWithId(ownerId),
+        accountLoaded: true,
+      });
+      await element.updateComplete;
+
+      const createFlow = element.shadowRoot!.querySelector('gr-create-flow');
+      assert.isNull(createFlow);
+    });
   });
 });

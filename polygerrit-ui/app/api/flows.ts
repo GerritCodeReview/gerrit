@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfo} from './rest-api';
+import {ErrorCallback} from './rest';
+import {ChangeInfo, FlowInfo, FlowInput} from './rest-api';
 
 /**
  * Information about a custom condition that can be used in a flow.
@@ -85,4 +86,75 @@ export declare interface FlowsPluginApi {
    * You cannot unregister.
    */
   registerAutosubmitProvider(provider: FlowsAutosubmitProvider): void;
+
+  /**
+   * Returns true if flows are enabled for the current change.
+   */
+  isEnabled(): boolean;
+
+  /**
+   * Returns true if the current user can create a flow on the current change
+   * (flows are enabled, the change is open, and the user is both the change
+   * owner and the latest patchset uploader).
+   */
+  canCreateFlow(): boolean;
+
+  /**
+   * Returns the currently loaded flows for the change.
+   */
+  getFlows(): FlowInfo[];
+
+  /**
+   * Returns true while flows are being loaded for the change.
+   */
+  isLoading(): boolean;
+
+  /**
+   * Returns the canonical change URL prefix (e.g. `https://host/c/project/+/123`)
+   * used in flow condition expressions.
+   */
+  getChangePrefix(change?: Pick<ChangeInfo, 'project' | '_number'>): string;
+
+  /**
+   * Formats a Gerrit query into a full flow stage condition string
+   * (`<changePrefix> is <query>`).
+   */
+  buildCondition(
+    query: string,
+    change?: Pick<ChangeInfo, 'project' | '_number'>
+  ): string;
+
+  /**
+   * Subscribes to changes in flows state (including `isEnabled`, `flows`,
+   * `loading`, and `canCreateFlow`). Invokes `listener` immediately and on
+   * each state change. Returns an unsubscribe callback.
+   */
+  subscribe(listener: () => void): () => void;
+
+  /**
+   * Creates a flow on the current change and reloads the flows model.
+   */
+  createFlow(flowInput: FlowInput, errFn?: ErrorCallback): Promise<void>;
+
+  /**
+   * Deletes a flow by UUID on the current change and reloads the flows model.
+   */
+  deleteFlow(flowId: string): Promise<void>;
+
+  /**
+   * Replaces or deletes an existing flow on the current change and reloads the
+   * flows model once. If `existingFlowId` is provided, deletes it before
+   * creating `flowInput` (avoiding the per-change pending flow limit). If
+   * `flowInput` is null or undefined, only deletes `existingFlowId`.
+   */
+  upsertFlow(
+    existingFlowId: string | undefined,
+    flowInput: FlowInput | null | undefined,
+    errFn?: ErrorCallback
+  ): Promise<void>;
+
+  /**
+   * Reloads the flows for the current change.
+   */
+  reload(): void;
 }

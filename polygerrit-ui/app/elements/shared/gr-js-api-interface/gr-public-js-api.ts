@@ -31,6 +31,7 @@ import {HookApi, PluginElement, RegisterOptions} from '../../../api/hook';
 import {JsApiService} from './gr-js-api-types';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {FlowsModel} from '../../../models/flows/flows-model';
 import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {GrPluginStyleApi} from './gr-plugin-style-api';
 import {StylePluginApi} from '../../../api/styles';
@@ -55,7 +56,8 @@ export class Plugin implements PluginApi {
     private readonly report: ReportingService,
     private readonly restApiService: RestApiService,
     private readonly pluginsModel: PluginsModel,
-    private readonly pluginEndpoints: GrPluginEndpoints
+    private readonly pluginEndpoints: GrPluginEndpoints,
+    private readonly getFlowsModel?: () => FlowsModel
   ) {
     this.domHooks = new GrDomHooksManager(this);
 
@@ -210,7 +212,7 @@ export class Plugin implements PluginApi {
   }
 
   flows(): GrFlowsApi {
-    return new GrFlowsApi(this.pluginsModel, this);
+    return new GrFlowsApi(this.pluginsModel, this, this.getFlowsModel);
   }
 
   changeUpdates(): GrChangeUpdatesApi {

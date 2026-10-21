@@ -5,27 +5,42 @@
  */
 import {testResolver} from '../../test/common-test-setup';
 import {
+  buildFlowCondition,
   FlowsModel,
   getChangePrefix,
   getSubmitCondition,
   SUBMIT_ACTION_NAME,
 } from './flows-model';
 import {ChangeModel, changeModelToken} from '../change/change-model';
+import {UserModel, userModelToken} from '../user/user-model';
 import {PluginsModel} from '../plugins/plugins-model';
 import {stubRestApi, waitUntil} from '../../test/test-utils';
 import {NumericChangeId} from '../../types/common';
 import {assert} from '@open-wc/testing';
 import {FlowsAutosubmitProvider} from '../../api/flows';
-import {createFlow, createParsedChange} from '../../test/test-data-generators';
-import {FlowInfo, FlowStageState} from '../../api/rest-api';
+import {
+  createAccountDetailWithId,
+  createFlow,
+  createParsedChange,
+  createRevision,
+} from '../../test/test-data-generators';
+import {
+  AccountId,
+  CommitId,
+  FlowInfo,
+  FlowStageState,
+} from '../../api/rest-api';
+import {ChangeStatus} from '../../constants/constants';
 
 suite('flows-model tests', () => {
   let flowsModel: FlowsModel;
   let changeModel: ChangeModel;
+  let userModel: UserModel;
   let pluginsModel: PluginsModel;
 
   setup(() => {
     changeModel = testResolver(changeModelToken);
+    userModel = testResolver(userModelToken);
     pluginsModel = new PluginsModel();
 
     flowsModel = new FlowsModel(changeModel, pluginsModel);
@@ -261,6 +276,114 @@ suite('flows-model tests', () => {
       await waitUntil(() => flowsModel.getState().flows.length > 0);
 
       assert.isTrue(flowsModel.hasAutosubmitFlowAlready());
+    } finally {
+      window.history.replaceState(null, '', originalPath);
+    }
+  });
+
+  suite('canCreateFlow$', () => {
+    test('returns true only when enabled, open, and user is both owner and latest uploader', async () => {
+      stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
+      stubRestApi('listFlows').resolves([]);
+
+      let canCreate = false;
+      flowsModel.canCreateFlow$.subscribe(v => (canCreate = v));
+
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        _number: 123 as NumericChangeId,
+        status: ChangeStatus.NEW,
+        owner: createAccountDetailWithId(100 as AccountId),
+        current_revision: 'rev1' as CommitId,
+        revisions: {
+          rev1: {
+            ...createRevision(1),
+            uploader: createAccountDetailWithId(100 as AccountId),
+          },
+        },
+      });
+      await waitUntil(() => flowsModel.getState().isEnabled);
+      userModel.setAccount(createAccountDetailWithId(100 as AccountId));
+      assert.isTrue(canCreate);
+      assert.isTrue(flowsModel.canCreateFlow());
+
+      // Latest patchset uploaded by another user -> false
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        _number: 123 as NumericChangeId,
+        status: ChangeStatus.NEW,
+        owner: createAccountDetailWithId(100 as AccountId),
+        current_revision: 'rev1' as CommitId,
+        revisions: {
+          rev1: {
+            ...createRevision(1),
+            uploader: createAccountDetailWithId(200 as AccountId),
+          },
+        },
+      });
+      assert.isFalse(canCreate);
+      assert.isFalse(flowsModel.canCreateFlow());
+
+      // Merged change -> false
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        _number: 123 as NumericChangeId,
+        status: ChangeStatus.MERGED,
+        owner: createAccountDetailWithId(100 as AccountId),
+      });
+      assert.isFalse(canCreate);
+    });
+  });
+
+  test('upsertFlow deletes existingFlowId before creating new flow and reloads once', async () => {
+    stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
+    stubRestApi('listFlows').resolves([]);
+    const deleteFlowStub = stubRestApi('deleteFlow').resolves(new Response());
+    const createFlowStub = stubRestApi('createFlow').resolves(
+      createFlow({uuid: 'flow-2', stages: []})
+    );
+
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+    });
+    await waitUntil(() => flowsModel.getState().isEnabled);
+
+    const reloadSpy = sinon.spy(flowsModel, 'reload');
+    const flowInput = {stage_expressions: [{condition: 'is:submittable'}]};
+    await flowsModel.upsertFlow('flow-1', flowInput);
+
+    assert.isTrue(
+      deleteFlowStub.calledOnceWith(123 as NumericChangeId, 'flow-1')
+    );
+    assert.isTrue(
+      createFlowStub.calledOnceWith(123 as NumericChangeId, flowInput)
+    );
+    assert.isTrue(deleteFlowStub.calledBefore(createFlowStub));
+    assert.isTrue(reloadSpy.calledOnce);
+  });
+
+  test('buildCondition constructs condition with change prefix', () => {
+    const change = {
+      ...createParsedChange(),
+      _number: 456 as NumericChangeId,
+    };
+    const originalPath = window.location.pathname;
+    try {
+      window.history.replaceState(null, '', '/dashboard/self');
+      assert.equal(
+        flowsModel.buildCondition('label:Verified=+1', change),
+        `${window.location.origin}/c/${change.project}/+/456 is label:Verified=+1`
+      );
+      assert.equal(
+        buildFlowCondition(
+          'label:Verified=+1',
+          change,
+          'https://example.com',
+          '/dashboard/self'
+        ),
+        `https://example.com/c/${change.project}/+/456 is label:Verified=+1`
+      );
     } finally {
       window.history.replaceState(null, '', originalPath);
     }

@@ -12,7 +12,7 @@ import {
   getSubmitCondition,
   SUBMIT_ACTION_NAME,
 } from '../../../models/flows/flows-model';
-import {AccountId, FlowStageState} from '../../../api/rest-api';
+import {AccountId, CommitId, FlowStageState} from '../../../api/rest-api';
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
 import {testResolver} from '../../../test/common-test-setup';
 import {query, queryAndAssert} from '../../../utils/common-util';
@@ -24,6 +24,7 @@ import {
   createChange,
   createFlow,
   createParsedChange,
+  createRevision,
 } from '../../../test/test-data-generators';
 import {changeModelToken} from '../../../models/change/change-model';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -116,6 +117,13 @@ suite('gr-autosubmit-checkbox tests', () => {
       changeModel.updateStateChange({
         ...createParsedChange(),
         owner: {_account_id: 456 as AccountId},
+        current_revision: 'rev1' as CommitId,
+        revisions: {
+          rev1: {
+            ...createRevision(1),
+            uploader: {_account_id: 456 as AccountId},
+          },
+        },
       });
       await element.updateComplete;
       assert.isFalse(element.isAutosubmitEnabled);
@@ -146,6 +154,13 @@ suite('gr-autosubmit-checkbox tests', () => {
         ...createParsedChange(),
         status: ChangeStatus.NEW,
         owner: {_account_id: 456 as AccountId},
+        current_revision: 'rev1' as CommitId,
+        revisions: {
+          rev1: {
+            ...createRevision(1),
+            uploader: {_account_id: 456 as AccountId},
+          },
+        },
       };
       userModel.setAccount(createAccountDetailWithId(456 as AccountId));
       changeModel.updateStateChange(change);
@@ -155,6 +170,39 @@ suite('gr-autosubmit-checkbox tests', () => {
       changeModel.updateStateChange({
         ...change,
         status: ChangeStatus.MERGED,
+      });
+      await element.updateComplete;
+      assert.isFalse(element.isAutosubmitEnabled);
+    });
+
+    test('isAutosubmitEnabled is false if latest patchset was uploaded by another user', async () => {
+      const changeModel = testResolver(changeModelToken);
+      const userModel = testResolver(userModelToken);
+
+      flowsModel.updateState({
+        isEnabled: true,
+        autosubmitProviders: [
+          {
+            isAutosubmitEnabled: () => true,
+            getSubmitCondition: () => '',
+            getSubmitAction: () => undefined,
+          },
+        ],
+        flows: [],
+      });
+
+      userModel.setAccount(createAccountDetailWithId(456 as AccountId));
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        status: ChangeStatus.NEW,
+        owner: {_account_id: 456 as AccountId},
+        current_revision: 'rev1' as CommitId,
+        revisions: {
+          rev1: {
+            ...createRevision(1),
+            uploader: {_account_id: 789 as AccountId},
+          },
+        },
       });
       await element.updateComplete;
       assert.isFalse(element.isAutosubmitEnabled);

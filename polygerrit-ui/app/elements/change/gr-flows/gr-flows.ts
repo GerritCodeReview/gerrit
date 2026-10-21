@@ -37,6 +37,8 @@ export class GrFlows extends LitElement {
 
   @state() isOwner = false;
 
+  @state() canCreateFlow = false;
+
   @state() private loading = true;
 
   @state() private flowIdToDelete?: string;
@@ -154,6 +156,11 @@ export class GrFlows extends LitElement {
     );
     subscribe(
       this,
+      () => this.getFlowsModel().canCreateFlow$,
+      x => (this.canCreateFlow = x)
+    );
+    subscribe(
+      this,
       () => this.getFlowsModel().flows$,
       flows => {
         this.flows = flows;
@@ -189,7 +196,7 @@ export class GrFlows extends LitElement {
       <div class="container">
         <div class="header-actions">
           ${when(
-            this.isOwner,
+            this.canCreateFlow,
             () =>
               html`<gr-create-flow
                 .changeNum=${this.changeNum}

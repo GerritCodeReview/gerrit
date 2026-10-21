@@ -65,7 +65,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.FileResource;
@@ -169,7 +168,6 @@ public class ProjectApiImpl implements ProjectApi {
   private final PostSubmitRequirementsReview postSubmitRequirementsReview;
   private final LabelApiImpl.Factory labelApi;
   private final SubmitRequirementApiImpl.Factory submitRequirementApi;
-  private final GitRepositoryManager repoManager;
   private final Provider<GetDiffFile> getDiffFile;
 
   @AssistedInject
@@ -178,7 +176,6 @@ public class ProjectApiImpl implements ProjectApi {
       CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
-      GitRepositoryManager repoManager,
       GetDescription getDescription,
       PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
@@ -225,7 +222,6 @@ public class ProjectApiImpl implements ProjectApi {
         createProject,
         projectApi,
         projects,
-        repoManager,
         getDescription,
         putDescription,
         childApi,
@@ -276,7 +272,6 @@ public class ProjectApiImpl implements ProjectApi {
       CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
-      GitRepositoryManager repoManager,
       GetDescription getDescription,
       PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
@@ -323,7 +318,6 @@ public class ProjectApiImpl implements ProjectApi {
         createProject,
         projectApi,
         projects,
-        repoManager,
         getDescription,
         putDescription,
         childApi,
@@ -373,7 +367,6 @@ public class ProjectApiImpl implements ProjectApi {
       CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
-      GitRepositoryManager repoManager,
       GetDescription getDescription,
       PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
@@ -420,7 +413,6 @@ public class ProjectApiImpl implements ProjectApi {
     this.createProject = createProject;
     this.projectApi = projectApi;
     this.projects = projects;
-    this.repoManager = repoManager;
     this.getDescription = getDescription;
     this.putDescription = putDescription;
     this.childApi = childApi;
@@ -615,8 +607,7 @@ public class ProjectApiImpl implements ProjectApi {
       throws RestApiException {
     try {
       FileResource resource =
-          FileResource.create(
-              repoManager, checkExists().getProjectState(), ObjectId.fromString(newCommit), path);
+          new FileResource(checkExists().getProjectState(), ObjectId.fromString(newCommit), path);
       return getDiffFile.get().setBase(oldCommit).apply(resource).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get diff file", e);

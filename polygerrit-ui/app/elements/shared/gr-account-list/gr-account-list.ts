@@ -46,6 +46,14 @@ import {repeat} from 'lit/directives/repeat.js';
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 const VALID_USER_GROUP_ALERT = 'Please input a valid user or group.';
 
+interface ActiveChipDrag {
+  account: AccountInfo;
+  sourceList: GrAccountList;
+  dragOverLists: Set<GrAccountList>;
+}
+
+let activeChipDrag: ActiveChipDrag | null = null;
+
 declare global {
   interface HTMLElementEventMap {
     'account-drag-start': CustomEvent<{account: AccountInfo}>;
@@ -129,12 +137,19 @@ export class GrAccountList extends LitElement {
     this.addEventListener('remove-account', e =>
       this.handleRemove(e as CustomEvent<{account: AccountInput}>)
     );
+    this.addEventListener('dragover', e => this.handleDragOver(e));
+    this.addEventListener('dragleave', e => this.handleDragLeave(e));
+    this.addEventListener('drop', e => this.handleDrop(e));
   }
 
   static override get styles() {
     return [
       sharedStyles,
       css`
+        :host(.drag-over) {
+          background-color: var(--table-header-background-color);
+          outline: 2px dashed var(--border-color);
+        }
         gr-account-chip {
           display: inline-block;
           margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
@@ -178,9 +193,13 @@ export class GrAccountList extends LitElement {
                 ),
               })}
               ?removable=${this.computeRemovable(account)}
-              ?draggable=${this.chipDraggable}
+              ?draggable=${this.chipDraggable &&
+              !this.disabled &&
+              isAccount(account) &&
+              this.computeRemovable(account)}
               @keydown=${this.handleChipKeydown}
               @dragstart=${this.handleChipDragStart}
+              @dragend=${this.handleChipDragEnd}
               tabindex="-1"
             >
             </gr-account-chip>
@@ -325,7 +344,7 @@ export class GrAccountList extends LitElement {
   }
 
   removeAccount(toRemove?: AccountInput) {
-    if (!toRemove || !this.computeRemovable(toRemove)) {
+    if (this.disabled || !toRemove || !this.computeRemovable(toRemove)) {
       return false;
     }
     const index = this.accounts.findIndex(
@@ -366,14 +385,132 @@ export class GrAccountList extends LitElement {
   private handleChipDragStart(e: DragEvent) {
     const chip = e.target as GrAccountChip;
     const account = chip.account;
-    if (!account || !isAccount(account)) return;
+    if (
+      !this.chipDraggable ||
+      this.disabled ||
+      !account ||
+      !isAccount(account) ||
+      !this.computeRemovable(account)
+    ) {
+      return;
+    }
 
+    activeChipDrag = {account, sourceList: this, dragOverLists: new Set()};
     if (e.dataTransfer) {
       e.dataTransfer.setData('text/plain', getUserId(account) as string);
       e.dataTransfer.effectAllowed = 'move';
     }
 
     fire(this, 'account-drag-start', {account});
+  }
+
+  private handleChipDragEnd() {
+    if (activeChipDrag) {
+      for (const list of activeChipDrag.dragOverLists) {
+        list.classList.remove('drag-over');
+      }
+      activeChipDrag = null;
+    }
+  }
+
+  private getListDisplayName(): string {
+    if (this.id === 'ccs') return 'CCs';
+    if (this.id === 'reviewers') return 'reviewers';
+    const siblingLabel = this.previousElementSibling?.classList.contains(
+      'peopleListLabel'
+    )
+      ? this.previousElementSibling
+      : null;
+    const labelEl =
+      siblingLabel ??
+      this.closest('.peopleList')?.querySelector('.peopleListLabel') ??
+      this.parentElement?.querySelector('.peopleListLabel');
+    return labelEl?.textContent?.trim() || this.id || 'list';
+  }
+
+  private canAcceptDrop(drag: ActiveChipDrag | null): drag is ActiveChipDrag {
+    if (
+      !this.chipDraggable ||
+      this.readonly ||
+      this.disabled ||
+      !drag ||
+      drag.sourceList === this
+    ) {
+      return false;
+    }
+    if (
+      this.filter &&
+      !this.filter({account: drag.account, count: 1} as SuggestedReviewerInfo)
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  private handleDragOver(e: DragEvent) {
+    if (!this.canAcceptDrop(activeChipDrag)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = 'move';
+    }
+    this.classList.add('drag-over');
+    activeChipDrag.dragOverLists.add(this);
+  }
+
+  private handleDragLeave(e: DragEvent) {
+    if (!this.chipDraggable) return;
+    if (
+      e.relatedTarget instanceof Node &&
+      (this.contains(e.relatedTarget) ||
+        this.shadowRoot?.contains(e.relatedTarget))
+    ) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.remove('drag-over');
+    activeChipDrag?.dragOverLists.delete(this);
+  }
+
+  private handleDrop(e: DragEvent) {
+    if (
+      !activeChipDrag ||
+      !this.chipDraggable ||
+      this.readonly ||
+      this.disabled
+    ) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.remove('drag-over');
+
+    const drag = activeChipDrag;
+    activeChipDrag = null;
+    for (const list of drag.dragOverLists) {
+      list.classList.remove('drag-over');
+    }
+    if (!this.canAcceptDrop(drag)) {
+      return;
+    }
+
+    const {account, sourceList} = drag;
+    if (!sourceList.removeAccount(account)) {
+      return;
+    }
+    if (
+      !this.accounts.some(
+        existing => getUserId(existing) === getUserId(account)
+      )
+    ) {
+      this.addAccountItem({account, count: 1});
+    }
+
+    const moveFrom = sourceList.getListDisplayName();
+    const moveTo = this.getListDisplayName();
+    const id = account.name || getUserId(account);
+    fireAlert(this, `${id} moved from ${moveFrom} to ${moveTo}.`);
   }
 
   private handleChipKeydown(e: KeyboardEvent) {

@@ -8,6 +8,7 @@ import '../test/common-test-setup';
 import {
   createChange,
   createChangeMessageInfo,
+  createCommit,
   createRevision,
 } from '../test/test-data-generators';
 import {
@@ -15,6 +16,7 @@ import {
   ChangeInfo,
   CommitId,
   EDIT,
+  NumericChangeId,
   PARENT,
   PatchSetNum,
   PatchSetNumber,
@@ -26,7 +28,9 @@ import {
   computeAllPatchSets,
   findEditParentPatchNum,
   findEditParentRevision,
+  getParentCommit,
   getParentIndex,
+  getParentInfoString,
   getRevisionByPatchNum,
   isMergeParent,
   sortRevisions,
@@ -254,5 +258,69 @@ suite('gr-patch-set-util tests', () => {
     for (let i = 0; i < expected.length; i++) {
       assert.deepEqual(patchNums[i], expected[i]);
     }
+  });
+
+  test('getParentCommit', () => {
+    assert.equal(getParentCommit(undefined), '');
+    assert.equal(getParentCommit(createRevision(1)), '');
+
+    const revWithCommitParents: RevisionInfo = {
+      ...createRevision(1),
+      commit: {
+        ...createRevision(1).commit!,
+        parents: [
+          {commit: '1234567890abcdef' as CommitId, subject: 'parent 1'},
+          {commit: 'fedcba0987654321' as CommitId, subject: 'parent 2'},
+        ],
+      },
+    };
+    assert.equal(getParentCommit(revWithCommitParents, 0), '1234567');
+    assert.equal(getParentCommit(revWithCommitParents, 1), 'fedcba0');
+    assert.equal(getParentCommit(revWithCommitParents, 2), '');
+
+    const revWithParentsData: RevisionInfo = {
+      ...revWithCommitParents,
+      parents_data: [
+        {
+          branch_name: 'refs/heads/main',
+          commit_id: 'abcdef1234567890' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ],
+    };
+    assert.equal(getParentCommit(revWithParentsData, 0), 'abcdef1');
+  });
+
+  test('getParentInfoString', () => {
+    const revWithoutParentsData: RevisionInfo = {
+      ...createRevision(1),
+      commit: {
+        ...createCommit(),
+        parents: [
+          {commit: 'p1' as CommitId, subject: 's1'},
+          {commit: 'p2' as CommitId, subject: 's2'},
+        ],
+      },
+    };
+    assert.equal(getParentInfoString(revWithoutParentsData, 0), '');
+    assert.equal(getParentInfoString(revWithoutParentsData, 1), 'Other branch');
+    assert.equal(getParentInfoString(revWithoutParentsData, 2), '');
+
+    const revStacked: RevisionInfo = {
+      ...createRevision(1),
+      parents_data: [
+        {
+          branch_name: 'refs/heads/main',
+          commit_id: 'abcdef1234567890' as CommitId,
+          is_merged_in_target_branch: false,
+          change_number: 100 as NumericChangeId,
+          patch_set_number: 3 as PatchSetNumber,
+        },
+      ],
+    };
+    assert.equal(
+      getParentInfoString(revStacked, 0),
+      'Patchset 3 of Change 100'
+    );
   });
 });

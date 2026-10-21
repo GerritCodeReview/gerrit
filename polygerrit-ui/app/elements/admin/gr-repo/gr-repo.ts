@@ -314,6 +314,7 @@ export class GrRepo extends LitElement {
         ${this.renderWorkInProgressByDefault()} ${this.renderMaxGitObjectSize()}
         ${this.renderMatchAuthoredDateWithCommitterDate()}
         ${this.renderRejectEmptyCommit()}
+        ${this.renderCheckNoUnresolvedWarnings()}
       </fieldset>
       <h3 id="Options" class="heading-3">Contributor Agreements</h3>
       <fieldset id="agreements">
@@ -687,6 +688,34 @@ export class GrRepo extends LitElement {
           >
             ${this.formatBooleanSelect(
               this.repoConfig?.reject_empty_commit
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderCheckNoUnresolvedWarnings() {
+    if (!this.repoConfig?.check_no_unresolved_warnings) return nothing;
+    return html`
+      <section id="checkNoUnresolvedWarningsSettings">
+        <span class="title">Check for unresolved warnings upon submit</span>
+        <span class="value">
+          <md-outlined-select
+            id="checkNoUnresolvedWarningsSelect"
+            value=${this.repoConfig?.check_no_unresolved_warnings
+              ?.configured_value ?? ''}
+            ?disabled=${this.readOnly}
+            @change=${this.handleCheckNoUnresolvedWarningsSelectChange}
+          >
+            ${this.formatBooleanSelect(
+              this.repoConfig?.check_no_unresolved_warnings
             ).map(
               item => html`
                 <md-select-option value=${item.value}>
@@ -1117,6 +1146,14 @@ export class GrRepo extends LitElement {
     }
     if (
       this.isEdited(
+        originalConfig.check_no_unresolved_warnings,
+        repoConfig.check_no_unresolved_warnings
+      )
+    ) {
+      return true;
+    }
+    if (
+      this.isEdited(
         originalConfig.use_contributor_agreements,
         repoConfig.use_contributor_agreements
       )
@@ -1328,6 +1365,14 @@ export class GrRepo extends LitElement {
     if (!this.repoConfig?.reject_empty_commit || this.loading) return;
     const select = e.target as HTMLSelectElement;
     this.repoConfig.reject_empty_commit.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
+    this.requestUpdate();
+  }
+
+  private handleCheckNoUnresolvedWarningsSelectChange(e: Event) {
+    if (!this.repoConfig?.check_no_unresolved_warnings || this.loading) return;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.check_no_unresolved_warnings.configured_value =
       select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }

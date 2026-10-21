@@ -6,6 +6,8 @@
 import {ConfigInfo, RepoName, ServerInfo} from '../../types/common';
 import {from, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
+import {getAppContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
@@ -31,6 +33,15 @@ export class ConfigModel extends Model<ConfigState> {
   public repoCommentLinks$ = select(
     this.repoConfig$,
     repoConfig => repoConfig?.commentlinks ?? {}
+  );
+
+  public checkNoUnresolvedWarnings$ = select(
+    this.repoConfig$,
+    repoConfig =>
+      !!repoConfig?.check_no_unresolved_warnings?.value ||
+      getAppContext().flagsService.isEnabled(
+        KnownExperimentId.CHECK_NO_UNRESOLVED_WARNINGS
+      )
   );
 
   public serverConfig$ = select(

@@ -519,6 +519,11 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.isFalse(element.isSaveDisabled());
 
+      element.messageText =
+        '<RESPONSE HERE>\n\nIn response to WARNING reported by check: summary';
+      await element.updateComplete;
+      assert.isTrue(element.isSaveDisabled());
+
       element.messageText = '';
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
@@ -549,6 +554,32 @@ suite('gr-comment tests', () => {
         assert.isTrue(spy.called);
       } finally {
         spy.restore();
+      }
+    });
+
+    test('selects <RESPONSE HERE> placeholder when editing is set to true', async () => {
+      const selectRangeSpy = sinon.spy(
+        GrSuggestionTextarea.prototype,
+        'selectRange'
+      );
+      try {
+        element.comment = {
+          ...createDraft(),
+          message:
+            '<RESPONSE HERE>\n\nIn response to WARNING reported by check: msg',
+        };
+        element.editing = false;
+        await element.updateComplete;
+
+        element.editing = true;
+        await element.updateComplete;
+        await new Promise(resolve => setTimeout(resolve, 0));
+
+        assert.isTrue(
+          selectRangeSpy.calledOnceWithExactly(0, '<RESPONSE HERE>'.length)
+        );
+      } finally {
+        selectRangeSpy.restore();
       }
     });
 
@@ -749,6 +780,21 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
 
       element.messageText = '';
+      await element.updateComplete;
+
+      await element.save();
+      assert.isTrue(discardStub.called);
+      assert.isFalse(saveStub.called);
+    });
+
+    test('saving text starting with <RESPONSE HERE> calls discard()', async () => {
+      const saveStub = sinon.stub(commentsModel, 'saveDraft');
+      const discardStub = sinon.stub(commentsModel, 'discardDraft');
+      element.comment = createNewDraft({
+        message:
+          '<RESPONSE HERE>\n\nIn response to WARNING reported by check: msg',
+      });
+      element.editing = true;
       await element.updateComplete;
 
       await element.save();

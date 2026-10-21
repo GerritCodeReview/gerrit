@@ -10,11 +10,13 @@ import {
   ALL_ATTEMPTS,
   AttemptChoice,
   computeIsExpandable,
+  createRespondComment,
   LATEST_ATTEMPT,
   pleaseFixMessage,
   rectifyFix,
   reportAiAgentCommentDraft,
   reportAiAgentGetAIFix,
+  respondMessage,
   sortAttemptChoices,
   stringToAttemptChoice,
   toComment,
@@ -449,6 +451,78 @@ suite('checks-util tests', () => {
       assert.equal(
         pleaseFixMessage(result),
         'Please fix this ERROR reported by test-check-name: this is the summary text\n\nthis is the message body text'
+      );
+    });
+  });
+
+  suite('respondMessage and createRespondComment', () => {
+    test('when summary and message are the same', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the warning text',
+        message: 'this is the warning text',
+      };
+      assert.equal(
+        respondMessage(result),
+        '<RESPONSE HERE>\n\nIn response to WARNING reported by test-check-name: this is the warning text'
+      );
+    });
+
+    test('when summary and message are not the same', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the summary text',
+        message: 'this is the message body text',
+      };
+      assert.equal(
+        respondMessage(result),
+        '<RESPONSE HERE>\n\nIn response to WARNING reported by test-check-name: this is the summary text\n\nthis is the message body text'
+      );
+    });
+
+    test('when message is undefined', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the summary text',
+        message: undefined,
+      };
+      assert.equal(
+        respondMessage(result),
+        '<RESPONSE HERE>\n\nIn response to WARNING reported by test-check-name: this is the summary text'
+      );
+    });
+
+    test('createRespondComment creates unresolved draft with respond message', () => {
+      const range = {
+        start_line: 1,
+        end_line: 2,
+        start_character: 3,
+        end_character: 4,
+      };
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the warning text',
+        message: 'this is the warning text',
+        codePointers: [{path: 'testpath', range}],
+      };
+      const comment = createRespondComment(result);
+      assert.equal(comment.path, 'testpath');
+      assert.equal(comment.patch_set, 3 as RevisionPatchSetNum);
+      assert.equal(comment.line, 2);
+      assert.deepEqual(comment.range, range);
+      assert.isTrue(comment.unresolved);
+      assert.equal(
+        comment.message,
+        '<RESPONSE HERE>\n\nIn response to WARNING reported by test-check-name: this is the warning text'
       );
     });
   });

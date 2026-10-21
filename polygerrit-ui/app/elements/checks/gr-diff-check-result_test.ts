@@ -4,10 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert, waitUntil} from '@open-wc/testing';
-import {checkRun1} from '../../test/test-data-generators';
+import {
+  checkRun1,
+  createConfig,
+  createInheritedBoolean,
+} from '../../test/test-data-generators';
 import {RunResult} from '../../models/checks/checks-model';
 import '../../test/common-test-setup';
-import {queryAndAssert} from '../../utils/common-util';
+import {query, queryAndAssert} from '../../utils/common-util';
 import {stubFlags} from '../../test/test-utils';
 import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
@@ -19,10 +23,13 @@ import {
 import {testResolver} from '../../test/common-test-setup';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {commentsModelToken} from '../../models/comments/comments-model';
+import {configModelToken} from '../../models/config/config-model';
 import {SavingState} from '../../types/common';
 import {Interaction} from '../../constants/reporting';
 import {getAppContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
 import {FixId, NumericChangeId, UrlEncodedCommentId} from '../../api/rest-api';
+import {Category} from '../../api/checks';
 
 suite('gr-diff-check-result tests', () => {
   let element: GrDiffCheckResult;
@@ -42,7 +49,9 @@ suite('gr-diff-check-result tests', () => {
     sinon
       .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
       .returns(true);
-    stubFlags('isEnabled').returns(true);
+    stubFlags('isEnabled')
+      .withArgs(KnownExperimentId.ML_SUGGESTED_EDIT_GET_FIX)
+      .returns(true);
     sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
       description: 'AI suggested fix',
       fix_id: '1' as FixId,
@@ -263,5 +272,119 @@ suite('gr-diff-check-result tests', () => {
         })
       )
     );
+  });
+
+  suite('Respond button', () => {
+    test('does not show respond button when check_no_unresolved_warnings is disabled', async () => {
+      element.result = {...checkRun1, ...checkRun1.results?.[0]} as RunResult;
+      await element.updateComplete;
+      assert.isUndefined(query(element, '#respond'));
+    });
+
+    test('shows respond button for WARNING when check_no_unresolved_warnings is enabled', async () => {
+      const configModel = testResolver(configModelToken);
+      configModel.updateRepoConfig({
+        ...createConfig(),
+        check_no_unresolved_warnings: createInheritedBoolean(true),
+      });
+      element.result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        category: Category.WARNING,
+      } as RunResult;
+      await element.updateComplete;
+      assert.isDefined(query(element, '#respond'));
+    });
+
+    test('shows respond button for WARNING when experiment flag is enabled', async () => {
+      (getAppContext().flagsService.isEnabled as sinon.SinonStub)
+        .withArgs(KnownExperimentId.CHECK_NO_UNRESOLVED_WARNINGS)
+        .returns(true);
+      const configModel = testResolver(configModelToken);
+      configModel.updateRepoConfig(createConfig());
+      element.result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        category: Category.WARNING,
+      } as RunResult;
+      await element.updateComplete;
+      assert.isDefined(query(element, '#respond'));
+    });
+
+    test('does not show respond button for ERROR even when check_no_unresolved_warnings is enabled', async () => {
+      const configModel = testResolver(configModelToken);
+      configModel.updateRepoConfig({
+        ...createConfig(),
+        check_no_unresolved_warnings: createInheritedBoolean(true),
+      });
+      element.result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        category: Category.ERROR,
+      } as RunResult;
+      await element.updateComplete;
+      assert.isUndefined(query(element, '#respond'));
+    });
+
+    test('adds new draft comment and reports when respond button is clicked', async () => {
+      const configModel = testResolver(configModelToken);
+      configModel.updateRepoConfig({
+        ...createConfig(),
+        check_no_unresolved_warnings: createInheritedBoolean(true),
+      });
+      element.result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        category: Category.WARNING,
+        codePointers: [
+          {
+            path: 'test/path.ts',
+            range: {
+              start_line: 10,
+              start_character: 0,
+              end_line: 12,
+              end_character: 5,
+            },
+          },
+        ],
+        externalId: JSON.stringify({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 1,
+        }),
+      } as RunResult;
+      await element.updateComplete;
+
+      const commentsModel = testResolver(commentsModelToken);
+      const addNewDraftStub = sinon.stub(commentsModel, 'addNewDraft');
+
+      const respondAction = queryAndAssert(element, '#respond');
+      const button = queryAndAssert<GrButton>(respondAction, 'gr-button');
+      button.click();
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      assert.isTrue(addNewDraftStub.calledOnce);
+      const draftArg = addNewDraftStub.lastCall.args[0];
+      assert.equal(draftArg.path, 'test/path.ts');
+      assert.equal(draftArg.line, 12);
+      assert.isTrue(draftArg.unresolved);
+      assert.include(
+        draftArg.message,
+        '<RESPONSE HERE>\n\nIn response to WARNING reported by FAKE Super Check:'
+      );
+
+      assert.isTrue(
+        reportingStub.calledWith(
+          Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+          sinon.match({
+            agentId: 'test-agent',
+            conversationId: 'test-conv',
+            turnIndex: 1,
+            commentId: undefined,
+          })
+        )
+      );
+    });
   });
 });

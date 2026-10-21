@@ -41,6 +41,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo matchAuthorToCommitterDate;
   public InheritedBooleanInfo rejectEmptyCommit;
   public InheritedBooleanInfo skipAddingAuthorAndCommitterAsReviewers;
+  public InheritedBooleanInfo checkNoUnresolvedWarnings;
 
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   @Deprecated // Equivalent to defaultSubmitType.value

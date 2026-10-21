@@ -24,4 +24,5 @@ export enum KnownExperimentId {
   ML_SUGGESTED_EDIT_GET_FIX = 'UiFeature__ml_suggested_edit_get_fix',
   DASHBOARD_LAZY_LOADING = 'UiFeature__dashboard_lazy_loading',
   STACK_DIFF = 'UiFeature__stack_diff',
+  CHECK_NO_UNRESOLVED_WARNINGS = 'UiFeature__check_no_unresolved_warnings',
 }

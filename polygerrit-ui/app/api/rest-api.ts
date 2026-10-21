@@ -534,6 +534,7 @@ export declare interface ConfigInfo {
   actions?: {[viewName: string]: ActionInfo};
   reject_empty_commit?: InheritedBooleanInfo;
   enable_reviewer_by_email: InheritedBooleanInfo;
+  check_no_unresolved_warnings?: InheritedBooleanInfo;
 }
 
 /**

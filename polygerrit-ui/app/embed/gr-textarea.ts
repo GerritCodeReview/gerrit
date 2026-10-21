@@ -338,6 +338,38 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     this.onCursorPositionChange();
   }
 
+  /**
+   * Selects text in the range [start, end) within the first text node.
+   */
+  async selectRange(start: number, end: number) {
+    const editableDivElement = await this.editableDiv;
+    const selection = this.getSelection();
+    const firstChild = editableDivElement?.firstChild;
+
+    if (
+      !editableDivElement ||
+      !selection ||
+      !firstChild ||
+      firstChild.nodeType !== Node.TEXT_NODE
+    ) {
+      return;
+    }
+
+    const textLength = firstChild.textContent?.length ?? 0;
+    const range = document.createRange();
+    editableDivElement.focus();
+    range.setStart(firstChild, Math.min(start, textLength));
+    range.setEnd(firstChild, Math.min(end, textLength));
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    this.scrollToCursorPosition(range);
+
+    range.detach();
+
+    this.onCursorPositionChange();
+  }
+
   public setCursorPosition(position: number) {
     this.setCursorPositionForDiv(position, this.editableDivElement);
   }

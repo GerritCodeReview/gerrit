@@ -108,6 +108,16 @@ export function pleaseFixMessage(result: RunResult) {
   return `Please fix this ${result.category} reported by ${result.checkName}: ${message}`;
 }
 
+export const RESPONSE_PLACEHOLDER = '<RESPONSE HERE>';
+
+export function respondMessage(result: RunResult) {
+  const message =
+    !result.message || result.summary === result.message
+      ? result.summary
+      : `${result.summary}\n\n${result.message}`;
+  return `${RESPONSE_PLACEHOLDER}\n\nIn response to ${result.category} reported by ${result.checkName}: ${message}`;
+}
+
 /**
  * Converts a check result to a draft comment. This can be useful when you want
  * to display a check result where a comment entity is expected, or when an
@@ -154,6 +164,10 @@ export function toComment(
 
 export function createPleaseFixComment(result: RunResult): DraftInfo {
   return toComment(result, pleaseFixMessage(result), true);
+}
+
+export function createRespondComment(result: RunResult): DraftInfo {
+  return toComment(result, respondMessage(result), true);
 }
 
 export function createFixAction(

@@ -43,6 +43,8 @@ public class ProjectSerializerTest {
           .setBooleanConfig(
               BooleanProjectConfig.SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS,
               InheritableBoolean.TRUE)
+          .setBooleanConfig(
+              BooleanProjectConfig.CHECK_NO_UNRESOLVED_WARNINGS, InheritableBoolean.TRUE)
           .build();
 
   @Test

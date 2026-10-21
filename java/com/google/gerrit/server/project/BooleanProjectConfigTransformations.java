@@ -76,6 +76,11 @@ public class BooleanProjectConfigTransformations {
               new Mapper(
                   i -> i.skipAddingAuthorAndCommitterAsReviewers,
                   (i, v) -> i.skipAddingAuthorAndCommitterAsReviewers = v))
+          .put(
+              BooleanProjectConfig.CHECK_NO_UNRESOLVED_WARNINGS,
+              new Mapper(
+                  i -> i.checkNoUnresolvedWarnings,
+                  (i, v) -> i.checkNoUnresolvedWarnings = v))
           .build();
 
   static {

@@ -95,6 +95,7 @@ import {
 } from '../../../services/suggestions/suggestions-service';
 import {ResponseCode, SuggestionsProvider} from '../../../api/suggestions';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+import {RESPONSE_PLACEHOLDER} from '../../../models/checks/checks-util';
 import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 
@@ -1404,14 +1405,21 @@ export class GrComment extends LitElement {
       return;
     }
     await this.textarea.updateComplete;
+    const focusOrSelect = () => {
+      if (this.messageText.startsWith(RESPONSE_PLACEHOLDER)) {
+        this.textarea?.selectRange(0, RESPONSE_PLACEHOLDER.length);
+      } else {
+        this.textarea?.putCursorAtEnd();
+      }
+    };
     if (this.isVisible()) {
-      this.textarea.putCursorAtEnd();
+      focusOrSelect();
     } else {
       // Note that this is a bit fragile, because we are relying on the
       // comment to become visible soonish. If that does not happen, then we
       // will be waiting indefinitely and grab focus at some point in the
       // distant future.
-      whenVisible(this, () => this.textarea?.putCursorAtEnd());
+      whenVisible(this, () => focusOrSelect());
     }
   }
 
@@ -1535,6 +1543,8 @@ export class GrComment extends LitElement {
   isSaveDisabled() {
     assertIsDefined(this.comment, 'comment');
     if (isSaving(this.comment) && !this.autoSaving) return true;
+    const message = this.messageText?.trimStart();
+    if (!message || message.startsWith(RESPONSE_PLACEHOLDER)) return true;
     return !this.messageText?.trimEnd();
   }
 
@@ -1611,7 +1621,12 @@ export class GrComment extends LitElement {
     if (this.disableAutoSaving) return;
     assert(isDraft(this.comment), 'only drafts are editable');
     const messageToSave = this.messageText.trimEnd();
-    if (messageToSave === '') return;
+    if (
+      messageToSave === '' ||
+      messageToSave.trimStart().startsWith(RESPONSE_PLACEHOLDER)
+    ) {
+      return;
+    }
     if (!this.somethingToSave()) return;
 
     try {
@@ -1630,7 +1645,10 @@ export class GrComment extends LitElement {
   async convertToCommentInputAndOrDiscard(): Promise<CommentInput | undefined> {
     if (!this.somethingToSave() || !this.comment) return;
     const messageToSave = this.messageText.trimEnd();
-    if (messageToSave === '') {
+    if (
+      messageToSave === '' ||
+      messageToSave.trimStart().startsWith(RESPONSE_PLACEHOLDER)
+    ) {
       await this.getCommentsModel().discardDraft(id(this.comment));
       return undefined;
     } else {
@@ -1658,7 +1676,10 @@ export class GrComment extends LitElement {
     // Depending on whether `messageToSave` is empty we treat this either as
     // a discard or a save action.
     const messageToSave = this.messageText.trimEnd();
-    if (messageToSave === '') {
+    if (
+      messageToSave === '' ||
+      messageToSave.trimStart().startsWith(RESPONSE_PLACEHOLDER)
+    ) {
       if (!this.permanentEditingMode || this.somethingToSave()) {
         await this.getCommentsModel().discardDraft(id(this.comment));
       }

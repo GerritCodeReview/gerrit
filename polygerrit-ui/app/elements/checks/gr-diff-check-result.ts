@@ -12,6 +12,7 @@ import {
   computeIsExpandable,
   createFixAction,
   createPleaseFixComment,
+  createRespondComment,
   iconFor,
   reportAiAgentCommentDraft,
   reportAiAgentGetAIFix,
@@ -26,6 +27,7 @@ import {Action, Category} from '../../api/checks';
 import {assertIsDefined} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';
 import {commentsModelToken} from '../../models/comments/comments-model';
+import {configModelToken} from '../../models/config/config-model';
 import {subscribe} from '../lit/subscription-controller';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
@@ -64,6 +66,9 @@ export class GrDiffCheckResult extends LitElement {
   isOwner = false;
 
   @state()
+  checkNoUnresolvedWarnings = false;
+
+  @state()
   suggestionLoading = false;
 
   @state()
@@ -72,6 +77,8 @@ export class GrDiffCheckResult extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -197,6 +204,11 @@ export class GrDiffCheckResult extends LitElement {
     );
     subscribe(
       this,
+      () => this.getConfigModel().checkNoUnresolvedWarnings$,
+      x => (this.checkNoUnresolvedWarnings = x)
+    );
+    subscribe(
+      this,
       () => this.getSuggestionsService().suggestionsServiceUpdated$,
       updated => {
         if (updated) {
@@ -304,7 +316,7 @@ export class GrDiffCheckResult extends LitElement {
   private renderActions() {
     return html`<div class="actions">
       ${this.renderAIFixButton()}
-      ${this.renderShowFixButton()}${this.renderPleaseFixButton()}
+      ${this.renderShowFixButton()}${this.renderPleaseFixButton()}${this.renderRespondButton()}
     </div>`;
   }
 
@@ -374,6 +386,33 @@ export class GrDiffCheckResult extends LitElement {
     return html`
       <gr-checks-action
         id="please-fix"
+        context="diff-fix"
+        .runOrResult=${this.result}
+        .action=${action}
+      ></gr-checks-action>
+    `;
+  }
+
+  private renderRespondButton() {
+    if (
+      !this.checkNoUnresolvedWarnings ||
+      this.result?.category !== Category.WARNING
+    ) {
+      return nothing;
+    }
+    const action: Action = {
+      name: 'Respond',
+      callback: () => {
+        const result = this.result;
+        assertIsDefined(result, 'result');
+        this.getCommentsModel().addNewDraft(createRespondComment(result));
+        reportAiAgentCommentDraft(this.reporting, result);
+        return undefined;
+      },
+    };
+    return html`
+      <gr-checks-action
+        id="respond"
         context="diff-fix"
         .runOrResult=${this.result}
         .action=${action}

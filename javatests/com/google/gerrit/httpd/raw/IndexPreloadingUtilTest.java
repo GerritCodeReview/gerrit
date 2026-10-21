@@ -58,4 +58,19 @@ public class IndexPreloadingUtilTest {
         .isEqualTo(RequestedPage.PAGE_WITHOUT_PRELOADING);
     assertThat(parseRequestedPage("/")).isEqualTo(RequestedPage.DASHBOARD);
   }
+
+  @Test
+  public void computeBasePatchNumOnlyMatchesExplicitBasePatchRange() throws Exception {
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123")).isEqualTo(0);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/4")).isEqualTo(0);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/edit")).isEqualTo(0);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/4/foo/bar.cc")).isEqualTo(0);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/4..6")).isEqualTo(4);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/2..edit")).isEqualTo(2);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/4..6/foo/bar.cc")).isEqualTo(4);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/-1..4")).isEqualTo(-1);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/-1..4/foo/bar.cc"))
+        .isEqualTo(-1);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/comment/abc")).isEqualTo(0);
+  }
 }

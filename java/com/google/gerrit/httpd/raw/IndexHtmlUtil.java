@@ -89,7 +89,7 @@ public class IndexHtmlUtil {
    * Returns the basePatchNum that was specified in the URL when present. If no basePatchNum is
    * specified then it points to PARENT which is represented by 0
    */
-  public static Integer computeBasePatchNum(@Nullable String requestedPath) {
+  public static int computeBasePatchNum(@Nullable String requestedPath) {
     if (requestedPath == null) {
       return 0;
     }
@@ -97,6 +97,11 @@ public class IndexHtmlUtil {
     String basePatchNum = null;
     if (matcher.matches()) {
       basePatchNum = matcher.group("basePatchNum");
+    } else {
+      Matcher diffMatcher = IndexPreloadingUtil.DIFF_URL_PATTERN.matcher(requestedPath);
+      if (diffMatcher.matches()) {
+        basePatchNum = diffMatcher.group("basePatchNum");
+      }
     }
     if (basePatchNum == null) {
       return 0; // No match is found
@@ -127,14 +132,14 @@ public class IndexHtmlUtil {
 
     String requestedPath = IndexPreloadingUtil.getPath(requestedURL);
     IndexPreloadingUtil.RequestedPage page = IndexPreloadingUtil.parseRequestedPage(requestedPath);
-    Integer basePatchNum = computeBasePatchNum(requestedPath);
+    int basePatchNum = computeBasePatchNum(requestedPath);
     switch (page) {
       case CHANGE, DIFF -> {
         LinkedHashSet<ListChangesOption> changeDetailOptions =
             new LinkedHashSet<>(
-                basePatchNum.equals(0)
-                    ? IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS
-                    : IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS);
+                basePatchNum > 0
+                    ? IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS
+                    : IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS);
         data.put(
             "submitRequirementsHex",
             ListOption.toHex(

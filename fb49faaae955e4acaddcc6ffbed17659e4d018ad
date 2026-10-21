@@ -46,6 +46,30 @@
       },
       "revId": "fb49faaae955e4acaddcc6ffbed17659e4d018ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2a5a550_9183a7ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-21T11:27:53Z",
+      "side": 1,
+      "message": "I believe the new endpoint is useful if it provides the permissions the user has on the change, regardless of whether those are UI permissions or permissions to execute a REST API.\n\nIt could also be used for debugging purposes.",
+      "parentUuid": "bb50ef00_6f241c0f",
+      "range": {
+        "startLine": 17,
+        "startChar": 51,
+        "endLine": 18,
+        "endChar": 58
+      },
+      "revId": "fb49faaae955e4acaddcc6ffbed17659e4d018ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

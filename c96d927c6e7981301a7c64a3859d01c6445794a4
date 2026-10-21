@@ -70,6 +70,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c7d1e82_79ce5672",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-21T11:27:53Z",
+      "side": 1,
+      "message": "Resolving it as we flipped the `AI Review` permission back to the usual default deny logic.",
+      "parentUuid": "a1f4dddd_3b6d905f",
+      "range": {
+        "startLine": 44,
+        "startChar": 50,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23e03355_0535625e",

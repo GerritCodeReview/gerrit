@@ -223,3 +223,21 @@ export function sameOrigin(href: string) {
   }
   return url.origin === window.location.origin;
 }
+
+/**
+ * Matches the base change path prefix up to the change number (e.g. `/c/project/+/123`),
+ * ignoring any trailing patchsets, diff ranges, comment IDs, or file paths.
+ *
+ * @see RoutePattern.CHANGE in `gr-router.ts` for corresponding route pattern.
+ */
+const CHANGE_PREFIX_PATTERN = /^(.*?\/(?:c\/.+?\/\+)\/\d+)/;
+
+/**
+ * Returns the change URL prefix (e.g. `http://host/c/project/+/123`), stripping
+ * patchset numbers, diff ranges, comment IDs, and file paths from pathname.
+ */
+export function getChangePrefix(): string {
+  const match = window.location.pathname.match(CHANGE_PREFIX_PATTERN);
+  const pathname = match ? match[1] : window.location.pathname;
+  return window.location.origin + pathname;
+}

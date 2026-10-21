@@ -18,6 +18,9 @@ import {getAppContext} from '../../services/app-context';
 import {FlowsAutosubmitProvider, FlowsProvider} from '../../api/flows';
 import {select} from '../../utils/observable-util';
 import {isDefined} from '../../types/types';
+import {getChangePrefix} from '../../utils/url-util';
+
+export {getChangePrefix};
 
 export interface FlowsState {
   isEnabled: boolean;
@@ -32,26 +35,8 @@ export const flowsModelToken = define<FlowsModel>('flows-model');
 
 export const SUBMIT_ACTION_NAME = 'submit';
 
-/**
- * Matches the base change path prefix up to the change number (e.g. `/c/project/+/123`),
- * ignoring any trailing patchsets, diff ranges, comment IDs, or file paths.
- *
- * @see RoutePattern.CHANGE in `gr-router.ts` for corresponding route pattern.
- */
-const CHANGE_PREFIX_PATTERN = /^(.*?\/(?:c\/.+?\/\+)\/\d+)/;
-
 export function getSubmitCondition() {
   return getChangePrefix() + ' is is:submittable';
-}
-
-/**
- * Returns the change URL prefix (e.g. `http://host/c/project/+/123`), stripping
- * patchset numbers, diff ranges, comment IDs, and file paths from pathname.
- */
-export function getChangePrefix() {
-  const match = window.location.pathname.match(CHANGE_PREFIX_PATTERN);
-  const pathname = match ? match[1] : window.location.pathname;
-  return window.location.origin + pathname;
 }
 
 export class FlowsModel extends Model<FlowsState> {
@@ -223,10 +208,18 @@ export class FlowsModel extends Model<FlowsState> {
     this.reload();
   }
 
-  async createFlow(flowInput: FlowInput, errFn?: ErrorCallback) {
-    if (!this.changeNum) return;
-    if (!this.getState().isEnabled) return;
-    await this.restApiService.createFlow(this.changeNum, flowInput, errFn);
+  async createFlow(
+    flowInput: FlowInput,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo | undefined> {
+    if (!this.changeNum) return undefined;
+    if (!this.getState().isEnabled) return undefined;
+    const created = await this.restApiService.createFlow(
+      this.changeNum,
+      flowInput,
+      errFn
+    );
     this.reload();
+    return created;
   }
 }

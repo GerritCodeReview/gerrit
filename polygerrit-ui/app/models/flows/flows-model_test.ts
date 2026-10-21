@@ -84,9 +84,10 @@ suite('flows-model tests', () => {
     await waitUntil(() => flowsModel.getState().isEnabled);
 
     const flowInput = {stage_expressions: []};
-    await flowsModel.createFlow(flowInput);
+    const created = await flowsModel.createFlow(flowInput);
 
     assert.isTrue(createFlowStub.calledWith(123 as NumericChangeId, flowInput));
+    assert.equal(created?.uuid, 'new-flow');
     assert.isTrue(reloadSpy.called);
   });
 

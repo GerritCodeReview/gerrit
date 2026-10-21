@@ -14,6 +14,7 @@ import '../test/common-test-setup';
 import {
   encodeURL,
   getBaseUrl,
+  getChangePrefix,
   getDocUrl,
   getPatchRangeExpression,
   loginUrl,
@@ -200,5 +201,37 @@ suite('url-util tests', () => {
       }),
       '4'
     );
+  });
+
+  suite('getChangePrefix', () => {
+    let originalPath: string;
+
+    setup(() => {
+      originalPath = window.location.pathname;
+    });
+
+    teardown(() => {
+      window.history.replaceState(null, '', originalPath);
+    });
+
+    test('strips patchset, diff range, and file path subpaths', () => {
+      const origin = window.location.origin;
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123/4');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123/1..4');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(
+        null,
+        '',
+        '/c/my-repo/+/123/1..4/src/file.ts'
+      );
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+    });
   });
 });

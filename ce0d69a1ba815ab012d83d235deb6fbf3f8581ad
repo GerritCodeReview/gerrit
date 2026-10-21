@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c74ee007_cdb1f7ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-21T21:14:33Z",
+      "side": 1,
+      "message": "`canAcceptDrop()` checks `this.disabled` on the drop target, but neither `?draggable`, `handleChipDragStart()`, nor `removeAccount()` checks `this.disabled` on the source list (`computeRemovable()` only checks `this.readonly`).\n\nIf a list is disabled (for example, while `\u003cgr-reply-dialog\u003e` is actively submitting and `this.disabled \u003d true`), chips inside it can still be dragged out and removed into another list.\n\nCould we add `!this.disabled` to the chip\u0027s draggable condition (and in `handleChipDragStart` / `removeAccount`)?\n\n```diff\n@@ -194,5 +194,6 @@\n               ?removable\u003d${this.computeRemovable(account)}\n               ?draggable\u003d${this.chipDraggable \u0026\u0026\n+              !this.disabled \u0026\u0026\n               isAccount(account) \u0026\u0026\n               this.computeRemovable(account)}\n```",
+      "isAi": true,
+      "revId": "ce0d69a1ba815ab012d83d235deb6fbf3f8581ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a2edfa2_e410a9ad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-21T21:14:33Z",
+      "side": 1,
+      "message": "If a user cancels a drag while hovering over a target list (e.g. by pressing Escape, dragging outside the browser window, or dropping onto an unhandled area), the HTML5 drag-and-drop specification dictates that `dragend` fires on the dragged chip, but neither `dragleave` nor `drop` fires on the hovered target element.\n\nBecause `handleChipDragEnd()` only nulls `activeChipDrag`, the hovered `\u003cgr-account-list\u003e` will remain stuck with the `.drag-over` class (showing the dashed outline and background highlight) indefinitely.\n\nCould we clean up any active `.drag-over` classes on drag end? For example:\n\n```ts\n  private handleChipDragEnd() {\n    activeChipDrag \u003d null;\n    document\n      .querySelectorAll(\u0027gr-account-list.drag-over\u0027)\n      .forEach(el \u003d\u003e el.classList.remove(\u0027drag-over\u0027));\n  }\n```",
+      "isAi": true,
+      "revId": "ce0d69a1ba815ab012d83d235deb6fbf3f8581ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52756134_733575e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-21T21:14:33Z",
+      "side": 1,
+      "message": "Could we add a test for:\n1. Canceling a drag (firing `dragstart` -\u003e `dragover` on target -\u003e `dragend` on chip without drop) to ensure `drag-over` styling is cleared and module state doesn\u0027t leak into subsequent tests.\n2. Attempting to drag from a list when `sourceList.disabled \u003d true`.",
+      "isAi": true,
+      "revId": "ce0d69a1ba815ab012d83d235deb6fbf3f8581ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

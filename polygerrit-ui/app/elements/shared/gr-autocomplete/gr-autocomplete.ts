@@ -227,6 +227,11 @@ export class GrAutocomplete extends LitElement {
           --md-outlined-text-field-outline-width: 0;
           --md-outlined-text-field-hover-outline-width: 0;
           --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-top-space: 0px;
+          --md-outlined-field-bottom-space: 0px;
+          --md-outlined-text-field-input-text-line-height: var(
+            --line-height-normal
+          );
           border: none;
           padding: 0;
         }

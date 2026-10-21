@@ -115,7 +115,9 @@ export class GrChangeListReviewerFlow extends LitElement {
           display: grid;
           grid-template-columns: min-content 1fr;
           column-gap: var(--spacing-l);
-          align-items: center;
+        }
+        .grid > span {
+          margin-top: var(--spacing-xs);
         }
         gr-account-list {
           display: flex;

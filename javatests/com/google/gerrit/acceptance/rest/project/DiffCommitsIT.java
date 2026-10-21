@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -22,6 +23,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
@@ -37,6 +39,7 @@ import com.google.gerrit.server.restapi.project.ListDiffFiles;
 import com.google.inject.Inject;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -621,5 +624,72 @@ public class DiffCommitsIT extends AbstractDaemonTest {
     assertThat(diffInfo.changeType).isEqualTo(ChangeType.ADDED);
     // Verify the content is present (not filtered out)
     assertThat(diffInfo.content).isNotEmpty();
+  }
+
+  @Test
+  public void getDiffFile_deletedFile() throws Exception {
+    // 1. Add a file in commit1
+    PushOneCommit.Result result1 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "Add file",
+                "dir/file-to-delete.txt",
+                "line 1\nline 2\n")
+            .to("refs/heads/master");
+    result1.assertOkStatus();
+    ObjectId commitWithFile = result1.getCommit();
+
+    // 2. Delete the file in commit2, and add commit3 on top (simulating a stack where an
+    // earlier change deleted a file that does not exist in the target commit's tree)
+    RevCommit commitDeletingFile =
+        commitBuilder().rm("dir/file-to-delete.txt").message("Delete file").create();
+    RevCommit childCommit =
+        commitBuilder().add("other.txt", "other content").message("Child commit").create();
+    pushHead(testRepo, "refs/heads/master", false);
+
+    // Verify via Java API against both the deleting commit and the descendant commit
+    DiffInfo diffAtDelete =
+        gApi.projects()
+            .name(project.get())
+            .diffFile(commitWithFile.name(), commitDeletingFile.name(), "dir/file-to-delete.txt");
+    assertThat(diffAtDelete.changeType).isEqualTo(ChangeType.DELETED);
+    assertThat(diffAtDelete.metaA).isNotNull();
+    assertThat(diffAtDelete.metaA.name).isEqualTo("dir/file-to-delete.txt");
+    assertThat(diffAtDelete.metaB).isNull();
+
+    DiffInfo diffAtChild =
+        gApi.projects()
+            .name(project.get())
+            .diffFile(commitWithFile.name(), childCommit.name(), "dir/file-to-delete.txt");
+    assertThat(diffAtChild.changeType).isEqualTo(ChangeType.DELETED);
+    assertThat(diffAtChild.metaA).isNotNull();
+    assertThat(diffAtChild.metaA.name).isEqualTo("dir/file-to-delete.txt");
+    assertThat(diffAtChild.metaB).isNull();
+
+    // Verify via HTTP REST endpoint (exercises FilesInCommitCollection.parse)
+    RestResponse response =
+        userRestSession.get(
+            String.format(
+                "/projects/%s/commits/%s/files/%s/diff?base=%s",
+                Url.encode(project.get()),
+                childCommit.name(),
+                Url.encode("dir/file-to-delete.txt"),
+                commitWithFile.name()));
+    response.assertOK();
+    DiffInfo restDiff = newGson().fromJson(response.getReader(), DiffInfo.class);
+    assertThat(restDiff.changeType).isEqualTo(ChangeType.DELETED);
+    assertThat(restDiff.metaA.name).isEqualTo("dir/file-to-delete.txt");
+
+    // Requesting content at a commit where the file was deleted still returns 404
+    userRestSession
+        .get(
+            String.format(
+                "/projects/%s/commits/%s/files/%s/content",
+                Url.encode(project.get()),
+                childCommit.name(),
+                Url.encode("dir/file-to-delete.txt")))
+        .assertNotFound();
   }
 }

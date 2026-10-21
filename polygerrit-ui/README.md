@@ -100,6 +100,36 @@ Eventually:
 - pnpm-lock.yaml becomes canonical
 - yarn.lock removed
 
+## Building plugins against the in-tree (non-published) plugin API
+
+Frontend plugins import the TypeScript plugin API by package name,
+`@gerritcodereview/typescript-api`. For standalone plugins (built outside the
+Gerrit tree) that name resolves to the npm release
+(link:https://www.npmjs.com/package/@gerritcodereview/typescript-api[@gerritcodereview/typescript-api]),
+which lags behind `master`.
+
+Plugins built inside the Gerrit tree (the core plugin submodules, and any
+plugin symlinked under `plugins/` by CI) instead build against the API of the
+branch they are built with, `polygerrit-ui/app/api` — so they can use APIs that
+this branch adds but that are not published to npm yet. Nothing in the plugin
+has to opt in: a plugin just imports `@gerritcodereview/typescript-api` and
+depends on `//plugins:node_modules`, exactly like `plugins/codemirror-editor`.
+
+This works via `npm_replace_package` in `polygerrit-ui/polygerrit.MODULE.bazel`:
+`plugins/package.json` still pins the published version, but the `plugins_npm`
+lock substitutes the in-tree `//polygerrit-ui/app:plugin_api_npm_package` (the
+branch API, packaged like the npm release) for it at link time. So:
+
+```sh
+# Builds against the branch API, no npm publish and no packed tarball needed:
+bazelisk build plugins/<plugin>/...
+```
+
+Do not reintroduce a packed-tarball workflow (`publish.sh --pack` plus a
+`file:`/`../*.tgz` dependency) for this: a relative tarball path cannot be
+resolved by `npm_translate_lock`, which runs `pnpm` in a sandboxed external
+repository, not in the source tree.
+
 ## Setup TypeScript support in the IDE
 
 Modern IDEs should automatically handle TypeScript settings from

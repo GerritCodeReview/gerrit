@@ -46,6 +46,30 @@
       },
       "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c81d8986_82a2d35d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-21T09:14:51Z",
+      "side": 1,
+      "message": "@sasa.zivkov@sap.com would you like to propose some wording to exclude cherry-picks and reverts?",
+      "parentUuid": "6d56ce2b_c0fff015",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 46
+      },
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

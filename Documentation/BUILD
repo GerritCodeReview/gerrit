@@ -1,6 +1,7 @@
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
+load("//tools/bzl:sbom.bzl", "sbom")
 load("//tools/bzl:war_checks.bzl", "war_jars_allowlist_test")
 
 package(default_visibility = ["//visibility:public"])
@@ -70,6 +71,12 @@ license_map(
     targets = [
         "//java/com/google/gerrit/pgm",
     ],
+)
+
+sbom(
+    name = "release_sbom",
+    target = "//:release",
+    war_labels = "//:release.war.labels.txt",
 )
 
 license_map(

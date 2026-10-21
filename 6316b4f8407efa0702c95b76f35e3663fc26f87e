@@ -16,6 +16,24 @@
       "message": "David, do you know of any reason why this wouldn\u0027t work for 3.13, 3.14?\nI.e. once this gets merged would it make sense to backport it to those tracks?",
       "revId": "6316b4f8407efa0702c95b76f35e3663fc26f87e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5142325d_9e034ca1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-21T11:14:21Z",
+      "side": 1,
+      "message": "The current implementation depends on `rules_jvm_external` migration. So, it should work on stable-3.14, but not stable-3.13. Of, course one could backport `bzlmod` to stable-3.13 first, that I did in change 588622, and then it would probably also work.",
+      "parentUuid": "f2606ffa_653f60f4",
+      "revId": "6316b4f8407efa0702c95b76f35e3663fc26f87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

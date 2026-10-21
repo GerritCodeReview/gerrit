@@ -32,10 +32,12 @@ import {
 import {
   AUTO_MERGE,
   BasePatchSetNum,
+  BranchName,
   ChangeInfo,
   CommitId,
   EDIT,
   FIRST_PARENT,
+  ListChangesOption,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -69,6 +71,7 @@ import {SinonStub} from 'sinon';
 import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {ShowChangeDetail} from '../../elements/shared/gr-js-api-interface/gr-js-api-types';
 import {SubmittabilityInfo} from '../../services/gr-rest-api/gr-rest-api';
+import {listChangesOptionsToHex} from '../../utils/change-util';
 
 suite('updateRevisionsWithCommitShas() tests', () => {
   test('undefined edit', async () => {
@@ -896,5 +899,341 @@ suite('change model tests', () => {
     changeViewModel.updateState({patchNum: 1 as PatchSetNumber});
     changeModel.updateState({change: knownChange});
     await waitUntilObserved(changeModel.latestRevision$, x => x?._number === 2);
+  });
+
+  suite('loadRevisionParents', () => {
+    test('does not fetch parents_data when basePatchNum is PARENT', async () => {
+      stubRestApi('getChangeDetail').resolves(knownChange);
+      const getChangeStub = stubRestApi('getChange').resolves(undefined);
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: knownChange._number,
+        basePatchNum: PARENT,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      assert.isFalse(getChangeStub.called);
+    });
+
+    test('lazily fetches parents_data when switching basePatchNum to a patchset', async () => {
+      stubRestApi('getChangeDetail').resolves(knownChange);
+      const parentsData1 = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent1' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ];
+      const parentsData2 = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent2' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ];
+      const getChangeStub = stubRestApi('getChange').resolves({
+        ...createChange(),
+        _number: knownChange._number,
+        revisions: {
+          sha1: {
+            ...createRevision(1),
+            description: 'patch 1',
+            parents_data: parentsData1,
+          },
+          sha2: {
+            ...createRevision(2),
+            description: 'patch 2',
+            parents_data: parentsData2,
+          },
+        },
+      });
+
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: knownChange._number,
+        basePatchNum: PARENT,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      assert.isFalse(getChangeStub.called);
+
+      // Switch basePatchNum to Patchset 1 in SPA mode.
+      changeViewModel.updateState({basePatchNum: 1 as BasePatchSetNum});
+
+      await waitUntilObserved(
+        changeModel.baseRevision$,
+        rev => rev?.parents_data !== undefined
+      );
+      await waitUntilObserved(
+        changeModel.revision$,
+        rev => rev?.parents_data !== undefined
+      );
+      assert.isTrue(getChangeStub.calledOnce);
+      assert.deepEqual(getChangeStub.lastCall.args, [
+        knownChange._number,
+        undefined,
+        listChangesOptionsToHex(
+          ListChangesOption.ALL_REVISIONS,
+          ListChangesOption.PARENTS,
+          ListChangesOption.SKIP_DIFFSTAT
+        ),
+      ]);
+      assert.equal(changeModel.getState().loadingStatus, LoadingStatus.LOADED);
+    });
+
+    test('does not fetch parents_data when already present on revisions', async () => {
+      const getChangeStub = stubRestApi('getChange').resolves(undefined);
+      const parentsData = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent1' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ];
+      const changeWithParents: ParsedChangeInfo = {
+        ...knownChange,
+        revisions: {
+          sha1: {...knownChange.revisions['sha1'], parents_data: parentsData},
+          sha2: {...knownChange.revisions['sha2'], parents_data: parentsData},
+        },
+      };
+      stubRestApi('getChangeDetail').resolves(changeWithParents);
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: knownChange._number,
+        basePatchNum: 1 as BasePatchSetNum,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      assert.isFalse(getChangeStub.called);
+    });
+
+    test('recovers and fetches parents_data after a transient getChange error', async () => {
+      stubRestApi('getChangeDetail').resolves(knownChange);
+      const parentsData = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent1' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ];
+      const getChangeStub = stubRestApi('getChange');
+      getChangeStub.onFirstCall().rejects(new Error('transient network error'));
+      getChangeStub.onSecondCall().resolves({
+        ...createChange(),
+        _number: knownChange._number,
+        revisions: {
+          sha1: {
+            ...createRevision(1),
+            description: 'patch 1',
+            parents_data: parentsData,
+          },
+          sha2: {
+            ...createRevision(2),
+            description: 'patch 2',
+            parents_data: parentsData,
+          },
+        },
+      });
+
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: knownChange._number,
+        basePatchNum: PARENT,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+
+      // First patchset comparison fails transiently.
+      changeViewModel.updateState({basePatchNum: 1 as BasePatchSetNum});
+      await waitUntil(() => getChangeStub.callCount === 1);
+
+      // Switching back to PARENT and re-selecting patchset 1 retries and succeeds.
+      changeViewModel.updateState({basePatchNum: PARENT});
+      changeViewModel.updateState({basePatchNum: 1 as BasePatchSetNum});
+
+      await waitUntilObserved(
+        changeModel.revision$,
+        rev => rev?.parents_data !== undefined
+      );
+      assert.equal(getChangeStub.callCount, 2);
+    });
+
+    test('lazily fetches CURRENT_REVISION parents_data when open non-WIP change is submittable', async () => {
+      const openChange: ParsedChangeInfo = {
+        ...knownChange,
+        current_revision: 'sha2' as CommitId,
+      };
+      stubRestApi('getChangeDetail').resolves(openChange);
+      stubRestApi('getSubmittabilityInfo').resolves({
+        changeNum: openChange._number,
+        submittable: true,
+        submitRequirements: [],
+      });
+      const parentsData2 = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent2' as CommitId,
+          is_merged_in_target_branch: false,
+          change_number: 100 as NumericChangeId,
+        },
+      ];
+      const getChangeStub = stubRestApi('getChange').resolves({
+        ...createChange(),
+        _number: openChange._number,
+        revisions: {
+          sha2: {
+            ...createRevision(2),
+            description: 'patch 2',
+            parents_data: parentsData2,
+          },
+        },
+      });
+
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: openChange._number,
+        basePatchNum: PARENT,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      await waitUntilObserved(
+        changeModel.revision$,
+        rev => rev?.parents_data !== undefined
+      );
+
+      assert.isTrue(getChangeStub.calledOnce);
+      assert.deepEqual(getChangeStub.lastCall.args, [
+        openChange._number,
+        undefined,
+        listChangesOptionsToHex(
+          ListChangesOption.CURRENT_REVISION,
+          ListChangesOption.PARENTS,
+          ListChangesOption.SKIP_DIFFSTAT
+        ),
+      ]);
+    });
+
+    test('does not fetch parents_data on PARENT base when WIP, merged, non-submittable, edit, or stale submittabilityInfo', async () => {
+      const getChangeStub = stubRestApi('getChange').resolves(undefined);
+      const edit = createEditInfo();
+      const baseChange: ParsedChangeInfo = {
+        ...knownChange,
+        current_revision: 'sha2' as CommitId,
+      };
+
+      // 1. Not submittable.
+      changeModel.updateState({
+        change: baseChange,
+        submittabilityInfo: {
+          changeNum: baseChange._number,
+          submittable: false,
+          submitRequirements: [],
+        },
+      });
+      // 2. Work in progress even if submittable is true.
+      changeModel.updateState({
+        change: {...baseChange, work_in_progress: true},
+        submittabilityInfo: {
+          changeNum: baseChange._number,
+          submittable: true,
+          submitRequirements: [],
+        },
+      });
+      // 3. Merged status.
+      changeModel.updateState({
+        change: {...baseChange, status: ChangeStatus.MERGED},
+        submittabilityInfo: {
+          changeNum: baseChange._number,
+          submittable: true,
+          submitRequirements: [],
+        },
+      });
+      // 4. Active EDIT as current_revision.
+      const changeWithEdit = updateChangeWithEdit({...baseChange}, edit)!;
+      changeModel.updateState({
+        change: changeWithEdit,
+        submittabilityInfo: {
+          changeNum: baseChange._number,
+          submittable: true,
+          submitRequirements: [],
+        },
+      });
+      // 5. Stale submittabilityInfo from a different changeNum.
+      changeModel.updateState({
+        change: baseChange,
+        submittabilityInfo: {
+          changeNum: 999999 as NumericChangeId,
+          submittable: true,
+          submitRequirements: [],
+        },
+      });
+
+      assert.isFalse(getChangeStub.called);
+    });
+
+    test('does not cancel or duplicate in-flight ALL_REVISIONS fetch when submittability resolves', async () => {
+      const openChange: ParsedChangeInfo = {
+        ...knownChange,
+        current_revision: 'sha2' as CommitId,
+      };
+      stubRestApi('getChangeDetail').resolves(openChange);
+      const srsPromise = mockPromise<SubmittabilityInfo | undefined>();
+      stubRestApi('getSubmittabilityInfo').callsFake(() => srsPromise);
+      const getChangePromise = mockPromise<ChangeInfo | undefined>();
+      const getChangeStub = stubRestApi('getChange').callsFake(
+        () => getChangePromise
+      );
+
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: openChange._number,
+        basePatchNum: 1 as BasePatchSetNum,
+        patchNum: 2 as PatchSetNumber,
+      });
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      assert.equal(getChangeStub.callCount, 1);
+
+      // Submittability resolves while ALL_REVISIONS fetch is still in flight.
+      srsPromise.resolve({
+        changeNum: openChange._number,
+        submittable: true,
+        submitRequirements: [],
+      });
+      await waitUntilObserved(
+        changeModel.submittable$,
+        submittable => submittable === true
+      );
+      assert.equal(getChangeStub.callCount, 1);
+
+      const parentsData = [
+        {
+          branch_name: 'refs/heads/main' as BranchName,
+          commit_id: 'parent1' as CommitId,
+          is_merged_in_target_branch: true,
+        },
+      ];
+      getChangePromise.resolve({
+        ...createChange(),
+        _number: openChange._number,
+        revisions: {
+          sha1: {
+            ...createRevision(1),
+            description: 'patch 1',
+            parents_data: parentsData,
+          },
+          sha2: {
+            ...createRevision(2),
+            description: 'patch 2',
+            parents_data: parentsData,
+          },
+        },
+      });
+      await waitUntilObserved(
+        changeModel.revision$,
+        rev => rev?.parents_data !== undefined
+      );
+      assert.equal(getChangeStub.callCount, 1);
+    });
   });
 });

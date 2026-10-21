@@ -51,6 +51,24 @@
       "parentUuid": "48f3d090_a9e8380b",
       "revId": "29801e04c7e826100eb54f2099c47d494cde24b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc5357cd_694db685",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-21T19:20:24Z",
+      "side": 1,
+      "message": "Google is not on Typescript 6 so I am happy to approve",
+      "parentUuid": "113a87ac_65754c1a",
+      "revId": "29801e04c7e826100eb54f2099c47d494cde24b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

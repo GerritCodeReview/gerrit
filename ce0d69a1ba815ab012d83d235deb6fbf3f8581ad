@@ -19,6 +19,25 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f65338f4_34d072a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-21T22:42:46Z",
+      "side": 1,
+      "message": "Done. Added !this.disabled checks to the chip\u0027s ?draggable binding, handleChipDragStart(), and removeAccount().",
+      "parentUuid": "c74ee007_cdb1f7ca",
+      "isAi": true,
+      "revId": "ce0d69a1ba815ab012d83d235deb6fbf3f8581ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a2edfa2_e410a9ad",
@@ -37,6 +56,25 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe402c3f_554b87aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-21T22:42:46Z",
+      "side": 1,
+      "message": "Done. Tracked hovered target lists in a Set\u003cGrAccountList\u003e on ActiveChipDrag (so it works across Shadow DOM boundaries like \u003cgr-reply-dialog\u003e) and cleared .drag-over in handleChipDragEnd().",
+      "parentUuid": "7a2edfa2_e410a9ad",
+      "isAi": true,
+      "revId": "ce0d69a1ba815ab012d83d235deb6fbf3f8581ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52756134_733575e1",
@@ -50,6 +88,25 @@
       "writtenOn": "2026-10-21T21:14:33Z",
       "side": 1,
       "message": "Could we add a test for:\n1. Canceling a drag (firing `dragstart` -\u003e `dragover` on target -\u003e `dragend` on chip without drop) to ensure `drag-over` styling is cleared and module state doesn\u0027t leak into subsequent tests.\n2. Attempting to drag from a list when `sourceList.disabled \u003d true`.",
+      "isAi": true,
+      "revId": "ce0d69a1ba815ab012d83d235deb6fbf3f8581ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88471543_b4619c56",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-21T22:42:46Z",
+      "side": 1,
+      "message": "Done. Added unit tests for both canceling a drag (dragstart -\u003e dragover -\u003e dragend without drop) and attempting to drag/remove from a disabled sourceList.",
+      "parentUuid": "52756134_733575e1",
       "isAi": true,
       "revId": "ce0d69a1ba815ab012d83d235deb6fbf3f8581ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

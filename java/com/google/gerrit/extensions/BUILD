@@ -5,7 +5,7 @@ _DOC_VERS = "6.1.0.202203080745-r"
 
 JGIT_DOC_URL = "https://archive.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 
-GUAVA_VERSION = "33.5.0-jre"
+GUAVA_VERSION = "33.7.2-jre"
 
 GUAVA_DOC_URL = "https://guava.dev/releases/" + GUAVA_VERSION + "/api/docs/"
 

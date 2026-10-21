@@ -192,5 +192,9 @@ copy_to_bin(
 copy_to_bin(
     name = "tsconfig-plugins-base",
     srcs = ["tsconfig-plugins-base.json"],
-    visibility = ["//plugins:__subpackages__"],
+    visibility = [
+        # polygerrit-ui/app builds the in-tree plugin API package against it.
+        "//polygerrit-ui/app:__pkg__",
+        "//plugins:__subpackages__",
+    ],
 )

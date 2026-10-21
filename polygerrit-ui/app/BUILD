@@ -1,3 +1,4 @@
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
 load("@npm//:lit-analyzer/package_json.bzl", lit_analyzer_bin = "bin")
 load("@ui_npm//:defs.bzl", "npm_link_all_packages")
@@ -52,6 +53,43 @@ ts_project(
     tsconfig = ":ts_config_bazel",
     deps = [
         ":node_modules",
+    ],
+)
+
+# The plugin TypeScript API of this branch (polygerrit-ui/app/api), packaged
+# like the published @gerritcodereview/typescript-api. In-tree plugins build
+# against it instead of the npm release, so they can use APIs that this branch
+# adds but that are not published to npm yet. Wired up via npm_replace_package
+# in polygerrit-ui/polygerrit.MODULE.bazel.
+#
+# These targets live here, one level up from api/, on purpose: app/BUILD
+# already globs api/** as its own sources (see compile_pg above), so api/
+# cannot own a BUILD of its own. See api/BUILD_for_publishing_api_only.
+ts_project(
+    name = "plugin_api_compiled",
+    srcs = glob(["api/**/*.ts"]),
+    extends = "//plugins:tsconfig-plugins-base",
+    incremental = True,
+    out_dir = "_plugin_api_out",
+    root_dir = "api",
+    tsconfig = {"compilerOptions": {"rootDir": "api"}},
+)
+
+npm_package(
+    name = "plugin_api_npm_package",
+    srcs = glob(
+        ["api/**/*"],
+        exclude = [
+            "api/BUILD_for_publishing_api_only",
+            "api/publish.sh",
+            "api/tsconfig.json",
+            "api/tsconfig.publish.json",
+        ],
+    ) + [":plugin_api_compiled"],
+    package = "@gerritcodereview/typescript-api",
+    root_paths = [
+        "polygerrit-ui/app/api",
+        "polygerrit-ui/app/_plugin_api_out",
     ],
 )
 

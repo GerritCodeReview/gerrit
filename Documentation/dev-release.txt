@@ -275,6 +275,25 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server,role=external,window=_blank
 
 ** Select `com.google.gerrit` as `Project`.
 
+[[generate-sbom]]
+=== Generate the SBOM
+
+Generate a CycloneDX 1.7 Software Bill of Materials for the release WAR
+from its Bazel dependency graph:
+
+----
+  bazel build //Documentation:release_sbom
+----
+
+The output is `bazel-bin/Documentation/release_sbom.cyclonedx.json`. The
+SHA-256 of each third-party component is the hash of the artifact as consumed
+from Maven, so it matches what a vulnerability scanner looks up. Components are
+marked `shipped` or `compile-only`. First-party and JGit jars built from source
+are listed without a hash. Licenses and the npm frontend are out of scope.
+
+The `sbom` rule is generic, so the same report can be produced for another
+packaged target by pointing it at that target in `Documentation/BUILD`.
+
 [[push-stable]]
 === Push the Stable Branch
 

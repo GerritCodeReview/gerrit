@@ -84,10 +84,59 @@ suite('flows-model tests', () => {
     await waitUntil(() => flowsModel.getState().isEnabled);
 
     const flowInput = {stage_expressions: []};
-    await flowsModel.createFlow(flowInput);
+    const created = await flowsModel.createFlow(flowInput);
 
     assert.isTrue(createFlowStub.calledWith(123 as NumericChangeId, flowInput));
+    assert.equal(created?.uuid, 'new-flow');
     assert.isTrue(reloadSpy.called);
+  });
+
+  test('createFlow awaits enabled$ resolution and respects reload=false', async () => {
+    stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
+    stubRestApi('listFlows').resolves([]);
+    const createFlowStub = stubRestApi('createFlow').resolves(
+      createFlow({uuid: 'new-flow', stages: []})
+    );
+    const reloadSpy = sinon.spy(flowsModel, 'reload');
+
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+    });
+
+    const flowInput = {
+      stage_expressions: [
+        {
+          condition: 'wait 1d',
+          action: {name: 'add-reviewer', parameters: ['human@example.com']},
+        },
+      ],
+    };
+    const created = await flowsModel.createFlow(flowInput, undefined, false);
+
+    assert.equal(created?.uuid, 'new-flow');
+    assert.isFalse(reloadSpy.called);
+    assert.deepEqual(createFlowStub.firstCall.args[1], flowInput);
+  });
+
+  test('deleteFlow invokes errFn and skips reload on non-2xx response', async () => {
+    stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
+    stubRestApi('listFlows').resolves([]);
+    stubRestApi('deleteFlow').resolves(
+      new Response('Not found', {status: 404})
+    );
+    const reloadSpy = sinon.spy(flowsModel, 'reload');
+    const errSpy = sinon.spy();
+
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+    });
+
+    await flowsModel.deleteFlow('flow1', errSpy);
+
+    assert.isTrue(errSpy.calledOnce);
+    assert.isFalse(reloadSpy.called);
   });
 
   test('createAutosubmitFlow uses default values', async () => {

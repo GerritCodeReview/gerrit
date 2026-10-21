@@ -173,8 +173,9 @@ public class IndexHtmlUtilTest {
 
     String requestedPath = "/c/project/+/123";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(0);
+    assertThat(IndexHtmlUtil.computeBasePatchNum("/c/project/+/123/4")).isEqualTo(0);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
+    assertThat(dynamicTemplateData(gerritApi, "/c/project/+/123/4", ""))
         .containsAtLeast(
             "defaultChangeDetailHex", "896394",
             "changeRequestsPath", "changes/project~123");

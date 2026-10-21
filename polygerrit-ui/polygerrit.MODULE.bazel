@@ -109,3 +109,13 @@ npm.npm_translate_lock(
     yarn_lock = "//plugins:yarn.lock",
 )
 use_repo(npm, "plugins_npm")
+
+# Build in-tree plugins against the plugin TypeScript API of this branch
+# (polygerrit-ui/app/api) instead of the npm release pinned in
+# plugins/package.json, which lacks the APIs this branch adds. The bare package
+# name matches whatever version the lock resolves, so bumping the pin in
+# plugins/package.json does not silently disable the replacement.
+npm.npm_replace_package(
+    package = "@gerritcodereview/typescript-api",
+    replacement = "//polygerrit-ui/app:plugin_api_npm_package",
+)

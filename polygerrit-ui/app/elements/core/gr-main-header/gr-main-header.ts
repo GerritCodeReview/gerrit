@@ -218,6 +218,10 @@ export class GrMainHeader extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.style.setProperty(
+      '--default-header-icon',
+      `url("${getBaseUrl()}/diffy.png")`
+    );
     document.addEventListener('click', this.handleBodyClick);
     this.loadAccount();
   }
@@ -300,7 +304,7 @@ export class GrMainHeader extends LitElement {
         .titleText::before {
           --icon-width: var(--header-icon-width, var(--header-icon-size, 0));
           --icon-height: var(--header-icon-height, var(--header-icon-size, 0));
-          background-image: var(--header-icon);
+          background-image: var(--header-icon, var(--default-header-icon));
           background-size: var(--icon-width) var(--icon-height);
           background-repeat: no-repeat;
           content: '';
@@ -466,7 +470,10 @@ export class GrMainHeader extends LitElement {
               --header-icon-height,
               var(--header-mobile-icon-size, var(--header-icon-size, 0))
             );
-            background-image: var(--header-mobile-icon, var(--header-icon));
+            background-image: var(
+              --header-mobile-icon,
+              var(--header-icon, var(--default-header-icon))
+            );
             background-size: var(--mobile-icon-width, var(--icon-width))
               var(--mobile-icon-height, var(--icon-height));
             width: var(--mobile-icon-width, var(--icon-width));

@@ -63,6 +63,7 @@ web_test_runner(
         # fonts and every screenshot differs in height by a few pixels.
         "//lib/fonts:robotofonts",
         "//lib/fonts:material-icons",
+        "//webapp:diffy.png",
     ],
 )
 

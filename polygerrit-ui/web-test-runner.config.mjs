@@ -262,6 +262,8 @@ const config = {
     async (context, next) => {
       if (context.url.startsWith('/polygerrit-ui/app/fonts/')) {
         context.url = context.url.replace('/polygerrit-ui/app/', '/lib/');
+      } else if (context.url.endsWith('/diffy.png')) {
+        context.url = '/webapp/diffy.png';
       }
       await next();
     },

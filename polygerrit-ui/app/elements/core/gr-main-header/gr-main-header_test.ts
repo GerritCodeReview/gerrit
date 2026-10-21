@@ -697,4 +697,25 @@ suite('gr-main-header tests', () => {
     assert.equal(element.registerText, 'Sign up');
     assert.isTrue(isHidden(query(element, '.registerDiv')));
   });
+
+  test('sets --default-header-icon with base url', async () => {
+    assert.equal(
+      element.style.getPropertyValue('--default-header-icon'),
+      'url("/diffy.png")'
+    );
+
+    const originalCanonicalPath = window.CANONICAL_PATH;
+    window.CANONICAL_PATH = '/r';
+    try {
+      const headerWithBaseUrl = await fixture<GrMainHeader>(
+        html`<gr-main-header></gr-main-header>`
+      );
+      assert.equal(
+        headerWithBaseUrl.style.getPropertyValue('--default-header-icon'),
+        'url("/r/diffy.png")'
+      );
+    } finally {
+      window.CANONICAL_PATH = originalCanonicalPath;
+    }
+  });
 });

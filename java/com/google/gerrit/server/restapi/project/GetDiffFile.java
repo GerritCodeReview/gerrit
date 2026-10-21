@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -47,6 +49,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.kohsuke.args4j.Option;
 
 /**
@@ -119,6 +122,15 @@ public class GetDiffFile implements RestReadView<FileResource> {
 
       // Verify visibility of all commits in the path
       diffUtils.verifyPathVisibility(projectState, repo, rw, baseCommit, newCommit);
+
+      if (!Patch.isMagic(filePath)) {
+        try (TreeWalk baseFile = TreeWalk.forPath(repo, filePath, baseCommit.getTree());
+            TreeWalk newFile = TreeWalk.forPath(repo, filePath, newCommit.getTree())) {
+          if (baseFile == null && newFile == null) {
+            throw new ResourceNotFoundException(IdString.fromDecoded(filePath));
+          }
+        }
+      }
 
       // Get the file diff
       // Don't skip files due to rebase - this is a direct commit comparison, not patchset

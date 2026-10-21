@@ -425,11 +425,21 @@ suite('gr-autocomplete tests', () => {
     await waitUntil(() => queryStub.called);
   });
 
-  test('computeClass respects border property', () => {
+  test('computeClass respects border property', async () => {
     element.borderless = false;
     assert.equal(element.computeClass(), '');
     element.borderless = true;
     assert.equal(element.computeClass(), 'borderless');
+    await element.updateComplete;
+    const style = getComputedStyle(element.input!);
+    assert.equal(
+      style.getPropertyValue('--md-outlined-field-top-space').trim(),
+      '0px'
+    );
+    assert.equal(
+      style.getPropertyValue('--md-outlined-field-bottom-space').trim(),
+      '0px'
+    );
     element.showBlueFocusBorder = true;
     assert.equal(element.computeClass(), 'borderless showBlueFocusBorder');
   });

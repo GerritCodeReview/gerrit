@@ -16,11 +16,14 @@ import {
 } from '../../api/checks';
 import {
   FixReplacementInfo,
+  NumericChangeId,
+  PatchSetNum,
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../api/rest-api';
+import {DiffInfo, FILE} from '../../api/diff';
 import {CommentSide} from '../../constants/constants';
-import {DraftInfo, FixSuggestionInfo} from '../../types/common';
+import {CommentThread, DraftInfo, FixSuggestionInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
 import {
@@ -30,8 +33,11 @@ import {
   Interaction,
 } from '../../constants/reporting';
 import {ReportingService as Reporting} from '../../services/gr-reporting/gr-reporting';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {createNew, PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
+import {deepEqual} from '../../utils/deep-util';
+import {mapCommentRange, mapLineNumber} from '../../utils/diff-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';
 
@@ -168,6 +174,146 @@ export function createPleaseFixComment(result: RunResult): DraftInfo {
 
 export function createRespondComment(result: RunResult): DraftInfo {
   return toComment(result, respondMessage(result), true);
+}
+
+export function diffKey(
+  path: string,
+  fromPatchSet: PatchSetNum,
+  toPatchSet: PatchSetNum
+): string {
+  return `${fromPatchSet}:${toPatchSet}:${path}`;
+}
+
+export function hasCommentForCheckResult(
+  result: RunResult,
+  threads: CommentThread[],
+  diffs?: Map<string, DiffInfo>
+): boolean {
+  const pointer = result.codePointers?.[0];
+  if (!pointer?.path) return true;
+  const target = toComment(result);
+  return threads.some(thread => {
+    const hasValidComment = thread.comments.some(
+      c => !c.message?.trimStart().startsWith(RESPONSE_PLACEHOLDER)
+    );
+    if (!hasValidComment) return false;
+    if (thread.path !== target.path) return false;
+    if (thread.commentSide === CommentSide.PARENT) return false;
+
+    let threadLine = thread.line;
+    let threadRange = thread.range;
+
+    if (
+      result.patchset &&
+      thread.patchNum &&
+      !thread.ported &&
+      thread.patchNum !== result.patchset
+    ) {
+      if (target.line === undefined) {
+        return threadLine === FILE || threadLine === undefined;
+      }
+      const diff = diffs?.get(
+        diffKey(thread.path, thread.patchNum, result.patchset as PatchSetNumber)
+      );
+      if (!diff) return false;
+      if (typeof threadLine === 'number') {
+        threadLine = mapLineNumber(diff, threadLine);
+        if (threadLine === undefined) return false;
+      }
+      if (threadRange) {
+        threadRange = mapCommentRange(diff, threadRange);
+        if (!threadRange) return false;
+      }
+    }
+
+    if (target.line === undefined) {
+      return threadLine === FILE || threadLine === undefined;
+    }
+    if (threadLine !== target.line) return false;
+    if (target.range && threadRange) {
+      return deepEqual(target.range, threadRange);
+    }
+    return true;
+  });
+}
+
+export function getUnresolvedCheckWarnings(
+  results: RunResult[],
+  threads: CommentThread[],
+  diffs?: Map<string, DiffInfo>
+): RunResult[] {
+  return results.filter(
+    result =>
+      (!result.status || result.status === RunStatus.COMPLETED) &&
+      result.isLatestAttempt !== false &&
+      result.category === Category.WARNING &&
+      result.worstCategory !== Category.ERROR &&
+      (result.codePointers?.length ?? 0) > 0 &&
+      !!result.codePointers?.[0]?.path &&
+      !hasCommentForCheckResult(result, threads, diffs)
+  );
+}
+
+export async function fetchDiffsForCheckWarnings(
+  restApiService: RestApiService,
+  changeNum: NumericChangeId,
+  results: RunResult[],
+  threads: CommentThread[],
+  existingDiffs: Map<string, DiffInfo>
+): Promise<Map<string, DiffInfo> | undefined> {
+  const toFetch = new Map<
+    string,
+    {path: string; fromPatchSet: PatchSetNum; toPatchSet: PatchSetNum}
+  >();
+  for (const result of results) {
+    if (
+      (result.status && result.status !== RunStatus.COMPLETED) ||
+      result.isLatestAttempt === false ||
+      result.category !== Category.WARNING ||
+      result.worstCategory === Category.ERROR
+    ) {
+      continue;
+    }
+    const path = result.codePointers?.[0]?.path;
+    const toPatchSet = result.patchset as PatchSetNumber | undefined;
+    if (!path || !toPatchSet) continue;
+    for (const thread of threads) {
+      if (
+        thread.path === path &&
+        thread.commentSide !== CommentSide.PARENT &&
+        thread.patchNum &&
+        !thread.ported &&
+        thread.patchNum !== toPatchSet
+      ) {
+        const key = diffKey(path, thread.patchNum, toPatchSet);
+        if (!existingDiffs.has(key) && !toFetch.has(key)) {
+          toFetch.set(key, {
+            path,
+            fromPatchSet: thread.patchNum,
+            toPatchSet,
+          });
+        }
+      }
+    }
+  }
+  if (toFetch.size === 0) return undefined;
+  const updated = new Map(existingDiffs);
+  let changed = false;
+  await Promise.all(
+    Array.from(toFetch.entries()).map(async ([key, req]) => {
+      const diff = await restApiService.getDiff(
+        changeNum,
+        req.fromPatchSet,
+        req.toPatchSet,
+        req.path
+      );
+      if (diff) {
+        updated.set(key, diff);
+        changed = true;
+      }
+    })
+  );
+  return changed ? updated : undefined;
 }
 
 export function createFixAction(

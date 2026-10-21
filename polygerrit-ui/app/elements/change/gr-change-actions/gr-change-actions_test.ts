@@ -13,9 +13,13 @@ import {
   createChange,
   createChangeMessages,
   createChangeViewChange,
+  createComment,
   createRevision,
   createRevisions,
+  createRunResult,
+  createThread,
 } from '../../../test/test-data-generators';
+import {Category} from '../../../api/checks';
 import {ChangeStatus, HttpMethod} from '../../../constants/constants';
 import {
   makePrefixedJSON,
@@ -3196,6 +3200,145 @@ suite('gr-change-actions tests', () => {
 
       assert.isTrue(canSubmit);
       assert.isFalse(showDialogSpy.called);
+    });
+
+    test('blocks submit when check_no_unresolved_warnings is enabled and warning has no comment', async () => {
+      const range = {
+        start_line: 1,
+        end_line: 2,
+        start_character: 3,
+        end_character: 4,
+      };
+      element.checkNoUnresolvedWarnings = true;
+      element.checkResultsLatest = [
+        {
+          ...createRunResult(),
+          patchset: 2,
+          category: Category.WARNING,
+          worstCategory: Category.WARNING,
+          codePointers: [{path: 'testpath', range}],
+        },
+      ];
+      element.commentThreads = [];
+      await element.updateComplete;
+
+      const onShowAlert = sinon.stub();
+      element.addEventListener('show-alert', onShowAlert);
+
+      const canSubmit = element.canSubmitChange();
+
+      assert.isFalse(canSubmit);
+      assert.isTrue(onShowAlert.calledOnce);
+    });
+
+    test('allows submit when check_no_unresolved_warnings is enabled and warning has a comment at the same location', async () => {
+      const range = {
+        start_line: 1,
+        end_line: 2,
+        start_character: 3,
+        end_character: 4,
+      };
+      element.checkNoUnresolvedWarnings = true;
+      element.checkResultsLatest = [
+        {
+          ...createRunResult(),
+          patchset: 2,
+          category: Category.WARNING,
+          worstCategory: Category.WARNING,
+          codePointers: [{path: 'testpath', range}],
+        },
+      ];
+      element.commentThreads = [
+        {
+          ...createThread(createComment()),
+          path: 'testpath',
+          patchNum: 2 as PatchSetNumber,
+          line: 2,
+          range,
+        },
+      ];
+      await element.updateComplete;
+
+      const canSubmit = element.canSubmitChange();
+
+      assert.isTrue(canSubmit);
+    });
+
+    test('allows submit when comment on earlier patchset maps to shifted warning location', async () => {
+      stubRestApi('getDiff').resolves({
+        change_type: 'MODIFIED',
+        intraline_status: 'OK',
+        content: [
+          {b: ['added 1', 'added 2', 'added 3']},
+          {ab: ['line 1', 'line 2', 'line 3']},
+        ],
+      });
+      element.checkNoUnresolvedWarnings = true;
+      element.checkResultsLatest = [
+        {
+          ...createRunResult(),
+          patchset: 2,
+          category: Category.WARNING,
+          worstCategory: Category.WARNING,
+          codePointers: [
+            {
+              path: 'testpath',
+              range: {
+                start_line: 4,
+                end_line: 5,
+                start_character: 3,
+                end_character: 4,
+              },
+            },
+          ],
+        },
+      ];
+      element.commentThreads = [
+        {
+          ...createThread(createComment()),
+          path: 'testpath',
+          patchNum: 1 as PatchSetNumber,
+          line: 2,
+          range: {
+            start_line: 1,
+            end_line: 2,
+            start_character: 3,
+            end_character: 4,
+          },
+        },
+      ];
+      await element.updateComplete;
+      await new Promise(resolve => setTimeout(resolve, 0));
+      await element.updateComplete;
+
+      const canSubmit = element.canSubmitChange();
+
+      assert.isTrue(canSubmit);
+    });
+
+    test('allows submit when check_no_unresolved_warnings is disabled even with unresolved warning', async () => {
+      const range = {
+        start_line: 1,
+        end_line: 2,
+        start_character: 3,
+        end_character: 4,
+      };
+      element.checkNoUnresolvedWarnings = false;
+      element.checkResultsLatest = [
+        {
+          ...createRunResult(),
+          patchset: 2,
+          category: Category.WARNING,
+          worstCategory: Category.WARNING,
+          codePointers: [{path: 'testpath', range}],
+        },
+      ];
+      element.commentThreads = [];
+      await element.updateComplete;
+
+      const canSubmit = element.canSubmitChange();
+
+      assert.isTrue(canSubmit);
     });
   });
 });

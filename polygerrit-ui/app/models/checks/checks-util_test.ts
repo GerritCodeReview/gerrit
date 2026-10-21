@@ -11,6 +11,9 @@ import {
   AttemptChoice,
   computeIsExpandable,
   createRespondComment,
+  diffKey,
+  getUnresolvedCheckWarnings,
+  hasCommentForCheckResult,
   LATEST_ATTEMPT,
   pleaseFixMessage,
   rectifyFix,
@@ -23,15 +26,23 @@ import {
 } from './checks-util';
 import {Interaction} from '../../constants/reporting';
 import {Category, Fix, Replacement} from '../../api/checks';
+import {DiffInfo} from '../../api/diff';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
-import {CommentRange, RevisionPatchSetNum} from '../../api/rest-api';
+import {
+  CommentRange,
+  PatchSetNumber,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {
   createCheckFix,
   createCheckLink,
   createCheckResult,
+  createComment,
+  createDiff,
   createRange,
   createRunResult,
+  createThread,
 } from '../../test/test-data-generators';
 import {RunResult} from './checks-model';
 
@@ -523,6 +534,156 @@ suite('checks-util tests', () => {
       assert.equal(
         comment.message,
         '<RESPONSE HERE>\n\nIn response to WARNING reported by test-check-name: this is the warning text'
+      );
+    });
+  });
+
+  suite('hasCommentForCheckResult and getUnresolvedCheckWarnings', () => {
+    const range = {
+      start_line: 1,
+      end_line: 2,
+      start_character: 3,
+      end_character: 4,
+    };
+
+    test('returns false when no comment exists at the warning location', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        category: Category.WARNING,
+        worstCategory: Category.WARNING,
+        codePointers: [{path: 'testpath', range}],
+      };
+      assert.isFalse(hasCommentForCheckResult(result, []));
+      assert.deepEqual(getUnresolvedCheckWarnings([result], []), [result]);
+    });
+
+    test('returns true when a comment exists at the same location', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        category: Category.WARNING,
+        worstCategory: Category.WARNING,
+        codePointers: [{path: 'testpath', range}],
+      };
+      const thread = {
+        ...createThread(createComment()),
+        path: 'testpath',
+        patchNum: 3 as RevisionPatchSetNum,
+        line: 2,
+        range,
+      };
+      assert.isTrue(hasCommentForCheckResult(result, [thread]));
+      assert.deepEqual(getUnresolvedCheckWarnings([result], [thread]), []);
+    });
+
+    test('returns false when comment still starts with <RESPONSE HERE>', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        category: Category.WARNING,
+        worstCategory: Category.WARNING,
+        codePointers: [{path: 'testpath', range}],
+      };
+      const thread = {
+        ...createThread({
+          ...createComment(),
+          message:
+            '<RESPONSE HERE>\n\nIn response to WARNING reported by check: msg',
+        }),
+        path: 'testpath',
+        patchNum: 3 as RevisionPatchSetNum,
+        line: 2,
+        range,
+      };
+      assert.isFalse(hasCommentForCheckResult(result, [thread]));
+      assert.deepEqual(getUnresolvedCheckWarnings([result], [thread]), [
+        result,
+      ]);
+    });
+
+    test('maps comment location from earlier patchset when preceding lines changed', () => {
+      const shiftedRange = {
+        start_line: 4,
+        end_line: 5,
+        start_character: 3,
+        end_character: 4,
+      };
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        category: Category.WARNING,
+        worstCategory: Category.WARNING,
+        codePointers: [{path: 'testpath', range: shiftedRange}],
+      };
+      const thread = {
+        ...createThread(createComment()),
+        path: 'testpath',
+        patchNum: 1 as RevisionPatchSetNum,
+        line: 2,
+        range,
+      };
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [
+          {b: ['inserted 1', 'inserted 2', 'inserted 3']},
+          {ab: ['line 1', 'line 2', 'line 3']},
+        ],
+      };
+      const diffs = new Map<string, DiffInfo>([
+        [diffKey('testpath', 1 as PatchSetNumber, 3 as PatchSetNumber), diff],
+      ]);
+      assert.isTrue(hasCommentForCheckResult(result, [thread], diffs));
+      assert.deepEqual(
+        getUnresolvedCheckWarnings([result], [thread], diffs),
+        []
+      );
+    });
+
+    test('returns false when comment line on earlier patchset was modified', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        category: Category.WARNING,
+        worstCategory: Category.WARNING,
+        codePointers: [{path: 'testpath', range}],
+      };
+      const thread = {
+        ...createThread(createComment()),
+        path: 'testpath',
+        patchNum: 1 as RevisionPatchSetNum,
+        line: 2,
+        range,
+      };
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [{a: ['old 1', 'old 2'], b: ['new 1', 'new 2']}],
+      };
+      const diffs = new Map<string, DiffInfo>([
+        [diffKey('testpath', 1 as PatchSetNumber, 3 as PatchSetNumber), diff],
+      ]);
+      assert.isFalse(hasCommentForCheckResult(result, [thread], diffs));
+    });
+
+    test('ignores warnings without codePointers or from failed checks', () => {
+      const warningWithoutPointer: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        worstCategory: Category.WARNING,
+        codePointers: [],
+      };
+      const warningOnFailedCheck: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        worstCategory: Category.ERROR,
+        codePointers: [{path: 'testpath', range}],
+      };
+      assert.deepEqual(
+        getUnresolvedCheckWarnings(
+          [warningWithoutPointer, warningOnFailedCheck],
+          []
+        ),
+        []
       );
     });
   });

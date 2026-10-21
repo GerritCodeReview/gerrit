@@ -19,14 +19,22 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
 import {isUnresolved} from '../../../utils/comment-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
+import {
+  fetchDiffsForCheckWarnings,
+  getUnresolvedCheckWarnings,
+} from '../../../models/checks/checks-util';
+import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
+import {getAppContext} from '../../../services/app-context';
+import {DiffInfo} from '../../../types/diff';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {createChangeUrl} from '../../../models/views/change';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -66,9 +74,27 @@ export class GrConfirmSubmitDialog
   @state()
   sortedRevisions: (RevisionInfo | EditRevisionInfo)[] = [];
 
+  @state()
+  checkNoUnresolvedWarnings = false;
+
+  @state()
+  checkResultsLatest: RunResult[] = [];
+
+  @state()
+  commentThreads: CommentThread[] = [];
+
+  @state()
+  checkWarningDiffs = new Map<string, DiffInfo>();
+
+  private readonly restApiService = getAppContext().restApiService;
+
   private getCommentsModel = resolve(this, commentsModelToken);
 
   private getChangeModel = resolve(this, changeModelToken);
+
+  private getChecksModel = resolve(this, checksModelToken);
+
+  private getConfigModel = resolve(this, configModelToken);
 
   private getNavigation = resolve(this, navigationToken);
 
@@ -115,6 +141,46 @@ export class GrConfirmSubmitDialog
       () => this.getChangeModel().revisions$,
       x => (this.sortedRevisions = x)
     );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      x => (this.commentThreads = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().allResultsLatest$,
+      x => (this.checkResultsLatest = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().checkNoUnresolvedWarnings$,
+      x => (this.checkNoUnresolvedWarnings = x)
+    );
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('change') ||
+      changedProperties.has('checkNoUnresolvedWarnings') ||
+      changedProperties.has('checkResultsLatest') ||
+      changedProperties.has('commentThreads')
+    ) {
+      void this.updateCheckWarningDiffs();
+    }
+  }
+
+  private async updateCheckWarningDiffs() {
+    if (!this.checkNoUnresolvedWarnings || !this.change?._number) return;
+    const updated = await fetchDiffsForCheckWarnings(
+      this.restApiService,
+      this.change._number,
+      this.checkResultsLatest,
+      this.commentThreads,
+      this.checkWarningDiffs
+    );
+    if (updated) {
+      this.checkWarningDiffs = updated;
+    }
   }
 
   private renderPrivate() {
@@ -141,6 +207,22 @@ export class GrConfirmSubmitDialog
         hide-dropdown
       >
       </gr-thread-list>
+    `;
+  }
+
+  private renderUnresolvedCheckWarningsCount() {
+    if (!this.checkNoUnresolvedWarnings) return '';
+    const unresolvedWarnings = getUnresolvedCheckWarnings(
+      this.checkResultsLatest,
+      this.commentThreads,
+      this.checkWarningDiffs
+    );
+    if (!unresolvedWarnings.length) return '';
+    return html`
+      <p>
+        <gr-icon icon="warning" filled class="warningBeforeSubmit"></gr-icon>
+        ${this.computeUnresolvedCheckWarningsWarning()}
+      </p>
     `;
   }
 
@@ -181,6 +263,7 @@ export class GrConfirmSubmitDialog
         <gr-endpoint-decorator name="confirm-submit-change">
           <p>Ready to submit "<strong>${this.change?.subject}</strong>"?</p>
           ${this.renderPrivate()} ${this.renderUnresolvedCommentCount()}
+          ${this.renderUnresolvedCheckWarningsCount()}
           ${this.renderChangeEdit()}
           <gr-endpoint-param
             name="change"
@@ -227,6 +310,22 @@ export class GrConfirmSubmitDialog
     const unresolvedCount = this.unresolvedThreads.length;
     if (!unresolvedCount) throw new Error('unresolved comments undefined or 0');
     return `Heads Up! ${pluralize(unresolvedCount, 'unresolved comment')}.`;
+  }
+
+  // Private method, but visible for testing.
+  computeUnresolvedCheckWarningsWarning() {
+    const unresolvedCount = getUnresolvedCheckWarnings(
+      this.checkResultsLatest,
+      this.commentThreads,
+      this.checkWarningDiffs
+    ).length;
+    if (!unresolvedCount) {
+      throw new Error('unresolved check warnings undefined or 0');
+    }
+    return `Heads Up! ${pluralize(
+      unresolvedCount,
+      'unresolved check warning'
+    )}.`;
   }
 
   private handleConfirmTap(e: Event) {

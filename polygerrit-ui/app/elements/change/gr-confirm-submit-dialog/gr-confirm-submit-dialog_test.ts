@@ -6,9 +6,12 @@
 import '../../../test/common-test-setup';
 import {
   createParsedChange,
+  createRange,
   createRevision,
+  createRunResult,
   createThread,
 } from '../../../test/test-data-generators';
+import {Category} from '../../../api/checks';
 import {EDIT} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
 import './gr-confirm-submit-dialog';
@@ -71,6 +74,27 @@ suite('gr-confirm-submit-dialog tests', () => {
     assert.equal(
       element.computeUnresolvedCommentsWarning(),
       'Heads Up! 2 unresolved comments.'
+    );
+  });
+
+  test('computeUnresolvedCheckWarningsWarning', () => {
+    const warning = {
+      ...createRunResult(),
+      category: Category.WARNING,
+      worstCategory: Category.WARNING,
+      codePointers: [{path: 'testpath', range: createRange()}],
+    };
+    element.checkResultsLatest = [warning];
+    element.commentThreads = [];
+    assert.equal(
+      element.computeUnresolvedCheckWarningsWarning(),
+      'Heads Up! 1 unresolved check warning.'
+    );
+
+    element.checkResultsLatest = [warning, warning];
+    assert.equal(
+      element.computeUnresolvedCheckWarningsWarning(),
+      'Heads Up! 2 unresolved check warnings.'
     );
   });
 

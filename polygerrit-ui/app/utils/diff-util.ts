@@ -3,6 +3,7 @@
  * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {CommentRange} from '../api/rest-api';
 import {Side} from '../constants/constants';
 import {DiffInfo, SkipInfo, SkipObject} from '../types/diff';
 
@@ -52,6 +53,75 @@ export function isLineUnchanged(
     }
   }
   return false;
+}
+
+/**
+ * Maps a 1-based line number from one side of a diff to the other side, if the
+ * line is in an unchanged (or common) region. Returns undefined if the line was
+ * modified or deleted.
+ */
+export function mapLineNumber(
+  diff?: DiffInfo,
+  line?: number,
+  fromSide: Side = Side.LEFT
+): number | undefined {
+  if (!diff?.content || !line || line <= 0) return undefined;
+  const toSide = otherSide(fromSide);
+  let currentFrom = 0;
+  let currentTo = 0;
+  for (const chunk of diff.content) {
+    if (chunk.skip) {
+      const skip = normalizeSkipInfo(chunk.skip);
+      const fromLen = skip[fromSide];
+      const toLen = skip[toSide];
+      if (currentFrom + fromLen >= line) {
+        if (fromLen !== toLen) return undefined;
+        return currentTo + (line - currentFrom);
+      }
+      currentFrom += fromLen;
+      currentTo += toLen;
+    } else if (chunk.ab) {
+      const len = chunk.ab.length;
+      if (currentFrom + len >= line) {
+        return currentTo + (line - currentFrom);
+      }
+      currentFrom += len;
+      currentTo += len;
+    } else {
+      const fromLen =
+        (fromSide === Side.LEFT ? chunk.a?.length : chunk.b?.length) ?? 0;
+      const toLen =
+        (toSide === Side.LEFT ? chunk.a?.length : chunk.b?.length) ?? 0;
+      if (currentFrom + fromLen >= line) {
+        if (chunk.common && fromLen === toLen) {
+          return currentTo + (line - currentFrom);
+        }
+        return undefined;
+      }
+      currentFrom += fromLen;
+      currentTo += toLen;
+    }
+  }
+  return undefined;
+}
+
+export function mapCommentRange(
+  diff?: DiffInfo,
+  range?: CommentRange,
+  fromSide: Side = Side.LEFT
+): CommentRange | undefined {
+  if (!diff || !range) return undefined;
+  const startLine = mapLineNumber(diff, range.start_line, fromSide);
+  const endLine = mapLineNumber(diff, range.end_line, fromSide);
+  if (startLine === undefined || endLine === undefined) return undefined;
+  if (endLine - startLine !== range.end_line - range.start_line) {
+    return undefined;
+  }
+  return {
+    ...range,
+    start_line: startLine,
+    end_line: endLine,
+  };
 }
 
 /**

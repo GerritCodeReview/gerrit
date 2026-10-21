@@ -119,6 +119,13 @@ import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
+import {
+  fetchDiffsForCheckWarnings,
+  getUnresolvedCheckWarnings,
+} from '../../../models/checks/checks-util';
+import {configModelToken} from '../../../models/config/config-model';
+import {DiffInfo} from '../../../types/diff';
 import {when} from 'lit/directives/when.js';
 import {ValidationOptionInfo} from '../../../api/rest-api';
 
@@ -507,6 +514,14 @@ export class GrChangeActions
 
   @state() deletedReviewers: AccountInfo[] = [];
 
+  @state() checkNoUnresolvedWarnings = false;
+
+  @state() checkResultsLatest: RunResult[] = [];
+
+  @state() commentThreads: CommentThread[] = [];
+
+  @state() checkWarningDiffs = new Map<string, DiffInfo>();
+
   private aiChatLoadingCleanup?: () => void;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -526,6 +541,10 @@ export class GrChangeActions
   private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
@@ -608,6 +627,21 @@ export class GrChangeActions
       this,
       () => this.getCommentsModel().threadsWithUnappliedSuggestions$,
       x => (this.threadsWithUnappliedSuggestions = x)
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      x => (this.commentThreads = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().allResultsLatest$,
+      x => (this.checkResultsLatest = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().checkNoUnresolvedWarnings$,
+      x => (this.checkNoUnresolvedWarnings = x)
     );
   }
 
@@ -919,6 +953,15 @@ export class GrChangeActions
       changedProperties.has('additionalActions')
     ) {
       this.actionsChanged();
+    }
+
+    if (
+      changedProperties.has('checkNoUnresolvedWarnings') ||
+      changedProperties.has('changeNum') ||
+      changedProperties.has('checkResultsLatest') ||
+      changedProperties.has('commentThreads')
+    ) {
+      void this.updateCheckWarningDiffs();
     }
 
     this.allActionValues = this.computeAllActions();
@@ -1437,6 +1480,17 @@ export class GrChangeActions
       );
       this.showActionDialog(this.confirmDeleteReviewerDialog);
       return false;
+    }
+    if (this.checkNoUnresolvedWarnings) {
+      const unresolvedWarnings = getUnresolvedCheckWarnings(
+        this.checkResultsLatest,
+        this.commentThreads,
+        this.checkWarningDiffs
+      );
+      if (unresolvedWarnings.length > 0) {
+        fireAlert(this, 'Cannot submit change with unresolved check warnings.');
+        return false;
+      }
     }
     const change = this.change as ChangeInfo;
     const revision = this.getRevision(change, this.latestPatchNum);
@@ -2459,6 +2513,20 @@ export class GrChangeActions
   private numberOfThreadsWithUnappliedSuggestions() {
     if (!this.threadsWithUnappliedSuggestions) return 0;
     return this.threadsWithUnappliedSuggestions.length;
+  }
+
+  private async updateCheckWarningDiffs() {
+    if (!this.checkNoUnresolvedWarnings || !this.changeNum) return;
+    const updated = await fetchDiffsForCheckWarnings(
+      this.restApiService,
+      this.changeNum,
+      this.checkResultsLatest,
+      this.commentThreads,
+      this.checkWarningDiffs
+    );
+    if (updated) {
+      this.checkWarningDiffs = updated;
+    }
   }
 }
 

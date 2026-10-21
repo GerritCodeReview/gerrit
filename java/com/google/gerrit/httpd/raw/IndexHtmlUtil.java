@@ -97,6 +97,11 @@ public class IndexHtmlUtil {
     String basePatchNum = null;
     if (matcher.matches()) {
       basePatchNum = matcher.group("basePatchNum");
+    } else {
+      Matcher diffMatcher = IndexPreloadingUtil.DIFF_URL_PATTERN.matcher(requestedPath);
+      if (diffMatcher.matches()) {
+        basePatchNum = diffMatcher.group("basePatchNum");
+      }
     }
     if (basePatchNum == null) {
       return 0; // No match is found

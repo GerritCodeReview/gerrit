@@ -40,6 +40,30 @@
       ],
       "revId": "44b9bad7cbad257a4327bb4737af414993250bdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c22e1e7_1f262445",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T21:07:16Z",
+      "side": 1,
+      "message": "@beckysiegel@google.com @sarahsilva@google.com",
+      "parentUuid": "0fef1380_32d2c21f",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "revId": "44b9bad7cbad257a4327bb4737af414993250bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

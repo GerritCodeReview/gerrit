@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a21fb7b0_3f48f9c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-22T06:31:29Z",
+      "side": 1,
+      "message": "Added, thanks!",
+      "parentUuid": "e575e661_b0cbdc94",
+      "revId": "d596ee75e4c5f5a3a31ba73f1d60ada60d81a0aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e1361c3_b5103b67",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-19T21:06:11Z",
       "side": 1,
       "message": "This is true, but not useful long-term as a comment, especially since it\u0027s not right next to the `getParents()` call. I would omit it.",
+      "range": {
+        "startLine": 202,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 98
+      },
+      "revId": "d596ee75e4c5f5a3a31ba73f1d60ada60d81a0aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20e948f8_eeb80b6b",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-22T06:31:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e1361c3_b5103b67",
       "range": {
         "startLine": 202,
         "startChar": 0,

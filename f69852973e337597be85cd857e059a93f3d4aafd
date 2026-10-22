@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c313ac8f_fb00b762",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-22T20:03:04Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by CL Review Agent: [Gerrit Review Agent] The REST API request `from(this.restApiService.getChange(....\n\n[Gerrit Review Agent] The REST API request `from(this.restApiService.getChange(...))` in `loadRevisionParents()` lacks error handling. If `getChange()` rejects (e.g. due to a transient network error, server error, or timeout), the uncaught error will terminate the long-lived `combineLatest` subscription permanently for the remainder of the user session, preventing `parents_data` from being fetched on subsequent patchset switches.\n\nPlease attach `.pipe(catchError(() \u003d\u003e of(undefined)))` to the inner `from(...)` observable to handle errors gracefully without breaking the subscription:\n```typescript\nreturn from(\n  this.restApiService.getChange(changeNum, undefined, optionsHex)\n).pipe(\n  catchError(() \u003d\u003e of(undefined))\n);\n```\n\n[🔗](http://go/tj/cns/gg-d/home/groupagent-grev-review/review_trajectories/cl646930_e17cc8d3-eb7c-4aaa-a9ff-9132d7fc1b98.pb)",
+      "range": {
+        "startLine": 877,
+        "startChar": 0,
+        "endLine": 880,
+        "endChar": 0
+      },
+      "revId": "f69852973e337597be85cd857e059a93f3d4aafd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

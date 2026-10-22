@@ -89,6 +89,30 @@
       "isAi": true,
       "revId": "44b9bad7cbad257a4327bb4737af414993250bdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc1a2ea_12a2bd7c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T21:42:01Z",
+      "side": 1,
+      "message": "Awesome, thanks Sarah for confirming the details.",
+      "parentUuid": "60cb03ba_b9b13057",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "revId": "44b9bad7cbad257a4327bb4737af414993250bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

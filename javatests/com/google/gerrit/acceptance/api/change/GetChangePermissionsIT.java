@@ -22,6 +22,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.d
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.entities.Permission.ABANDON;
 import static com.google.gerrit.entities.Permission.AI_REVIEW;
+import static com.google.gerrit.entities.Permission.WRITE_CHANGE;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -34,6 +35,8 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ChangePermissionsInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.Inject;
@@ -349,6 +352,47 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void writeChangePresentInOptionAllWhenRequireWriteChangeOff() throws Exception {
+    String changeId = createChange().getChangeId();
+    requestScopeOperations.setApiUser(user.id());
+
+    // With requireWriteChange off (the default), the gate imposes no restriction, so o=ALL reports
+    // writeChange for a plain registered user.
+    assertThat(
+            gApi.changes().id(changeId).permissionsRequest().withAllPermissions().get().permissions)
+        .contains(WRITE_CHANGE);
+  }
+
+  @Test
+  public void writeChangeAbsentInOptionAllWhenRequiredWithoutGrant() throws Exception {
+    String changeId = createChange().getChangeId();
+    enableRequireWriteChange();
+    requestScopeOperations.setApiUser(user.id());
+
+    // With the gate on and no grant, a plain registered user is denied, so o=ALL omits writeChange.
+    assertThat(
+            gApi.changes().id(changeId).permissionsRequest().withAllPermissions().get().permissions)
+        .doesNotContain(WRITE_CHANGE);
+  }
+
+  @Test
+  public void writeChangePresentInOptionAllWhenRequiredWithGrant() throws Exception {
+    String changeId = createChange().getChangeId();
+    enableRequireWriteChange();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(WRITE_CHANGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+
+    // With the gate on, an explicit Write Change grant lets a plain registered user resolve it.
+    assertThat(
+            gApi.changes().id(changeId).permissionsRequest().withAllPermissions().get().permissions)
+        .contains(WRITE_CHANGE);
+  }
+
+  @Test
   public void accountOptionReportsAnotherUsersPermissionsWithRunAs() throws Exception {
     String changeId = createChange().getChangeId();
     projectOperations
@@ -395,5 +439,11 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
                 .permissionsRequest()
                 .forAccount(String.valueOf(admin.id().get()))
                 .get());
+  }
+
+  private void enableRequireWriteChange() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.requireWriteChange = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(input);
   }
 }

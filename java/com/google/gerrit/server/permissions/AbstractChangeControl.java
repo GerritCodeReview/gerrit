@@ -21,6 +21,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
@@ -98,6 +99,7 @@ abstract class AbstractChangeControl {
             permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)
                 || refControl.canPerform(changePermissionName(perm));
         case AI_REVIEW -> canAiReview();
+        case WRITE_CHANGE -> canWriteChange();
       };
     } catch (StorageException e) {
       throw new PermissionBackendException("unavailable", e);
@@ -222,6 +224,19 @@ abstract class AbstractChangeControl {
   /** Can this user delete published comments or change messages on this change? */
   private boolean canDeleteComment() {
     return refControl.canPerform(Permission.DELETE_COMMENT) || projectControl.isAdmin();
+  }
+
+  /**
+   * Whether the user may write to this change. Unconditionally true when {@code
+   * change.requireWriteChange} is off, otherwise resolved from ownership and the Write Change ACL.
+   */
+  private boolean canWriteChange() {
+    return !projectControl.getProjectState().is(BooleanProjectConfig.REQUIRE_WRITE_CHANGE)
+        || isOwner() // owner (aka creator) of the change can write
+        || refControl.isOwner() // branch owner can write
+        || projectControl.isOwner() // project owner can write
+        || refControl.canPerform(Permission.WRITE_CHANGE) // user granted Write Change on the ref
+        || projectControl.isAdmin();
   }
 
   private boolean can(AbstractLabelPermission perm) {

@@ -2,8 +2,8 @@ onlyBuiltDependencies: []
 
 overrides:
   "eslint": "^9.39.1"
-  "@typescript-eslint/eslint-plugin": "^8.49.0"
-  "@typescript-eslint/parser": "^8.49.0"
-  "typescript": "5.8.2"
+  "@typescript-eslint/eslint-plugin": "^8.69.0"
+  "@typescript-eslint/parser": "^8.69.0"
+  "typescript": "6.0.3"
   "vscode-css-languageservice": "^6.3.9"
   "vscode-html-languageservice": "^5.6.1"

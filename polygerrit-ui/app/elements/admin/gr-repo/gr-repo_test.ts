@@ -30,7 +30,6 @@ import {
   MaxObjectSizeLimitInfo,
   PluginParameterToConfigParameterInfoMap,
   ProjectAccessInfo,
-  RepoAccessGroups,
   RepoAccessInfoMap,
   RepoName,
 } from '../../../types/common';
@@ -1079,7 +1078,7 @@ suite('gr-repo tests', () => {
               url: 'test',
               name: 'test' as GroupName,
             },
-          } as RepoAccessGroups,
+          },
           config_web_links: [{name: 'gitiles', url: 'test'}],
         },
       } as RepoAccessInfoMap)
@@ -1194,7 +1193,7 @@ suite('gr-repo tests', () => {
           url: 'test',
           name: 'test' as GroupName,
         },
-      } as RepoAccessGroups,
+      },
       config_web_links: [{name: 'gitiles', url: 'test'}],
     };
     let getRepoAccessStub: sinon.SinonStub;

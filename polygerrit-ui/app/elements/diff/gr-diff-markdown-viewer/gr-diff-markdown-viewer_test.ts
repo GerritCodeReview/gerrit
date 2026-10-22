@@ -74,8 +74,8 @@ suite('gr-diff-markdown-viewer tests', () => {
     const rightHeader = element.shadowRoot!.querySelector(
       '.column-header.right'
     );
-    assert.equal(leftHeader!.textContent!.trim(), 'Base');
-    assert.equal(rightHeader!.textContent!.trim(), 'Revision');
+    assert.equal(leftHeader!.textContent.trim(), 'Base');
+    assert.equal(rightHeader!.textContent.trim(), 'Revision');
   });
 
   test('highlights modified and added cells correctly', async () => {

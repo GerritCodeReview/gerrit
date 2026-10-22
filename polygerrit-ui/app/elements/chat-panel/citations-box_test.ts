@@ -8,7 +8,6 @@ import {assert, fixture, html} from '@open-wc/testing';
 import {
   ChatModel,
   chatModelToken,
-  GeminiMessage,
   Turn,
   UserType,
 } from '../../models/chat/chat-model';
@@ -37,7 +36,7 @@ suite('citations-box tests', () => {
         regenerationIndex: 0,
         references: [],
         citations,
-      } as GeminiMessage,
+      },
     };
   }
 
@@ -179,7 +178,7 @@ suite('citations-box tests', () => {
       '.citations-summary-message'
     );
     assert.isOk(summary);
-    assert.include(summary.textContent!, '2 citations');
+    assert.include(summary.textContent, '2 citations');
 
     const items = element.shadowRoot?.querySelectorAll('.citation-item');
     assert.isOk(items);

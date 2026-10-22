@@ -72,6 +72,9 @@ public class BooleanProjectConfigTransformations {
               BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT,
               new Mapper(i -> i.workInProgressByDefault, (i, v) -> i.workInProgressByDefault = v))
           .put(
+              BooleanProjectConfig.REQUIRE_WRITE_CHANGE,
+              new Mapper(i -> i.requireWriteChange, (i, v) -> i.requireWriteChange = v))
+          .put(
               BooleanProjectConfig.SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS,
               new Mapper(
                   i -> i.skipAddingAuthorAndCommitterAsReviewers,

@@ -4,17 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {PluginsModel} from '../../../models/plugins/plugins-model';
+import {FlowsModel} from '../../../models/flows/flows-model';
 import {
   FlowsAutosubmitProvider,
   FlowsPluginApi,
   FlowsProvider,
+  FlowsStateInfo,
 } from '../../../api/flows';
+import {ChangeInfo, FlowInfo, FlowInput} from '../../../api/rest-api';
+import {getChangePrefix} from '../../../utils/url-util';
+import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {Plugin} from './gr-public-js-api';
 
 export class GrFlowsApi implements FlowsPluginApi {
   constructor(
     private readonly plugins: PluginsModel,
-    private readonly plugin: Plugin
+    private readonly plugin: Plugin,
+    private readonly getFlowsModel?: () => FlowsModel
   ) {}
 
   register(provider: FlowsProvider): void {
@@ -29,5 +35,59 @@ export class GrFlowsApi implements FlowsPluginApi {
       pluginName: this.plugin.getPluginName(),
       provider,
     });
+  }
+
+  getState(): FlowsStateInfo | undefined {
+    const state = this.getFlowsModel?.().getState();
+    if (!state) return undefined;
+    return {
+      isEnabled: state.isEnabled,
+      flows: [...state.flows],
+      loading: state.loading,
+      errorMessage: state.errorMessage,
+    };
+  }
+
+  onStateChanged(callback: (state: FlowsStateInfo) => void): () => void {
+    const model = this.getFlowsModel?.();
+    if (!model) return () => {};
+    const sub = model.state$.subscribe(state => {
+      callback({
+        isEnabled: state.isEnabled,
+        flows: [...state.flows],
+        loading: state.loading,
+        errorMessage: state.errorMessage,
+      });
+    });
+    return () => sub.unsubscribe();
+  }
+
+  async createFlow(
+    flowInput: FlowInput,
+    reload = true
+  ): Promise<FlowInfo | undefined> {
+    const model = this.getFlowsModel?.();
+    if (!model) {
+      throw new Error('FlowsModel is not available');
+    }
+    return await model.createFlow(flowInput, throwingErrorCallback, reload);
+  }
+
+  async deleteFlow(flowId: string, reload = true): Promise<void> {
+    const model = this.getFlowsModel?.();
+    if (!model) {
+      throw new Error('FlowsModel is not available');
+    }
+    await model.deleteFlow(flowId, throwingErrorCallback, reload);
+  }
+
+  reload(): void {
+    this.getFlowsModel?.().reload();
+  }
+
+  getChangePrefix(change?: Pick<ChangeInfo, 'project' | '_number'>): string {
+    return (
+      this.getFlowsModel?.().getChangePrefix(change) ?? getChangePrefix(change)
+    );
   }
 }

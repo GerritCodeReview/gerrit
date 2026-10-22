@@ -22,6 +22,30 @@
       },
       "revId": "45ec2d8fd055bafc86ef9a5e4aa502116b81d6d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68e6966e_a49db95a",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-22T15:54:10Z",
+      "side": 1,
+      "message": "Good catch. args.refStorage is only consumed on the createRepository path, and initOnly skips that (it openRepositorys an existing repo), so the format would be silently ignored. Added a BadRequestException for initOnly \u0026\u0026 refStorage !\u003d null, with a test in ReftableProjectIT. Done.",
+      "parentUuid": "23714f3a_7cab3e26",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 39
+      },
+      "revId": "45ec2d8fd055bafc86ef9a5e4aa502116b81d6d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

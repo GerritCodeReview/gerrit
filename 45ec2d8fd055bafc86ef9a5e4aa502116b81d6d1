@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23714f3a_7cab3e26",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-22T07:53:42Z",
+      "side": 1,
+      "message": "I think we should validate for `input.initOnly \u0026\u0026 input.refStorage !\u003d null`.\n\nThe `args.refStorage` is only used when creating the repository.",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 39
+      },
+      "revId": "45ec2d8fd055bafc86ef9a5e4aa502116b81d6d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

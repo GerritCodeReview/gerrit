@@ -16,6 +16,24 @@
       "message": "Hello @david.ostrovsky@gmail.com, CQ on the `chromium-behaviour` plugin is failing with this error:\n\n```\nERROR: /b/s/w/ir/x/w/gerrit/polygerrit-ui/app/BUILD:68:11: Transpiling (js) \u0026\n  type-checking TypeScript project @@//polygerrit-ui/app:plugin_api_compiled\n  [tsc -p polygerrit-ui/app/tsconfig_plugin_api_compiled.json] failed: (Exit 2):\n  tsc failed: error executing TsProject command (from ts_project rule target \n  //polygerrit-ui/app:plugin_api_compiled) [...]\n\nerror TS2688: Cannot find type definition file for \u0027mocha\u0027.\n  The file is in the program because:\n    Entry point of type library \u0027mocha\u0027 specified in compilerOptions\nTarget //plugins/chromium-behavior/web:web_test_runner failed to build\nUse --verbose_failures to see the command lines of failed build steps.\nERROR: /b/s/w/ir/x/w/gerrit/polygerrit-ui/app/BUILD:78:12 Copying files to directory polygerrit-ui/app/plugin_api_npm_package failed [...]\n\n```\n\nSeems caused by this change and also by https://gerrit-review.googlesource.com/c/gerrit/+/624801.",
       "revId": "497721cb3009183d3c38b0e5e3be5e839d0d690c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c095574_3d23d20d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-22T14:05:10Z",
+      "side": 1,
+      "message": "Should be fixed with change 647428.",
+      "parentUuid": "dcc5f2c4_753dd2ed",
+      "revId": "497721cb3009183d3c38b0e5e3be5e839d0d690c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

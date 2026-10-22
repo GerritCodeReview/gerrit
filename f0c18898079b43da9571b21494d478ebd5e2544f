@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f49a5879_3a2d8b0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-22T11:59:17Z",
+      "side": 1,
+      "message": "This seems to break building:\n\n```\n/plugins/codemirror-editor/web/BUILD:70:17 Rollup plugins/codemirror-editor/web/codemirror_element-bundle.js failed: (Exit 2): tsc failed: error executing TsProject command (from ts_project rule target //polygerrit-ui/app:plugin_api_compiled) bazel-out/darwin_arm64-opt-exec/bin/external/aspect_rules_ts++typescript+npmtypescript/tsc/tsc --bazel-bindir bazel-out/darwin_arm64-fastbuild/bin --outDir polygerrit-ui/app/_plugin_api_out --project ... (remaining 7 arguments skipped)\n\n\n\npolygerrit-ui/app/BUILD:68:11: Transpiling (js) \u0026 type-checking TypeScript project @@//polygerrit-ui/app:plugin_api_compiled [tsc -p polygerrit-ui/app/tsconfig_plugin_api_compiled.json] failed: (Exit 2): tsc failed: error executing TsProject command (from ts_project rule target //polygerrit-ui/app:plugin_api_compiled) bazel-out/darwin_arm64-opt-exec/bin/external/aspect_rules_ts++typescript+npmtypescript/tsc/tsc --bazel-bindir bazel-out/darwin_arm64-fastbuild/bin --outDir polygerrit-ui/app/_plugin_api_out --project ... (remaining 7 arguments skipped)\n\nUse --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging\nerror TS2688: Cannot find type definition file for \u0027mocha\u0027.\n  The file is in the program because:\n    Entry point of type library \u0027mocha\u0027 specified in compilerOptions\nTarget //:release failed to build\n\n\nplugins/delete-project/web/BUILD:47:17 Rollup plugins/delete-project/web/gr-delete-repo-bundle.js failed: (Exit 2): tsc failed: error executing TsProject command (from ts_project rule target //polygerrit-ui/app:plugin_api_compiled) bazel-out/darwin_arm64-opt-exec/bin/external/aspect_rules_ts++typescript+npmtypescript/tsc/tsc --bazel-bindir bazel-out/darwin_arm64-fastbuild/bin --outDir polygerrit-ui/app/_plugin_api_out --project ... (remaining 7 arguments skipped)\n```\n\nAlso i\u0027m not sure if it\u0027s related to this patch or something in the chain but polygerrit-ui/yarn.lock wasn\u0027t updated.",
+      "revId": "f0c18898079b43da9571b21494d478ebd5e2544f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

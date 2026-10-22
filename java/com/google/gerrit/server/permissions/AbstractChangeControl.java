@@ -101,6 +101,7 @@ abstract class AbstractChangeControl {
             permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)
                 || refControl.canPerform(changePermissionName(perm));
         case AI_REVIEW -> canAiReview();
+        case WRITE_CHANGE -> canWriteChange();
       };
     } catch (StorageException e) {
       throw new PermissionBackendException("unavailable", e);
@@ -218,6 +219,15 @@ abstract class AbstractChangeControl {
     return isOwner
         || projectControl.isOwner()
         || refControl.canPerform(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
+        || projectControl.isAdmin();
+  }
+
+  /** Can this user write to this change while {@code change.requireWriteChange} is set? */
+  private boolean canWriteChange() {
+    return isOwner // owner (aka creator) of the change can write
+        || refControl.isOwner() // branch owner can write
+        || projectControl.isOwner() // project owner can write
+        || refControl.canPerform(Permission.WRITE_CHANGE) // user granted Write Change on the ref
         || projectControl.isAdmin();
   }
 

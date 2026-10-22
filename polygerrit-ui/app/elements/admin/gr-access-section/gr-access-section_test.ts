@@ -211,6 +211,9 @@ suite('gr-access-section tests', () => {
                     >
                       <div slot="headline">View Private Changes</div>
                     </md-select-option>
+                    <md-select-option md-menu-item="" value="writeChange">
+                      <div slot="headline">Write Change</div>
+                    </md-select-option>
                   </md-outlined-select>
                   <gr-button
                     aria-disabled="false"

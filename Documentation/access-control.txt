@@ -1006,6 +1006,25 @@ auth.skipFullRefEvaluationIfAllRefsAreVisible] is `true` (which is the case by
 default) privates changes and all change edit refs are also visible to users
 that have read access on `refs/*`.
 
+[[category_write_change]]
+=== Write Change
+
+This category controls who may write to changes on a ref while
+link:config-project-config.html#change.requireWriteChange[`change.requireWriteChange`] is
+enabled on the project. It has no effect unless that option is set: when the
+option is off (the default), change writes are not gated by this permission and
+behavior is unchanged.
+
+When `change.requireWriteChange` is enabled, every write to a change (comments, votes,
+patch sets, topic and hashtag edits, and so on) requires this permission on the
+change's destination ref. Internal server operations, server administrators,
+branch and project owners, and the change owner (on their own changes) are
+always allowed, even without this permission.
+
+Project owners grant `Write Change` per project to the group of contributors
+they trust, which lets a multi-tenant host restrict change writes per project
+without a shared, site-wide group.
+
 [[category_toggle_work_in_progress_state]]
 === Toggle Work In Progress state
 

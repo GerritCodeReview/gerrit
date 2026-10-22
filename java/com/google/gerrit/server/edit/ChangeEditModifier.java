@@ -62,6 +62,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -561,13 +562,15 @@ public class ChangeEditModifier {
 
     // Not allowed to edit if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(notes);
+    ProjectState projectState =
+        projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
+    // A change edit also needs Write Change when requireWriteChange is set.
+    PermissionBackend.ForChange forChange = permissionBackend.currentUser().change(notes);
     boolean canEdit =
-        permissionBackend.currentUser().change(notes).test(ChangePermission.ADD_PATCH_SET);
-    canEdit &=
-        projectCache
-            .get(notes.getProjectName())
-            .orElseThrow(illegalState(notes.getProjectName()))
-            .statePermitsWrite();
+        projectState.statePermitsWrite()
+            && forChange.test(ChangePermission.ADD_PATCH_SET)
+            && (!projectState.is(BooleanProjectConfig.REQUIRE_WRITE_CHANGE)
+                || forChange.test(ChangePermission.WRITE_CHANGE));
     if (!canEdit) {
       throw new AuthException("edit not permitted");
     }

@@ -23,6 +23,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
@@ -42,6 +43,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -50,6 +52,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -155,7 +158,19 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     } catch (AuthException denied) {
       throw new AuthException("move not permitted", denied);
     }
-    projectCache.get(project).orElseThrow(illegalState(project)).checkStatePermitsWrite();
+    ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));
+    projectState.checkStatePermitsWrite();
+
+    // A move writes the change onto the destination branch. The BatchUpdate guard only authorizes
+    // the source branch, so when requireWriteChange is on, also require Write Change on the
+    // destination. For impersonated requests the real requester must satisfy it too.
+    if (projectState.is(BooleanProjectConfig.REQUIRE_WRITE_CHANGE)
+        && (!mayWriteOnDestination(rsrc.getUser(), newDest, change)
+            || (rsrc.getUser().isImpersonated()
+                && !mayWriteOnDestination(rsrc.getUser().getRealUser(), newDest, change)))) {
+      throw new AuthException(
+          "move not permitted; requires the Write Change permission on " + newDest.branch());
+    }
 
     Op op = new Op(input);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
@@ -165,6 +180,22 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       }
     }
     return Response.ok(json.noOptions().format(op.getChange()));
+  }
+
+  /**
+   * Returns whether {@code user} may write the change onto {@code dest} while {@code
+   * change.requireWriteChange} is enabled. Evaluates {@link ChangePermission#WRITE_CHANGE} as if
+   * the change were created on {@code dest} (scoping the permission to a ref the change is not yet
+   * on), which folds in the owner/branch-owner/project-owner/admin exemptions.
+   */
+  private boolean mayWriteOnDestination(CurrentUser user, BranchNameKey dest, Change change)
+      throws PermissionBackendException {
+    boolean isOwner = user.isIdentifiedUser() && change.getOwner().equals(user.getAccountId());
+    return permissionBackend
+        .user(user)
+        .ref(dest)
+        .changeToBeCreated(isOwner)
+        .test(ChangePermission.WRITE_CHANGE);
   }
 
   private class Op implements BatchUpdateOp {

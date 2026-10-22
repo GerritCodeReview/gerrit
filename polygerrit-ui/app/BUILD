@@ -72,7 +72,13 @@ ts_project(
     incremental = True,
     out_dir = "_plugin_api_out",
     root_dir = "api",
-    tsconfig = {"compilerOptions": {"rootDir": "api"}},
+    # The API package has no tests, so drop the "mocha" type lib that the
+    # shared plugins base tsconfig pulls in for plugin tests. Otherwise tsc
+    # demands @types/mocha, which this pure-types compile has no dep on.
+    tsconfig = {"compilerOptions": {
+        "rootDir": "api",
+        "types": [],
+    }},
 )
 
 npm_package(

@@ -37,6 +37,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo rejectImplicitMerges;
   public InheritedBooleanInfo privateByDefault;
   public InheritedBooleanInfo workInProgressByDefault;
+  public InheritedBooleanInfo requireWriteChange;
   public InheritedBooleanInfo enableReviewerByEmail;
   public InheritedBooleanInfo matchAuthorToCommitterDate;
   public InheritedBooleanInfo rejectEmptyCommit;

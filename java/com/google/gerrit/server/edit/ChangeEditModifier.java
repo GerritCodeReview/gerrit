@@ -39,6 +39,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -561,16 +563,28 @@ public class ChangeEditModifier {
 
     // Not allowed to edit if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(notes);
+    ProjectState projectState =
+        projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
+    // A change edit also needs Write Change when requireWriteChange is set.
+    CurrentUser user = currentUser.get();
+    PermissionBackend.ForChange forChange = permissionBackend.currentUser().change(notes);
     boolean canEdit =
-        permissionBackend.currentUser().change(notes).test(ChangePermission.ADD_PATCH_SET);
-    canEdit &=
-        projectCache
-            .get(notes.getProjectName())
-            .orElseThrow(illegalState(notes.getProjectName()))
-            .statePermitsWrite();
+        projectState.statePermitsWrite()
+            && forChange.test(ChangePermission.ADD_PATCH_SET)
+            && mayWriteChange(user, notes)
+            && (!user.isImpersonated() || mayWriteChange(user.getRealUser(), notes));
     if (!canEdit) {
       throw new AuthException("edit not permitted");
     }
+  }
+
+  private boolean mayWriteChange(CurrentUser user, ChangeNotes notes)
+      throws PermissionBackendException {
+    // THIS_USER tests the given identity literally; the caller checks the effective and real users.
+    return permissionBackend
+        .user(user, ImpersonationPermissionMode.THIS_USER)
+        .change(notes)
+        .test(ChangePermission.WRITE_CHANGE);
   }
 
   private Optional<ChangeEdit> lookupChangeEdit(ChangeNotes notes)

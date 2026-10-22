@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.UsedAt.Project.GOOGLE;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
@@ -40,6 +41,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -48,10 +50,12 @@ import com.google.gerrit.entities.ProjectChangeKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.RefLogIdentityProvider;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -70,7 +74,13 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -296,6 +306,11 @@ public class BatchUpdate implements AutoCloseable {
   private final GitReferenceUpdated gitRefUpdated;
   private final RefLogIdentityProvider refLogIdentityProvider;
   private final ServiceUserClassifier serviceUserClassifier;
+  private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
+
+  // Lazily resolved once per batch: whether change.requireWriteChange is set on this project.
+  private Boolean requireWriteChange;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -336,6 +351,8 @@ public class BatchUpdate implements AutoCloseable {
       RefLogIdentityProvider refLogIdentityProvider,
       ServiceUserClassifier serviceUserClassifier,
       AttentionSetObserver attentionSetObserver,
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache,
       @GerritServerConfig Config gerritConfig,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
@@ -353,6 +370,8 @@ public class BatchUpdate implements AutoCloseable {
     this.refLogIdentityProvider = refLogIdentityProvider;
     this.serviceUserClassifier = serviceUserClassifier;
     this.attentionSetObserver = attentionSetObserver;
+    this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -689,6 +708,40 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
+  private boolean writeChangeRequired() {
+    if (requireWriteChange == null) {
+      requireWriteChange =
+          projectCache
+              .get(project)
+              .orElseThrow(illegalState(project))
+              .is(BooleanProjectConfig.REQUIRE_WRITE_CHANGE);
+    }
+    return requireWriteChange;
+  }
+
+  /**
+   * Returns whether the user applying {@code ctx} may write to the change. For impersonated writes
+   * the real requester must also satisfy the policy.
+   */
+  private boolean isWriteAllowed(ChangeContext ctx) throws PermissionBackendException {
+    CurrentUser writer = ctx.getUser();
+    if (!mayWriteChange(writer, ctx.getNotes())) {
+      return false;
+    }
+    return !writer.isImpersonated() || mayWriteChange(writer.getRealUser(), ctx.getNotes());
+  }
+
+  private boolean mayWriteChange(CurrentUser writer, ChangeNotes notes)
+      throws PermissionBackendException {
+    // Internal users are exempt. THIS_USER tests the identity literally; isWriteAllowed() checks
+    // the effective and real users separately.
+    return writer.isInternalUser()
+        || permissionBackend
+            .user(writer, ImpersonationPermissionMode.THIS_USER)
+            .change(notes)
+            .test(ChangePermission.WRITE_CHANGE);
+  }
+
   ChangesHandle executeChangeOps(
       ImmutableList<BatchUpdateListener> batchUpdateListeners, boolean dryrun) throws Exception {
     logDebug("Executing change ops");
@@ -729,6 +782,16 @@ public class BatchUpdate implements AutoCloseable {
           ctx.defaultUpdates.values().forEach(changeUpdates::add);
           ctx.distinctUpdates.values().forEach(changeUpdates::add);
           ctx = newChangeContext(opData.user(), id);
+        }
+        // Auto-close runs as the pushing user, on a separate BatchUpdate after the
+        // branch ref has already advanced (see ReceiveCommits#autoCloseChanges).
+        // Gating it would strand a merged commit on an open change. Exempting it is
+        // safe: reaching this path requires pushing to the branch, which needs the
+        // Push permission, so an untrusted account cannot.
+        if (writeChangeRequired()
+            && !RefUpdateContext.hasOpen(RefUpdateType.AUTO_CLOSE_CHANGES)
+            && !isWriteAllowed(ctx)) {
+          throw new AuthException("writing to changes requires the Write Change permission");
         }
         Class<? extends BatchUpdateOp> opClass = opData.op().getClass();
         try (TraceContext.TraceTimer _ =

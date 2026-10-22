@@ -443,6 +443,64 @@ suite('gr-change-actions tests', () => {
       });
     });
 
+    suite('topic navigation buttons', () => {
+      test('hidden when prevTopicChange and nextTopicChange are undefined', async () => {
+        element.prevTopicChange = undefined;
+        element.nextTopicChange = undefined;
+        await element.updateComplete;
+        assert.isUndefined(
+          query(element, 'gr-button[data-action-key="prevInTopic"]')
+        );
+        assert.isUndefined(
+          query(element, 'gr-button[data-action-key="nextInTopic"]')
+        );
+      });
+
+      test('renders prev before next and navigates on click', async () => {
+        const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+        element.prevTopicChange = createChange({
+          _number: 100 as NumericChangeId,
+          project: 'test-project' as RepoName,
+          subject: 'First topic change',
+        });
+        element.nextTopicChange = createChange({
+          _number: 102 as NumericChangeId,
+          project: 'test-project' as RepoName,
+          subject: 'Third topic change',
+        });
+        await element.updateComplete;
+
+        const secondaryKeys = element.topLevelSecondaryActions!.map(
+          a => a.__key
+        );
+        const prevIdx = secondaryKeys.indexOf('prevInTopic');
+        const nextIdx = secondaryKeys.indexOf('nextInTopic');
+        assert.isAbove(prevIdx, -1);
+        assert.equal(nextIdx, prevIdx + 1);
+
+        const prevButton = queryAndAssert<GrButton>(
+          element,
+          'gr-button[data-action-key="prevInTopic"]'
+        );
+        const nextButton = queryAndAssert<GrButton>(
+          element,
+          'gr-button[data-action-key="nextInTopic"]'
+        );
+
+        prevButton.click();
+        await element.updateComplete;
+        assert.isTrue(
+          setUrlStub.calledWith('/c/test-project/+/100?usp=prev-topic-change')
+        );
+
+        nextButton.click();
+        await element.updateComplete;
+        assert.isTrue(
+          setUrlStub.calledWith('/c/test-project/+/102?usp=next-topic-change')
+        );
+      });
+    });
+
     test('show-revision-actions event should fire', async () => {
       const spy = sinon.spy(element, 'sendShowRevisionActions');
       element.reload();

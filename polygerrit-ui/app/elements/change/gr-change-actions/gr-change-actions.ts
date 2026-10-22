@@ -119,6 +119,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {when} from 'lit/directives/when.js';
 import {ValidationOptionInfo} from '../../../api/rest-api';
 
@@ -186,6 +187,20 @@ const AI_CHAT_ACTION: UIActionInfo = {
   __type: ActionType.CHANGE,
   enabled: true,
   label: 'Agent Chat',
+};
+
+export const PREV_IN_TOPIC_ACTION: UIActionInfo = {
+  __key: 'prevInTopic',
+  __type: ActionType.CHANGE,
+  enabled: true,
+  label: 'Prev in topic',
+};
+
+export const NEXT_IN_TOPIC_ACTION: UIActionInfo = {
+  __key: 'nextInTopic',
+  __type: ActionType.CHANGE,
+  enabled: true,
+  label: 'Next in topic',
 };
 
 function isQuickApproveAction(
@@ -277,6 +292,8 @@ const ACTIONS_WITH_ICONS = new Map<
   [ChangeActions.STOP_EDIT, {icon: 'stop', filled: true}],
   [QUICK_APPROVE_ACTION.key, {icon: 'check'}],
   [AI_CHAT_ACTION.__key, {icon: 'ai'}],
+  [PREV_IN_TOPIC_ACTION.__key, {icon: 'arrow_back'}],
+  [NEXT_IN_TOPIC_ACTION.__key, {icon: 'arrow_forward'}],
   [RevisionActions.SUBMIT, {icon: 'done_all'}],
 ]);
 
@@ -507,6 +524,10 @@ export class GrChangeActions
 
   @state() deletedReviewers: AccountInfo[] = [];
 
+  @state() prevTopicChange?: ChangeInfo | ParsedChangeInfo;
+
+  @state() nextTopicChange?: ChangeInfo | ParsedChangeInfo;
+
   private aiChatLoadingCleanup?: () => void;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -527,8 +548,23 @@ export class GrChangeActions
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().prevTopicChange$,
+      x => (this.prevTopicChange = x)
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().nextTopicChange$,
+      x => (this.nextTopicChange = x)
+    );
     subscribe(
       this,
       () => this.getChatModel().capabilitiesLoaded$,
@@ -1623,6 +1659,26 @@ export class GrChangeActions
       case ChangeActions.INCLUDED_IN:
         this.handleIncludedInTap();
         break;
+      case PREV_IN_TOPIC_ACTION.__key: {
+        if (!this.prevTopicChange) return;
+        this.getNavigation().setUrl(
+          createChangeUrl({
+            change: this.prevTopicChange,
+            usp: 'prev-topic-change',
+          })
+        );
+        break;
+      }
+      case NEXT_IN_TOPIC_ACTION.__key: {
+        if (!this.nextTopicChange) return;
+        this.getNavigation().setUrl(
+          createChangeUrl({
+            change: this.nextTopicChange,
+            usp: 'next-topic-change',
+          })
+        );
+        break;
+      }
       default:
         this.fireAction(
           this.prependSlash(key),
@@ -2334,6 +2390,18 @@ export class GrChangeActions
         changeActionValues.unshift(aiChat);
       }
     }
+    if (this.prevTopicChange) {
+      changeActionValues.unshift({
+        ...PREV_IN_TOPIC_ACTION,
+        title: `Previous CL in topic: ${this.prevTopicChange._number}: ${this.prevTopicChange.subject}`,
+      });
+    }
+    if (this.nextTopicChange) {
+      changeActionValues.unshift({
+        ...NEXT_IN_TOPIC_ACTION,
+        title: `Next CL in topic: ${this.nextTopicChange._number}: ${this.nextTopicChange.subject}`,
+      });
+    }
     return revisionActionValues
       .concat(changeActionValues)
       .sort((a, b) => this.actionComparator(a, b))
@@ -2360,6 +2428,10 @@ export class GrChangeActions
       return ActionPriority.CHAT;
     } else if (action.__key === QUICK_APPROVE_ACTION.__key) {
       return ActionPriority.REVIEW;
+    } else if (action.__key === PREV_IN_TOPIC_ACTION.__key) {
+      return ActionPriority.CHANGE + 0.1;
+    } else if (action.__key === NEXT_IN_TOPIC_ACTION.__key) {
+      return ActionPriority.CHANGE + 0.2;
     } else if (action.__key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
       return ActionPriority.DEFAULT;
     } else if (action.__primary) {

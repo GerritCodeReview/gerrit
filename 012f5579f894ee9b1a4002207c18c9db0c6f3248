@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf54481_2feadda8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-22T06:54:55Z",
+      "side": 1,
+      "message": "There is also a published rule to generate cyclonedx SBOMs: https://github.com/rtbot-dev/rules_sbom. Do you know about it? Do you have a reason not to use it?",
+      "revId": "012f5579f894ee9b1a4002207c18c9db0c6f3248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

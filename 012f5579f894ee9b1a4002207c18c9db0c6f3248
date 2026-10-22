@@ -16,6 +16,24 @@
       "message": "There is also a published rule to generate cyclonedx SBOMs: https://github.com/rtbot-dev/rules_sbom. Do you know about it? Do you have a reason not to use it?",
       "revId": "012f5579f894ee9b1a4002207c18c9db0c6f3248",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5a16ba6_0ecb7e8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-22T08:12:50Z",
+      "side": 1,
+      "message": "As you can imagine, I evaluated the existing Bazel SBOM projects before writing my own pipeline:\n\n- rules_sbom (rtbot-dev / Katenaria) — syft-based: fetches the syft binary and scans the built artifact.\n- rules_cyclonedx — wraps CycloneDX Core Java (caps at spec 1.6).\n- rules_license — deprecated, superseded by @package_metadata.\n- @package_metadata (bazel-contrib/supply-chain) — the metadata provider (purl, license).\n- rules_jvm_external — already stamps maven_coordinates / maven_sha256 on every jvm_import.\n\nAnd the reasons I generate from the graph rather than adopt one of these:\n\n1. The hash has to be the published artifact\u0027s, not a scanned file\u0027s. The scan-based tools (rules_sbom/syft) hash the jar as it\u0027s repackaged into the WAR, which differs byte-for-byte from the artifact fetched from Maven (~69/73 jars here) — so those hashes don\u0027t match what a vulnerability scanner looks up. The correct SHA-256 lives only on the build graph (rje\u0027s maven_sha256), never in the scanned output. Reading it off the graph is the whole point of this change.\n2. Self-contained and hermetic. No third-party binary, no network fetch - just an aspect over tags rje already stamps, plus a Python generator. rules_sbom pulls the syft binary per platform; rules_cyclonedx needs git_overrides and caps at CycloneDX 1.6.\n3. Exact graph fidelity. Only the build graph knows shipped vs compile-only (via the pkg_war owner-label join); a scanner infers and can\u0027t tell them apart.\n\nAnd I don\u0027t intend to maintain this forever: I\u0027ve opened rules_jvm_external#1641 (opt-in render_checksums) and the matching checksum attribute in @package_metadata (supply-chain#237/#238), so the pinned SHA-256 becomes standard metadata any tool can consume, at which point this generator just reads package_metadata.",
+      "parentUuid": "aaf54481_2feadda8",
+      "revId": "012f5579f894ee9b1a4002207c18c9db0c6f3248",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.restapi.project.GetDiffFile;
 import com.google.gerrit.server.restapi.project.ListDiffFiles;
 import com.google.inject.Inject;
@@ -278,6 +279,34 @@ public class DiffCommitsIT extends AbstractDaemonTest {
 
     // Should return a diff result (possibly empty)
     assertThat(diffInfo).isNotNull();
+  }
+
+  @Test
+  public void getDiffFile_nonExistentFileReturnsNotFound() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    assertThrows(
+        ResourceNotFoundException.class,
+        () ->
+            gApi.projects()
+                .name(project.get())
+                .diffFile(
+                    initialCommit.name(), result.getCommit().name(), "a_non-existent_file.txt"));
+  }
+
+  @Test
+  public void getDiffFile_nonExistentFileReturnsNotFoundViaRest() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    userRestSession
+        .get(
+            String.format(
+                "/projects/%s/commits/%s/files/%s/diff?base=%s",
+                Url.encode(project.get()),
+                result.getCommit().name(),
+                Url.encode("a_non-existent_file.txt"),
+                initialCommit.name()))
+        .assertNotFound();
   }
 
   @Test

@@ -34,6 +34,24 @@
       "parentUuid": "f49a5879_3a2d8b0b",
       "revId": "f0c18898079b43da9571b21494d478ebd5e2544f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f32f214_cee03c44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-22T12:40:07Z",
+      "side": 1,
+      "message": "CI is failing with same error now: https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/1561/console",
+      "parentUuid": "c4b0ab8d_3ce9e4fe",
+      "revId": "f0c18898079b43da9571b21494d478ebd5e2544f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

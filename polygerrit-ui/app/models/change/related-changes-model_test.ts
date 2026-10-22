@@ -9,7 +9,6 @@ import {ChangeModel, changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {RelatedChangesModel} from './related-changes-model';
-import {configModelToken} from '../config/config-model';
 import {SinonStub} from 'sinon';
 import {
   ChangeInfo,
@@ -23,19 +22,28 @@ import {
   createParsedChange,
   createRelatedChangeAndCommitInfo,
   createRelatedChangesInfo,
+  createServerInfo,
 } from '../../test/test-data-generators';
-import {ChangeStatus, ReviewInputTag, TopicName} from '../../api/rest-api';
+import {
+  ChangeStatus,
+  NumericChangeId,
+  ReviewInputTag,
+  TopicName,
+} from '../../api/rest-api';
 import {MessageTag} from '../../constants/constants';
+import {ConfigModel, configModelToken} from '../config/config-model';
 
 suite('related-changes-model tests', () => {
   let model: RelatedChangesModel;
   let changeModel: ChangeModel;
+  let configModel: ConfigModel;
 
   setup(async () => {
     changeModel = testResolver(changeModelToken);
+    configModel = testResolver(configModelToken);
     model = new RelatedChangesModel(
       changeModel,
-      testResolver(configModelToken),
+      configModel,
       getAppContext().restApiService
     );
     await waitUntilObserved(changeModel.change$, c => c === undefined);
@@ -282,6 +290,163 @@ suite('related-changes-model tests', () => {
         revertingChanges => revertingChanges?.length === 1
       );
       assert.isTrue(getChangeStub.calledOnce);
+    });
+  });
+
+  suite('topicChanges$, prevTopicChange$, and nextTopicChange$', () => {
+    let getChangesWithSameTopicStub: SinonStub;
+    let getChangesWithSameTopicResponse: ChangeInfo[];
+    let getChangesSubmittedTogetherStub: SinonStub;
+    let getChangesSubmittedTogetherResponse: SubmittedTogetherInfo;
+
+    setup(() => {
+      getChangesWithSameTopicResponse = [];
+      getChangesSubmittedTogetherResponse = {
+        changes: [],
+        non_visible_changes: 0,
+      };
+      getChangesWithSameTopicStub = stubRestApi(
+        'getChangesWithSameTopic'
+      ).callsFake(() => Promise.resolve(getChangesWithSameTopicResponse));
+      getChangesSubmittedTogetherStub = stubRestApi(
+        'getChangesSubmittedTogether'
+      ).callsFake(() => Promise.resolve(getChangesSubmittedTogetherResponse));
+    });
+
+    test('undefined when change has no topic', async () => {
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        topic: undefined,
+      });
+
+      await waitUntilObserved(
+        model.topicChanges$,
+        topicChanges => topicChanges.length === 0
+      );
+      await waitUntilObserved(
+        model.prevTopicChange$,
+        prev => prev === undefined
+      );
+      await waitUntilObserved(
+        model.nextTopicChange$,
+        next => next === undefined
+      );
+      assert.isFalse(getChangesWithSameTopicStub.called);
+    });
+
+    test('wraps prev from first topic change and navigates next with sameTopicChanges (submit_whole_topic=false)', async () => {
+      const topic = 'my-topic' as TopicName;
+      const change101 = createChange({
+        _number: 101 as NumericChangeId,
+        topic,
+        subject: 'Change 101',
+      });
+      const change102 = createChange({
+        _number: 102 as NumericChangeId,
+        topic,
+        subject: 'Change 102',
+      });
+
+      // Sorted top-to-bottom order is [103, 102, 101].
+      // Start at 103 (first item in the list): prev wraps to 101, next is 102.
+      getChangesWithSameTopicResponse = [change101, change102];
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        _number: 103 as NumericChangeId,
+        topic,
+        subject: 'Change 103',
+      });
+
+      await waitUntilObserved(
+        model.topicChanges$,
+        changes => changes.length === 3
+      );
+      await waitUntilObserved(
+        model.prevTopicChange$,
+        prev => prev?._number === (101 as NumericChangeId)
+      );
+      await waitUntilObserved(
+        model.nextTopicChange$,
+        next => next?._number === (102 as NumericChangeId)
+      );
+    });
+
+    test('navigates prev and wraps next from last topic change with sameTopicChanges (submit_whole_topic=false)', async () => {
+      const topic = 'my-topic' as TopicName;
+      const change102 = createChange({
+        _number: 102 as NumericChangeId,
+        topic,
+        subject: 'Change 102',
+      });
+      const change103 = createChange({
+        _number: 103 as NumericChangeId,
+        topic,
+        subject: 'Change 103',
+      });
+
+      // Sorted top-to-bottom order is [103, 102, 101].
+      // Start at 101 (last item in the list): prev is 102, next wraps to 103.
+      getChangesWithSameTopicResponse = [change103, change102];
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        _number: 101 as NumericChangeId,
+        topic,
+        subject: 'Change 101',
+      });
+
+      await waitUntilObserved(
+        model.prevTopicChange$,
+        prev => prev?._number === (102 as NumericChangeId)
+      );
+      await waitUntilObserved(
+        model.nextTopicChange$,
+        next => next?._number === (103 as NumericChangeId)
+      );
+    });
+
+    test('navigates and wraps around with submittedTogether (submit_whole_topic=true)', async () => {
+      const serverConfig = createServerInfo();
+      serverConfig.change.submit_whole_topic = true;
+      configModel.updateServerConfig(serverConfig);
+
+      const topic = 'whole-topic' as TopicName;
+      const change203 = createChange({
+        _number: 203 as NumericChangeId,
+        topic,
+        subject: 'Change 203',
+      });
+      const change202 = createChange({
+        _number: 202 as NumericChangeId,
+        topic,
+        subject: 'Change 202',
+      });
+      const change201 = createChange({
+        _number: 201 as NumericChangeId,
+        topic,
+        subject: 'Change 201',
+      });
+
+      getChangesSubmittedTogetherResponse = {
+        changes: [change203, change202, change201],
+        non_visible_changes: 0,
+      };
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        _number: 202 as NumericChangeId,
+        topic,
+        subject: 'Change 202',
+      });
+
+      await waitUntilObserved(
+        model.prevTopicChange$,
+        prev => prev?._number === (203 as NumericChangeId)
+      );
+      await waitUntilObserved(
+        model.nextTopicChange$,
+        next => next?._number === (201 as NumericChangeId)
+      );
+      assert.isTrue(getChangesSubmittedTogetherStub.called);
+      assert.isFalse(getChangesWithSameTopicStub.called);
     });
   });
 });

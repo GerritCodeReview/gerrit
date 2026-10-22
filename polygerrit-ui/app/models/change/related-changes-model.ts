@@ -13,11 +13,11 @@ import {select} from '../../utils/observable-util';
 import {Model} from '../base/model';
 import {define} from '../dependency';
 import {ChangeModel} from './change-model';
-import {combineLatest, forkJoin, from, of} from 'rxjs';
+import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {ConfigModel} from '../config/config-model';
 import {ChangeStatus} from '../../api/rest-api';
-import {isDefined} from '../../types/types';
+import {isDefined, ParsedChangeInfo} from '../../types/types';
 
 export interface RelatedChangesState {
   /** `undefined` means "not yet loaded". */
@@ -101,6 +101,32 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
    */
   public readonly hasParent$;
 
+  /**
+   * Ordered list of all changes in the same topic (including the current
+   * change) when the change belongs to a topic with more than one change.
+   */
+  public readonly topicChanges$: Observable<
+    Array<ChangeInfo | ParsedChangeInfo>
+  >;
+
+  /**
+   * The previous change in the topic, wrapping around to the last change when
+   * currently on the first change. `undefined` if there are fewer than 2
+   * changes in the topic.
+   */
+  public readonly prevTopicChange$: Observable<
+    ChangeInfo | ParsedChangeInfo | undefined
+  >;
+
+  /**
+   * The next change in the topic, wrapping around to the first change when
+   * currently on the last change. `undefined` if there are fewer than 2
+   * changes in the topic.
+   */
+  public readonly nextTopicChange$: Observable<
+    ChangeInfo | ParsedChangeInfo | undefined
+  >;
+
   constructor(
     readonly changeModel: ChangeModel,
     readonly configModel: ConfigModel,
@@ -117,6 +143,67 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
         const lastChangeId =
           relatedChanges[relatedChanges.length - 1].change_id;
         return lastChangeId !== change.change_id;
+      }
+    );
+
+    this.topicChanges$ = select(
+      combineLatest([
+        this.changeModel.change$,
+        this.submittedTogether$,
+        this.sameTopicChanges$,
+        this.configModel.serverConfig$,
+      ]),
+      ([change, submittedTogether, sameTopicChanges, config]) => {
+        if (!change || !change.topic) return [];
+        if (config?.change?.submit_whole_topic) {
+          const submittedChanges = submittedTogether?.changes ?? [];
+          const matchingTopic = submittedChanges.filter(
+            c => c.topic === change.topic
+          );
+          return matchingTopic.length > 1 ? matchingTopic : [];
+        }
+        if (!sameTopicChanges || sameTopicChanges.length === 0) return [];
+        const allTopicChanges: Array<ChangeInfo | ParsedChangeInfo> = [
+          ...sameTopicChanges.filter(c => c._number !== change._number),
+          change,
+        ];
+        if (allTopicChanges.length <= 1) return [];
+        return allTopicChanges.sort((a, b) => {
+          const projectCompare = a.project.localeCompare(b.project);
+          if (projectCompare !== 0) return projectCompare;
+          return b._number - a._number;
+        });
+      }
+    );
+
+    this.prevTopicChange$ = select(
+      combineLatest([this.changeModel.change$, this.topicChanges$]),
+      ([change, topicChanges]) => {
+        if (!change || !topicChanges || topicChanges.length <= 1) {
+          return undefined;
+        }
+        const currentIndex = topicChanges.findIndex(
+          c => c._number === change._number
+        );
+        if (currentIndex === -1) return topicChanges[topicChanges.length - 1];
+        const prevIndex =
+          (currentIndex - 1 + topicChanges.length) % topicChanges.length;
+        return topicChanges[prevIndex];
+      }
+    );
+
+    this.nextTopicChange$ = select(
+      combineLatest([this.changeModel.change$, this.topicChanges$]),
+      ([change, topicChanges]) => {
+        if (!change || !topicChanges || topicChanges.length <= 1) {
+          return undefined;
+        }
+        const currentIndex = topicChanges.findIndex(
+          c => c._number === change._number
+        );
+        if (currentIndex === -1) return topicChanges[0];
+        const nextIndex = (currentIndex + 1) % topicChanges.length;
+        return topicChanges[nextIndex];
       }
     );
 

@@ -31,6 +31,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
@@ -1381,6 +1382,68 @@ public class ProjectConfigIT extends AbstractDaemonTest {
                 .get(project)
                 .orElseThrow(illegalState(project))
                 .is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT))
+        .isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "repository.*.defaultConfig", value = "change.requireWriteChange=true")
+  public void configureRequireWriteChangeAsDefault() throws Exception {
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REQUIRE_WRITE_CHANGE))
+        .isTrue();
+
+    // The site-wide default can be overridden in the project.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      BooleanProjectConfig.REQUIRE_WRITE_CHANGE, InheritableBoolean.FALSE));
+      u.save();
+    }
+    assertThat(
+            projectCache
+                .get(project)
+                .orElseThrow(illegalState(project))
+                .is(BooleanProjectConfig.REQUIRE_WRITE_CHANGE))
+        .isFalse();
+  }
+
+  @Test
+  public void requireWriteChangeChildCanOverrideParentToFalse() throws Exception {
+    // Enable on the parent; a child inherits it, then overrides back to FALSE.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      BooleanProjectConfig.REQUIRE_WRITE_CHANGE, InheritableBoolean.TRUE));
+      u.save();
+    }
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+    assertThat(
+            projectCache
+                .get(child)
+                .orElseThrow(illegalState(child))
+                .is(BooleanProjectConfig.REQUIRE_WRITE_CHANGE))
+        .isTrue();
+
+    try (ProjectConfigUpdate u = updateProject(child)) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      BooleanProjectConfig.REQUIRE_WRITE_CHANGE, InheritableBoolean.FALSE));
+      u.save();
+    }
+    assertThat(
+            projectCache
+                .get(child)
+                .orElseThrow(illegalState(child))
+                .is(BooleanProjectConfig.REQUIRE_WRITE_CHANGE))
         .isFalse();
   }
 

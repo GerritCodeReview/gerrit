@@ -18,6 +18,7 @@ import {fireAlert} from '../../../utils/event-util';
 import {JsApiService} from './gr-js-api-types';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {PluginsModel} from '../../../models/plugins/plugins-model';
+import {FlowsModel} from '../../../models/flows/flows-model';
 import {Gerrit} from '../../../api/gerrit';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
@@ -116,7 +117,8 @@ export class PluginLoader implements Gerrit, Finalizable {
 
   constructor(
     private readonly reportingService: ReportingService,
-    private readonly restApiService: RestApiService
+    private readonly restApiService: RestApiService,
+    private readonly getFlowsModel?: () => FlowsModel
   ) {
     this.jsApiService = new GrJsApiInterface(
       () => this.awaitPluginsLoaded(),
@@ -229,7 +231,8 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.reportingService,
         this.restApiService,
         this.pluginsModel,
-        this.pluginEndPoints
+        this.pluginEndPoints,
+        this.getFlowsModel
       );
     }
     try {

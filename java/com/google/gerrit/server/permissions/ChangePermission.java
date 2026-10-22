@@ -76,7 +76,12 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   SUBMIT,
   SUBMIT_AS("submit on behalf of other users"),
   TOGGLE_WORK_IN_PROGRESS_STATE,
-  AI_REVIEW;
+  AI_REVIEW,
+  /**
+   * Write to an existing change. Only enforced when {@code change.requireWriteChange} is set on the
+   * project. Otherwise this permission does not gate change writes.
+   */
+  WRITE_CHANGE;
 
   private final String description;
   private final String hint;

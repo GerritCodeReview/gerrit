@@ -20,6 +20,7 @@ import {PluginLoader, pluginLoaderToken} from './gr-plugin-loader';
 import {SinonFakeTimers, SinonStub, stub, useFakeTimers} from 'sinon';
 import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {Plugin} from './gr-public-js-api';
+import {GrFlowsApi} from './gr-flows-api';
 import {
   ChangeInfo,
   NumericChangeId,
@@ -30,9 +31,13 @@ import {
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   createChange,
+  createFlow,
   createParsedChange,
   createRevision,
 } from '../../../test/test-data-generators';
+import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {PluginsModel} from '../../../models/plugins/plugins-model';
+import {FlowsStateInfo} from '../../../api/flows';
 import {EventCallback} from './gr-js-api-types';
 import {EmojiSuggestion} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 
@@ -387,6 +392,111 @@ suite('GrJsApiInterface tests', () => {
           'some-module'
         )
       );
+    });
+  });
+
+  suite('flows', () => {
+    test('exposes state, subscription, CRUD methods, and getChangePrefix', async () => {
+      const flowsModel = testResolver(flowsModelToken);
+      const sampleFlow = createFlow({uuid: 'flow-123', stages: []});
+      flowsModel.updateState({
+        isEnabled: true,
+        flows: [sampleFlow],
+        loading: false,
+      });
+
+      const flowsApi = plugin.flows();
+      const snapshot = flowsApi.getState();
+      assert.deepEqual(snapshot, {
+        isEnabled: true,
+        flows: [sampleFlow],
+        loading: false,
+        errorMessage: undefined,
+      });
+      snapshot!.flows.pop();
+      assert.equal(flowsModel.getState().flows.length, 1);
+
+      const observedStates: FlowsStateInfo[] = [];
+      const unsubscribe = flowsApi.onStateChanged(state => {
+        observedStates.push(state);
+      });
+      assert.equal(observedStates.length, 1);
+      assert.equal(observedStates[0].flows[0].uuid, 'flow-123');
+
+      flowsModel.updateState({isEnabled: false, flows: []});
+      assert.equal(observedStates.length, 2);
+      assert.isFalse(observedStates[1].isEnabled);
+      unsubscribe();
+
+      flowsModel.updateState({isEnabled: true});
+      assert.equal(observedStates.length, 2);
+
+      const createFlowStub = stub(flowsModel, 'createFlow').resolves(
+        sampleFlow
+      );
+      const deleteFlowStub = stub(flowsModel, 'deleteFlow').resolves();
+      const reloadStub = stub(flowsModel, 'reload');
+
+      const created = await flowsApi.createFlow({stage_expressions: []});
+      assert.equal(created?.uuid, 'flow-123');
+      assert.isTrue(createFlowStub.calledOnce);
+      assert.equal(createFlowStub.firstCall.args[2], true);
+
+      await flowsApi.deleteFlow('flow-123', false);
+      assert.isTrue(deleteFlowStub.calledOnce);
+      assert.equal(deleteFlowStub.firstCall.args[0], 'flow-123');
+      assert.equal(deleteFlowStub.firstCall.args[2], false);
+
+      flowsApi.reload();
+      assert.isTrue(reloadStub.calledOnce);
+
+      const originalPath = window.location.pathname;
+      try {
+        window.history.replaceState(null, '', '/c/repo/+/42/2');
+        assert.equal(
+          flowsApi.getChangePrefix(),
+          `${window.location.origin}/c/repo/+/42`
+        );
+      } finally {
+        window.history.replaceState(null, '', originalPath);
+      }
+    });
+
+    test('catches and reports errors thrown in onStateChanged callback without disrupting other subscribers', () => {
+      const flowsModel = testResolver(flowsModelToken);
+      const flowsApi = plugin.flows();
+      const observedStates: FlowsStateInfo[] = [];
+
+      const unsubThrowing = flowsApi.onStateChanged(throwErrFn);
+      const unsubObserving = flowsApi.onStateChanged(state => {
+        observedStates.push(state);
+      });
+
+      assert.isTrue(errorStub.calledOnce);
+      assert.equal(errorStub.firstCall.args[0], 'GrFlowsApi');
+      assert.equal(observedStates.length, 1);
+
+      flowsModel.updateState({isEnabled: true});
+      assert.isTrue(errorStub.calledTwice);
+      assert.equal(observedStates.length, 2);
+      assert.isTrue(observedStates[1].isEnabled);
+
+      unsubThrowing();
+      unsubObserving();
+    });
+
+    test('handles undefined getFlowsModel safely', async () => {
+      const flowsApiWithoutModel = new GrFlowsApi(
+        element.reporting,
+        new PluginsModel(),
+        plugin,
+        () => undefined as unknown as FlowsModel
+      );
+      assert.isUndefined(flowsApiWithoutModel.getState());
+      const unsub = flowsApiWithoutModel.onStateChanged(() => {});
+      unsub();
+      flowsApiWithoutModel.reload();
+      assert.isString(flowsApiWithoutModel.getChangePrefix());
     });
   });
 });

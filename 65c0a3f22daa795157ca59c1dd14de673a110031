@@ -42,6 +42,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "207d38ec_4db5baa7",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T01:53:31Z",
+      "side": 1,
+      "message": "Thanks Sarah for the suggestion. Done",
+      "parentUuid": "91907b8a_bc2067a4",
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eee9c037_e9e78ea5",
@@ -56,6 +74,24 @@
       "side": 1,
       "message": "Architectural suggestion: `gr-vote-chip` already receives `.vote` and `.label`. If we let `gr-vote-chip` resolve AI status internally (similar to `computeClass()` and `computeTooltip()`), e.g.:\n```typescript\nprivate computeIsAi(): boolean {\n  if (this.isAi) return true;\n  return hasOnlyAiVotes(this.label, this.vote);\n}\n```\nThen:\n1. `gr-submit-requirements` wouldn\u0027t need to manually compute and pass `?is-ai\u003d${hasOnlyAiVotes(labelInfo, approvalInfo)}`.\n2. Other places using `gr-vote-chip` (such as `gr-change-list-column-requirement` in the changes dashboard table and `gr-trigger-vote`) would automatically display the AI sparkle icon for AI votes without needing separate prop plumbing.",
       "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a69707_b5b9d74c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T01:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eee9c037_e9e78ea5",
       "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -78,6 +114,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "244b17c5_833eaddd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T01:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33e1412c_b127136a",
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd9046c4_045aef9c",
@@ -92,6 +146,24 @@
       "side": 1,
       "message": "Having `title\u003d\"AI predicted\"` on `\u003cgr-icon\u003e` causes two issues:\n\n1. **Conflicting tooltips**: `\u003cgr-vote-chip\u003e` is wrapped in `\u003cgr-tooltip-content\u003e`, which suppresses native tooltips to display Gerrit\u0027s custom `\u003cgr-tooltip\u003e` (e.g. `\"Approved\"`). The native HTML `title` on `\u003cgr-icon\u003e` bypasses this, causing both the browser\u0027s native OS tooltip and Gerrit\u0027s custom tooltip to appear simultaneously when hovering over the icon.\n2. **Wording**: Review votes (e.g. `Code-Review +2`) cast by an AI agent are actual review approvals, not predictions (as documented in `rest-api-changes.txt`: *\"If true, this vote was created by an AI agent\"*).\n\nCould we remove `title\u003d\"AI predicted\"` from `\u003cgr-icon\u003e`, and instead incorporate the AI indicator directly into `computeTooltip()` so that hovering anywhere on the chip provides a unified tooltip? E.g.:\n\n```typescript\nconst aiSuffix \u003d this.isAi ? \u0027 (AI vote)\u0027 : \u0027\u0027;\nif (this.tooltipWithWhoVoted \u0026\u0026 this.vote) {\n  return `${this.vote?.name}: ${voteDescription}${aiSuffix}`;\n} else {\n  return `${voteDescription}${aiSuffix}`;\n}\n```",
       "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a48de5d3_68271213",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T01:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd9046c4_045aef9c",
       "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -114,6 +186,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51b260c_87f14689",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T01:53:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6472936d_e8e14aa7",
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52706f94_e82082cf",
@@ -128,6 +218,24 @@
       "side": 1,
       "message": "Could we add a test case verifying the combination of `is-ai` and `more` (stacked AI votes) to assert the DOM and styling for `.chip-angle`?\n\nAlso, could we consider adding screenshot tests (e.g. in `gr-vote-chip_screenshot_test.ts` or `gr-submit-requirements_screenshot_test.ts`) covering single and stacked AI vote chips across both light and dark themes? Since this touches custom icon sizes, paddings, and background contrast, visual diff tests would help prevent future layout and contrast regressions.",
       "isAi": true,
+      "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e9b3c07_86021f06",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T01:53:31Z",
+      "side": 1,
+      "message": "Thanks Sarah. Added.",
+      "parentUuid": "52706f94_e82082cf",
       "revId": "65c0a3f22daa795157ca59c1dd14de673a110031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -73,6 +73,9 @@ ts_project(
     out_dir = "_plugin_api_out",
     root_dir = "api",
     tsconfig = {"compilerOptions": {"rootDir": "api"}},
+    deps = [
+        "//polygerrit-ui:node_modules",
+    ],
 )
 
 npm_package(

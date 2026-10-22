@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4edd96_4cbe1cae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-flows-api.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-22T21:10:34Z",
+      "side": 1,
+      "message": "Consider wrapping the plugin `callback(...)` in a `try ... catch` block here. If a third-party plugin throws a synchronous error inside this subscriber, RxJS will rethrow it, which can interrupt other subscribers and disrupt state updates. Wrapping it and logging or reporting the error (similar to how other JS API bridges protect host stability in `gr-js-api-interface-element.ts`) would prevent plugin exceptions from affecting the core UI.",
+      "isAi": true,
+      "revId": "9d7bae51e6e6e063bf62a8a2b8f7130c29f7dd9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57ad2b54_29744389",
+        "filename": "polygerrit-ui/app/models/flows/flows-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-22T21:10:34Z",
+      "side": 1,
+      "message": "If `errFn` is not provided and the server returns a non-2xx status, this failure is silently ignored without notifying the user (unlike `createFlow`, where `fetchJSON` triggers `fireServerError` by default).\n\nShould we call `fireServerError(response)` when `!response.ok \u0026\u0026 !errFn` so that UI callers like `gr-flows.ts` show an error toast if deletion fails?",
+      "isAi": true,
+      "revId": "9d7bae51e6e6e063bf62a8a2b8f7130c29f7dd9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

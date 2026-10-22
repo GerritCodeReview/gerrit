@@ -174,7 +174,7 @@ suite('gr-vote-chip tests', () => {
           title=""
         >
           <div class="positive vote-chip">+2</div>
-          <div class="chip-angle positive">+2</div>
+          <div aria-hidden="true" class="chip-angle positive">+2</div>
         </gr-tooltip-content>`
       );
     });
@@ -222,6 +222,147 @@ suite('gr-vote-chip tests', () => {
           <div class="min vote-chip">-1</div>
         </gr-tooltip-content>`
       );
+    });
+
+    test('renders AI sparkle inside vote-chip when is-ai is set', async () => {
+      const labelInfoWithPlus2 = {
+        ...labelInfo,
+        values: {
+          ...labelInfo.values,
+          '+2': 'Approved',
+        },
+      };
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfoWithPlus2}
+          .vote=${vote}
+          is-ai
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title="Approved (AI vote)"
+        >
+          <div class="max vote-chip">
+            +2
+            <gr-icon class="ai-icon" custom="" icon="spark"> </gr-icon>
+          </div>
+        </gr-tooltip-content>`
+      );
+    });
+
+    test('renders AI sparkle with tooltip-with-who-voted', async () => {
+      vote.name = 'AI Reviewer';
+      const labelInfoWithPlus2 = {
+        all: [{value: 2}, {value: 1}],
+        values: {'+2': 'Approved'},
+      };
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfoWithPlus2}
+          .vote=${vote}
+          tooltip-with-who-voted
+          is-ai
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title="AI Reviewer: Approved (AI vote)"
+        >
+          <div class="max vote-chip">
+            +2
+            <gr-icon class="ai-icon" custom="" icon="spark"> </gr-icon>
+          </div>
+        </gr-tooltip-content>`
+      );
+    });
+
+    test('renders stacked AI vote-chip when is-ai and more are set', async () => {
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfo}
+          .vote=${vote}
+          is-ai
+          more
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container more"
+          has-tooltip=""
+          title="(AI vote)"
+        >
+          <div class="positive vote-chip">
+            +2
+            <gr-icon class="ai-icon" custom="" icon="spark"> </gr-icon>
+          </div>
+          <div aria-hidden="true" class="chip-angle positive">+2</div>
+        </gr-tooltip-content>`
+      );
+
+      const voteChip = element.shadowRoot!.querySelector('.vote-chip')!;
+      const chipAngle = element.shadowRoot!.querySelector('.chip-angle')!;
+      const voteChipStyle = getComputedStyle(voteChip);
+      const chipAngleStyle = getComputedStyle(chipAngle);
+      assert.equal(voteChipStyle.alignItems, 'center');
+      assert.equal(voteChipStyle.paddingLeft, '2px');
+      assert.equal(voteChipStyle.paddingRight, '1px');
+      assert.equal(chipAngleStyle.boxSizing, 'border-box');
+      const voteChipRect = voteChip.getBoundingClientRect();
+      const chipAngleRect = chipAngle.getBoundingClientRect();
+      assert.equal(chipAngleRect.width, voteChipRect.width);
+      assert.equal(chipAngleRect.height, voteChipRect.height);
+    });
+
+    test('resolves AI status from label and vote without is-ai attribute', async () => {
+      const aiVote: ApprovalInfo = {...createApproval(), value: 2, is_ai: true};
+      const aiLabelInfo = {
+        ...createDetailedLabelInfo(),
+        all: [aiVote],
+      };
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${aiLabelInfo}
+          .vote=${aiVote}
+        ></gr-vote-chip>`
+      );
+      assert.isNotNull(element.shadowRoot!.querySelector('gr-icon.ai-icon'));
+
+      // Mixed AI and non-AI votes of the same value should not render AI sparkle
+      const humanVote: ApprovalInfo = {
+        ...createApproval(),
+        value: 2,
+      };
+      element.label = {
+        ...createDetailedLabelInfo(),
+        all: [aiVote, humanVote],
+      };
+      await element.updateComplete;
+      assert.isNull(element.shadowRoot!.querySelector('gr-icon.ai-icon'));
+    });
+
+    test('retains fixed width when circle-shape and is-ai are both set', async () => {
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfo}
+          .vote=${vote}
+          circle-shape
+          is-ai
+        ></gr-vote-chip>`
+      );
+      const voteChip = element.shadowRoot!.querySelector('.vote-chip')!;
+      const aiIcon = element.shadowRoot!.querySelector('gr-icon.ai-icon')!;
+      const voteChipStyle = getComputedStyle(voteChip);
+      const aiIconStyle = getComputedStyle(aiIcon);
+      assert.equal(voteChipStyle.width, '16px');
+      assert.equal(aiIconStyle.display, 'none');
     });
   });
 });

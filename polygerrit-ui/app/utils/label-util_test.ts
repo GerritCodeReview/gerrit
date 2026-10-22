@@ -23,9 +23,11 @@ import {
   getVotingRangeOrDefault,
   hasApprovedVote,
   hasNeutralStatus,
+  hasOnlyAiVotes,
   hasRejectedVote,
   hasVoted,
   hasVotes,
+  isAiVote,
   isBlockingCondition,
   labelCompare,
   LabelStatus,
@@ -1117,6 +1119,91 @@ suite('label-util', () => {
         'Custom-Label-3',
       ];
       assert.deepEqual(orderSubmitRequirementNames(names), expected);
+    });
+  });
+
+  suite('isAiVote and hasOnlyAiVotes', () => {
+    test('isAiVote detects is_ai approvals', () => {
+      assert.isFalse(isAiVote(undefined));
+      assert.isFalse(isAiVote(createApproval()));
+      assert.isFalse(
+        isAiVote({
+          ...createApproval(),
+          is_ai: false,
+        })
+      );
+      assert.isTrue(
+        isAiVote({
+          ...createApproval(),
+          is_ai: true,
+        })
+      );
+    });
+
+    test('hasOnlyAiVotes checks single and stacked approvals by value', () => {
+      const aiPlus2a = {
+        ...createApprovalWithValue(2),
+        _account_id: 1 as AccountId,
+        is_ai: true,
+      };
+      const aiPlus2b = {
+        ...createApprovalWithValue(2),
+        _account_id: 2 as AccountId,
+        is_ai: true,
+      };
+      const humanPlus2 = {
+        ...createApprovalWithValue(2),
+        _account_id: 3 as AccountId,
+      };
+      const aiMinus1 = {
+        ...createApprovalWithValue(-1),
+        _account_id: 4 as AccountId,
+        is_ai: true,
+      };
+      const humanPlus1 = {
+        ...createApprovalWithValue(1),
+        _account_id: 5 as AccountId,
+      };
+      const neutralAi = {
+        ...createApprovalWithValue(0),
+        _account_id: 6 as AccountId,
+        is_ai: true,
+      };
+
+      assert.isFalse(hasOnlyAiVotes(undefined, aiPlus2a));
+      assert.isFalse(
+        hasOnlyAiVotes(createDetailedLabelInfoWithValues(VALUES_2), undefined)
+      );
+
+      // Neutral vote should return false even if is_ai is true
+      const neutralLabel = {
+        ...createDetailedLabelInfoWithValues(VALUES_2),
+        all: [neutralAi],
+      };
+      assert.isFalse(hasOnlyAiVotes(neutralLabel, neutralAi));
+
+      // Single AI vote (positive or negative) returns true
+      const singleAiLabel = {
+        ...createDetailedLabelInfoWithValues(VALUES_2),
+        all: [aiPlus2a, aiMinus1, humanPlus1],
+      };
+      assert.isTrue(hasOnlyAiVotes(singleAiLabel, aiPlus2a));
+      assert.isTrue(hasOnlyAiVotes(singleAiLabel, aiMinus1));
+      assert.isFalse(hasOnlyAiVotes(singleAiLabel, humanPlus1));
+
+      // Stacked votes where all votes of that value are is_ai returns true
+      const allAiStackedLabel = {
+        ...createDetailedLabelInfoWithValues(VALUES_2),
+        all: [aiPlus2a, aiPlus2b],
+      };
+      assert.isTrue(hasOnlyAiVotes(allAiStackedLabel, aiPlus2a));
+
+      // Stacked votes mixing is_ai and non-is_ai returns false
+      const mixedStackedLabel = {
+        ...createDetailedLabelInfoWithValues(VALUES_2),
+        all: [aiPlus2a, humanPlus2],
+      };
+      assert.isFalse(hasOnlyAiVotes(mixedStackedLabel, aiPlus2a));
     });
   });
 });

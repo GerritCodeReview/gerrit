@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "326a7b60_cf88d4f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-22T19:22:09Z",
+      "side": 1,
+      "message": "😎 so much cleaner and good stuff with the unit testing which also ensure that you can replace the icon with a different one.",
+      "revId": "78bc277a41dd8a8040d569563b7bcea3cbea4768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

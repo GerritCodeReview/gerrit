@@ -464,6 +464,26 @@ the Git push.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[change.requireWriteChange]]change.requireWriteChange::
++
+Controls whether writes to changes in the project are restricted to users who
+hold the link:access-control.html#category_write_change[`Write Change`]
+permission on the change's destination ref. When `TRUE`, only those users (plus
+internal server operations, server administrators, branch and project owners,
+and the change owner on their own changes) may write to changes. All other users
+become read-only on changes.
+This restricts review input (comments, votes, reviewers, attention-set), as well
+as uploads, owner actions, and submit. Reading changes is never affected.
++
+When `FALSE` (the default behavior), the `Write Change` permission has no effect
+and change writes are unchanged.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project. Setting it on `All-Projects` provides a site-wide default.
+A non-overridable, site-wide value can be forced from `gerrit.config` using the
+link:config-gerrit.html#repository.name.defaultConfig[`repository.name.defaultConfig`]
+mechanism, for example `change.requireWriteChange=forced`.
+
 [[commentlink-section]]
 === Commentlink section
 

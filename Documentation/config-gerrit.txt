@@ -5828,6 +5828,7 @@ Sets the default value for boolean project configs:
 --
 * link:config-project-config.html#change.privateByDefault[change.privateByDefault]
 * link:config-project-config.html#change.workInProgressByDefault[change.workInProgressByDefault]
+* link:config-project-config.html#change.requireWriteChange[change.requireWriteChange]
 * link:config-project-config.html#receive.createNewChangeForAllNotInTarget[receive.createNewChangeForAllNotInTarget]
 * link:config-project-config.html#receive.enableSignedPush[receive.enableSignedPush]
 * link:config-project-config.html#receive.requireChangeId[receive.requireChangeId]

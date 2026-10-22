@@ -4797,6 +4797,10 @@ all new changes are set as private by default.
 |`work_in_progress_by_default`||
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 all new changes are set as work-in-progress by default.
+|`require_write_change`       ||
+link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether writes to
+changes require the link:access-control.html#category_write_change[`Write
+Change`] permission on the change's destination ref.
 |`max_object_size_limit`      ||
 The link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] of this project as a link:#max-object-size-limit-info[
@@ -4948,6 +4952,12 @@ Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
 |`work_in_progress_by_default`             |optional|
 Whether all new changes in the project are set to work-in-progress by default. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`require_write_change`                    |optional|
+Whether writes to changes require the
+link:access-control.html#category_write_change[`Write Change`] permission on the
+change's destination ref. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
 |`enable_reviewer_by_email`                |optional|

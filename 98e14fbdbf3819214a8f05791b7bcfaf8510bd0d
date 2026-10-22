@@ -69,6 +69,24 @@
       "parentUuid": "3bc68713_d4b25c39",
       "revId": "98e14fbdbf3819214a8f05791b7bcfaf8510bd0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23b880a7_baf6bee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-22T09:21:39Z",
+      "side": 1,
+      "message": "Thanks, I am fixing it in https://gerrit-review.git.corp.google.com/c/gerrit/+/647023\n\nIt\u0027s because file was deleted in one of changes",
+      "parentUuid": "0d118c1b_b0fb2b9e",
+      "revId": "98e14fbdbf3819214a8f05791b7bcfaf8510bd0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -229,6 +229,29 @@ export function hasVotes(labelInfo: LabelInfo): boolean {
   return false;
 }
 
+export function isAiVote(approvalInfo?: ApprovalInfo): boolean {
+  return !!approvalInfo?.is_ai;
+}
+
+export function hasOnlyAiVotes(
+  labelInfo?: LabelInfo,
+  approvalInfo?: ApprovalInfo
+): boolean {
+  if (
+    !labelInfo ||
+    !isDetailedLabelInfo(labelInfo) ||
+    !approvalInfo ||
+    !isAiVote(approvalInfo) ||
+    hasNeutralStatus(labelInfo, approvalInfo)
+  ) {
+    return false;
+  }
+  const sameValueApprovals = (labelInfo.all ?? []).filter(
+    other => other.value === approvalInfo.value
+  );
+  return sameValueApprovals.length > 0 && sameValueApprovals.every(isAiVote);
+}
+
 export function labelCompare(labelName1: string, labelName2: string) {
   if (
     labelName1 === StandardLabels.CODE_REVIEW &&

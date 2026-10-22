@@ -16,6 +16,7 @@ import {
 import {
   classForLabelStatus,
   getLabelStatus,
+  hasOnlyAiVotes,
   LabelStatus,
   valueString,
 } from '../../../utils/label-util';
@@ -50,6 +51,9 @@ export class GrVoteChip extends LitElement {
   @property({type: Boolean, attribute: 'tooltip-with-who-voted'})
   tooltipWithWhoVoted = false;
 
+  @property({type: Boolean, attribute: 'is-ai', reflect: true})
+  isAi = false;
+
   /** Include the label abbreviation inside a self-contained vote badge. */
   @property({attribute: 'label-name', reflect: true})
   labelName?: string;
@@ -61,6 +65,10 @@ export class GrVoteChip extends LitElement {
           border-radius: 50%;
           border: none;
           padding: 2px;
+          width: var(--gr-vote-chip-width, 16px);
+        }
+        :host([circle-shape]) .vote-chip gr-icon.ai-icon {
+          display: none;
         }
         .vote-chip.max {
           background-color: var(--vote-color-approved);
@@ -104,6 +112,16 @@ export class GrVoteChip extends LitElement {
           line-height: var(--gr-vote-chip-width, 16px);
           color: var(--vote-text-color);
         }
+        .vote-chip:has(.ai-icon) {
+          width: auto;
+          align-items: center;
+          padding-left: 3px;
+          padding-right: 2px;
+        }
+        .more > .vote-chip:has(.ai-icon) {
+          padding-left: 2px;
+          padding-right: 1px;
+        }
         :host([label-name]) .vote-chip {
           width: auto;
           align-items: center;
@@ -117,6 +135,16 @@ export class GrVoteChip extends LitElement {
           height: 16px;
           font-size: 16px;
         }
+        .vote-chip gr-icon.ai-icon {
+          display: flex;
+          align-items: center;
+          color: inherit;
+          width: 12px;
+          height: 12px;
+          --gr-icon-size: 12px;
+          font-size: 12px;
+          margin-left: 1px;
+        }
         .more > .vote-chip {
           position: relative;
           z-index: 2;
@@ -125,6 +153,9 @@ export class GrVoteChip extends LitElement {
           position: absolute;
           top: 2px;
           left: 2px;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
           z-index: 1;
         }
         .container {
@@ -144,20 +175,31 @@ export class GrVoteChip extends LitElement {
     const renderValue = this.renderValue();
     if (!renderValue) return;
 
+    const isAi = this.computeIsAi();
     return html`<gr-tooltip-content
       class="container ${this.more ? 'more' : ''}"
       title=${this.computeTooltip(renderValue)}
       has-tooltip
     >
       <div class="vote-chip ${this.computeClass()}">
-        ${this.labelName}${renderValue}
+        ${this.labelName}${renderValue}${isAi
+          ? html`<gr-icon icon="spark" class="ai-icon"></gr-icon>`
+          : ''}
       </div>
       ${this.more
-        ? html`<div class="chip-angle ${this.computeClass()}">
+        ? html`<div
+            class="chip-angle ${this.computeClass()}"
+            aria-hidden="true"
+          >
             ${renderValue}
           </div>`
         : ''}
     </gr-tooltip-content>`;
+  }
+
+  private computeIsAi(): boolean {
+    if (this.isAi) return true;
+    return hasOnlyAiVotes(this.label, this.vote);
   }
 
   private renderValue() {
@@ -216,11 +258,12 @@ export class GrVoteChip extends LitElement {
         ? valueString(this.vote.value)
         : '';
     const voteDescription = this.label.values?.[value] ?? '';
+    const aiSuffix = this.computeIsAi() ? ' (AI vote)' : '';
 
     if (this.tooltipWithWhoVoted && this.vote) {
-      return `${this.vote?.name}: ${voteDescription}`;
+      return `${this.vote?.name}: ${voteDescription}${aiSuffix}`;
     } else {
-      return voteDescription;
+      return `${voteDescription}${aiSuffix}`;
     }
   }
 }

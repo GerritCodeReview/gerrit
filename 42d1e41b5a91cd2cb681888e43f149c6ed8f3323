@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4282f9c_0d840cca",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-22T04:36:42Z",
+      "side": 1,
+      "message": "This also changes the project-level diff API’s behavior for nonexistent files: previously 404, now 200 with an empty diff. I added tests in change 647243 capturing the existing behaviour. They pass before this change and fail afterward.\n\nThe change-level diff API already intentionally returns an empty diff, as covered by RevisionDiffIT.diffOfNonExistentFileIsAnEmptyDiffResult().\n\nIs aligning those behaviors intentional? If so, could we explicitly test the new project-level behaviour (and adapt my new tests)? Otherwise, could we preserve 404 when the path exists in neither commit?\n\nIf preserving the existing project-level 404 behavior is preferred, one possible implementation is to add this in GetDiffFile.apply(), after verifyPathVisibility(...):\n\n```java\nif (!Patch.isMagic(filePath)) {\n  try (TreeWalk baseFile \u003d TreeWalk.forPath(repo, filePath, baseCommit.getTree());\n      TreeWalk newFile \u003d TreeWalk.forPath(repo, filePath, newCommit.getTree())) {\n    if (baseFile \u003d\u003d null \u0026\u0026 newFile \u003d\u003d null) {\n      throw new ResourceNotFoundException(filePath);\n    }\n  }\n}\n```",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 84
+      },
+      "revId": "42d1e41b5a91cd2cb681888e43f149c6ed8f3323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

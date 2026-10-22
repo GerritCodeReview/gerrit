@@ -107,6 +107,10 @@ export enum Timing {
   COMMENT_COMPLETION = 'CommentCompletion',
   // Time for AI chat requests to complete
   AI_CHAT_REQUEST = 'AiChatRequest',
+  // Time to load stack diff file list and initial file diff
+  STACK_DIFF_LOAD = 'StackDiffLoad',
+  // Time to load a single file diff in the stack diff dialog
+  STACK_DIFF_FILE_LOAD = 'StackDiffFileLoad',
 }
 
 export enum Interaction {
@@ -192,6 +196,10 @@ export enum Interaction {
   AI_CHAT_FAILURE = 'ai-chat-failure',
   // Revert hunk clicked in diff edit mode
   REVERT_DELTA_CLICKED = 'revert-delta-clicked',
+  STACK_DIFF_DIALOG_OPENED = 'stack-diff-dialog-opened',
+  STACK_DIFF_RANGE_CHANGED = 'stack-diff-range-changed',
+  STACK_DIFF_FILE_SELECTED = 'stack-diff-file-selected',
+  STACK_DIFF_RESET_CHAIN = 'stack-diff-reset-chain',
 }
 
 /**

@@ -27,6 +27,7 @@ import {
   createRelatedChangeAndCommitInfo,
   createRevision,
 } from '../../../test/test-data-generators';
+import {Interaction, Timing} from '../../../constants/reporting';
 import * as sinon from 'sinon';
 
 function relatedChange(sha: string, parentSha: string) {
@@ -313,6 +314,142 @@ suite('gr-stack-diff-dialog tests', () => {
       assert.equal(element.getConnectedRevisions().size, 0);
       // Without a connected chain nothing is marked as indirect.
       assert.isFalse(element.isIndirectRelation(element.relatedChanges[0]));
+    });
+  });
+
+  suite('reporting', () => {
+    let reportInteractionStub: sinon.SinonStub;
+    let timeStub: sinon.SinonStub;
+    let timeEndStub: sinon.SinonStub;
+
+    setup(async () => {
+      reportInteractionStub = sinon.stub(
+        element.reporting,
+        'reportInteraction'
+      );
+      timeStub = sinon.stub(element.reporting, 'time');
+      timeEndStub = sinon.stub(element.reporting, 'timeEnd');
+
+      element.change = {
+        ...createParsedChange(),
+        revisions: {
+          'current-sha': {...createRevision(), _number: 1 as PatchSetNumber},
+        },
+        current_revision: 'current-sha' as CommitId,
+      };
+      element.patchNum = 1 as PatchSetNumber;
+      element.relatedChanges = [
+        relatedChange('indirect-sha', 'indirect-base-sha'),
+        relatedChange('child-sha', 'current-sha'),
+        relatedChange('current-sha', 'connected-base-sha'),
+      ];
+      await element.updateComplete;
+    });
+
+    test('open reports dialog opened interaction and load timings', async () => {
+      await element.open();
+      await element.updateComplete;
+
+      assert.isTrue(
+        reportInteractionStub.calledOnceWithExactly(
+          Interaction.STACK_DIFF_DIALOG_OPENED,
+          {
+            relatedChangesCount: 3,
+            connectedChangesCount: 2,
+            hasIndirectRelations: true,
+          }
+        )
+      );
+      assert.isTrue(timeStub.calledWithExactly(Timing.STACK_DIFF_LOAD));
+      assert.isTrue(timeStub.calledWithExactly(Timing.STACK_DIFF_FILE_LOAD));
+      assert.isTrue(
+        timeEndStub.calledWithExactly(Timing.STACK_DIFF_LOAD, {
+          success: true,
+          fileCount: 1,
+        })
+      );
+      assert.isTrue(
+        timeEndStub.calledWithExactly(Timing.STACK_DIFF_FILE_LOAD, {
+          success: true,
+        })
+      );
+    });
+
+    test('changing range reports interaction with autoAdjusted flag', async () => {
+      await element.open();
+      await element.updateComplete;
+      reportInteractionStub.resetHistory();
+
+      const targetSelect = queryAndAssert<HTMLElement & {value: string}>(
+        element,
+        '#targetSelect'
+      );
+      targetSelect.value = 'indirect-sha';
+      targetSelect.dispatchEvent(new CustomEvent('change'));
+      await element.updateComplete;
+
+      assert.isTrue(
+        reportInteractionStub.calledOnceWithExactly(
+          Interaction.STACK_DIFF_RANGE_CHANGED,
+          {
+            changed: 'target',
+            autoAdjusted: true,
+          }
+        )
+      );
+    });
+
+    test('clicking file row reports file selected interaction', async () => {
+      await element.open();
+      await element.updateComplete;
+      reportInteractionStub.resetHistory();
+
+      const fileRow = queryAndAssert<HTMLElement>(element, '.file-row');
+      fileRow.click();
+      await element.updateComplete;
+
+      assert.isTrue(
+        reportInteractionStub.calledOnceWithExactly(
+          Interaction.STACK_DIFF_FILE_SELECTED,
+          {
+            status: FileInfoStatus.ADDED,
+          }
+        )
+      );
+    });
+
+    test('error and reset chain report failure timing and reset interaction', async () => {
+      await element.open();
+      await element.updateComplete;
+      reportInteractionStub.resetHistory();
+      timeEndStub.resetHistory();
+
+      getProjectCommitDiffStub.rejects(new Error('Backend failure'));
+      const targetSelect = queryAndAssert<HTMLElement & {value: string}>(
+        element,
+        '#targetSelect'
+      );
+      targetSelect.value = 'indirect-sha';
+      targetSelect.dispatchEvent(new CustomEvent('change'));
+      await waitUntil(() => !!query(element, '#resetChainButton'));
+
+      assert.isTrue(
+        timeEndStub.calledWithExactly(Timing.STACK_DIFF_LOAD, {
+          success: false,
+          error: 'Backend failure',
+        })
+      );
+
+      reportInteractionStub.resetHistory();
+      getProjectCommitDiffStub.resolves({'foo/bar.ts': {lines_inserted: 1}});
+      queryAndAssert<HTMLElement>(element, '#resetChainButton').click();
+      await waitUntil(() => element.targetCommitId === 'child-sha');
+
+      assert.isTrue(
+        reportInteractionStub.calledWithExactly(
+          Interaction.STACK_DIFF_RESET_CHAIN
+        )
+      );
     });
   });
 });

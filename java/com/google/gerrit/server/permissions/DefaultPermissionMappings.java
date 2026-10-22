@@ -127,6 +127,7 @@ public class DefaultPermissionMappings {
               ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE,
               Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
           .put(ChangePermission.AI_REVIEW, Permission.AI_REVIEW)
+          .put(ChangePermission.WRITE_CHANGE, Permission.WRITE_CHANGE)
           .build();
 
   static {

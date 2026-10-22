@@ -8,6 +8,7 @@ import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import './gr-submit-requirements';
 import {GrSubmitRequirements} from './gr-submit-requirements';
+import {GrVoteChip} from '../../shared/gr-vote-chip/gr-vote-chip';
 import {
   createAccountWithIdNameAndEmail,
   createApproval,
@@ -361,5 +362,95 @@ suite('gr-submit-requirements tests', () => {
       element.computeEndpointName('code-owners~CodeOwnerSub'),
       'submit-requirement-codeowners'
     );
+  });
+
+  test('renders AI sparkle icon in votes area when vote is_ai', async () => {
+    element.disableEndpoints = true;
+    const modifiedChange: ParsedChangeInfo = {
+      ...change,
+      labels: {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: true,
+            },
+          ],
+        },
+      },
+    };
+    element.change = modifiedChange;
+    await element.updateComplete;
+
+    const voteChip = element.shadowRoot?.querySelector<GrVoteChip>(
+      '.votes-cell gr-vote-chip'
+    );
+    assert.isOk(voteChip);
+    await voteChip.updateComplete;
+    assert.isNotNull(voteChip.shadowRoot?.querySelector('gr-icon.ai-icon'));
+  });
+
+  test('renders AI sparkle icon for stacked votes only when all are is_ai', async () => {
+    element.disableEndpoints = true;
+    const modifiedChange: ParsedChangeInfo = {
+      ...change,
+      labels: {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: true,
+            },
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: true,
+            },
+          ],
+        },
+      },
+    };
+    element.change = modifiedChange;
+    await element.updateComplete;
+
+    let voteChip = element.shadowRoot?.querySelector<GrVoteChip>(
+      '.votes-cell gr-vote-chip'
+    );
+    assert.isOk(voteChip);
+    await voteChip.updateComplete;
+    assert.isNotNull(voteChip.shadowRoot?.querySelector('gr-icon.ai-icon'));
+
+    // Mix a non-AI +2 vote into the stack -> should NOT render AI sparkle
+    element.change = {
+      ...modifiedChange,
+      labels: {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+              is_ai: true,
+            },
+            {
+              ...createApproval(),
+              value: 2,
+            },
+          ],
+        },
+      },
+    };
+    await element.updateComplete;
+
+    voteChip = element.shadowRoot?.querySelector<GrVoteChip>(
+      '.votes-cell gr-vote-chip'
+    );
+    assert.isOk(voteChip);
+    await voteChip.updateComplete;
+    assert.isNull(voteChip.shadowRoot?.querySelector('gr-icon.ai-icon'));
   });
 });

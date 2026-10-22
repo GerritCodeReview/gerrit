@@ -22,6 +22,30 @@
       },
       "revId": "42d1e41b5a91cd2cb681888e43f149c6ed8f3323",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a903008b_f17fccb4",
+        "filename": "java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-22T09:18:42Z",
+      "side": 1,
+      "message": "Thanks David, that\u0027s good idea. I did it but little more efficient by walking both trees.",
+      "parentUuid": "a4282f9c_0d840cca",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 84
+      },
+      "revId": "42d1e41b5a91cd2cb681888e43f149c6ed8f3323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

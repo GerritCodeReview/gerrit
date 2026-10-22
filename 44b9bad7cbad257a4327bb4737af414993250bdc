@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fef1380_32d2c21f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-10-22T19:38:14Z",
+      "side": 1,
+      "message": "Since circle-shape is used for the compact 16px badge inside gr-account-chip, fitting both the vote value and the sparkle icon inside a 16px circle would cause overflow/clipping. So in addition to adding width: var(--gr-vote-chip-width, 16px); to :host([circle-shape]) .vote-chip, we also hid gr-icon.ai-icon (display: none;) when circle-shape is set.\n\nDo you think hiding the sparkle icon for circle-shape chips makes sense here, or would you prefer a different approach?",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "49ec7f5b_8ac2538b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-vote-chip/gr-vote-chip.ts",
+              "range": {
+                "startLine": 70,
+                "startChar": 0,
+                "endLine": 72,
+                "endChar": 0
+              },
+              "replacement": "        :host([circle-shape]) .vote-chip:has(.ai-icon) {\n          width: auto;\n          border-radius: 10px;\n          padding: 2px 4px;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "44b9bad7cbad257a4327bb4737af414993250bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

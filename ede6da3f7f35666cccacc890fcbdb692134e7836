@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d92b662_cccbc893",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6cc1b3b_5bcbef93",
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecbc8370_612868de",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-20T13:37:16Z",
       "side": 1,
       "message": "Is this covered with a test?",
+      "range": {
+        "startLine": 1064,
+        "startChar": 11,
+        "endLine": 1064,
+        "endChar": 34
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2135ac9_48ca4acd",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "yes, `blankApplicableIfAndOverrideIfExpressionKeyValues_treatedAsAbsent and blankSubmittableIfValues_causeValidationError` wherein `blankSubmittableIfValues_causeValidationError` asserts error as `SubmmitableIf` is mandatory field for SR. [1]\nOther fields are optional.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html#submit_requirement_submittable_if",
+      "parentUuid": "ecbc8370_612868de",
       "range": {
         "startLine": 1064,
         "startChar": 11,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "765f7e80_a9a277c3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1488,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "I restructured newly added tests.\nNow we only have 3 tests which is combination of multiple tests which previously existed.\nTests cover following scenarios:\n\n1. multipleSubmitRequirementExpressionKeys_areOrJoined:  checks if ApplicableIf, SubmmitableIf and OverrideableIf are successfully OR joined of multiple entry exists.\n\n2. blankApplicableIfAndOverrideIfExpressionKeyValues_treatedAsAbsent: checks if the value are missing/blank, they are omitted from resulting expressions and are not OR joined.\n\n3. blankSubmittableIfValues_causeValidationError: does not allow to set Submit requirement (SR) with blank/missing SubmittableIf as SubmittableIf is mandatory field for SR.",
+      "parentUuid": "01df4e25_d152533d",
+      "range": {
+        "startLine": 1488,
+        "startChar": 43,
+        "endLine": 1488,
+        "endChar": 52
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "269c63fa_a9363758",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-10-20T13:31:03Z",
       "side": 1,
       "message": "compared to the other test cases naming pattern `\u003csubject\u003e_\u003coutcome\u003e` this one misses the `_\u003coutcome\u003e` part.\n\nIn general, I would suggest to rather start from simple building blocks like reading one expression key and asserting that it works both as single and multi-expression. When such a test passes then it implies that reading each key is proper and we don\u0027t need to code many test variants for different combinations (where we can never cover all possible combinations).",
+      "range": {
+        "startLine": 1516,
+        "startChar": 14,
+        "endLine": 1516,
+        "endChar": 50
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2caeb7c_aa23f588",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "269c63fa_a9363758",
       "range": {
         "startLine": 1516,
         "startChar": 14,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1df1607e_36d5f2c9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9f09544_791f81ef",
+      "range": {
+        "startLine": 1524,
+        "startChar": 0,
+        "endLine": 1527,
+        "endChar": 61
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11f7f2b1_69de8b0a",
@@ -123,6 +237,24 @@
       "writtenOn": "2026-10-20T13:31:03Z",
       "side": 1,
       "message": "Same as previous comment... this is just one of the many combinations.",
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5539793_470a5bc8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1550,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11f7f2b1_69de8b0a",
       "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -150,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbe8fae3_92c8fad9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1614,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8e66173_3a306301",
+      "range": {
+        "startLine": 1612,
+        "startChar": 0,
+        "endLine": 1614,
+        "endChar": 87
+      },
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4ba6f9a_98ad4922",
@@ -167,6 +323,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60673b9f_81349c80",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1650,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4ba6f9a_98ad4922",
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "013becf8_4d4882e4",
@@ -180,6 +354,24 @@
       "writtenOn": "2026-10-20T13:31:03Z",
       "side": 1,
       "message": "Same as the previous comment...",
+      "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b1b00cd_d2d83685",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-10-22T12:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "013becf8_4d4882e4",
       "revId": "ede6da3f7f35666cccacc890fcbdb692134e7836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

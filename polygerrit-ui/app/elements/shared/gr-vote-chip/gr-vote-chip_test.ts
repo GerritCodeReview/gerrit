@@ -223,5 +223,84 @@ suite('gr-vote-chip tests', () => {
         </gr-tooltip-content>`
       );
     });
+
+    test('renders AI sparkle inside vote-chip when is-ai is set', async () => {
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfo}
+          .vote=${vote}
+          is-ai
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title=""
+        >
+          <div class="positive vote-chip">
+            +2
+            <gr-icon
+              class="ai-icon"
+              custom=""
+              icon="spark"
+              title="AI predicted"
+            >
+            </gr-icon>
+          </div>
+        </gr-tooltip-content>`
+      );
+    });
+
+    test('renders stacked AI vote-chip when is-ai and more are set', async () => {
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfo}
+          .vote=${vote}
+          is-ai
+          more
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container more"
+          has-tooltip=""
+          title=""
+        >
+          <div class="positive vote-chip">
+            +2
+            <gr-icon
+              class="ai-icon"
+              custom=""
+              icon="spark"
+              title="AI predicted"
+            >
+            </gr-icon>
+          </div>
+          <div class="chip-angle positive">
+            +2
+            <gr-icon class="ai-icon" custom="" icon="spark"> </gr-icon>
+          </div>
+        </gr-tooltip-content>`
+      );
+
+      const voteChip = element.shadowRoot!.querySelector('.vote-chip')!;
+      const chipAngle = element.shadowRoot!.querySelector('.chip-angle')!;
+      const voteChipStyle = getComputedStyle(voteChip);
+      const chipAngleStyle = getComputedStyle(chipAngle);
+      assert.equal(voteChipStyle.alignItems, 'center');
+      assert.equal(voteChipStyle.paddingLeft, '2px');
+      assert.equal(voteChipStyle.paddingRight, '1px');
+      assert.equal(chipAngleStyle.alignItems, 'center');
+      assert.equal(chipAngleStyle.paddingLeft, '2px');
+      assert.equal(chipAngleStyle.paddingRight, '1px');
+
+      const chipAngleIcon = chipAngle.querySelector('gr-icon.ai-icon')!;
+      const chipAngleIconStyle = getComputedStyle(chipAngleIcon);
+      assert.equal(chipAngleIconStyle.width, '12px');
+      assert.equal(chipAngleIconStyle.height, '12px');
+    });
   });
 });

@@ -29,6 +29,7 @@ import '@material/web/select/select-option';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
 import {getRevisionKey} from '../../../utils/change-util';
+import {Interaction, Timing} from '../../../constants/reporting';
 
 @customElement('gr-stack-diff-dialog')
 export class GrStackDiffDialog extends LitElement {
@@ -80,11 +81,14 @@ export class GrStackDiffDialog extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  // private but used in tests
+  readonly reporting = getAppContext().reportingService;
+
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
-    () => getAppContext().reportingService
+    () => this.reporting
   );
 
   /**
@@ -305,6 +309,13 @@ export class GrStackDiffDialog extends LitElement {
     this.files = {};
 
     this.initializeCommitIds();
+    const connectedCount = this.getConnectedChanges().length;
+    this.reporting.reportInteraction(Interaction.STACK_DIFF_DIALOG_OPENED, {
+      relatedChangesCount: this.relatedChanges.length,
+      connectedChangesCount: connectedCount,
+      hasIndirectRelations:
+        connectedCount > 0 && connectedCount < this.relatedChanges.length,
+    });
     await this.loadDiffFileList();
   }
 
@@ -494,6 +505,7 @@ export class GrStackDiffDialog extends LitElement {
 
   // private but used in tests
   resetToConnectedChain() {
+    this.reporting.reportInteraction(Interaction.STACK_DIFF_RESET_CHAIN);
     this.initializeCommitIds();
     this.loadDiffFileList();
   }
@@ -505,41 +517,69 @@ export class GrStackDiffDialog extends LitElement {
     }
     this.loading = true;
     this.error = undefined;
+    const timer = this.reporting.getTimer(Timing.STACK_DIFF_LOAD);
     let firstFile: string | undefined;
+    let fileCount = 0;
+    let succeeded = false;
     try {
       const files = await this.restApiService.getProjectCommitDiff(
         repo,
         this.targetCommitId,
         this.baseCommitId
       );
-      const rest = {...(files ?? {})};
+      if (!files) {
+        this.files = {};
+        this.selectedFile = undefined;
+        this.fileDiff = undefined;
+        timer.end({success: false});
+        return;
+      }
+      const rest = {...files};
       delete rest['/COMMIT_MSG'];
       this.files = rest;
 
       const filePaths = Object.keys(this.files);
+      fileCount = filePaths.length;
       if (filePaths.length > 0) {
         firstFile = filePaths[0];
       } else {
         this.selectedFile = undefined;
         this.fileDiff = undefined;
       }
+      succeeded = true;
     } catch (e) {
-      this.error =
-        'Failed to load project commit diff: ' + (e as Error).message;
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      this.error = 'Failed to load project commit diff: ' + errorMessage;
+      timer.end({success: false});
     } finally {
       this.loading = false;
     }
-    if (firstFile) {
-      await this.selectFile(firstFile);
+    if (succeeded) {
+      const fileDiffLoaded = firstFile
+        ? await this.selectFile(firstFile)
+        : true;
+      timer.end({
+        success: fileDiffLoaded,
+        fileCount,
+      });
     }
   }
 
-  private async selectFile(path: string) {
+  // private but used in template
+  async handleFileClick(path: string) {
+    this.reporting.reportInteraction(Interaction.STACK_DIFF_FILE_SELECTED, {
+      status: this.files[path]?.status || 'M',
+    });
+    await this.selectFile(path);
+  }
+
+  private async selectFile(path: string): Promise<boolean> {
     this.selectedFile = path;
     if (!this.repo || !this.baseCommitId || !this.targetCommitId) {
-      return;
+      return false;
     }
     this.loadingDiff = true;
+    const timer = this.reporting.getTimer(Timing.STACK_DIFF_FILE_LOAD);
     try {
       const diff = await this.restApiService.getProjectCommitFileDiff(
         this.repo,
@@ -550,9 +590,17 @@ export class GrStackDiffDialog extends LitElement {
       if (diff) {
         this.syntaxLayer.process(diff);
         this.fileDiff = diff;
+        timer.end({success: true});
+        return true;
+      } else {
+        timer.end({success: false});
+        return false;
       }
     } catch (e) {
-      this.error = 'Failed to load file diff: ' + (e as Error).message;
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      this.error = 'Failed to load file diff: ' + errorMessage;
+      timer.end({success: false});
+      return false;
     } finally {
       this.loadingDiff = false;
     }
@@ -563,6 +611,7 @@ export class GrStackDiffDialog extends LitElement {
     const select = e.target as HTMLSelectElement;
     this.baseCommitId = ((select.value || select.getAttribute('value')) ??
       '') as CommitId;
+    let autoAdjusted = false;
     if (
       this.targetCommitId &&
       !this.isAncestor(this.baseCommitId, this.targetCommitId)
@@ -570,8 +619,13 @@ export class GrStackDiffDialog extends LitElement {
       const validTarget = this.findValidTargetForBase(this.baseCommitId);
       if (validTarget) {
         this.targetCommitId = validTarget;
+        autoAdjusted = true;
       }
     }
+    this.reporting.reportInteraction(Interaction.STACK_DIFF_RANGE_CHANGED, {
+      changed: 'base',
+      autoAdjusted,
+    });
     await this.loadDiffFileList();
   }
 
@@ -580,12 +634,18 @@ export class GrStackDiffDialog extends LitElement {
     const select = e.target as HTMLSelectElement;
     this.targetCommitId = ((select.value || select.getAttribute('value')) ??
       '') as CommitId;
+    let autoAdjusted = false;
     if (
       this.baseCommitId &&
       !this.isAncestor(this.baseCommitId, this.targetCommitId)
     ) {
       this.baseCommitId = this.findValidBaseForTarget(this.targetCommitId);
+      autoAdjusted = true;
     }
+    this.reporting.reportInteraction(Interaction.STACK_DIFF_RANGE_CHANGED, {
+      changed: 'target',
+      autoAdjusted,
+    });
     await this.loadDiffFileList();
   }
 
@@ -717,7 +777,7 @@ export class GrStackDiffDialog extends LitElement {
           return html`
             <div
               class="file-row ${this.selectedFile === path ? 'selected' : ''}"
-              @click=${() => this.selectFile(path)}
+              @click=${() => this.handleFileClick(path)}
             >
               <span class="status ${fileInfo.status || 'M'}"
                 >${fileInfo.status || 'M'}</span

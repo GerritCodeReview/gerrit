@@ -52,6 +52,24 @@
       "parentUuid": "c4b0ab8d_3ce9e4fe",
       "revId": "f0c18898079b43da9571b21494d478ebd5e2544f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a9307b9_bb029233",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-22T12:58:12Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/647428 seems to fix it.",
+      "parentUuid": "5f32f214_cee03c44",
+      "revId": "f0c18898079b43da9571b21494d478ebd5e2544f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

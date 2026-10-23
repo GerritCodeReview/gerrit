@@ -15,6 +15,7 @@ import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import '../../shared/gr-button/gr-button';
 import {tableStyles} from '../../../styles/gr-table-styles';
+import '../../shared/gr-dialog/gr-dialog';
 
 @customElement('gr-repo-submit-requirements-template-dialog')
 export class GrRepoSubmitRequirementsTemplateDialog extends LitElement {

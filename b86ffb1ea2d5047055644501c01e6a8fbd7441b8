@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4007e2a2_f6bc8a92",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1399,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-23T02:52:28Z",
+      "side": 1,
+      "message": "The commit message says the default view doesn\u0027t display parent metadata, but `gr-patch-range-select` shows `getParentInfoString(rev, 0)` under \"Base\" (\"Patchset 3 of Change 100\" or the \"base commit is not known\" warning), and that only comes from `parents_data`. The lazy loader in the parent change only runs when the base is a patchset, so on `/c/p/+/123/4` that subtitle now disappears. Is that intended? If so, maybe say so in the commit message. If not, the lazy fetch could also run once the base dropdown is opened.",
+      "revId": "b86ffb1ea2d5047055644501c01e6a8fbd7441b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

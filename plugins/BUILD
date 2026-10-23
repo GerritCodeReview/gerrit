@@ -95,6 +95,7 @@ EXPORTS = [
     "//lib/httpcomponents:httpclient",
     "//lib/httpcomponents:httpcore",
     "//lib:jgit-servlet",
+    "//lib:jgit-ssh-apache",
     "//lib:jgit",
     "//lib:jsr305",
     "//lib:jspecify",

@@ -16,6 +16,24 @@
       "message": "This was already included in the submitted merge: https://gerrit-review.googlesource.com/c/gerrit/+/648243/-1..1/%2FMERGE_LIST\n\nSo let me re-do the merge again now.",
       "revId": "4e98e0225e466749f9387878f396ab91310cf137",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e52a60ae_3bce4e29",
+        "filename": "/MERGE_LIST",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-23T18:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e15a300e_fa8e2f87",
+      "revId": "4e98e0225e466749f9387878f396ab91310cf137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

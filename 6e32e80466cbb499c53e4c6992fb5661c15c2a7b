@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50610f81_ac50bb1c",
+        "filename": "polygerrit-ui/app/api/flows.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-23T14:09:19Z",
+      "side": 1,
+      "message": "Do we need `getChangePrefix` on the public `FlowsPluginApi`?\n\nMoving `getChangePrefix` to `utils/url-util.ts` makes sense, and internal plugins can already import it directly from `polygerrit/utils/url-util` (or if plugins only need it because Gerrit Flow stage conditions use `\u003cchangePrefix\u003e is \u003ccondition\u003e`, perhaps `FlowsModel` / `FlowsPluginApi` could handle the prefixing or condition matching internally rather than exposing URL prefix construction on `plugin.flows()`).",
+      "isAi": true,
+      "revId": "6e32e80466cbb499c53e4c6992fb5661c15c2a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

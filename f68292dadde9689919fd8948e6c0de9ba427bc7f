@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06689833_20efa2e2",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-23T08:00:55Z",
+      "side": 1,
+      "message": "Fair point, fixed with Iee0c860a1c",
+      "parentUuid": "15ad8f8d_66967838",
+      "range": {
+        "startLine": 395,
+        "startChar": 22,
+        "endLine": 395,
+        "endChar": 66
+      },
+      "revId": "f68292dadde9689919fd8948e6c0de9ba427bc7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdaaa737_f2c9c7f4",

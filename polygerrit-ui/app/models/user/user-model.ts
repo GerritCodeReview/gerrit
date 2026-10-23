@@ -144,8 +144,8 @@ export class UserModel extends Model<UserState> {
   );
 
   readonly preferenceTheme$: Observable<AppTheme> = select(
-    this.preferences$,
-    preference => preference.theme
+    this.state$,
+    userState => userState.preferences?.theme ?? AppTheme.AUTO
   );
 
   readonly myMenuItems$: Observable<TopMenuItemInfo[]> = select(
@@ -161,6 +161,9 @@ export class UserModel extends Model<UserState> {
   constructor(readonly restApiService: RestApiService) {
     super({
       accountLoaded: false,
+      preferences: window.INITIAL_DATA?.[
+        '/accounts/self/preferences'
+      ] as unknown as PreferencesInfo | undefined,
     });
     this.loadAccount();
     this.subscriptions = [

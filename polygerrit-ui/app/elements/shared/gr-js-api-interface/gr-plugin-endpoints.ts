@@ -122,7 +122,10 @@ export class GrPluginEndpoints {
     // one register before plugins ready
     // the other done after, then only the later one will have the callbacks
     // invoked.
-    if (this.pluginLoaded && this._callbacks.has(endpoint)) {
+    if (
+      (this.pluginLoaded || moduleInfo.type === EndpointType.REPLACE) &&
+      this._callbacks.has(endpoint)
+    ) {
       this._callbacks.get(endpoint)!.forEach(callback => callback(moduleInfo));
     }
   }

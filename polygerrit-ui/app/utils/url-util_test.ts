@@ -7,13 +7,16 @@ import {
   AuthType,
   AUTO_MERGE,
   BasePatchSetNum,
+  NumericChangeId,
   PARENT,
+  RepoName,
   RevisionPatchSetNum,
 } from '../api/rest-api';
 import '../test/common-test-setup';
 import {
   encodeURL,
   getBaseUrl,
+  getChangePrefix,
   getDocUrl,
   getPatchRangeExpression,
   loginUrl,
@@ -200,5 +203,58 @@ suite('url-util tests', () => {
       }),
       '4'
     );
+  });
+
+  suite('getChangePrefix', () => {
+    let originalPath: string;
+
+    setup(() => {
+      originalPath = window.location.pathname;
+    });
+
+    teardown(() => {
+      window.history.replaceState(null, '', originalPath);
+    });
+
+    test('strips patchset, diff range, and file path subpaths', () => {
+      const origin = window.location.origin;
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123/4');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123/1..4');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(
+        null,
+        '',
+        '/c/my-repo/+/123/1..4/src/file.ts'
+      );
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+    });
+
+    test('falls back to change project and number when pathname is not a change URL', () => {
+      const origin = window.location.origin;
+      window.history.replaceState(null, '', '/context.html');
+
+      assert.equal(
+        getChangePrefix({
+          project: 'my/project' as RepoName,
+          _number: 456 as NumericChangeId,
+        }),
+        `${origin}/c/my/project/+/456`
+      );
+
+      assert.equal(
+        getChangePrefix({
+          project: 'my/project+special%repo' as RepoName,
+          _number: 456 as NumericChangeId,
+        }),
+        `${origin}/c/my/project%252Bspecial%2525repo/+/456`
+      );
+    });
   });
 });

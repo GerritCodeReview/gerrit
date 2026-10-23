@@ -430,10 +430,11 @@ export class GrStackDiffDialog extends LitElement {
     const parentMap = this.getParentMap();
     let current = target;
     while (parentMap.has(current)) {
-      const parent = parentMap.get(current)![0];
+      const parents = parentMap.get(current)!;
+      const inChainParent = parents.find(p => parentMap.has(p));
       // The oldest commit of the chain, or the root parent it is based on.
-      if (!parent || !parentMap.has(parent)) return parent ?? current;
-      current = parent;
+      if (!inChainParent) return parents[0] ?? current;
+      current = inChainParent;
     }
     return current;
   }
@@ -468,8 +469,11 @@ export class GrStackDiffDialog extends LitElement {
     const connectedRoot = this.getConnectedRootParent();
     if (connectedRoot) roots.add(connectedRoot);
     for (const change of this.relatedChanges) {
-      const parent = change.commit.parents?.[0]?.commit;
-      if (parent && !parentMap.has(parent)) roots.add(parent);
+      const parents = change.commit.parents ?? [];
+      if (!parents.some(p => parentMap.has(p.commit))) {
+        const rootParent = parents[0]?.commit;
+        if (rootParent) roots.add(rootParent);
+      }
     }
     return [...roots];
   }

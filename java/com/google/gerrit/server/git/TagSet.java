@@ -30,6 +30,7 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.protobuf.ByteString;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -223,6 +224,8 @@ class TagSet {
           // For a tag, remember where it points to.
           try {
             addTag(rw, git.getRefDatabase().peel(ref), isTag);
+          } catch (InterruptedIOException e) {
+            throw e;
           } catch (IOException e) {
             addTag(rw, ref, isTag);
           }
@@ -238,6 +241,10 @@ class TagSet {
       while ((c = (TagCommit) rw.next()) != null) {
         c.propagateReachabilityToParents(isTag);
       }
+    } catch (InterruptedIOException e) {
+      // The calling thread was interrupted, e.g. because the client disconnected. All further
+      // object reads would fail as well, so give up on the whole build.
+      logger.atFine().log("Interrupted while building tags for repository %s", projectName);
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
     }
@@ -364,7 +371,7 @@ class TagSet {
     }
   }
 
-  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) {
+  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) throws InterruptedIOException {
     ObjectId id = ref.getPeeledObjectId();
     if (id == null) {
       id = ref.getObjectId();
@@ -381,6 +388,8 @@ class TagSet {
         flags = commit.refFlags;
       } catch (IncorrectObjectTypeException notCommit) {
         flags = new RoaringBitmap();
+      } catch (InterruptedIOException e) {
+        throw e;
       } catch (IOException e) {
         logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
         flags = new RoaringBitmap();
@@ -389,7 +398,7 @@ class TagSet {
     }
   }
 
-  private void addRef(TagWalk rw, Ref ref) {
+  private void addRef(TagWalk rw, Ref ref) throws InterruptedIOException {
     try {
       TagCommit commit = (TagCommit) rw.parseCommit(ref.getObjectId());
       rw.markStart(commit);
@@ -405,6 +414,8 @@ class TagSet {
       // Quite many refs will point to non-commits.
       // For instance, refs from refs/cache-automerge
       // will often end up here.
+    } catch (InterruptedIOException e) {
+      throw e;
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
     }

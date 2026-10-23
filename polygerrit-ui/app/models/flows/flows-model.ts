@@ -4,7 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BehaviorSubject, combineLatest, from, Observable, of} from 'rxjs';
-import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import {ChangeModel} from '../change/change-model';
 import {fireServerError} from '../../utils/event-util';
 import {FlowInfo, FlowInput} from '../../api/rest-api';
@@ -18,6 +26,9 @@ import {getAppContext} from '../../services/app-context';
 import {FlowsAutosubmitProvider, FlowsProvider} from '../../api/flows';
 import {select} from '../../utils/observable-util';
 import {isDefined} from '../../types/types';
+import {getChangePrefix} from '../../utils/url-util';
+
+export {getChangePrefix};
 
 export interface FlowsState {
   isEnabled: boolean;
@@ -32,26 +43,8 @@ export const flowsModelToken = define<FlowsModel>('flows-model');
 
 export const SUBMIT_ACTION_NAME = 'submit';
 
-/**
- * Matches the base change path prefix up to the change number (e.g. `/c/project/+/123`),
- * ignoring any trailing patchsets, diff ranges, comment IDs, or file paths.
- *
- * @see RoutePattern.CHANGE in `gr-router.ts` for corresponding route pattern.
- */
-const CHANGE_PREFIX_PATTERN = /^(.*?\/(?:c\/.+?\/\+)\/\d+)/;
-
 export function getSubmitCondition() {
   return getChangePrefix() + ' is is:submittable';
-}
-
-/**
- * Returns the change URL prefix (e.g. `http://host/c/project/+/123`), stripping
- * patchset numbers, diff ranges, comment IDs, and file paths from pathname.
- */
-export function getChangePrefix() {
-  const match = window.location.pathname.match(CHANGE_PREFIX_PATTERN);
-  const pathname = match ? match[1] : window.location.pathname;
-  return window.location.origin + pathname;
 }
 
 export class FlowsModel extends Model<FlowsState> {
@@ -83,6 +76,8 @@ export class FlowsModel extends Model<FlowsState> {
 
   private changeNum?: NumericChangeId;
 
+  private enabledResolvedChangeNum?: NumericChangeId;
+
   private readonly restApiService = getAppContext().restApiService;
 
   constructor(
@@ -97,8 +92,16 @@ export class FlowsModel extends Model<FlowsState> {
       autosubmitProviders: [],
     });
 
+    this.subscriptions.push(
+      this.changeModel.changeNum$.subscribe(changeNum => {
+        this.changeNum = changeNum;
+      })
+    );
+
     this.enabled$ = this.changeModel.changeNum$.pipe(
       switchMap(changeNum => {
+        this.changeNum = changeNum;
+        this.enabledResolvedChangeNum = undefined;
         if (!changeNum) {
           return of(false);
         }
@@ -112,7 +115,10 @@ export class FlowsModel extends Model<FlowsState> {
           this.restApiService.getIfFlowsIsEnabled(changeNum, errFn)
         ).pipe(
           map(res => res?.enabled ?? false),
-          catchError(() => of(false))
+          catchError(() => of(false)),
+          tap(() => {
+            this.enabledResolvedChangeNum = changeNum;
+          })
         );
       }),
       shareReplay(1)
@@ -121,12 +127,6 @@ export class FlowsModel extends Model<FlowsState> {
     this.subscriptions.push(
       this.enabled$.subscribe(isEnabled => {
         this.setState({...this.getState(), isEnabled});
-      })
-    );
-
-    this.subscriptions.push(
-      this.changeModel.changeNum$.subscribe(changeNum => {
-        this.changeNum = changeNum;
       })
     );
 
@@ -176,11 +176,55 @@ export class FlowsModel extends Model<FlowsState> {
     this.reload$.next();
   }
 
-  async deleteFlow(flowId: string) {
-    if (!this.changeNum) return;
-    if (!this.getState().isEnabled) return;
-    await this.restApiService.deleteFlow(this.changeNum, flowId);
-    this.reload();
+  private isFlowsEnabled(): Promise<boolean> {
+    if (
+      this.changeNum !== undefined &&
+      this.enabledResolvedChangeNum === this.changeNum
+    ) {
+      return Promise.resolve(this.getState().isEnabled);
+    }
+    return new Promise(resolve => {
+      this.enabled$
+        .pipe(
+          filter(() => this.enabledResolvedChangeNum === this.changeNum),
+          take(1)
+        )
+        .subscribe(enabled => resolve(enabled));
+    });
+  }
+
+  async deleteFlow(
+    flowId: string,
+    errFn?: ErrorCallback,
+    reload = true
+  ): Promise<void> {
+    const changeNum = this.changeNum;
+    if (
+      !changeNum ||
+      !(await this.isFlowsEnabled()) ||
+      this.changeNum !== changeNum
+    ) {
+      if (errFn) {
+        await errFn(null, new Error('Flows are not enabled for this change'));
+      }
+      return;
+    }
+    const response = await this.restApiService.deleteFlow(
+      changeNum,
+      flowId,
+      errFn
+    );
+    if (!response.ok) {
+      if (errFn) {
+        await errFn(response);
+      } else {
+        fireServerError(response);
+      }
+      return;
+    }
+    if (reload) {
+      this.reload();
+    }
   }
 
   hasAutosubmitFlowAlready() {
@@ -223,10 +267,30 @@ export class FlowsModel extends Model<FlowsState> {
     this.reload();
   }
 
-  async createFlow(flowInput: FlowInput, errFn?: ErrorCallback) {
-    if (!this.changeNum) return;
-    if (!this.getState().isEnabled) return;
-    await this.restApiService.createFlow(this.changeNum, flowInput, errFn);
-    this.reload();
+  async createFlow(
+    flowInput: FlowInput,
+    errFn?: ErrorCallback,
+    reload = true
+  ): Promise<FlowInfo | undefined> {
+    const changeNum = this.changeNum;
+    if (
+      !changeNum ||
+      !(await this.isFlowsEnabled()) ||
+      this.changeNum !== changeNum
+    ) {
+      if (errFn) {
+        await errFn(null, new Error('Flows are not enabled for this change'));
+      }
+      return undefined;
+    }
+    const created = await this.restApiService.createFlow(
+      changeNum,
+      flowInput,
+      errFn
+    );
+    if (created && reload) {
+      this.reload();
+    }
+    return created;
   }
 }

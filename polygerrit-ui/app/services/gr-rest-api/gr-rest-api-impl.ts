@@ -704,24 +704,34 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined> {
+    const req = {url: '/accounts/self/preferences.diff', reportUrlAsIs: true};
+    if (this._cache.has(req.url)) {
+      return this._restApiHelper.fetchCacheJSON(req) as Promise<
+        DiffPreferencesInfo | undefined
+      >;
+    }
     return this.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
-        return this._restApiHelper.fetchCacheJSON({
-          url: '/accounts/self/preferences.diff',
-          reportUrlAsIs: true,
-        }) as Promise<DiffPreferencesInfo | undefined>;
+        return this._restApiHelper.fetchCacheJSON(req) as Promise<
+          DiffPreferencesInfo | undefined
+        >;
       }
       return Promise.resolve(createDefaultDiffPrefs());
     });
   }
 
   getEditPreferences(): Promise<EditPreferencesInfo | undefined> {
+    const req = {url: '/accounts/self/preferences.edit', reportUrlAsIs: true};
+    if (this._cache.has(req.url)) {
+      return this._restApiHelper.fetchCacheJSON(req) as Promise<
+        EditPreferencesInfo | undefined
+      >;
+    }
     return this.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
-        return this._restApiHelper.fetchCacheJSON({
-          url: '/accounts/self/preferences.edit',
-          reportUrlAsIs: true,
-        }) as Promise<EditPreferencesInfo | undefined>;
+        return this._restApiHelper.fetchCacheJSON(req) as Promise<
+          EditPreferencesInfo | undefined
+        >;
       }
       return Promise.resolve(createDefaultEditPrefs());
     });
@@ -1127,16 +1137,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getPreferences(): Promise<PreferencesInfo | undefined> {
+    const req = {url: '/accounts/self/preferences', reportUrlAsIs: true};
+    if (this._cache.has(req.url)) {
+      return this._restApiHelper.fetchCacheJSON(req) as Promise<
+        PreferencesInfo | undefined
+      >;
+    }
     return this.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
-        const req = {url: '/accounts/self/preferences', reportUrlAsIs: true};
-        return this._restApiHelper.fetchCacheJSON(req).then(res => {
-          if (!res) {
-            return res;
-          }
-          const prefInfo = res as unknown as PreferencesInfo;
-          return prefInfo;
-        });
+        return this._restApiHelper.fetchCacheJSON(req) as Promise<
+          PreferencesInfo | undefined
+        >;
       }
       return createDefaultPreferences();
     });

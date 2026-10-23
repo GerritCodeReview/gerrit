@@ -87,6 +87,76 @@
       },
       "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d89ddae_f34805a0",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-23T18:16:08Z",
+      "side": 1,
+      "message": "I think Sasa just meant this edit:\n\n```suggestion\n`AI` as the author of some lines of code would every time require one or\nmore additional steps to find the responsible human.\n```",
+      "parentUuid": "c81d8986_82a2d35d",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 46
+      },
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70dc610e_78327ff5",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-23T18:16:08Z",
+      "side": 1,
+      "message": "Agreement from PS18 discussion was to remove this statement about the commit message.\n```suggestion\nthe Gerrit maintainers.\n```",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 51
+      },
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec3d581c_75e0a66c",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-23T18:16:08Z",
+      "side": 1,
+      "message": "This is already covered in the \"Human Attribution is Mandatory\" section above. If you think there\u0027s something novel being added here that\u0027s not already stated in the CLA, please add it above.\n\n```suggestion\n\u003d\u003d\u003d\u003d Comprehension and Accountability\n```",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 37
+      },
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

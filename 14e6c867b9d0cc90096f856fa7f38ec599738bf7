@@ -369,6 +369,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b4a5273_8665c984",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-23T18:16:08Z",
+      "side": 1,
+      "message": "Suggested an edit on PS39.",
+      "parentUuid": "1d46dcbd_6e7d7a55",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 73
+      },
+      "revId": "14e6c867b9d0cc90096f856fa7f38ec599738bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a5d0ed4_1fd2a399",

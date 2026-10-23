@@ -8,7 +8,13 @@ import '../test/common-test-setup';
 import './gr-app';
 import {getAppContext} from '../services/app-context';
 import {assert, fixture, html} from '@open-wc/testing';
-import {queryAndAssert, stubElement, stubRestApi} from '../test/test-utils';
+import {
+  mockPromise,
+  queryAndAssert,
+  stubElement,
+  stubRestApi,
+  waitEventLoop,
+} from '../test/test-utils';
 import {GrApp} from './gr-app';
 import {
   createAppElementSearchViewParams,
@@ -19,6 +25,11 @@ import {
 import {GrAppElement} from './gr-app-element';
 import {GrRouter, routerToken} from './core/gr-router/gr-router';
 import {resolve} from '../models/dependency';
+import {configModelToken} from '../models/config/config-model';
+import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {userModelToken} from '../models/user/user-model';
+import {AppTheme} from '../constants/constants';
+import {AccountDetailInfo, PreferencesInfo} from '../types/common';
 import {removeRequestDependencyListener} from '../test/common-test-setup';
 import {ReactiveElement} from 'lit';
 
@@ -47,15 +58,21 @@ suite('gr-app tests', () => {
   const config = createServerInfo();
   let appStartedStub: sinon.SinonStub;
   let routerStartStub: sinon.SinonStub;
+  let getAccountStub: sinon.SinonStub;
+  let getPreferencesStub: sinon.SinonStub;
 
   setup(async () => {
     appStartedStub = sinon.stub(getAppContext().reportingService, 'appStarted');
     stubElement('gr-account-dropdown', 'getTopContent');
     routerStartStub = sinon.stub(GrRouter.prototype, 'start');
-    stubRestApi('getAccount').returns(Promise.resolve(undefined));
+    getAccountStub = stubRestApi('getAccount').returns(
+      Promise.resolve(undefined)
+    );
     stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
     stubRestApi('getConfig').returns(Promise.resolve(config));
-    stubRestApi('getPreferences').returns(Promise.resolve(createPreferences()));
+    getPreferencesStub = stubRestApi('getPreferences').returns(
+      Promise.resolve(createPreferences())
+    );
     stubRestApi('getVersion').returns(Promise.resolve('42'));
     stubRestApi('probePath').returns(Promise.resolve(false));
     grApp = await fixture<GrApp>(html`<gr-app id="app"></gr-app>`);
@@ -203,5 +220,61 @@ suite('gr-app tests', () => {
     );
 
     secondSticky.remove();
+  });
+
+  test('applies theme class on initial render before preferences resolve and updates on preference change', async () => {
+    document.documentElement.classList.remove('lightTheme', 'darkTheme');
+    getAccountStub.returns(mockPromise<AccountDetailInfo | undefined>());
+    getPreferencesStub.returns(mockPromise<PreferencesInfo | undefined>());
+
+    const freshApp = await fixture<GrApp>(html`<gr-app></gr-app>`);
+    assert.isTrue(
+      document.documentElement.classList.contains('lightTheme') ||
+        document.documentElement.classList.contains('darkTheme')
+    );
+
+    const userModel = resolve(freshApp, userModelToken)();
+    userModel.setPreferences({...createPreferences(), theme: AppTheme.DARK});
+    assert.isTrue(document.documentElement.classList.contains('darkTheme'));
+    assert.isFalse(document.documentElement.classList.contains('lightTheme'));
+    assert.isOk(document.head.querySelector('#dark-theme'));
+
+    userModel.setPreferences({...createPreferences(), theme: AppTheme.LIGHT});
+    assert.isTrue(document.documentElement.classList.contains('lightTheme'));
+    assert.isFalse(document.documentElement.classList.contains('darkTheme'));
+    assert.isNull(document.head.querySelector('#dark-theme'));
+  });
+
+  test('hides main header while default_theme plugin is loading and unhides once installed', async () => {
+    const grAppElement = queryAndAssert<GrAppElement>(grApp, '#app-element');
+    const mainHeader = queryAndAssert<HTMLElement>(
+      grAppElement,
+      'gr-main-header'
+    );
+    const pluginLoader = resolve(grApp, pluginLoaderToken)();
+    const createScriptTagStub = sinon.stub(pluginLoader, 'createScriptTag');
+
+    const configModel = resolve(grApp, configModelToken)();
+    configModel.updateServerConfig({
+      ...createServerInfo(),
+      default_theme: '/static/gerrit-theme.js',
+    });
+    await grAppElement.updateComplete;
+    assert.isTrue(createScriptTagStub.calledOnce);
+    assert.isTrue(mainHeader.hidden);
+    await waitEventLoop();
+    assert.notEqual(
+      document.documentElement.style.getPropertyValue('--main-header-height'),
+      '0px'
+    );
+
+    pluginLoader.install(
+      () => {},
+      '0.1',
+      'http://localhost:9876/static/gerrit-theme.js'
+    );
+    await waitEventLoop();
+    await grAppElement.updateComplete;
+    assert.isFalse(mainHeader.hidden);
   });
 });

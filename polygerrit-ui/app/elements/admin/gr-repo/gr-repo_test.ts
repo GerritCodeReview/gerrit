@@ -730,8 +730,7 @@ suite('gr-repo tests', () => {
                        disabled=""
                        id="maxGitObjSizeInput"
                        inputmode=""
-                       min="0"
-                       type="number"
+                       type="text"
                      >
                      </md-outlined-text-field>
                    </span>
@@ -1241,6 +1240,42 @@ suite('gr-repo tests', () => {
         sel.querySelector('md-select-option')!.textContent?.trim(),
         'Inherit (Merge if necessary)'
       );
+    });
+
+    test('max object size limit input accepts unit suffixes', async () => {
+      await element.loadRepo();
+      await element.updateComplete;
+      const input = queryAndAssert<MdOutlinedTextField>(
+        element,
+        '#maxGitObjSizeInput'
+      );
+      input.value = '5m';
+      input.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
+      await element.updateComplete;
+      assert.equal(
+        element.formatRepoConfigForSave(element.repoConfig)
+          .max_object_size_limit,
+        '5m' as MaxObjectSizeLimitInfo
+      );
+    });
+
+    test('max object size limit displays existing value with unit suffix', async () => {
+      repoStub.returns(
+        Promise.resolve({
+          ...repoConf,
+          max_object_size_limit: {
+            value: '5242880',
+            configured_value: '5m' as MaxObjectSizeLimitInfo,
+          },
+        })
+      );
+      await element.loadRepo();
+      await element.updateComplete;
+      const input = queryAndAssert<MdOutlinedTextField>(
+        element,
+        '#maxGitObjSizeInput'
+      );
+      assert.equal(input.value, '5m');
     });
 
     test('fields update and save correctly', async () => {

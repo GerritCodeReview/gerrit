@@ -188,16 +188,101 @@ suite('commit-message-formatter-util tests', () => {
 
     test('bullet points are not split', () => {
       const message =
-        'Fix the thing\n\n- Uses a test buffer to store the result to avoid issue.\n' +
+        'Fix the thing\n\n- Uses a test buffer to store the result to avoid issue with rendering.\n' +
         '  This new buffer\n' +
-        '- Test a new buffer\n' +
+        '- Test a new buffer when the input stream is reconfigured and\n' +
         '  call it.\n\nChange-Id: abcdefg\n';
       assert.equal(
         formatCommitMessageString(message),
-        'Fix the thing\n\n- Uses a test buffer to store the result to avoid issue.\n' +
+        'Fix the thing\n\n- Uses a test buffer to store the result to avoid issue with rendering.\n' +
           '  This new buffer\n' +
-          '- Test a new buffer\n' +
-          '  call it.\n\nChange-Id: abcdefg\n'
+          '- Test a new buffer when the input stream is reconfigured and call it.\n\nChange-Id: abcdefg\n'
+      );
+    });
+
+    test('long bullet points are wrapped with hanging indentation', () => {
+      const message =
+        'Fix the thing\n\n' +
+        '- This is a very long bullet point that exceeds the 72 character limit and should be wrapped with a two-space hanging indent.\n' +
+        '  * This is an indented bullet point that also exceeds the 72 character limit and should be wrapped with a four-space hanging indent.\n\n' +
+        'Change-Id: abcdefg\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\n' +
+          '- This is a very long bullet point that exceeds the 72 character limit\n' +
+          '  and should be wrapped with a two-space hanging indent.\n' +
+          '  * This is an indented bullet point that also exceeds the 72 character\n' +
+          '    limit and should be wrapped with a four-space hanging indent.\n\n' +
+          'Change-Id: abcdefg\n'
+      );
+    });
+
+    test('bullet points with unindented continuation lines are reflowed with hanging indent', () => {
+      const message =
+        'Fix the thing\n\n' +
+        '- First bullet point that was manually wrapped onto the next\n' +
+        'line without any leading spaces and continues even further.\n' +
+        '- Second bullet point is short.\n\n' +
+        'Change-Id: abcdefg\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\n' +
+          '- First bullet point that was manually wrapped onto the next line\n' +
+          '  without any leading spaces and continues even further.\n' +
+          '- Second bullet point is short.\n\n' +
+          'Change-Id: abcdefg\n'
+      );
+    });
+
+    test('numbered lists are kept separate and wrapped with hanging indentation', () => {
+      const message =
+        'Fix the thing\n\n' +
+        '1. First item\n' +
+        '2. Second item that is very long and exceeds the 72 character limit so it should wrap with three spaces.\n' +
+        '10. Tenth item that is also very long and exceeds the 72 character limit so it should wrap with four spaces.\n' +
+        '1) Parenthesized item.\n\n' +
+        'Change-Id: abcdefg\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\n' +
+          '1. First item\n' +
+          '2. Second item that is very long and exceeds the 72 character limit so\n' +
+          '   it should wrap with three spaces.\n' +
+          '10. Tenth item that is also very long and exceeds the 72 character limit\n' +
+          '    so it should wrap with four spaces.\n' +
+          '1) Parenthesized item.\n\n' +
+          'Change-Id: abcdefg\n'
+      );
+    });
+
+    test('indented block after blank line preserves indentation and wraps long lines', () => {
+      const message =
+        'Fix the thing\n\n' +
+        'List:\n\n' +
+        '  item1: short line\n' +
+        '  item2: very long indented line that exceeds the 72 character limit and should wrap preserving its indent\n\n' +
+        'Change-Id: abcdefg\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\n' +
+          'List:\n\n' +
+          '  item1: short line\n' +
+          '  item2: very long indented line that exceeds the 72 character limit and\n' +
+          '  should wrap preserving its indent\n\n' +
+          'Change-Id: abcdefg\n'
+      );
+    });
+
+    test('bullet list at end of message with colon in continuation is not treated as footer', () => {
+      const message =
+        'Fix the thing\n\n' +
+        '- First bullet point that is quite long and exceeds the 72 character limit for body lines.\n' +
+        '  Note: this continuation has a colon';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\n' +
+          '- First bullet point that is quite long and exceeds the 72 character\n' +
+          '  limit for body lines. Note: this continuation has a colon'
       );
     });
 
@@ -423,6 +508,36 @@ suite('commit-message-formatter-util tests', () => {
         "'#' at line start is a comment marker in Git. Line will be ignored"
       );
     });
+
+    test('bullet and numbered list lines exceeding 72 chars are flagged', () => {
+      const message =
+        'Fix the thing\n\n' +
+        '- This is a very long bullet point that exceeds the maximum allowed length of 72 characters.\n' +
+        '1. This is a very long numbered item that exceeds the maximum allowed length of 72 characters.\n\n' +
+        'Change-Id: abcdefg\n';
+      const errors = detectFormattingErrorsInString(message);
+      assertError(
+        errors,
+        ErrorType.LINE_TOO_LONG,
+        3,
+        'Line exceeds 72 characters'
+      );
+      assertError(
+        errors,
+        ErrorType.LINE_TOO_LONG,
+        4,
+        'Line exceeds 72 characters'
+      );
+    });
+
+    test('4-space indented code block exceeding 72 chars is not flagged', () => {
+      const message =
+        'Fix the thing\n\n' +
+        '    const veryLongCodeLine = someFunctionWithVeryLongArgumentsThatExceeds72Characters();\n\n' +
+        'Change-Id: abcdefg\n';
+      const errors = detectFormattingErrorsInString(message);
+      assert.isEmpty(errors);
+    });
   });
 
   suite('parseCommitMessageString', () => {
@@ -552,6 +667,19 @@ suite('commit-message-formatter-util tests', () => {
           hasTrailingBlankLine: false,
         },
         'footer with equals sign format line should be kept as footer'
+      );
+    });
+
+    test('indented list with key: value lines is kept in body', () => {
+      assertParseResult(
+        'Subject\n\nBody line\n\nList:\n  item1: val1\n  item2: val2',
+        {
+          subject: 'Subject',
+          body: ['Body line', '', 'List:', '  item1: val1', '  item2: val2'],
+          footer: [],
+          hasTrailingBlankLine: false,
+        },
+        'indented list with key: value lines should be moved to body'
       );
     });
   });

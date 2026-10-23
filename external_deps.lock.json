@@ -140,8 +140,8 @@
     "org.apache.httpcomponents:fluent-hc": -439690549,
     "org.apache.httpcomponents:httpclient": -214613560,
     "org.apache.httpcomponents:httpcore": -215175681,
-    "org.apache.james:apache-mime4j-core": -1199514077,
-    "org.apache.james:apache-mime4j-dom": 602022408,
+    "org.apache.james:apache-mime4j-core": -1179449391,
+    "org.apache.james:apache-mime4j-dom": -1166393204,
     "org.apache.lucene:lucene-analysis-common": -894438603,
     "org.apache.lucene:lucene-backward-codecs": 1670381248,
     "org.apache.lucene:lucene-core": 217510296,
@@ -427,10 +427,10 @@
     "org.apache.httpcomponents:httpclient:jar:sources": -779528763,
     "org.apache.httpcomponents:httpcore": 67453319,
     "org.apache.httpcomponents:httpcore:jar:sources": 2134002822,
-    "org.apache.james:apache-mime4j-core": 1172767236,
-    "org.apache.james:apache-mime4j-core:jar:sources": 1540423501,
-    "org.apache.james:apache-mime4j-dom": -704995319,
-    "org.apache.james:apache-mime4j-dom:jar:sources": -1311932247,
+    "org.apache.james:apache-mime4j-core": -1694594588,
+    "org.apache.james:apache-mime4j-core:jar:sources": -22221334,
+    "org.apache.james:apache-mime4j-dom": -1145067327,
+    "org.apache.james:apache-mime4j-dom:jar:sources": -296670150,
     "org.apache.lucene:lucene-analysis-common": 117494556,
     "org.apache.lucene:lucene-analysis-common:jar:sources": 184261997,
     "org.apache.lucene:lucene-backward-codecs": 497823300,
@@ -1345,17 +1345,17 @@
     },
     "org.apache.james:apache-mime4j-core": {
       "shasums": {
-        "jar": "aeb313efda27ae902964a3fcdbd235f91ea13c7a5b193dd752f626b073da230f",
-        "sources": "d45fe485b0cb5819a2e8e860c3fc7508beb5cd3b42a9190f2493798cbe2fc8ab"
+        "jar": "7941ef3a99a999f4960734e272434fa47d67df980babf5ce8fe426bfcaa26c94",
+        "sources": "bf447d5b58ad0c75486ec27597663f955d503ea54a405acc55568210f28507cd"
       },
-      "version": "0.8.1"
+      "version": "0.8.10"
     },
     "org.apache.james:apache-mime4j-dom": {
       "shasums": {
-        "jar": "25547c2ebd438669f3b60ad04e5befb123994a685453ada66fb61dcc9d396800",
-        "sources": "df2d902a9229a54648ab8ed4372ee142cc19a6731c928be70afb017a30399b86"
+        "jar": "1dc362d8e6511d53237c0cfd39c8fce5eb947538338421b85541d3beffb40efb",
+        "sources": "d0f9c94e68498421ea0a5972190b35281047fd500b8e56c688c8c3fb04bb90ce"
       },
-      "version": "0.8.1"
+      "version": "0.8.10"
     },
     "org.apache.lucene:lucene-analysis-common": {
       "shasums": {
@@ -2101,7 +2101,11 @@
       "commons-codec:commons-codec",
       "org.apache.httpcomponents:httpcore"
     ],
+    "org.apache.james:apache-mime4j-core": [
+      "commons-io:commons-io"
+    ],
     "org.apache.james:apache-mime4j-dom": [
+      "commons-io:commons-io",
       "org.apache.james:apache-mime4j-core"
     ],
     "org.apache.lucene:lucene-analysis-common": [

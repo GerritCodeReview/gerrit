@@ -34,6 +34,24 @@
       "parentUuid": "17022ba5_a4bbbc36",
       "revId": "236a30a517889076999a1a12931d838f9830ad88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d00374f_33c2e3d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-23T18:39:15Z",
+      "side": 1,
+      "message": "I don\u0027t think it will 😞\nYou could upload a WIP change as a child of this one and bump JGit to your open change, then add a depends-on to that, but I don\u0027t know if CI will be able to sync it correctly",
+      "parentUuid": "787a117b_129586c8",
+      "revId": "236a30a517889076999a1a12931d838f9830ad88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

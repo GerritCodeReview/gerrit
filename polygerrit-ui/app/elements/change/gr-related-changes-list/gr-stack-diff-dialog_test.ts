@@ -29,15 +29,15 @@ import {
 } from '../../../test/test-data-generators';
 import * as sinon from 'sinon';
 
-function relatedChange(sha: string, parentSha: string) {
+function relatedChange(sha: string, ...parentShas: string[]) {
   return {
     ...createRelatedChangeAndCommitInfo(),
     commit: {
       ...createCommitInfoWithRequiredCommit(sha),
       subject: `Change ${sha}`,
-      parents: [
-        {commit: parentSha as CommitId, subject: `Parent ${parentSha}`},
-      ],
+      parents: parentShas.map(parentSha => {
+        return {commit: parentSha as CommitId, subject: `Parent ${parentSha}`};
+      }),
     },
   };
 }
@@ -45,6 +45,7 @@ function relatedChange(sha: string, parentSha: string) {
 suite('gr-stack-diff-dialog tests', () => {
   let element: GrStackDiffDialog;
   let getProjectCommitDiffStub: sinon.SinonStub;
+  let getProjectCommitFileDiffStub: sinon.SinonStub;
 
   setup(async () => {
     getProjectCommitDiffStub = stubRestApi('getProjectCommitDiff').resolves({
@@ -57,7 +58,9 @@ suite('gr-stack-diff-dialog tests', () => {
       },
     });
 
-    stubRestApi('getProjectCommitFileDiff').resolves({
+    getProjectCommitFileDiffStub = stubRestApi(
+      'getProjectCommitFileDiff'
+    ).resolves({
       meta_a: {
         name: 'foo/bar.ts',
         content_type: 'text/typescript',
@@ -314,5 +317,91 @@ suite('gr-stack-diff-dialog tests', () => {
       // Without a connected chain nothing is marked as indirect.
       assert.isFalse(element.isIndirectRelation(element.relatedChanges[0]));
     });
+
+    test('handles cascading merge commits where chain link is second parent', async () => {
+      // Simulates cascading branch merges (e.g. stable-3.13 -> stable-3.14 ->
+      // stable-3.15 -> master) where parents[0] is the target branch tip and
+      // parents[1] is the parent change in the relation chain.
+      await setChain([
+        relatedChange('merge-into-master', 'master-tip', 'current-sha'),
+        relatedChange('current-sha', 'stable-3.15-tip', 'merge-into-3.14'),
+        relatedChange('merge-into-3.14', 'stable-3.14-tip', 'stable-3.13-tip'),
+      ]);
+
+      assert.deepEqual([...element.getConnectedRevisions()].sort(), [
+        'current-sha',
+        'merge-into-3.14',
+        'merge-into-master',
+      ]);
+
+      // Only the root of the chain (merge-into-3.14's first parent) should be
+      // listed as a base parent, not the first parents of intermediate merges.
+      assert.deepEqual(element.getBaseParents(), [
+        'stable-3.14-tip' as CommitId,
+      ]);
+
+      // Walking down from the top merge commit follows the in-chain second
+      // parents down to the root parent of the chain.
+      assert.equal(
+        element.findValidBaseForTarget('merge-into-master' as CommitId),
+        'stable-3.14-tip' as CommitId
+      );
+    });
+  });
+
+  test('ignores stale file diff responses when switching files while loading', async () => {
+    getProjectCommitDiffStub.resolves({
+      'first.ts': {status: FileInfoStatus.MODIFIED, lines_inserted: 1},
+      'second.ts': {status: FileInfoStatus.MODIFIED, lines_inserted: 2},
+    });
+
+    let resolveFirst!: (diff: DiffInfo) => void;
+    let resolveSecond!: (diff: DiffInfo) => void;
+    const firstDiff = {
+      meta_a: {name: 'first.ts', content_type: 'text/typescript', lines: 1},
+      meta_b: {name: 'first.ts', content_type: 'text/typescript', lines: 2},
+      content: [],
+    } as unknown as DiffInfo;
+    const secondDiff = {
+      meta_a: {name: 'second.ts', content_type: 'text/typescript', lines: 1},
+      meta_b: {name: 'second.ts', content_type: 'text/typescript', lines: 3},
+      content: [],
+    } as unknown as DiffInfo;
+
+    getProjectCommitFileDiffStub.callsFake(
+      (_repo, _target, _base, path: string) =>
+        new Promise<DiffInfo>(resolve => {
+          if (path === 'first.ts') {
+            resolveFirst = resolve;
+          } else {
+            resolveSecond = resolve;
+          }
+        })
+    );
+
+    const openPromise = element.open();
+    await waitUntil(() => Object.keys(element.files).length === 2);
+    await element.updateComplete;
+
+    // Click second file while first file's diff is still in flight.
+    const fileRows = element.shadowRoot?.querySelectorAll('.file-row');
+    assert.equal(fileRows?.length, 2);
+    (fileRows![1] as HTMLElement).click();
+    await element.updateComplete;
+
+    // Resolve the newer request first, then the stale first request.
+    resolveSecond(secondDiff);
+    await waitUntil(
+      () => element.shadowRoot?.querySelector('gr-diff')?.diff === secondDiff
+    );
+    resolveFirst(firstDiff);
+    await openPromise;
+    await element.updateComplete;
+
+    assert.equal(element.selectedFile, 'second.ts');
+    assert.equal(
+      element.shadowRoot?.querySelector('gr-diff')?.diff,
+      secondDiff
+    );
   });
 });

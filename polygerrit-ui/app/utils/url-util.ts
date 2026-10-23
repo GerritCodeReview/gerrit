@@ -10,7 +10,7 @@ import {
   PARENT,
   RevisionPatchSetNum,
 } from '../types/common';
-import {AuthType} from '../api/rest-api';
+import {AuthType, ChangeInfo} from '../api/rest-api';
 
 export function getBaseUrl(): string {
   // window is not defined in service worker, therefore no CANONICAL_PATH
@@ -222,4 +222,33 @@ export function sameOrigin(href: string) {
     throw e;
   }
   return url.origin === window.location.origin;
+}
+
+/**
+ * Matches the base change path prefix up to the change number (e.g. `/c/project/+/123`),
+ * ignoring any trailing patchsets, diff ranges, comment IDs, or file paths.
+ *
+ * @see RoutePattern.CHANGE in `gr-router.ts` for corresponding route pattern.
+ */
+const CHANGE_PREFIX_PATTERN = /^(.*?\/(?:c\/.+?\/\+)\/\d+)/;
+
+/**
+ * Returns the change URL prefix (e.g. `https://example.com/c/project/+/123`),
+ * stripping patchset numbers, diff ranges, comment IDs, and file paths from
+ * pathname, or falling back to `change.project` and `change._number` when the
+ * current pathname is not a change URL.
+ */
+export function getChangePrefix(
+  change?: Pick<ChangeInfo, 'project' | '_number'>
+): string {
+  const match = window.location.pathname.match(CHANGE_PREFIX_PATTERN);
+  if (match) {
+    return window.location.origin + match[1];
+  }
+  if (change?.project && change?._number) {
+    return `${window.location.origin}${getBaseUrl()}/c/${encodeURL(
+      change.project
+    )}/+/${change._number}`;
+  }
+  return window.location.origin + window.location.pathname;
 }

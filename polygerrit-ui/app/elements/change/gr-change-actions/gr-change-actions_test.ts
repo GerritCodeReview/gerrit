@@ -2573,9 +2573,13 @@ suite('gr-change-actions tests', () => {
             'Presubmit-Verified': {
               values: {'-1': '', ' 0': '', '+1': ''},
             },
+            'Verified-ghash-presubmit-kokoro': {
+              values: {'-1': '', ' 0': '', '+1': ''},
+            },
           },
           permitted_labels: {
             'Presubmit-Verified': ['-1', ' 0', '+1'],
+            'Verified-ghash-presubmit-kokoro': ['-1', ' 0', '+1'],
           },
         };
         await element.updateComplete;
@@ -2584,6 +2588,32 @@ suite('gr-change-actions tests', () => {
           "gr-button[data-action-key='review']"
         );
         assert.isNotOk(approveButton);
+      });
+
+      test('prioritizes optional Code-Review over other missing labels', async () => {
+        element.change = {
+          ...createChangeViewChange(),
+          current_revision: 'abc1234' as CommitId,
+          labels: {
+            'Code-Review': {
+              optional: true,
+              values: {'-2': '', '-1': '', ' 0': '', '+1': '', '+2': ''},
+            },
+            'Verified-custom': {
+              values: {'-1': '', ' 0': '', '+1': ''},
+            },
+          },
+          permitted_labels: {
+            'Code-Review': ['-2', '-1', ' 0', '+1', '+2'],
+            'Verified-custom': ['-1', ' 0', '+1'],
+          },
+        };
+        await element.updateComplete;
+        const approveButton = queryAndAssert(
+          element,
+          "gr-button[data-action-key='review']"
+        );
+        assert.equal(approveButton.getAttribute('data-label'), 'Code-Review+2');
       });
 
       test('rejected presubmit label blocks quick approve', async () => {

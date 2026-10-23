@@ -102,6 +102,12 @@ const SIZE_BAR_MIN_WIDTH = 1.5;
 
 const FILE_ROW_CLASS = 'file-row';
 
+/** Plugin endpoint for per-file controls next to the file path. */
+export const PATH_CONTROLS_ENDPOINT = 'change-view-file-list-path-controls';
+
+/** Plugin endpoint wrapping the expanded inline diff of a file. */
+export const DIFF_CONTENT_ENDPOINT = 'change-view-file-list-diff-content';
+
 export interface NormalizedFileInfo extends FileInfo {
   __path: string;
 }
@@ -171,6 +177,11 @@ declare global {
     'files-shown-changed': CustomEvent<{length: number}>;
     'files-expanded-changed': ValueChangedEvent<FilesExpandedState>;
     'diff-prefs-changed': ValueChangedEvent<DiffPreferencesInfo>;
+    /**
+     * Can be fired by plugin components rendered in the file list endpoints
+     * (e.g. `change-view-file-list-path-controls`) to expand the given file.
+     */
+    'file-list-expand-file': CustomEvent<{path: string}>;
   }
   interface HTMLElementTagNameMap {
     'gr-file-list': GrFileList;
@@ -307,6 +318,16 @@ export class GrFileList extends LitElement {
 
   @state()
   private dynamicSummaryEndpoints?: string[];
+
+  /**
+   * Whether any plugin has registered the
+   * `change-view-file-list-path-controls` endpoint. The endpoint is rendered
+   * once per file row, so it is only rendered if it is actually used.
+   *
+   * Private but used in tests.
+   */
+  @state()
+  hasPathControlsEndpoint = false;
 
   @state()
   private dynamicPrependedHeaderEndpoints?: string[];
@@ -534,9 +555,20 @@ export class GrFileList extends LitElement {
           white-space: nowrap;
           opacity: 0;
         }
+        /* No margin here, because plugins may render nothing for a file. */
+        .pathControls {
+          align-items: center;
+          display: inline-flex;
+          vertical-align: middle;
+          white-space: nowrap;
+          opacity: 0;
+        }
         .row:hover .richMarkdownToggle,
         .row:focus-within .richMarkdownToggle,
-        .row.expanded .richMarkdownToggle {
+        .row.expanded .richMarkdownToggle,
+        .row:hover .pathControls,
+        .row:focus-within .pathControls,
+        .row.expanded .pathControls {
           opacity: 100;
         }
         .richMarkdownToggle gr-button {
@@ -545,6 +577,14 @@ export class GrFileList extends LitElement {
         .richMarkdownToggle gr-icon {
           font-size: 16px;
           margin-right: var(--spacing-xs);
+        }
+        /* A plugin component in the diff content endpoint can set the
+           'replace-content' attribute to hide the inline diff. */
+        gr-endpoint-decorator.diffContent {
+          display: block;
+        }
+        gr-endpoint-decorator.diffContent:has([replace-content]) gr-diff-host {
+          display: none;
         }
         .fileListButton {
           margin: var(--spacing-m);
@@ -1028,6 +1068,10 @@ export class GrFileList extends LitElement {
           this.getPluginLoader().pluginEndPoints.getDynamicEndpoints(
             'change-view-file-list-summary'
           );
+        this.hasPathControlsEndpoint =
+          this.getPluginLoader().pluginEndPoints.getDetails(
+            PATH_CONTROLS_ENDPOINT
+          ).length > 0;
 
         if (
           this.dynamicHeaderEndpoints.length !==
@@ -1091,6 +1135,8 @@ export class GrFileList extends LitElement {
       <div
         id="container"
         @click=${(e: MouseEvent) => this.handleFileListClick(e)}
+        @file-list-expand-file=${(e: CustomEvent<{path: string}>) =>
+          this.handleExpandFileEvent(e)}
         role="grid"
         aria-label="Files list"
       >
@@ -1259,27 +1305,45 @@ export class GrFileList extends LitElement {
               ></gr-diff-markdown-viewer>
             `
           )}
-          <div ?hidden=${this.isShowingRichMarkdown(file.__path)}>
-            <gr-diff-host
-              ?hidden=${this.isShowingRichMarkdown(file.__path)}
-              ?disabledThreads=${this.isShowingRichMarkdown(file.__path)}
-              ?noAutoRender=${true}
-              ?showLoadFailure=${true}
-              .changeNum=${this.changeNum}
-              .change=${this.change}
-              .patchRange=${this.patchRange}
-              .file=${patchSetFile}
-              .path=${file.__path}
-              .projectName=${this.change?.project}
-              ?noRenderOnPrefsChange=${true}
-              @diff-changed=${(e: CustomEvent<{value?: DiffInfo}>) => {
-                if (e.detail.value) {
-                  this.diffsByPath.set(file.__path, e.detail.value);
-                  this.requestUpdate();
-                }
-              }}
-            ></gr-diff-host>
-          </div>
+          <gr-endpoint-decorator
+            class="diffContent"
+            name=${DIFF_CONTENT_ENDPOINT}
+          >
+            <gr-endpoint-param name="change" .value=${this.change}>
+            </gr-endpoint-param>
+            <gr-endpoint-param name="changeNum" .value=${this.changeNum}>
+            </gr-endpoint-param>
+            <gr-endpoint-param name="patchRange" .value=${this.patchRange}>
+            </gr-endpoint-param>
+            <gr-endpoint-param name="path" .value=${file.__path}>
+            </gr-endpoint-param>
+            <gr-endpoint-param
+              name="diff"
+              .value=${this.diffsByPath.get(file.__path) ?? null}
+            >
+            </gr-endpoint-param>
+            <div ?hidden=${this.isShowingRichMarkdown(file.__path)}>
+              <gr-diff-host
+                ?hidden=${this.isShowingRichMarkdown(file.__path)}
+                ?disabledThreads=${this.isShowingRichMarkdown(file.__path)}
+                ?noAutoRender=${true}
+                ?showLoadFailure=${true}
+                .changeNum=${this.changeNum}
+                .change=${this.change}
+                .patchRange=${this.patchRange}
+                .file=${patchSetFile}
+                .path=${file.__path}
+                .projectName=${this.change?.project}
+                ?noRenderOnPrefsChange=${true}
+                @diff-changed=${(e: CustomEvent<{value?: DiffInfo}>) => {
+                  if (e.detail.value) {
+                    this.diffsByPath.set(file.__path, e.detail.value);
+                    this.requestUpdate();
+                  }
+                }}
+              ></gr-diff-host>
+            </div>
+          </gr-endpoint-decorator>
         `
       )}
     </div>`;
@@ -1427,6 +1491,7 @@ export class GrFileList extends LitElement {
           ></gr-copy-clipboard>
         </a>
         ${this.renderRichMarkdownToggle(file)}
+        ${this.renderPathControlsEndpoint(file)}
         ${when(
           file.diffs_too_expensive_to_compute,
           () => html`
@@ -1742,6 +1807,48 @@ export class GrFileList extends LitElement {
       return diffHost.diff;
     }
     return undefined;
+  }
+
+  private renderPathControlsEndpoint(file: NormalizedFileInfo) {
+    if (!this.hasPathControlsEndpoint) return nothing;
+    return html`
+      <gr-endpoint-decorator
+        class="pathControls"
+        name=${PATH_CONTROLS_ENDPOINT}
+      >
+        <gr-endpoint-param name="change" .value=${this.change}>
+        </gr-endpoint-param>
+        <gr-endpoint-param name="changeNum" .value=${this.changeNum}>
+        </gr-endpoint-param>
+        <gr-endpoint-param name="patchRange" .value=${this.patchRange}>
+        </gr-endpoint-param>
+        <gr-endpoint-param name="path" .value=${file.__path}>
+        </gr-endpoint-param>
+        <gr-endpoint-param name="oldPath" .value=${this.getOldPath(file)}>
+        </gr-endpoint-param>
+        <gr-endpoint-param
+          name="expanded"
+          .value=${this.isFileExpanded(file.__path)}
+        >
+        </gr-endpoint-param>
+      </gr-endpoint-decorator>
+    `;
+  }
+
+  /**
+   * Handles the `file-list-expand-file` event, which plugin components can
+   * fire to expand a file. Does nothing if the file is already expanded.
+   *
+   * Private but used in tests.
+   */
+  handleExpandFileEvent(e: CustomEvent<{path: string}>) {
+    e.stopPropagation();
+    const path = e.detail?.path;
+    if (!path || this.isFileExpanded(path)) return;
+    if (!this.files.some(f => f.__path === path)) return;
+    const newExpanded = new Set(this.expandedFiles);
+    newExpanded.add(path);
+    this.expandedFiles = newExpanded;
   }
 
   private renderRichMarkdownToggle(file: NormalizedFileInfo) {
@@ -2266,6 +2373,11 @@ export class GrFileList extends LitElement {
 
     // Disregard the event if the click target is in the edit controls.
     if (descendedFromClass(e.target as Element, 'editFileControls')) {
+      return;
+    }
+
+    // Disregard the event if the click target is in plugin provided controls.
+    if (descendedFromClass(e.target as Element, 'pathControls')) {
       return;
     }
 

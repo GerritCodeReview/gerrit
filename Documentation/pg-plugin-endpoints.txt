@@ -269,6 +269,87 @@ link:rest-api-changes.html#change-info[ChangeInfo]
 current revision displayed, an instance of
 link:rest-api-changes.html#revision-info[RevisionInfo]
 
+=== change-view-file-list-path-controls
+The `change-view-file-list-path-controls` extension point is located next to
+the file path of every row in the file list of the change view. It can be used
+to add per-file controls, e.g. a button that switches between the inline diff
+and a custom rendering of the file (see
+`change-view-file-list-diff-content`). Like the built-in "Rich diff" toggle for
+Markdown files, the content is only visible when the row is hovered, focused or
+expanded. Clicks inside the endpoint do not expand or collapse the row.
+
+A component can expand its file by firing a bubbling
+`file-list-expand-file` event with `detail: {path}`. Nothing happens if the
+file is already expanded.
+
+The endpoint is rendered for all files, so components should render nothing
+for files that they are not interested in.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `changeNum`
++
+the number of the current change
+
+* `patchRange`
++
+the selected patch range, an object with `basePatchNum` and `patchNum`
+
+* `path`
++
+the path of the file
+
+* `oldPath`
++
+the old path of the file if it was renamed or copied, otherwise `null`
+
+* `expanded`
++
+whether the inline diff of the file is expanded
+
+=== change-view-file-list-diff-content
+The `change-view-file-list-diff-content` extension point wraps the inline diff
+of each expanded file in the file list of the change view. A component in this
+endpoint can replace the inline diff by setting the `replace-content`
+attribute on itself; the diff is hidden while the attribute is present. Do not
+register this endpoint with `replace: true`, because the file list relies on
+the diff element being present.
+
+Note that the hidden diff stays attached, so comment threads and drafts in it
+are kept.
+
+The component is re-created whenever the file is collapsed and expanded again,
+so any state should be kept outside of the component.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `changeNum`
++
+the number of the current change
+
+* `patchRange`
++
+the selected patch range, an object with `basePatchNum` and `patchNum`
+
+* `path`
++
+the path of the file
+
+* `diff`
++
+the diff of the file once it is loaded, an instance of
+link:rest-api-changes.html#diff-info[DiffInfo], otherwise `null`
+
 == Dynamic Plugin endpoints
 
 The following dynamic endpoints are available to plugins by calling

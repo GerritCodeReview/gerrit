@@ -16,6 +16,24 @@
       "message": "Luci was updated to NodeJS 26.10.",
       "revId": "5562a57e7fda45d40681d1f57a8afe8ed11109f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd8e662_635f46f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-23T08:38:38Z",
+      "side": 1,
+      "message": "I\u0027ve removed the pin.",
+      "parentUuid": "d0146292_3efa4e5b",
+      "revId": "5562a57e7fda45d40681d1f57a8afe8ed11109f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,29 @@
       },
       "revId": "f69852973e337597be85cd857e059a93f3d4aafd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bfe14c0_804b2ec6",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-23T00:28:26Z",
+      "side": 1,
+      "message": "```suggestion\n  private loadRevisionParents() {\n    const isPatchSetBase$ \u003d select(\n      this.basePatchNum$,\n      bp \u003d\u003e !!bp \u0026\u0026 bp !\u003d\u003d PARENT \u0026\u0026 !isMergeParent(bp)\n    );\n    const currentRevision$ \u003d select(\n      this.change$,\n      change \u003d\u003e change?.current_revision\n    );\n    return combineLatest([\n      this.changeNum$,\n      currentRevision$,\n      isPatchSetBase$,\n      this.submittable$,\n    ])\n      .pipe(\n        switchMap(([changeNum, currentRevId, isPatchSetBase, submittable]) \u003d\u003e {\n          const change \u003d this.getState().change;\n          if (!changeNum || !change?.revisions) {\n            return of(undefined);\n          }\n          const needsAllRevisions \u003d\n            isPatchSetBase \u0026\u0026\n            Object.values(change.revisions).some(\n              rev \u003d\u003e rev._number !\u003d\u003d EDIT \u0026\u0026 rev.parents_data \u003d\u003d\u003d undefined\n            );\n          const currentRev \u003d currentRevId\n            ? change.revisions[currentRevId]\n            : undefined;\n          const needsCurrentRevision \u003d\n            change.status \u003d\u003d\u003d ChangeStatus.NEW \u0026\u0026\n            !change.work_in_progress \u0026\u0026\n            !!submittable \u0026\u0026\n            currentRev !\u003d\u003d undefined \u0026\u0026\n            currentRev.parents_data \u003d\u003d\u003d undefined;\n          if (!needsAllRevisions \u0026\u0026 !needsCurrentRevision) {\n            return of(undefined);\n          }\n          const optionsHex \u003d listChangesOptionsToHex(\n            needsAllRevisions\n              ? ListChangesOption.ALL_REVISIONS\n              : ListChangesOption.CURRENT_REVISION,\n            ListChangesOption.PARENTS,\n            ListChangesOption.SKIP_DIFFSTAT\n          );\n          return from(\n            this.restApiService.getChange(changeNum, undefined, optionsHex)\n          ).pipe(catchError(() \u003d\u003e of(undefined)));\n        })\n      )\n      .subscribe(changeWithParents \u003d\u003e {\n        if (!changeWithParents) return;\n        const currentChange \u003d this.getState().change;\n        const change \u003d fillFromRevisionParents(\n          currentChange,\n          changeWithParents\n        );\n        if (change !\u003d\u003d currentChange) {\n          this.updateState({change});\n        }\n      });\n  }\n```\n\nif you do something like the suggestion above, you can eliminate almost all of internal change cl/1004248018. the plugin would just need to worry about the missing parent fetch on initialization and not need to worry about it across events",
+      "range": {
+        "startLine": 854,
+        "startChar": 2,
+        "endLine": 894,
+        "endChar": 0
+      },
+      "revId": "f69852973e337597be85cd857e059a93f3d4aafd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -392,7 +392,7 @@ export class PromptBox extends LitElement {
             link: generateAbsoluteUrl(createSettingsUrl()),
             title: 'Set up token',
             identifier: this.change.id,
-            tooltip: 'Open the settings to configure an API token.',
+            tooltip: this.modelsLoadingError.message,
           };
           break;
         case ModelsLoadingErrorName.AI_PROVIDERS_LOADING:

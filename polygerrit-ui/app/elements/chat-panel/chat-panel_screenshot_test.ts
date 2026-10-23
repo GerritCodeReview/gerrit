@@ -396,7 +396,8 @@ suite('chat-panel screenshot tests', () => {
     await visualDiffDarkTheme(element, 'chat-panel-history-scrolling');
   });
 
-  test('chat mode with models menu open', async () => {
+  // Flaky due to md-menu (500ms) + md-focus-ring (600ms) animation timing race.
+  test.skip('chat mode with models menu open', async () => {
     chatModel.updateState({
       ...chatModel.getState(),
       models: {

@@ -96,6 +96,10 @@ export class GrStackDiffDialog extends LitElement {
 
   private connectedRevisions?: Set<CommitId>;
 
+  private diffListRequestId = 0;
+
+  private fileDiffRequestId = 0;
+
   constructor() {
     super();
     subscribe(
@@ -430,10 +434,11 @@ export class GrStackDiffDialog extends LitElement {
     const parentMap = this.getParentMap();
     let current = target;
     while (parentMap.has(current)) {
-      const parent = parentMap.get(current)![0];
+      const parents = parentMap.get(current)!;
+      const inChainParent = parents.find(p => parentMap.has(p));
       // The oldest commit of the chain, or the root parent it is based on.
-      if (!parent || !parentMap.has(parent)) return parent ?? current;
-      current = parent;
+      if (!inChainParent) return parents[0] ?? current;
+      current = inChainParent;
     }
     return current;
   }
@@ -468,8 +473,11 @@ export class GrStackDiffDialog extends LitElement {
     const connectedRoot = this.getConnectedRootParent();
     if (connectedRoot) roots.add(connectedRoot);
     for (const change of this.relatedChanges) {
-      const parent = change.commit.parents?.[0]?.commit;
-      if (parent && !parentMap.has(parent)) roots.add(parent);
+      const parents = change.commit.parents ?? [];
+      if (!parents.some(p => parentMap.has(p.commit))) {
+        const rootParent = parents[0]?.commit;
+        if (rootParent) roots.add(rootParent);
+      }
     }
     return [...roots];
   }
@@ -499,30 +507,44 @@ export class GrStackDiffDialog extends LitElement {
     if (!repo || !this.baseCommitId || !this.targetCommitId) {
       return;
     }
+    const requestId = ++this.diffListRequestId;
+    ++this.fileDiffRequestId;
     this.loading = true;
     this.error = undefined;
+    let firstFile: string | undefined;
     try {
       const files = await this.restApiService.getProjectCommitDiff(
         repo,
         this.targetCommitId,
         this.baseCommitId
       );
+      if (requestId !== this.diffListRequestId) {
+        return;
+      }
       const rest = {...(files ?? {})};
       delete rest['/COMMIT_MSG'];
       this.files = rest;
 
       const filePaths = Object.keys(this.files);
       if (filePaths.length > 0) {
-        await this.selectFile(filePaths[0]);
+        firstFile = filePaths[0];
       } else {
         this.selectedFile = undefined;
         this.fileDiff = undefined;
       }
     } catch (e) {
+      if (requestId !== this.diffListRequestId) {
+        return;
+      }
       this.error =
         'Failed to load project commit diff: ' + (e as Error).message;
     } finally {
-      this.loading = false;
+      if (requestId === this.diffListRequestId) {
+        this.loading = false;
+      }
+    }
+    if (firstFile && requestId === this.diffListRequestId) {
+      await this.selectFile(firstFile);
     }
   }
 
@@ -531,6 +553,7 @@ export class GrStackDiffDialog extends LitElement {
     if (!this.repo || !this.baseCommitId || !this.targetCommitId) {
       return;
     }
+    const requestId = ++this.fileDiffRequestId;
     this.loadingDiff = true;
     try {
       const diff = await this.restApiService.getProjectCommitFileDiff(
@@ -539,14 +562,22 @@ export class GrStackDiffDialog extends LitElement {
         this.baseCommitId,
         path
       );
+      if (requestId !== this.fileDiffRequestId) {
+        return;
+      }
       if (diff) {
         this.syntaxLayer.process(diff);
         this.fileDiff = diff;
       }
     } catch (e) {
+      if (requestId !== this.fileDiffRequestId) {
+        return;
+      }
       this.error = 'Failed to load file diff: ' + (e as Error).message;
     } finally {
-      this.loadingDiff = false;
+      if (requestId === this.fileDiffRequestId) {
+        this.loadingDiff = false;
+      }
     }
   }
 

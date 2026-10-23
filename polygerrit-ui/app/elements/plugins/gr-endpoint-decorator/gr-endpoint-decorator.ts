@@ -56,6 +56,16 @@ export class GrEndpointDecorator extends LitElement {
       this.name,
       this.initModule
     );
+    Promise.resolve().then(() => {
+      if (!this.isConnected || !this.name) return;
+      for (const module of this.getPluginLoader().pluginEndPoints.getDetails(
+        this.name
+      )) {
+        if (module.type === EndpointType.REPLACE) {
+          this.initModule(module);
+        }
+      }
+    });
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {

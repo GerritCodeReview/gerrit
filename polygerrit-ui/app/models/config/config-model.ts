@@ -74,7 +74,11 @@ export class ConfigModel extends Model<ConfigState> {
     readonly changeModel: ChangeModel,
     readonly restApiService: RestApiService
   ) {
-    super({});
+    super({
+      serverConfig: window.INITIAL_DATA?.['/config/server/info'] as unknown as
+        | ServerInfo
+        | undefined,
+    });
     this.subscriptions = [
       from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) => {
         this.updateServerConfig(config);

@@ -160,6 +160,8 @@ export class GrVoteChip extends LitElement {
         }
         .container {
           position: relative;
+          display: block;
+          width: fit-content;
         }
         /* fix for firefox only */
         @supports (-moz-appearance: none) {

@@ -16,6 +16,24 @@
       "message": "Should this be directed to stable-3.13 instead? Issue 462642961 was reported on Gerrit v3.13.x.",
       "revId": "0ceccb478855409b87c0788ecb69f23679353d6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab785415_ce606330",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1057319
+      },
+      "writtenOn": "2026-10-23T09:39:45Z",
+      "side": 1,
+      "message": "Done: moved to stable-3.13 as https://gerrit-review.googlesource.com/c/gerrit/+/647925, since the move endpoint is disabled on this host.",
+      "parentUuid": "f2f2f665_795a099a",
+      "revId": "0ceccb478855409b87c0788ecb69f23679353d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

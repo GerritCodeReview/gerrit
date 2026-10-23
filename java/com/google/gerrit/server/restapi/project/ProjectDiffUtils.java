@@ -14,19 +14,29 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -34,13 +44,16 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Utility class for common diff operations in the project REST API. */
 @Singleton
 public class ProjectDiffUtils {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final int SHA1_LENGTH = 40;
 
   private final CommitsCollection commitsCollection;
+  private final PermissionBackend permissionBackend;
 
   @Inject
-  ProjectDiffUtils(CommitsCollection commitsCollection) {
+  ProjectDiffUtils(CommitsCollection commitsCollection, PermissionBackend permissionBackend) {
     this.commitsCollection = commitsCollection;
+    this.permissionBackend = permissionBackend;
   }
 
   public void validateSha1(String sha, String paramName) throws BadRequestException {
@@ -106,6 +119,10 @@ public class ProjectDiffUtils {
       throw new ResourceNotFoundException("Commit not visible");
     }
 
+    if (oldCommit.equals(newCommit)) {
+      return;
+    }
+
     // Determine topological order to walk from descendant to ancestor
     rw.reset();
     boolean oldIsAncestorOfNew = rw.isMergedInto(oldCommit, newCommit);
@@ -125,15 +142,66 @@ public class ProjectDiffUtils {
       return;
     }
 
-    // Walk all commits between descendant and ancestor and check visibility
+    // Fast path: if descendant is a direct single-parent child of ancestor, there are no
+    // intermediate commits to check (both endpoints were already checked above).
+    if (descendant.getParentCount() == 1 && descendant.getParent(0).equals(ancestor)) {
+      return;
+    }
+
+    // Walk commits between descendant and ancestor and check visibility.
+    // Mark all visible non-change refs (e.g. refs/heads/*, refs/tags/*) as uninteresting so that
+    // RevWalk does not traverse down already-submitted branch history (for example when a stack
+    // contains merge commits). By DAG transitivity, any commit reachable from a visible non-change
+    // ref is visible to the caller, whereas unmerged commits (such as open changes on
+    // refs/changes/* or commits on hidden branches) remain interesting and are checked
+    // individually.
     rw.reset();
     rw.markStart(descendant);
     rw.markUninteresting(ancestor);
+    markVisibleRefsUninteresting(projectState, repo, rw);
 
     for (RevCommit commit : rw) {
+      if (commit.equals(descendant)) {
+        continue;
+      }
       if (!commitsCollection.canRead(projectState, repo, commit)) {
         throw new ResourceNotFoundException("Commit not visible");
       }
+    }
+  }
+
+  private void markVisibleRefsUninteresting(ProjectState projectState, Repository repo, RevWalk rw)
+      throws IOException {
+    try {
+      List<Ref> nonChangeRefs =
+          repo.getRefDatabase()
+              .getRefsByPrefixWithExclusions(
+                  RefDatabase.ALL, ImmutableSet.of(RefNames.REFS_CHANGES));
+      Collection<Ref> visibleRefs =
+          permissionBackend
+              .currentUser()
+              .project(projectState.getNameKey())
+              .filter(nonChangeRefs, repo, RefFilterOptions.defaults());
+      for (Ref ref : visibleRefs) {
+        if (ref.getObjectId() == null) {
+          continue;
+        }
+        try {
+          rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
+        } catch (IncorrectObjectTypeException notCommit) {
+          // Tags can point to blobs or trees; ignore them.
+          continue;
+        } catch (MissingObjectException missingObject) {
+          logger.atWarning().log(
+              "Reference %s in %s points to dangling object %s",
+              ref.getName(), projectState.getName(), ref.getObjectId());
+          continue;
+        }
+      }
+    } catch (PermissionBackendException e) {
+      logger.atWarning().withCause(e).log(
+          "Cannot filter visible refs in project %s; falling back to per-commit visibility check",
+          projectState.getName());
     }
   }
 

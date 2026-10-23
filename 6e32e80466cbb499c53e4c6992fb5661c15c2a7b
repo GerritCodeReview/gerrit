@@ -17,6 +17,25 @@
       "isAi": true,
       "revId": "6e32e80466cbb499c53e4c6992fb5661c15c2a7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3be81e0e_9c241a14",
+        "filename": "polygerrit-ui/app/api/flows.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-23T15:36:36Z",
+      "side": 1,
+      "message": "Done. Removed getChangePrefix from FlowsPluginApi and FlowsModel, keeping it in utils/url-util.ts.",
+      "parentUuid": "50610f81_ac50bb1c",
+      "isAi": true,
+      "revId": "6e32e80466cbb499c53e4c6992fb5661c15c2a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

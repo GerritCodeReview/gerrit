@@ -87,6 +87,24 @@
       "parentUuid": "0d118c1b_b0fb2b9e",
       "revId": "98e14fbdbf3819214a8f05791b7bcfaf8510bd0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1ec1975_dbbf7460",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-23T16:12:49Z",
+      "side": 1,
+      "message": "@milutin@google.com Seems that on merge changes, it just stays stuck at loading: https://gerrit-review.googlesource.com/c/gerrit/+/648263/-1..1 (i know unrelated to this change, but just pointing it out :))",
+      "parentUuid": "23b880a7_baf6bee2",
+      "revId": "98e14fbdbf3819214a8f05791b7bcfaf8510bd0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

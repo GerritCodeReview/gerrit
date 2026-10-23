@@ -3,23 +3,20 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '@material/web/chips/assist-chip.js';
 import '@material/web/iconbutton/icon-button.js';
 import '@material/web/progress/circular-progress.js';
-
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-
 import '../shared/gr-icon/gr-icon';
 import '../shared/gr-button/gr-button';
 import '../shared/gr-tooltip-content/gr-tooltip-content';
-
 import {Action, ContextItemType} from '../../api/ai-code-review';
 import {chatModelToken} from '../../models/chat/chat-model';
 import {parseLink} from '../../models/chat/context-item-util';
-
 import {resolve} from '../../models/dependency';
 import {isDefined} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';

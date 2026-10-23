@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -727,6 +728,188 @@ public class DiffCommitsIT extends AbstractDaemonTest {
                     .name(project.get())
                     .diffFiles(
                         secretCommit.getCommit().name(), publicCommit.getCommit().name(), true));
+    assertThat(thrown).hasMessageThat().contains("not visible");
+  }
+
+  @Test
+  public void listDiffFiles_privateIntermediateChangeNotVisible() throws Exception {
+    PushOneCommit.Result change1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Change 1", "file1.txt", "content 1")
+            .to("refs/for/master");
+    change1.assertOkStatus();
+
+    PushOneCommit.Result change2 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Change 2 (private)", "file2.txt", "content 2")
+            .to("refs/for/master");
+    change2.assertOkStatus();
+    gApi.changes().id(change2.getChangeId()).setPrivate(true, null);
+
+    PushOneCommit.Result change3 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Change 3", "file3.txt", "content 3")
+            .to("refs/for/master");
+    change3.assertOkStatus();
+
+    // Non-admin user can see initialCommit and change3, but not private intermediate change2
+    requestScopeOperations.setApiUser(user.id());
+
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () ->
+                gApi.projects()
+                    .name(project.get())
+                    .diffFiles(initialCommit.name(), change3.getCommit().name(), true));
+    assertThat(thrown).hasMessageThat().contains("not visible");
+
+    ResourceNotFoundException fileThrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () ->
+                gApi.projects()
+                    .name(project.get())
+                    .diffFile(initialCommit.name(), change3.getCommit().name(), "file3.txt"));
+    assertThat(fileThrown).hasMessageThat().contains("not visible");
+  }
+
+  @Test
+  public void listDiffFiles_mergeCommitInChain() throws Exception {
+    // Simulate a branch merge chain (e.g. stable -> master) where master has commits not in stable
+    createBranch(BranchNameKey.create(project, "stable"));
+
+    // Advance master with several commits
+    PushOneCommit.Result masterCommit1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Master commit 1", "master1.txt", "m1")
+            .to("refs/heads/master");
+    masterCommit1.assertOkStatus();
+    PushOneCommit.Result masterCommit2 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Master commit 2", "master2.txt", "m2")
+            .to("refs/heads/master");
+    masterCommit2.assertOkStatus();
+
+    // Create a change on stable based on initialCommit
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result stableChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Stable fix", "stable.txt", "s1")
+            .to("refs/for/stable");
+    stableChange.assertOkStatus();
+
+    // Create a merge change on master merging stableChange into masterCommit2
+    PushOneCommit mergePush =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge stable into master",
+            ImmutableMap.of("master1.txt", "m1", "master2.txt", "m2", "stable.txt", "s1"));
+    mergePush.setParents(ImmutableList.of(masterCommit2.getCommit(), stableChange.getCommit()));
+    PushOneCommit.Result mergeChange = mergePush.to("refs/for/master");
+    mergeChange.assertOkStatus();
+
+    // Verify as non-admin user
+    requestScopeOperations.setApiUser(user.id());
+
+    Map<String, FileInfo> files =
+        gApi.projects()
+            .name(project.get())
+            .diffFiles(initialCommit.name(), mergeChange.getCommit().name(), true);
+    assertThat(files.keySet()).containsAtLeast("master1.txt", "master2.txt", "stable.txt");
+
+    DiffInfo diffInfo =
+        gApi.projects()
+            .name(project.get())
+            .diffFile(initialCommit.name(), mergeChange.getCommit().name(), "stable.txt");
+    assertThat(diffInfo.changeType).isEqualTo(ChangeType.ADDED);
+  }
+
+  @Test
+  public void listDiffFiles_mergeCommitWithHiddenSecondParent() throws Exception {
+    // Create a hidden branch with a secret commit
+    createBranch(BranchNameKey.create(project, "secret"));
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/secret").group(REGISTERED_USERS))
+        .update();
+
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result secretCommit =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Secret commit", "secret.txt", "secret")
+            .to("refs/heads/secret");
+    secretCommit.assertOkStatus();
+
+    // Create a visible merge change on master that merges secretCommit into initialCommit
+    RevCommit initialRevCommit = testRepo.getRevWalk().parseCommit(initialCommit);
+    PushOneCommit mergePush =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge secret into master",
+            ImmutableMap.of("secret.txt", "secret", "public.txt", "public"));
+    mergePush.setParents(ImmutableList.of(initialRevCommit, secretCommit.getCommit()));
+    PushOneCommit.Result mergeChange = mergePush.to("refs/for/master");
+    mergeChange.assertOkStatus();
+
+    // Non-admin user can see initialCommit and mergeChange, but not secretCommit in the merge path
+    requestScopeOperations.setApiUser(user.id());
+
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () ->
+                gApi.projects()
+                    .name(project.get())
+                    .diffFiles(initialCommit.name(), mergeChange.getCommit().name(), true));
+    assertThat(thrown).hasMessageThat().contains("not visible");
+  }
+
+  @Test
+  public void listDiffFiles_mergeCommitWithPrivateParentAndAutoMergeRef() throws Exception {
+    // READ on refs/* stays granted so DefaultRefFilter takes its
+    // skipFullRefEvaluationIfAllRefsAreVisible fast path. A private change as a merge parent
+    // gets a refs/cache-automerge/* ref once the auto-merge is computed; that ref must not be
+    // treated as a visible ref tip.
+    PushOneCommit.Result publicCommit =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Public commit", "public.txt", "public")
+            .to("refs/heads/master");
+    publicCommit.assertOkStatus();
+
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result privateChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Private change", "private.txt", "private")
+            .to("refs/for/master");
+    privateChange.assertOkStatus();
+    gApi.changes().id(privateChange.getChangeId()).setPrivate(true, null);
+
+    PushOneCommit mergePush =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge private into master",
+            ImmutableMap.of("public.txt", "public", "private.txt", "private"));
+    mergePush.setParents(ImmutableList.of(publicCommit.getCommit(), privateChange.getCommit()));
+    PushOneCommit.Result mergeChange = mergePush.to("refs/for/master");
+    mergeChange.assertOkStatus();
+
+    // Computing the merge change's files creates the refs/cache-automerge/* ref.
+    gApi.changes().id(mergeChange.getChangeId()).current().files();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () ->
+                gApi.projects()
+                    .name(project.get())
+                    .diffFiles(initialCommit.name(), mergeChange.getCommit().name(), true));
     assertThat(thrown).hasMessageThat().contains("not visible");
   }
 }

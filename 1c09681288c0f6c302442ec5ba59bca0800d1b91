@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7ad4c55_8c8c4ca4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-23T17:56:06Z",
+      "side": 1,
+      "message": "can this be bumped to 0.8.10 instead since the needed fix is in that version?",
+      "revId": "1c09681288c0f6c302442ec5ba59bca0800d1b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

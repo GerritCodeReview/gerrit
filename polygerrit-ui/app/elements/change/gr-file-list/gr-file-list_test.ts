@@ -50,8 +50,16 @@ import {
   queryAll,
   queryAndAssert,
 } from '../../../utils/common-util';
-import {GrFileList, NormalizedFileInfo} from './gr-file-list';
+import {
+  DIFF_CONTENT_ENDPOINT,
+  GrFileList,
+  NormalizedFileInfo,
+  PATH_CONTROLS_ENDPOINT,
+} from './gr-file-list';
 import {FileInfo, PatchSetNumber} from '../../../api/rest-api';
+import {PluginApi} from '../../../api/plugin';
+import {PluginElement} from '../../../api/hook';
+import {DiffInfo} from '../../../types/diff';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ParsedChangeInfo} from '../../../types/types';
 import {normalize} from '../../../models/change/files-model';
@@ -2580,4 +2588,204 @@ suite('gr-file-list tests', () => {
       assert.equal(getComputedStyle(label).display, 'none');
     });
   });
+
+  suite('plugin endpoints', () => {
+    interface PathControlsElement extends PluginElement {
+      path?: string;
+      oldPath?: string | null;
+      expanded?: boolean;
+    }
+    interface DiffContentElement extends PluginElement {
+      path?: string;
+      diff?: DiffInfo | null;
+    }
+
+    async function createElement() {
+      const el = await fixture<GrFileList>(html`<gr-file-list></gr-file-list>`);
+      el.diffPrefs = createDefaultDiffPrefs();
+      el.numFilesShown = 5;
+      el.change = createParsedChange();
+      el.changeNum = 42 as NumericChangeId;
+      el.basePatchNum = PARENT;
+      el.patchNum = 2 as RevisionPatchSetNum;
+      el.files = [normalize({}, 'icon.icon'), normalize({}, 'file.ts')];
+      await el.updateComplete;
+      return el;
+    }
+
+    setup(() => {
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
+      stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+    });
+
+    test('path controls are not rendered without a plugin', async () => {
+      element = await createElement();
+      await waitEventLoop();
+      assert.isFalse(element.hasPathControlsEndpoint);
+      assert.isUndefined(query(element, '.pathControls'));
+    });
+
+    suite('with plugin', () => {
+      setup(async () => {
+        let plugin: PluginApi;
+        window.Gerrit.install(
+          p => {
+            plugin = p;
+          },
+          '0.1',
+          'http://some/plugins/url.js'
+        );
+        plugin!.registerCustomComponent(
+          PATH_CONTROLS_ENDPOINT,
+          'test-path-controls'
+        );
+        plugin!.registerCustomComponent(
+          DIFF_CONTENT_ENDPOINT,
+          'test-diff-content'
+        );
+        element = await createElement();
+        await waitUntil(() => element.hasPathControlsEndpoint);
+        await element.updateComplete;
+      });
+
+      test('path controls render once per row with params', async () => {
+        const rows = queryAll(element, '.file-row');
+        assert.equal(rows.length, 2);
+        await waitUntil(
+          () => queryAll(element, 'test-path-controls').length === 2
+        );
+        rows.forEach((row, i) => {
+          const decorator = queryAndAssert(row, '.path .pathControls');
+          const controls = queryAndAssert<PathControlsElement>(
+            decorator,
+            'test-path-controls'
+          );
+          assert.equal(controls.path, element.files[i].__path);
+          assert.isNull(controls.oldPath);
+          assert.isFalse(controls.expanded);
+        });
+
+        element.toggleFileExpanded('icon.icon');
+        await element.updateComplete;
+        const controls = queryAndAssert<PathControlsElement>(
+          rows[0],
+          'test-path-controls'
+        );
+        await waitUntil(() => controls.expanded === true);
+      });
+
+      test('clicks in path controls do not toggle the row', async () => {
+        await waitUntil(() => !!query(element, 'test-path-controls'));
+        const toggleSpy = sinon.spy(element, 'toggleFileExpanded');
+        queryAndAssert<HTMLElement>(element, 'test-path-controls').click();
+        await element.updateComplete;
+        assert.isFalse(toggleSpy.called);
+        assert.isFalse(element.isFileExpanded('icon.icon'));
+      });
+
+      test('diff content endpoint wraps gr-diff-host of expanded rows', async () => {
+        assert.isUndefined(query(element, '.diffContent'));
+
+        element.toggleFileExpanded('icon.icon');
+        await element.updateComplete;
+
+        const decorators = queryAll(
+          element,
+          'gr-endpoint-decorator.diffContent'
+        );
+        assert.equal(decorators.length, 1);
+        queryAndAssert<GrDiffHost>(decorators[0], 'gr-diff-host');
+        const content = await waitUntilElement<DiffContentElement>(
+          decorators[0],
+          'test-diff-content'
+        );
+        assert.equal(content.path, 'icon.icon');
+        assert.isNull(content.diff);
+      });
+
+      test('diff param updates after diff-changed', async () => {
+        element.toggleFileExpanded('icon.icon');
+        await element.updateComplete;
+        const decorator = queryAndAssert(element, '.diffContent');
+        const content = await waitUntilElement<DiffContentElement>(
+          decorator,
+          'test-diff-content'
+        );
+
+        const diff = createDiff();
+        queryAndAssert<GrDiffHost>(decorator, 'gr-diff-host').dispatchEvent(
+          new CustomEvent('diff-changed', {detail: {value: diff}})
+        );
+        await element.updateComplete;
+        await waitUntil(() => content.diff === diff);
+      });
+
+      test('replace-content hides gr-diff-host', async () => {
+        element.toggleFileExpanded('icon.icon');
+        await element.updateComplete;
+        const decorator = queryAndAssert(element, '.diffContent');
+        const content = await waitUntilElement<DiffContentElement>(
+          decorator,
+          'test-diff-content'
+        );
+        const diffHost = queryAndAssert<GrDiffHost>(decorator, 'gr-diff-host');
+        assert.notEqual(getComputedStyle(diffHost).display, 'none');
+
+        content.setAttribute('replace-content', '');
+        assert.equal(getComputedStyle(diffHost).display, 'none');
+
+        content.removeAttribute('replace-content');
+        assert.notEqual(getComputedStyle(diffHost).display, 'none');
+      });
+
+      test('file-list-expand-file event expands the file', async () => {
+        await waitUntil(() => !!query(element, 'test-path-controls'));
+        const controls = queryAndAssert(element, 'test-path-controls');
+
+        controls.dispatchEvent(
+          new CustomEvent('file-list-expand-file', {
+            detail: {path: 'icon.icon'},
+            bubbles: true,
+            composed: true,
+          })
+        );
+        await element.updateComplete;
+        assert.isTrue(element.isFileExpanded('icon.icon'));
+        assert.isFalse(element.isFileExpanded('file.ts'));
+
+        // Already expanded files stay expanded.
+        controls.dispatchEvent(
+          new CustomEvent('file-list-expand-file', {
+            detail: {path: 'icon.icon'},
+            bubbles: true,
+            composed: true,
+          })
+        );
+        await element.updateComplete;
+        assert.isTrue(element.isFileExpanded('icon.icon'));
+
+        // Unknown paths are ignored.
+        controls.dispatchEvent(
+          new CustomEvent('file-list-expand-file', {
+            detail: {path: 'unknown.txt'},
+            bubbles: true,
+            composed: true,
+          })
+        );
+        await element.updateComplete;
+        assert.isFalse(element.isFileExpanded('unknown.txt'));
+      });
+    });
+  });
 });
+
+async function waitUntilElement<E extends Element>(
+  parent: Element,
+  selector: string
+): Promise<E> {
+  await waitUntil(() => !!parent.querySelector(selector));
+  return parent.querySelector<E>(selector)!;
+}

@@ -16,6 +16,59 @@
       "message": "Maybe you need to rebase to master (sync to HEAD) - to fix CI (Frontend-Verified)",
       "revId": "c7957581d258e9a13f501e9d05ebeb2f1fa26cee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93bc51e5_6eadf5b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-23T20:54:29Z",
+      "side": 1,
+      "message": "just 2 AI Nits",
+      "revId": "c7957581d258e9a13f501e9d05ebeb2f1fa26cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81301dfd_5509afbb",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-23T20:54:29Z",
+      "side": 1,
+      "message": "Thanks for the thorough tests and clean implementation!\n\nOne edge case with narrowing `LIST_ITEM_REGEX` to `\\s{0,3}` in PS2 while raising `indentThreshold` via `getListIndentThreshold(currentListItem.prefix.length)`:\n\nWhen `currentListItem` has `prefix.length \u003e\u003d 4` (e.g. a 2-space indented sub-bullet `\"  - \"` or `\"  * \"`, or a 2-digit numbered item `\"10. \"`), `indentThreshold` becomes `5`. If it is followed by a nested sub-bullet indented by 4 spaces (e.g. `\"    - Level 3 bullet\"`):\n1. `LIST_ITEM_REGEX` (`\\s{0,3}`) does not match `\"    - Level 3 bullet\"`.\n2. `isUntouchedCodeOrQuoteLine(line, 5)` returns `false` because `leadingSpaces` (`4`) `\u003c 5`.\n3. It falls through to lines 186-192 (`leadingSpaces \u003e 0`) and gets merged onto the end of the Level 2 bullet (`\"  - Level 2 bullet - Level 3 bullet\"`).\n\nIf you keep `\\s*` in `LIST_ITEM_REGEX` and instead guard `listMatch` with `leadingSpaces \u003c indentThreshold` (and remove the early `LIST_ITEM_REGEX` check from `isUntouchedCodeOrQuoteLine`), both the 4-space code block test (`\"    - diff line\"` after `\"- bullet:\"`, where `4 \u003e\u003d indentThreshold (4)`) and 3+ level nested lists work cleanly:\n\n```ts\n    const indentThreshold \u003d\n      currentListItem !\u003d\u003d null\n        ? getListIndentThreshold(currentListItem.prefix.length)\n        : INDENTATION_THRESHOLD;\n\n    const leadingSpaces \u003d getLeadingSpacesCount(line);\n    const listMatch \u003d\n      leadingSpaces \u003c indentThreshold\n        ? line.trimEnd().match(LIST_ITEM_REGEX)\n        : null;\n    if (listMatch) {\n      flushParagraph();\n      flushListItem();\n      currentListItem \u003d {\n        prefix: listMatch[1],\n        lines: [listMatch[2].trim()],\n        lastRawLine: line.trimEnd(),\n      };\n      previousWasEmpty \u003d false;\n      continue;\n    }\n```\n(And similarly check `getLeadingSpacesCount(line) \u003c prevIndentThreshold` before matching `LIST_ITEM_REGEX` in `detectFormattingErrors` around line 431.)",
+      "isAi": true,
+      "revId": "c7957581d258e9a13f501e9d05ebeb2f1fa26cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cc2faa0_13ab8870",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-23T20:54:29Z",
+      "side": 1,
+      "message": "Minor edge case: if a commit message without a `Change-Id` footer ends with a single-line 4-space indented code block containing `key: value` or `key\u003dvalue` (e.g. `Fix config\\n\\nExample:\\n\\n    timeout: 30s\\n`), `footer.length \u003d\u003d\u003d 1`, so `isListOrIndentedBlock` evaluates to `false`. `FOOTER_REGEX.test(line.trim())` then matches it as a footer, causing `detectFormattingErrors` to flag `LEADING_SPACES` and `formatCommitMessage` to strip the 4-space indentation.\n\nAdding `footer.every(line \u003d\u003e isUntouchedCodeOrQuoteLine(line))` to `isListOrIndentedBlock` prevents 4-space code blocks (and quotes/comments) at the end of a message from being misclassified as footers:\n\n```ts\n  const isListOrIndentedBlock \u003d\n    footer.some(\n      line \u003d\u003e\n        getLeadingSpacesCount(line) \u003c INDENTATION_THRESHOLD \u0026\u0026\n        LIST_ITEM_REGEX.test(line.trimEnd())\n    ) ||\n    footer.every(line \u003d\u003e isUntouchedCodeOrQuoteLine(line)) ||\n    (footer.length \u003e 1 \u0026\u0026\n      footer.every(line \u003d\u003e getLeadingSpacesCount(line) \u003e 0)) ||\n    (footer.length \u003e 1 \u0026\u0026\n      footer[0].trim().endsWith(\u0027:\u0027) \u0026\u0026\n      !FOOTER_REGEX.test(footer[0].trim()));\n```",
+      "isAi": true,
+      "revId": "c7957581d258e9a13f501e9d05ebeb2f1fa26cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

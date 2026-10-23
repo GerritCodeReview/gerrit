@@ -83,7 +83,7 @@ jetty-session = { module = "org.eclipse.jetty:jetty-session", version.ref = "jet
 jetty-util = { module = "org.eclipse.jetty:jetty-util", version.ref = "jetty" }
 jetty-util-ajax = { module = "org.eclipse.jetty:jetty-util-ajax", version.ref = "jetty" }
 json-smart = { module = "net.minidev:json-smart", version = "1.1.1" }
-jsoup = { module = "org.jsoup:jsoup", version = "1.14.3" }
+jsoup = { module = "org.jsoup:jsoup", version = "1.23.2" }
 jsr305 = { module = "com.google.code.findbugs:jsr305", version = "3.0.1" }
 junit = { module = "junit:junit", version = "4.13.2" }
 mime-util = { module = "eu.medsea.mimeutil:mime-util", version = "2.1.3" }

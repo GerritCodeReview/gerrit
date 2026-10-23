@@ -159,13 +159,13 @@ suite('gr-vote-chip tests', () => {
     });
 
     test('renders for more than 1 vote', async () => {
-      element = await fixture<GrVoteChip>(
-        html`<gr-vote-chip
-          .label=${labelInfo}
-          .vote=${vote}
-          more
-        ></gr-vote-chip>`
+      const container = await fixture<HTMLDivElement>(
+        html`<div>
+          <gr-vote-chip .label=${labelInfo} .vote=${vote} more></gr-vote-chip>
+        </div>`
       );
+      element = container.querySelector('gr-vote-chip')!;
+      await element.updateComplete;
       assert.shadowDom.equal(
         element,
         /* HTML */ ` <gr-tooltip-content
@@ -176,6 +176,13 @@ suite('gr-vote-chip tests', () => {
           <div class="positive vote-chip">+2</div>
           <div aria-hidden="true" class="chip-angle positive">+2</div>
         </gr-tooltip-content>`
+      );
+      const voteChip = element.shadowRoot!.querySelector('.vote-chip')!;
+      const chipAngle = element.shadowRoot!.querySelector('.chip-angle')!;
+      assert.closeTo(
+        chipAngle.getBoundingClientRect().width,
+        voteChip.getBoundingClientRect().width,
+        1
       );
     });
 

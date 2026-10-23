@@ -1200,7 +1200,7 @@ export class GrChangeActions
     if (this.change?.status === ChangeStatus.MERGED) {
       return null;
     }
-    let result;
+    let result: string | null | undefined;
     for (const [label, labelInfo] of Object.entries(this.change.labels)) {
       if (!(label in this.change.permitted_labels)) {
         continue;
@@ -1214,33 +1214,32 @@ export class GrChangeActions
       }
       if (
         label === StandardLabels.PRESUBMIT_VERIFIED ||
-        label.toLowerCase().startsWith('presubmit')
+        label.toLowerCase().includes('presubmit')
       ) {
         continue;
       }
       if (status === LabelStatus.NEED) {
-        if (result) {
-          // More than one label is missing, so check if Code Review can be
-          // given
-          result = null;
-          break;
-        }
-        result = label;
+        // More than one label is missing, so clear result and check if Code
+        // Review can be given.
+        result = result === undefined ? label : null;
       }
     }
-    // Allow the user to use quick approve to vote the max score on code review
-    // even if it is already granted by someone else. Does not apply if the
-    // user owns the change or has already granted the max score themselves.
+    // Prioritize Code-Review if the user can grant the max score and has not
+    // already done so, even if Code-Review is already approved by someone else,
+    // marked optional (e.g. via Submit Requirements), or another label is
+    // needed. Does not apply if the user owns the change.
     const codeReviewLabel = this.change.labels[StandardLabels.CODE_REVIEW];
     const codeReviewPermittedValues =
       this.change.permitted_labels[StandardLabels.CODE_REVIEW];
     if (
-      !result &&
       codeReviewLabel &&
-      codeReviewPermittedValues &&
+      codeReviewPermittedValues?.length &&
       this.account?._account_id &&
       isDetailedLabelInfo(codeReviewLabel) &&
       !isOwner(this.change, this.account) &&
+      Number(
+        codeReviewPermittedValues[codeReviewPermittedValues.length - 1]
+      ) === getVotingRange(codeReviewLabel)?.max &&
       getApprovalInfo(codeReviewLabel, this.account)?.value !==
         getVotingRange(codeReviewLabel)?.max
     ) {

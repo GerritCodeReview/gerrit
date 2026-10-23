@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d502d1f9_c5e5aa8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-23T23:12:24Z",
+      "side": 1,
+      "message": "Your current message doesn\u0027t explain this well. How about this instead?\n\n```suggestion\nDefer loading changes during ref visibility checks\n\nGit fetch and push for users without READ on refs/* perform full ref\nfiltering over many changes. For non-private entries,\nChangesByProjectCache stores branch and privacy metadata but no full\nChange. ChangeControl nevertheless loaded ChangeNotes in its constructor\nsolely to compute isNew and isOwner, adding storage I/O for every\nchange.\n\nDefer those computations until a permission requires them. The READ path\ncan now use cached non-private metadata and branch READ permission\nwithout loading the Change. Private entries continue using their\nexisting full Change and reviewer data.\n\nAdd a regression test that checks READ permission on non-private\nChangeData without a persisted Change.\n\nBug: Issue 462642961\nRelease-Notes: Fix slow git fetch/push for users lacking READ on refs/*\nChange-Id: Ia36fd096284bd71f5e13e4ed579d601d7a2af19d\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "5c69be8aa16ee395a7a9efdcaba83430c8890727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

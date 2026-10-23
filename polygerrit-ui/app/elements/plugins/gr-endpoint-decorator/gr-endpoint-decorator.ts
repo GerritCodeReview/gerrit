@@ -9,6 +9,7 @@ import {
   EndpointType,
   ModuleInfo,
 } from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
+import {THEME_NAME} from '../../shared/gr-js-api-interface/gr-api-utils';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {getAppContext} from '../../../services/app-context';
@@ -44,6 +45,8 @@ export class GrEndpointDecorator extends LitElement {
 
   private readonly initializedPlugins = new Map<string, boolean>();
 
+  private hasReplacement = false;
+
   private readonly timeoutIds = new Set<number>();
 
   private readonly reporting = getAppContext().reportingService;
@@ -61,6 +64,13 @@ export class GrEndpointDecorator extends LitElement {
       this.name,
       this.initModule
     );
+    for (const module of this.getPluginLoader().pluginEndPoints.getDetails(
+      this.name
+    )) {
+      if (module.plugin.getPluginName() === THEME_NAME) {
+        this.initModule(module);
+      }
+    }
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -104,6 +114,7 @@ export class GrEndpointDecorator extends LitElement {
       // this.shadowRoot.querySelector('slot').assignedElements()[0].
       this.firstElementChild
     ).then(el => {
+      if (this.hasReplacement) return el;
       const slotEl = slot
         ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
         : null;
@@ -291,12 +302,16 @@ export class GrEndpointDecorator extends LitElement {
     if (this.initializedPlugins.get(name)) {
       return;
     }
+    if (type === EndpointType.DECORATE && this.hasReplacement) {
+      return;
+    }
     let initPromise;
     switch (type) {
       case EndpointType.DECORATE:
         initPromise = this.initDecoration(moduleName, plugin, slot, order);
         break;
       case EndpointType.REPLACE:
+        this.hasReplacement = true;
         initPromise = this.initReplacement(moduleName, plugin);
         break;
     }
@@ -306,6 +321,7 @@ export class GrEndpointDecorator extends LitElement {
     this.initializedPlugins.set(name, true);
     initPromise.then(el => {
       if (!this.isConnected) return;
+      if (type === EndpointType.DECORATE && this.hasReplacement) return;
       if (domHook) {
         domHook.handleInstanceAttached(el);
         this.domHooks.set(el, domHook);

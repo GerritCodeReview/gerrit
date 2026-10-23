@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2f2f665_795a099a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-23T08:57:37Z",
+      "side": 1,
+      "message": "Should this be directed to stable-3.13 instead? Issue 462642961 was reported on Gerrit v3.13.x.",
+      "revId": "0ceccb478855409b87c0788ecb69f23679353d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

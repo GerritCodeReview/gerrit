@@ -14,6 +14,8 @@ import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {GrEndpointParam} from '../gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
+import {testResolver} from '../../../test/common-test-setup';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 interface TestModule extends PluginElement {
   'first-param'?: string;
@@ -312,5 +314,55 @@ suite('gr-endpoint-decorator', () => {
     param.value = 'test-value';
     await param.updateComplete;
     assert.equal(hook.getAllAttached().length, 0);
+  });
+
+  test('attaches replacement module immediately before all plugins finish loading', async () => {
+    const pluginLoader = testResolver(pluginLoaderToken);
+    sinon.stub(pluginLoader, 'createScriptTag');
+    // Load a theme plugin and a slow plugin that remains pending.
+    pluginLoader.loadPlugins([
+      '/static/gerrit-theme.js',
+      'plugins/slow-plugin.js',
+    ]);
+    assert.isFalse(pluginLoader.arePluginsLoaded());
+
+    const el = await fixture<GrEndpointDecorator>(html`
+      <gr-endpoint-decorator name="header-title">
+        <div class="titleText"></div>
+      </gr-endpoint-decorator>
+    `);
+
+    let themePlugin!: PluginApi;
+    pluginLoader.install(
+      p => {
+        themePlugin = p;
+      },
+      '0.1',
+      'http://localhost:9876/static/gerrit-theme.js'
+    );
+    const replaceHook = themePlugin.registerCustomComponent(
+      'header-title',
+      'gerrit-theme-header',
+      {replace: true}
+    );
+    const attachedPromise = mockPromise();
+    replaceHook.onAttached(() => attachedPromise.resolve());
+    await attachedPromise;
+
+    assert.isFalse(pluginLoader.arePluginsLoaded());
+    assert.isNull(el.querySelector('.titleText'));
+    assert.isOk(el.querySelector('gerrit-theme-header'));
+
+    let slowPlugin!: PluginApi;
+    pluginLoader.install(
+      p => {
+        slowPlugin = p;
+      },
+      '0.1',
+      'http://localhost:9876/plugins/slow-plugin.js'
+    );
+    slowPlugin.registerCustomComponent('header-title', 'slow-plugin-header');
+    await pluginLoader.awaitPluginsLoaded();
+    assert.isNull(el.querySelector('slow-plugin-header'));
   });
 });

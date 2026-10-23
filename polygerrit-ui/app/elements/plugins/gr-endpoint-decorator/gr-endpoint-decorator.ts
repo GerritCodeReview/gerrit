@@ -39,6 +39,8 @@ export class GrEndpointDecorator extends LitElement {
 
   private readonly initializedPlugins = new Map<string, boolean>();
 
+  private hasReplacement = false;
+
   private readonly timeoutIds = new Set<number>();
 
   private readonly reporting = getAppContext().reportingService;
@@ -56,6 +58,16 @@ export class GrEndpointDecorator extends LitElement {
       this.name,
       this.initModule
     );
+    Promise.resolve().then(() => {
+      if (!this.isConnected || !this.name) return;
+      for (const module of this.getPluginLoader().pluginEndPoints.getDetails(
+        this.name
+      )) {
+        if (module.type === EndpointType.REPLACE) {
+          this.initModule(module);
+        }
+      }
+    });
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -229,12 +241,16 @@ export class GrEndpointDecorator extends LitElement {
     if (this.initializedPlugins.get(name)) {
       return;
     }
+    if (type === EndpointType.DECORATE && this.hasReplacement) {
+      return;
+    }
     let initPromise;
     switch (type) {
       case EndpointType.DECORATE:
         initPromise = this.initDecoration(moduleName, plugin, slot);
         break;
       case EndpointType.REPLACE:
+        this.hasReplacement = true;
         initPromise = this.initReplacement(moduleName, plugin);
         break;
     }

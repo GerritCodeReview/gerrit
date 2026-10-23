@@ -180,6 +180,10 @@ suite('prompt-box tests', () => {
       chip?.contextItem?.link,
       `${window.location.origin}${createSettingsUrl()}`
     );
+    assert.equal(
+      chip?.contextItem?.tooltip,
+      'No API token configured. Add one in Settings.'
+    );
   });
 
   test('change chip is hidden when AI providers fail to load', async () => {

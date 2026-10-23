@@ -16,6 +16,24 @@
       "message": "Nit: just inline abbreviated Change-Id, without reference.",
       "revId": "9caae7e983f6aa85b550394f77de6387dce3cc13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "547ce4a1_122f6410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-23T11:52:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "46c5df19_3d06c8cd",
+      "revId": "9caae7e983f6aa85b550394f77de6387dce3cc13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

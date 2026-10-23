@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad56d735_9d00a217",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-23T17:36:35Z",
+      "side": 1,
+      "message": "While I completely understand the motivation for this change, I don\u0027t think it\u0027s a good idea to have the frontend and backend disagree on when a change is submittable.\n\nIs it not possible for you to associate the check warnings with a label vote that blocks submission?",
+      "revId": "26581ed303fdab21b6e533545165b045f463a55b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -35,6 +35,7 @@ import '@material/web/checkbox/checkbox';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import './gr-repo-submit-requirements-template-dialog';
 import {GrRepoSubmitRequirementsTemplateDialog} from './gr-repo-submit-requirements-template-dialog';
+import '../../shared/gr-dialog/gr-dialog';
 
 @customElement('gr-repo-submit-requirements')
 export class GrRepoSubmitRequirements extends LitElement {

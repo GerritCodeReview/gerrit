@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20cd1a1f_bcb0a249",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-23T17:56:29Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com needs to be re+2\u0027d please.\n\nhttps://logs.chromium.org/logs/gerrit/buildbucket/cr-buildbucket/8667136176439201121/+/u/run_screenshot_tests/stdout failed (seems to be flakey)",
+      "revId": "437eeed2ed0f5cade2d80020557ecf1e0e31ad03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

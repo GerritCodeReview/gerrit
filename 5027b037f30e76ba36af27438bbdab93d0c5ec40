@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce6e66a_c3085380",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-24T18:17:55Z",
+      "side": 1,
+      "message": "The exploit isn\u0027t relevant for Gerrit: shall we just add a pointer to the CVE?\n\nThe L13-L15 are the most relevant part of the bump: just keeping the SBOM clear of vulnerabilities, rather than addressing any issues with Gerrit and FTP client.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "5027b037f30e76ba36af27438bbdab93d0c5ec40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3f42b5a_276c0dc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-24T18:17:55Z",
+      "side": 1,
+      "message": "I don\u0027t believe we should mention the CVE as that\u0027s not relevant.",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 63
+      },
+      "revId": "5027b037f30e76ba36af27438bbdab93d0c5ec40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

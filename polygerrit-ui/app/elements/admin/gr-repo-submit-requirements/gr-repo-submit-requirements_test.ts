@@ -181,7 +181,7 @@ suite('gr-repo-submit-requirements tests', () => {
             </table>
           </gr-list-view>
           <dialog id="createDialog" tabindex="-1">
-            <gr-dialog>
+            <gr-dialog role="dialog">
               <div class="header" slot="header">Create Submit Requirement</div>
               <div class="main" slot="main">
                 <div class="gr-form-styles">
@@ -336,7 +336,7 @@ suite('gr-repo-submit-requirements tests', () => {
         id="deleteDialog"
         tabindex="-1"
       >
-        <gr-dialog>
+        <gr-dialog role="dialog">
           <div
             class="header"
             slot="header"

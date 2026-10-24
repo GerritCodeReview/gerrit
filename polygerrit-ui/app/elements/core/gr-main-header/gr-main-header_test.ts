@@ -327,6 +327,7 @@ suite('gr-main-header tests', () => {
           /* userLinks= */ [],
           adminLinks,
           /* topMenus= */ [],
+          false,
           defaultLinks
         )
         .find(i => i.title === 'Faves'),
@@ -334,7 +335,13 @@ suite('gr-main-header tests', () => {
     );
     assert.deepEqual(
       element
-        .computeLinks(userLinks, adminLinks, /* topMenus= */ [], defaultLinks)
+        .computeLinks(
+          userLinks,
+          adminLinks,
+          /* topMenus= */ [],
+          false,
+          defaultLinks
+        )
         .find(i => i.title === 'Your'),
       {
         title: 'Your',
@@ -396,6 +403,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -439,6 +447,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -486,6 +495,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -532,6 +542,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         /* adminLinks= */ [],
         topMenus,
+        false,
         defaultLinks
       )[0],
       {
@@ -570,6 +581,7 @@ suite('gr-main-header tests', () => {
         userLinks,
         /* adminLinks= */ [],
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[0],
       {
@@ -614,6 +626,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[1],
       {

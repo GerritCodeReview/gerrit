@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e0ceac3_a4903c3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-24T02:24:12Z",
+      "side": 1,
+      "message": "I wanted to bump JGit submodule version to the tip of stable-7.9 branch.",
+      "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51806eb1_353bb2b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-24T02:24:12Z",
+      "side": 1,
+      "message": "JGit master is incompatible with 3.15 release and can only be used with upcoming gerrit release 3.16.\n\n3.15 releade corresponds JGit release 7.9.\n\nAccording to approved rosdmap (see ESC notes) we committed to still support to running Gerrit on JDK 21.",
+      "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

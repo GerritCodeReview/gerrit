@@ -294,6 +294,46 @@ are listed without a hash. Licenses and the npm frontend are out of scope.
 The `sbom` rule is generic, so the same report can be produced for another
 packaged target by pointing it at that target in `Documentation/BUILD`.
 
+[[scan-sbom]]
+=== Scan the SBOM for vulnerabilities
+
+Scan the generated SBOM for known CVEs with
+link:https://trivy.dev/[Trivy]:
+
+----
+  bazelisk test //Documentation:release_sbom_scan
+----
+
+The test fails if Trivy reports any vulnerability, at any severity, against a
+component in the SBOM. A single un-suppressed finding breaks the build.
+
+Trivy must be installed on the machine running the test; the test is not
+hermetic. On macOS: `brew install trivy`; on the CI image it is preinstalled.
+The test also needs network access to download Trivy's vulnerability database.
+Because of these external requirements it is tagged `manual` (opt-in, not part
+of `bazelisk test //...`), `local`, `external`, and `no-sandbox`.
+
+To restrict the scan to a subset of severities, set `TRIVY_SEVERITY`, for
+example `TRIVY_SEVERITY=HIGH,CRITICAL`.
+
+A vulnerability that cannot be fixed yet (no patched release exists upstream),
+or that is not reachable from Gerrit, can be suppressed by listing its CVE id in
+`tools/sbom/.trivyignore`, one id per line. Every entry must carry a comment
+stating the category and the justification:
+
+----
+# No upstream fix yet - foo DoS, no patched release. Tracking: <issue url>
+CVE-2026-11111
+
+# Not reachable - bar's FTP PASV path is not used by Gerrit (VEX not affected).
+CVE-2021-22222
+----
+
+Only two categories are allowed: `no upstream fix yet` (temporary; the day a fix
+ships, remove the entry and bump the dependency instead) and `not reachable`
+(the vulnerable code path is not exercised by Gerrit). Review the list on every
+release.
+
 [[push-stable]]
 === Push the Stable Branch
 

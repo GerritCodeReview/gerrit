@@ -79,6 +79,32 @@ sbom(
     war_labels = "//:release.war.labels.txt",
 )
 
+# Scan the release SBOM for known CVEs with Trivy and fail on any finding, at
+# every severity. A single un-suppressed CVE breaks the build; exceptions go in
+# //tools/sbom/.trivyignore with a justification.
+# Not hermetic: it shells out to a locally-installed trivy and needs network
+# for the vulnerability database, so it is opt-in (manual) and runs on the host
+# (local), never cached (external). Run with:
+#   bazelisk test //Documentation:release_sbom_scan
+sh_test(
+    name = "release_sbom_scan",
+    srcs = ["//tools/sbom:trivy_scan.sh"],
+    args = [
+        "$(rootpath :release_sbom)",
+        "$(rootpath //tools/sbom:.trivyignore)",
+    ],
+    data = [
+        ":release_sbom",
+        "//tools/sbom:.trivyignore",
+    ],
+    tags = [
+        "external",
+        "local",
+        "manual",
+        "no-sandbox",
+    ],
+)
+
 license_map(
     name = "js_licenses",
     json_maps = [

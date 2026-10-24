@@ -16,3 +16,8 @@ py_binary(
     main = "sbom_from_graph.py",
     deps = [":sbom_from_graph_lib"],
 )
+
+exports_files([
+    ".trivyignore",
+    "trivy_scan.sh",
+])

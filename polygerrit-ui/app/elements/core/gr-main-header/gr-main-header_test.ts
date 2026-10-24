@@ -177,76 +177,6 @@ suite('gr-main-header tests', () => {
               </a>
               <md-divider role="separator" tabindex="-1"> </md-divider>
               <md-item>
-                <div slot="headline">Documentation</div>
-              </md-item>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/index.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Table of Contents
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/user-search.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Searching
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/user-upload.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Uploading
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/access-control.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Access Control
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/rest-api.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  REST API
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/intro-project-owner.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Project Owner Guide
-                </md-list-item>
-              </a>
-              <md-divider role="separator" tabindex="-1"> </md-divider>
-              <md-item>
                 <div slot="headline">Browse</div>
               </md-item>
             </md-list>
@@ -327,6 +257,7 @@ suite('gr-main-header tests', () => {
           /* userLinks= */ [],
           adminLinks,
           /* topMenus= */ [],
+          false,
           defaultLinks
         )
         .find(i => i.title === 'Faves'),
@@ -334,7 +265,13 @@ suite('gr-main-header tests', () => {
     );
     assert.deepEqual(
       element
-        .computeLinks(userLinks, adminLinks, /* topMenus= */ [], defaultLinks)
+        .computeLinks(
+          userLinks,
+          adminLinks,
+          /* topMenus= */ [],
+          false,
+          defaultLinks
+        )
         .find(i => i.title === 'Your'),
       {
         title: 'Your',
@@ -396,6 +333,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -439,6 +377,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -486,6 +425,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -532,6 +472,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         /* adminLinks= */ [],
         topMenus,
+        false,
         defaultLinks
       )[0],
       {
@@ -570,6 +511,7 @@ suite('gr-main-header tests', () => {
         userLinks,
         /* adminLinks= */ [],
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[0],
       {
@@ -614,6 +556,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        false,
         /* defaultLinks= */ []
       )[1],
       {

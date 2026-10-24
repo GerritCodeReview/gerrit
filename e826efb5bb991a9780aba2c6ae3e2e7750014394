@@ -68,6 +68,23 @@
       "parentUuid": "d7310c82_c2978ff4",
       "revId": "e826efb5bb991a9780aba2c6ae3e2e7750014394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bc898af_07ec0324",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-24T10:13:20Z",
+      "side": 1,
+      "message": "This was modernised in https://github.com/GerritCodeReview/gerrit/commit/9ac5d363db1a43686b6c8a6dc91a264893e3bd76",
+      "revId": "e826efb5bb991a9780aba2c6ae3e2e7750014394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

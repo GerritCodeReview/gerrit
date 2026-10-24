@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4455c978_3d77a0a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-24T06:43:01Z",
+      "side": 1,
+      "message": "It\u0027s documented, not accidental: config.txt (\"File etc/secure.config\") states secure.config overrides gerrit.config, with no secrets-only exception. So it shouldn\u0027t be dropped silently.\n\nI added a test that pins it in change 648743 and rebased this change on top of it.\n\nIt\u0027s green on master, red with this change on top. It had no coverage, which is how it slipped.\n\nIf we do drop the override, let\u0027s deprecate it with a release note this cycle, keep it one release, and remove it in a later one: not change it silently.",
+      "parentUuid": "a3db6951_a80a3fed",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "edc96c461c1492db8ef4ec30fc336196dbe5e3cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46d61a74_1cec54b5",
         "filename": "java/com/google/gerrit/server/config/SitePaths.java",
         "patchSetId": 5

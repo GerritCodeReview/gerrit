@@ -700,7 +700,8 @@ export class GrMainHeader extends LitElement {
     const linkGroups = this.computeLinks(
       this.userLinks,
       this.adminLinks,
-      this.topMenus
+      this.topMenus,
+      true
     );
 
     return html`
@@ -925,6 +926,7 @@ export class GrMainHeader extends LitElement {
     userLinks?: MainHeaderLink[],
     adminLinks?: NavLink[],
     topMenus?: TopMenuEntryInfo[],
+    isMobile = false,
     // defaultLinks parameter is used in tests only
     defaultLinks = DEFAULT_LINKS
   ) {
@@ -949,7 +951,7 @@ export class GrMainHeader extends LitElement {
       });
     }
     const docLinks = getDocLinks(this.docsBaseUrl, DOCUMENTATION_LINKS);
-    if (docLinks.length) {
+    if (!isMobile && docLinks.length) {
       links.push({
         title: 'Documentation',
         links: docLinks,

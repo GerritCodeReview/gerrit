@@ -17,6 +17,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
 import '@material/web/icon/icon';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {getDocUrl} from '../../../utils/url-util';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
@@ -53,6 +54,8 @@ export class GrAccountDropdown extends LitElement {
   // private but used in test
   @state() feedbackURL = '';
 
+  @state() private docsBaseUrl = '';
+
   // Private but used in test
   readonly getConfigModel = resolve(this, configModelToken);
 
@@ -75,6 +78,11 @@ export class GrAccountDropdown extends LitElement {
         }
         this.hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
   }
 
@@ -150,6 +158,13 @@ export class GrAccountDropdown extends LitElement {
 
     const links: DropdownLink[] = [];
     links.push({name: 'Settings', id: 'settings', url: '/settings/'});
+    if (this.showMobile) {
+      links.push({
+        name: 'Documentation',
+        url: getDocUrl(this.docsBaseUrl, '/index.html'),
+        target: '_blank',
+      });
+    }
     links.push({name: 'Keyboard Shortcuts', id: 'shortcuts'});
     if (switchAccountUrl) {
       const replacements = {path};

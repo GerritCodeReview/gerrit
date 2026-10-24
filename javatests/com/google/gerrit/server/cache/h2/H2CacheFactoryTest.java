@@ -28,9 +28,11 @@ import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.EnumSet;
@@ -48,7 +50,12 @@ public class H2CacheFactoryTest {
 
   @Test
   public void newSqlStore_setsUrl() throws Exception {
-    Path cacheDir = temporaryFolder.newFolder("cache").toPath();
+    Path siteRoot = temporaryFolder.newFolder("site").toPath();
+    Files.createDirectories(siteRoot.resolve("cache"));
+    Config cfg = new Config();
+    cfg.setString("cache", null, "directory", "cache");
+    SitePaths sitePaths = new SitePaths(siteRoot, cfg);
+
     H2CacheFactory factory =
         new H2CacheFactory(
             new NoOpMemoryCacheFactory(),
@@ -57,7 +64,7 @@ public class H2CacheFactoryTest {
             null,
             null,
             null,
-            cacheDir,
+            sitePaths,
             EnumSet.noneOf(CacheOptions.class),
             new AtomicBoolean(false));
 
@@ -67,7 +74,7 @@ public class H2CacheFactoryTest {
     assertThat(readField(store, "url"))
         .isEqualTo(
             "jdbc:h2:async:"
-                + cacheDir.resolve("demo-cache-v2").toAbsolutePath()
+                + sitePaths.cache_dir.resolve("demo-cache-v2").toAbsolutePath()
                 + ";DB_CLOSE_DELAY=-1");
   }
 

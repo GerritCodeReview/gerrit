@@ -47,6 +47,7 @@ public final class SitePaths {
   public final Path hooks_dir;
   public final Path static_dir;
   public final Path index_dir;
+  @Nullable public final Path cache_dir;
 
   public final Path gerrit_sh;
   public final Path gerrit_service;
@@ -99,6 +100,7 @@ public final class SitePaths {
     hooks_dir = p.resolve("hooks");
     static_dir = p.resolve("static");
     index_dir = resolveIndexDir(p, cfg);
+    cache_dir = resolveCacheDir(p, cfg);
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");
     gerrit_service = bin_dir.resolve("gerrit.service");
@@ -138,6 +140,11 @@ public final class SitePaths {
   private static Path resolveIndexDir(Path sitePath, Config cfg) throws IOException {
     Path configured = resolveConfiguredPath(sitePath, cfg, "index", "directory");
     return configured != null ? configured : sitePath.resolve("index");
+  }
+
+  @Nullable
+  private static Path resolveCacheDir(Path sitePath, Config cfg) throws IOException {
+    return resolveConfiguredPath(sitePath, cfg, "cache", "directory");
   }
 
   @Nullable

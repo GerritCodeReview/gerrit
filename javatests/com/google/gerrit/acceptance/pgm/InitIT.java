@@ -42,6 +42,7 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
@@ -121,6 +122,31 @@ public class InitIT extends StandaloneSiteTest {
     initSite();
 
     assertThat(existingSshHostKeys()).containsExactly(sitePaths.ssh_ed25519);
+  }
+
+  /**
+   * Asserting only that {@code secure-cache} exists is intentional: that directory is created
+   * solely by resolving the cache directory from the secure.config overlay, so its presence is a
+   * precise signal. Do not "strengthen" it to check for {@code *.mv.db} files (the H2 write is
+   * asynchronous at startup and interrupted on shutdown, so it flakes) or to assert the default
+   * {@code cache} directory is unused (impossible: init always creates it, ignoring secure.config).
+   */
+  @Test
+  public void persistentCacheDirectoryHonorsSecureConfigOverride() throws Exception {
+    initSite();
+
+    // Configure the cache directory only in secure.config (gerrit.config keeps its default).
+    // secure.config overrides gerrit.config, so the persistent cache lives under "secure-cache".
+    FileBasedConfig secureConfig =
+        new FileBasedConfig(sitePaths.secure_config.toFile(), FS.DETECTED);
+    secureConfig.setString("cache", null, "directory", "secure-cache");
+    secureConfig.save();
+
+    try (ServerContext ctx = startServer()) {
+      // Starting the server resolves and creates the persistent cache directory.
+    }
+
+    assertThat(Files.isDirectory(sitePaths.site_path.resolve("secure-cache"))).isTrue();
   }
 
   private ImmutableList<Path> allSshHostKeys() {

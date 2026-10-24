@@ -33,6 +33,24 @@
       "message": "JGit master is incompatible with 3.15 release and can only be used with upcoming gerrit release 3.16.\n\n3.15 releade corresponds JGit release 7.9.\n\nAccording to approved rosdmap (see ESC notes) we committed to still support to running Gerrit on JDK 21.",
       "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d5c0482_b227dad3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-24T03:01:40Z",
+      "side": 1,
+      "message": "See the ESC [minutes] from April 1st, 2026, quoting:\n\n* **Gerrit v3.15** will be released on Java 25, but will retain source-level compatibility with Java 21.\n\nThat\u0027s why @matthias.sohn@gmail.com created stable-7.9 branch in JGit before merging JGit 25 java compilation level bump. See also corresponding [jgit-292] issue in JGit for announcement for this move.\n\nTo summarise: \n\n* JGit master (upcoming release 8.0) is only compatible with upcoming gerrit release 3.16.\n* JGit 7.9 is compatible with upcoming gerrit release 3.15.\n\n[minutes]: https://gerrit-review.googlesource.com/c/homepage/+/572741/10/_posts/2026-04-01-esc-minutes.md#82\n[jgit-292]: https://github.com/eclipse-jgit/jgit/issues/292",
+      "parentUuid": "51806eb1_353bb2b9",
+      "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

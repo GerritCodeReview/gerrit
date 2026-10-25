@@ -1,3 +1,4 @@
+load("@com_googlesource_gerrit_bazlets//tools:sbom_scan.bzl", "sbom_scan")
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
@@ -70,6 +71,19 @@ license_map(
     targets = [
         "//java/com/google/gerrit/pgm",
     ],
+)
+
+# Shared SBOM generation and opt-in Trivy scan. The labels manifest reflects
+# Gerrit's WAR packaging exclusions; also report compile-only build dependencies.
+sbom_scan(
+    name = "release",
+    include_compile_only = True,
+    product_group = "com.google.gerrit",
+    product_name = "gerrit-war",
+    shipped_labels = "//:release.war.labels.txt",
+    target = "//:release",
+    trivyignore = "//tools/sbom:.trivyignore",
+    version_file = "//:version.txt",
 )
 
 license_map(

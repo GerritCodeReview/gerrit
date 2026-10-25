@@ -1,0 +1,15 @@
+# Trivy suppressions for the SBOM vulnerability gate (//Documentation:release_sbom_scan).
+#
+# Add one CVE id per line to stop it failing the build. Every entry MUST have a
+# comment stating the category and reason. Review the list on every release.
+#
+# Two categories are allowed:
+#
+#   1. No upstream fix yet - the dependency has no patched release, so a bump
+#      cannot help. Temporary; remove and bump the day a fix ships. Include a
+#      tracking link.
+#
+#   2. Not reachable - the vulnerable code path is not used by Gerrit (VEX
+#      "not affected"). Include the justification.
+#
+# No suppressions are currently configured.

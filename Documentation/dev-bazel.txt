@@ -402,6 +402,33 @@ When adding or modifying dependencies:
   bazelisk test //Documentation:check_licenses
 ----
 
+[[sbom-scan]]
+== Scanning the SBOM for vulnerabilities
+
+The third-party JARs shipped in `release.war` can carry known CVEs. To catch
+them, the release SBOM (see
+link:dev-release.html#generate-sbom[Generate the SBOM]) is scanned with
+link:https://trivy.dev/[Trivy]:
+
+----
+  bazelisk test //Documentation:release_sbom_scan
+----
+
+The test fails if Trivy reports any vulnerability, at any severity, against a
+component in the SBOM; a single un-suppressed finding breaks the build.
+Developers are encouraged to run it in CI and before conducting a release, so
+that no release ships a dependency with a known, unreviewed CVE.
+
+Trivy must be installed on the machine running the test, and the machine needs
+network access for Trivy's vulnerability database; the test is therefore not
+hermetic. On macOS: `brew install trivy`. CI jobs must install it too.
+Because of these external requirements the test is tagged `manual`, so it is
+opt-in and is not pulled in by `bazelisk test //...`.
+
+A CVE with no upstream fix yet, or one that is not reachable from Gerrit, can be
+suppressed in `tools/sbom/.trivyignore`; every entry must justify itself. See
+link:dev-release.html#scan-sbom[Scan the SBOM for vulnerabilities] for details.
+
 [[tests]]
 == Running Unit Tests
 

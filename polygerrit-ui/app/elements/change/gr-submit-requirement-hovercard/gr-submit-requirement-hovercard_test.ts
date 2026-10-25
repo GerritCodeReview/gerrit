@@ -223,7 +223,13 @@ suite('gr-submit-requirement-hovercard tests', () => {
               <gr-icon icon="description"></gr-icon>
             </div>
             <div class="sectionContent">
-              <gr-formatted-text></gr-formatted-text>
+              <gr-endpoint-decorator
+                name="submit-requirement-hovercard-description-verified"
+              >
+                <gr-endpoint-param name="change"></gr-endpoint-param>
+                <gr-endpoint-param name="requirement"></gr-endpoint-param>
+                <gr-formatted-text></gr-formatted-text>
+              </gr-endpoint-decorator>
             </div>
           </div>
           <div class="button">
@@ -240,6 +246,19 @@ suite('gr-submit-requirement-hovercard tests', () => {
           </div>
         </div>
       `
+    );
+  });
+
+  test('computeDescriptionEndpointName', () => {
+    assert.equal(
+      element.computeDescriptionEndpointName('Coverage-Over-70p'),
+      'submit-requirement-hovercard-description-coverageoverp'
+    );
+    assert.equal(
+      element.computeDescriptionEndpointName(
+        'Code-Owners~CodeOwnersSubmitRule'
+      ),
+      'submit-requirement-hovercard-description-codeowners'
     );
   });
 

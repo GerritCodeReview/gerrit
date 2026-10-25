@@ -20,7 +20,11 @@ import {
 import {ParsedChangeInfo} from '../../../types/types';
 import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {ChangeStatus, SubmitRequirementResultInfo} from '../../../api/rest-api';
+import {
+  ChangeStatus,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
 
 suite('gr-submit-requirement-hovercard tests', () => {
   let element: GrSubmitRequirementHovercard;
@@ -68,6 +72,19 @@ suite('gr-submit-requirement-hovercard tests', () => {
               </div>
             </div>
           </div>
+          <div class="section description">
+            <div class="sectionIcon">
+              <gr-icon icon="description"></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <gr-endpoint-decorator
+                name="submit-requirement-hovercard-description-verified"
+              >
+                <gr-endpoint-param name="change"></gr-endpoint-param>
+                <gr-endpoint-param name="requirement"></gr-endpoint-param>
+              </gr-endpoint-decorator>
+            </div>
+          </div>
           <div class="button">
             <gr-button
               aria-disabled="false"
@@ -83,6 +100,11 @@ suite('gr-submit-requirement-hovercard tests', () => {
         </div>
       `
     );
+    const descriptionSection = queryAndAssert<HTMLElement>(
+      element,
+      '.section.description'
+    );
+    assert.equal(getComputedStyle(descriptionSection).display, 'none');
   });
 
   test('renders conditions after click', async () => {
@@ -119,6 +141,19 @@ suite('gr-submit-requirement-hovercard tests', () => {
                 <div class="title">Status</div>
                 <div>SATISFIED</div>
               </div>
+            </div>
+          </div>
+          <div class="section description">
+            <div class="sectionIcon">
+              <gr-icon icon="description"></gr-icon>
+            </div>
+            <div class="sectionContent">
+              <gr-endpoint-decorator
+                name="submit-requirement-hovercard-description-verified"
+              >
+                <gr-endpoint-param name="change"></gr-endpoint-param>
+                <gr-endpoint-param name="requirement"></gr-endpoint-param>
+              </gr-endpoint-decorator>
             </div>
           </div>
           <div class="button">
@@ -223,7 +258,13 @@ suite('gr-submit-requirement-hovercard tests', () => {
               <gr-icon icon="description"></gr-icon>
             </div>
             <div class="sectionContent">
-              <gr-formatted-text></gr-formatted-text>
+              <gr-endpoint-decorator
+                name="submit-requirement-hovercard-description-verified"
+              >
+                <gr-endpoint-param name="change"></gr-endpoint-param>
+                <gr-endpoint-param name="requirement"></gr-endpoint-param>
+                <gr-formatted-text></gr-formatted-text>
+              </gr-endpoint-decorator>
             </div>
           </div>
           <div class="button">
@@ -240,6 +281,79 @@ suite('gr-submit-requirement-hovercard tests', () => {
           </div>
         </div>
       `
+    );
+  });
+
+  test('computeDescriptionEndpointName', () => {
+    assert.equal(
+      element.computeDescriptionEndpointName('Verified'),
+      'submit-requirement-hovercard-description-verified'
+    );
+    assert.equal(
+      element.computeDescriptionEndpointName('Coverage-Over-70p'),
+      'submit-requirement-hovercard-description-coverageoverp'
+    );
+    assert.equal(
+      element.computeDescriptionEndpointName(
+        'Code-Owners~CodeOwnersSubmitRule'
+      ),
+      'submit-requirement-hovercard-description-codeowners'
+    );
+  });
+
+  test('renders error status description without endpoint decorator', async () => {
+    const errorRequirement: SubmitRequirementResultInfo = {
+      ...createSubmitRequirementResultInfo(),
+      status: SubmitRequirementStatus.ERROR,
+      submittability_expression_result: {
+        ...createSubmitRequirementExpressionInfo(),
+        error_message: 'Evaluation error message',
+      },
+    };
+    const element = await fixture<GrSubmitRequirementHovercard>(
+      html`<gr-submit-requirement-hovercard
+        .requirement=${errorRequirement}
+        .change=${createChange()}
+        .account=${createAccountWithId()}
+      ></gr-submit-requirement-hovercard>`
+    );
+    const descriptionSection = queryAndAssert<HTMLElement>(
+      element,
+      '.section.description'
+    );
+    assert.notEqual(getComputedStyle(descriptionSection).display, 'none');
+    assert.isUndefined(query(descriptionSection, 'gr-endpoint-decorator'));
+    const formattedText = queryAndAssert<HTMLElement & {content?: string}>(
+      descriptionSection,
+      'gr-formatted-text'
+    );
+    assert.equal(formattedText.content, 'Evaluation error message');
+  });
+
+  test('falls through to endpoint decorator when error status has no error_message', async () => {
+    const errorRequirementNoMessage: SubmitRequirementResultInfo = {
+      ...createSubmitRequirementResultInfo(),
+      status: SubmitRequirementStatus.ERROR,
+      description: 'Static description on errored requirement',
+    };
+    const element = await fixture<GrSubmitRequirementHovercard>(
+      html`<gr-submit-requirement-hovercard
+        .requirement=${errorRequirementNoMessage}
+        .change=${createChange()}
+        .account=${createAccountWithId()}
+      ></gr-submit-requirement-hovercard>`
+    );
+    const decorator = queryAndAssert(
+      element,
+      '.section.description gr-endpoint-decorator'
+    );
+    const formattedText = queryAndAssert<HTMLElement & {content?: string}>(
+      decorator,
+      'gr-formatted-text'
+    );
+    assert.equal(
+      formattedText.content,
+      'Static description on errored requirement'
     );
   });
 

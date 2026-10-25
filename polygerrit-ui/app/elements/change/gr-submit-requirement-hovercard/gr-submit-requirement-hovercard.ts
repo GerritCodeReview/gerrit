@@ -6,6 +6,8 @@
 import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {join} from 'lit/directives/join.js';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-label-info/gr-label-info';
@@ -31,6 +33,7 @@ import {ReviewInput} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fireReload} from '../../../utils/event-util';
+import {charsOnly} from '../../../utils/string-util';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {
   atomizeExpression,
@@ -110,6 +113,15 @@ export class GrSubmitRequirementHovercard extends base {
           margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
           display: flex;
           align-items: flex-start;
+        }
+        div.section.description {
+          display: none;
+        }
+        div.section.description:has(
+            gr-formatted-text,
+            gr-endpoint-decorator > :not(gr-endpoint-param):not([hidden])
+          ) {
+          display: flex;
         }
         .sectionContent {
           flex: 1;
@@ -198,25 +210,59 @@ export class GrSubmitRequirementHovercard extends base {
   }
 
   private renderDescription() {
-    let description = this.requirement?.description;
-    if (this.requirement?.status === SubmitRequirementStatus.ERROR) {
-      const error_message = getRequirementErrorMessage(this.requirement);
-      if (error_message) {
-        description = error_message;
-      }
+    if (!this.requirement) return;
+    if (this.requirement.status === SubmitRequirementStatus.ERROR) {
+      const errorMessage =
+        getRequirementErrorMessage(this.requirement) ??
+        this.requirement.description;
+      if (!errorMessage) return;
+      return html`<div class="section description">
+        <div class="sectionIcon">
+          <gr-icon icon="description"></gr-icon>
+        </div>
+        <div class="sectionContent">
+          <gr-formatted-text
+            .markdown=${true}
+            .content=${errorMessage}
+          ></gr-formatted-text>
+        </div>
+      </div>`;
     }
-    if (!description) return;
+    const description = this.requirement.description;
+    const endpointName = this.computeDescriptionEndpointName(
+      this.requirement.name
+    );
     return html`<div class="section description">
       <div class="sectionIcon">
         <gr-icon icon="description"></gr-icon>
       </div>
       <div class="sectionContent">
-        <gr-formatted-text
-          .markdown=${true}
-          .content=${description}
-        ></gr-formatted-text>
+        <gr-endpoint-decorator name=${endpointName}>
+          <gr-endpoint-param
+            name="change"
+            .value=${this.change}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="requirement"
+            .value=${this.requirement}
+          ></gr-endpoint-param>
+          ${description
+            ? html`<gr-formatted-text
+                .markdown=${true}
+                .content=${description}
+              ></gr-formatted-text>`
+            : ''}
+        </gr-endpoint-decorator>
       </div>
     </div>`;
+  }
+
+  // not private for tests
+  computeDescriptionEndpointName(requirementName: string) {
+    // remove class name annotation after ~
+    const name = requirementName.split('~')[0];
+    const normalizedName = charsOnly(name).toLowerCase();
+    return `submit-requirement-hovercard-description-${normalizedName}`;
   }
 
   private renderLabelSection() {

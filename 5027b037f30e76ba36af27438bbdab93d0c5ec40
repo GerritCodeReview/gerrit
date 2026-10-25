@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29146e13_a60b550d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-25T04:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ce6e66a_c3085380",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "5027b037f30e76ba36af27438bbdab93d0c5ec40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3f42b5a_276c0dc0",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-24T18:17:55Z",
       "side": 1,
       "message": "I don\u0027t believe we should mention the CVE as that\u0027s not relevant.",
+      "range": {
+        "startLine": 20,
+        "startChar": 42,
+        "endLine": 20,
+        "endChar": 63
+      },
+      "revId": "5027b037f30e76ba36af27438bbdab93d0c5ec40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0a99cde_27ffdc0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-25T04:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3f42b5a_276c0dc0",
       "range": {
         "startLine": 20,
         "startChar": 42,

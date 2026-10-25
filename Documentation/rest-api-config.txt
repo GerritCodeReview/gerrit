@@ -2616,6 +2616,9 @@ link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 link:config-gerrit.html#gerrit.instanceId[Short identifier for this Gerrit installation].
 |`default_branch`       |optional|
 link:config-gerrit.html#gerrit.defaultBranch[Name of the default branch to use on the project creation].
+|`submit_commit_url`    |optional|
+link:config-gerrit.html#gerrit.submitCommitUrl[URL used to link commit hashes in
+submit messages].
 |`all_projects`         ||
 The name of the `All-Projects` root project.
 |`all_users`            ||

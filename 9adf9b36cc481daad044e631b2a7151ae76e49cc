@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef360c19_d5d4556c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-25T22:31:11Z",
+      "side": 1,
+      "message": "I am not sure this is the right way to fix the issue.\nThe `core.userPerRequestRefCache` implements a snapshotting mechanism on packed-refs, which is automatically redundant when using reftable as the format for the ref-db.\n\nI believe the correct fix is to automatically disable the flag in the `LocalDiskRepositoryManager` if the underlying repository format is reftable.\n\nThe proposed fix has two advantages:\n\n1. Simplify the code and the UX: from v3.15 onwards, you can always choose the reftable format if you want\n2. Allow you to still use snapshotting on `files`-based ref-directory on some repositories and `reftable` on others",
+      "revId": "9adf9b36cc481daad044e631b2a7151ae76e49cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

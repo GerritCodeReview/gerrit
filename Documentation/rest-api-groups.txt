@@ -60,7 +60,7 @@ by group name.
       "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "options": {
-        "visible_to_all": true,
+        "visible_to_all": true
       },
       "group_id": 6,
       "owner": "MyProject_Committers",

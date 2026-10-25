@@ -51,6 +51,24 @@
       "parentUuid": "51806eb1_353bb2b9",
       "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "350a7a0c_cedcac42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-25T19:52:58Z",
+      "side": 1,
+      "message": "There will be no JGit 7.9 release, I only created the stable-7.9 branch to contribute an intermediate 7.9 m1 milestone version to the Eclipse simultaneous release 2026-12 m1 since I created it on the last day of m1 and didn\u0027t want to risk breaking the m1 with a last minute bump to 8.0. For m2 we will contribute 8.0 m2.",
+      "parentUuid": "5d5c0482_b227dad3",
+      "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

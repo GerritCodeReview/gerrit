@@ -847,7 +847,10 @@ export class GrDiffView extends LitElement {
     ) {
       this.initCursor();
     }
-    if (changedProperties.has('showRichMarkdown') && !this.showRichMarkdown) {
+    if (
+      changedProperties.get('showRichMarkdown') === true &&
+      !this.showRichMarkdown
+    ) {
       this.reInitCursor();
     }
     if (

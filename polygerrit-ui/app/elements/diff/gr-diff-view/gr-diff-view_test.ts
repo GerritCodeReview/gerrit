@@ -64,7 +64,7 @@ import {
 } from '../../../models/change/change-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
-import {assert, fixture, html} from '@open-wc/testing';
+import {assert, fixture, fixtureSync, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrComment} from '../../shared/gr-comment/gr-comment';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
@@ -188,6 +188,65 @@ suite('gr-diff-view tests', () => {
       clock && clock.restore();
       sinon.restore();
     });
+
+    function createViewBeforeFirstUpdate() {
+      // fixtureSync lets us provide model data before the first reactive update.
+      const view = fixtureSync<GrDiffView>(html`<gr-diff-view></gr-diff-view>`);
+      view.change = createParsedChange();
+      view.changeNum = TEST_NUMERIC_CHANGE_ID;
+      view.patchNum = 1 as RevisionPatchSetNum;
+      view.basePatchNum = PARENT;
+      view.path = 'some/path.txt';
+      view.isActiveChildView = true;
+      return view;
+    }
+
+    test('initial render does not initialize the cursor before the diff', async () => {
+      const view = createViewBeforeFirstUpdate();
+      view.focusLineNum = 10;
+      view.focusEndLineNum = 12;
+      assertIsDefined(view.cursor);
+      const reInit = sinon.spy(view.cursor, 'reInitCursor');
+      try {
+        await view.updateComplete;
+        assert.isFalse(reInit.called);
+        assert.equal(view.cursor.initialLineNumber, 10);
+        assert.equal(view.cursor.initialEndLineNumber, 12);
+      } finally {
+        await view.diffHost?.updateComplete;
+      }
+    });
+
+    for (const side of [Side.LEFT, Side.RIGHT]) {
+      for (const endLine of [undefined, 12]) {
+        const target = endLine === undefined ? 'line 10' : 'lines 10-12';
+        test(`initial render preserves ${target} on ${side}`, async () => {
+          getDiffRestApiStub.returns(Promise.resolve(createDiff()));
+          const view = createViewBeforeFirstUpdate();
+          view.focusLineNum = 10;
+          view.focusEndLineNum = endLine;
+          view.leftSide = side === Side.LEFT;
+          await view.updateComplete;
+
+          assertIsDefined(view.cursor);
+          assertIsDefined(view.diffHost);
+          await view.diffHost.reload();
+
+          assert.equal(view.cursor.getTargetLineNumber(), 10);
+          assert.equal(view.cursor.side, side);
+          assert.isNull(view.cursor.initialLineNumber);
+          assertIsDefined(view.diffHost.diffElement);
+          assert.equal(
+            queryAll(view.diffHost.diffElement, '.target-range-start').length,
+            endLine === undefined ? 0 : 1
+          );
+          view.cursor.moveDown();
+          assert.equal(view.cursor.getTargetLineNumber(), 11);
+          view.cursor.moveUp();
+          assert.equal(view.cursor.getTargetLineNumber(), 10);
+        });
+      }
+    }
 
     test('expensive diff warning', async () => {
       const openDownloadDialogStub = sinon.stub(
@@ -1961,6 +2020,32 @@ suite('gr-diff-view tests', () => {
     });
 
     suite('rich markdown diff', () => {
+      test('round trip reinitializes cursor and keeps navigation', async () => {
+        getDiffRestApiStub.returns(Promise.resolve(createDiff()));
+        const view = createViewBeforeFirstUpdate();
+        view.path = 'README.md';
+        await view.updateComplete;
+        assertIsDefined(view.diffHost);
+        await view.diffHost.reload();
+        assertIsDefined(view.cursor);
+        const reInit = sinon.spy(view.cursor, 'reInitCursor');
+
+        await view.toggleRichMarkdown();
+        await view.updateComplete;
+        assert.isTrue(view.showRichMarkdown);
+        assert.isFalse(reInit.called);
+
+        await view.toggleRichMarkdown();
+        await view.updateComplete;
+        assert.isFalse(view.showRichMarkdown);
+        assert.isTrue(reInit.calledOnce);
+        assert.isNotEmpty(view.cursor.cursorManager.stops);
+        assertIsDefined(view.cursor.getTargetLineNumber());
+        const initialLine = view.cursor.getTargetLineNumber();
+        view.cursor.moveDown();
+        assert.notEqual(view.cursor.getTargetLineNumber(), initialLine);
+      });
+
       test('toggle rich markdown diff', async () => {
         element.path = 'README.md';
         element.diff = {

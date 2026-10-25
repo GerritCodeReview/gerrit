@@ -67,7 +67,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {SinonStub, SinonStubbedMember} from 'sinon';
 import {RunResult} from '../../../models/checks/checks-model';
 import {assertIsDefined} from '../../../utils/common-util';
-import {assert, fixture, html} from '@open-wc/testing';
+import {assert, fixture, fixtureSync, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
@@ -567,6 +567,16 @@ suite('gr-diff-host tests', () => {
     assert.equal(element.getCursorStops(), returnValue);
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
+  });
+
+  test('getCursorStops() throws before the first render', async () => {
+    const host = fixtureSync<GrDiffHost>(html`<gr-diff-host></gr-diff-host>`);
+    try {
+      assert.isNotOk(host.diffElement);
+      assert.throws(() => host.getCursorStops(), Error);
+    } finally {
+      await host.updateComplete;
+    }
   });
 
   test('delegates isRangeSelected()', () => {

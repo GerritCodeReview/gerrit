@@ -33,7 +33,7 @@ import {
   createDefaultEditPrefs,
   HttpMethod,
 } from '../../constants/constants';
-import {FlowInput} from '../../api/rest-api';
+import {FlowInput, RefStorage} from '../../api/rest-api';
 import {
   AccountDetailInfo,
   BasePatchSetNum,
@@ -374,6 +374,27 @@ suite('gr-rest-api-service-impl tests', () => {
     });
     assert.isTrue(fetchStub.called);
     assert.isFalse(element._cache.has(cacheKey));
+  });
+
+  test('convertRepoRefStorage invalidates project config cache', () => {
+    const cacheKey = '/projects/test-repo/config';
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch');
+    element._cache.set(cacheKey, {
+      ref_storage: RefStorage.FILES,
+    } as unknown as ParsedJSON);
+    element.convertRepoRefStorage('test-repo' as RepoName, RefStorage.REFTABLE);
+    assert.isTrue(fetchStub.called);
+    assert.isFalse(element._cache.has(cacheKey));
+  });
+
+  test('convertRepoRefStorage sends backup=false', () => {
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch');
+    element.convertRepoRefStorage('test-repo' as RepoName, RefStorage.REFTABLE);
+    assert.isTrue(fetchStub.called);
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {ref_storage: RefStorage.REFTABLE, backup: false}
+    );
   });
 
   suite('queryAccounts', () => {

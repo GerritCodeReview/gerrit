@@ -37,6 +37,7 @@ import {
   ConfigParameterInfoType,
   InheritedBooleanInfoConfiguredValue,
   PermissionAction,
+  RefStorage,
   RepoState,
   SubmitType,
 } from '../../../constants/constants';
@@ -163,6 +164,82 @@ suite('gr-repo tests', () => {
     element = await fixture(html`<gr-repo></gr-repo>`);
   });
 
+  async function setRefStorage(format: RefStorage, isAdmin = true) {
+    element.repo = REPO as RepoName;
+    await element.loadRepo();
+    await element.updateComplete;
+    element.repoConfig = {...repoConf, ref_storage: format};
+    element.isAdmin = isAdmin;
+    element.readOnly = false;
+    await element.updateComplete;
+  }
+
+  test('conversion is hidden for a project owner who is not an administrator', async () => {
+    await setRefStorage(RefStorage.FILES, false);
+    assert.lengthOf(queryAll(element, '#convertRefStorageBtn'), 0);
+  });
+
+  for (const format of [RefStorage.FILES, RefStorage.REFTABLE]) {
+    test(`converts from ${format} and reloads configuration`, async () => {
+      await setRefStorage(format);
+      const target =
+        format === RefStorage.FILES ? RefStorage.REFTABLE : RefStorage.FILES;
+      const convert = stubRestApi('convertRepoRefStorage').resolves(
+        new Response()
+      );
+      const reload = sinon.stub(element, 'loadRepo').resolves();
+      assert.lengthOf(queryAll(element, '#convertRefStorageBtn'), 1);
+
+      await element.handleConvertRefStorageConfirm();
+
+      assert.isTrue(convert.calledWithExactly(REPO as RepoName, target));
+      assert.isTrue(reload.calledOnce);
+    });
+  }
+
+  test('ordinary config saves omit the read-only ref storage', () => {
+    const config = {...repoConf, ref_storage: RefStorage.REFTABLE};
+    assert.notProperty(element.formatRepoConfigForSave(config), 'ref_storage');
+  });
+
+  test('conversion does not discard unsaved configuration edits', async () => {
+    await setRefStorage(RefStorage.FILES);
+    element.repoConfig = {
+      ...repoConf,
+      ref_storage: RefStorage.FILES,
+      description: 'Unsaved description',
+    };
+    await element.updateComplete;
+    const convert = stubRestApi('convertRepoRefStorage');
+    assert.isTrue(
+      queryAndAssert<GrButton>(element, '#convertRefStorageBtn').hasAttribute(
+        'disabled'
+      )
+    );
+
+    await element.handleConvertRefStorageConfirm();
+
+    assert.isFalse(convert.called);
+  });
+
+  test('conversion guards against concurrent calls', async () => {
+    await setRefStorage(RefStorage.FILES);
+    let resolveConvert: (value: Response) => void = () => {};
+    const convert = stubRestApi('convertRepoRefStorage').returns(
+      new Promise<Response>(resolve => {
+        resolveConvert = resolve;
+      })
+    );
+    sinon.stub(element, 'loadRepo').resolves();
+
+    const first = element.handleConvertRefStorageConfirm();
+    const second = element.handleConvertRefStorageConfirm();
+    assert.isTrue(convert.calledOnce);
+
+    resolveConvert(new Response());
+    await Promise.all([first, second]);
+  });
+
   test('render', async () => {
     element.repo = REPO as RepoName;
     await element.loadRepo();
@@ -228,6 +305,20 @@ suite('gr-repo tests', () => {
                    placeholder="<Insert repo description here>"
                  >
                  </gr-autogrow-textarea>
+               </fieldset>
+               <h3
+                 class="heading-3"
+                 id="RefStorage"
+               >
+                 Ref Storage
+               </h3>
+               <fieldset>
+                 <section>
+                   <span class="title"> Format </span>
+                   <span class="value" id="refStorageFormat">
+                     Files
+                   </span>
+                 </section>
                </fieldset>
                <h3
                  class="heading-3"
@@ -1275,6 +1366,17 @@ suite('gr-repo tests', () => {
         '#maxGitObjSizeInput'
       );
       assert.equal(input.value, '5m');
+    });
+
+    test('convert ref storage', async () => {
+      await setRefStorage(RefStorage.FILES);
+      const convertStub = stubRestApi('convertRepoRefStorage').returns(
+        Promise.resolve(new Response())
+      );
+      await element.handleConvertRefStorageConfirm();
+      assert.isTrue(
+        convertStub.calledWithExactly(REPO as RepoName, RefStorage.REFTABLE)
+      );
     });
 
     test('fields update and save correctly', async () => {

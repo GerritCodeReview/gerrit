@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1fc41f0_f2313782",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5266616
+      },
+      "writtenOn": "2026-10-26T08:38:26Z",
+      "side": 1,
+      "message": "Thanks for the review and catching those two edge cases!\n\nI applied both fixes and also tested the formatter against 200 real Chromium commit descriptions. This caught a couple of small edge cases, which I now tackled too (with minimal changes).\n\nYour +2 carried over but I\u0027d rather get another review round just in case, PTAL!",
+      "revId": "7c0fecab915415a12c1e200afafdfaf1934fbe52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

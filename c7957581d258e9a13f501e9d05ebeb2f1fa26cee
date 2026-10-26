@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5804d6b_980ce193",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5266616
+      },
+      "writtenOn": "2026-10-26T08:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81301dfd_5509afbb",
+      "revId": "c7957581d258e9a13f501e9d05ebeb2f1fa26cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cc2faa0_13ab8870",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Minor edge case: if a commit message without a `Change-Id` footer ends with a single-line 4-space indented code block containing `key: value` or `key\u003dvalue` (e.g. `Fix config\\n\\nExample:\\n\\n    timeout: 30s\\n`), `footer.length \u003d\u003d\u003d 1`, so `isListOrIndentedBlock` evaluates to `false`. `FOOTER_REGEX.test(line.trim())` then matches it as a footer, causing `detectFormattingErrors` to flag `LEADING_SPACES` and `formatCommitMessage` to strip the 4-space indentation.\n\nAdding `footer.every(line \u003d\u003e isUntouchedCodeOrQuoteLine(line))` to `isListOrIndentedBlock` prevents 4-space code blocks (and quotes/comments) at the end of a message from being misclassified as footers:\n\n```ts\n  const isListOrIndentedBlock \u003d\n    footer.some(\n      line \u003d\u003e\n        getLeadingSpacesCount(line) \u003c INDENTATION_THRESHOLD \u0026\u0026\n        LIST_ITEM_REGEX.test(line.trimEnd())\n    ) ||\n    footer.every(line \u003d\u003e isUntouchedCodeOrQuoteLine(line)) ||\n    (footer.length \u003e 1 \u0026\u0026\n      footer.every(line \u003d\u003e getLeadingSpacesCount(line) \u003e 0)) ||\n    (footer.length \u003e 1 \u0026\u0026\n      footer[0].trim().endsWith(\u0027:\u0027) \u0026\u0026\n      !FOOTER_REGEX.test(footer[0].trim()));\n```",
       "isAi": true,
+      "revId": "c7957581d258e9a13f501e9d05ebeb2f1fa26cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ae3a6a_8679f68d",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5266616
+      },
+      "writtenOn": "2026-10-26T08:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cc2faa0_13ab8870",
       "revId": "c7957581d258e9a13f501e9d05ebeb2f1fa26cee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

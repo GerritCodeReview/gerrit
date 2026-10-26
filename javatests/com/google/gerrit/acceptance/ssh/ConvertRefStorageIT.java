@@ -14,21 +14,35 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 @NoHttpd
 @UseSsh
+@UseLocalDisk
 public class ConvertRefStorageIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "core.usePerRequestRefCache", value = "true")
-  public void refusesConversionToReftableWhenPerRequestRefCacheEnabled() throws Exception {
+  public void convertsToReftableWhenPerRequestRefCacheEnabled() throws Exception {
     adminSshSession.exec(
         "gerrit convert-ref-storage --project " + project.get() + " --format reftable");
-    adminSshSession.assertFailure(
-        "Converting to reftable requires core.usePerRequestRefCache=false");
+    adminSshSession.assertSuccess();
+    try (Repository repo = repoManager.openRepository(project)) {
+      assertThat(
+              repo.getConfig()
+                  .getString(
+                      ConfigConstants.CONFIG_EXTENSIONS_SECTION,
+                      null,
+                      ConfigConstants.CONFIG_KEY_REF_STORAGE))
+          .isEqualTo(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE);
+    }
   }
 }

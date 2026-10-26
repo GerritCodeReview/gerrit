@@ -3156,4 +3156,23 @@ suite('gr-reply-dialog tests', () => {
     assert.isOk(warning);
     assert.include(warning.textContent, 'Change has already been merged');
   });
+
+  test('marks reviewersMutated on accounts-changed and account-text-changed', async () => {
+    const endpoint = queryAndAssert(
+      element,
+      'gr-endpoint-decorator[name="reply-reviewers"]'
+    );
+    element.reviewersMutated = false;
+
+    endpoint.dispatchEvent(
+      new CustomEvent('accounts-changed', {bubbles: true, composed: true})
+    );
+    assert.isTrue(element.reviewersMutated);
+
+    element.reviewersMutated = false;
+    endpoint.dispatchEvent(
+      new CustomEvent('account-text-changed', {bubbles: true, composed: true})
+    );
+    assert.isTrue(element.reviewersMutated);
+  });
 });

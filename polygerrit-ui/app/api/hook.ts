@@ -25,6 +25,12 @@ export declare interface RegisterOptions {
   slot?: string;
   /** Defaults to false. */
   replace?: boolean;
+  /**
+   * Optional sort order for components registered on the same endpoint or slot.
+   * Lower numbers are placed first; components without `order` are placed after
+   * ordered components.
+   */
+  order?: number;
 }
 
 export declare interface HookApi<T extends PluginElement> {

@@ -313,4 +313,47 @@ suite('gr-endpoint-decorator', () => {
     await param.updateComplete;
     assert.equal(hook.getAllAttached().length, 0);
   });
+
+  test('orders modules registered on the same slot even when registered late', async () => {
+    const el = await fixture<GrEndpointDecorator>(html`
+      <gr-endpoint-decorator name="ordered-slot-endpoint">
+        <gr-endpoint-slot name="below"></gr-endpoint-slot>
+      </gr-endpoint-decorator>
+    `);
+
+    const unorderedHook = plugin.registerCustomComponent(
+      'ordered-slot-endpoint',
+      'unordered-mod',
+      {slot: 'below'}
+    );
+    const unorderedAttached = mockPromise();
+    unorderedHook.onAttached(() => unorderedAttached.resolve());
+    await unorderedAttached;
+
+    const secondOrderedHook = plugin.registerCustomComponent(
+      'ordered-slot-endpoint',
+      'ordered-mod-2',
+      {slot: 'below', order: 2}
+    );
+    const secondAttached = mockPromise();
+    secondOrderedHook.onAttached(() => secondAttached.resolve());
+    await secondAttached;
+
+    const firstOrderedHook = plugin.registerCustomComponent(
+      'ordered-slot-endpoint',
+      'ordered-mod-1',
+      {slot: 'below', order: 1}
+    );
+    const firstAttached = mockPromise();
+    firstOrderedHook.onAttached(() => firstAttached.resolve());
+    await firstAttached;
+
+    const childNames = Array.from(el.children).map(c => c.nodeName);
+    assert.deepEqual(childNames, [
+      'GR-ENDPOINT-SLOT',
+      'ORDERED-MOD-1',
+      'ORDERED-MOD-2',
+      'UNORDERED-MOD',
+    ]);
+  });
 });

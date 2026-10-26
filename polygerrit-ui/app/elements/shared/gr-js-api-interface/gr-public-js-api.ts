@@ -123,10 +123,12 @@ export class Plugin implements PluginApi {
       ? EndpointType.REPLACE
       : EndpointType.DECORATE;
     const slot = options?.slot ?? '';
+    const order = options?.order;
     const domHook = this.domHooks.getDomHook<T>(endpoint, moduleName);
     moduleName = moduleName || domHook.getModuleName();
     this.pluginEndpoints.registerModule(this, {
       slot,
+      order,
       endpoint,
       type,
       moduleName,

@@ -760,6 +760,14 @@ export class GrReplyDialog extends LitElement {
       const reviewer = e.detail.reviewer;
       this.reviewersList?.removeAccount(reviewer);
     });
+
+    this.addEventListener('accounts-changed', () => {
+      this.reviewersMutated = true;
+    });
+
+    this.addEventListener('account-text-changed', () => {
+      this.reviewersMutated = true;
+    });
   }
 
   override willUpdate(changedProperties: PropertyValues) {

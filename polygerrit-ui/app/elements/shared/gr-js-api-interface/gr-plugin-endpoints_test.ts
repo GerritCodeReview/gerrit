@@ -110,4 +110,32 @@ suite('gr-plugin-endpoints tests', () => {
       slot: undefined,
     });
   });
+
+  test('getDetails sorts by order before plugin name', () => {
+    instance.registerModule(replacePlugin, {
+      endpoint: 'ordered-endpoint',
+      type: EndpointType.DECORATE,
+      moduleName: 'unordered-module',
+      domHook,
+    });
+    instance.registerModule(replacePlugin, {
+      endpoint: 'ordered-endpoint',
+      type: EndpointType.DECORATE,
+      moduleName: 'ordered-second',
+      domHook,
+      order: 2,
+    });
+    instance.registerModule(decoratePlugin, {
+      endpoint: 'ordered-endpoint',
+      type: EndpointType.DECORATE,
+      moduleName: 'ordered-first',
+      domHook,
+      order: 1,
+    });
+
+    assert.deepEqual(
+      instance.getDetails('ordered-endpoint').map(m => m.moduleName),
+      ['ordered-first', 'ordered-second', 'unordered-module']
+    );
+  });
 });

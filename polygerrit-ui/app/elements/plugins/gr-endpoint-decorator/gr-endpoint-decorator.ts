@@ -37,6 +37,11 @@ export class GrEndpointDecorator extends LitElement {
 
   private readonly domHooks = new Map<PluginElement, HookApi<PluginElement>>();
 
+  private readonly decorationMeta = new WeakMap<
+    Node,
+    {slot: string; order: number}
+  >();
+
   private readonly initializedPlugins = new Map<string, boolean>();
 
   private readonly timeoutIds = new Set<number>();
@@ -88,7 +93,8 @@ export class GrEndpointDecorator extends LitElement {
   private initDecoration(
     name: string,
     plugin: PluginApi,
-    slot?: string
+    slot?: string,
+    order?: number
   ): Promise<HTMLElement> {
     const el = document.createElement(name) as PluginElement;
     return this.initProperties(
@@ -98,13 +104,39 @@ export class GrEndpointDecorator extends LitElement {
       // this.shadowRoot.querySelector('slot').assignedElements()[0].
       this.firstElementChild
     ).then(el => {
-      const slotEl = slot
-        ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
+      const effectiveSlot = slot ?? '';
+      const effectiveOrder = order ?? Number.MAX_SAFE_INTEGER;
+      this.decorationMeta.set(el, {
+        slot: effectiveSlot,
+        order: effectiveOrder,
+      });
+      const slotEl = effectiveSlot
+        ? this.querySelector(`gr-endpoint-slot[name=${effectiveSlot}]`)
         : null;
-      if (slot && slotEl?.parentNode) {
-        slotEl.parentNode.insertBefore(el, slotEl.nextSibling);
+      if (effectiveSlot && slotEl?.parentNode) {
+        let refNode = slotEl.nextSibling;
+        while (refNode) {
+          const meta = this.decorationMeta.get(refNode);
+          if (
+            !meta ||
+            meta.slot !== effectiveSlot ||
+            meta.order > effectiveOrder
+          ) {
+            break;
+          }
+          refNode = refNode.nextSibling;
+        }
+        slotEl.parentNode.insertBefore(el, refNode);
       } else {
-        this.appendChild(el);
+        const refNode = Array.from(this.children).find(child => {
+          const meta = this.decorationMeta.get(child);
+          return meta && meta.slot === '' && meta.order > effectiveOrder;
+        });
+        if (refNode) {
+          this.insertBefore(el, refNode);
+        } else {
+          this.appendChild(el);
+        }
       }
       return el;
     });
@@ -221,6 +253,7 @@ export class GrEndpointDecorator extends LitElement {
     type,
     domHook,
     slot,
+    order,
   }: ModuleInfo) => {
     const name = plugin.getPluginName() + '.' + moduleName;
     if (this.targetPlugin) {
@@ -232,7 +265,7 @@ export class GrEndpointDecorator extends LitElement {
     let initPromise;
     switch (type) {
       case EndpointType.DECORATE:
-        initPromise = this.initDecoration(moduleName, plugin, slot);
+        initPromise = this.initDecoration(moduleName, plugin, slot, order);
         break;
       case EndpointType.REPLACE:
         initPromise = this.initReplacement(moduleName, plugin);

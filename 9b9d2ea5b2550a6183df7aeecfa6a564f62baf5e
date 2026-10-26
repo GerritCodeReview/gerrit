@@ -19,6 +19,25 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7adfdd0d_fbe9c1e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T20:43:56Z",
+      "side": 1,
+      "message": "Done. Scoped both listeners via isFromReplyReviewersPlugin() (checking e.composedPath() for \u003cgr-endpoint-decorator name\u003d\"reply-reviewers\"\u003e and excluding this.reviewersList), and restored @account-text-changed on #reviewers and #ccs.",
+      "parentUuid": "a1f4c151_731448fb",
+      "isAi": true,
+      "revId": "9b9d2ea5b2550a6183df7aeecfa6a564f62baf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f49063a2_7248e8db",
@@ -32,6 +51,25 @@
       "writtenOn": "2026-10-26T18:47:03Z",
       "side": 1,
       "message": "Once accounts-changed or account-text-changed fires, reviewersMutated stays true for the lifetime of the dialog even if the user removes all added accounts or clears the input text. If a user adds a deferred reviewer in a plugin gr-account-list and removes it before sending, clicking Send will submit an empty ReviewInput (reviewers: [], no comments, no label votes). Consider inspecting e.detail.value (or checking whether any plugin accounts remain) if no built-in reviewer/CC changes exist.",
+      "isAi": true,
+      "revId": "9b9d2ea5b2550a6183df7aeecfa6a564f62baf5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1897baa3_72f0ffdf",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T20:43:56Z",
+      "side": 1,
+      "message": "Done. When accounts-changed reports an empty array, reviewersMutated resets to hasBuiltInReviewerMutations().",
+      "parentUuid": "f49063a2_7248e8db",
       "isAi": true,
       "revId": "9b9d2ea5b2550a6183df7aeecfa6a564f62baf5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

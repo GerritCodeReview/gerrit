@@ -4813,6 +4813,9 @@ a change's author date will be changed to match its submitter date upon submit.
 |`state`                     |optional|
 The state of the project, can be `ACTIVE`, `READ_ONLY` or `HIDDEN`. +
 Not set if the project state is `ACTIVE`.
+|`ref_storage`               ||
+The ref storage format of the project's repository (`FILES` or
+`REFTABLE`). The request fails if the repository cannot be opened.
 |`commentlinks`              ||
 Map with the comment link configurations of the project. The name of
 the comment link configuration is mapped to a link:#commentlink-info[

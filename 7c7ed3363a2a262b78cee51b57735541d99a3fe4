@@ -16,6 +16,24 @@
       "message": "What happens if the repository is migrated from `files` to `reftable`?\nWe should also take the repository config snapshot into account.",
       "revId": "7c7ed3363a2a262b78cee51b57735541d99a3fe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f0599e7_962a499e",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-26T08:26:43Z",
+      "side": 1,
+      "message": "I see the removal from the in-memory map when the conversion happens inside Gerrit; however, a repository could also be converted behind Gerrit\u0027s back.",
+      "parentUuid": "dbe80e6b_77ec45cc",
+      "revId": "7c7ed3363a2a262b78cee51b57735541d99a3fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

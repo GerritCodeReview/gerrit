@@ -87,6 +87,7 @@ import {
   ProjectInfoWithName,
   ProjectInput,
   ProjectWatchInfo,
+  RefStorage,
   RelatedChangesInfo,
   RepoAccessInfoMap,
   RepoName,
@@ -1756,6 +1757,23 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       }),
       url: `/projects/${encodeURIComponent(repo)}/HEAD`,
       anonymizedUrl: '/projects/*/HEAD',
+      reportServerError: true,
+    });
+  }
+
+  convertRepoRefStorage(repo: RepoName, refStorage: RefStorage) {
+    // Invalidate the cached project config so the reload after a conversion
+    // reflects the new ref storage format.
+    this._cache.delete(`/projects/${encodeURIComponent(repo)}/config`);
+    return this._restApiHelper.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        // No backup: delete the old ref storage, matching git refs migrate, so
+        // a round-trip conversion is not blocked by a leftover reftable dir.
+        body: {ref_storage: refStorage, backup: false},
+      }),
+      url: `/projects/${encodeURIComponent(repo)}/convert-ref-storage`,
+      anonymizedUrl: '/projects/*/convert-ref-storage',
       reportServerError: true,
     });
   }

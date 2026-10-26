@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.RefStorageInput;
 import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import java.io.File;
@@ -115,6 +116,91 @@ public class ReftableProjectIT extends AbstractDaemonTest {
         .isEqualTo(RefStorage.REFTABLE);
   }
 
+  @Test
+  public void convertFilesProjectToReftable() throws Exception {
+    Project.NameKey name = Project.nameKey(name("to-convert"));
+    gApi.projects().create(name.get());
+
+    try (Repository repo = repoManager.openRepository(name)) {
+      assertThat(
+              repo.getConfig()
+                  .getInt(
+                      ConfigConstants.CONFIG_CORE_SECTION,
+                      null,
+                      ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION,
+                      0))
+          .isEqualTo(0);
+    }
+
+    RefStorageInput in = new RefStorageInput();
+    in.refStorage = "REFTABLE";
+    adminRestSession.put("/projects/" + name.get() + "/ref-storage", in).assertOK();
+
+    try (Repository repo = repoManager.openRepository(name)) {
+      assertReftable(repo);
+      assertThat(repo.exactRef(RefNames.REFS_CONFIG)).isNotNull();
+      assertThat(new File(repo.getDirectory(), "refs.old").exists()).isTrue();
+    }
+  }
+
+  @Test
+  public void convertReftableProjectBackToFiles() throws Exception {
+    Project.NameKey name = Project.nameKey(name("to-revert"));
+    ProjectInput create = new ProjectInput();
+    create.name = name.get();
+    create.refStorage = RefStorage.REFTABLE;
+    create.createEmptyCommit = true;
+    gApi.projects().create(create);
+
+    RefStorageInput in = new RefStorageInput();
+    in.refStorage = "FILES";
+    adminRestSession.put("/projects/" + name.get() + "/ref-storage", in).assertOK();
+
+    try (Repository repo = repoManager.openRepository(name)) {
+      assertFiles(repo);
+      assertThat(repo.exactRef(Constants.R_HEADS + Constants.MASTER)).isNotNull();
+      assertThat(repo.exactRef(RefNames.REFS_CONFIG)).isNotNull();
+    }
+    assertThat(gApi.projects().name(name.get()).config().refStorage).isEqualTo(RefStorage.FILES);
+  }
+
+  @Test
+  public void convertRefusedWhenAlreadyInTargetFormat() throws Exception {
+    Project.NameKey name = Project.nameKey(name("already-files"));
+    gApi.projects().create(name.get());
+
+    RefStorageInput in = new RefStorageInput();
+    in.refStorage = "FILES";
+    adminRestSession.put("/projects/" + name.get() + "/ref-storage", in).assertConflict();
+  }
+
+  @Test
+  public void conversionRequiresServerAdministrator() throws Exception {
+    Project.NameKey name = Project.nameKey(name("conversion-permission"));
+    gApi.projects().create(name.get());
+    RefStorageInput input = new RefStorageInput();
+    input.refStorage = "REFTABLE";
+
+    userRestSession.put("/projects/" + name.get() + "/ref-storage", input).assertForbidden();
+    assertThat(gApi.projects().name(name.get()).config().refStorage).isEqualTo(RefStorage.FILES);
+  }
+
+  @Test
+  public void conversionCanDiscardBackup() throws Exception {
+    Project.NameKey name = Project.nameKey(name("conversion-no-backup"));
+    gApi.projects().create(name.get());
+    RefStorageInput input = new RefStorageInput();
+    input.refStorage = "REFTABLE";
+    input.backup = false;
+
+    adminRestSession.put("/projects/" + name.get() + "/ref-storage", input).assertOK();
+    try (Repository repo = repoManager.openRepository(name)) {
+      assertReftable(repo);
+      assertThat(repo.exactRef(RefNames.REFS_CONFIG)).isNotNull();
+      assertThat(new File(repo.getDirectory(), "refs.old").exists()).isFalse();
+    }
+  }
+
   private static void assertReftable(Repository repo) {
     assertThat(
             repo.getConfig()
@@ -132,5 +218,23 @@ public class ReftableProjectIT extends AbstractDaemonTest {
                     ConfigConstants.CONFIG_KEY_REF_STORAGE))
         .isEqualTo(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE);
     assertThat(new File(repo.getDirectory(), "logs/" + RefNames.REFS_CONFIG).exists()).isFalse();
+  }
+
+  private static void assertFiles(Repository repo) {
+    assertThat(
+            repo.getConfig()
+                .getInt(
+                    ConfigConstants.CONFIG_CORE_SECTION,
+                    null,
+                    ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION,
+                    0))
+        .isEqualTo(0);
+    assertThat(
+            repo.getConfig()
+                .getString(
+                    ConfigConstants.CONFIG_EXTENSIONS_SECTION,
+                    null,
+                    ConfigConstants.CONFIG_KEY_REF_STORAGE))
+        .isNull();
   }
 }

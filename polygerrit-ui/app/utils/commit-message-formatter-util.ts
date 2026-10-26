@@ -31,8 +31,23 @@ export enum ErrorType {
 const MAX_SUBJECT_LENGTH = 72;
 const MAX_LINE_LENGTH = 72;
 const INDENTATION_THRESHOLD = 4;
-const BULLET_POINT_REGEX = /^\s*[-+*#]\s/;
+const COMMENT_LINE_REGEX = /^\s*#\s/;
+const LIST_ITEM_REGEX = /^(\s*(?:[-+*]|\d{1,3}[.)])\s+)(\S.*)$/;
 const FOOTER_REGEX = /^([\w-]+)(?::[ \t]+|=)(.*)$/;
+
+interface ListItem {
+  prefix: string;
+  lines: string[];
+  lastRawLine: string;
+}
+
+function getLeadingSpacesCount(line: string): number {
+  return line.length - line.trimStart().length;
+}
+
+function getListIndentThreshold(prefixLength: number): number {
+  return Math.max(INDENTATION_THRESHOLD, prefixLength + 1);
+}
 
 /*
  * Check if last line of "Body" follows the "footer" format and if yes, then transfer it to the "footer section"
@@ -89,105 +104,265 @@ function formatSubject(subject: string): string {
 function formatBody(body: string[]): string[] {
   let inCodeBlock = false;
   let paragraphLines: string[] = [];
+  let currentListItem: ListItem | null = null;
   const formattedBody: string[] = [];
-  let previousWasBulletPoint = false;
   let previousWasEmpty = true; // Track if previous line was empty
 
-  for (const line of body) {
+  const flushParagraph = () => {
+    if (paragraphLines.length > 0) {
+      formattedBody.push(...splitParagraph(paragraphLines.join(' ')));
+      paragraphLines = [];
+    }
+  };
+
+  const flushListItem = () => {
+    if (currentListItem !== null) {
+      if (
+        currentListItem.lines.length === 1 &&
+        currentListItem.lastRawLine.length <= MAX_LINE_LENGTH
+      ) {
+        formattedBody.push(currentListItem.lastRawLine);
+      } else {
+        formattedBody.push(
+          ...splitLinesWithIndent(
+            currentListItem.lines.join(' '),
+            currentListItem.prefix,
+            ' '.repeat(currentListItem.prefix.length)
+          )
+        );
+      }
+      currentListItem = null;
+    }
+  };
+
+  for (let i = 0; i < body.length; i++) {
+    const line = body[i];
     if (line.trim().startsWith('```')) {
+      flushParagraph();
+      flushListItem();
       inCodeBlock = !inCodeBlock;
       formattedBody.push(line.trimEnd());
       previousWasEmpty = false;
       continue;
     }
 
-    if (inCodeBlock || isUntouchedLine(line, previousWasEmpty)) {
-      if (!inCodeBlock) {
-        previousWasBulletPoint = BULLET_POINT_REGEX.test(line);
-      }
-      if (paragraphLines.length > 0) {
-        formattedBody.push(...splitParagraph(paragraphLines.join(' ')));
-      }
-      paragraphLines = []; // Reset paragraph
-      formattedBody.push(line.trimEnd());
-      previousWasEmpty = false;
-      continue;
-    }
-
-    if (previousWasBulletPoint && line.startsWith('  ')) {
+    if (inCodeBlock) {
       formattedBody.push(line.trimEnd());
       previousWasEmpty = false;
       continue;
     }
 
     if (line.trim() === '') {
-      if (paragraphLines.length > 0) {
-        formattedBody.push(...splitParagraph(paragraphLines.join(' ')));
-        paragraphLines = [];
-      }
+      flushParagraph();
+      flushListItem();
       formattedBody.push('');
-      previousWasBulletPoint = false;
       previousWasEmpty = true;
-    } else {
-      paragraphLines.push(line.trim());
-      previousWasEmpty = false;
+      continue;
     }
+
+    const indentThreshold: number =
+      currentListItem !== null
+        ? getListIndentThreshold(currentListItem.prefix.length)
+        : INDENTATION_THRESHOLD;
+
+    const leadingSpaces = getLeadingSpacesCount(line);
+    const listMatch =
+      leadingSpaces < indentThreshold &&
+      canStartListItem(paragraphLines, leadingSpaces, line, body[i + 1])
+        ? line.trimEnd().match(LIST_ITEM_REGEX)
+        : null;
+    if (listMatch) {
+      flushParagraph();
+      flushListItem();
+      currentListItem = {
+        prefix: listMatch[1],
+        lines: [listMatch[2].trim()],
+        lastRawLine: line.trimEnd(),
+      };
+      previousWasEmpty = false;
+      continue;
+    }
+
+    if (isUntouchedCodeOrQuoteLine(line, indentThreshold)) {
+      flushParagraph();
+      flushListItem();
+      formattedBody.push(line.trimEnd());
+      previousWasEmpty = false;
+      continue;
+    }
+
+    if (currentListItem !== null) {
+      if (
+        leadingSpaces > 0 ||
+        isUnindentedListContinuation(currentListItem, line)
+      ) {
+        currentListItem.lines.push(line.trim());
+        currentListItem.lastRawLine = line.trimEnd();
+        previousWasEmpty = false;
+        continue;
+      }
+      flushListItem();
+    }
+
+    const nextLine = body[i + 1];
+    const nextLineIsIndented =
+      nextLine !== undefined &&
+      nextLine.trim() !== '' &&
+      getLeadingSpacesCount(nextLine) > 0;
+
+    if (
+      leadingSpaces > 0 &&
+      leadingSpaces < INDENTATION_THRESHOLD &&
+      (!previousWasEmpty || nextLineIsIndented)
+    ) {
+      flushParagraph();
+      formattedBody.push(...formatIndentedLine(line, leadingSpaces));
+      previousWasEmpty = false;
+      continue;
+    }
+
+    paragraphLines.push(line.trim());
+    previousWasEmpty = false;
   }
 
-  if (paragraphLines.length > 0) {
-    formattedBody.push(...splitParagraph(paragraphLines.join(' ')));
-  }
+  flushParagraph();
+  flushListItem();
 
   return removeConsecutiveBlankLines(formattedBody);
+}
+
+function canStartListItem(
+  paragraphLines: string[],
+  leadingSpaces: number,
+  line: string,
+  nextLine: string | undefined
+): boolean {
+  if (paragraphLines.length === 0 || leadingSpaces > 0) {
+    return true;
+  }
+  const backtickCount = (paragraphLines.join(' ').match(/`/g) || []).length;
+  if (backtickCount % 2 !== 0) {
+    return false;
+  }
+  const lastParagraphLine = paragraphLines[paragraphLines.length - 1];
+  const firstWord = line.trim().split(/\s+/)[0] || '';
+  if (
+    lastParagraphLine.length + 1 + firstWord.length > 60 &&
+    !/[.:;!?)]$/.test(lastParagraphLine)
+  ) {
+    const nextIsUnindentedNonList =
+      nextLine !== undefined &&
+      nextLine.trim() !== '' &&
+      getLeadingSpacesCount(nextLine) === 0 &&
+      !LIST_ITEM_REGEX.test(nextLine.trimEnd());
+    if (nextIsUnindentedNonList) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isUnindentedListContinuation(
+  listItem: ListItem,
+  line: string
+): boolean {
+  if (getLeadingSpacesCount(listItem.prefix) > 0) {
+    return false;
+  }
+  const trimmedLine = line.trim();
+  if (
+    (trimmedLine.endsWith(':') && /^[A-Z]/.test(trimmedLine)) ||
+    FOOTER_REGEX.test(trimmedLine)
+  ) {
+    return false;
+  }
+  const lastRawLine = listItem.lastRawLine;
+  if (lastRawLine.includes('://')) {
+    return false;
+  }
+  const firstWord = trimmedLine.split(/\s+/)[0] || '';
+  return (
+    lastRawLine.length + 1 + firstWord.length > 60 &&
+    !/[.:;!?)\]"'`]$/.test(lastRawLine)
+  );
+}
+
+function formatIndentedLine(line: string, leadingSpaces: number): string[] {
+  const trimmedEnd = line.trimEnd();
+  if (
+    trimmedEnd.length <= MAX_LINE_LENGTH ||
+    trimmedEnd.includes('://') ||
+    /^[\w-]+:\s+\S+$/.test(line.trim())
+  ) {
+    return [trimmedEnd];
+  }
+  const indent = ' '.repeat(leadingSpaces);
+  return splitLinesWithIndent(line.trim(), indent, indent);
 }
 
 function formatFooter(footer: string[]): string[] {
   const formattedFooter = footer.map(line => line.trim());
   return removeConsecutiveBlankLines(formattedFooter);
 }
+
 /**
- * Returns true if the line will not be modified by the formatter.
- * For example, quotes, bullet points, and indented lines are untouched.
+ * Returns true if the line is a quote, comment, or indented code line that
+ * should not be modified by the formatter.
  */
-function isUntouchedLine(line: string, previousWasEmpty: boolean): boolean {
-  return (
-    line.trimStart().startsWith('> ') ||
-    (line.length >= INDENTATION_THRESHOLD &&
-      line.substring(0, INDENTATION_THRESHOLD).trim() === '') ||
-    BULLET_POINT_REGEX.test(line) ||
-    // Check if line is part of a list by looking for any indentation,
-    // but only if not first line in paragraph
-    (!previousWasEmpty &&
-      line.trimStart().length > 0 &&
-      line !== line.trimStart())
-  );
+function isUntouchedCodeOrQuoteLine(
+  line: string,
+  indentThreshold = INDENTATION_THRESHOLD
+): boolean {
+  if (line.trimStart().startsWith('> ') || COMMENT_LINE_REGEX.test(line)) {
+    return true;
+  }
+  return getLeadingSpacesCount(line) >= indentThreshold;
 }
 
 function splitParagraph(paragraph: string): string[] {
-  const words = paragraph.split(/\s+/);
+  return splitLinesWithIndent(paragraph);
+}
+
+function splitLinesWithIndent(
+  text: string,
+  firstLinePrefix = '',
+  continuationPrefix = firstLinePrefix
+): string[] {
+  const words = text.trim().split(/\s+/);
+  if (words.length === 0 || (words.length === 1 && words[0] === '')) {
+    return [];
+  }
   const lines: string[] = [];
-  let currentLine = '';
+  let currentPrefix = firstLinePrefix;
+  let currentContent = '';
 
   for (const word of words) {
-    if (word.length > MAX_LINE_LENGTH) {
-      if (currentLine.length > 0) {
-        lines.push(currentLine);
-        currentLine = '';
+    const maxContentLength = Math.max(
+      1,
+      MAX_LINE_LENGTH - currentPrefix.length
+    );
+    if (word.length > maxContentLength) {
+      if (currentContent.length > 0) {
+        lines.push(currentPrefix + currentContent);
+        currentPrefix = continuationPrefix;
+        currentContent = '';
       }
-      lines.push(word);
+      lines.push(currentPrefix + word);
+      currentPrefix = continuationPrefix;
     } else if (
-      currentLine.length > 0 &&
-      currentLine.length + word.length + 1 > MAX_LINE_LENGTH
+      currentContent.length > 0 &&
+      currentContent.length + word.length + 1 > maxContentLength
     ) {
-      lines.push(currentLine);
-      currentLine = word;
+      lines.push(currentPrefix + currentContent);
+      currentPrefix = continuationPrefix;
+      currentContent = word;
     } else {
-      currentLine += (currentLine ? ' ' : '') + word;
+      currentContent += (currentContent ? ' ' : '') + word;
     }
   }
 
-  if (currentLine) {
-    lines.push(currentLine);
+  if (currentContent) {
+    lines.push(currentPrefix + currentContent);
   }
 
   return lines;
@@ -288,15 +463,43 @@ function detectFormattingErrors(
   // Check body
   let lineNumber = 3;
   let inCodeBlock = false;
+  let currentListPrefixLength: number | null = null;
 
   for (const line of message.body) {
     if (line.trim().startsWith('```')) {
       inCodeBlock = !inCodeBlock;
+      currentListPrefixLength = null;
+    } else if (line.trim() === '') {
+      currentListPrefixLength = null;
+    } else if (!inCodeBlock) {
+      const prevIndentThreshold: number =
+        currentListPrefixLength !== null
+          ? getListIndentThreshold(currentListPrefixLength)
+          : INDENTATION_THRESHOLD;
+      const listMatch =
+        getLeadingSpacesCount(line) < prevIndentThreshold
+          ? line.trimEnd().match(LIST_ITEM_REGEX)
+          : null;
+      if (listMatch) {
+        currentListPrefixLength = listMatch[1].length;
+      } else if (
+        currentListPrefixLength !== null &&
+        isUntouchedCodeOrQuoteLine(line, prevIndentThreshold)
+      ) {
+        currentListPrefixLength = null;
+      } else if (getLeadingSpacesCount(line) === 0) {
+        currentListPrefixLength = null;
+      }
     }
+
+    const indentThreshold =
+      currentListPrefixLength !== null
+        ? getListIndentThreshold(currentListPrefixLength)
+        : INDENTATION_THRESHOLD;
 
     if (
       !inCodeBlock &&
-      !isUntouchedLine(line, false) &&
+      !isUntouchedCodeOrQuoteLine(line, indentThreshold) &&
       line.length > MAX_LINE_LENGTH &&
       !line.includes('://') // Don't flag long URLs
     ) {
@@ -325,7 +528,7 @@ function detectFormattingErrors(
 
     if (
       !inCodeBlock &&
-      !isUntouchedLine(line, false) &&
+      !isUntouchedCodeOrQuoteLine(line) &&
       line.length > MAX_LINE_LENGTH &&
       !line.includes('://') // Don't flag long URLs
     ) {
@@ -399,8 +602,22 @@ export function parseCommitMessageString(messageString: string): CommitMessage {
   // Check if footer contains any lines in the format "key: value"
   // If not, move footer lines to body and make footer empty
   // This is typically the case when creating a new commit message and the footer is not yet formatted
+  const isListOrIndentedBlock =
+    footer.some(
+      line =>
+        getLeadingSpacesCount(line) < INDENTATION_THRESHOLD &&
+        LIST_ITEM_REGEX.test(line.trimEnd())
+    ) ||
+    footer.every(line => isUntouchedCodeOrQuoteLine(line)) ||
+    (footer.length > 1 &&
+      footer.every(line => getLeadingSpacesCount(line) > 0)) ||
+    (footer.length > 1 &&
+      footer[0].trim().endsWith(':') &&
+      !FOOTER_REGEX.test(footer[0].trim()));
   const hasFormattedFooterLine = footer.some(line =>
-    FOOTER_REGEX.test(line.trim())
+    isListOrIndentedBlock
+      ? FOOTER_REGEX.test(line.trimEnd())
+      : FOOTER_REGEX.test(line.trim())
   );
   if (!hasFormattedFooterLine && footer.length > 0) {
     // If body is not empty, add a blank line before appending footer

@@ -760,6 +760,19 @@ export class GrReplyDialog extends LitElement {
       const reviewer = e.detail.reviewer;
       this.reviewersList?.removeAccount(reviewer);
     });
+
+    // Plugins on reply-reviewers that render their own gr-account-list (for
+    // example, queuing deferred reviewers into a Gerrit Flow on send rather
+    // than adding them to #reviewers immediately) still need to mark the reply
+    // dialog as mutated so the Send button is enabled when only the plugin's
+    // account list changes.
+    this.addEventListener('accounts-changed', () => {
+      this.reviewersMutated = true;
+    });
+
+    this.addEventListener('account-text-changed', () => {
+      this.handleAccountTextEntry();
+    });
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -862,7 +875,6 @@ export class GrReplyDialog extends LitElement {
           @pending-confirmation-changed=${this
             .handleReviewersConfirmationChanged}
           .placeholder=${'Add reviewer...'}
-          @account-text-changed=${this.handleAccountTextEntry}
           .suggestionsProvider=${this.getReviewerSuggestionsProvider(
             this.change
           )}
@@ -891,7 +903,6 @@ export class GrReplyDialog extends LitElement {
           @pending-confirmation-changed=${this.handleCcsConfirmationChanged}
           allow-any-input
           .placeholder=${'Add CC...'}
-          @account-text-changed=${this.handleAccountTextEntry}
           .suggestionsProvider=${this.getCcSuggestionsProvider(this.change)}
         >
         </gr-account-list>
@@ -1453,136 +1464,141 @@ export class GrReplyDialog extends LitElement {
 
     this.disabled = true;
 
-    const reason = getReplyByReason(this.account, this.serverConfig);
+    try {
+      const reason = getReplyByReason(this.account, this.serverConfig);
 
-    reviewInput.ignore_automatic_attention_set_rules = true;
-    reviewInput.add_to_attention_set = [];
-    const allAccounts = this.allAccounts();
+      reviewInput.ignore_automatic_attention_set_rules = true;
+      reviewInput.add_to_attention_set = [];
+      const allAccounts = this.allAccounts();
 
-    const newAttentionSetAdditions: AccountInfo[] = Array.from(
-      this.newAttentionSet
-    )
-      .filter(user => !this.currentAttentionSet.has(user))
-      .map(user => allAccounts.find(a => getUserId(a) === user))
-      .filter(isDefined);
-
-    const newAttentionSetUsers = (
-      await Promise.all(
-        newAttentionSetAdditions.map(a =>
-          this.getAccountsModel().fillDetails(a)
-        )
+      const newAttentionSetAdditions: AccountInfo[] = Array.from(
+        this.newAttentionSet
       )
-    ).filter(isDefined);
+        .filter(user => !this.currentAttentionSet.has(user))
+        .map(user => allAccounts.find(a => getUserId(a) === user))
+        .filter(isDefined);
 
-    for (const user of newAttentionSetUsers) {
-      const reason =
-        getMentionedReason(
-          this.draftCommentThreads,
-          this.account,
-          user,
-          this.serverConfig
-        ) ?? '';
-      reviewInput.add_to_attention_set.push({user: getUserId(user), reason});
-    }
-    reviewInput.remove_from_attention_set = [];
-    for (const user of this.currentAttentionSet) {
-      if (!this.newAttentionSet.has(user)) {
-        reviewInput.remove_from_attention_set.push({user, reason});
+      const newAttentionSetUsers = (
+        await Promise.all(
+          newAttentionSetAdditions.map(a =>
+            this.getAccountsModel().fillDetails(a)
+          )
+        )
+      ).filter(isDefined);
+
+      for (const user of newAttentionSetUsers) {
+        const reason =
+          getMentionedReason(
+            this.draftCommentThreads,
+            this.account,
+            user,
+            this.serverConfig
+          ) ?? '';
+        reviewInput.add_to_attention_set.push({user: getUserId(user), reason});
       }
-    }
-    this.reportAttentionSetChanges(
-      this.attentionExpanded,
-      reviewInput.add_to_attention_set,
-      reviewInput.remove_from_attention_set
-    );
-
-    if (this.patchsetLevelGrComment) {
-      this.patchsetLevelGrComment.disableAutoSaving = true;
-      await this.restApiService.awaitPendingDiffDrafts();
-      const comment =
-        await this.patchsetLevelGrComment.convertToCommentInputAndOrDiscard();
-      if (comment && comment.path && comment.message) {
-        reviewInput.comments ??= {};
-        reviewInput.comments[comment.path] ??= [];
-        reviewInput.comments[comment.path].push(comment);
+      reviewInput.remove_from_attention_set = [];
+      for (const user of this.currentAttentionSet) {
+        if (!this.newAttentionSet.has(user)) {
+          reviewInput.remove_from_attention_set.push({user, reason});
+        }
       }
-    }
+      this.reportAttentionSetChanges(
+        this.attentionExpanded,
+        reviewInput.add_to_attention_set,
+        reviewInput.remove_from_attention_set
+      );
 
-    assertIsDefined(this.change, 'change');
-    reviewInput.reviewers = this.computeReviewers();
-    this.reportStartReview(reviewInput);
+      if (this.patchsetLevelGrComment) {
+        this.patchsetLevelGrComment.disableAutoSaving = true;
+        await this.restApiService.awaitPendingDiffDrafts();
+        const comment =
+          await this.patchsetLevelGrComment.convertToCommentInputAndOrDiscard();
+        if (comment && comment.path && comment.message) {
+          reviewInput.comments ??= {};
+          reviewInput.comments[comment.path] ??= [];
+          reviewInput.comments[comment.path].push(comment);
+        }
+      }
 
-    const errFn = (r?: Response | null) => this.handle400Error(r);
-    if (
-      !(await this.getPluginLoader().jsApiService.handleBeforeReplySent(
-        this.change,
-        reviewInput
-      ))
-    )
+      assertIsDefined(this.change, 'change');
+      reviewInput.reviewers = this.computeReviewers();
+      this.reportStartReview(reviewInput);
+
+      const errFn = (r?: Response | null) => this.handle400Error(r);
+      if (
+        !(await this.getPluginLoader().jsApiService.handleBeforeReplySent(
+          this.change,
+          reviewInput
+        ))
+      ) {
+        return;
+      }
+      // ChangeModel will be updated once the reply returns at which point the
+      // timer will be ended.
+      this.reporting.time(Timing.SEND_REPLY);
+      this.getNavigation().blockNavigation('sending review');
+      const networkTimer = this.reporting.getTimer('SendReply - network');
+      await this.saveReview(reviewInput, errFn)
+        .then(result => {
+          networkTimer.end();
+
+          // change-info is not set only if request resulted in error.
+          if (!result?.change_info) {
+            return;
+          }
+
+          // saveReview response don't contain revision information, if the
+          // newer patchset was uploaded in the meantime, we should reload.
+          const reloadRequired =
+            result.change_info.current_revision_number !==
+            this.change?.current_revision_number;
+          // Update the state right away to update comments, even if the full
+          // reload is scheduled right after.
+          const updatedChange = {
+            ...result.change_info,
+            revisions: this.change?.revisions,
+            current_revision: this.change?.current_revision,
+            current_revision_number: this.change?.current_revision_number,
+          };
+          const parseTimer = this.reporting.getTimer('SendReply - parse');
+          this.getChangeModel().updateStateChange(
+            GrReviewerUpdatesParser.parse(updatedChange as ChangeViewChangeInfo)
+          );
+          parseTimer.end();
+          if (reloadRequired) {
+            fireReload(this);
+          } else {
+            // Only reload submittability if the full reload is not triggered, to
+            // avoid duplicate requests.
+            this.getChangeModel().reloadSubmittability();
+          }
+
+          this.patchsetLevelDraftMessage = '';
+          this.includeComments = true;
+          fireNoBubble(this, 'send', {});
+          fireIronAnnounce(this, 'Reply sent');
+          const pluginAfterTimer = this.reporting.getTimer(
+            'SendReply - pluginAfter'
+          );
+          this.getPluginLoader().jsApiService.handleReplySent();
+          pluginAfterTimer.end();
+        })
+        .finally(async () => {
+          this.getNavigation().releaseNavigation('sending review');
+          // The request finished and reloads if necessary are asynchronously
+          // scheduled.
+          this.reporting.timeEnd(Timing.SEND_REPLY);
+          if (this.autosubmitChecked) {
+            await this.getFlowsModel().createAutosubmitFlow();
+          }
+        });
       return;
-    // ChangeModel will be updated once the reply returns at which point the
-    // timer will be ended.
-    this.reporting.time(Timing.SEND_REPLY);
-    this.getNavigation().blockNavigation('sending review');
-    const networkTimer = this.reporting.getTimer('SendReply - network');
-    return this.saveReview(reviewInput, errFn)
-      .then(result => {
-        networkTimer.end();
-
-        // change-info is not set only if request resulted in error.
-        if (!result?.change_info) {
-          return;
-        }
-
-        // saveReview response don't contain revision information, if the
-        // newer patchset was uploaded in the meantime, we should reload.
-        const reloadRequired =
-          result.change_info.current_revision_number !==
-          this.change?.current_revision_number;
-        // Update the state right away to update comments, even if the full
-        // reload is scheduled right after.
-        const updatedChange = {
-          ...result.change_info,
-          revisions: this.change?.revisions,
-          current_revision: this.change?.current_revision,
-          current_revision_number: this.change?.current_revision_number,
-        };
-        const parseTimer = this.reporting.getTimer('SendReply - parse');
-        this.getChangeModel().updateStateChange(
-          GrReviewerUpdatesParser.parse(updatedChange as ChangeViewChangeInfo)
-        );
-        parseTimer.end();
-        if (reloadRequired) {
-          fireReload(this);
-        } else {
-          // Only reload submittability if the full reload is not triggered, to
-          // avoid duplicate requests.
-          this.getChangeModel().reloadSubmittability();
-        }
-
-        this.patchsetLevelDraftMessage = '';
-        this.includeComments = true;
-        fireNoBubble(this, 'send', {});
-        fireIronAnnounce(this, 'Reply sent');
-        const pluginAfterTimer = this.reporting.getTimer(
-          'SendReply - pluginAfter'
-        );
-        this.getPluginLoader().jsApiService.handleReplySent();
-        pluginAfterTimer.end();
-      })
-      .finally(async () => {
-        this.getNavigation().releaseNavigation('sending review');
-        this.disabled = false;
-        if (this.patchsetLevelGrComment) {
-          this.patchsetLevelGrComment.disableAutoSaving = false;
-        }
-        // The request finished and reloads if necessary are asynchronously
-        // scheduled.
-        this.reporting.timeEnd(Timing.SEND_REPLY);
-        if (this.autosubmitChecked) {
-          await this.getFlowsModel().createAutosubmitFlow();
-        }
-      });
+    } finally {
+      this.disabled = false;
+      if (this.patchsetLevelGrComment) {
+        this.patchsetLevelGrComment.disableAutoSaving = false;
+      }
+    }
   }
 
   private reportStartReview(reviewInput: ReviewInput) {

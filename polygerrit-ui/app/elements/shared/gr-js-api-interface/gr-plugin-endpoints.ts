@@ -16,6 +16,7 @@ export interface ModuleInfo {
   type?: EndpointType;
   domHook?: HookApi<PluginElement>;
   slot?: string;
+  order?: number;
 }
 
 /**
@@ -35,6 +36,7 @@ interface Options {
   endpoint: string;
   dynamicEndpoint?: string;
   slot?: string;
+  order?: number;
   type?: EndpointType;
   moduleName?: string;
   domHook?: HookApi<PluginElement>;
@@ -71,7 +73,7 @@ export class GrPluginEndpoints {
   }
 
   _getOrCreateModuleInfo(plugin: PluginApi, opts: Options): ModuleInfo {
-    const {endpoint, slot, type, moduleName, domHook} = opts;
+    const {endpoint, slot, order, type, moduleName, domHook} = opts;
     const existingModule = this._endpoints
       .get(endpoint)!
       .find(
@@ -79,7 +81,8 @@ export class GrPluginEndpoints {
           info.plugin === plugin &&
           info.moduleName === moduleName &&
           info.domHook === domHook &&
-          info.slot === slot
+          info.slot === slot &&
+          info.order === order
       );
     if (existingModule) {
       return existingModule;
@@ -91,6 +94,7 @@ export class GrPluginEndpoints {
         type,
         domHook,
         slot,
+        ...(order !== undefined ? {order} : {}),
       };
       this._endpoints.get(endpoint)!.push(newModule);
       return newModule;
@@ -138,8 +142,12 @@ export class GrPluginEndpoints {
    * endpoint.
    */
   getDetails(name: string): ModuleInfo[] {
-    return (this._endpoints.get(name) ?? []).sort((m1, m2) =>
-      m1.plugin.getPluginName().localeCompare(m2.plugin.getPluginName())
-    );
+    return (this._endpoints.get(name) ?? []).sort((m1, m2) => {
+      const orderDiff =
+        (m1.order ?? Number.MAX_SAFE_INTEGER) -
+        (m2.order ?? Number.MAX_SAFE_INTEGER);
+      if (orderDiff !== 0) return orderDiff;
+      return m1.plugin.getPluginName().localeCompare(m2.plugin.getPluginName());
+    });
   }
 }

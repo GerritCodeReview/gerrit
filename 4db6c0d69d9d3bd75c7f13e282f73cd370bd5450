@@ -25,6 +25,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbfb92c6_c1865226",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-26T22:14:58Z",
+      "side": 1,
+      "message": "Done. Updated GrMainHeader\u0027s ResizeObserver to skip updating --main-header-height when this.hidden || height \u003d\u003d\u003d 0.",
+      "parentUuid": "010b06e7_e408161f",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "4db6c0d69d9d3bd75c7f13e282f73cd370bd5450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea65e37d_6c2cabde",
@@ -38,6 +63,31 @@
       "writtenOn": "2026-10-26T18:23:54Z",
       "side": 1,
       "message": "If a plugin registers an `EndpointType.REPLACE` module before `awaitPluginsLoaded()` resolves, `GrPluginEndpoints.registerModule` now invokes the `onNewEndpoint` callback immediately (and this microtask also initializes already-registered `REPLACE` modules). However, any `EndpointType.DECORATE` module registered on the same endpoint (or registered later before `awaitPluginsLoaded()`) will still run in the `awaitPluginsLoaded().then(...)` loop below and append its decoration element into the replaced endpoint. Should `initModule` skip `DECORATE` modules once a `REPLACE` module has already been initialized on this decorator?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "4db6c0d69d9d3bd75c7f13e282f73cd370bd5450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc6af20e_be41f8b1",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-26T22:14:58Z",
+      "side": 1,
+      "message": "Done. Tracked hasReplacement in GrEndpointDecorator and skipped EndpointType.DECORATE modules once a REPLACE module has been initialized.",
+      "parentUuid": "ea65e37d_6c2cabde",
       "range": {
         "startLine": 59,
         "startChar": 0,
@@ -73,6 +123,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98847b19_7c806c34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-26T22:14:58Z",
+      "side": 1,
+      "message": "Done. Passed an explicit onerror handler to the fallback createScriptTag(urlWithoutAP, ...) call in loadJsPlugin.",
+      "parentUuid": "5a3bac09_8bd2ec66",
+      "range": {
+        "startLine": 356,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "4db6c0d69d9d3bd75c7f13e282f73cd370bd5450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbbb1a79_af73090b",
@@ -86,6 +161,31 @@
       "writtenOn": "2026-10-26T18:23:54Z",
       "side": 1,
       "message": "When Gerrit is served under a subpath (`window.CANONICAL_PATH`), `IndexHtmlUtil.dynamicTemplateData` prefixes the keys in `window.INITIAL_DATA` with the canonical path (e.g. `\"${canonicalPath}/config/server/info\"` and `\"${canonicalPath}/accounts/self/preferences\"`), which is why `SiteBasedCache` uses `addBaseUrl(key)`. Indexing `window.INITIAL_DATA?.[\u0027/config/server/info\u0027]` directly (here and in `PluginsModel`, and `/accounts/self/preferences` in `UserModel`) will miss on instances with a non-empty `getBaseUrl()`. Consider looking up `${getBaseUrl()}/config/server/info` (or reading through a shared helper).",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "4db6c0d69d9d3bd75c7f13e282f73cd370bd5450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63517d7_708c5a3f",
+        "filename": "polygerrit-ui/app/models/config/config-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-26T22:14:58Z",
+      "side": 1,
+      "message": "Done. Added getInitialData\u003cT\u003e(path) in url-util.ts that checks ${getBaseUrl()}${path} before falling back to path, and used it across ConfigModel, PluginsModel, and UserModel.",
+      "parentUuid": "cbbb1a79_af73090b",
       "range": {
         "startLine": 77,
         "startChar": 0,

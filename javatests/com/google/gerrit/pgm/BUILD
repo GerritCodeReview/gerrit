@@ -9,6 +9,7 @@ junit_tests(
         "//java/com/google/gerrit/pgm/init/api",
         "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/securestore/testing",
         "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:guava",

@@ -300,7 +300,7 @@ public class JettyServer {
                 SECONDS.convert(MAX_AGE_MINUTES, MINUTES),
                 SECONDS));
 
-    Handler app = makeContext(env, cfg, sessionHandler);
+    Handler app = new ClientDisconnectHandler(makeContext(env, cfg, sessionHandler));
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
       httpd.setRequestLog(httpLogFactory.get());
     }

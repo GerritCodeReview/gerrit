@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_CLIENT_CLOSED_REQUEST;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_REQUEST_TIMEOUT;
 
@@ -27,18 +29,25 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.URI;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 import org.apache.http.message.BasicHeader;
 import org.junit.Test;
 
@@ -64,6 +73,76 @@ public class CancellationIT extends AbstractDaemonTest {
       assertThat(response.getStatusCode()).isEqualTo(SC_CLIENT_CLOSED_REQUEST);
       assertThat(response.getEntityContent()).isEqualTo("Client Closed Request");
     }
+  }
+
+  /**
+   * Sends a GET request over a raw socket, closes the socket while the request is being handled and
+   * verifies that the request is aborted at its next cancellation check.
+   *
+   * <p>The request blocks in an "is:" plugin operand until the server noticed the disconnect. If
+   * the disconnect is never noticed, the operand times out and the request is not aborted.
+   */
+  @Test
+  public void getRequestIsAbortedWhenClientDisconnects() throws Exception {
+    CountDownLatch requestStarted = new CountDownLatch(1);
+    AtomicReference<Boolean> disconnectNoticed = new AtomicReference<>();
+    AtomicReference<Throwable> abortCause = new AtomicReference<>();
+    CountDownLatch requestFinished = new CountDownLatch(1);
+    ChangeIsOperandFactory blockingOperand =
+        builder -> {
+          requestStarted.countDown();
+          try {
+            disconnectNoticed.set(waitUntilCancelled(Duration.ofSeconds(30)));
+            return builder.status("open");
+          } catch (RequestCancelledException e) {
+            abortCause.set(e);
+            throw e;
+          } finally {
+            requestFinished.countDown();
+          }
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(blockingOperand, "block")) {
+      URI uri = URI.create(canonicalWebUrl.get());
+      try (Socket socket = new Socket(uri.getHost(), uri.getPort())) {
+        OutputStream out = socket.getOutputStream();
+        out.write(
+            ("GET /changes/?q=is:block_"
+                    + ExtensionRegistry.PLUGIN_NAME
+                    + " HTTP/1.1\r\nHost: "
+                    + uri.getAuthority()
+                    + "\r\n\r\n")
+                .getBytes(UTF_8));
+        out.flush();
+        assertThat(requestStarted.await(30, SECONDS)).isTrue();
+      }
+      assertThat(requestFinished.await(60, SECONDS)).isTrue();
+    }
+    assertThat(disconnectNoticed.get()).isNull();
+    assertThat(abortCause.get()).isInstanceOf(RequestCancelledException.class);
+    assertThat(((RequestCancelledException) abortCause.get()).getCancellationReason())
+        .isEqualTo(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST);
+  }
+
+  /**
+   * Calls {@link RequestStateContext#abortIfCancelled()} until the request is cancelled or the
+   * timeout expires.
+   *
+   * @return {@code false} if the timeout expired
+   * @throws RequestCancelledException if the request is cancelled
+   */
+  private static boolean waitUntilCancelled(Duration timeout) throws RequestCancelledException {
+    long deadline = System.nanoTime() + timeout.toNanos();
+    while (System.nanoTime() < deadline) {
+      RequestStateContext.abortIfCancelled();
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        return false;
+      }
+    }
+    return false;
   }
 
   @Test

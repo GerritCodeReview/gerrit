@@ -105,6 +105,7 @@ import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.account.UserKind;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cancellation.ClientDisconnectedRequestState;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
@@ -367,6 +368,10 @@ public class RestApiServlet extends HttpServlet {
                   .addRequestStateProvider(
                       globals.deadlineCheckerFactory.create(
                           requestInfo, req.getHeader(X_GERRIT_DEADLINE)))) {
+        if (req.getAttribute(ClientDisconnectedRequestState.REQUEST_ATTRIBUTE)
+            instanceof ClientDisconnectedRequestState clientDisconnectedRequestState) {
+          requestStateContext.addRequestStateProvider(clientDisconnectedRequestState);
+        }
         traceRequestData(req);
 
         if (corsResponder.filterCorsPreflight(req, res)) {

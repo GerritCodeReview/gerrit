@@ -19,6 +19,12 @@ waiting for the response, Gerrit shouldn't spend resources to compute it.
 Detecting cancelled requests is not easily possible with all protocols that a
 client may use.
 
+For REST requests over HTTP/1.x (with or without TLS) Gerrit detects that the
+client closed the connection only for `GET` and `HEAD` requests without a request
+body, and only when Gerrit runs with its built-in Jetty server. If Gerrit runs
+behind a reverse proxy, the proxy must close its connection to Gerrit when the
+client disconnects for this to work.
+
 [[server-side-deadlines]]
 == Server-side deadlines
 

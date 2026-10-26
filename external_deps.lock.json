@@ -32,7 +32,7 @@
     "com.google.j2objc:j2objc-annotations": -758748938,
     "com.google.jimfs:jimfs": 643103458,
     "com.google.protobuf:protobuf-java": -226930769,
-    "com.google.template:soy": -1535457660,
+    "com.google.template:soy": 830313674,
     "com.google.truth.extensions:truth-java8-extension": -1498654531,
     "com.google.truth.extensions:truth-liteproto-extension": 1845738777,
     "com.google.truth.extensions:truth-proto-extension": -385644437,
@@ -299,8 +299,8 @@
     "com.google.jsinterop:jsinterop-annotations:jar:sources": 694679492,
     "com.google.protobuf:protobuf-java": -1812001120,
     "com.google.protobuf:protobuf-java:jar:sources": -322237137,
-    "com.google.template:soy": -1697452681,
-    "com.google.template:soy:jar:sources": 895044971,
+    "com.google.template:soy": -564082616,
+    "com.google.template:soy:jar:sources": 613026710,
     "com.google.truth.extensions:truth-java8-extension": 456440921,
     "com.google.truth.extensions:truth-java8-extension:jar:sources": 1257445795,
     "com.google.truth.extensions:truth-liteproto-extension": -1538959201,
@@ -892,10 +892,10 @@
     },
     "com.google.template:soy": {
       "shasums": {
-        "jar": "f68ae7f2daa8c343075210a21014ccdf042435a2d5c0dacb39f7a78b8ea88491",
-        "sources": "0e886bf691a90d0fbe9e19e3a0eec5c7e72e4386f209e86988b6e867ba1e4441"
+        "jar": "becacbd2df937cd4416e7aa683144946048cfaa479bff54d33b0c8ca60a8fda8",
+        "sources": "f9e1cbe8c77bb4d34e2de6f303d0f24aa4781371c4dd4880deb001d83c809a37"
       },
-      "version": "2024-01-30"
+      "version": "2024-02-26"
     },
     "com.google.truth.extensions:truth-java8-extension": {
       "shasums": {

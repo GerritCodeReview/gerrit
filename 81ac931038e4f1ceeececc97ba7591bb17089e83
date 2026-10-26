@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e4d7a59_150fd662",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-26T08:28:28Z",
+      "side": 1,
+      "message": "This change is about supporting the creation of a project with reftable: why don\u0027t we also account for `RefStorage.REFTABLE` here?",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 60
+      },
+      "revId": "81ac931038e4f1ceeececc97ba7591bb17089e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

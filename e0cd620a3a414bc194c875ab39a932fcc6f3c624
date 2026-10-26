@@ -69,6 +69,24 @@
       "parentUuid": "5d5c0482_b227dad3",
       "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ba0b753_f75d774c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-26T19:23:03Z",
+      "side": 1,
+      "message": "So, what should Gerrit 3.15 track in JGit? We\u0027re already 15 commits ahead of JGit 7.8, though I think we could backport the subset of those that are user-facing if we wanted to move to tracking stable-7.8.\n\n```\n$ git log --no-merges --oneline origin/stable-7.8..87eaf6628b8e\n87eaf6628 Bazel: Stamp the JGit CLI package jar\n22c96c586 Bazel: Make JGit non-stamped by default\n221b5269c Remove org.eclipse.jgit.ssh.jsch\nbc1df3730 Config: support commitgraph.changedPathsVersion config\nbf0b64f10 CommitGraphLoader: control CPF reading with an int\n0e3222f47 StartGenerator: Revert back to TopoSortGenerator\n87ec21000 Bump rules_java to 9.9.0 and run Java tools on JDK 21\n6dda6dddd Fix JdkObsolete in main code; relax the check in tests\nda6ee4a90 Demote ReferenceEquality Error Prone check from ERROR to WARN\nbb0d80f08 Bazel: Cover the ant tasks bundle and its tests\n5e2dfde45 CommitGraphWriter: Write correct version in commit-graph changePathFilters\n6c3b52d56 Maven: Align Commons IO coordinate with Bazel and Tycho\n941c6f04f Use the default C++ toolchain for RBE instead of rbe_autoconfig\na65990c73 InterruptTimer: fix spurious interrupt when begin() reuses same timeout\nc5656ab3a Prepare 7.9.0-SNAPSHOT builds\n```",
+      "parentUuid": "350a7a0c_cedcac42",
+      "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

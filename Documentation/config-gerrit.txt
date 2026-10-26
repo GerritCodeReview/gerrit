@@ -2689,9 +2689,9 @@ refs are checked and potentially read at least once per request
 (lazily) if needed. This helps reduce the overhead of checking if
 the packed-refs file is outdated.
 +
-Repositories using the reftable format cannot be served while this cache
-is enabled. Set this option to `false` and restart Gerrit before serving
-reftable repositories.
+Reftable repositories skip this cache automatically, because reftable
+reads are already atomic. The cache stays active for the files backend,
+so both formats can be served together without changing this option.
 +
 Default is `true`.
 

@@ -123,6 +123,24 @@
       "parentUuid": "3c5d17af_9a8ba478",
       "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b1dcf7_67013148",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-26T23:22:01Z",
+      "side": 1,
+      "message": "Sure, Gerrit can consume stable-7.9 from source.\nThis way we can avoid backporting features from stable-7.9 back to stable-7.8.\nWith that approach fixes from older versions should be merged up via stable-7.8 to stable-7.9 to master",
+      "parentUuid": "9a241ee0_03aae4e9",
+      "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

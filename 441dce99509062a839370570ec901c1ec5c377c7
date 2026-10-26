@@ -34,6 +34,24 @@
       "parentUuid": "af8a4b2e_e4813c3e",
       "revId": "441dce99509062a839370570ec901c1ec5c377c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a3ed77b_6ed0ca30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-26T19:26:03Z",
+      "side": 1,
+      "message": "This change and the whole series hete is a cherry-pick from master branch, where it was already approved (LC+1) by Milutin.\n\nThis is just a backport to include those updates in the upcoming 3.15 release.",
+      "parentUuid": "06f26971_bcdfe2ec",
+      "revId": "441dce99509062a839370570ec901c1ec5c377c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

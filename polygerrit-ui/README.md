@@ -8,6 +8,7 @@ where applicable. The most important command is:
 git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
 ```
 
+
 The `--recurse-submodules` option is needed on `git clone` to ensure that the
 core plugins, which are included as git submodules, are also cloned.
 

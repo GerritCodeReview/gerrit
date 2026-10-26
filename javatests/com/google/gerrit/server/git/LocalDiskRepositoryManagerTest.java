@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager.Status;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileReftableDatabase;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -86,6 +88,67 @@ public class LocalDiskRepositoryManagerTest {
     }
     assertThat(repoManager.getRepositoryStatus(projectA)).isEqualTo(Status.ACTIVE);
     assertThat(repoManager.list()).containsExactly(projectA);
+  }
+
+  @Test
+  public void createsRequestedRefStorage() throws Exception {
+    try (Repository repo =
+        repoManager.createRepository(Project.nameKey("files"), RefStorage.FILES)) {
+      assertThat(repo.getRefDatabase()).isInstanceOf(RefDirectory.class);
+    }
+    try (Repository repo =
+        repoManager.createRepository(Project.nameKey("reftable"), RefStorage.REFTABLE)) {
+      assertThat(repo.getRefDatabase()).isInstanceOf(FileReftableDatabase.class);
+    }
+  }
+
+  @Test
+  public void conversionInvalidatesCachedRepositoryAndDetectsNoOp() throws Exception {
+    Project.NameKey name = Project.nameKey("manager-conversion");
+    repoManager.createRepository(name).close();
+    repoManager.openRepository(name).close();
+    assertThat(repoManager.convertRefStorage(name, RefStorageFormat.REFTABLE, true, false))
+        .isTrue();
+    assertThat(repoManager.convertRefStorage(name, RefStorageFormat.REFTABLE, true, false))
+        .isFalse();
+    try (PerThreadCache ignored = PerThreadCache.create();
+        Repository repo = repoManager.openRepository(name)) {
+      assertThat(repo.getRefDatabase()).isInstanceOf(FileReftableDatabase.class);
+    }
+    assertThat(repoManager.convertRefStorage(name, RefStorageFormat.FILES, true, false)).isTrue();
+    try (PerThreadCache ignored = PerThreadCache.create();
+        Repository repo = repoManager.openRepository(name)) {
+      assertThat(repo.getRefDatabase()).isInstanceOf(RefDirectory.class);
+    }
+  }
+
+  @Test
+  public void conversionPreservesDelegateRepositoryHook() throws Exception {
+    Project.NameKey name = Project.nameKey("delegated-conversion");
+    repoManager.createRepository(name).close();
+    AtomicBoolean called = new AtomicBoolean();
+    LocalDiskRepositoryManager wrappedManager =
+        new LocalDiskRepositoryManager(site, cfg) {
+          @Override
+          public Repository openRepository(Project.NameKey project)
+              throws RepositoryNotFoundException {
+            return new DelegateRepository(super.openRepository(project)) {
+              @Override
+              public void convertRefStorage(String format, boolean writeLogs, boolean backup)
+                  throws IOException {
+                called.set(true);
+                super.convertRefStorage(format, writeLogs, backup);
+              }
+            };
+          }
+        };
+
+    assertThat(wrappedManager.convertRefStorage(name, RefStorageFormat.REFTABLE, true, false))
+        .isTrue();
+    assertThat(called.get()).isTrue();
+    try (Repository repo = repoManager.openRepository(name)) {
+      assertThat(repo.getRefDatabase()).isInstanceOf(FileReftableDatabase.class);
+    }
   }
 
   @Test

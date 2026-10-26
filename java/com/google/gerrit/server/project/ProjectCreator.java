@@ -157,7 +157,7 @@ public class ProjectCreator {
                     if (!status.equals(Status.NON_EXISTENT)) {
                       throw new RepositoryExistsException(nameKey, "Repository status: " + status);
                     }
-                    try (Repository repo = repoManager.createRepository(nameKey)) {
+                    try (Repository repo = repoManager.createRepository(nameKey, args.refStorage)) {
                       initProject(nameKey, repo, args);
                       return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
                     }

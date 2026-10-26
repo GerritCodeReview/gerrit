@@ -5545,6 +5545,11 @@ created but the project initialization was not done. Note, that this does not
 override any existing project configuration. If a conflicting configuration
 already exists the request is rejected with `409 Conflict`. The default is
 `false`.
+|`ref_storage`               |optional|
+The ref storage format for the project's repository (`FILES`,
+`REFTABLE`). +
+If not set, the repository manager selects the format. Local disk storage
+uses JGit's init defaults, falling back to `FILES`.
 |=========================================
 
 [[project-parent-input]]

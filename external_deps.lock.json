@@ -122,8 +122,8 @@
     "javax.servlet:javax.servlet-api": -1317726989,
     "junit:junit": 1633899997,
     "log4j:log4j": 182326902,
-    "net.bytebuddy:byte-buddy": -2085665942,
-    "net.bytebuddy:byte-buddy-agent": -85049742,
+    "net.bytebuddy:byte-buddy": 401846891,
+    "net.bytebuddy:byte-buddy-agent": -1892504205,
     "net.java.dev.jna:jna": -867910362,
     "net.java.dev.jna:jna-platform": -561312286,
     "net.minidev:json-smart": -1322128591,
@@ -387,10 +387,10 @@
     "junit:junit:jar:sources": 940567721,
     "me.qmx.jitescript:jitescript": -483352198,
     "me.qmx.jitescript:jitescript:jar:sources": 1920201576,
-    "net.bytebuddy:byte-buddy": -1914258003,
-    "net.bytebuddy:byte-buddy-agent": 682658697,
-    "net.bytebuddy:byte-buddy-agent:jar:sources": -1164352937,
-    "net.bytebuddy:byte-buddy:jar:sources": 891177431,
+    "net.bytebuddy:byte-buddy": 1960806545,
+    "net.bytebuddy:byte-buddy-agent": -653487127,
+    "net.bytebuddy:byte-buddy-agent:jar:sources": -51290234,
+    "net.bytebuddy:byte-buddy:jar:sources": 1415952497,
     "net.java.dev.jna:jna": 1622514527,
     "net.java.dev.jna:jna-platform": 1756885266,
     "net.java.dev.jna:jna-platform:jar:sources": -507721531,
@@ -455,7 +455,7 @@
     "org.asciidoctor:asciidoctorj-api": 1059094284,
     "org.asciidoctor:asciidoctorj-api:jar:sources": 989901516,
     "org.asciidoctor:asciidoctorj:jar:sources": -1209916532,
-    "org.assertj:assertj-core": -253199576,
+    "org.assertj:assertj-core": -567793304,
     "org.assertj:assertj-core:jar:sources": -697161745,
     "org.bouncycastle:bcpg-jdk18on": 1344554762,
     "org.bouncycastle:bcpg-jdk18on:jar:sources": 1086923059,
@@ -530,7 +530,7 @@
     "org.jsoup:jsoup:jar:sources": -2058254438,
     "org.jspecify:jspecify": 117231129,
     "org.jspecify:jspecify:jar:sources": -2134060298,
-    "org.mockito:mockito-core": -1058138256,
+    "org.mockito:mockito-core": -543845575,
     "org.mockito:mockito-core:jar:sources": 1799409451,
     "org.nibor.autolink:autolink": -443901116,
     "org.nibor.autolink:autolink:jar:sources": -1863403724,
@@ -1205,17 +1205,17 @@
     },
     "net.bytebuddy:byte-buddy": {
       "shasums": {
-        "jar": "b7f2b2f111c6ddc09d3d9718ca5895dde16217bb4e5f2d2a6eb571f274909a82",
-        "sources": "00560ac03d67ad6278741a87fc9046c39972daea9ab5ff3378e1b6df3fce7d40"
+        "jar": "e64ed8697df67cbce8158a6e926cbe841f97d01719d719b7b84784826a9b2b27",
+        "sources": "40a13c8039b9b7dc0d41432acf1c16c4946409e4310c9a36a44e3f47453d6cb9"
       },
-      "version": "1.18.14"
+      "version": "1.18.15"
     },
     "net.bytebuddy:byte-buddy-agent": {
       "shasums": {
-        "jar": "6f9159206c4c7950c7ce571b534dcc6457cc27b960146724fbe70c552dd55b97",
-        "sources": "9f52d0860ad2a867af1183f9fc7a4bd41a84a1a8f4b7e69fd4f09aa61968fe95"
+        "jar": "9744e23dfbed9ca95f576fdd699409b76dc975a93a332022aeda6de0daf0c5b5",
+        "sources": "0dd649c75a5b5c8467298e948f7fd2bf0dfdf97b5cead14c13a6a44bcb562a25"
       },
-      "version": "1.18.14"
+      "version": "1.18.15"
     },
     "net.java.dev.jna:jna": {
       "shasums": {

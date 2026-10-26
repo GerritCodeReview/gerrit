@@ -20,6 +20,8 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.NavigableSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -42,6 +44,25 @@ public interface GitRepositoryManager {
      * repository is pending deletion / the caller does not have permissions / repository is broken.
      */
     UNAVAILABLE;
+  }
+
+  /**
+   * Returns whether a repository uses the reftable ref storage backend, based on its config.
+   *
+   * <p>Reads {@code extensions.refStorage}, which JGit persists when a repository is created with
+   * reftable. This reflects the stored format regardless of how the ref database is wrapped at
+   * runtime (for example by a shared-refdb implementation), unlike an {@code instanceof} check on
+   * the ref database object.
+   *
+   * @param repoConfig the repository configuration to inspect.
+   * @return {@code true} if the repository is stored with the reftable backend.
+   */
+  static boolean isReftable(Config repoConfig) {
+    return ConfigConstants.CONFIG_REF_STORAGE_REFTABLE.equals(
+        repoConfig.getString(
+            ConfigConstants.CONFIG_EXTENSIONS_SECTION,
+            null,
+            ConfigConstants.CONFIG_KEY_REF_STORAGE));
   }
 
   /** Get {@link Status} of the repository by name. */

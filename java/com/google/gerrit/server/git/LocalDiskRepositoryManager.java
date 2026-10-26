@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -48,6 +49,7 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.lib.RepositoryCacheConfig;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -113,6 +115,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   private final Path basePath;
   private final Map<Project.NameKey, FileKey> fileKeyByProject = new ConcurrentHashMap<>();
+  // Keep the config snapshot so external format changes are detected before using cached keys.
+  private final Map<Project.NameKey, FileBasedConfig> reftableByProject = new ConcurrentHashMap<>();
   private final boolean usePerRequestRefCache;
   private final boolean useFileKeyByProjectCache;
 
@@ -161,26 +165,30 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException {
-    FileKey cachedLocation = useFileKeyByProjectCache ? fileKeyByProject.get(name) : null;
-    if (cachedLocation != null) {
-      try {
-        return RepositoryCache.open(cachedLocation);
-      } catch (IOException e) {
-        fileKeyByProject.remove(name, cachedLocation);
-      }
-    }
-
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    FileKey location =
-        usePerRequestRefCache
-            ? DynamicRefDbRepository.FileKey.lenient(
-                getBasePath(name).resolve(name.get()).toFile(),
-                FS.DETECTED,
-                (path, refDb) -> PerThreadRefDbCache.getRefDatabase(path, refDb))
-            : FileKey.lenient(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
     try {
+      // Refresh the config before the cached-key fast path: a repository may have been
+      // converted by another process without notifying this manager.
+      boolean reftable = usesReftable(name);
+      FileKey cachedLocation = useFileKeyByProjectCache ? fileKeyByProject.get(name) : null;
+      if (cachedLocation != null) {
+        try {
+          return RepositoryCache.open(cachedLocation);
+        } catch (IOException e) {
+          fileKeyByProject.remove(name, cachedLocation);
+        }
+      }
+
+      boolean snapshot = usePerRequestRefCache && !reftable;
+      FileKey location =
+          snapshot
+              ? DynamicRefDbRepository.FileKey.lenient(
+                  getBasePath(name).resolve(name.get()).toFile(),
+                  FS.DETECTED,
+                  (path, refDb) -> PerThreadRefDbCache.getRefDatabase(path, refDb))
+              : FileKey.lenient(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
       Repository repo = RepositoryCache.open(location);
       if (useFileKeyByProjectCache) {
         fileKeyByProject.put(name, location);
@@ -189,6 +197,44 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot open repository " + name, e);
     }
+  }
+
+  private boolean usesReftable(Project.NameKey name) throws IOException {
+    FileBasedConfig config = reftableByProject.get(name);
+    if (config == null) {
+      File dir = FileKey.resolve(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
+      if (dir == null) {
+        throw new RepositoryNotFoundException(name.get());
+      }
+      FileBasedConfig loaded = new FileBasedConfig(new File(dir, Constants.CONFIG), FS.DETECTED);
+      loadRepositoryConfig(loaded);
+      FileBasedConfig existing = reftableByProject.putIfAbsent(name, loaded);
+      config = existing != null ? existing : loaded;
+    }
+    synchronized (config) {
+      boolean reftable = GitRepositoryManager.isReftable(config);
+      // Detect ref storage conversions performed outside this repository manager.
+      if (config.isOutdated()) {
+        loadRepositoryConfig(config);
+        if (reftable != GitRepositoryManager.isReftable(config)) {
+          evictRepository(name, config.getFile().getParentFile());
+        }
+      }
+      return GitRepositoryManager.isReftable(config);
+    }
+  }
+
+  private static void loadRepositoryConfig(FileBasedConfig config) throws IOException {
+    try {
+      config.load();
+    } catch (ConfigInvalidException e) {
+      throw new IOException("Invalid repository config " + config.getFile(), e);
+    }
+  }
+
+  private void evictRepository(Project.NameKey name, File directory) {
+    fileKeyByProject.remove(name);
+    RepositoryCache.unregister(FileKey.exact(directory, FS.DETECTED));
   }
 
   @Override
@@ -284,6 +330,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public void repositoryDeleted(NameKey name) {
+    reftableByProject.remove(name);
     if (useFileKeyByProjectCache) {
       fileKeyByProject.remove(name);
     }

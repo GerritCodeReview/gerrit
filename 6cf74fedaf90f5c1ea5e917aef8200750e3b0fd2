@@ -1,0 +1,52 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02b61ed9_269a26b9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-26T18:50:02Z",
+      "side": 1,
+      "message": "I think this could likely break placement of existing plugins: \n\nHeads-up: this changes DOM ordering for existing plugins even when **no** `order` is specified (`order \u003d\u003d\u003d undefined`).\n\nPreviously:\n- **Slotted components (`{slot: ...}`)**: `slotEl.parentNode.insertBefore(el, slotEl.nextSibling)` prepended each component right after `\u003cgr-endpoint-slot\u003e`, resulting in **reverse attachment order (LIFO)** (and reverse-alphabetical on initial load).\n- **Non-slotted components**: `this.appendChild(el)` appended components in **attachment order (FIFO)** for async/late registrations.\n\nBecause `shouldInsertBefore()` defaults `order` to `Number.MAX_SAFE_INTEGER` and unconditionally falls back to `meta.pluginName.localeCompare(pluginName) \u003e 0`, all unordered components on both slots and root endpoints now sort **alphabetically by `pluginName`** (reversing existing slotted LIFO order and changing async non-slotted registration order).",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "6cf74fedaf90f5c1ea5e917aef8200750e3b0fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f2e2a3c_4ca9adf4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-26T18:50:02Z",
+      "side": 1,
+      "message": "Using `Number.MAX_SAFE_INTEGER` as a sentinel and subtracting orders has a couple of edge cases (here and in `gr-endpoint-decorator.ts`):\n\n1. **Sentinel collision**: If a plugin explicitly passes `{order: Number.MAX_SAFE_INTEGER}` (or `Infinity`), it ties with unordered components (`order \u003d\u003d\u003d undefined`) instead of sorting before them as documented in `RegisterOptions.order`.\n2. **Non-finite values (`NaN` / `Infinity`)**: `Infinity - Infinity` or `NaN - x` evaluates to `NaN`; since `NaN !\u003d\u003d 0` is `true`, `if (orderDiff !\u003d\u003d 0) return orderDiff` returns `NaN` from the comparator, breaking sort transitivity and skipping the `pluginName` tie-breaker.\n3. **In-place mutation**: `(this._endpoints.get(name) ?? []).sort(...)` mutates the stored array in place rather than sorting a shallow copy (`[...(this._endpoints.get(name) ?? [])].sort(...)`).\n\nConsider validating finite numbers with `Number.isFinite` and comparing `undefined` explicitly instead of subtracting against `Number.MAX_SAFE_INTEGER`:\n\n```ts\nreturn [...(this._endpoints.get(name) ?? [])].sort((m1, m2) \u003d\u003e {\n  const o1 \u003d\n    m1.order !\u003d\u003d undefined \u0026\u0026 Number.isFinite(m1.order) ? m1.order : undefined;\n  const o2 \u003d\n    m2.order !\u003d\u003d undefined \u0026\u0026 Number.isFinite(m2.order) ? m2.order : undefined;\n  if (o1 !\u003d\u003d o2) {\n    if (o1 \u003d\u003d\u003d undefined) return 1;\n    if (o2 \u003d\u003d\u003d undefined) return -1;\n    return o1 \u003c o2 ? -1 : 1;\n  }\n  return m1.plugin.getPluginName().localeCompare(m2.plugin.getPluginName());\n});\n```",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "6cf74fedaf90f5c1ea5e917aef8200750e3b0fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

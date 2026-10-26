@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b9be2d5_0726f6a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T21:39:28Z",
+      "side": 1,
+      "message": "gr-change-requirements -\u003e gr-submit-requirements",
+      "isAi": true,
+      "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "37fca205_3e25694d",
@@ -14,6 +32,42 @@
       "writtenOn": "2026-10-26T14:40:55Z",
       "side": 1,
       "message": "Hi Becky and Sarah,\nThis CL is for making the submit requirement\u0027s hover card\u0027s description customizable. The background is cl/1006086516, which customizes the hover card descriptions when `Coverage-Over-70p`\u0027s vote value is +2/-2 and was voted by AI.",
+      "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53aafcfd_0f78dfd6",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T21:39:28Z",
+      "side": 1,
+      "message": "When status is ERROR, wrapping error_message in the endpoint decorator allows a plugin with replace: true to overwrite the evaluation error message. Should ERROR status render the error message directly without the endpoint decorator so plugins cannot unintentionally swallow evaluation errors?",
+      "isAi": true,
+      "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb13efe1_99642232",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T21:39:28Z",
+      "side": 1,
+      "message": "Returning early when description is empty means that if a submit requirement does not have a static description configured in project.config, the endpoint decorator is never rendered. This prevents plugins from dynamically adding a description for requirements that do not already have one. Is this limitation intentional?",
+      "isAi": true,
       "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

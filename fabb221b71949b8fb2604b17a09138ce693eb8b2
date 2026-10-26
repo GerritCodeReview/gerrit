@@ -62,6 +62,24 @@
       "message": "Why not logging the failure here ?",
       "revId": "fabb221b71949b8fb2604b17a09138ce693eb8b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8840b42_dccc2fac",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-26T08:36:39Z",
+      "side": 1,
+      "message": "I actually believe we should fail the API if you cannot open the repository.",
+      "parentUuid": "23990c1c_dc6d8876",
+      "revId": "fabb221b71949b8fb2604b17a09138ce693eb8b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

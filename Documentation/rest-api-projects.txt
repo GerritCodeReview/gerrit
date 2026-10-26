@@ -1049,6 +1049,56 @@ a link:#change-info[ChangeInfo] entity describing the resulting change.
   }
 ----
 
+[[convert-ref-storage]]
+=== Convert Ref Storage
+--
+'POST /projects/link:#project-name[\{project-name\}]/convert-ref-storage'
+--
+
+Converts the ref storage of a project's repository between `FILES`
+and `REFTABLE`.
+
+Conversion is supported in both directions, but only for a local repository
+that is not already in the requested format. A request is rejected with
+`409 Conflict` when it cannot be satisfied: the repository is already in the
+requested format, or is not a local repository. A missing or unrecognized
+`ref_storage` is rejected with `400 Bad Request`, and `404 Not Found` is
+returned if the repository cannot be opened.
+
+Caller must be a member of a group that is granted the
+link:access-control.html#capability_administrateServer[Administrate Server]
+capability.
+
+[NOTE]
+The conversion does not lock the repository. Concurrent writes during the
+conversion can leave the ref storage in an inconsistent state, so ensure the
+repository is quiescent. The SSH `convert-ref-storage` command and git's own
+`git refs migrate` have the same limitation.
+
+The conversion is described in the request body as a
+link:#ref-storage-input[RefStorageInput] entity. As a shorthand, the body
+may be just the target format as a bare string, e.g. `"REFTABLE"`.
+
+.Request
+----
+  POST /projects/myproject/convert-ref-storage HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "ref_storage": "REFTABLE",
+    "backup": false
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "REFTABLE"
+----
+
 [[run-gc]]
 === Run GC
 --
@@ -5553,6 +5603,21 @@ The ref storage format for the project's repository (`FILES`,
 `REFTABLE`). +
 If not set, the repository manager selects the format. Local disk storage
 uses JGit's init defaults, falling back to `FILES`.
+|=========================================
+
+[[ref-storage-input]]
+=== RefStorageInput
+The `RefStorageInput` entity contains information for converting the ref
+storage of a project's repository.
+
+[options="header",cols="1,^2,4"]
+|=========================================
+|Field Name     ||Description
+|`ref_storage`  ||
+The target ref storage format (`REFTABLE` or `FILES`). This is the default
+field, so the request body may also be this value as a bare string.
+|`backup`       |`true` if not set|
+Whether a backup of the old ref storage should be kept.
 |=========================================
 
 [[project-parent-input]]

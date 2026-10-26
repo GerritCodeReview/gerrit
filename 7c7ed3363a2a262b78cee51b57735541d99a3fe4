@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbe80e6b_77ec45cc",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-26T08:17:52Z",
+      "side": 1,
+      "message": "What happens if the repository is migrated from `files` to `reftable`?\nWe should also take the repository config snapshot into account.",
+      "revId": "7c7ed3363a2a262b78cee51b57735541d99a3fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

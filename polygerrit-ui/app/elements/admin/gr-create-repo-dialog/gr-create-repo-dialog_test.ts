@@ -12,6 +12,7 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {BranchName, GroupId, RepoName} from '../../../types/common';
+import {RefStorage} from '../../../constants/constants';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {assert, fixture, html} from '@open-wc/testing';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
@@ -142,6 +143,24 @@ suite('gr-create-repo-dialog tests', () => {
                 </span>
               </div>
             </section>
+            <section>
+              <div class="title-flex">
+                <span class="title">
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="Store references using the reftable backend instead of the default files backend."
+                  >
+                    Reftable
+                    <gr-icon icon="info"> </gr-icon>
+                  </gr-tooltip-content>
+                </span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <md-checkbox id="reftable"> </md-checkbox>
+                </span>
+              </div>
+            </section>
           </div>
         </div>
       `
@@ -153,6 +172,29 @@ suite('gr-create-repo-dialog tests', () => {
       queryAndAssert<MdCheckbox>(element, '#initialCommit').checked
     );
     assert.isFalse(queryAndAssert<MdCheckbox>(element, '#parentRepo').checked);
+  });
+
+  test('reftable checkbox shown and defaults to files', () => {
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#reftable');
+    assert.isFalse(checkbox.checked);
+    assert.equal(element.repoConfig.ref_storage, RefStorage.FILES);
+  });
+
+  test('reftable checkbox toggles ref storage', async () => {
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#reftable');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(
+      new Event('change', {bubbles: true, composed: true})
+    );
+    await element.updateComplete;
+    assert.equal(element.repoConfig.ref_storage, RefStorage.REFTABLE);
+
+    checkbox.checked = false;
+    checkbox.dispatchEvent(
+      new Event('change', {bubbles: true, composed: true})
+    );
+    await element.updateComplete;
+    assert.equal(element.repoConfig.ref_storage, RefStorage.FILES);
   });
 
   test('repo created', async () => {

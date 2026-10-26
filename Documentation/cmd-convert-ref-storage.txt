@@ -21,6 +21,12 @@ _ssh_ -p <port> <host> _gerrit convert-ref-storage_
 == DESCRIPTION
 Convert ref storage to reftable.
 
+[NOTE]
+The conversion does not lock the repository. Concurrent writes during the
+conversion can leave the ref storage in an inconsistent state, so ensure the
+repository is quiescent. The REST `convert-ref-storage` endpoint and git's own
+`git refs migrate` have the same limitation.
+
 == ACCESS
 Administrators
 

@@ -56,6 +56,7 @@ public class ProjectRestApiModule extends RestApiModule {
     post(PROJECT_KIND, "access").to(SetAccess.class);
     put(PROJECT_KIND, "access:review").to(CreateAccessChange.class);
     put(PROJECT_KIND, "ban").to(BanCommit.class);
+    post(PROJECT_KIND, "convert-ref-storage").to(ConvertRefStorage.class);
 
     child(PROJECT_KIND, "branches").to(BranchesCollection.class);
     create(BRANCH_KIND).to(CreateBranch.class);

@@ -760,6 +760,14 @@ export class GrReplyDialog extends LitElement {
       const reviewer = e.detail.reviewer;
       this.reviewersList?.removeAccount(reviewer);
     });
+
+    this.addEventListener('accounts-changed', () => {
+      this.reviewersMutated = true;
+    });
+
+    this.addEventListener('account-text-changed', () => {
+      this.reviewersMutated = true;
+    });
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -810,6 +818,7 @@ export class GrReplyDialog extends LitElement {
             <gr-endpoint-param name="reviewers" .value=${[...this.reviewers]}>
             </gr-endpoint-param>
             ${this.renderReviewerList()}
+            <gr-endpoint-slot name="reviewers-only"></gr-endpoint-slot>
             <gr-endpoint-slot name="below"></gr-endpoint-slot>
           </gr-endpoint-decorator>
           ${this.renderCCList()} ${this.renderReviewConfirmation()}

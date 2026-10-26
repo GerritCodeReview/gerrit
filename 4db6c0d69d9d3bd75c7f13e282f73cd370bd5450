@@ -1,0 +1,100 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "010b06e7_e408161f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T18:23:54Z",
+      "side": 1,
+      "message": "When `gr-main-header` is hidden on initial render, its `ResizeObserver` reports a `blockSize` of `0`, which overwrites `--main-header-height` on `document.documentElement.style` from the initial `48px` in `app-theme.ts` to `0px`. While `themeLoading` is true, `var(--main-header-height, 48px)` will evaluate to `0px` instead of reserving the 48px header space. Consider skipping the `--main-header-height` update in `gr-main-header.ts` when `this.hidden` (or `height \u003d\u003d\u003d 0`), or using a fixed fallback height here.",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "4db6c0d69d9d3bd75c7f13e282f73cd370bd5450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea65e37d_6c2cabde",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T18:23:54Z",
+      "side": 1,
+      "message": "If a plugin registers an `EndpointType.REPLACE` module before `awaitPluginsLoaded()` resolves, `GrPluginEndpoints.registerModule` now invokes the `onNewEndpoint` callback immediately (and this microtask also initializes already-registered `REPLACE` modules). However, any `EndpointType.DECORATE` module registered on the same endpoint (or registered later before `awaitPluginsLoaded()`) will still run in the `awaitPluginsLoaded().then(...)` loop below and append its decoration element into the replaced endpoint. Should `initModule` skip `DECORATE` modules once a `REPLACE` module has already been initialized on this decorator?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "4db6c0d69d9d3bd75c7f13e282f73cd370bd5450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a3bac09_8bd2ec66",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T18:23:54Z",
+      "side": 1,
+      "message": "If a CDN asset URL is configured (`window.ASSETS_PATH`) and the primary script fails to load, `loadJsPlugin` falls back to `createScriptTag(urlWithoutAP)` via a custom `onerror` handler. Because `createScriptTag` only sets the default `this.failToLoad(...)` handler when `onerror` is omitted, a failure on the fallback script will not call `failToLoad`. For `gerrit-theme.js`, that means the plugin stays in `PluginState.PENDING` for the full 10-second `PLUGIN_LOADING_TIMEOUT_MS`, leaving `\u003cgr-main-header\u003e` hidden for 10 seconds before timing out. Consider passing an `onerror` handler to the fallback `createScriptTag(urlWithoutAP)` call (or letting `createScriptTag` always default to `failToLoad` when `onerror` is undefined).",
+      "range": {
+        "startLine": 356,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "4db6c0d69d9d3bd75c7f13e282f73cd370bd5450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbbb1a79_af73090b",
+        "filename": "polygerrit-ui/app/models/config/config-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-26T18:23:54Z",
+      "side": 1,
+      "message": "When Gerrit is served under a subpath (`window.CANONICAL_PATH`), `IndexHtmlUtil.dynamicTemplateData` prefixes the keys in `window.INITIAL_DATA` with the canonical path (e.g. `\"${canonicalPath}/config/server/info\"` and `\"${canonicalPath}/accounts/self/preferences\"`), which is why `SiteBasedCache` uses `addBaseUrl(key)`. Indexing `window.INITIAL_DATA?.[\u0027/config/server/info\u0027]` directly (here and in `PluginsModel`, and `/accounts/self/preferences` in `UserModel`) will miss on instances with a non-empty `getBaseUrl()`. Consider looking up `${getBaseUrl()}/config/server/info` (or reading through a shared helper).",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "4db6c0d69d9d3bd75c7f13e282f73cd370bd5450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

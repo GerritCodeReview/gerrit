@@ -33,7 +33,7 @@ import {
   createDefaultEditPrefs,
   HttpMethod,
 } from '../../constants/constants';
-import {FlowInput} from '../../api/rest-api';
+import {FlowInput, RefStorage} from '../../api/rest-api';
 import {
   AccountDetailInfo,
   BasePatchSetNum,
@@ -372,6 +372,17 @@ suite('gr-rest-api-service-impl tests', () => {
       tab_size: 8,
       ignore_whitespace: 'IGNORE_NONE',
     });
+    assert.isTrue(fetchStub.called);
+    assert.isFalse(element._cache.has(cacheKey));
+  });
+
+  test('convertRepoRefStorage invalidates project config cache', () => {
+    const cacheKey = '/projects/test-repo/config';
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch');
+    element._cache.set(cacheKey, {
+      ref_storage: RefStorage.FILES,
+    } as unknown as ParsedJSON);
+    element.convertRepoRefStorage('test-repo' as RepoName, RefStorage.REFTABLE);
     assert.isTrue(fetchStub.called);
     assert.isFalse(element._cache.has(cacheKey));
   });

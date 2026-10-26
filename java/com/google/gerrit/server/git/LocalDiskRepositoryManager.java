@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -48,6 +49,7 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.lib.RepositoryCacheConfig;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -113,6 +115,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   private final Path basePath;
   private final Map<Project.NameKey, FileKey> fileKeyByProject = new ConcurrentHashMap<>();
+  // Remembers each project's on-disk ref storage format so the per-open lookup runs once.
+  private final Map<Project.NameKey, Boolean> reftableByProject = new ConcurrentHashMap<>();
   private final boolean usePerRequestRefCache;
   private final boolean useFileKeyByProjectCache;
 
@@ -173,8 +177,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
+    // Snapshotting applies only to the files ref backend. A reftable repository reads atomically,
+    // so it skips the per-request snapshot and is opened as a plain repository.
+    boolean snapshot = usePerRequestRefCache && !usesReftable(name);
     FileKey location =
-        usePerRequestRefCache
+        snapshot
             ? DynamicRefDbRepository.FileKey.lenient(
                 getBasePath(name).resolve(name.get()).toFile(),
                 FS.DETECTED,
@@ -189,6 +196,25 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot open repository " + name, e);
     }
+  }
+
+  /** Returns whether the named repository is stored with the reftable backend, remembering it. */
+  private boolean usesReftable(Project.NameKey name) {
+    return reftableByProject.computeIfAbsent(name, this::readReftableFromDisk);
+  }
+
+  private boolean readReftableFromDisk(Project.NameKey name) {
+    File dir = FileKey.resolve(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
+    if (dir == null) {
+      return false;
+    }
+    FileBasedConfig cfg = new FileBasedConfig(new File(dir, Constants.CONFIG), FS.DETECTED);
+    try {
+      cfg.load();
+    } catch (IOException | ConfigInvalidException e) {
+      return false;
+    }
+    return GitRepositoryManager.isReftable(cfg);
   }
 
   @Override

@@ -105,6 +105,24 @@
       "parentUuid": "4ba0b753_f75d774c",
       "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a241ee0_03aae4e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-26T20:35:27Z",
+      "side": 1,
+      "message": "My understanding was the @matthias.sohn@gmail.com cut the stable-7.9 *just before* bumping the minimum Java version to 25, pretty much like we did with stable-3.15.\n\nWe do not necessarily need any JGit release out of stable-7.9 branch, as long as we keep on building from source.",
+      "parentUuid": "3c5d17af_9a8ba478",
+      "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

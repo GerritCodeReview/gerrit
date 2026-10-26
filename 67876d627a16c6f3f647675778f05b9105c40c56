@@ -16,6 +16,24 @@
       "message": "@milutin@google.com, do you mind `LC+1` this one as well when you get a chance?\n\nThanks!",
       "revId": "67876d627a16c6f3f647675778f05b9105c40c56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8ceca5_549ab7ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-26T08:43:23Z",
+      "side": 1,
+      "message": "Hey @milutin@google.com, any chance to LC+1 this one? Today we are planning to release `RC3`.\n\nThanks!",
+      "parentUuid": "b37e3cb7_95a9c890",
+      "revId": "67876d627a16c6f3f647675778f05b9105c40c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

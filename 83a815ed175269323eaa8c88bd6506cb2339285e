@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37fca205_3e25694d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-26T14:40:55Z",
+      "side": 1,
+      "message": "Hi Becky and Sarah,\nThis CL is for making the submit requirement\u0027s hover card\u0027s description customizable. The background is cl/1006086516, which customizes the hover card descriptions when `Coverage-Over-70p`\u0027s vote value is +2/-2 and was voted by AI.",
+      "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

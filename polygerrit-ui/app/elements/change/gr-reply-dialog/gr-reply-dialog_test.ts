@@ -234,6 +234,7 @@ suite('gr-reply-dialog tests', () => {
                 <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
                 <gr-endpoint-slot name="right"> </gr-endpoint-slot>
               </div>
+              <gr-endpoint-slot name="above-suggestions"> </gr-endpoint-slot>
               <gr-endpoint-slot name="below"> </gr-endpoint-slot>
             </gr-endpoint-decorator>
             <div class="peopleList">
@@ -377,6 +378,7 @@ suite('gr-reply-dialog tests', () => {
             <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
             <gr-endpoint-slot name="right"> </gr-endpoint-slot>
           </div>
+          <gr-endpoint-slot name="above-suggestions"> </gr-endpoint-slot>
           <gr-endpoint-slot name="below"> </gr-endpoint-slot>
         </gr-endpoint-decorator>
         <div class="peopleList">
@@ -433,6 +435,7 @@ suite('gr-reply-dialog tests', () => {
             <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
             <gr-endpoint-slot name="right"> </gr-endpoint-slot>
           </div>
+          <gr-endpoint-slot name="above-suggestions"> </gr-endpoint-slot>
           <gr-endpoint-slot name="below"> </gr-endpoint-slot>
         </gr-endpoint-decorator>
         <div class="peopleList">
@@ -3155,5 +3158,24 @@ suite('gr-reply-dialog tests', () => {
     warning = queryAndAssert(element, '#changeIsMergedLabel');
     assert.isOk(warning);
     assert.include(warning.textContent, 'Change has already been merged');
+  });
+
+  test('marks reviewersMutated on accounts-changed and account-text-changed', async () => {
+    const endpoint = queryAndAssert(
+      element,
+      'gr-endpoint-decorator[name="reply-reviewers"]'
+    );
+    element.reviewersMutated = false;
+
+    endpoint.dispatchEvent(
+      new CustomEvent('accounts-changed', {bubbles: true, composed: true})
+    );
+    assert.isTrue(element.reviewersMutated);
+
+    element.reviewersMutated = false;
+    endpoint.dispatchEvent(
+      new CustomEvent('account-text-changed', {bubbles: true, composed: true})
+    );
+    assert.isTrue(element.reviewersMutated);
   });
 });

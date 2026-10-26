@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -24,15 +26,20 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class GetConfig implements RestReadView<ProjectResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final boolean serverEnableSignedPush;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
@@ -40,6 +47,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final PermissionBackend permissionBackend;
   private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
+  private final GitRepositoryManager repoManager;
 
   @Inject
   public GetConfig(
@@ -49,7 +57,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
       AllProjectsName allProjects,
       PermissionBackend permissionBackend,
       UiActions uiActions,
-      DynamicMap<RestView<ProjectResource>> views) {
+      DynamicMap<RestView<ProjectResource>> views,
+      GitRepositoryManager repoManager) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;
@@ -57,6 +66,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
     this.permissionBackend = permissionBackend;
     this.uiActions = uiActions;
     this.views = views;
+    this.repoManager = repoManager;
   }
 
   @Override
@@ -75,6 +85,18 @@ public class GetConfig implements RestReadView<ProjectResource> {
             cfgFactory,
             allProjects,
             uiActions,
-            views));
+            views,
+            refStorageOf(resource)));
+  }
+
+  // Default to FILES when the repo cannot be opened so one bad repo does not fail config.
+  private RefStorage refStorageOf(ProjectResource resource) {
+    try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
+      return ConfigInfoCreator.refStorageOf(repo);
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Cannot open repository %s to report ref storage format", resource.getNameKey());
+      return RefStorage.FILES;
+    }
   }
 }

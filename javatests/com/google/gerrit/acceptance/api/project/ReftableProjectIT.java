@@ -97,6 +97,24 @@ public class ReftableProjectIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains("init-only");
   }
 
+  @Test
+  public void configReportsFilesFormat() throws Exception {
+    Project.NameKey files = Project.nameKey(name("config-files"));
+    gApi.projects().create(files.get());
+    assertThat(gApi.projects().name(files.get()).config().refStorage).isEqualTo(RefStorage.FILES);
+  }
+
+  @Test
+  public void configReportsReftableFormat() throws Exception {
+    Project.NameKey reftable = Project.nameKey(name("config-reftable"));
+    ProjectInput in = new ProjectInput();
+    in.name = reftable.get();
+    in.refStorage = RefStorage.REFTABLE;
+    gApi.projects().create(in);
+    assertThat(gApi.projects().name(reftable.get()).config().refStorage)
+        .isEqualTo(RefStorage.REFTABLE);
+  }
+
   private static void assertReftable(Repository repo) {
     assertThat(
             repo.getConfig()

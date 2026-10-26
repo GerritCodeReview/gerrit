@@ -15,13 +15,12 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.NavigableSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -44,25 +43,6 @@ public interface GitRepositoryManager {
      * repository is pending deletion / the caller does not have permissions / repository is broken.
      */
     UNAVAILABLE;
-  }
-
-  /**
-   * Returns whether a repository uses the reftable ref storage backend, based on its config.
-   *
-   * <p>Reads {@code extensions.refStorage}, which JGit persists when a repository is created with
-   * reftable. This reflects the stored format regardless of how the ref database is wrapped at
-   * runtime (for example by a shared-refdb implementation), unlike an {@code instanceof} check on
-   * the ref database object.
-   *
-   * @param repoConfig the repository configuration to inspect.
-   * @return {@code true} if the repository is stored with the reftable backend.
-   */
-  static boolean isReftable(Config repoConfig) {
-    return ConfigConstants.CONFIG_REF_STORAGE_REFTABLE.equals(
-        repoConfig.getString(
-            ConfigConstants.CONFIG_EXTENSIONS_SECTION,
-            null,
-            ConfigConstants.CONFIG_KEY_REF_STORAGE));
   }
 
   /** Get {@link Status} of the repository by name. */
@@ -94,6 +74,29 @@ public interface GitRepositoryManager {
   Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryExistsException, IOException;
 
+  /**
+   * Create (and open) a repository with the given ref storage format.
+   *
+   * @param name name of the repository to be created.
+   * @param refStorage ref storage format, or {@code null} for the default. Only honored when
+   *     creating a new repository.
+   * @return the newly created Repository instance. Caller must call {@code close()} when done.
+   * @throws RepositoryExistsException repository exists.
+   * @throws RepositoryCaseMismatchException the name collides with an existing name.
+   * @throws RepositoryNotFoundException the name is invalid.
+   * @throws RefStorageNotSupportedException the requested format is not supported by this
+   *     repository manager.
+   * @throws IOException the repository cannot be created.
+   */
+  default Repository createRepository(Project.NameKey name, RefStorage refStorage)
+      throws RepositoryNotFoundException, RepositoryExistsException, IOException {
+    if (refStorage != null && refStorage != RefStorage.FILES) {
+      throw new RefStorageNotSupportedException(
+          "Ref storage format " + refStorage + " is not supported by this repository manager");
+    }
+    return createRepository(name);
+  }
+
   /** Returns set of all known projects, sorted by natural NameKey order. */
   NavigableSet<Project.NameKey> list();
 
@@ -112,4 +115,11 @@ public interface GitRepositoryManager {
    * @param name – the repository name, relative to the base directory.
    */
   default void repositoryDeleted(Project.NameKey name) {}
+
+  /**
+   * Drop cached state after a repository ref storage format changed on disk.
+   *
+   * @param name the repository whose cached state must be evicted.
+   */
+  default void refStorageConverted(Project.NameKey name) {}
 }

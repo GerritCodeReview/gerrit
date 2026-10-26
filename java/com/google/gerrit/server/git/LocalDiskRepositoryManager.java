@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.PerThreadRefDbCache;
@@ -44,12 +45,14 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefStorageFormat;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.lib.RepositoryCacheConfig;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -115,7 +118,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   private final Path basePath;
   private final Map<Project.NameKey, FileKey> fileKeyByProject = new ConcurrentHashMap<>();
-  // Remembers each project's on-disk ref storage format so the per-open lookup runs once.
+  // Cached ref storage format per project.
   private final Map<Project.NameKey, Boolean> reftableByProject = new ConcurrentHashMap<>();
   private final boolean usePerRequestRefCache;
   private final boolean useFileKeyByProjectCache;
@@ -177,8 +180,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    // Snapshotting applies only to the files ref backend. A reftable repository reads atomically,
-    // so it skips the per-request snapshot and is opened as a plain repository.
+    // Reftable reads atomically so it skips the snapshot that only the files backend needs.
     boolean snapshot = usePerRequestRefCache && !usesReftable(name);
     FileKey location =
         snapshot
@@ -198,7 +200,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  /** Returns whether the named repository is stored with the reftable backend, remembering it. */
+  // Remembers a repository ref storage format so the lookup runs once per project.
   private boolean usesReftable(Project.NameKey name) {
     return reftableByProject.computeIfAbsent(name, this::readReftableFromDisk);
   }
@@ -214,15 +216,37 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     } catch (IOException | ConfigInvalidException e) {
       return false;
     }
-    return GitRepositoryManager.isReftable(cfg);
+    return isReftable(cfg);
+  }
+
+  /**
+   * Returns whether a repository config selects the reftable backend.
+   *
+   * @param repoConfig repository config to inspect.
+   * @return {@code true} when {@code extensions.refStorage} is {@code reftable}.
+   */
+  static boolean isReftable(Config repoConfig) {
+    return ConfigConstants.CONFIG_REF_STORAGE_REFTABLE.equals(
+        repoConfig.getString(
+            ConfigConstants.CONFIG_EXTENSIONS_SECTION,
+            null,
+            ConfigConstants.CONFIG_KEY_REF_STORAGE));
   }
 
   @Override
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryExistsException, IOException {
+    return createRepository(name, null);
+  }
+
+  @Override
+  public Repository createRepository(Project.NameKey name, RefStorage refStorage)
+      throws RepositoryNotFoundException, RepositoryExistsException, IOException {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
+
+    boolean reftable = refStorage == RefStorage.REFTABLE;
 
     Path path = getBasePath(name);
     File dir = FileKey.resolve(path.resolve(name.get()).toFile(), FS.DETECTED);
@@ -241,11 +265,29 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     // of the repository name, so prefer the standard bare name.
     //
     String n = name.get() + Constants.DOT_GIT_EXT;
-    FileKey loc = FileKey.exact(path.resolve(n).toFile(), FS.DETECTED);
+    File gitDir = path.resolve(n).toFile();
 
+    Repository db;
     try {
-      Repository db = RepositoryCache.open(loc, false);
+      if (reftable) {
+        // Select the reftable backend explicitly, without mutating global
+        // configuration (which would race under concurrent creation).
+        db =
+            new FileRepositoryBuilder()
+                .setGitDir(gitDir)
+                .setRefStorageFormat(RefStorageFormat.REFTABLE)
+                .build();
+      } else {
+        db = RepositoryCache.open(FileKey.exact(gitDir, FS.DETECTED), false);
+      }
       db.create(true /* bare */);
+      if (reftable) {
+        // The reftable repository was created outside the RepositoryCache (via the
+        // builder, to select the backend). Register it so project initialization
+        // (refs/meta/config, the initial empty commit) operates on a single shared
+        // instance instead of a stale second one, which would fail with a lock error.
+        RepositoryCache.register(db);
+      }
 
       StoredConfig config = db.getConfig();
       config.setBoolean(
@@ -255,15 +297,19 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           true);
       config.save();
 
-      // JGit only writes to the reflog for refs/meta/config if the log file
-      // already exists.
-      //
-      File metaConfigLog = new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
-      if (!metaConfigLog.getParentFile().mkdirs() || !metaConfigLog.createNewFile()) {
-        logger.atSevere().log(
-            "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name);
+      if (!reftable) {
+        // JGit only writes to the reflog for refs/meta/config if the log file
+        // already exists. Reftable stores reflogs in the reftable itself, so
+        // this loose-reflog precreation is RefDirectory-specific.
+        File metaConfigLog = new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
+        if (!metaConfigLog.getParentFile().mkdirs() || !metaConfigLog.createNewFile()) {
+          logger.atSevere().log(
+              "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name);
+        }
       }
 
+      // Record the format so later opens skip the disk read.
+      reftableByProject.put(name, reftable);
       return db;
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot create repository " + name, e);
@@ -312,6 +358,17 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   public void repositoryDeleted(NameKey name) {
     if (useFileKeyByProjectCache) {
       fileKeyByProject.remove(name);
+    }
+  }
+
+  @Override
+  public void refStorageConverted(Project.NameKey name) {
+    reftableByProject.remove(name);
+    fileKeyByProject.remove(name);
+    File dir = FileKey.resolve(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
+    if (dir != null) {
+      // RepositoryCache keys by directory, so drop the stale entry to force a fresh open.
+      RepositoryCache.unregister(FileKey.exact(dir, FS.DETECTED));
     }
   }
 

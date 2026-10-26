@@ -41,6 +41,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
+import com.google.gerrit.server.git.RefStorageNotSupportedException;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -136,6 +137,10 @@ public class CreateProject
     args.projectDescription = Strings.emptyToNull(input.description);
     args.submitType = input.submitType;
     args.branch = normalizeBranchNames(input.branches);
+    if (input.initOnly && input.refStorage != null) {
+      throw new BadRequestException("ref storage format cannot be set for an init-only project");
+    }
+    args.refStorage = input.refStorage;
     if (input.owners == null || input.owners.isEmpty()) {
       args.ownerIds = new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
     } else {
@@ -179,7 +184,12 @@ public class CreateProject
         throw new ResourceConflictException(e.getMessage(), e);
       }
 
-      ProjectState projectState = projectCreator.createProject(args);
+      ProjectState projectState;
+      try {
+        projectState = projectCreator.createProject(args);
+      } catch (RefStorageNotSupportedException e) {
+        throw new ResourceConflictException(e.getMessage(), e);
+      }
       requireNonNull(
           projectState,
           () -> String.format("failed to create project %s", args.getProject().get()));

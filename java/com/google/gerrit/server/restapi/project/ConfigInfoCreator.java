@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInfo.InheritedBooleanInfo
 import com.google.gerrit.extensions.api.projects.ConfigInfo.MaxObjectSizeLimitInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo.SubmitTypeInfo;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
@@ -46,6 +47,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Repository;
 
 public class ConfigInfoCreator {
   /** do not instantiate this class. */
@@ -60,9 +63,11 @@ public class ConfigInfoCreator {
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
       UiActions uiActions,
-      DynamicMap<RestView<ProjectResource>> views) {
+      DynamicMap<RestView<ProjectResource>> views,
+      RefStorage refStorage) {
     ConfigInfo configInfo = new ConfigInfo();
     Project p = projectState.getProject();
+    configInfo.refStorage = refStorage;
     configInfo.description = Strings.emptyToNull(p.getDescription());
 
     ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
@@ -113,6 +118,19 @@ public class ConfigInfoCreator {
 
     configInfo.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
     return configInfo;
+  }
+
+  static RefStorage refStorageOf(Repository repo) {
+    // Read extensions.refStorage from the repo config, case-insensitively as JGit selects the
+    // backend. Robust even when the ref database is wrapped at runtime (e.g. shared-refdb).
+    return ConfigConstants.CONFIG_REF_STORAGE_REFTABLE.equalsIgnoreCase(
+            repo.getConfig()
+                .getString(
+                    ConfigConstants.CONFIG_EXTENSIONS_SECTION,
+                    null,
+                    ConfigConstants.CONFIG_KEY_REF_STORAGE))
+        ? RefStorage.REFTABLE
+        : RefStorage.FILES;
   }
 
   private static MaxObjectSizeLimitInfo getMaxObjectSizeLimit(

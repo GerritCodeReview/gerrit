@@ -80,9 +80,10 @@ public class TagSetHolder {
       TagSet tags = this.tags;
       if (tags == null) {
         tags = new TagSet(projectName);
-        tags.build(db, null, null);
-        this.tags = tags;
-        cache.put(projectName, this);
+        if (tags.build(db, null, null)) {
+          this.tags = tags;
+          cache.put(projectName, this);
+        }
       }
       return tags;
     }
@@ -93,9 +94,10 @@ public class TagSetHolder {
       TagSet cur = this.tags;
       if (identity().equivalent(cur, old)) {
         cur = new TagSet(projectName);
-        cur.build(db, old, m);
-        this.tags = cur;
-        cache.put(projectName, this);
+        if (cur.build(db, old, m)) {
+          this.tags = cur;
+          cache.put(projectName, this);
+        }
       }
       return cur;
     }

@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.PerThreadRefDbCache;
@@ -41,15 +42,18 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefStorageFormat;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.lib.RepositoryCacheConfig;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -212,15 +216,15 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       config = existing != null ? existing : loaded;
     }
     synchronized (config) {
-      boolean reftable = GitRepositoryManager.isReftable(config);
+      boolean reftable = isReftable(config);
       // Detect ref storage conversions performed outside this repository manager.
       if (config.isOutdated()) {
         loadRepositoryConfig(config);
-        if (reftable != GitRepositoryManager.isReftable(config)) {
+        if (reftable != isReftable(config)) {
           evictRepository(name, config.getFile().getParentFile());
         }
       }
-      return GitRepositoryManager.isReftable(config);
+      return isReftable(config);
     }
   }
 
@@ -237,8 +241,28 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     RepositoryCache.unregister(FileKey.exact(directory, FS.DETECTED));
   }
 
+  /**
+   * Returns whether a repository config selects the reftable backend.
+   *
+   * @param repoConfig repository config to inspect.
+   * @return {@code true} when {@code extensions.refStorage} is {@code reftable}.
+   */
+  static boolean isReftable(Config repoConfig) {
+    return ConfigConstants.CONFIG_REF_STORAGE_REFTABLE.equalsIgnoreCase(
+        repoConfig.getString(
+            ConfigConstants.CONFIG_EXTENSIONS_SECTION,
+            null,
+            ConfigConstants.CONFIG_KEY_REF_STORAGE));
+  }
+
   @Override
   public Repository createRepository(Project.NameKey name)
+      throws RepositoryNotFoundException, RepositoryExistsException, IOException {
+    return createRepository(name, null);
+  }
+
+  @Override
+  public Repository createRepository(Project.NameKey name, RefStorage refStorage)
       throws RepositoryNotFoundException, RepositoryExistsException, IOException {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
@@ -261,11 +285,32 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     // of the repository name, so prefer the standard bare name.
     //
     String n = name.get() + Constants.DOT_GIT_EXT;
-    FileKey loc = FileKey.exact(path.resolve(n).toFile(), FS.DETECTED);
+    File gitDir = path.resolve(n).toFile();
 
+    Repository db;
     try {
-      Repository db = RepositoryCache.open(loc, false);
+      if (refStorage != null) {
+        // Select the requested backend explicitly, without mutating global
+        // configuration (which would race under concurrent creation).
+        db =
+            new FileRepositoryBuilder()
+                .setGitDir(gitDir)
+                .setRefStorageFormat(
+                    refStorage == RefStorage.REFTABLE
+                        ? RefStorageFormat.REFTABLE
+                        : RefStorageFormat.FILES)
+                .build();
+      } else {
+        db = RepositoryCache.open(FileKey.exact(gitDir, FS.DETECTED), false);
+      }
       db.create(true /* bare */);
+      if (refStorage != null) {
+        // The repository was created outside the RepositoryCache (via the
+        // builder, to select the backend). Register it so project initialization
+        // (refs/meta/config, the initial empty commit) operates on a single shared
+        // instance instead of a stale second one, which would fail with a lock error.
+        RepositoryCache.register(db);
+      }
 
       StoredConfig config = db.getConfig();
       config.setBoolean(
@@ -275,13 +320,15 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           true);
       config.save();
 
-      // JGit only writes to the reflog for refs/meta/config if the log file
-      // already exists.
-      //
-      File metaConfigLog = new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
-      if (!metaConfigLog.getParentFile().mkdirs() || !metaConfigLog.createNewFile()) {
-        logger.atSevere().log(
-            "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name);
+      if (!isReftable(config)) {
+        // JGit only writes to the reflog for refs/meta/config if the log file
+        // already exists. Reftable stores reflogs in the reftable itself, so
+        // this loose-reflog precreation is RefDirectory-specific.
+        File metaConfigLog = new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
+        if (!metaConfigLog.getParentFile().mkdirs() || !metaConfigLog.createNewFile()) {
+          logger.atSevere().log(
+              "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name);
+        }
       }
 
       return db;
@@ -333,6 +380,37 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     reftableByProject.remove(name);
     if (useFileKeyByProjectCache) {
       fileKeyByProject.remove(name);
+    }
+  }
+
+  @Override
+  public boolean convertRefStorage(
+      Project.NameKey name, RefStorageFormat format, boolean writeLogs, boolean backup)
+      throws IOException {
+    try (Repository repo = openRepository(name)) {
+      Repository real = repo;
+      while (real instanceof DelegateRepository delegate) {
+        real = delegate.delegate();
+      }
+      if (!(real instanceof FileRepository local)) {
+        throw new RefStorageNotSupportedException(
+            "Ref storage can only be converted for a local repository");
+      }
+      if (isReftable(local.getConfig()) == (format == RefStorageFormat.REFTABLE)) {
+        return false;
+      }
+      try {
+        if (repo instanceof DelegateRepository delegate) {
+          delegate.convertRefStorage(format.toConfigValue(), writeLogs, backup);
+        } else {
+          local.convertRefStorage(format, writeLogs, backup);
+        }
+        return true;
+      } finally {
+        // A failed conversion can also leave the cached instance unsuitable for reuse.
+        reftableByProject.remove(name);
+        evictRepository(name, local.getDirectory());
+      }
     }
   }
 

@@ -14,14 +14,11 @@
 
 package com.google.gerrit.sshd.commands;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.DelegateRepository;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -29,9 +26,7 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RefStorageFormat;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 
@@ -43,11 +38,15 @@ import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 public class ConvertRefStorage extends SshCommand {
   @Inject private GitRepositoryManager repoManager;
 
-  @Inject @GerritServerConfig private Config cfg;
-
   private enum StorageFormatOption {
-    reftable,
-    refdir,
+    reftable(RefStorageFormat.REFTABLE),
+    refdir(RefStorageFormat.FILES);
+
+    final RefStorageFormat format;
+
+    StorageFormatOption(RefStorageFormat format) {
+      this.format = format;
+    }
   }
 
   @Option(name = "--format", usage = "storage format to convert to (reftable or refdir)")
@@ -78,19 +77,12 @@ public class ConvertRefStorage extends SshCommand {
   @Override
   public void run() throws Exception {
     enableGracefulStop();
-    // reftable is unservable with core.usePerRequestRefCache; refuse converting to it.
-    if (storageFormat == StorageFormatOption.reftable
-        && cfg.getBoolean("core", null, "usePerRequestRefCache", true)) {
-      throw die("Converting to reftable requires core.usePerRequestRefCache=false");
-    }
     Project.NameKey projectName = projectState.getNameKey();
-    try (Repository repo = repoManager.openRepository(projectName)) {
-      if (repo instanceof DelegateRepository delegateRepository) {
-        delegateRepository.convertRefStorage(storageFormat.name(), writeLogs, backup);
-      } else {
-        checkState(
-            repo instanceof FileRepository, "Repository is not an instance of FileRepository!");
-        ((FileRepository) repo).convertRefStorage(storageFormat.name(), writeLogs, backup);
+    RefStorageFormat format = storageFormat.format;
+    try {
+      if (!repoManager.convertRefStorage(projectName, format, writeLogs, backup)) {
+        stdout.println(
+            "Repository is already in " + format.toConfigValue() + " ref storage format");
       }
     } catch (RepositoryNotFoundException e) {
       throw die("'" + projectName + "': not a git archive", e);

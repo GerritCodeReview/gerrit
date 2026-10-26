@@ -16,6 +16,7 @@ export interface ModuleInfo {
   type?: EndpointType;
   domHook?: HookApi<PluginElement>;
   slot?: string;
+  order?: number;
 }
 
 /**
@@ -35,6 +36,7 @@ interface Options {
   endpoint: string;
   dynamicEndpoint?: string;
   slot?: string;
+  order?: number;
   type?: EndpointType;
   moduleName?: string;
   domHook?: HookApi<PluginElement>;
@@ -71,7 +73,9 @@ export class GrPluginEndpoints {
   }
 
   _getOrCreateModuleInfo(plugin: PluginApi, opts: Options): ModuleInfo {
-    const {endpoint, slot, type, moduleName, domHook} = opts;
+    const {endpoint, slot, order, type, moduleName, domHook} = opts;
+    const normalizedOrder =
+      order !== undefined && Number.isFinite(order) ? order : undefined;
     const existingModule = this._endpoints
       .get(endpoint)!
       .find(
@@ -79,7 +83,8 @@ export class GrPluginEndpoints {
           info.plugin === plugin &&
           info.moduleName === moduleName &&
           info.domHook === domHook &&
-          info.slot === slot
+          info.slot === slot &&
+          info.order === normalizedOrder
       );
     if (existingModule) {
       return existingModule;
@@ -91,6 +96,7 @@ export class GrPluginEndpoints {
         type,
         domHook,
         slot,
+        ...(normalizedOrder !== undefined ? {order: normalizedOrder} : {}),
       };
       this._endpoints.get(endpoint)!.push(newModule);
       return newModule;
@@ -138,8 +144,21 @@ export class GrPluginEndpoints {
    * endpoint.
    */
   getDetails(name: string): ModuleInfo[] {
-    return (this._endpoints.get(name) ?? []).sort((m1, m2) =>
-      m1.plugin.getPluginName().localeCompare(m2.plugin.getPluginName())
-    );
+    return [...(this._endpoints.get(name) ?? [])].sort((m1, m2) => {
+      const o1 =
+        m1.order !== undefined && Number.isFinite(m1.order)
+          ? m1.order
+          : undefined;
+      const o2 =
+        m2.order !== undefined && Number.isFinite(m2.order)
+          ? m2.order
+          : undefined;
+      if (o1 !== o2) {
+        if (o1 === undefined) return 1;
+        if (o2 === undefined) return -1;
+        return o1 < o2 ? -1 : 1;
+      }
+      return m1.plugin.getPluginName().localeCompare(m2.plugin.getPluginName());
+    });
   }
 }

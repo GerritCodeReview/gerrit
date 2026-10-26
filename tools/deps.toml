@@ -47,7 +47,7 @@ commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", v
 commonmark-ext-gfm-strikethrough = { module = "org.commonmark:commonmark-ext-gfm-strikethrough", version.ref = "commonmark" }
 commonmark-ext-gfm-tables = { module = "org.commonmark:commonmark-ext-gfm-tables", version.ref = "commonmark" }
 commonmark-ext-yaml-front-matter = { module = "org.commonmark:commonmark-ext-yaml-front-matter", version.ref = "commonmark" }
-commons-codec = { module = "commons-codec:commons-codec", version = "1.20.0" }
+commons-codec = { module = "commons-codec:commons-codec", version = "1.23.0" }
 commons-compress = { module = "org.apache.commons:commons-compress", version = "1.28.0" }
 commons-dbcp = { module = "commons-dbcp:commons-dbcp", version = "1.4" }
 commons-lang3 = { module = "org.apache.commons:commons-lang3", version = "3.20.0" }

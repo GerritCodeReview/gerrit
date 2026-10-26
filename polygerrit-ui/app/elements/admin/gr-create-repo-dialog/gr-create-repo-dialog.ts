@@ -11,6 +11,8 @@ import {
   ProjectInput,
   RepoName,
 } from '../../../types/common';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {RefStorage} from '../../../constants/constants';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {convertToString} from '../../../utils/string-util';
@@ -56,6 +58,7 @@ export class GrCreateRepoDialog extends LitElement {
     permissions_only: false,
     name: '' as RepoName,
     branches: [],
+    ref_storage: RefStorage.FILES,
   };
 
   /* private but used in test */
@@ -270,6 +273,28 @@ export class GrCreateRepoDialog extends LitElement {
               </span>
             </div>
           </section>
+          <section>
+            <div class="title-flex">
+              <span class="title">
+                <gr-tooltip-content
+                  has-tooltip
+                  title="Store references using the reftable backend instead of the default files backend."
+                >
+                  Reftable <gr-icon icon="info"></gr-icon>
+                </gr-tooltip-content>
+              </span>
+            </div>
+            <div class="value-flex">
+              <span class="value">
+                <md-checkbox
+                  id="reftable"
+                  ?checked=${this.repoConfig.ref_storage ===
+                  RefStorage.REFTABLE}
+                  @change=${this.handleReftableChanged}
+                ></md-checkbox>
+              </span>
+            </div>
+          </section>
         </div>
       </div>
     `;
@@ -352,6 +377,14 @@ export class GrCreateRepoDialog extends LitElement {
     this.repoConfig = {
       ...this.repoConfig,
       create_empty_commit: !this.repoConfig.create_empty_commit,
+    };
+  }
+
+  private handleReftableChanged(e: Event) {
+    const checked = (e.target as MdCheckbox).checked;
+    this.repoConfig = {
+      ...this.repoConfig,
+      ref_storage: checked ? RefStorage.REFTABLE : RefStorage.FILES,
     };
   }
 

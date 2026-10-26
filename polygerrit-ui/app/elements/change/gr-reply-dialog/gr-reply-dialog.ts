@@ -760,6 +760,19 @@ export class GrReplyDialog extends LitElement {
       const reviewer = e.detail.reviewer;
       this.reviewersList?.removeAccount(reviewer);
     });
+
+    // Plugins on reply-reviewers that render their own gr-account-list (for
+    // example, queuing deferred reviewers into a Gerrit Flow on send rather
+    // than adding them to #reviewers immediately) still need to mark the reply
+    // dialog as mutated so the Send button is enabled when only the plugin's
+    // account list changes.
+    this.addEventListener('accounts-changed', () => {
+      this.reviewersMutated = true;
+    });
+
+    this.addEventListener('account-text-changed', () => {
+      this.reviewersMutated = true;
+    });
   }
 
   override willUpdate(changedProperties: PropertyValues) {

@@ -21,6 +21,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "69a89b2e_de859934",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-26T22:18:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b9be2d5_0726f6a4",
+      "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "37fca205_3e25694d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -54,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c5d507_ddfe9ead",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-26T22:18:43Z",
+      "side": 1,
+      "message": "Thank you Becky, rendered `errorMessage` differently.",
+      "parentUuid": "53aafcfd_0f78dfd6",
+      "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb13efe1_99642232",
@@ -68,6 +104,24 @@
       "side": 1,
       "message": "Returning early when description is empty means that if a submit requirement does not have a static description configured in project.config, the endpoint decorator is never rendered. This prevents plugins from dynamically adding a description for requirements that do not already have one. Is this limitation intentional?",
       "isAi": true,
+      "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef6f4ec2_97da1c75",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-26T22:18:43Z",
+      "side": 1,
+      "message": "Yeah, indeed, now resolved.",
+      "parentUuid": "eb13efe1_99642232",
       "revId": "83a815ed175269323eaa8c88bd6506cb2339285e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

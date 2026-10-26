@@ -87,6 +87,24 @@
       "parentUuid": "350a7a0c_cedcac42",
       "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c5d17af_9a8ba478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-26T19:38:48Z",
+      "side": 1,
+      "message": "Are we going to abandon JGit `stable-7.9` branch, like we did with `servlet-4` branch?\n\nGerrit does not consume JGit releases, but building JGit from source. That\u0027s why my understanding was (and still is) that Gerrit 3.15 release is tracking JGit `stable-7.9` branch.",
+      "parentUuid": "4ba0b753_f75d774c",
+      "revId": "e0cd620a3a414bc194c875ab39a932fcc6f3c624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

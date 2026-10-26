@@ -760,6 +760,19 @@ export class GrReplyDialog extends LitElement {
       const reviewer = e.detail.reviewer;
       this.reviewersList?.removeAccount(reviewer);
     });
+
+    // Plugins on reply-reviewers that render their own gr-account-list (for
+    // example, queuing deferred reviewers into a Gerrit Flow on send rather
+    // than adding them to #reviewers immediately) still need to mark the reply
+    // dialog as mutated so the Send button is enabled when only the plugin's
+    // account list changes.
+    this.addEventListener('accounts-changed', () => {
+      this.reviewersMutated = true;
+    });
+
+    this.addEventListener('account-text-changed', () => {
+      this.handleAccountTextEntry();
+    });
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -862,7 +875,6 @@ export class GrReplyDialog extends LitElement {
           @pending-confirmation-changed=${this
             .handleReviewersConfirmationChanged}
           .placeholder=${'Add reviewer...'}
-          @account-text-changed=${this.handleAccountTextEntry}
           .suggestionsProvider=${this.getReviewerSuggestionsProvider(
             this.change
           )}
@@ -891,7 +903,6 @@ export class GrReplyDialog extends LitElement {
           @pending-confirmation-changed=${this.handleCcsConfirmationChanged}
           allow-any-input
           .placeholder=${'Add CC...'}
-          @account-text-changed=${this.handleAccountTextEntry}
           .suggestionsProvider=${this.getCcSuggestionsProvider(this.change)}
         >
         </gr-account-list>
@@ -1518,8 +1529,13 @@ export class GrReplyDialog extends LitElement {
         this.change,
         reviewInput
       ))
-    )
+    ) {
+      this.disabled = false;
+      if (this.patchsetLevelGrComment) {
+        this.patchsetLevelGrComment.disableAutoSaving = false;
+      }
       return;
+    }
     // ChangeModel will be updated once the reply returns at which point the
     // timer will be ended.
     this.reporting.time(Timing.SEND_REPLY);

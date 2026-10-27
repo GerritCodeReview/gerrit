@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6908ce40_21e31d48",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-diff-large-line-numbers.png",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-27T13:46:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is expected but the button seems to be ontop of text?",
+      "revId": "28c9f7f7572479031e249b1c973f279c856f9954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

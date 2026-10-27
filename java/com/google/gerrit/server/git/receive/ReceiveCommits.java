@@ -3434,7 +3434,7 @@ class ReceiveCommits {
     boolean validateNewPatchSet(RevWalk globalRevWalk)
         throws IOException, PermissionBackendException {
       try (TraceTimer traceTimer = newTimer("validateNewPatchSet")) {
-        if (!validateNewPatchSetNoteDb(globalRevWalk, /* checkPatchSetLock= */ true)) {
+        if (!validateNewPatchSetNoteDb(globalRevWalk, /* forAutoClose= */ false)) {
           return false;
         }
         sameTreeWarning(globalRevWalk);
@@ -3457,9 +3457,7 @@ class ReceiveCommits {
 
     boolean validateNewPatchSetForAutoClose(RevWalk globalRevWalk)
         throws IOException, PermissionBackendException {
-      // The commit is already in the target branch, so the change must be closed even if its
-      // current patch set is locked.
-      if (!validateNewPatchSetNoteDb(globalRevWalk, /* checkPatchSetLock= */ false)) {
+      if (!validateNewPatchSetNoteDb(globalRevWalk, /* forAutoClose= */ true)) {
         return false;
       }
 
@@ -3468,7 +3466,7 @@ class ReceiveCommits {
     }
 
     /** Validates the new PS against permissions and notedb status. */
-    private boolean validateNewPatchSetNoteDb(RevWalk globalRevWalk, boolean checkPatchSetLock)
+    private boolean validateNewPatchSetNoteDb(RevWalk globalRevWalk, boolean forAutoClose)
         throws IOException, PermissionBackendException {
       try (TraceTimer traceTimer = newTimer("validateNewPatchSetNoteDb")) {
         if (notes == null) {
@@ -3502,22 +3500,25 @@ class ReceiveCommits {
 
         RevCommit newCommit = globalRevWalk.parseCommit(newCommitId);
 
-        // Not allowed to create a new patch set if the current patch set is locked.
-        if (checkPatchSetLock && psUtil.isPatchSetLocked(notes)) {
-          reject(
-              inputCommand,
-              RejectionReason.create(
-                  MetricBucket.PATCH_SET_LOCKED, "cannot add patch set to " + ontoChange + "."));
-          return false;
-        }
+        // If the commit is already in the target branch, the change must be closed even if its
+        // current patch set is locked or the pusher cannot add patch sets to it.
+        if (!forAutoClose) {
+          if (psUtil.isPatchSetLocked(notes)) {
+            reject(
+                inputCommand,
+                RejectionReason.create(
+                    MetricBucket.PATCH_SET_LOCKED, "cannot add patch set to " + ontoChange + "."));
+            return false;
+          }
 
-        if (!permissions.change(notes).test(ChangePermission.ADD_PATCH_SET)) {
-          reject(
-              inputCommand,
-              RejectionReason.create(
-                  MetricBucket.CANNOT_ADD_PATCH_SET,
-                  "cannot add patch set to " + ontoChange + "."));
-          return false;
+          if (!permissions.change(notes).test(ChangePermission.ADD_PATCH_SET)) {
+            reject(
+                inputCommand,
+                RejectionReason.create(
+                    MetricBucket.CANNOT_ADD_PATCH_SET,
+                    "cannot add patch set to " + ontoChange + "."));
+            return false;
+          }
         }
 
         if (change.isClosed()) {

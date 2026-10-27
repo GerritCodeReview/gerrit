@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_EXPIRED;
 import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_WILL_EXPIRE;
 
-import autovalue.shaded.com.google.common.annotations.VisibleForTesting;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.events.LifecycleListener;

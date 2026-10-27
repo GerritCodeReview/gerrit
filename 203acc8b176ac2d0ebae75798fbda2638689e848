@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "287821fe_67de6c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-27T18:40:37Z",
+      "side": 1,
+      "message": "It is still protecting the change metadata, but I don\u0027t know that anyone cares about that kind of use case. If someone did, we could instead allow setting `Add Patch Set` on `refs/heads/` and use that as a fallback in this case. But that complicates ACLs more, so I would avoid it unless someone really objects to what you have here.",
+      "revId": "203acc8b176ac2d0ebae75798fbda2638689e848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4abf9040_40439a9a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3502,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-27T18:40:37Z",
+      "side": 1,
+      "message": "nit: we probably don\u0027t need the comment on lines 3457-3458, and it\u0027s more descriptive than this line, so you could move it here (adjust slightly) and remove it from above. Probably a little cleaner if you nest these under a single `if (!forAutoclose) {` too.\n```suggestion\n        // If the commit is already in the target branch, the change must be closed even if its\n        // current patch set is locked or the pusher cannot add patch sets to it.\n```",
+      "revId": "203acc8b176ac2d0ebae75798fbda2638689e848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ede01bc_cd73b756",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3518,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-27T18:40:37Z",
+      "side": 1,
+      "message": "```suggestion\n        if (!forAutoClose) {\n          if (psUtil.isPatchSetLocked(notes)) {\n            reject(\n                inputCommand,\n                RejectionReason.create(\n                    MetricBucket.PATCH_SET_LOCKED, \"cannot add patch set to \" + ontoChange + \".\"));\n            return false;\n          }\n\n          if (!permissions.change(notes).test(ChangePermission.ADD_PATCH_SET)) {\n            reject(\n                inputCommand,\n                RejectionReason.create(\n                    MetricBucket.CANNOT_ADD_PATCH_SET,\n                    \"cannot add patch set to \" + ontoChange + \".\"));\n            return false;\n          }\n        }\n```",
+      "range": {
+        "startLine": 3503,
+        "startChar": 0,
+        "endLine": 3518,
+        "endChar": 9
+      },
+      "revId": "203acc8b176ac2d0ebae75798fbda2638689e848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0fec574_8eb23563",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-27T18:40:37Z",
+      "side": 1,
+      "message": "Without removing the existing allow, I don\u0027t think this does anything. Does the test fail without your change?",
+      "revId": "203acc8b176ac2d0ebae75798fbda2638689e848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

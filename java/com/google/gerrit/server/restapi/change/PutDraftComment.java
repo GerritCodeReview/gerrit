@@ -42,6 +42,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.util.MarkdownImagesUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -58,6 +59,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final PatchSetUtil psUtil;
   private final Provider<CommentJson> commentJson;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final MarkdownImagesUtil markdownImagesUtil;
 
   @Inject
   PutDraftComment(
@@ -67,7 +69,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       DraftCommentsReader draftCommentsReader,
       PatchSetUtil psUtil,
       Provider<CommentJson> commentJson,
-      PluginSetContext<CommentValidator> commentValidators) {
+      PluginSetContext<CommentValidator> commentValidators,
+      MarkdownImagesUtil markdownImagesUtil) {
     this.updateFactory = updateFactory;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
@@ -75,6 +78,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     this.psUtil = psUtil;
     this.commentJson = commentJson;
     this.commentValidators = commentValidators;
+    this.markdownImagesUtil = markdownImagesUtil;
   }
 
   @Override
@@ -95,7 +99,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
     CreateDraftComment.validateDraftComment(
-        rsrc.getRevisionResource(), in, commentValidators, commentsUtil);
+        rsrc.getRevisionResource(), in, commentValidators, commentsUtil, markdownImagesUtil);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu =
           updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {

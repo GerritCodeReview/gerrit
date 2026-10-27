@@ -158,6 +158,86 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.allowMarkdownBase64ImagesInComments", value = "true")
+  public void createUpdateAndPublishDraftWithBase64ImageExceedingCommentSizeLimit()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String message = "see image " + base64ImageMarkdown(32 << 10);
+
+    CommentInfo draft =
+        addDraft(changeId, revId, CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, message));
+    assertThat(draft.message).isEqualTo(message);
+
+    String updatedMessage = "updated " + base64ImageMarkdown(64 << 10);
+    updateDraft(
+        changeId,
+        revId,
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, updatedMessage),
+        draft.id);
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH;
+    gApi.changes().id(changeId).revision(revId).review(reviewInput);
+    assertThat(getPublishedComment(changeId, revId, draft.id).message).isEqualTo(updatedMessage);
+  }
+
+  @Test
+  @GerritConfig(name = "change.allowMarkdownBase64ImagesInComments", value = "true")
+  public void publishDraftWithBase64ImageExceedingCommentSizeLimitOnPush() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String message = "see image " + base64ImageMarkdown(32 << 10);
+    CommentInfo draft =
+        addDraft(
+            changeId,
+            r.getCommit().getName(),
+            CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, message));
+
+    PushOneCommit.Result amendResult =
+        amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    amendResult.assertOkStatus();
+    amendResult.assertNotMessage("Comment validation failure:");
+    assertThat(getPublishedComment(changeId, r.getCommit().getName(), draft.id).message)
+        .isEqualTo(message);
+  }
+
+  @Test
+  @GerritConfig(name = "change.allowMarkdownBase64ImagesInComments", value = "true")
+  public void createDraftWithBase64ImageAndTextExceedingCommentSizeLimitIsRejected()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    String message = "x".repeat((16 << 10) + 1) + base64ImageMarkdown(1 << 10);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                addDraft(
+                    r.getChangeId(),
+                    r.getCommit().getName(),
+                    CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, message)));
+    assertThat(thrown).hasMessageThat().contains("Comment size exceeds limit");
+  }
+
+  @Test
+  public void createDraftWithBase64ImageExceedingCommentSizeLimitIsRejectedIfImagesNotAllowed()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    String message = base64ImageMarkdown(32 << 10);
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                addDraft(
+                    r.getChangeId(),
+                    r.getCommit().getName(),
+                    CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, message)));
+    assertThat(thrown).hasMessageThat().contains("Comment size exceeds limit");
+  }
+
+  @Test
   @GerritConfig(
       name = "experiments.enabled",
       values = {ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS})
@@ -2637,6 +2717,10 @@ public class CommentsIT extends AbstractDaemonTest {
     DraftInput in = new DraftInput();
     in.message = message;
     return in;
+  }
+
+  private static String base64ImageMarkdown(int base64Length) {
+    return "![image.png](data:image/png;base64," + "A".repeat(base64Length) + ")";
   }
 
   private void deleteDraft(String changeId, String revId, String uuid) throws Exception {

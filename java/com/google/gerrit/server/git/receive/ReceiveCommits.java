@@ -206,6 +206,7 @@ import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.server.util.MarkdownImagesUtil;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.cli.CmdLineParser;
@@ -407,6 +408,7 @@ class ReceiveCommits {
   private final CmdLineParser.Factory optionParserFactory;
   private final DraftCommentsReader draftCommentsReader;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final MarkdownImagesUtil markdownImagesUtil;
   private final BranchCommitValidator.Factory commitValidatorFactory;
   private final Config config;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
@@ -519,6 +521,7 @@ class ReceiveCommits {
       DynamicSet<PluginPushOption> pluginPushOptions,
       PluginSetContext<ReceivePackInitializer> initializers,
       PluginSetContext<CommentValidator> commentValidators,
+      MarkdownImagesUtil markdownImagesUtil,
       MergedByPushOp.Factory mergedByPushOpFactory,
       Metrics metrics,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -565,6 +568,7 @@ class ReceiveCommits {
     this.changeInserterFactory = changeInserterFactory;
     this.draftCommentsReader = draftCommentsReader;
     this.commentValidators = commentValidators;
+    this.markdownImagesUtil = markdownImagesUtil;
     this.commitValidatorFactory = commitValidatorFactory;
     this.config = config;
     this.createRefControl = createRefControl;
@@ -2642,14 +2646,16 @@ class ReceiveCommits {
         ImmutableList<CommentForValidation> draftsForValidation =
             drafts.stream()
                 .map(
-                    comment ->
-                        CommentForValidation.create(
-                            CommentSource.HUMAN,
-                            comment.lineNbr > 0
-                                ? CommentType.INLINE_COMMENT
-                                : CommentType.FILE_COMMENT,
-                            comment.message,
-                            comment.message.length()))
+                    comment -> {
+                      String strippedMessage = markdownImagesUtil.stripImages(comment.message);
+                      return CommentForValidation.create(
+                          CommentSource.HUMAN,
+                          comment.lineNbr > 0
+                              ? CommentType.INLINE_COMMENT
+                              : CommentType.FILE_COMMENT,
+                          strippedMessage,
+                          strippedMessage.length());
+                    })
                 .collect(toImmutableList());
         CommentValidationContext ctx =
             CommentValidationContext.create(

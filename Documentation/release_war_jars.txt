@@ -86,6 +86,7 @@ shims
 slf4j-api
 slf4j-reload4j
 soy-2024-01
+sshd-contrib
 sshd-mina
 sshd-osgi
 sshd-sftp

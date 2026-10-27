@@ -110,7 +110,7 @@ public class CommitValidatorsTest {
         projectCache,
         mock(ProjectConfig.Factory.class),
         mock(ProjectNotifyFilterValidator.class),
-        mock(ProjectConfigRegexValidator.class),
+        new ProjectConfigRegexValidator(() -> () -> true),
         mock(ChangeUtil.class),
         new CommitValidators.Metrics(metricMaker),
         mock(ApprovalQueryBuilder.class),

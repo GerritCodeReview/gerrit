@@ -37,11 +37,6 @@ export class GrEndpointDecorator extends LitElement {
 
   private readonly domHooks = new Map<PluginElement, HookApi<PluginElement>>();
 
-  private readonly decorationMeta = new WeakMap<
-    Node,
-    {slot: string; order?: number; pluginName: string}
-  >();
-
   private readonly initializedPlugins = new Map<string, boolean>();
 
   private readonly timeoutIds = new Set<number>();
@@ -93,8 +88,7 @@ export class GrEndpointDecorator extends LitElement {
   private initDecoration(
     name: string,
     plugin: PluginApi,
-    slot?: string,
-    order?: number
+    slot?: string
   ): Promise<HTMLElement> {
     const el = document.createElement(name) as PluginElement;
     return this.initProperties(
@@ -107,68 +101,13 @@ export class GrEndpointDecorator extends LitElement {
       const slotEl = slot
         ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
         : null;
-      const effectiveSlot = slot && slotEl?.parentNode ? slot : '';
-      const effectiveOrder =
-        order !== undefined && Number.isFinite(order) ? order : undefined;
-      const pluginName = plugin.getPluginName();
-      this.decorationMeta.set(el, {
-        slot: effectiveSlot,
-        order: effectiveOrder,
-        pluginName,
-      });
-      if (effectiveSlot && slotEl?.parentNode) {
-        let refNode = slotEl.nextSibling;
-        while (refNode) {
-          const meta = this.decorationMeta.get(refNode);
-          if (
-            !meta ||
-            meta.slot !== effectiveSlot ||
-            this.shouldInsertBefore(
-              meta,
-              effectiveSlot,
-              effectiveOrder,
-              pluginName
-            )
-          ) {
-            break;
-          }
-          refNode = refNode.nextSibling;
-        }
-        slotEl.parentNode.insertBefore(el, refNode);
+      if (slot && slotEl?.parentNode) {
+        slotEl.parentNode.insertBefore(el, slotEl.nextSibling);
       } else {
-        const refNode = Array.from(this.children).find(child => {
-          const meta = this.decorationMeta.get(child);
-          return (
-            !!meta &&
-            this.shouldInsertBefore(meta, '', effectiveOrder, pluginName)
-          );
-        });
-        if (refNode) {
-          this.insertBefore(el, refNode);
-        } else {
-          this.appendChild(el);
-        }
+        this.appendChild(el);
       }
       return el;
     });
-  }
-
-  private shouldInsertBefore(
-    meta: {slot: string; order?: number; pluginName: string},
-    slot: string,
-    order: number | undefined,
-    pluginName: string
-  ): boolean {
-    if (meta.slot !== slot) return false;
-    if (order === undefined) {
-      if (meta.order !== undefined) return false;
-      // Preserve existing LIFO insertion right after <gr-endpoint-slot> for
-      // unordered slotted components, and FIFO append for non-slotted ones.
-      return slot !== '';
-    }
-    if (meta.order === undefined) return true;
-    if (meta.order !== order) return meta.order > order;
-    return meta.pluginName.localeCompare(pluginName) > 0;
   }
 
   private initReplacement(
@@ -282,7 +221,6 @@ export class GrEndpointDecorator extends LitElement {
     type,
     domHook,
     slot,
-    order,
   }: ModuleInfo) => {
     const name = plugin.getPluginName() + '.' + moduleName;
     if (this.targetPlugin) {
@@ -294,7 +232,7 @@ export class GrEndpointDecorator extends LitElement {
     let initPromise;
     switch (type) {
       case EndpointType.DECORATE:
-        initPromise = this.initDecoration(moduleName, plugin, slot, order);
+        initPromise = this.initDecoration(moduleName, plugin, slot);
         break;
       case EndpointType.REPLACE:
         initPromise = this.initReplacement(moduleName, plugin);

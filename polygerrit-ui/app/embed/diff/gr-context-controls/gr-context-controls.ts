@@ -71,17 +71,25 @@ function findBlockTreePathForLine(
  * 'both': Typically for the context controls in the middle of a file. So show
  *         two buttons, one for expanding from the top and one for expanding
  *         from the bottom.
+ * 'none': For context controls that cannot be expanded partially, because
+ *         the lines next to them were skipped by the server (file too large).
+ *         So only show the button for loading the full content, in its own
+ *         row.
  */
-export type GrContextControlsShowConfig = 'above' | 'below' | 'both';
+export type GrContextControlsShowConfig = 'above' | 'below' | 'both' | 'none';
 
-export function getShowConfig(group?: GrDiffGroup, lineCountLeft = 0) {
+export function getShowConfig(
+  group?: GrDiffGroup,
+  lineCountLeft = 0
+): GrContextControlsShowConfig {
   const above = showAbove(group, lineCountLeft);
   const below = showBelow(group, lineCountLeft);
 
   if (above && !below) return 'above';
   if (!above && below) return 'below';
+  if (!above && !below && group?.hasSkipGroup()) return 'none';
 
-  // Note that !showAbove && !showBelow also intentionally returns 'both'.
+  // Note that otherwise !showAbove && !showBelow intentionally returns 'both'.
   // This means the file is completely collapsed, which is unusual, but at least
   // happens in one test.
   return 'both';
@@ -375,11 +383,12 @@ export class GrContextControls extends LitElement {
         text = `+${pluralize(linesToExpand, 'common line')}`;
         ariaLabel = `Show ${pluralize(linesToExpand, 'common line')}`;
       }
-      classes += this.showBoth()
-        ? 'centeredButton'
-        : this.showAbove()
-        ? 'aboveButton'
-        : 'belowButton';
+      classes +=
+        this.showBoth() || this.showConfig === 'none'
+          ? 'centeredButton'
+          : this.showAbove()
+          ? 'aboveButton'
+          : 'belowButton';
       if (this.group?.hasSkipGroup()) {
         // Expanding content would require load of more data
         text += ' (too large)';

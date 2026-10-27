@@ -59,9 +59,15 @@ suite('gr-diff-element tests', () => {
           <div class="diffContainer sideBySide">
             <table id="diffTable" contenteditable="false">
               <colgroup>
-                <col class="left" width="48" />
+                <col
+                  class="left"
+                  style="width:max(48px, calc(1ch + 2 * var(--spacing-m, 8px)));"
+                />
                 <col class="left" />
-                <col class="right" width="48" />
+                <col
+                  class="right"
+                  style="width:max(48px, calc(1ch + 2 * var(--spacing-m, 8px)));"
+                />
                 <col class="right" />
               </colgroup>
             </table>
@@ -84,8 +90,14 @@ suite('gr-diff-element tests', () => {
           <div class="diffContainer unified">
             <table id="diffTable" contenteditable="false">
               <colgroup>
-                <col class="left" width="48" />
-                <col class="right" width="48" />
+                <col
+                  class="left"
+                  style="width: max(48px, calc(2ch + 2 * var(--spacing-m, 8px)));"
+                />
+                <col
+                  class="right"
+                  style="width: max(48px, calc(2ch + 2 * var(--spacing-m, 8px)));"
+                />
                 <col class="right" />
               </colgroup>
               <tbody class="both section">
@@ -1272,9 +1284,15 @@ suite('gr-diff-element tests', () => {
           <div class="diffContainer sideBySide">
             <table id="diffTable" contenteditable="false">
               <colgroup>
-                <col class="left" width="48" />
+                <col
+                  class="left"
+                  style="width: max(48px, calc(2ch + 2 * var(--spacing-m, 8px)));"
+                />
                 <col class="left" />
-                <col class="right" width="48" />
+                <col
+                  class="right"
+                  style="width: max(48px, calc(2ch + 2 * var(--spacing-m, 8px)));"
+                />
                 <col class="right" />
               </colgroup>
               <tbody class="both section">
@@ -2761,9 +2779,15 @@ suite('gr-diff-element tests', () => {
               <gr-diff-row class="left-FILE right-FILE"> </gr-diff-row>
               <table id="diffTable" contenteditable="false">
                 <colgroup>
-                  <col class="left" width="48" />
+                  <col
+                    class="left"
+                    style="width:max(48px, calc(1ch + 2 * var(--spacing-m, 8px)));"
+                  />
                   <col class="left" />
-                  <col class="right" width="48" />
+                  <col
+                    class="right"
+                    style="width:max(48px, calc(1ch + 2 * var(--spacing-m, 8px)));"
+                  />
                   <col class="right" />
                 </colgroup>
                 <tbody class="both section">

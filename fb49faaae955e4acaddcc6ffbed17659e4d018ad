@@ -70,6 +70,30 @@
       },
       "revId": "fb49faaae955e4acaddcc6ffbed17659e4d018ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "446a8855_e69cdaea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-27T15:16:11Z",
+      "side": 1,
+      "message": "Right, by design. The endpoint carries only change-scoped permissions that have no other channel. Permissions that ride `actions` or `removable_*` stay canonical there and are not repeated here. The set grows additively as a concrete need appears, so widening it later does not break clients. This is now stated in the commit message and the endpoint docs.",
+      "parentUuid": "d2a5a550_9183a7ad",
+      "range": {
+        "startLine": 17,
+        "startChar": 51,
+        "endLine": 18,
+        "endChar": 58
+      },
+      "revId": "fb49faaae955e4acaddcc6ffbed17659e4d018ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

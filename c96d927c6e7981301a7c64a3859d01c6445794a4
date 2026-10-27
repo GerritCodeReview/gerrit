@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ddbd2020_57a0eddf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-27T15:16:11Z",
+      "side": 1,
+      "message": "I would keep it scoped. No Gerrit precedent exists for a full permission dump. Every capability surface emits only the granted set through one channel (`actions`, `GET /accounts/{id}/capabilities`, `removable_*`). `check.access` is a targeted single permission probe under `/projects`, not a per change dump.\n\nReturning all would duplicate those surfaces. Of 19 `ChangePermission` values about 13 already reach the client. Only `aiReview` and `deleteComment` have no channel. A second copy drifts from `actions`, which also carries handler state (patch set lock, WIP) that a bare ACL bit does not.\n\nAdditive evolution runs one way per `rest-api.txt`. Adding a field is safe, removing one is incompatible. So the set grows additively the moment a consumer needs more, rather than shipping all now and trimming later. The contract is clarified in the commit message and the REST-API-docs.",
+      "parentUuid": "ac5ebc5f_cee9e690",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 63
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ac8ab76_e58a7aff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-31T19:46:16Z",
       "side": 1,
       "message": "This is confusing IMHO.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 47
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbab24f3_a827a0dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-27T15:16:11Z",
+      "side": 1,
+      "message": "Reworded. The scope rule is now explicit in the commit message, the endpoint NOTE, and the `ChangePermissionsInfo` Javadoc, so an absent name is unambiguous.",
+      "parentUuid": "4ac8ab76_e58a7aff",
       "range": {
         "startLine": 39,
         "startChar": 4,
@@ -119,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f1a0ff1_04f27ba5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3008,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-27T15:16:11Z",
+      "side": 1,
+      "message": "See my reply on the commit message. Keeping it scoped. The `actions` map stays canonical for what it already carries, and this endpoint grows additively for permissions with no other channel.",
+      "parentUuid": "23e03355_0535625e",
+      "range": {
+        "startLine": 3007,
+        "startChar": 8,
+        "endLine": 3008,
+        "endChar": 32
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61b5c716_dc3ae9e8",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -130,6 +202,30 @@
       "writtenOn": "2026-05-31T19:55:17Z",
       "side": 1,
       "message": "Do not use this format as example, but the `project~changeNum` which is directly using NoteDb, rather than using an index lookup.\n\nWe should use ourselves the preferred format and suggest to use it in our examples.",
+      "range": {
+        "startLine": 3030,
+        "startChar": 15,
+        "endLine": 3030,
+        "endChar": 73
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7b30c15_341dee5f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3030,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-27T15:16:11Z",
+      "side": 1,
+      "message": "Done. The example uses `GET /changes/myProject~123/permissions`.",
+      "parentUuid": "61b5c716_dc3ae9e8",
       "range": {
         "startLine": 3030,
         "startChar": 15,
@@ -163,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4389a6a7_3816b809",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8038,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-27T15:16:11Z",
+      "side": 1,
+      "message": "Moot now. `aiReview` is back to default deny (586901), so there are no negatives to report. A name is present if and only if it is granted, uniformly.",
+      "parentUuid": "52d8d516_584eba7a",
+      "range": {
+        "startLine": 8037,
+        "startChar": 0,
+        "endLine": 8038,
+        "endChar": 46
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6178b7de_f9306d1f",
@@ -176,6 +296,30 @@
       "writtenOn": "2026-05-31T19:55:17Z",
       "side": 1,
       "message": "See my previous comment: we should return them all IMHO.",
+      "range": {
+        "startLine": 8040,
+        "startChar": 0,
+        "endLine": 8044,
+        "endChar": 14
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1811c903_e25fc5cc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8044,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-27T15:16:11Z",
+      "side": 1,
+      "message": "Same as the commit message thread. Keeping it scoped and growing additively.",
+      "parentUuid": "6178b7de_f9306d1f",
       "range": {
         "startLine": 8040,
         "startChar": 0,

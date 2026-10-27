@@ -554,6 +554,33 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void autocloseByChangeId_cannotAddPatchSet() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(block(Permission.ADD_PATCH_SET).ref("refs/for/*").group(REGISTERED_USERS))
+        .update();
+
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    GitUtil.fetch(userRepo, r.getPatchSet().refName() + ":ps");
+    RevCommit c = userRepo.amend(r.getCommit()).committer(user.newIdent()).create();
+    userRepo.reset(c);
+
+    // Direct push it, closing it even though user cannot add patch sets
+    String master = "refs/heads/master";
+    assertPushOk(pushHead(userRepo, master, false), master);
+
+    ChangeInfo change = change(r).get();
+    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.revisions).hasSize(2);
+    assertThat(change.currentRevision).isEqualTo(c.name());
+  }
+
+  @Test
   public void autocloseByChangeIdViaMerge() throws Exception {
     RevCommit initialHead =
         testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));

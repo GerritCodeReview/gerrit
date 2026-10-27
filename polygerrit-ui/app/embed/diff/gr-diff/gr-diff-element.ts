@@ -14,7 +14,12 @@ import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import '../gr-diff-builder/gr-diff-builder-image';
 import '../gr-diff-builder/gr-diff-section';
 import '../gr-diff-builder/gr-diff-row';
-import {FULL_CONTEXT, FullContext, isResponsive} from './gr-diff-utils';
+import {
+  FULL_CONTEXT,
+  FullContext,
+  getLineNumberCellWidth,
+  isResponsive,
+} from './gr-diff-utils';
 import {Base64ImageFile} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
@@ -28,6 +33,7 @@ import {property, query, queryAll, state} from 'lit/decorators.js';
 import {html, LitElement, nothing} from 'lit';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
+import {styleMap} from 'lit/directives/style-map.js';
 import {expandFileMode} from '../../../utils/file-util';
 import {
   ColumnsToShow,
@@ -395,31 +401,30 @@ export class GrDiffElement extends LitElement {
   }
 
   renderColumns() {
-    const lineNumberWidth = getLineNumberCellWidth(
-      this.diffPrefs ?? createDefaultDiffPrefs()
-    );
+    const lineNumberStyle = styleMap({
+      width: getLineNumberCellWidth(
+        this.diffPrefs ?? createDefaultDiffPrefs(),
+        this.diff
+      ),
+    });
     return html`
       <colgroup>
         ${when(this.columns.blame, () => html`<col class="blame" />`)}
         ${when(
           this.columns.leftNumber,
-          () => html`<col class="left" width=${lineNumberWidth} />`
+          () => html`<col class="left" style=${lineNumberStyle} />`
         )}
         ${when(this.columns.leftSign, () => html`<col class="left sign" />`)}
         ${when(this.columns.leftContent, () => html`<col class="left" />`)}
         ${when(
           this.columns.rightNumber,
-          () => html`<col class="right" width=${lineNumberWidth} />`
+          () => html`<col class="right" style=${lineNumberStyle} />`
         )}
         ${when(this.columns.rightSign, () => html`<col class="right sign" />`)}
         ${when(this.columns.rightContent, () => html`<col class="right" />`)}
       </colgroup>
     `;
   }
-}
-
-function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
-  return prefs.font_size * 4;
 }
 
 customElements.define('gr-diff-element', GrDiffElement);

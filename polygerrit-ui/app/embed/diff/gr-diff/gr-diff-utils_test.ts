@@ -15,6 +15,7 @@ import {
   FullContext,
   getContentGroups,
   getDataFromCommentThreadEl,
+  getLineNumberCellWidth,
   getRange,
   getRevertedFileContent,
   GrDiffCommentThread,
@@ -22,6 +23,7 @@ import {
 } from './gr-diff-utils';
 import {FILE, GrDiffLineType, LOST, Side} from '../../../api/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
+import {createDiff} from '../../../test/test-data-generators';
 import {GrDiffGroup, GrDiffGroupType} from './gr-diff-group';
 import {GrDiffLine} from './gr-diff-line';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
@@ -65,6 +67,29 @@ suite('gr-diff-utils tests', () => {
       assert.equal(
         computeContext(FULL_CONTEXT, FullContext.UNDECIDED, 2),
         FULL_CONTEXT
+      );
+    });
+  });
+
+  suite('getLineNumberCellWidth', () => {
+    const prefs = {...createDefaultDiffPrefs(), font_size: 12};
+
+    test('without diff', () => {
+      assert.equal(
+        getLineNumberCellWidth(prefs),
+        'max(48px, calc(1ch + 2 * var(--spacing-m, 8px)))'
+      );
+    });
+
+    test('uses the digits of the larger side', () => {
+      const diff = {
+        ...createDiff(),
+        meta_a: {name: 'a', content_type: 'text/plain', lines: 99999},
+        meta_b: {name: 'b', content_type: 'text/plain', lines: 100004},
+      };
+      assert.equal(
+        getLineNumberCellWidth(prefs, diff),
+        'max(48px, calc(6ch + 2 * var(--spacing-m, 8px)))'
       );
     });
   });

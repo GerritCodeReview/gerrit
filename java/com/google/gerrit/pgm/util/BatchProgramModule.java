@@ -218,7 +218,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(ChangeKindCacheImpl.module());
     modules.add(MergeabilityCacheImpl.module());
     modules.add(ServiceUserClassifierImpl.module());
-    modules.add(TagCache.module());
+    modules.add(TagCache.module(getConfig()));
     modules.add(PureRevertCache.module());
     modules.add(new ApprovalModule());
     modules.add(SubmitRequirementsEvaluatorImpl.module());

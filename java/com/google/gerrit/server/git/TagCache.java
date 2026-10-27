@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Project;
 import com.google.inject.Module;
 import java.io.IOException;
 import java.util.Collection;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -25,15 +26,32 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * Decides which tags are visible to a user who cannot read all refs: a tag is visible if a ref the
  * user can read reaches it.
+ *
+ * <p>{@code cache.git_tags.implementation} selects the implementation: {@link BitmapTagCache} (the
+ * default) or {@link DagTagCache}. Each persists to a cache of its own, so that switching never
+ * reads entries the other implementation wrote.
  */
 public interface TagCache {
+  /** Values of {@code cache.git_tags.implementation}. */
+  enum Implementation {
+    BITMAP,
+    DAG
+  }
+
   /** Answers reachability of tags for one lookup. */
   interface Matcher {
     boolean isReachable(Ref tag) throws IOException;
   }
 
-  static Module module() {
-    return BitmapTagCache.module();
+  static Module module(Config cfg) {
+    return switch (implementation(cfg)) {
+      case BITMAP -> BitmapTagCache.module();
+      case DAG -> DagTagCache.module();
+    };
+  }
+
+  static Implementation implementation(Config cfg) {
+    return cfg.getEnum("cache", "git_tags", "implementation", Implementation.BITMAP);
   }
 
   /**

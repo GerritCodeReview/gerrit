@@ -292,7 +292,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(DiffOperationsImpl.module());
     install(SectionSortCache.module());
     install(SubmitStrategy.module());
-    install(TagCache.module());
+    install(TagCache.module(cfg));
     install(PureRevertCache.module());
     install(CommentContextCacheImpl.module());
     install(SubmitRequirementsEvaluatorImpl.module());

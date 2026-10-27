@@ -53,6 +53,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.BitmapTagCache;
+import com.google.gerrit.server.git.DagTagCache;
+import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHookChain;
 import com.google.gerrit.server.git.receive.testing.TestRefAdvertiser;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -84,6 +87,7 @@ import org.junit.Test;
 public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsersName;
   @Inject private PermissionBackend permissionBackend;
+  @Inject private TagCache tagCache;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private IndexOperations.Change changeIndexOperations;
@@ -116,6 +120,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public static Config enableFullRefEvaluation() {
     Config cfg = new Config();
     cfg.setBoolean("auth", null, "skipFullRefEvaluationIfAllRefsAreVisible", false);
+    return cfg;
+  }
+
+  @ConfigSuite.Config
+  public static Config dagTagCache() {
+    Config cfg = new Config();
+    cfg.setEnum("cache", "git_tags", "implementation", TagCache.Implementation.DAG);
     return cfg;
   }
 
@@ -805,6 +816,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/tags/branch-newtag",
         // See comment in subsetOfBranchesVisibleNotIncludingHead.
         "refs/tags/master-tag");
+  }
+
+  @Test
+  public void tagCacheImplementationFollowsConfig() {
+    assertThat(tagCache)
+        .isInstanceOf(
+            TagCache.implementation(baseConfig) == TagCache.Implementation.DAG
+                ? DagTagCache.class
+                : BitmapTagCache.class);
   }
 
   // first  ls-remote: rcBranch (c2 branch) <- newcommit1 (branch-newtag)

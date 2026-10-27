@@ -14,23 +14,31 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.Equivalence.identity;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 public class TagSetHolder {
+  /** Retries of a lookup whose refs moved while the DAG was updated, before a full walk. */
+  private static final int MAX_REFRESHES = 3;
+
   private final Object buildLock = new Object();
   private final Project.NameKey projectName;
 
-  @Nullable private volatile TagSet tags;
+  @Nullable private volatile TagSet tagSet;
 
   TagSetHolder(Project.NameKey projectName) {
     this.projectName = projectName;
@@ -41,67 +49,84 @@ public class TagSetHolder {
   }
 
   TagSet getTagSet() {
-    return tags;
+    return tagSet;
   }
 
-  void setTagSet(TagSet tags) {
-    this.tags = tags;
+  void setTagSet(TagSet tagSet) {
+    this.tagSet = tagSet;
   }
 
-  public TagMatcher matcher(TagCache cache, Repository db, Collection<Ref> include) {
+  public TagMatcher matcher(
+      TagCache cache, Repository db, Collection<Ref> include, Iterable<Ref> tags)
+      throws IOException {
     include = include.stream().filter(r -> !TagSet.skip(r)).collect(toList());
 
-    TagSet tags = this.tags;
-    if (tags == null) {
-      tags = build(cache, db);
+    TagSet tagSet = this.tagSet;
+    if (tagSet == null) {
+      tagSet = build(cache, db);
     }
 
-    TagMatcher m = new TagMatcher(this, cache, db, include, tags, false);
-    tags.prepare(m);
-    if (!m.newRefs.isEmpty() || !m.lostRefs.isEmpty() || !m.gainedRefs.isEmpty()) {
-      tags = rebuild(cache, db, tags, m);
-
-      m = new TagMatcher(this, cache, db, include, tags, true);
-      tags.prepare(m);
+    TagMatcher m = new TagMatcher(this, cache, db, include, tagSet, tags);
+    for (int i = 0; i < MAX_REFRESHES && !m.isComplete(); i++) {
+      tagSet = refresh(cache, db, m);
+      m = new TagMatcher(this, cache, db, include, tagSet, tags);
+    }
+    if (!m.isComplete()) {
+      // Refs keep moving while the DAG is updated, or they cannot be read: treat the remaining
+      // out-of-date refs as not reaching any tag, so that tags are only ever hidden, not leaked.
+      m = TagMatcher.withoutUnknownRefs(m);
     }
     return m;
   }
 
-  void rebuildForNewTags(TagCache cache, TagMatcher m) {
-    m.tags = rebuild(cache, m.db, m.tags, null);
-    m.mask.clear();
-    m.newRefs.clear();
-    m.lostRefs.clear();
-    m.gainedRefs.clear();
-    m.tags.prepare(m);
-  }
-
-  private TagSet build(TagCache cache, Repository db) {
+  private TagSet build(TagCache cache, Repository db) throws IOException {
     synchronized (buildLock) {
-      TagSet tags = this.tags;
-      if (tags == null) {
-        tags = new TagSet(projectName);
-        if (tags.build(db, null, null)) {
-          this.tags = tags;
-          cache.put(projectName, this);
+      TagSet tagSet = this.tagSet;
+      if (tagSet == null) {
+        tagSet = new TagSet(projectName);
+        if (!tagSet.build(db, null, null)) {
+          throw new InterruptedIOException("interrupted while building tags of " + projectName);
         }
+        this.tagSet = tagSet;
+        cache.put(projectName, this);
       }
-      return tags;
+      return tagSet;
     }
   }
 
-  private TagSet rebuild(TagCache cache, Repository db, TagSet old, TagMatcher m) {
+  /**
+   * Applies the refs {@code m} found out of date to a copy of the current DAG and publishes it.
+   *
+   * <p>A thread that had to wait for the lock applies its updates to the DAG another thread just
+   * published, not to the one it looked at, so that concurrent requests extend each other's work
+   * instead of repeating it. Refs that no longer exist are dropped as part of the same update.
+   */
+  private TagSet refresh(TagCache cache, Repository db, TagMatcher m) throws IOException {
     synchronized (buildLock) {
-      TagSet cur = this.tags;
-      if (identity().equivalent(cur, old)) {
-        cur = new TagSet(projectName);
-        if (cur.build(db, old, m)) {
-          this.tags = cur;
-          cache.put(projectName, this);
-        }
+      TagSet cur = this.tagSet;
+      if (cur == null) {
+        return build(cache, db);
       }
-      return cur;
+      TagSet updated = new TagSet(projectName);
+      if (!updated.build(db, cur, m)) {
+        throw new InterruptedIOException("interrupted while refreshing tags of " + projectName);
+      }
+      Set<String> existing = new HashSet<>();
+      for (Ref r :
+          db.getRefDatabase()
+              .getRefsByPrefixWithExclusions(RefDatabase.ALL, TagSet.SKIPPABLE_REF_PREFIXES)) {
+        existing.add(r.getName());
+      }
+      var unused = updated.removeDeletedRefs(existing);
+      this.tagSet = updated;
+      cache.put(projectName, this);
+      return updated;
     }
+  }
+
+  @VisibleForTesting
+  TagSet refreshForTesting(TagCache cache, Repository db, TagMatcher m) throws IOException {
+    return refresh(cache, db, m);
   }
 
   enum Serializer implements CacheSerializer<TagSetHolder> {
@@ -111,9 +136,9 @@ public class TagSetHolder {
     public byte[] serialize(TagSetHolder object) {
       TagSetHolderProto.Builder b =
           TagSetHolderProto.newBuilder().setProjectName(object.projectName.get());
-      TagSet tags = object.tags;
-      if (tags != null) {
-        b.setTags(tags.toProto());
+      TagSet tagSet = object.tagSet;
+      if (tagSet != null) {
+        b.setTags(TagSet.Serializer.toProto(tagSet));
       }
       return Protos.toByteArray(b.build());
     }
@@ -123,7 +148,7 @@ public class TagSetHolder {
       TagSetHolderProto proto = Protos.parseUnchecked(TagSetHolderProto.parser(), in);
       TagSetHolder holder = new TagSetHolder(Project.nameKey(proto.getProjectName()));
       if (proto.hasTags()) {
-        holder.tags = TagSet.fromProto(proto.getTags());
+        holder.tagSet = TagSet.Serializer.fromProto(proto.getTags());
       }
       return holder;
     }

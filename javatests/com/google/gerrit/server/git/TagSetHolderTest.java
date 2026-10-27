@@ -35,7 +35,7 @@ public class TagSetHolderTest {
         .isEqualTo(
             TagSetHolderProto.newBuilder()
                 .setProjectName("project")
-                .setTags(holder.getTagSet().toProto())
+                .setTags(TagSet.Serializer.toProto(holder.getTagSet()))
                 .build());
 
     TagSetHolder deserialized = TagSetHolder.Serializer.INSTANCE.deserialize(serialized);
@@ -64,6 +64,6 @@ public class TagSetHolderTest {
             ImmutableMap.of(
                 "buildLock", Object.class,
                 "projectName", Project.NameKey.class,
-                "tags", TagSet.class));
+                "tagSet", TagSet.class));
   }
 }

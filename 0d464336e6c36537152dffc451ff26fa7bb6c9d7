@@ -23,6 +23,30 @@
       "isAi": true,
       "revId": "0d464336e6c36537152dffc451ff26fa7bb6c9d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "983d33a6_54d672cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4920126
+      },
+      "writtenOn": "2026-10-27T21:08:08Z",
+      "side": 1,
+      "message": "Thanks, Becky! Done now.",
+      "parentUuid": "76c99401_35d0dfd8",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 9999
+      },
+      "revId": "0d464336e6c36537152dffc451ff26fa7bb6c9d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

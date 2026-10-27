@@ -158,6 +158,30 @@
       },
       "revId": "f68292dadde9689919fd8948e6c0de9ba427bc7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1f88d42_c0c7dddb",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-27T21:44:10Z",
+      "side": 1,
+      "message": "+1 I agree. I agree that the splash page would be a more natural and expected location.",
+      "parentUuid": "ee14dcc3_3cdd3855",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 12
+      },
+      "revId": "f68292dadde9689919fd8948e6c0de9ba427bc7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

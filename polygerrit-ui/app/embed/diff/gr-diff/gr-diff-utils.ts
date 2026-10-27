@@ -11,6 +11,7 @@ import {
 import {Side, SpecialFilePath} from '../../../constants/constants';
 import {
   DiffContextExpandedExternalDetail,
+  DiffInfo,
   DiffPreferencesInfo,
   DiffResponsiveMode,
   DisplayLine,
@@ -44,6 +45,25 @@ import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
  *   A proposed JS API: https://github.com/tc39/proposal-intl-segmenter
  */
 export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+
+/**
+ * Returns the CSS width of a line number column. The width is at least
+ * `4 * font_size` pixels, and grows with the number of digits of the highest
+ * line number, so that large line numbers do not overflow into the content.
+ */
+export function getLineNumberCellWidth(
+  prefs: DiffPreferencesInfo,
+  diff?: DiffInfo
+): string {
+  const maxLineNumber = Math.max(
+    diff?.meta_a?.lines ?? 0,
+    diff?.meta_b?.lines ?? 0
+  );
+  const digits = String(maxLineNumber).length;
+  return `max(${
+    prefs.font_size * 4
+  }px, calc(${digits}ch + 2 * var(--spacing-m, 8px)))`;
+}
 
 export function getResponsiveMode(
   prefs?: DiffPreferencesInfo,

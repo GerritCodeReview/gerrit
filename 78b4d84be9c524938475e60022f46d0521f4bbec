@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f1c34dd_fa0b3bcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-27T13:10:35Z",
+      "side": 1,
+      "message": "@josiecuff@google.com Could you please restore LC+1 vote?",
+      "revId": "78b4d84be9c524938475e60022f46d0521f4bbec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

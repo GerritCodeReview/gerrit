@@ -52,6 +52,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.util.MarkdownImagesUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -67,6 +68,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final MarkdownImagesUtil markdownImagesUtil;
 
   @Inject
   CreateDraftComment(
@@ -74,12 +76,14 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      PluginSetContext<CommentValidator> commentValidators) {
+      PluginSetContext<CommentValidator> commentValidators,
+      MarkdownImagesUtil markdownImagesUtil) {
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.commentValidators = commentValidators;
+    this.markdownImagesUtil = markdownImagesUtil;
   }
 
   @Override
@@ -97,7 +101,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
     } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
-    validateDraftComment(rsrc, in, commentValidators, commentsUtil);
+    validateDraftComment(rsrc, in, commentValidators, commentsUtil, markdownImagesUtil);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu =
           updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
@@ -114,7 +118,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       RevisionResource rsrc,
       DraftInput in,
       PluginSetContext<CommentValidator> commentValidators,
-      CommentsUtil commentsUtil)
+      CommentsUtil commentsUtil,
+      MarkdownImagesUtil markdownImagesUtil)
       throws BadRequestException {
     commentsUtil.ensureValidInReplyTo(rsrc.getNotes(), rsrc.getPatchSet().id(), in.inReplyTo);
 
@@ -136,6 +141,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
             rsrc.getChange().getProject().get(),
             rsrc.getChange().getDest().branch());
 
+    String strippedMessage = markdownImagesUtil.stripImages(comment.message);
     ImmutableList<CommentValidationFailure> validationFailures =
         PublishCommentUtil.findInvalidComments(
             ctx,
@@ -144,8 +150,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
                 CommentForValidation.create(
                     CommentSource.HUMAN,
                     comment.lineNbr > 0 ? CommentType.INLINE_COMMENT : CommentType.FILE_COMMENT,
-                    comment.message,
-                    comment.message.length())));
+                    strippedMessage,
+                    strippedMessage.length())));
 
     if (!validationFailures.isEmpty()) {
       throw new BadRequestException(

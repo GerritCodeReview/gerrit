@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f272995f_c19d1266",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3502,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-27T19:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4abf9040_40439a9a",
+      "revId": "203acc8b176ac2d0ebae75798fbda2638689e848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ede01bc_cd73b756",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc932f4_39546d50",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3518,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-27T19:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ede01bc_cd73b756",
+      "range": {
+        "startLine": 3503,
+        "startChar": 0,
+        "endLine": 3518,
+        "endChar": 9
+      },
+      "revId": "203acc8b176ac2d0ebae75798fbda2638689e848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0fec574_8eb23563",
@@ -71,6 +113,24 @@
       "writtenOn": "2026-10-27T18:40:37Z",
       "side": 1,
       "message": "Without removing the existing allow, I don\u0027t think this does anything. Does the test fail without your change?",
+      "revId": "203acc8b176ac2d0ebae75798fbda2638689e848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32b0871f_704ca23a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-27T19:12:10Z",
+      "side": 1,
+      "message": "The test does fail without the code change. block overrides the allow I guess.",
+      "parentUuid": "d0fec574_8eb23563",
       "revId": "203acc8b176ac2d0ebae75798fbda2638689e848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

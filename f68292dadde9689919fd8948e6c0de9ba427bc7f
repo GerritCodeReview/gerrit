@@ -86,6 +86,30 @@
       },
       "revId": "f68292dadde9689919fd8948e6c0de9ba427bc7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ed0953d_bed4d41b",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-10-27T21:10:20Z",
+      "side": 1,
+      "message": "This is happening in the \"This Change\" context chip in the bottom of the chat right?\n\nWould this be better placed in the splash page instead? It also has the same source of error (getChatModel).",
+      "parentUuid": "bdaaa737_f2c9c7f4",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 12
+      },
+      "revId": "f68292dadde9689919fd8948e6c0de9ba427bc7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

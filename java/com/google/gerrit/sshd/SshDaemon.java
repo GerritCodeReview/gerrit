@@ -22,6 +22,7 @@ import static org.apache.sshd.core.CoreModuleProperties.IDLE_TIMEOUT;
 import static org.apache.sshd.core.CoreModuleProperties.MAX_AUTH_REQUESTS;
 import static org.apache.sshd.core.CoreModuleProperties.MAX_CONCURRENT_SESSIONS;
 import static org.apache.sshd.core.CoreModuleProperties.NIO2_READ_TIMEOUT;
+import static org.apache.sshd.core.CoreModuleProperties.NIO_WORKERS;
 import static org.apache.sshd.core.CoreModuleProperties.REKEY_BYTES_LIMIT;
 import static org.apache.sshd.core.CoreModuleProperties.REKEY_TIME_LIMIT;
 import static org.apache.sshd.core.CoreModuleProperties.SERVER_IDENTIFICATION;
@@ -37,6 +38,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.ssh.HostKey;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -62,6 +64,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -140,6 +143,8 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final String NIO_WORKERS_SYSPROP =
+      "org.apache.sshd.config." + NIO_WORKERS.getName();
 
   public enum SshSessionBackend {
     MINA,
@@ -167,7 +172,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       @SshListenAddresses List<SocketAddress> listen,
       @SshAdvertisedAddresses List<String> advertised,
       MetricMaker metricMaker,
-      LogMaxConnectionsPerUserExceeded logMaxConnectionsPerUserExceeded) {
+      LogMaxConnectionsPerUserExceeded logMaxConnectionsPerUserExceeded,
+      ThreadSettingsConfig threadSettingsConfig) {
     setPort(IANA_SSH_PORT /* never used */);
 
     this.cfg = cfg;
@@ -205,6 +211,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final int maxConnectionsPerUser = cfg.getInt("sshd", "maxConnectionsPerUser", 64);
     if (0 < maxConnectionsPerUser) {
       MAX_CONCURRENT_SESSIONS.set(this, maxConnectionsPerUser);
+    }
+
+    int cores = Runtime.getRuntime().availableProcessors();
+    OptionalInt nioWorkers = resolveNioWorkers(cfg, cores, threadSettingsConfig.getSshdThreads());
+    if (nioWorkers.isPresent()) {
+      NIO_WORKERS.set(this, nioWorkers.getAsInt());
     }
 
     final String kerberosKeytab = cfg.getString("sshd", null, "kerberosKeytab");
@@ -349,6 +361,21 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
       logger.atInfo().log("Started Gerrit %s on %s", getVersion(), addressList());
     }
+  }
+
+  static OptionalInt resolveNioWorkers(Config cfg, int cores, int sshdThreads) {
+    if (cfg.getString("sshd", null, "nioWorkers") != null) {
+      int configuredNioWorkers = cfg.getInt("sshd", "nioWorkers", 0);
+      if (configuredNioWorkers > 0) {
+        return OptionalInt.of(configuredNioWorkers);
+      }
+    }
+    if (System.getProperty(NIO_WORKERS_SYSPROP) != null) {
+      return OptionalInt.empty();
+    }
+
+    int defaultNioWorkers = Math.min(cores + 1, Math.max(4, sshdThreads / 4));
+    return OptionalInt.of(defaultNioWorkers);
   }
 
   private static String format(InetSocketAddress s) {

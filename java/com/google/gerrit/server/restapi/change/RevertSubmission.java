@@ -187,6 +187,17 @@ public class RevertSubmission
 
     checkPermissionsForAllChanges(changeResource, changeDatas);
     input.topic = createTopic(input.topic, submissionId);
+    if (input.workInProgress == null) {
+      input.workInProgress =
+          firstNonNull(
+              changeResource
+                  .getUser()
+                  .asIdentifiedUser()
+                  .state()
+                  .generalPreferences()
+                  .workInProgressByDefault,
+              false);
+    }
 
     return Response.ok(revertSubmission(changeDatas, input));
   }

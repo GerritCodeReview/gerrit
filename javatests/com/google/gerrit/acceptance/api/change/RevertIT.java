@@ -1060,6 +1060,51 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertSubmissionWithWipByUserPreference() throws Exception {
+    GeneralPreferencesInfo generalPreferencesInfo = new GeneralPreferencesInfo();
+    generalPreferencesInfo.workInProgressByDefault = true;
+    gApi.accounts().id(admin.id().get()).setPreferences(generalPreferencesInfo);
+    requestScopeOperations.resetCurrentApiUser();
+
+    String changeId1 = createChange("first change", "a.txt", "message").getChangeId();
+    approve(changeId1);
+    String changeId2 = createChange("second change", "b.txt", "other").getChangeId();
+    approve(changeId2);
+    gApi.changes().id(changeId2).current().submit();
+
+    RevertSubmissionInfo revertSubmissionInfo = gApi.changes().id(changeId2).revertSubmission();
+
+    assertThat(revertSubmissionInfo.revertChanges).hasSize(2);
+    for (ChangeInfo revertChange : revertSubmissionInfo.revertChanges) {
+      assertThat(revertChange.workInProgress).isTrue();
+    }
+  }
+
+  @Test
+  public void revertSubmissionOverrideWipByUserPreference() throws Exception {
+    GeneralPreferencesInfo generalPreferencesInfo = new GeneralPreferencesInfo();
+    generalPreferencesInfo.workInProgressByDefault = true;
+    gApi.accounts().id(admin.id().get()).setPreferences(generalPreferencesInfo);
+    requestScopeOperations.resetCurrentApiUser();
+
+    String changeId1 = createChange("first change", "a.txt", "message").getChangeId();
+    approve(changeId1);
+    String changeId2 = createChange("second change", "b.txt", "other").getChangeId();
+    approve(changeId2);
+    gApi.changes().id(changeId2).current().submit();
+
+    RevertInput revertInput = new RevertInput();
+    revertInput.workInProgress = false;
+    RevertSubmissionInfo revertSubmissionInfo =
+        gApi.changes().id(changeId2).revertSubmission(revertInput);
+
+    assertThat(revertSubmissionInfo.revertChanges).hasSize(2);
+    for (ChangeInfo revertChange : revertSubmissionInfo.revertChanges) {
+      assertThat(revertChange.workInProgress).isNull();
+    }
+  }
+
+  @Test
   public void revertSubmissionIdenticalTreeIsAllowed() throws Exception {
     String unrelatedChange = createChange("change1", "a.txt", "message").getChangeId();
     approve(unrelatedChange);

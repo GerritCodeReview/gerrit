@@ -21,6 +21,7 @@ import {
   FullContext,
   getDataFromCommentThreadEl,
   getLineNumber,
+  getLineNumberCellWidth,
   getResponsiveMode,
   getSideByLineEl,
   GrDiffCommentThread,
@@ -432,6 +433,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('prefs')
     ) {
       this.prefsChanged();
+    } else if (changedProperties.has('diff') && this.prefs) {
+      // The line number column width depends on the line count of the diff.
+      this.updatePreferenceStyles();
     }
     if (changedProperties.has('layers')) {
       this.layersChanged();
@@ -644,7 +648,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
       const contentWidth = `${sideBySide ? 2 : 1} * ${lineLimit}`;
 
       // We always have 2 columns for line number
-      const lineNumberWidth = `2 * ${getLineNumberCellWidth(this.prefs)}px`;
+      const lineNumberWidth = `2 * ${getLineNumberCellWidth(
+        this.prefs,
+        this.diff
+      )}`;
 
       // border-right in ".section" css definition (in gr-diff_html.ts)
       const sectionRightBorder = '1px';
@@ -1031,10 +1038,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       .slice(startIndex, endIndex + 1)
       .filter(group => group.lines.length > 0);
   }
-}
-
-function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
-  return prefs.font_size * 4;
 }
 
 function annotateSymbols(

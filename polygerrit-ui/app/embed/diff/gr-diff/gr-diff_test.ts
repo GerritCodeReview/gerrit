@@ -150,7 +150,7 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyleValue('--diff-max-width', element),
-        'calc(2 * 80ch + 2 * 48px + 0ch + 1px + 2px)'
+        'calc(2 * 80ch + 2 * max(48px, calc(1ch + 2 * 4px)) + 0ch + 1px + 2px)'
       );
     });
 
@@ -159,7 +159,7 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyleValue('--diff-max-width', element),
-        'calc(1 * 80ch + 2 * 48px + 0ch + 1px + 2px)'
+        'calc(1 * 80ch + 2 * max(48px, calc(1ch + 2 * 4px)) + 0ch + 1px + 2px)'
       );
     });
 
@@ -169,7 +169,21 @@ suite('gr-diff tests', () => {
       // Each line number column: 4 * 13 = 52px
       assert.equal(
         getComputedStyleValue('--diff-max-width', element),
-        'calc(2 * 80ch + 2 * 52px + 0ch + 1px + 2px)'
+        'calc(2 * 80ch + 2 * max(52px, calc(1ch + 2 * 4px)) + 0ch + 1px + 2px)'
+      );
+    });
+
+    test('max-width considers the line count of the diff', async () => {
+      const diff = createDiff();
+      element.diff = {
+        ...diff,
+        meta_a: {...diff.meta_a!, lines: 100000},
+        meta_b: {...diff.meta_b!, lines: 100000},
+      };
+      await element.updateComplete;
+      assert.equal(
+        getComputedStyleValue('--diff-max-width', element),
+        'calc(2 * 80ch + 2 * max(48px, calc(6ch + 2 * 4px)) + 0ch + 1px + 2px)'
       );
     });
 
@@ -178,7 +192,7 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
       assert.equal(
         getComputedStyleValue('--diff-max-width', element),
-        'calc(2 * 80ch + 2 * 48px + 2ch + 1px + 2px)'
+        'calc(2 * 80ch + 2 * max(48px, calc(1ch + 2 * 4px)) + 2ch + 1px + 2px)'
       );
     });
   });

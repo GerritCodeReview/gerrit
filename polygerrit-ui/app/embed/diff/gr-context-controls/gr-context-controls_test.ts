@@ -6,13 +6,14 @@
 import '../../../test/common-test-setup';
 import '../gr-diff/gr-diff-group';
 import './gr-context-controls';
-import {GrContextControls} from './gr-context-controls';
+import {getShowConfig, GrContextControls} from './gr-context-controls';
 import {SyntaxBlock} from '../../../api/diff';
 import {assert, fixture, html} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
 import {
   createContextGroup,
   createContextGroupWithDelta,
+  createSkipContextGroup,
 } from '../../../test/test-data-generators';
 import {GrTooltipContent} from '../../../elements/shared/gr-tooltip-content/gr-tooltip-content';
 
@@ -83,6 +84,63 @@ suite('gr-context-control tests', () => {
 
     assert.include([...buttons[0].classList.values()], 'aboveButton');
     assert.include([...buttons[1].classList.values()], 'aboveButton');
+  });
+
+  test('context control for skipped lines at the top', async () => {
+    element.group = createSkipContextGroup({offset: 0, count: 20});
+
+    await waitEventLoop();
+
+    const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
+
+    assert.equal(element.showConfig, 'none');
+    assert.equal(buttons.length, 1);
+    assert.equal(buttons[0].textContent.trim(), '+20 common lines (too large)');
+    assert.include([...buttons[0].classList.values()], 'centeredButton');
+  });
+
+  test('context control for skipped lines in the middle', async () => {
+    element.group = createSkipContextGroup({offset: 10, count: 20});
+
+    await waitEventLoop();
+
+    const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
+
+    assert.equal(element.showConfig, 'none');
+    assert.equal(buttons.length, 1);
+    assert.include([...buttons[0].classList.values()], 'centeredButton');
+  });
+
+  test('getShowConfig', () => {
+    assert.equal(
+      getShowConfig(createContextGroup({offset: 0, count: 20}), 50),
+      'below'
+    );
+    assert.equal(
+      getShowConfig(createContextGroup({offset: 10, count: 20}), 50),
+      'both'
+    );
+    assert.equal(
+      getShowConfig(createContextGroup({offset: 30, count: 20}), 50),
+      'above'
+    );
+    assert.equal(
+      getShowConfig(createSkipContextGroup({offset: 0, count: 20}), 50),
+      'none'
+    );
+    assert.equal(
+      getShowConfig(createSkipContextGroup({offset: 10, count: 20}), 50),
+      'none'
+    );
+    assert.equal(
+      getShowConfig(createSkipContextGroup({offset: 30, count: 20}), 50),
+      'none'
+    );
+    // Unknown line count still falls back to 'both'.
+    assert.equal(
+      getShowConfig(createContextGroup({offset: 0, count: 20}), 0),
+      'both'
+    );
   });
 
   function prepareForBlockExpansion(syntaxTree: SyntaxBlock[]) {

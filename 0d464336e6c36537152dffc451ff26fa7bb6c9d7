@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76c99401_35d0dfd8",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-27T20:16:05Z",
+      "side": 1,
+      "message": "If a requirement is in ERROR status but getRequirementErrorMessage(this.requirement) is undefined, falling back to this.requirement.description bypasses \u003cgr-endpoint-decorator\u003e and renders the static description directly. Additionally, if neither is defined, returning early prevents plugins from dynamically injecting descriptions for errored requirements. Should this branch only bypass the decorator when getRequirementErrorMessage() returns an evaluation error message, allowing other cases to fall through to the decorator?",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "0d464336e6c36537152dffc451ff26fa7bb6c9d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

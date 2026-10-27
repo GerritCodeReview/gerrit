@@ -110,6 +110,30 @@
       },
       "revId": "f68292dadde9689919fd8948e6c0de9ba427bc7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc60f69_b208b70b",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-27T21:18:49Z",
+      "side": 1,
+      "message": "There was this follow up: https://gerrit-review.googlesource.com/c/gerrit/+/647923\n\nNot sure if this satisfies your comment.",
+      "parentUuid": "9ed0953d_bed4d41b",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 396,
+        "endChar": 12
+      },
+      "revId": "f68292dadde9689919fd8948e6c0de9ba427bc7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

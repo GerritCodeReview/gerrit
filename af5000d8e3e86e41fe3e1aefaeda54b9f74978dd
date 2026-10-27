@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e4eb0dd_bb3f7022",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateDraftComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-27T20:47:22Z",
+      "side": 1,
+      "message": "Note on cumulative comment size limit: `Documentation/config-gerrit.txt` promises that base64 images are not counted against either `change.commentSizeLimit` or `change.cumulativeCommentSizeLimit`. However, `CreateDraftComment`, `PutDraftComment`, and `PostReviewOp` only strip images from the transient `CommentForValidation` objects while persisting the full raw `comment.message` in NoteDb.\n\nWhen any subsequent comment is posted on the same change, `CommentCumulativeSizeValidator.validateComments` sums `Comment::getApproximateSize` across all existing `notes.getHumanComments()` (which uses the unstripped `comment.message.length()`). As a result, a single ~3 MiB screenshot comment silently exhausts the default 3 MiB `change.cumulativeCommentSizeLimit` and blocks all subsequent comments on the CL (`Exceeding maximum cumulative size of comments and change messages`).\n\nConsider injecting `MarkdownImagesUtil` into `CommentCumulativeSizeValidator` (in this CL or a follow-up) so existing persisted comment sizes also exclude base64 images when `change.allowMarkdownBase64ImagesInComments` is enabled.",
+      "isAi": true,
+      "revId": "af5000d8e3e86e41fe3e1aefaeda54b9f74978dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f637821_f4694d6c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateDraftComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-27T20:47:22Z",
+      "side": 1,
+      "message": "`ReceiveCommits` (`git push origin HEAD:refs/for/\u003cbranch\u003e%publish-comments`) also validates draft comments using `PublishCommentUtil.findInvalidComments`, passing raw `comment.message` and `comment.message.length()` without calling `markdownImagesUtil.stripImages(comment.message)`.\n\nDrafts containing inline base64 images created in the UI (now allowed by this change) will still be withheld on `git push` with `WARNING: Comment validation failure: Comment size exceeds limit` unless `ReceiveCommits` also strips images.",
+      "isAi": true,
+      "revId": "af5000d8e3e86e41fe3e1aefaeda54b9f74978dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a4d09fd_deaff914",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateDraftComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-27T20:47:22Z",
+      "side": 1,
+      "message": "In `PostReviewOp.validateComments`, the size passed to `CommentForValidation.create` is computed as:\n\n```java\nint size \u003d\n    comment.getApproximateSize()\n        - comment.message.length()\n        + strippedMessage.length();\n```\n\nwhich preserves the approximate size of non-message fields (`fixSuggestions`, metadata fields). Passing `strippedMessage.length()` directly here means a draft with `fixSuggestions` or long metadata near `change.commentSizeLimit` can pass draft validation and then fail at publish time in `PostReviewOp`.\n\nSuggested update:\n\n```java\n    String strippedMessage \u003d markdownImagesUtil.stripImages(comment.message);\n    int size \u003d\n        comment.getApproximateSize() - comment.message.length() + strippedMessage.length();\n    ImmutableList\u003cCommentValidationFailure\u003e validationFailures \u003d\n        PublishCommentUtil.findInvalidComments(\n            ctx,\n            commentValidators,\n            ImmutableList.of(\n                CommentForValidation.create(\n                    CommentSource.HUMAN,\n                    comment.lineNbr \u003e 0 ? CommentType.INLINE_COMMENT : CommentType.FILE_COMMENT,\n                    strippedMessage,\n                    size)));\n```",
+      "isAi": true,
+      "revId": "af5000d8e3e86e41fe3e1aefaeda54b9f74978dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

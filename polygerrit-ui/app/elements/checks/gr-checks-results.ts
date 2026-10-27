@@ -931,8 +931,7 @@ export class GrResultExpanded extends LitElement {
         icon=${icon.name}
         class="link"
         ?filled=${!!icon.filled}
-      ></gr-icon>
-      <span>${text}</span>
+      ></gr-icon><span>${text}</span>
     </a>`;
   }
 }

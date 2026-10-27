@@ -14,45 +14,48 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto;
-import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.CachedRefProto;
-import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.TagProto;
+import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.NodeProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
-import com.google.protobuf.ByteString;
-import java.io.DataOutputStream;
+import com.google.gerrit.server.git.DecoratedDag.Node;
 import java.io.IOException;
 import java.io.InterruptedIOException;
-import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.roaringbitmap.RoaringBitmap;
 
 /**
- * Builds a set of tags, and tracks which tags are reachable from which non-tag, non-special refs.
- * An instance is constructed from a snapshot of the ref database. TagSets can be incrementally
- * updated to newer states of the RefDatabase using the refresh method.
+ * A TagSet keeps track of tag reachability from other refs to make reachability lookups fast.
+ *
+ * <p>Use a cacheable {@link DecoratedDag} to determine reachability on the fly. The DAG is built
+ * the first time by calling build(). Confirm that all the interesting refs are in the DAG when
+ * checking for reachability and use the TagMatcher to signal that the DAG is out of date. When the
+ * DAG is out of date the TagMatcher will call refresh() which copies the Dag to a new {@link
+ * TagSet} and then updates the new DAG with the new updates.
  *
  * <p>This set is used to determine which tags should be advertised when only a subset of refs is
  * visible to a user.
@@ -61,7 +64,7 @@ import org.roaringbitmap.RoaringBitmap;
  */
 class TagSet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final ImmutableSet<String> SKIPPABLE_REF_PREFIXES =
+  static final ImmutableSet<String> SKIPPABLE_REF_PREFIXES =
       ImmutableSet.of(
           RefNames.REFS_CHANGES,
           RefNames.REFS_CACHE_AUTOMERGE,
@@ -70,359 +73,396 @@ class TagSet {
 
   private final Project.NameKey projectName;
 
-  /**
-   * refName => ref. CachedRef is a ref that has an integer identity, used for indexing into
-   * RoaringBitmaps.
-   */
-  private final Map<String, CachedRef> refs;
+  protected final DecoratedDag dag;
 
-  /** ObjectId-pointed-to-by-tag => Tag */
-  private final ObjectIdOwnerMap<Tag> tags;
+  /**
+   * Ids that refs point to which are not commits (e.g. tags of trees or blobs). They are not in the
+   * DAG; remembering them avoids treating such refs as out of date on every lookup. Concurrent,
+   * since lookups add to it on a published TagSet without holding a lock.
+   */
+  private final Set<ObjectId> nonCommits = ConcurrentHashMap.newKeySet();
 
   TagSet(Project.NameKey projectName) {
-    this(projectName, new HashMap<>(), new ObjectIdOwnerMap<>());
+    this(projectName, new DecoratedDag());
   }
 
-  TagSet(Project.NameKey projectName, HashMap<String, CachedRef> refs, ObjectIdOwnerMap<Tag> tags) {
+  TagSet(Project.NameKey projectName, DecoratedDag dag) {
     this.projectName = projectName;
-    this.refs = refs;
-    this.tags = tags;
+    this.dag = dag;
   }
 
   Project.NameKey getProjectName() {
     return projectName;
   }
 
-  Tag lookupTag(AnyObjectId id) {
-    return tags.get(id);
-  }
-
-  // Test methods have obtuse names in addition to annotations, since they expose mutable state
-  // which would be easy to corrupt.
-  @VisibleForTesting
-  Map<String, CachedRef> getRefsForTesting() {
-    return refs;
-  }
-
-  @VisibleForTesting
-  ObjectIdOwnerMap<Tag> getTagsForTesting() {
-    return tags;
-  }
-
   /**
-   * Does not record the fast-forward: moving the ref in place would not add it to the tags on the
-   * commits it moved over. The next lookup finds the ref moved and checks those commits.
+   * Returns the tags reachable from {@code refs}, or {@code null} if the DAG does not know the
+   * current value of one of {@code refs} or {@code tags}. Those are then recorded in {@code
+   * m.toUpdate} and the caller must refresh the DAG and retry.
    */
-  boolean updateFastForward(String refName, ObjectId oldValue, ObjectId newValue) {
-    return false;
-  }
-
-  void prepare(TagMatcher m) {
-    @SuppressWarnings("resource")
-    RevWalk rw = null;
-    try {
-      for (Ref currentRef : m.include) {
-        if (currentRef.isSymbolic()) {
-          continue;
+  @Nullable
+  Set<ObjectId> getReachableTags(
+      Repository repo, TagMatcher m, Iterable<Ref> refs, Iterable<Ref> tags) throws IOException {
+    List<Node> nodes = new ArrayList<>();
+    for (Ref ref : refs) {
+      if (!skip(ref)) {
+        Node node = getNodeIfUpToDate(repo, m.toUpdate, ref);
+        if (node != null) {
+          nodes.add(node);
         }
-        if (currentRef.getObjectId() == null) {
-          continue;
-        }
-
-        CachedRef savedRef = refs.get(currentRef.getName());
-        if (savedRef == null) {
-          // If the reference isn't known to the set, return null
-          // and force the caller to rebuild the set in a new copy.
-          m.newRefs.add(currentRef);
-          continue;
-        }
-
-        // The reference has not been moved. It can be used as-is.
-        ObjectId savedObjectId = savedRef.get();
-        if (currentRef.getObjectId().equals(savedObjectId)) {
-          m.mask.add(savedRef.flag);
-          continue;
-        }
-
-        try {
-          if (rw == null) {
-            rw = new RevWalk(m.db);
-            rw.setRetainBody(false);
-          }
-
-          RevCommit savedCommit = rw.parseCommit(savedObjectId);
-          RevCommit currentCommit = rw.parseCommit(currentRef.getObjectId());
-          // Walk the commits added to and removed from the reference. A tag the reference did not
-          // reach yet among the added ones has to gain the reference, and a tag it reached among
-          // the removed ones has to lose it. A fast-forward only adds commits.
-          boolean changed = false;
-          rw.reset();
-          rw.markStart(currentCommit);
-          rw.markUninteresting(savedCommit);
-          RevCommit c;
-          while ((c = rw.next()) != null) {
-            Tag tag = tags.get(c);
-            if (tag != null && !tag.refFlags.contains(savedRef.flag)) {
-              m.gainedRefs.add(new TagMatcher.RefFlag(tag, savedRef.flag));
-              changed = true;
-            }
-          }
-          rw.reset();
-          rw.markStart(savedCommit);
-          rw.markUninteresting(currentCommit);
-          while ((c = rw.next()) != null) {
-            Tag tag = tags.get(c);
-            if (tag != null && tag.refFlags.contains(savedRef.flag)) {
-              m.lostRefs.add(new TagMatcher.RefFlag(tag, savedRef.flag));
-              changed = true;
-            }
-          }
-          if (!changed) {
-            // The reference reaches the same tags. Safely update it in-place.
-            savedRef.compareAndSet(savedObjectId, currentRef.getObjectId());
-            m.mask.add(savedRef.flag);
-          }
-
-        } catch (IOException err) {
-          // Defer a cache update until later. No conclusion can be made
-          // based on an exception reading from the repository storage.
-          logger.atWarning().withCause(err).log("Error checking tags of %s", projectName);
-        }
-      }
-    } finally {
-      if (rw != null) {
-        rw.close();
       }
     }
+
+    for (Ref ref : tags) {
+      if (!skip(ref)) {
+        Node unused = getNodeIfUpToDate(repo, m.toUpdate, ref);
+      }
+    }
+
+    if (!m.toUpdate.isEmpty()) { // shortcut walking if we need to refresh anyway
+      return null;
+    }
+    return reachableFrom(nodes);
+  }
+
+  /** Returns the tags reachable from the refs in {@code refs} that the DAG is up to date for. */
+  Set<ObjectId> getReachableTags(Repository repo, Iterable<Ref> refs, Set<String> outOfDate)
+      throws IOException {
+    List<Node> nodes = new ArrayList<>();
+    for (Ref ref : refs) {
+      if (skip(ref) || outOfDate.contains(ref.getName())) {
+        continue;
+      }
+      ObjectId id = peeledId(repo, ref);
+      Node node = id != null ? getDecorated(id) : null;
+      if (node != null && node.decorations.contains(ref.getName())) {
+        nodes.add(node);
+      }
+    }
+    return reachableFrom(nodes);
+  }
+
+  private Set<ObjectId> reachableFrom(List<Node> nodes) {
+    Set<ObjectId> reachable = new HashSet<>();
+    for (Node node : dag.walkInMemory(nodes, new DecoratedDag.ReachableTagWalker())) {
+      reachable.add(node.copy());
+    }
+    return reachable;
   }
 
   /**
-   * Populates this set from {@code git}, by copying and extending {@code old} if possible and by
-   * walking the full history otherwise.
+   * Returns the node of {@code ref} if the DAG has it with this ref name. Otherwise records the ref
+   * in {@code toUpdate} if it points to a commit, and returns {@code null}.
+   */
+  @Nullable
+  private Node getNodeIfUpToDate(Repository repo, Map<String, ObjectId> toUpdate, Ref ref)
+      throws IOException {
+    ObjectId id = peeledId(repo, ref);
+    if (id == null) {
+      return null;
+    }
+    String refName = ref.getName();
+    Node node = getDecorated(id);
+    if (node != null && node.decorations.contains(refName)) {
+      return node;
+    }
+    if (nonCommits.contains(id)) {
+      return null;
+    }
+    try (RevWalk rw = new RevWalk(repo)) {
+      rw.parseCommit(id);
+      toUpdate.put(refName, id.copy());
+    } catch (IncorrectObjectTypeException notCommit) {
+      // Remembered so that refs to non-commits, e.g. tags of blobs, don't cause a refresh on every
+      // lookup.
+      nonCommits.add(id.copy());
+    } catch (InterruptedIOException e) {
+      throw e;
+    } catch (IOException e) {
+      // As in build() and refresh(), an unreadable commit only hides the tags behind it.
+      logger.atWarning().withCause(e).log("Error on %s of %s", refName, projectName);
+    }
+    return null;
+  }
+
+  @Nullable
+  private static ObjectId peeledId(Repository repo, Ref ref) throws IOException {
+    if (isTag(ref)) {
+      try {
+        ref = repo.getRefDatabase().peel(ref);
+      } catch (InterruptedIOException e) {
+        throw e;
+      } catch (IOException e) {
+        // Use the unpeeled id.
+      }
+      if (ref.getPeeledObjectId() != null) {
+        return ref.getPeeledObjectId();
+      }
+    }
+    return ref.getObjectId();
+  }
+
+  @Nullable
+  protected Node getDecorated(ObjectId id) {
+    Node node = dag.get(id);
+    if (node == null || node.decorations.isEmpty()) {
+      return null;
+    }
+    return node;
+  }
+
+  /**
+   * Populates this set from {@code git}: by copying {@code old} and applying the refs in {@code
+   * m.toUpdate} if both are given, by walking the full history otherwise.
    *
    * @return {@code false} if the build was aborted because the thread was interrupted, in which
    *     case the tag set is incomplete and must not be cached.
    */
-  boolean build(Repository git, @Nullable TagSet old, @Nullable TagMatcher m) {
-    if (old != null && m != null && refresh(old, m)) {
-      return true;
-    }
+  boolean build(Repository git, @Nullable TagSet old, @Nullable TagMatcher m) throws IOException {
+    try {
+      if (old != null && m != null) {
+        // Updating the {@link DecoratedDag} is not thread safe, copy it to update it.
+        copy(old, this);
+        refresh(git, m.toUpdate);
+        return true;
+      }
 
-    try (TagWalk rw = new TagWalk(git)) {
-      rw.setRetainBody(false);
-      RevFlag isTag = rw.newFlag("tag");
-      for (Ref ref :
-          git.getRefDatabase()
-              .getRefsByPrefixWithExclusions(RefDatabase.ALL, SKIPPABLE_REF_PREFIXES)) {
-        if (skip(ref)) {
-          continue;
-
-        } else if (isTag(ref)) {
-          // For a tag, remember where it points to.
-          try {
-            addTag(rw, git.getRefDatabase().peel(ref), isTag);
-          } catch (InterruptedIOException e) {
-            throw e;
-          } catch (IOException e) {
-            addTag(rw, ref, isTag);
+      try (RevWalk rw = new RevWalk(git)) {
+        rw.setRetainBody(false);
+        for (Ref ref :
+            git.getRefDatabase()
+                .getRefsByPrefixWithExclusions(RefDatabase.ALL, SKIPPABLE_REF_PREFIXES)) {
+          if (skip(ref)) {
+            continue;
           }
-
-        } else {
-          // New reference to include in the set.
-          addRef(rw, ref);
+          ObjectId id = peeledId(git, ref);
+          if (id != null) {
+            decorate(rw, id, ref.getName());
+          }
         }
-      }
 
-      // Traverse the complete history and propagate reachability to parents.
-      TagCommit c;
-      while ((c = (TagCommit) rw.next()) != null) {
-        c.propagateReachabilityToParents(isTag);
+        // Traverse the complete history of all refs creating a DAG for all the commits. The
+        // RevWalk visits each commit once, however many refs reach it.
+        for (Node node : dag.decorated) {
+          rw.markStart(rw.parseCommit(node));
+        }
+        RevCommit c;
+        while ((c = rw.next()) != null) {
+          dag.updateParents(c);
+        }
+      } catch (InterruptedIOException e) {
+        throw e;
+      } catch (IOException e) {
+        // A broken object only hides the tags behind it.
+        logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
       }
+      dag.prune();
+      dag.clearUndecorated();
+      return true;
     } catch (InterruptedIOException e) {
       // The calling thread was interrupted, e.g. because the client disconnected. All further
       // object reads would fail as well, so give up on the whole build.
       logger.atFine().log("Interrupted while building tags for repository %s", projectName);
       return false;
-    } catch (IOException e) {
-      logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
     }
-    return true;
   }
 
-  static TagSet fromProto(TagSetProto proto) {
-    ObjectIdConverter idConverter = ObjectIdConverter.create();
+  /**
+   * Serializes a {@link TagSet} as a list of its decorated nodes. Parents are stored as indexes
+   * into that list, so the nodes must be written and read in the same order.
+   */
+  enum Serializer implements CacheSerializer<TagSet> {
+    INSTANCE;
 
-    HashMap<String, CachedRef> refs = Maps.newHashMapWithExpectedSize(proto.getRefCount());
-    proto
-        .getRefMap()
-        .forEach(
-            (n, cr) ->
-                refs.put(n, new CachedRef(cr.getFlag(), idConverter.fromByteString(cr.getId()))));
-    ObjectIdOwnerMap<Tag> tags = new ObjectIdOwnerMap<>();
-    proto
-        .getTagList()
-        .forEach(
-            t -> {
-              RoaringBitmap flags = new RoaringBitmap();
-              ByteBuffer in = ByteBuffer.wrap(t.getFlags().toByteArray());
-              try {
-                flags.deserialize(in);
-              } catch (IOException e) {
-                logger.atSevere().withCause(e).log();
-              }
-              tags.add(new Tag(idConverter.fromByteString(t.getId()), flags));
-            });
-    return new TagSet(Project.nameKey(proto.getProjectName()), refs, tags);
+    @Override
+    public byte[] serialize(TagSet tagSet) {
+      return Protos.toByteArray(toProto(tagSet));
+    }
+
+    @Override
+    public TagSet deserialize(byte[] in) {
+      return fromProto(Protos.parseUnchecked(TagSetProto.parser(), in));
+    }
+
+    static TagSetProto toProto(TagSet tagSet) {
+      List<Node> nodes = new ArrayList<>(tagSet.dag.decorated);
+      Map<Node, Integer> numberByNode = new HashMap<>(nodes.size());
+      for (Node node : nodes) {
+        numberByNode.put(node, numberByNode.size());
+      }
+
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      TagSetProto.Builder b = TagSetProto.newBuilder().setProjectName(tagSet.projectName.get());
+      for (Node node : nodes) {
+        NodeProto.Builder nb =
+            NodeProto.newBuilder()
+                .setId(idConverter.toByteString(node))
+                .addAllDecorations(node.decorations);
+        for (Node parent : node.parents) {
+          Integer n = numberByNode.get(parent);
+          checkState(n != null, "parent %s of %s is not decorated", parent.name(), node.name());
+          nb.addParentNumbers(n);
+        }
+        b.addNodes(nb);
+      }
+      return b.build();
+    }
+
+    static TagSet fromProto(TagSetProto proto) {
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      List<Node> nodes = new ArrayList<>(proto.getNodesCount());
+      DecoratedDag dag = new DecoratedDag();
+      for (NodeProto np : proto.getNodesList()) {
+        Node node =
+            new Node(
+                idConverter.fromByteString(np.getId()), new HashSet<>(np.getDecorationsList()));
+        nodes.add(node);
+        dag.add(node);
+        dag.decorated.add(node);
+      }
+
+      // All {@link Node}s had to be read before we could numerically reference them as parents
+      for (int n = 0; n < nodes.size(); n++) {
+        for (int parentNumber : proto.getNodes(n).getParentNumbersList()) {
+          nodes.get(n).parents.add(nodes.get(parentNumber));
+        }
+      }
+      return new TagSet(Project.nameKey(proto.getProjectName()), dag);
+    }
   }
 
-  TagSetProto toProto() {
-    ObjectIdConverter idConverter = ObjectIdConverter.create();
-    TagSetProto.Builder b = TagSetProto.newBuilder().setProjectName(projectName.get());
-    refs.forEach(
-        (n, cr) ->
-            b.putRef(
-                n,
-                CachedRefProto.newBuilder()
-                    .setId(idConverter.toByteString(cr.get()))
-                    .setFlag(cr.flag)
-                    .build()));
-    tags.forEach(
-        t -> {
-          t.refFlags.runOptimize();
-          ByteString.Output out = ByteString.newOutput(t.refFlags.serializedSizeInBytes());
-          try {
-            t.refFlags.serialize(new DataOutputStream(out));
-          } catch (IOException e) {
-            logger.atSevere().withCause(e).log();
+  /**
+   * Applies ref updates to the DAG. Only use on a copy of a {@link TagSet} that is not in use by
+   * other threads.
+   *
+   * <p>Since the {@link DecoratedDag.Node}s are based on {@link ObjectId}s, and not refs, treat all
+   * ref updates similarly in that they can only add and remove decorations to commits. In other
+   * words, don't see updates from the point of view of the ref, i.e. don't care if the updates are
+   * deletes, fast forwards, rewinds...
+   *
+   * @param idByRef new value of each updated ref
+   * @return whether the DAG changed
+   */
+  @CanIgnoreReturnValue
+  boolean refresh(Repository repo, Map<String, ObjectId> idByRef) throws IOException {
+    boolean updated = false;
+    Map<String, Node> nodeByDecoration = new HashMap<>(dag.decorated.size());
+    for (Node node : dag.decorated) {
+      for (String ref : node.decorations) {
+        nodeByDecoration.put(ref, node);
+      }
+    }
+
+    Set<Node> undecorated = new HashSet<>();
+    Set<Node> inserted = new HashSet<>();
+    // Built on the first insert, so that each insert does not scan the whole DAG for children.
+    Map<Node, Set<Node>> children = null;
+    try (RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(false);
+      for (Map.Entry<String, ObjectId> e : idByRef.entrySet()) {
+        ObjectId id = e.getValue();
+        String refName = e.getKey();
+        Node node = getDecorated(id);
+        if (node != null) {
+          if (node.decorations.add(refName)) {
+            updated = true; // a new decoration was added to an already decorated {@link Node}
           }
-          b.addTag(
-              TagProto.newBuilder()
-                  .setId(idConverter.toByteString(t))
-                  .setFlags(out.toByteString())
-                  .build());
-        });
-    return b.build();
-  }
+        } else {
+          try {
+            if (children == null) {
+              children = dag.getChildren();
+            }
+            node = insertDecorated(rw, id, refName, children); // a previously undecorated commit
+            inserted.add(node);
+            updated = true;
+          } catch (IncorrectObjectTypeException notCommit) {
+            nonCommits.add(id.copy());
+          } catch (InterruptedIOException ex) {
+            throw ex;
+          } catch (IOException ex) {
+            logger.atWarning().withCause(ex).log(
+                "Error refreshing tags for repository %s", projectName);
+          }
+        }
 
-  private boolean refresh(TagSet old, TagMatcher m) {
-    if (m.newRefs.isEmpty()) {
-      // No new references is a simple update. Copy from the old set.
-      copy(old, m);
-      return true;
-    }
-
-    // Only permit a refresh if all new references start from the tip of
-    // an existing references. This happens some of the time within a
-    // Gerrit Code Review server, perhaps about 50% of new references.
-    // Since a complete rebuild is so costly, try this approach first.
-
-    Map<ObjectId, Integer> byObj = new HashMap<>();
-    for (CachedRef r : old.refs.values()) {
-      ObjectId id = r.get();
-      if (!byObj.containsKey(id)) {
-        byObj.put(id, r.flag);
-      }
-    }
-
-    for (Ref newRef : m.newRefs) {
-      ObjectId id = newRef.getObjectId();
-      if (id == null || refs.containsKey(newRef.getName())) {
-        continue;
-      } else if (!byObj.containsKey(id)) {
-        return false;
-      }
-    }
-
-    copy(old, m);
-
-    for (Ref newRef : m.newRefs) {
-      ObjectId id = newRef.getObjectId();
-      if (id == null || refs.containsKey(newRef.getName())) {
-        continue;
-      }
-
-      int srcFlag = byObj.get(id);
-      int newFlag = refs.size();
-      refs.put(newRef.getName(), new CachedRef(newRef, newFlag));
-
-      for (Tag tag : tags) {
-        if (tag.refFlags.contains(srcFlag)) {
-          tag.refFlags.add(newFlag);
+        Node old = nodeByDecoration.get(refName);
+        if (old != null && !old.equals(node)) {
+          old.decorations.remove(refName);
+          undecorated.add(old);
+          updated = true;
+        }
+        if (node != null) {
+          nodeByDecoration.put(refName, node);
+        } else {
+          nodeByDecoration.remove(refName);
         }
       }
     }
 
-    return true;
+    // Inserting may have added undecorated commits between the inserted nodes and their nearest
+    // decorated ancestors. Only those inserted nodes need their parents pruned. This has to happen
+    // before undecorated nodes are dropped, which also drops these intermediate commits.
+    dag.pruneParents(inserted);
+    // A ref update may leave the commit the ref pointed to before without decorations. Drop it, so
+    // that the DAG does not grow with every update, and link its children to its parents.
+    dag.removeUndecorated(undecorated);
+    dag.clearUndecorated();
+    return updated;
   }
 
-  private void copy(TagSet old, TagMatcher m) {
-    refs.putAll(old.refs);
-
-    for (Tag srcTag : old.tags) {
-      tags.add(new Tag(srcTag));
-    }
-
-    for (TagMatcher.RefFlag lost : m.lostRefs) {
-      Tag mine = tags.get(lost.tag);
-      if (mine != null) {
-        mine.refFlags.remove(lost.flag);
+  /**
+   * Removes the decorations of refs that no longer exist. Only use on a copy of a {@link TagSet}
+   * that is not in use by other threads.
+   *
+   * @return whether the DAG changed
+   */
+  @CanIgnoreReturnValue
+  boolean removeDeletedRefs(Set<String> existingRefs) {
+    Set<Node> undecorated = new HashSet<>();
+    for (Node node : dag.decorated) {
+      if (node.decorations.removeIf(
+          r -> !r.equals(DecoratedDag.IC_DECORATION) && !existingRefs.contains(r))) {
+        undecorated.add(node);
       }
     }
-    for (TagMatcher.RefFlag gained : m.gainedRefs) {
-      Tag mine = tags.get(gained.tag);
-      if (mine != null) {
-        mine.refFlags.add(gained.flag);
-      }
-    }
+    dag.removeUndecorated(undecorated);
+    return !undecorated.isEmpty();
   }
 
-  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) throws InterruptedIOException {
-    ObjectId id = ref.getPeeledObjectId();
-    if (id == null) {
-      id = ref.getObjectId();
+  /** Copies the decorated nodes of {@code src} into the empty {@code dst}. */
+  private static void copy(TagSet src, TagSet dst) {
+    for (Node oldNode : src.dag.decorated) {
+      Node newNode = new Node(oldNode, new HashSet<>(oldNode.decorations));
+      newNode.parents = new HashSet<>(oldNode.parents.size());
+
+      dst.dag.add(newNode);
+      dst.dag.decorated.add(newNode);
     }
 
-    if (!tags.contains(id)) {
-      RoaringBitmap flags;
-      try {
-        TagCommit commit = ((TagCommit) rw.parseCommit(id));
-        commit.add(isTag);
-        if (commit.refFlags == null) {
-          commit.refFlags = new RoaringBitmap();
-        }
-        flags = commit.refFlags;
-      } catch (IncorrectObjectTypeException notCommit) {
-        flags = new RoaringBitmap();
-      } catch (InterruptedIOException e) {
-        throw e;
-      } catch (IOException e) {
-        logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
-        flags = new RoaringBitmap();
+    for (Node oldNode : src.dag.decorated) {
+      Node newNode = dst.dag.get(oldNode);
+      for (Node parent : oldNode.parents) {
+        newNode.parents.add(dst.dag.get(parent));
       }
-      tags.add(new Tag(id, flags));
     }
+    dst.nonCommits.addAll(src.nonCommits);
   }
 
-  private void addRef(TagWalk rw, Ref ref) throws InterruptedIOException {
+  /** If a commit, decorate {@link Node} while building {@link DecoratedDag} */
+  private void decorate(RevWalk rw, ObjectId id, String name) throws InterruptedIOException {
     try {
-      TagCommit commit = (TagCommit) rw.parseCommit(ref.getObjectId());
-      rw.markStart(commit);
-
-      int flag = refs.size();
-      if (commit.refFlags == null) {
-        commit.refFlags = new RoaringBitmap();
-      }
-      commit.refFlags.add(flag);
-      refs.put(ref.getName(), new CachedRef(ref, flag));
+      rw.parseCommit(id);
+      dag.decorate(id, name);
     } catch (IncorrectObjectTypeException notCommit) {
       // No need to spam the logs.
       // Quite many refs will point to non-commits.
       // For instance, refs from refs/cache-automerge
       // will often end up here.
+      nonCommits.add(id.copy());
     } catch (InterruptedIOException e) {
       throw e;
     } catch (IOException e) {
-      logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
+      logger.atWarning().withCause(e).log("Error on %s of %s", name, projectName);
     }
   }
 
@@ -433,127 +473,76 @@ class TagSet {
   }
 
   private static boolean isTag(Ref ref) {
-    return ref.getName().startsWith(Constants.R_TAGS);
+    return isTag(ref.getName());
+  }
+
+  private static boolean isTag(String refName) {
+    return refName.startsWith(Constants.R_TAGS);
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
         .add("projectName", projectName)
-        .add("refs", refs)
-        .add("tags", tags)
+        .add("decorated", dag.decorated)
         .toString();
   }
 
-  static final class Tag extends ObjectIdOwnerMap.Entry {
+  /**
+   * Insert a new decorated {@link ObjectId} to an already built {@link DecoratedDag}.
+   *
+   * <p>before: A <- B after: A <- commitToInsert <- B
+   *
+   * @param children children by parent, for the nodes of {@code dag.decorated}. May list children
+   *     that no longer have that parent, but must list every child that has; this method adds the
+   *     edges it creates.
+   */
+  private Node insertDecorated(
+      RevWalk rw, ObjectId id, String refName, Map<Node, Set<Node>> children) throws IOException {
+    RevCommit commitToInsert = rw.parseCommit(id);
+    Node nodeToInsert = dag.getOrCreate(id);
 
-    // a RefCache.flag => isVisible map. This reference is aliased to the
-    // RoaringBitmap in TagCommit.refFlags.
-    @VisibleForTesting final RoaringBitmap refFlags;
-
-    Tag(Tag src) {
-      this(src, src.refFlags.clone());
+    // Find "A"(s) pointed to by commitToInsert
+    DecoratedDag.UpdateUndecoratedParents walker = new DecoratedDag.UpdateUndecoratedParents(rw);
+    Set<Node> decoratedAncestors = dag.walk(Collections.singleton(nodeToInsert), walker);
+    dag.decorate(id, refName); // Has to be done after walk to prevent short stop
+    nodeToInsert.parents = new HashSet<>(decoratedAncestors);
+    for (Node node : walker.reparented) {
+      addChild(children, node);
     }
+    addChild(children, nodeToInsert);
 
-    Tag(AnyObjectId id, RoaringBitmap flags) {
-      super(id);
-      checkNotNull(flags);
-      this.refFlags = flags;
-    }
-
-    boolean has(RoaringBitmap mask) {
-      return RoaringBitmap.intersects(refFlags, mask);
-    }
-
-    @Override
-    public String toString() {
-      return MoreObjects.toStringHelper(this).addValue(name()).add("refFlags", refFlags).toString();
-    }
-  }
-
-  /** A ref along with its index into RoaringBitmap. */
-  @VisibleForTesting
-  static final class CachedRef extends AtomicReference<ObjectId> {
-    private static final long serialVersionUID = 1L;
-
-    /** unique identifier for this ref within the TagSet. */
-    final int flag;
-
-    CachedRef(Ref ref, int flag) {
-      this(flag, ref.getObjectId());
-    }
-
-    CachedRef(int flag, ObjectId id) {
-      this.flag = flag;
-      set(id);
-    }
-
-    @Override
-    public String toString() {
-      ObjectId id = get();
-      return MoreObjects.toStringHelper(this)
-          .addValue(id != null ? id.name() : "null")
-          .add("flag", flag)
-          .toString();
-    }
-  }
-
-  private static final class TagWalk extends RevWalk {
-    TagWalk(Repository git) {
-      super(git);
-    }
-
-    @Override
-    protected TagCommit createCommit(AnyObjectId id) {
-      return new TagCommit(id);
-    }
-  }
-
-  // TODO(hanwen): this would be better named as CommitWithReachability, as it also holds non-tags.
-  // However, non-tags will have a null refFlags field.
-  private static final class TagCommit extends RevCommit {
-    /** CachedRef.flag => isVisible, indicating if this commit is reachable from the ref. */
-    RoaringBitmap refFlags;
-
-    TagCommit(AnyObjectId id) {
-      super(id);
-    }
-
-    /**
-     * Copy any flags from this commit to all of its ancestors.
-     *
-     * <p>Do not maintain a reference to the flags on non-tag commits after copying their flags to
-     * their ancestors. The flag copying automatically updates any Tag object as the TagCommit and
-     * the stored Tag object share the same underlying RoaringBitmap.
-     *
-     * @param isTag {@code RevFlag} indicating if this TagCommit is a tag
-     */
-    void propagateReachabilityToParents(RevFlag isTag) {
-      RoaringBitmap mine = refFlags;
-      if (mine != null) {
-        boolean canMoveBitmap = false;
-        if (!has(isTag)) {
-          refFlags = null;
-          canMoveBitmap = true;
+    // Find "B"(s):  A <- B, and make the ones that contain commitToInsert point to it instead.
+    // RevWalk.isMergedInto() resets the walk, so a single RevWalk can be reused for each child.
+    Map<Node, Boolean> containsInserted = new HashMap<>();
+    for (Node ancestor : decoratedAncestors) {
+      for (Node child : List.copyOf(children.getOrDefault(ancestor, Set.of()))) {
+        if (child.equals(nodeToInsert)
+            || !child.parents.contains(ancestor)
+            || !dag.decorated.contains(child)) {
+          continue;
         }
-        int pCnt = getParentCount();
-        for (int pIdx = 0; pIdx < pCnt; pIdx++) {
-          TagCommit commit = (TagCommit) getParent(pIdx);
-          RoaringBitmap parentFlags = commit.refFlags;
-          if (parentFlags == null) {
-            if (canMoveBitmap) {
-              // This commit is not itself a Tag, so in order to reduce cloning overhead, migrate
-              // its refFlags object to its first parent with null refFlags
-              commit.refFlags = mine;
-              canMoveBitmap = false;
-            } else {
-              commit.refFlags = mine.clone();
-            }
-          } else {
-            parentFlags.or(mine);
-          }
+        Boolean contains = containsInserted.get(child);
+        if (contains == null) {
+          contains = rw.isMergedInto(commitToInsert, rw.parseCommit(child));
+          containsInserted.put(child, contains);
+        }
+        if (contains) {
+          // <- B
+          child.parents.remove(ancestor);
+          // commitToInsert <- B
+          child.parents.add(nodeToInsert);
+          children.computeIfAbsent(nodeToInsert, p -> new HashSet<>()).add(child);
         }
       }
+    }
+
+    return nodeToInsert;
+  }
+
+  private static void addChild(Map<Node, Set<Node>> children, Node child) {
+    for (Node parent : child.parents) {
+      children.computeIfAbsent(parent, p -> new HashSet<>()).add(child);
     }
   }
 }

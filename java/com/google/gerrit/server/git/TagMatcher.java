@@ -14,45 +14,64 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.git.TagSet.Tag;
+import static com.google.common.base.Preconditions.checkState;
+
+import com.google.gerrit.common.Nullable;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.roaringbitmap.RoaringBitmap;
 
 public class TagMatcher {
-  final RoaringBitmap mask = new RoaringBitmap();
-  final List<Ref> newRefs = new ArrayList<>();
-  final List<RefFlag> lostRefs = new ArrayList<>();
-  final List<RefFlag> gainedRefs = new ArrayList<>();
+  final Map<String, ObjectId> toUpdate = new HashMap<>();
   final TagSetHolder holder;
   final TagCache cache;
   final Repository db;
   final Collection<Ref> include;
-  TagSet tags;
-  final boolean updated;
-  private boolean rebuiltForNewTags;
+  TagSet tagSet;
+  @Nullable final Set<ObjectId> reachableTags;
 
   TagMatcher(
       TagSetHolder holder,
       TagCache cache,
       Repository db,
       Collection<Ref> include,
-      TagSet tags,
-      boolean updated) {
+      TagSet tagSet,
+      Iterable<Ref> tags)
+      throws IOException {
     this.holder = holder;
     this.cache = cache;
     this.db = db;
     this.include = include;
-    this.tags = tags;
-    this.updated = updated;
+    this.tagSet = tagSet;
+    reachableTags = tagSet.getReachableTags(db, this, include, tags);
+  }
+
+  private TagMatcher(TagMatcher m, Set<ObjectId> reachableTags) {
+    this.holder = m.holder;
+    this.cache = m.cache;
+    this.db = m.db;
+    this.include = m.include;
+    this.tagSet = m.tagSet;
+    this.reachableTags = reachableTags;
+  }
+
+  /** A matcher that only counts tags reachable from the refs the DAG is up to date for. */
+  static TagMatcher withoutUnknownRefs(TagMatcher m) throws IOException {
+    return new TagMatcher(m, m.tagSet.getReachableTags(m.db, m.include, m.toUpdate.keySet()));
+  }
+
+  /** Whether the DAG knew all refs, so that {@link #isReachable(Ref)} can answer. */
+  boolean isComplete() {
+    return reachableTags != null;
   }
 
   public boolean isReachable(Ref tagRef) throws IOException {
+    checkState(isComplete(), "tag set of %s is out of date", holder.getProjectName());
     tagRef = db.getRefDatabase().peel(tagRef);
     ObjectId tagObj = tagRef.getPeeledObjectId();
     if (tagObj == null) {
@@ -62,28 +81,6 @@ public class TagMatcher {
       }
     }
 
-    Tag tag = tags.lookupTag(tagObj);
-    if (tag == null) {
-      if (rebuiltForNewTags) {
-        return false;
-      }
-
-      rebuiltForNewTags = true;
-      holder.rebuildForNewTags(cache, this);
-      return isReachable(tagRef);
-    }
-
-    return tag.has(mask);
-  }
-
-  /** A ref, by its flag, that reaches a tag it did not reach before or no longer reaches it. */
-  static class RefFlag {
-    final Tag tag;
-    final int flag;
-
-    RefFlag(Tag tag, int flag) {
-      this.tag = tag;
-      this.flag = flag;
-    }
+    return reachableTags.contains(tagObj);
   }
 }

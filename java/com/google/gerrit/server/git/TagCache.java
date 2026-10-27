@@ -23,7 +23,6 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.util.concurrent.ExecutionException;
-import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class TagCache {
@@ -34,7 +33,7 @@ public class TagCache {
       @Override
       protected void configure() {
         persist(CACHE_NAME, String.class, TagSetHolder.class)
-            .version(3)
+            .version(4)
             .keySerializer(StringCacheSerializer.INSTANCE)
             .valueSerializer(TagSetHolder.Serializer.INSTANCE);
         bind(TagCache.class);
@@ -47,38 +46,6 @@ public class TagCache {
   @Inject
   TagCache(@Named(CACHE_NAME) Cache<String, TagSetHolder> cache) {
     this.cache = cache;
-  }
-
-  /**
-   * Advise the cache that a reference fast-forwarded.
-   *
-   * <p>This operation is not necessary, the cache will automatically detect changes made to
-   * references and update itself on demand. It currently has no effect, since the cache must also
-   * check which tags the branch reaches after the fast-forward.
-   *
-   * @param name project the branch is contained in.
-   * @param refName the branch name.
-   * @param oldValue the old value, before the fast-forward. The cache will only update itself if it
-   *     is still using this old value.
-   * @param newValue the current value, after the fast-forward.
-   * @deprecated has no effect, the cache detects moved references on the next lookup.
-   */
-  @Deprecated
-  public void updateFastForward(
-      Project.NameKey name, String refName, ObjectId oldValue, ObjectId newValue) {
-    // Be really paranoid and null check everything. This method should
-    // never fail with an exception. Some of these references can be null
-    // (e.g. not all projects are cached, or the cache is not current).
-    //
-    TagSetHolder holder = cache.getIfPresent(name.get());
-    if (holder != null) {
-      TagSet tags = holder.getTagSet();
-      if (tags != null) {
-        if (tags.updateFastForward(refName, oldValue, newValue)) {
-          cache.put(name.get(), holder);
-        }
-      }
-    }
   }
 
   public TagSetHolder get(Project.NameKey name) {

@@ -23,6 +23,30 @@
       "isAi": true,
       "revId": "3210e12417aea2ad1aad7d4a67cc4d3e7963f37e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f41a556a_e0c3826f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-27T20:28:38Z",
+      "side": 1,
+      "message": "Attaching all `EndpointType.REPLACE` modules immediately (before `awaitPluginsLoaded()`) changes the lifecycle contract for every `replace: true` endpoint across all third-party and site-specific plugins, which we can\u0027t audit from the core repo:\n- Third-party `REPLACE` components / `onAttached()` hooks that assume all other plugins have finished `Gerrit.install()` can now mount while other plugins are still loading.\n- Multi-plugin ordering on the same endpoint changes from deterministic `(order, pluginName)` sorting to network load order, and any `DECORATE` module on a replaced endpoint is now silently dropped once `REPLACE` runs.\n- Endpoints with `\u003cgr-endpoint-param\u003e` children (like `editor`) have their fallback DOM removed synchronously before parameter bindings finish resolving.\n\nGiven how much cross-cutting complexity this adds across `PluginsModel`, `GrPluginLoader`, `GrPluginEndpoints`, and `GrEndpointDecorator` just to avoid the initial flash on `\u003cgr-main-header\u003e` / `header-title`, a few simpler/more contained options to consider:\n- **Scope immediate attachment to `header-title` / theme modules** (e.g., an explicit opt-in property like `\u003cgr-endpoint-decorator name\u003d\"header-title\" eager\u003e`, or flushing only modules registered by `THEME_NAME` when the theme plugin installs) so third-party plugins keep their existing `awaitPluginsLoaded()` contract.\n- **Use `content-visibility: hidden` on `\u003cgr-main-header\u003e` while `themeLoading` is true**, which skips descendant style/paint work (preventing `\u003cmd-ripple\u003e` transitions) while keeping the header box in normal flow—avoiding both the `?hidden` + sibling `margin-top` workaround and the `ResizeObserver` guard.\n- **Suppress transitions during initial theme hydration** (`visibility: hidden` + `transition: none !important` while `themeLoading` is true), which also keeps the header in normal layout flow without needing `display: none`.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "3210e12417aea2ad1aad7d4a67cc4d3e7963f37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

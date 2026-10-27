@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded812df_668a9049",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-27T20:18:58Z",
+      "side": 1,
+      "message": "Because `initDecoration()` is asynchronous while awaiting `initProperties()`, an in-flight decoration that started before `this.hasReplacement` was set will still append its element into the DOM when its promise resolves. Should `initDecoration()` (or `initModule`\u0027s resolved callback) also check `if (this.hasReplacement)` before appending the element and attaching the DOM hook?",
+      "range": {
+        "startLine": 306,
+        "startChar": 0,
+        "endLine": 308,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "3210e12417aea2ad1aad7d4a67cc4d3e7963f37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

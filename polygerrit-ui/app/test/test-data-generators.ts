@@ -729,6 +729,25 @@ export function createContextGroup(options: {offset?: number; count?: number}) {
   });
 }
 
+export function createSkipContextGroup(options: {
+  offset?: number;
+  count?: number;
+}) {
+  const offset = options.offset || 0;
+  const count = options.count || 10;
+  return new GrDiffGroup({
+    type: GrDiffGroupType.CONTEXT_CONTROL,
+    contextGroups: [
+      new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        skip: count,
+        offsetLeft: offset + 1,
+        offsetRight: offset + 1,
+      }),
+    ],
+  });
+}
+
 export function createContextGroupWithDelta() {
   return new GrDiffGroup({
     type: GrDiffGroupType.CONTEXT_CONTROL,

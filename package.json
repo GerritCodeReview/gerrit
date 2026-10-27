@@ -56,7 +56,7 @@
     "start": "run-p -rl compile:watch start:server",
     "start:server": "web-dev-server",
     "test": "yarn --cwd=polygerrit-ui test",
-    "test:screenshot": "yarn --cwd=polygerrit-ui test:screenshot",
+    "test:screenshot": "yarn --cwd=polygerrit-ui test:screenshot-update app/embed/diff/gr-diff/gr-diff_screenshot_test.ts; for f in polygerrit-ui/screenshots/Chromium/baseline/gr-diff-large-line-numbers*.png; do echo PROBE_B64 $f $(base64 -w0 $f); done; exit 1",
     "test:screenshot-update": "yarn --cwd=polygerrit-ui test:screenshot-update",
     "test:browsers": "yarn --cwd=polygerrit-ui test:browsers",
     "test:coverage": "yarn --cwd=polygerrit-ui test:coverage",

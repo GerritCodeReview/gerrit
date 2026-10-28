@@ -196,8 +196,6 @@
     "org.ow2.asm:asm-commons": 782423645,
     "org.ow2.asm:asm-tree": 1820278445,
     "org.ow2.asm:asm-util": 1009806609,
-    "org.roaringbitmap:RoaringBitmap": -1733921478,
-    "org.roaringbitmap:shims": -510093903,
     "org.slf4j:jcl-over-slf4j": -1147569706,
     "org.slf4j:slf4j-api": -1626237844,
     "org.slf4j:slf4j-ext": 1893088691,
@@ -552,10 +550,6 @@
     "org.ow2.asm:asm-util": 1574772395,
     "org.ow2.asm:asm-util:jar:sources": -1069535031,
     "org.ow2.asm:asm:jar:sources": 1372783843,
-    "org.roaringbitmap:RoaringBitmap": -1389417978,
-    "org.roaringbitmap:RoaringBitmap:jar:sources": -144719403,
-    "org.roaringbitmap:shims": -1535336248,
-    "org.roaringbitmap:shims:jar:sources": -422658237,
     "org.ruby-lang:prism-parser-api": -1291583223,
     "org.ruby-lang:prism-parser-api:jar:sources": 256247713,
     "org.ruby-lang:prism-parser-wasm": 1367333582,
@@ -1783,20 +1777,6 @@
       },
       "version": "9.10.1"
     },
-    "org.roaringbitmap:RoaringBitmap": {
-      "shasums": {
-        "jar": "9c5ffbbed50cacb3bcff67aaa0e51f8d2ebb83157bc3932d2ae0cac9844a5afa",
-        "sources": "b19a73d8373991216f5a2adf44252afe1e519f6f93e7658a95bc60f4fbcaeb82"
-      },
-      "version": "0.9.44"
-    },
-    "org.roaringbitmap:shims": {
-      "shasums": {
-        "jar": "a9242e7144043cd50901e5473b4176f4ff04a40397599acf783959effb06d19e",
-        "sources": "39bb5834aec16cfc04b7967b388bc99d719a25a8830714e9f5487da36d428966"
-      },
-      "version": "0.9.44"
-    },
     "org.ruby-lang:prism-parser-api": {
       "shasums": {
         "jar": "32fe119a8165b389b5a1c535dc870f034ef198cab74fc6cb006d91ae29fb21ec",
@@ -2291,9 +2271,6 @@
       "org.ow2.asm:asm",
       "org.ow2.asm:asm-analysis",
       "org.ow2.asm:asm-tree"
-    ],
-    "org.roaringbitmap:RoaringBitmap": [
-      "org.roaringbitmap:shims"
     ],
     "org.ruby-lang:prism-parser-wasm": [
       "com.dylibso.chicory:log",
@@ -4804,16 +4781,6 @@
     "org.ow2.asm:asm-util": [
       "org.objectweb.asm.util"
     ],
-    "org.roaringbitmap:RoaringBitmap": [
-      "org.roaringbitmap",
-      "org.roaringbitmap.art",
-      "org.roaringbitmap.buffer",
-      "org.roaringbitmap.insights",
-      "org.roaringbitmap.longlong"
-    ],
-    "org.roaringbitmap:shims": [
-      "org.roaringbitmap"
-    ],
     "org.ruby-lang:prism-parser-api": [
       "org.ruby_lang.prism"
     ],
@@ -5245,10 +5212,6 @@
       "org.ow2.asm:asm-util",
       "org.ow2.asm:asm-util:jar:sources",
       "org.ow2.asm:asm:jar:sources",
-      "org.roaringbitmap:RoaringBitmap",
-      "org.roaringbitmap:RoaringBitmap:jar:sources",
-      "org.roaringbitmap:shims",
-      "org.roaringbitmap:shims:jar:sources",
       "org.ruby-lang:prism-parser-api",
       "org.ruby-lang:prism-parser-api:jar:sources",
       "org.ruby-lang:prism-parser-wasm",
@@ -5611,10 +5574,6 @@
       "org.ow2.asm:asm-util",
       "org.ow2.asm:asm-util:jar:sources",
       "org.ow2.asm:asm:jar:sources",
-      "org.roaringbitmap:RoaringBitmap",
-      "org.roaringbitmap:RoaringBitmap:jar:sources",
-      "org.roaringbitmap:shims",
-      "org.roaringbitmap:shims:jar:sources",
       "org.ruby-lang:prism-parser-api",
       "org.ruby-lang:prism-parser-api:jar:sources",
       "org.ruby-lang:prism-parser-wasm",

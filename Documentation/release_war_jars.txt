@@ -81,8 +81,6 @@ prolog-io
 prolog-runtime
 protobuf-java
 reload4j
-RoaringBitmap
-shims
 slf4j-api
 slf4j-reload4j
 soy-2024-01

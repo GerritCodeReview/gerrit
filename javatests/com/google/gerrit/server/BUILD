@@ -83,7 +83,6 @@ junit_tests(
         "//lib:jgit",
         "//lib:jgit-junit",
         "//lib:protobuf",
-        "//lib:roaringbitmap",
         "//lib:soy",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

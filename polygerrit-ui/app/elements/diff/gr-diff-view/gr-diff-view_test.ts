@@ -2883,6 +2883,26 @@ suite('gr-diff-view tests', () => {
         );
       });
 
+      test('open-chat-panel on document opens chat panel without calling processChatRequest', async () => {
+        const chatModel = testResolver(chatModelToken);
+        const processChatRequestStub = sinon.stub(
+          chatModel,
+          'processChatRequest'
+        );
+        const contentWithSidebar = queryAndAssert<GrContentWithSidebar>(
+          element,
+          'gr-content-with-sidebar'
+        );
+        assert.isTrue(contentWithSidebar.hideSide);
+
+        document.dispatchEvent(new CustomEvent('open-chat-panel'));
+        await element.updateComplete;
+
+        assert.isFalse(contentWithSidebar.hideSide);
+        assert.equal(contentWithSidebar.side, 'right');
+        assert.isFalse(processChatRequestStub.called);
+      });
+
       test('plugin sidebar takes priority over chat panel and opening chat closes plugin sidebar', async () => {
         const chatModel = testResolver(chatModelToken);
         chatModel.setChatPanelOpen(true);

@@ -50,6 +50,18 @@ export interface SuggestionsService extends Finalizable {
   isGeneratedSuggestedFixEnabledForComment(comment?: Comment): boolean;
 
   /**
+   * Checks if explicit "Get AI Fix" requests are enabled for the given path
+   * (via `requestAiFix` or fallback `suggestFix`).
+   */
+  isRequestAiFixEnabled(path?: string): boolean;
+
+  /**
+   * Checks if explicit "Get AI Fix" requests are enabled for a specific
+   * comment (via `requestAiFix` or fallback `suggestFix`).
+   */
+  isRequestAiFixEnabledForComment(comment?: Comment): boolean;
+
+  /**
    * Generates a suggested fix.
    *
    * **Important:** This method should only be called if

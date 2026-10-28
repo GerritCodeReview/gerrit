@@ -12,6 +12,8 @@ export const suggestionsServiceMock: SuggestionsService = {
   suggestionsServiceUpdated$: new BehaviorSubject(false),
   isGeneratedSuggestedFixEnabled: () => true,
   isGeneratedSuggestedFixEnabledForComment: () => true,
+  isRequestAiFixEnabled: () => true,
+  isRequestAiFixEnabledForComment: () => true,
   generateSuggestedFix: () => Promise.resolve(createFixSuggestionInfo()),
   finalize(): void {},
 

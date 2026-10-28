@@ -489,7 +489,7 @@ export class GrPreferences extends LitElement {
       this.flagsService.isEnabled(
         KnownExperimentId.ML_SUGGESTED_EDIT_UNCHECK_BY_DEFAULT
       ) ||
-      !this.suggestionsProvider
+      !this.suggestionsProvider?.suggestFix
     )
       return nothing;
     return html`

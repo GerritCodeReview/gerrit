@@ -154,9 +154,7 @@ suite('gr-result-row test', () => {
     const checksModel = testResolver(checksModelToken);
     checksModel.changeNum = 123 as NumericChangeId;
     const suggestionsService = testResolver(suggestionsServiceToken);
-    sinon
-      .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
-      .returns(true);
+    sinon.stub(suggestionsService, 'isRequestAiFixEnabled').returns(true);
     sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
       description: 'AI suggested fix',
       replacements: [],

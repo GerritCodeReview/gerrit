@@ -754,7 +754,7 @@ suite('gr-comment-thread tests', () => {
     setup(async () => {
       const suggestionsService = testResolver(suggestionsServiceToken);
       sinon
-        .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
+        .stub(suggestionsService, 'isRequestAiFixEnabledForComment')
         .returns(true);
       stubFlags('isEnabled').returns(true);
 
@@ -848,6 +848,12 @@ suite('gr-comment-thread tests', () => {
         fix_suggestions: [createFixSuggestionInfo()],
         unresolved: true,
       });
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#aiFixBtn'));
+    });
+
+    test('not show get ai fix if user is not change owner', async () => {
+      element.isOwner = false;
       await element.updateComplete;
       assert.isNotOk(query(element, '#aiFixBtn'));
     });

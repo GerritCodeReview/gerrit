@@ -753,9 +753,7 @@ suite('gr-comment-thread tests', () => {
   suite('Get AI fix button', () => {
     setup(async () => {
       const suggestionsService = testResolver(suggestionsServiceToken);
-      sinon
-        .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
-        .returns(true);
+      sinon.stub(suggestionsService, 'isRequestAiFixEnabled').returns(true);
       stubFlags('isEnabled').returns(true);
 
       element.isOwner = true;
@@ -846,6 +844,31 @@ suite('gr-comment-thread tests', () => {
       element.thread = createThread({
         ...c1,
         fix_suggestions: [createFixSuggestionInfo()],
+        unresolved: true,
+      });
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#aiFixBtn'));
+    });
+
+    test('not show get ai fix if user is not change owner', async () => {
+      element.isOwner = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#aiFixBtn'));
+    });
+
+    test('not show get ai fix on parent side or file-level comment', async () => {
+      element.thread = createThread({
+        ...c1,
+        side: CommentSide.PARENT,
+        unresolved: true,
+      });
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#aiFixBtn'));
+
+      element.thread = createThread({
+        ...c1,
+        line: undefined,
+        range: undefined,
         unresolved: true,
       });
       await element.updateComplete;

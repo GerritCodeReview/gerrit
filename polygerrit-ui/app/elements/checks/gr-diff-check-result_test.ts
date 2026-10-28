@@ -39,9 +39,7 @@ suite('gr-diff-check-result tests', () => {
     const checksModel = testResolver(checksModelToken);
     checksModel.changeNum = 123 as NumericChangeId;
 
-    sinon
-      .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
-      .returns(true);
+    sinon.stub(suggestionsService, 'isRequestAiFixEnabled').returns(true);
     stubFlags('isEnabled').returns(true);
     sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
       description: 'AI suggested fix',

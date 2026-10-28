@@ -19,6 +19,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class CreateProjectArgs {
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
   public boolean initOnly;
+  public RefStorage refStorage;
 
   public CreateProjectArgs() {
     contributorAgreements = InheritableBoolean.INHERIT;

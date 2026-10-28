@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.ObjectReader.OBJ_ANY;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.ForwardingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
@@ -58,6 +59,7 @@ import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Rule;
@@ -301,6 +303,183 @@ public class TagSetTest {
     TagMatcher m = tagCache.get(project).matcher(tagCache, repo, include);
     assertThat(m.isReachable(tagRef)).isTrue();
     assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNotNull();
+  }
+
+  @Test
+  public void tagOnCommitsAddedByAFastForwardBecomesReachable() throws Exception {
+    InMemoryRepository repo = new InMemoryRepository(new DfsRepositoryDescription("project"));
+    Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    TagCache tagCache = new TagCache(guavaCache);
+    Project.NameKey project = Project.nameKey("project");
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit root = tr.commit().create();
+      tr.update("refs/heads/master", root);
+      RevCommit tagged = tr.commit().parent(root).create();
+      tr.update("refs/tags/v1", tr.tag("v1", tagged));
+      Ref tagRef = repo.exactRef("refs/tags/v1");
+      TagMatcher m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/master"));
+      assertThat(m.isReachable(tagRef)).isFalse();
+
+      tr.update("refs/heads/master", tr.commit().parent(tagged).create());
+      m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/master"));
+      assertThat(m.isReachable(tagRef)).isTrue();
+    }
+  }
+
+  @Test
+  public void tagOnCommitsAddedByAForcePushBecomesReachable() throws Exception {
+    InMemoryRepository repo = new InMemoryRepository(new DfsRepositoryDescription("project"));
+    Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    TagCache tagCache = new TagCache(guavaCache);
+    Project.NameKey project = Project.nameKey("project");
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit root = tr.commit().create();
+      tr.update("refs/heads/master", tr.commit().parent(root).create());
+      RevCommit tagged = tr.commit().parent(root).create();
+      tr.update("refs/tags/v1", tr.tag("v1", tagged));
+      Ref tagRef = repo.exactRef("refs/tags/v1");
+      TagMatcher m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/master"));
+      assertThat(m.isReachable(tagRef)).isFalse();
+
+      // Not a fast-forward: the old tip of master is not an ancestor of the new one.
+      tr.update("refs/heads/master", tr.commit().parent(tagged).create());
+      m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/master"));
+      assertThat(m.isReachable(tagRef)).isTrue();
+    }
+  }
+
+  /**
+   * One lookup sees branch a fast-forwarded over a tagged commit, and a new branch n created at a's
+   * old tip. n must not get the tag that a gained.
+   */
+  @Test
+  public void newRefAtTheOldTipOfAFastForwardedRefDoesNotGetItsNewTags() throws Exception {
+    InMemoryRepository repo = new InMemoryRepository(new DfsRepositoryDescription("project"));
+    Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    TagCache tagCache = new TagCache(guavaCache);
+    Project.NameKey project = Project.nameKey("project");
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit x = tr.commit().create();
+      RevCommit y = tr.commit().parent(x).create();
+      tr.update("refs/tags/v1", tr.tag("v1", y));
+      tr.update("refs/heads/a", x);
+      Ref tagRef = repo.exactRef("refs/tags/v1");
+      TagMatcher m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/a"));
+      assertThat(m.isReachable(tagRef)).isFalse();
+
+      tr.update("refs/heads/a", tr.commit().parent(y).create());
+      tr.update("refs/heads/n", x);
+      m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/a", "refs/heads/n"));
+      assertThat(m.isReachable(tagRef)).isTrue();
+      m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/n"));
+      assertThat(m.isReachable(tagRef)).isFalse();
+    }
+  }
+
+  /**
+   * After branch a fast-forwarded over a tagged commit, the TagSet is written to disk when it is
+   * put into the cache, and read back, e.g. after a restart. A new branch n at a's old tip must not
+   * get the tag.
+   */
+  @Test
+  public void persistedTagSetHasAFastForwardedRefAtItsNewTip() throws Exception {
+    InMemoryRepository repo = new InMemoryRepository(new DfsRepositoryDescription("project"));
+    // Keeps what a persistent cache would have written on put.
+    Cache<String, TagSetHolder> guavaCache =
+        new ForwardingCache.SimpleForwardingCache<String, TagSetHolder>(
+            CacheBuilder.newBuilder().build()) {
+          @Override
+          public void put(String key, TagSetHolder value) {
+            super.put(
+                key,
+                TagSetHolder.Serializer.INSTANCE.deserialize(
+                    TagSetHolder.Serializer.INSTANCE.serialize(value)));
+          }
+        };
+    TagCache tagCache = new TagCache(guavaCache);
+    Project.NameKey project = Project.nameKey("project");
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit x = tr.commit().create();
+      RevCommit y = tr.commit().parent(x).create();
+      tr.update("refs/tags/v1", tr.tag("v1", y));
+      tr.update("refs/heads/a", x);
+      Ref tagRef = repo.exactRef("refs/tags/v1");
+      var unused = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/a"));
+      tr.update("refs/heads/a", tr.commit().parent(y).create());
+      TagMatcher m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/a"));
+      assertThat(m.isReachable(tagRef)).isTrue();
+
+      tr.update("refs/heads/n", x);
+      m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/n"));
+      assertThat(m.isReachable(tagRef)).isFalse();
+    }
+  }
+
+  /**
+   * One lookup sees branch a fast-forwarded over a tagged commit, and a new branch n at a's new
+   * tip. n gets a's updated tags without walking the history again.
+   */
+  @Test
+  public void newRefAtTheNewTipOfAFastForwardedRefCopiesItsTags() throws Exception {
+    AtomicInteger reads = new AtomicInteger();
+    InMemoryRepository repo =
+        new InMemoryRepository(new DfsRepositoryDescription("project")) {
+          @Override
+          public ObjectReader newObjectReader() {
+            ObjectReader delegate = super.newObjectReader();
+            return new ObjectReader.Filter() {
+              @Override
+              protected ObjectReader delegate() {
+                return delegate;
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId) throws IOException {
+                return open(objectId, OBJ_ANY);
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId, int typeHint) throws IOException {
+                reads.incrementAndGet();
+                return super.open(objectId, typeHint);
+              }
+            };
+          }
+        };
+    Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    TagCache tagCache = new TagCache(guavaCache);
+    Project.NameKey project = Project.nameKey("project");
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit x = tr.commit().create();
+      for (int i = 0; i < 100; i++) {
+        x = tr.commit().parent(x).create();
+      }
+      RevCommit y = tr.commit().parent(x).create();
+      tr.update("refs/tags/v1", tr.tag("v1", y));
+      tr.update("refs/heads/a", x);
+      Ref tagRef = repo.exactRef("refs/tags/v1");
+      var unused = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/a"));
+
+      RevCommit tip = tr.commit().parent(y).create();
+      tr.update("refs/heads/a", tip);
+      tr.update("refs/heads/n", tip);
+      reads.set(0);
+      TagMatcher m =
+          tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/a", "refs/heads/n"));
+      assertThat(m.isReachable(tagRef)).isTrue();
+      // Not the 100 commits below x, as a rebuild from the full history would.
+      assertThat(reads.get()).isLessThan(50);
+      m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/n"));
+      assertThat(m.isReachable(tagRef)).isTrue();
+    }
+  }
+
+  private static ImmutableList<Ref> refs(Repository repo, String... names) throws IOException {
+    ImmutableList.Builder<Ref> refs = ImmutableList.builder();
+    for (String name : names) {
+      refs.add(repo.exactRef(name));
+    }
+    return refs.build();
   }
 
   @Test

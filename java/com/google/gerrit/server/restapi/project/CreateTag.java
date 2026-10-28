@@ -34,7 +34,6 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -72,7 +71,6 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
 
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
-  private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
   private final WebLinks links;
 
@@ -80,12 +78,10 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   CreateTag(
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
-      TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
       WebLinks webLinks) {
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
-    this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
     this.links = webLinks;
   }
@@ -176,8 +172,6 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
 
             try {
               Ref result = tag.call();
-              tagCache.updateFastForward(
-                  resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
               referenceUpdated.fire(
                   resource.getNameKey(),
                   ref,

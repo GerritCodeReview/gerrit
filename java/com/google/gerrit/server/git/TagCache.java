@@ -34,7 +34,7 @@ public class TagCache {
       @Override
       protected void configure() {
         persist(CACHE_NAME, String.class, TagSetHolder.class)
-            .version(2)
+            .version(3)
             .keySerializer(StringCacheSerializer.INSTANCE)
             .valueSerializer(TagSetHolder.Serializer.INSTANCE);
         bind(TagCache.class);
@@ -53,15 +53,17 @@ public class TagCache {
    * Advise the cache that a reference fast-forwarded.
    *
    * <p>This operation is not necessary, the cache will automatically detect changes made to
-   * references and update itself on demand. However, this method may allow the cache to update more
-   * quickly and reuse the caller's computation of the fast-forward status of a branch.
+   * references and update itself on demand. It currently has no effect, since the cache must also
+   * check which tags the branch reaches after the fast-forward.
    *
    * @param name project the branch is contained in.
    * @param refName the branch name.
    * @param oldValue the old value, before the fast-forward. The cache will only update itself if it
    *     is still using this old value.
    * @param newValue the current value, after the fast-forward.
+   * @deprecated has no effect, the cache detects moved references on the next lookup.
    */
+  @Deprecated
   public void updateFastForward(
       Project.NameKey name, String refName, ObjectId oldValue, ObjectId newValue) {
     // Be really paranoid and null check everything. This method should

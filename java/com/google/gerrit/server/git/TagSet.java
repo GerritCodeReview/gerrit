@@ -34,7 +34,9 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -46,15 +48,13 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.roaringbitmap.RoaringBitmap;
 
 /**
  * Builds a set of tags, and tracks which tags are reachable from which non-tag, non-special refs.
  * An instance is constructed from a snapshot of the ref database. TagSets can be incrementally
- * updated to newer states of the RefDatabase using the refresh method. The updateFastForward method
- * can do partial updates based on individual refs moving forward.
+ * updated to newer states of the RefDatabase using the refresh method.
  *
  * <p>This set is used to determine which tags should be advertised when only a subset of refs is
  * visible to a user.
@@ -111,21 +111,11 @@ class TagSet {
     return tags;
   }
 
-  /** Record a fast-forward update of the given ref. This is called from multiple threads. */
+  /**
+   * Does not record the fast-forward: moving the ref in place would not add it to the tags on the
+   * commits it moved over. The next lookup finds the ref moved and checks those commits.
+   */
   boolean updateFastForward(String refName, ObjectId oldValue, ObjectId newValue) {
-    // this looks fishy: refs is not a thread-safe data structure, but it is mutated in build() and
-    // rebuild(). TagSetHolder prohibits concurrent writes through the buildLock mutex, but it does
-    // not prohibit concurrent read/write.
-    CachedRef ref = refs.get(refName);
-    if (ref != null) {
-      // compareAndSet works on reference equality, but this operation
-      // wants to use object equality. Switch out oldValue with cur so the
-      // compareAndSet will function correctly for this operation.
-      ObjectId cur = ref.get();
-      if (cur.equals(oldValue)) {
-        return ref.compareAndSet(cur, newValue);
-      }
-    }
     return false;
   }
 
@@ -156,8 +146,6 @@ class TagSet {
           continue;
         }
 
-        // Check on-the-fly to see if the branch still reaches the tag.
-        // This is very likely for a branch that fast-forwarded.
         try {
           if (rw == null) {
             rw = new RevWalk(m.db);
@@ -166,30 +154,35 @@ class TagSet {
 
           RevCommit savedCommit = rw.parseCommit(savedObjectId);
           RevCommit currentCommit = rw.parseCommit(currentRef.getObjectId());
-          if (rw.isMergedInto(savedCommit, currentCommit)) {
-            // Fast-forward. Safely update the reference in-place.
-            savedRef.compareAndSet(savedObjectId, currentRef.getObjectId());
-            m.mask.add(savedRef.flag);
-            continue;
-          }
-
-          // The branch rewound. Walk the list of commits removed from
-          // the reference. If any matches to a tag, this has to be removed.
-          boolean err = false;
+          // Walk the commits added to and removed from the reference. A tag the reference did not
+          // reach yet among the added ones has to gain the reference, and a tag it reached among
+          // the removed ones has to lose it. A fast-forward only adds commits.
+          boolean changed = false;
           rw.reset();
-          rw.markStart(savedCommit);
-          rw.markUninteresting(currentCommit);
-          rw.sort(RevSort.TOPO, true);
+          rw.markStart(currentCommit);
+          rw.markUninteresting(savedCommit);
           RevCommit c;
           while ((c = rw.next()) != null) {
             Tag tag = tags.get(c);
-            if (tag != null && tag.refFlags.contains(savedRef.flag)) {
-              m.lostRefs.add(new TagMatcher.LostRef(tag, savedRef.flag));
-              err = true;
+            if (tag != null && !tag.refFlags.contains(savedRef.flag)) {
+              m.gainedRefs.add(new TagMatcher.RefFlag(tag, savedRef.flag));
+              changed = true;
             }
           }
-          if (!err) {
-            // All of the tags are still reachable. Update in-place.
+          rw.reset();
+          rw.markStart(savedCommit);
+          rw.markUninteresting(currentCommit);
+          while ((c = rw.next()) != null) {
+            Tag tag = tags.get(c);
+            if (tag != null && tag.refFlags.contains(savedRef.flag)) {
+              m.lostRefs.add(new TagMatcher.RefFlag(tag, savedRef.flag));
+              changed = true;
+            }
+          }
+          if (changed) {
+            m.movedRefs.put(currentRef.getName(), currentRef.getObjectId());
+          } else {
+            // The reference reaches the same tags. Safely update it in-place.
             savedRef.compareAndSet(savedObjectId, currentRef.getObjectId());
             m.mask.add(savedRef.flag);
           }
@@ -327,13 +320,26 @@ class TagSet {
     // Gerrit Code Review server, perhaps about 50% of new references.
     // Since a complete rebuild is so costly, try this approach first.
 
+    // A ref that gains or loses tags in this refresh still has its old id here, but copy() gives
+    // its flag the tags of its new id, so a new ref at its old id must not copy that flag.
+    Set<Integer> moved = new HashSet<>();
+    m.gainedRefs.forEach(r -> moved.add(r.flag));
+    m.lostRefs.forEach(r -> moved.add(r.flag));
     Map<ObjectId, Integer> byObj = new HashMap<>();
     for (CachedRef r : old.refs.values()) {
       ObjectId id = r.get();
-      if (!byObj.containsKey(id)) {
+      if (!moved.contains(r.flag) && !byObj.containsKey(id)) {
         byObj.put(id, r.flag);
       }
     }
+    // A new ref at the new id of a moved ref can copy its flag instead.
+    m.movedRefs.forEach(
+        (name, id) -> {
+          CachedRef r = old.refs.get(name);
+          if (r != null) {
+            byObj.putIfAbsent(id, r.flag);
+          }
+        });
 
     for (Ref newRef : m.newRefs) {
       ObjectId id = newRef.getObjectId();
@@ -368,15 +374,30 @@ class TagSet {
 
   private void copy(TagSet old, TagMatcher m) {
     refs.putAll(old.refs);
+    // The bitmaps of moved refs are updated to their new ids below, so the refs have to be at those
+    // ids in this set too. They get new CachedRefs, since the old ones are shared with old.
+    m.movedRefs.forEach(
+        (name, id) -> {
+          CachedRef ref = refs.get(name);
+          if (ref != null) {
+            refs.put(name, new CachedRef(ref.flag, id));
+          }
+        });
 
     for (Tag srcTag : old.tags) {
       tags.add(new Tag(srcTag));
     }
 
-    for (TagMatcher.LostRef lost : m.lostRefs) {
+    for (TagMatcher.RefFlag lost : m.lostRefs) {
       Tag mine = tags.get(lost.tag);
       if (mine != null) {
         mine.refFlags.remove(lost.flag);
+      }
+    }
+    for (TagMatcher.RefFlag gained : m.gainedRefs) {
+      Tag mine = tags.get(gained.tag);
+      if (mine != null) {
+        mine.refFlags.add(gained.flag);
       }
     }
   }

@@ -489,8 +489,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     postUpdateImpl(ctx);
 
     if (command != null) {
-      args.tagCache.updateFastForward(
-          getProject(), command.getRefName(), command.getOldId(), command.getNewId());
       // TODO(dborowitz): Move to BatchUpdate? Would also allow us to run once
       // per project even if multiple changes to refs/meta/config are submitted.
       if (RefNames.REFS_CONFIG.equals(getDest().branch())) {

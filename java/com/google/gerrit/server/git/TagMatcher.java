@@ -18,7 +18,9 @@ import com.google.gerrit.server.git.TagSet.Tag;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -27,7 +29,12 @@ import org.roaringbitmap.RoaringBitmap;
 public class TagMatcher {
   final RoaringBitmap mask = new RoaringBitmap();
   final List<Ref> newRefs = new ArrayList<>();
-  final List<LostRef> lostRefs = new ArrayList<>();
+  final List<RefFlag> lostRefs = new ArrayList<>();
+  final List<RefFlag> gainedRefs = new ArrayList<>();
+
+  /** Current ids of the refs in {@link #lostRefs} and {@link #gainedRefs}, by name. */
+  final Map<String, ObjectId> movedRefs = new HashMap<>();
+
   final TagSetHolder holder;
   final TagCache cache;
   final Repository db;
@@ -75,11 +82,12 @@ public class TagMatcher {
     return tag.has(mask);
   }
 
-  static class LostRef {
+  /** A ref, by its flag, that reaches a tag it did not reach before or no longer reaches it. */
+  static class RefFlag {
     final Tag tag;
     final int flag;
 
-    LostRef(Tag tag, int flag) {
+    RefFlag(Tag tag, int flag) {
       this.tag = tag;
       this.flag = flag;
     }

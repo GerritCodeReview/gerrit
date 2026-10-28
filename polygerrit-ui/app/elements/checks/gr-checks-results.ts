@@ -72,7 +72,7 @@ import {
 } from '../../utils/label-util';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
-import {fire, fireAlert} from '../../utils/event-util';
+import {fire} from '../../utils/event-util';
 import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
 import {Interaction} from '../../constants/reporting';
@@ -620,7 +620,8 @@ export class GrResultRow extends LitElement {
         KnownExperimentId.ML_SUGGESTED_EDIT_GET_FIX
       ) &&
       this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
-        this.result?.codePointers?.[0]?.path
+        this.result?.codePointers?.[0]?.path,
+        ReportSource.GET_AI_FIX_FOR_CHECK
       ) &&
       this.isOwner &&
       // without fixes
@@ -714,10 +715,7 @@ export class GrResultRow extends LitElement {
     } finally {
       this.suggestionLoading = false;
     }
-    if (!suggestion) {
-      fireAlert(this, 'No suitable AI fix could be found');
-      return;
-    }
+    if (!suggestion) return;
     suggestion.description =
       ReportSource.GET_AI_FIX_FOR_CHECK + ' ' + suggestion.description;
     this.suggestion = suggestion;

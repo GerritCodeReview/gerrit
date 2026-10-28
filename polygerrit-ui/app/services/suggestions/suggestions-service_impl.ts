@@ -6,6 +6,9 @@
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {
   AutocompleteCommentResponse,
+  ResponseCode,
+  SuggestCodeRequest,
+  SuggestedFixResponse,
   SuggestionsProvider,
 } from '../../api/suggestions';
 import {Interaction, Timing} from '../../constants/reporting';
@@ -26,6 +29,7 @@ import {ReportSource, SuggestionsService} from './suggestions-service';
 import {BehaviorSubject} from 'rxjs';
 import {PluginsModel} from '../../models/plugins/plugins-model';
 import {ChangeModel} from '../../models/change/change-model';
+import {fireAlert} from '../../utils/event-util';
 
 export class GrSuggestionsService implements SuggestionsService {
   private suggestionsProvider?: SuggestionsProvider;
@@ -52,8 +56,25 @@ export class GrSuggestionsService implements SuggestionsService {
 
   public suggestionsServiceUpdated$ = new BehaviorSubject<boolean>(false);
 
-  public isGeneratedSuggestedFixEnabled(path?: string): boolean {
+  private isAiFixReportSource(reportSource?: ReportSource): boolean {
     return (
+      reportSource === ReportSource.GET_AI_FIX_FOR_COMMENT ||
+      reportSource === ReportSource.GET_AI_FIX_FOR_CHECK
+    );
+  }
+
+  public isGeneratedSuggestedFixEnabled(
+    path?: string,
+    reportSource?: ReportSource
+  ): boolean {
+    const hasProviderMethod = this.isAiFixReportSource(reportSource)
+      ? !!(
+          this.suggestionsProvider?.requestAiFix ||
+          this.suggestionsProvider?.suggestFix
+        )
+      : !!this.suggestionsProvider?.suggestFix;
+    return (
+      hasProviderMethod &&
       !!this.suggestionsProvider &&
       !!this.change &&
       !!path &&
@@ -68,9 +89,12 @@ export class GrSuggestionsService implements SuggestionsService {
     );
   }
 
-  public isGeneratedSuggestedFixEnabledForComment(comment?: Comment): boolean {
+  public isGeneratedSuggestedFixEnabledForComment(
+    comment?: Comment,
+    reportSource?: ReportSource
+  ): boolean {
     return (
-      this.isGeneratedSuggestedFixEnabled(comment?.path) &&
+      this.isGeneratedSuggestedFixEnabled(comment?.path, reportSource) &&
       // Disable for comments on the left side of the diff, files can be deleted
       // or such suggestions cannot be applied.
       comment?.side !== CommentSide.PARENT &&
@@ -90,7 +114,17 @@ export class GrSuggestionsService implements SuggestionsService {
     commentId?: string;
     reportSource?: ReportSource;
   }): Promise<FixSuggestionInfo | undefined> {
-    if (!this.suggestionsProvider?.suggestFix || !this.change) return;
+    if (!this.suggestionsProvider || !this.change) return;
+    const isAiFixRequest = this.isAiFixReportSource(data.reportSource);
+    if (
+      isAiFixRequest
+        ? !this.suggestionsProvider.requestAiFix &&
+          !this.suggestionsProvider.suggestFix
+        : !this.suggestionsProvider.suggestFix
+    ) {
+      return;
+    }
+
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
       uuid: data.generatedSuggestionId,
       type: 'suggest-fix',
@@ -98,14 +132,18 @@ export class GrSuggestionsService implements SuggestionsService {
       source: data.reportSource,
       fileExtension: getFileExtension(data.filePath ?? ''),
     });
-    const suggestionResponse = await this.suggestionsProvider.suggestFix({
+    const request: SuggestCodeRequest = {
       prompt: data.prompt,
       changeInfo: this.change,
       patchsetNumber: data.patchsetNumber,
       filePath: data.filePath,
       range: data.range,
       lineNumber: data.lineNumber,
-    });
+    };
+    const suggestionResponse: SuggestedFixResponse =
+      isAiFixRequest && this.suggestionsProvider.requestAiFix
+        ? await this.suggestionsProvider.requestAiFix(request)
+        : await this.suggestionsProvider.suggestFix!(request);
 
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
       uuid: data.generatedSuggestionId,
@@ -120,6 +158,12 @@ export class GrSuggestionsService implements SuggestionsService {
 
     const suggestion = suggestionResponse.fix_suggestions?.[0];
     if (!suggestion?.replacements || suggestion.replacements.length === 0) {
+      if (
+        isAiFixRequest &&
+        suggestionResponse.responseCode !== ResponseCode.OK
+      ) {
+        fireAlert(document, 'No suitable AI fix could be found');
+      }
       return;
     }
     return suggestion;
@@ -135,7 +179,7 @@ export class GrSuggestionsService implements SuggestionsService {
       !comment ||
       !comment.path ||
       !comment.patch_set ||
-      !this.suggestionsProvider?.suggestFix ||
+      !this.suggestionsProvider ||
       !this.change ||
       !commentText
     ) {

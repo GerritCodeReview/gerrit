@@ -39,7 +39,10 @@ export interface SuggestionsService extends Finalizable {
    * `suggestionsServiceUpdated$` and call `this.requestUpdate()` to
    * re-evaluate.
    */
-  isGeneratedSuggestedFixEnabled(path?: string): boolean;
+  isGeneratedSuggestedFixEnabled(
+    path?: string,
+    reportSource?: ReportSource
+  ): boolean;
 
   /**
    * Checks if the feature to generate suggested fixes for a specific comment
@@ -47,7 +50,10 @@ export interface SuggestionsService extends Finalizable {
    * `suggestionsServiceUpdated$` and call `this.requestUpdate()` to
    * re-evaluate.
    */
-  isGeneratedSuggestedFixEnabledForComment(comment?: Comment): boolean;
+  isGeneratedSuggestedFixEnabledForComment(
+    comment?: Comment,
+    reportSource?: ReportSource
+  ): boolean;
 
   /**
    * Generates a suggested fix.

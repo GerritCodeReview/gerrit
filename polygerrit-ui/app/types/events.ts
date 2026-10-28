@@ -52,6 +52,7 @@ declare global {
     'line-cursor-moved-in': LineNumberEvent;
     'line-cursor-moved-out': LineNumberEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
+    'open-chat-panel': CustomEvent<{}>;
     'open-diff-in-change-view': OpenDiffInChangeViewEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'reply-to-comment': ReplyToCommentEvent;
@@ -70,6 +71,7 @@ declare global {
   interface DocumentEventMap {
     'gr-rpc-log': RpcLogEvent;
     'network-error': NetworkErrorEvent;
+    'open-chat-panel': CustomEvent<{}>;
     'page-error': PageErrorEvent;
     // prettier-ignore
     'reload': CustomEvent<{}>;

@@ -49,6 +49,14 @@ export declare interface SuggestionsProvider {
   suggestCode?(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
   suggestFix?(commentData: SuggestCodeRequest): Promise<SuggestedFixResponse>;
   /**
+   * Called when a user explicitly clicks "Get AI Fix" (for example, on a
+   * published comment thread or a check result). Falls back to `suggestFix` if
+   * not implemented. Plugins that delegate fix resolution externally (for
+   * example, to a chat panel) may return `{responseCode: ResponseCode.OK,
+   * fix_suggestions: []}` to suppress the "no fix found" notification.
+   */
+  requestAiFix?(commentData: SuggestCodeRequest): Promise<SuggestedFixResponse>;
+  /**
    * Gets the title to display on the fix suggestion preview.
    *
    * @param fix_suggestions A list of suggested fixes.

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e232f1e2_141b4236",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-28T19:06:16Z",
+      "side": 1,
+      "message": "Why should we return `RefStorage.FILES` if we were unable to open the repository?",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 30
+      },
+      "revId": "bd286ca38a875ddb87b495c6e134aae4cbb760ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "07bacac6981a96d5edc1861009e074de2f6e4bb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2455e763_ed479a30",
+        "filename": "java/com/google/gerrit/sshd/commands/ConvertRefStorage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-28T23:06:02Z",
+      "side": 1,
+      "message": "Moved onto the `StorageFormatOption` enum.\n\nJGit\u0027s `RefStorageFormat` is upstream so it cannot host the mapping, but keeping it on the Gerrit-side option enum removes the inline ternary and makes it a single source of truth.",
+      "parentUuid": "a07e4972_aaa5cd2b",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "07bacac6981a96d5edc1861009e074de2f6e4bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

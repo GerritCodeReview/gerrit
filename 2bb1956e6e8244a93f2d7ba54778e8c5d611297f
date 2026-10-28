@@ -22,6 +22,30 @@
       },
       "revId": "2bb1956e6e8244a93f2d7ba54778e8c5d611297f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3ce4407_087a233a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-28T19:28:06Z",
+      "side": 1,
+      "message": "Better, squash this into change 227512.",
+      "parentUuid": "9e8a0824_1a9e43d6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "2bb1956e6e8244a93f2d7ba54778e8c5d611297f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

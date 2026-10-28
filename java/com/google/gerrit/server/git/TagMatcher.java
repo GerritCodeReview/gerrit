@@ -27,7 +27,8 @@ import org.roaringbitmap.RoaringBitmap;
 public class TagMatcher {
   final RoaringBitmap mask = new RoaringBitmap();
   final List<Ref> newRefs = new ArrayList<>();
-  final List<LostRef> lostRefs = new ArrayList<>();
+  final List<RefFlag> lostRefs = new ArrayList<>();
+  final List<RefFlag> gainedRefs = new ArrayList<>();
   final TagSetHolder holder;
   final TagCache cache;
   final Repository db;
@@ -75,11 +76,12 @@ public class TagMatcher {
     return tag.has(mask);
   }
 
-  static class LostRef {
+  /** A ref, by its flag, that reaches a tag it did not reach before or no longer reaches it. */
+  static class RefFlag {
     final Tag tag;
     final int flag;
 
-    LostRef(Tag tag, int flag) {
+    RefFlag(Tag tag, int flag) {
       this.tag = tag;
       this.flag = flag;
     }

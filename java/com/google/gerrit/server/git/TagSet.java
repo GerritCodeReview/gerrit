@@ -46,15 +46,13 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.roaringbitmap.RoaringBitmap;
 
 /**
  * Builds a set of tags, and tracks which tags are reachable from which non-tag, non-special refs.
  * An instance is constructed from a snapshot of the ref database. TagSets can be incrementally
- * updated to newer states of the RefDatabase using the refresh method. The updateFastForward method
- * can do partial updates based on individual refs moving forward.
+ * updated to newer states of the RefDatabase using the refresh method.
  *
  * <p>This set is used to determine which tags should be advertised when only a subset of refs is
  * visible to a user.
@@ -111,21 +109,11 @@ class TagSet {
     return tags;
   }
 
-  /** Record a fast-forward update of the given ref. This is called from multiple threads. */
+  /**
+   * Does not record the fast-forward: moving the ref in place would not add it to the tags on the
+   * commits it moved over. The next lookup finds the ref moved and checks those commits.
+   */
   boolean updateFastForward(String refName, ObjectId oldValue, ObjectId newValue) {
-    // this looks fishy: refs is not a thread-safe data structure, but it is mutated in build() and
-    // rebuild(). TagSetHolder prohibits concurrent writes through the buildLock mutex, but it does
-    // not prohibit concurrent read/write.
-    CachedRef ref = refs.get(refName);
-    if (ref != null) {
-      // compareAndSet works on reference equality, but this operation
-      // wants to use object equality. Switch out oldValue with cur so the
-      // compareAndSet will function correctly for this operation.
-      ObjectId cur = ref.get();
-      if (cur.equals(oldValue)) {
-        return ref.compareAndSet(cur, newValue);
-      }
-    }
     return false;
   }
 
@@ -156,8 +144,6 @@ class TagSet {
           continue;
         }
 
-        // Check on-the-fly to see if the branch still reaches the tag.
-        // This is very likely for a branch that fast-forwarded.
         try {
           if (rw == null) {
             rw = new RevWalk(m.db);
@@ -166,30 +152,33 @@ class TagSet {
 
           RevCommit savedCommit = rw.parseCommit(savedObjectId);
           RevCommit currentCommit = rw.parseCommit(currentRef.getObjectId());
-          if (rw.isMergedInto(savedCommit, currentCommit)) {
-            // Fast-forward. Safely update the reference in-place.
-            savedRef.compareAndSet(savedObjectId, currentRef.getObjectId());
-            m.mask.add(savedRef.flag);
-            continue;
-          }
-
-          // The branch rewound. Walk the list of commits removed from
-          // the reference. If any matches to a tag, this has to be removed.
-          boolean err = false;
+          // Walk the commits added to and removed from the reference. A tag the reference did not
+          // reach yet among the added ones has to gain the reference, and a tag it reached among
+          // the removed ones has to lose it. A fast-forward only adds commits.
+          boolean changed = false;
           rw.reset();
-          rw.markStart(savedCommit);
-          rw.markUninteresting(currentCommit);
-          rw.sort(RevSort.TOPO, true);
+          rw.markStart(currentCommit);
+          rw.markUninteresting(savedCommit);
           RevCommit c;
           while ((c = rw.next()) != null) {
             Tag tag = tags.get(c);
-            if (tag != null && tag.refFlags.contains(savedRef.flag)) {
-              m.lostRefs.add(new TagMatcher.LostRef(tag, savedRef.flag));
-              err = true;
+            if (tag != null && !tag.refFlags.contains(savedRef.flag)) {
+              m.gainedRefs.add(new TagMatcher.RefFlag(tag, savedRef.flag));
+              changed = true;
             }
           }
-          if (!err) {
-            // All of the tags are still reachable. Update in-place.
+          rw.reset();
+          rw.markStart(savedCommit);
+          rw.markUninteresting(currentCommit);
+          while ((c = rw.next()) != null) {
+            Tag tag = tags.get(c);
+            if (tag != null && tag.refFlags.contains(savedRef.flag)) {
+              m.lostRefs.add(new TagMatcher.RefFlag(tag, savedRef.flag));
+              changed = true;
+            }
+          }
+          if (!changed) {
+            // The reference reaches the same tags. Safely update it in-place.
             savedRef.compareAndSet(savedObjectId, currentRef.getObjectId());
             m.mask.add(savedRef.flag);
           }
@@ -373,10 +362,16 @@ class TagSet {
       tags.add(new Tag(srcTag));
     }
 
-    for (TagMatcher.LostRef lost : m.lostRefs) {
+    for (TagMatcher.RefFlag lost : m.lostRefs) {
       Tag mine = tags.get(lost.tag);
       if (mine != null) {
         mine.refFlags.remove(lost.flag);
+      }
+    }
+    for (TagMatcher.RefFlag gained : m.gainedRefs) {
+      Tag mine = tags.get(gained.tag);
+      if (mine != null) {
+        mine.refFlags.add(gained.flag);
       }
     }
   }

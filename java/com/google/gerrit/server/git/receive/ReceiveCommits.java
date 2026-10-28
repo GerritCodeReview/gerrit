@@ -147,7 +147,6 @@ import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
@@ -439,7 +438,6 @@ class ReceiveCommits {
   private final ServiceUserClassifier serviceUserClassifier;
   private final RequestCounter requestCounter;
   private final ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners;
-  private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
@@ -541,7 +539,6 @@ class ReceiveCommits {
       ServiceUserClassifier serviceUserClassifier,
       @SuperprojectUpdateOnSubmission
           ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners,
-      TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
       AutoMerger autoMerger,
@@ -602,7 +599,6 @@ class ReceiveCommits {
     this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
     this.superprojectUpdateSubmissionListeners = superprojectUpdateSubmissionListeners;
-    this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
@@ -3789,11 +3785,6 @@ class ReceiveCommits {
 
     @Override
     public void postUpdate(PostUpdateContext ctx) {
-      String refName = cmd.getRefName();
-      if (cmd.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
-        logger.atFine().log("Updating tag cache on fast-forward of %s", cmd.getRefName());
-        tagCache.updateFastForward(project.getNameKey(), refName, cmd.getOldId(), cmd.getNewId());
-      }
       if (isConfig(cmd)) {
         logger.atFine().log("Reloading project in cache");
         projectCache.evictAndReindex(project);

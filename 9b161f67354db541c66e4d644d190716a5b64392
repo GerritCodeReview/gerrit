@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b42ad555_12c9e44c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-28T21:58:53Z",
+      "side": 1,
+      "message": "You could potentially create another reduced commit DAG on top of this one which only contains one node for longe stretches of decorated commits (likely ones without any DAG branching in them). That one node would act as if it held all the decorations which were in between them. Depending on how the DAG looks, this could potentially drastically reduce the number of hops in a walk and drastically speed things up. This DAG would be much cheaper to create as it would start with this decorated DAG, and could avoid the need to make it easily updateable, instead, a full rebuild of this DAG might be close to the current cached lookup time, and cheap enough to do instead of updating it when things change. I know that is getting really complicated, but I didn\u0027t want to loose the thought for posterity.",
+      "revId": "9b161f67354db541c66e4d644d190716a5b64392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dacd0636_0b4f05e0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13

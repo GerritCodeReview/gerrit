@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ef5c1c0_985409bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-28T19:42:33Z",
+      "side": 1,
+      "message": "While I\u0027m all for optimizing the DAG approach, do we have options to improve this case? Isn\u0027t this what `TagCache.updateFastForward()` is supposed to handle?",
+      "revId": "9b161f67354db541c66e4d644d190716a5b64392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dacd0636_0b4f05e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-28T19:42:33Z",
+      "side": 1,
+      "message": "Granted we expect to do a lot of \"lookup after a push\", this is a regression for all other measures. I think we need to improve that before we can replace the bitmap version.",
+      "revId": "9b161f67354db541c66e4d644d190716a5b64392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

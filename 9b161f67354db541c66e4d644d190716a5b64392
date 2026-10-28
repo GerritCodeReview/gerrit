@@ -51,6 +51,24 @@
       "parentUuid": "dacd0636_0b4f05e0",
       "revId": "9b161f67354db541c66e4d644d190716a5b64392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "141ec7da_ecd2535b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-28T21:45:50Z",
+      "side": 1,
+      "message": "The 10X win for lookup after a push seems worth the minor slow down of the cached lookup and especially for full builds which would be very rare. And for some it might be worth if even with the size loss. I do encourage you to look for improvements in those areas, but it seems that it might be worth considering allowing the admin to choose implementations otherwise?",
+      "parentUuid": "441e1f80_518a51c4",
+      "revId": "9b161f67354db541c66e4d644d190716a5b64392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

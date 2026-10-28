@@ -6,26 +6,28 @@
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {
   AutocompleteCommentResponse,
+  ResponseCode,
+  SuggestCodeRequest,
+  SuggestedFixResponse,
   SuggestionsProvider,
 } from '../../api/suggestions';
 import {Interaction, Timing} from '../../constants/reporting';
-import {
-  ChangeInfo,
-  CommentRange,
-  CommentSide,
-  FixSuggestionInfo,
-  RevisionPatchSetNum,
-} from '../../api/rest-api';
+import {ChangeInfo, CommentSide, FixSuggestionInfo} from '../../api/rest-api';
 import {getFileExtension} from '../../utils/file-util';
 import {Comment} from '../../types/common';
 import {SpecialFilePath} from '../../constants/constants';
 import {hasUserSuggestion, isFileLevelComment} from '../../utils/comment-util';
 import {id} from '../../utils/comment-util';
 import {AutocompletionContext} from '../../utils/autocomplete-cache';
-import {ReportSource, SuggestionsService} from './suggestions-service';
+import {
+  GenerateSuggestedFixData,
+  ReportSource,
+  SuggestionsService,
+} from './suggestions-service';
 import {BehaviorSubject} from 'rxjs';
 import {PluginsModel} from '../../models/plugins/plugins-model';
 import {ChangeModel} from '../../models/change/change-model';
+import {fireAlert} from '../../utils/event-util';
 
 export class GrSuggestionsService implements SuggestionsService {
   private suggestionsProvider?: SuggestionsProvider;
@@ -52,7 +54,7 @@ export class GrSuggestionsService implements SuggestionsService {
 
   public suggestionsServiceUpdated$ = new BehaviorSubject<boolean>(false);
 
-  public isGeneratedSuggestedFixEnabled(path?: string): boolean {
+  private isPathSupportedForFix(path?: string): boolean {
     return (
       !!this.suggestionsProvider &&
       !!this.change &&
@@ -68,6 +70,12 @@ export class GrSuggestionsService implements SuggestionsService {
     );
   }
 
+  public isGeneratedSuggestedFixEnabled(path?: string): boolean {
+    return (
+      !!this.suggestionsProvider?.suggestFix && this.isPathSupportedForFix(path)
+    );
+  }
+
   public isGeneratedSuggestedFixEnabledForComment(comment?: Comment): boolean {
     return (
       this.isGeneratedSuggestedFixEnabled(comment?.path) &&
@@ -80,17 +88,21 @@ export class GrSuggestionsService implements SuggestionsService {
     );
   }
 
-  public async generateSuggestedFix(data: {
-    prompt: string;
-    patchsetNumber: RevisionPatchSetNum;
-    filePath: string;
-    range?: CommentRange;
-    lineNumber?: number;
-    generatedSuggestionId?: string;
-    commentId?: string;
-    reportSource?: ReportSource;
-  }): Promise<FixSuggestionInfo | undefined> {
-    if (!this.suggestionsProvider?.suggestFix || !this.change) return;
+  public isRequestAiFixEnabled(path?: string): boolean {
+    return (
+      !!(
+        this.suggestionsProvider?.requestAiFix ||
+        this.suggestionsProvider?.suggestFix
+      ) && this.isPathSupportedForFix(path)
+    );
+  }
+
+  private async fetchSuggestedFix(
+    data: GenerateSuggestedFixData,
+    generateFix: (request: SuggestCodeRequest) => Promise<SuggestedFixResponse>
+  ): Promise<SuggestedFixResponse | undefined> {
+    if (!this.suggestionsProvider || !this.change) return;
+
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
       uuid: data.generatedSuggestionId,
       type: 'suggest-fix',
@@ -98,7 +110,7 @@ export class GrSuggestionsService implements SuggestionsService {
       source: data.reportSource,
       fileExtension: getFileExtension(data.filePath ?? ''),
     });
-    const suggestionResponse = await this.suggestionsProvider.suggestFix({
+    const suggestionResponse = await generateFix({
       prompt: data.prompt,
       changeInfo: this.change,
       patchsetNumber: data.patchsetNumber,
@@ -106,7 +118,6 @@ export class GrSuggestionsService implements SuggestionsService {
       range: data.range,
       lineNumber: data.lineNumber,
     });
-
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
       uuid: data.generatedSuggestionId,
       type: 'suggest-fix',
@@ -117,10 +128,44 @@ export class GrSuggestionsService implements SuggestionsService {
       fileExtension: getFileExtension(data.filePath ?? ''),
       logProbability: suggestionResponse.fix_suggestions?.[0]?.log_probability,
     });
+    return suggestionResponse;
+  }
 
-    const suggestion = suggestionResponse.fix_suggestions?.[0];
+  private getFirstValidSuggestion(
+    response?: SuggestedFixResponse
+  ): FixSuggestionInfo | undefined {
+    const suggestion = response?.fix_suggestions?.[0];
     if (!suggestion?.replacements || suggestion.replacements.length === 0) {
-      return;
+      return undefined;
+    }
+    return suggestion;
+  }
+
+  public async generateSuggestedFix(
+    data: GenerateSuggestedFixData
+  ): Promise<FixSuggestionInfo | undefined> {
+    const provider = this.suggestionsProvider;
+    if (!provider?.suggestFix) return;
+    const response = await this.fetchSuggestedFix(data, request =>
+      provider.suggestFix!(request)
+    );
+    return this.getFirstValidSuggestion(response);
+  }
+
+  public async requestAiFix(
+    data: GenerateSuggestedFixData
+  ): Promise<FixSuggestionInfo | undefined> {
+    const provider = this.suggestionsProvider;
+    if (!provider?.requestAiFix && !provider?.suggestFix) return;
+    const response = await this.fetchSuggestedFix(data, request =>
+      provider.requestAiFix
+        ? provider.requestAiFix(request)
+        : provider.suggestFix!(request)
+    );
+    if (!response) return;
+    const suggestion = this.getFirstValidSuggestion(response);
+    if (!suggestion && response.responseCode !== ResponseCode.OK) {
+      fireAlert(document, 'No suitable AI fix could be found');
     }
     return suggestion;
   }
@@ -135,7 +180,7 @@ export class GrSuggestionsService implements SuggestionsService {
       !comment ||
       !comment.path ||
       !comment.patch_set ||
-      !this.suggestionsProvider?.suggestFix ||
+      !this.suggestionsProvider ||
       !this.change ||
       !commentText
     ) {

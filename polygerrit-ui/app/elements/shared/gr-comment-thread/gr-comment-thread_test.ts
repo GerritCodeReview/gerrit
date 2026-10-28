@@ -753,9 +753,7 @@ suite('gr-comment-thread tests', () => {
   suite('Get AI fix button', () => {
     setup(async () => {
       const suggestionsService = testResolver(suggestionsServiceToken);
-      sinon
-        .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
-        .returns(true);
+      sinon.stub(suggestionsService, 'isRequestAiFixEnabled').returns(true);
       stubFlags('isEnabled').returns(true);
 
       element.isOwner = true;
@@ -850,6 +848,57 @@ suite('gr-comment-thread tests', () => {
       });
       await element.updateComplete;
       assert.isNotOk(query(element, '#aiFixBtn'));
+    });
+
+    test('not show get ai fix if user is not change owner', async () => {
+      element.isOwner = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#aiFixBtn'));
+    });
+
+    test('not show get ai fix on parent side or file-level comment', async () => {
+      element.thread = createThread({
+        ...c1,
+        side: CommentSide.PARENT,
+        unresolved: true,
+      });
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#aiFixBtn'));
+
+      element.thread = createThread({
+        ...c1,
+        line: undefined,
+        range: undefined,
+        unresolved: true,
+      });
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#aiFixBtn'));
+    });
+
+    test('clicking Get AI Fix calls suggestionsService.requestAiFix', async () => {
+      const suggestionsService = testResolver(suggestionsServiceToken);
+      const requestAiFixStub = sinon
+        .stub(suggestionsService, 'requestAiFix')
+        .resolves(undefined);
+      element.thread = createThread({
+        ...c1,
+        path: 'src/foo.ts',
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 15,
+        unresolved: true,
+      });
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(element, '#aiFixBtn').click();
+      await waitUntil(() => requestAiFixStub.calledOnce);
+
+      assert.include(requestAiFixStub.firstCall.args[0], {
+        prompt: 'start the conversation',
+        patchsetNumber: 2 as RevisionPatchSetNum,
+        filePath: 'src/foo.ts',
+        lineNumber: 15,
+        commentId: 'the-root' as UrlEncodedCommentId,
+      });
     });
 
     test('handleAppliedFix creates a "Fix applied" reply', async () => {

@@ -18,6 +18,12 @@ export declare interface SuggestionsPluginApi {
   register(provider: SuggestionsProvider): void;
 }
 
+export enum ReportSource {
+  GET_AI_FIX_FOR_CHECK = 'GET_AI_FIX_FOR_CHECK',
+  GET_AI_FIX_FOR_COMMENT = 'GET_AI_FIX_FOR_COMMENT',
+  FIX_FOR_REVIEWER_COMMENT = 'FIX_FOR_REVIEWER_COMMENT',
+}
+
 export declare interface SuggestCodeRequest {
   prompt: string;
   changeInfo: ChangeInfo;
@@ -25,6 +31,7 @@ export declare interface SuggestCodeRequest {
   filePath: string;
   range?: CommentRange;
   lineNumber?: number;
+  reportSource?: ReportSource;
 }
 
 export declare interface AutocompleteCommentRequest {

@@ -360,6 +360,10 @@ export class GrDiffView extends LitElement {
     this.getChatModel().setChatPanelOpen(false);
   };
 
+  private readonly handleOpenChatPanel = () => {
+    this.getChatModel().setChatPanelOpen(true);
+  };
+
   private readonly handleExplainCodeRequested = (
     e: ExplainCodeRequestedEvent
   ) => {
@@ -893,6 +897,7 @@ export class GrDiffView extends LitElement {
       'explain-code-requested',
       this.handleExplainCodeRequested
     );
+    document.addEventListener('open-chat-panel', this.handleOpenChatPanel);
     this.cursor = new GrDiffCursor();
     if (this.diffHost) this.reInitCursor();
     if (!this.hasInitializedSidebarFromPrefs) {
@@ -920,6 +925,7 @@ export class GrDiffView extends LitElement {
       'explain-code-requested',
       this.handleExplainCodeRequested
     );
+    document.removeEventListener('open-chat-panel', this.handleOpenChatPanel);
     this.cursor?.dispose();
     this.headerResizeObserver.disconnect();
     document.documentElement.style.setProperty('--diff-header-height', '0px');

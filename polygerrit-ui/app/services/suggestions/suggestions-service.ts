@@ -9,20 +9,17 @@ import {
   FixSuggestionInfo,
   RevisionPatchSetNum,
 } from '../../api/rest-api';
+import {ReportSource} from '../../api/suggestions';
 import {Comment} from '../../types/common';
 import {AutocompletionContext} from '../../utils/autocomplete-cache';
 import {define} from '../../models/dependency';
 import {Observable} from 'rxjs';
 
+export {ReportSource};
+
 export const suggestionsServiceToken = define<SuggestionsService>(
   'suggestions-service'
 );
-
-export enum ReportSource {
-  GET_AI_FIX_FOR_CHECK = 'GET_AI_FIX_FOR_CHECK',
-  GET_AI_FIX_FOR_COMMENT = 'GET_AI_FIX_FOR_COMMENT',
-  FIX_FOR_REVIEWER_COMMENT = 'FIX_FOR_REVIEWER_COMMENT',
-}
 
 export interface SuggestionsService extends Finalizable {
   /**

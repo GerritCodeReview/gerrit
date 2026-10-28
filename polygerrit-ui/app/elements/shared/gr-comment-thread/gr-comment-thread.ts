@@ -61,7 +61,7 @@ import {
   copyToClipboard,
   uuid,
 } from '../../../utils/common-util';
-import {fire, fireAlert} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {getUserName} from '../../../utils/display-name-util';
@@ -1083,10 +1083,7 @@ export class GrCommentThread extends LitElement {
     } finally {
       this.suggestionLoading = false;
     }
-    if (!suggestion) {
-      fireAlert(this, 'No suitable AI fix could be found');
-      return;
-    }
+    if (!suggestion) return;
     // Description is used to identify the suggestion source in logs.
     suggestion.description =
       ReportSource.GET_AI_FIX_FOR_COMMENT + ' ' + suggestion.description;

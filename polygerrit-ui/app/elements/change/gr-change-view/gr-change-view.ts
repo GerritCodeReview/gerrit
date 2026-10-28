@@ -469,6 +469,10 @@ export class GrChangeView extends LitElement {
 
   private headerEl?: HTMLElement;
 
+  private readonly handleOpenChatPanel = () => {
+    this.getChatModel().setChatPanelOpen(true);
+  };
+
   private headerResizeObserver = new ResizeObserver(entries => {
     for (const entry of entries) {
       const height = entry.borderBoxSize[0].blockSize;
@@ -794,6 +798,7 @@ export class GrChangeView extends LitElement {
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('scroll', this.handleScroll);
+    document.addEventListener('open-chat-panel', this.handleOpenChatPanel);
   }
 
   override firstUpdated() {
@@ -842,6 +847,7 @@ export class GrChangeView extends LitElement {
       this.handleVisibilityChange
     );
     document.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('open-chat-panel', this.handleOpenChatPanel);
     this.scrollTask?.cancel();
 
     if (this.updateCheckTimerHandle) {

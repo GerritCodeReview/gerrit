@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "467f8782_ca96d9ae",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoCreator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-28T23:35:48Z",
+      "side": 1,
+      "message": "No longer applies. Returns the `RefStorage` enum and reads the key with `equalsIgnoreCase`.",
+      "parentUuid": "548b68b6_ea4eacb9",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 133,
+        "endChar": 59
+      },
+      "revId": "fabb221b71949b8fb2604b17a09138ce693eb8b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8bf6128_62b222e2",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-22T09:46:03Z",
       "side": 1,
       "message": "An invalid configuration would default to `RefStorage.REF_DIRECTORY`, for example:\n\n```\n[extensions]\n  refStorage \u003d foo\n```\n\nDo you think we should be more explicit in checking the `RefStorage`?",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 35
+      },
+      "revId": "fabb221b71949b8fb2604b17a09138ce693eb8b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e3ec6f_84897248",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoCreator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-28T23:35:48Z",
+      "side": 1,
+      "message": "JGit already rejects a non-reftable `extensions.refStorage` at repositoryformatversion \u003e\u003d 1, so an invalid value fails the open instead of silently becoming FILES.",
+      "parentUuid": "a8bf6128_62b222e2",
       "range": {
         "startLine": 128,
         "startChar": 0,
@@ -78,6 +126,24 @@
       "side": 1,
       "message": "I actually believe we should fail the API if you cannot open the repository.",
       "parentUuid": "23990c1c_dc6d8876",
+      "revId": "fabb221b71949b8fb2604b17a09138ce693eb8b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19f1871f_5e4074f9",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-28T23:35:48Z",
+      "side": 1,
+      "message": "Done. Fails now instead of defaulting to FILES.",
+      "parentUuid": "d8840b42_dccc2fac",
       "revId": "fabb221b71949b8fb2604b17a09138ce693eb8b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

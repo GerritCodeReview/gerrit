@@ -46,6 +46,30 @@
       },
       "revId": "81ac931038e4f1ceeececc97ba7591bb17089e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e44f1bd_f705fac7",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-28T23:34:33Z",
+      "side": 1,
+      "message": "Gotcha, that means we\u0027ll need an equivalent change on the global-refdb.",
+      "parentUuid": "5ce404ee_03cdbeff",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 60
+      },
+      "revId": "81ac931038e4f1ceeececc97ba7591bb17089e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

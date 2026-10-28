@@ -206,6 +206,28 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "change.allowMarkdownBase64ImagesInComments", value = "true")
+  @GerritConfig(name = "change.cumulativeCommentSizeLimit", value = "50k")
+  public void publishedBase64ImagesDoNotCountAgainstCumulativeCommentSizeLimit() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH;
+
+    addDraft(
+        changeId,
+        revId,
+        CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, base64ImageMarkdown(64 << 10)));
+    gApi.changes().id(changeId).revision(revId).review(reviewInput);
+
+    CommentInfo draft =
+        addDraft(changeId, revId, CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "text"));
+    gApi.changes().id(changeId).revision(revId).review(reviewInput);
+    assertThat(getPublishedComment(changeId, revId, draft.id).message).isEqualTo("text");
+  }
+
+  @Test
+  @GerritConfig(name = "change.allowMarkdownBase64ImagesInComments", value = "true")
   public void createDraftWithBase64ImageAndTextExceedingCommentSizeLimitIsRejected()
       throws Exception {
     PushOneCommit.Result r = createChange();

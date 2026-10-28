@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Project;
@@ -25,6 +27,7 @@ import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.util.MarkdownImagesUtil;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
@@ -38,11 +41,15 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
 
   private final int maxCumulativeSize;
   private final ChangeNotes.Factory notesFactory;
+  private final MarkdownImagesUtil markdownImagesUtil;
 
   @Inject
   CommentCumulativeSizeValidator(
-      @GerritServerConfig Config serverConfig, ChangeNotes.Factory notesFactory) {
+      @GerritServerConfig Config serverConfig,
+      ChangeNotes.Factory notesFactory,
+      MarkdownImagesUtil markdownImagesUtil) {
     this.notesFactory = notesFactory;
+    this.markdownImagesUtil = markdownImagesUtil;
     maxCumulativeSize =
         serverConfig.getInt(
             "change", "cumulativeCommentSizeLimit", DEFAULT_CUMULATIVE_COMMENT_SIZE_LIMIT);
@@ -53,13 +60,11 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
       CommentValidationContext ctx, ImmutableList<CommentForValidation> comments) {
     ChangeNotes notes =
         notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
-    int existingCumulativeSize =
-        notes.getHumanComments().values().stream().mapToInt(Comment::getApproximateSize).sum()
-            + notes.getChangeMessages().stream().mapToInt(cm -> cm.getMessage().length()).sum();
+    int existingCumulativeSize = getExistingCumulativeSizeWithoutImages(notes);
     int newCumulativeSize =
         comments.stream().mapToInt(CommentForValidation::getApproximateSize).sum();
     ImmutableList.Builder<CommentValidationFailure> failures = ImmutableList.builder();
-    if (!comments.isEmpty() && !isEnoughSpace(notes, newCumulativeSize, maxCumulativeSize)) {
+    if (!comments.isEmpty() && existingCumulativeSize + newCumulativeSize >= maxCumulativeSize) {
       // This warning really applies to the set of all comments, but we need to pick one to attach
       // the message to.
       CommentForValidation commentForFailureMessage = Iterables.getLast(comments);
@@ -72,6 +77,28 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
                   existingCumulativeSize, newCumulativeSize, maxCumulativeSize)));
     }
     return failures.build();
+  }
+
+  /**
+   * Same as the existing size computed by {@link #isEnoughSpace}, but without base64 markdown
+   * images, which are not counted when {@code change.allowMarkdownBase64ImagesInComments} is
+   * enabled. New comments are already passed in with images stripped.
+   */
+  private int getExistingCumulativeSizeWithoutImages(ChangeNotes notes) {
+    return notes.getHumanComments().values().stream()
+            .mapToInt(
+                c ->
+                    c.getApproximateSize()
+                        - Strings.nullToEmpty(c.message).length()
+                        + sizeWithoutImages(c.message))
+            .sum()
+        + notes.getChangeMessages().stream()
+            .mapToInt(cm -> sizeWithoutImages(cm.getMessage()))
+            .sum();
+  }
+
+  private int sizeWithoutImages(@Nullable String message) {
+    return Strings.nullToEmpty(markdownImagesUtil.stripImages(message)).length();
   }
 
   /**

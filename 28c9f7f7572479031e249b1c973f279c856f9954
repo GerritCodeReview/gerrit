@@ -34,6 +34,24 @@
       "parentUuid": "6908ce40_21e31d48",
       "revId": "28c9f7f7572479031e249b1c973f279c856f9954",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e399c4_0f8844a4",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-diff-large-line-numbers.png",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-28T09:52:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f730fce4_dae4db11",
+      "revId": "28c9f7f7572479031e249b1c973f279c856f9954",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

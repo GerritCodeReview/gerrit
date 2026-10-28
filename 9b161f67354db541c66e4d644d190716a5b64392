@@ -33,6 +33,24 @@
       "message": "Granted we expect to do a lot of \"lookup after a push\", this is a regression for all other measures. I think we need to improve that before we can replace the bitmap version.",
       "revId": "9b161f67354db541c66e4d644d190716a5b64392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "441e1f80_518a51c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-28T21:37:59Z",
+      "side": 1,
+      "message": "If size is your concern, you could try compressing the DAG. :)",
+      "parentUuid": "dacd0636_0b4f05e0",
+      "revId": "9b161f67354db541c66e4d644d190716a5b64392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

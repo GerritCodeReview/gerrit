@@ -34,6 +34,24 @@
       "parentUuid": "dbe80e6b_77ec45cc",
       "revId": "7c7ed3363a2a262b78cee51b57735541d99a3fe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8550254_ba24e294",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-28T22:47:32Z",
+      "side": 1,
+      "message": "Handled in this patch set. `openRepository` refreshes the cached `FileBasedConfig` via `usesReftable()` before the fast path. `config.isOutdated()` catches a conversion done outside this manager (it rewrites `extensions.refStorage`), and on a format flip `evictRepository()` drops the stale file key and `RepositoryCache` entry so the repo reopens with the correct ref db. The config snapshot is cached in `reftableByProject`.",
+      "parentUuid": "8f0599e7_962a499e",
+      "revId": "7c7ed3363a2a262b78cee51b57735541d99a3fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

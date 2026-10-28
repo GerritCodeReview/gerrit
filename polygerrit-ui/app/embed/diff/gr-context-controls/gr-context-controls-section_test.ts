@@ -11,6 +11,7 @@ import '../../../test/common-test-setup';
 import {
   createContextGroup,
   createDiff,
+  createSkipContextGroup,
 } from '../../../test/test-data-generators';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import './gr-context-controls-section';
@@ -132,6 +133,25 @@ suite('gr-context-controls-section test', () => {
               <td></td>
               <td class="contextLineNum"></td>
               <td></td>
+            </tr>
+          </tbody>
+        </table>
+      `
+    );
+  });
+
+  test('render skipped lines without padding rows', async () => {
+    element.group = createSkipContextGroup({offset: 0, count: 10});
+    await element.updateComplete;
+    assert.lightDom.equal(
+      element,
+      /* HTML */ `
+        <table>
+          <tbody>
+            <tr class="dividerRow show-none">
+              <td class="dividerCell" colspan="4">
+                <gr-context-controls showconfig="none"> </gr-context-controls>
+              </td>
             </tr>
           </tbody>
         </table>

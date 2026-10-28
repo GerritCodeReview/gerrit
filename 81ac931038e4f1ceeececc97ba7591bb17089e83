@@ -22,6 +22,30 @@
       },
       "revId": "81ac931038e4f1ceeececc97ba7591bb17089e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ce404ee_03cdbeff",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-28T22:51:37Z",
+      "side": 1,
+      "message": "This is the interface default, kept as the \"not supported\" path for managers that cannot honor reftable (in-memory, shared-refdb). Accepting `REFTABLE` here would silently create a FILES repository while reporting REFTABLE. `LocalDiskRepositoryManager` overrides this method and creates the reftable backend explicitly via `FileRepositoryBuilder.setRefStorageFormat(REFTABLE)`. So reftable creation is supported, by the override rather than the default.",
+      "parentUuid": "9e4d7a59_150fd662",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 60
+      },
+      "revId": "81ac931038e4f1ceeececc97ba7591bb17089e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -19,16 +19,23 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager.Status;
 import com.google.gerrit.server.ioutil.HostPlatform;
+import com.google.gerrit.testing.ConfigSuite;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.FileReftableDatabase;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefStorageFormat;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
@@ -37,19 +44,27 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
 
+@RunWith(ConfigSuite.class)
 public class LocalDiskRepositoryManagerTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+  @ConfigSuite.Parameter public Config cfg;
 
-  private Config cfg;
   private SitePaths site;
   private LocalDiskRepositoryManager repoManager;
+
+  @ConfigSuite.Config
+  public static Config withoutFileKeyCache() {
+    Config cfg = new Config();
+    cfg.setBoolean("core", null, "useFileKeyByProjectCache", false);
+    return cfg;
+  }
 
   @Before
   public void setUp() throws Exception {
     site = new SitePaths(temporaryFolder.newFolder().toPath());
     site.resolve("git").toFile().mkdir();
-    cfg = new Config();
     cfg.setString("gerrit", null, "basePath", "git");
     repoManager = new LocalDiskRepositoryManager(site, cfg);
   }
@@ -286,6 +301,50 @@ public class LocalDiskRepositoryManagerTest {
     assertThrows(
         RepositoryNotFoundException.class,
         () -> repoManager.openRepository(Project.nameKey("project%?|<>A")));
+  }
+
+  @Test
+  public void detectsExternalRefStorageConversion() throws Exception {
+    Project.NameKey name = Project.nameKey("external-conversion");
+    File directory;
+    try (Repository repo = repoManager.createRepository(name)) {
+      directory = repo.getDirectory();
+    }
+    try (PerThreadCache ignored = PerThreadCache.create();
+        Repository repo = repoManager.openRepository(name)) {
+      assertThat(repo.getRefDatabase()).isInstanceOf(RefDirectory.class);
+      assertThat(repo.exactRef(Constants.HEAD).isSymbolic()).isTrue();
+    }
+
+    try (FileRepository external = new FileRepository(directory)) {
+      external.convertRefStorage(RefStorageFormat.REFTABLE, true, false);
+    }
+    try (PerThreadCache ignored = PerThreadCache.create();
+        Repository repo = repoManager.openRepository(name)) {
+      assertThat(repo.getRefDatabase()).isInstanceOf(FileReftableDatabase.class);
+      assertThat(repo.exactRef(Constants.HEAD).isSymbolic()).isTrue();
+    }
+
+    try (FileRepository external = new FileRepository(directory)) {
+      external.convertRefStorage(RefStorageFormat.FILES, true, false);
+    }
+    try (PerThreadCache ignored = PerThreadCache.create();
+        Repository repo = repoManager.openRepository(name)) {
+      assertThat(repo.getRefDatabase()).isInstanceOf(RefDirectory.class);
+      assertThat(repo.exactRef(Constants.HEAD).isSymbolic()).isTrue();
+    }
+  }
+
+  @Test
+  public void invalidRepositoryConfigDoesNotUseCachedFileKey() throws Exception {
+    Project.NameKey name = Project.nameKey("invalid-config");
+    File directory;
+    try (Repository repo = repoManager.createRepository(name)) {
+      directory = repo.getDirectory();
+    }
+    repoManager.openRepository(name).close();
+    Files.writeString(directory.toPath().resolve(Constants.CONFIG), "[invalid config");
+    assertThrows(RepositoryNotFoundException.class, () -> repoManager.openRepository(name));
   }
 
   @Test

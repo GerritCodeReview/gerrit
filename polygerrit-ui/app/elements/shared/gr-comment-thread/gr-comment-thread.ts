@@ -25,6 +25,7 @@ import {
   getLastComment,
   hasUserSuggestion,
   id,
+  isFileLevelComment,
   NEWLINE_PATTERN,
 } from '../../../utils/comment-util';
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
@@ -61,7 +62,7 @@ import {
   copyToClipboard,
   uuid,
 } from '../../../utils/common-util';
-import {fire, fireAlert} from '../../../utils/event-util';
+import {fire} from '../../../utils/event-util';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {getUserName} from '../../../utils/display-name-util';
@@ -1068,25 +1069,25 @@ export class GrCommentThread extends LitElement {
   private async handleAIFix(): Promise<void> {
     if (!this.thread || !this.account) return;
     const comment = this.thread.comments[0];
-    if (!comment?.message) return;
+    if (!comment?.message || !comment.path || !comment.patch_set) return;
     this.suggestionLoading = true;
     this.generatedSuggestionId = uuid();
     let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestion =
-        await this.getSuggestionsService().generateSuggestedFixForComment(
-          comment,
-          comment.message,
-          this.generatedSuggestionId,
-          ReportSource.GET_AI_FIX_FOR_COMMENT
-        );
+      suggestion = await this.getSuggestionsService().requestAiFix({
+        prompt: comment.message,
+        patchsetNumber: comment.patch_set,
+        filePath: comment.path,
+        range: comment.range,
+        lineNumber: comment.line,
+        generatedSuggestionId: this.generatedSuggestionId,
+        commentId: id(comment),
+        reportSource: ReportSource.GET_AI_FIX_FOR_COMMENT,
+      });
     } finally {
       this.suggestionLoading = false;
     }
-    if (!suggestion) {
-      fireAlert(this, 'No suitable AI fix could be found');
-      return;
-    }
+    if (!suggestion) return;
     // Description is used to identify the suggestion source in logs.
     suggestion.description =
       ReportSource.GET_AI_FIX_FOR_COMMENT + ' ' + suggestion.description;
@@ -1105,9 +1106,10 @@ export class GrCommentThread extends LitElement {
     if (this.thread.comments.length !== 1) return false;
     const comment = this.thread.comments[0];
     if (
-      !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabledForComment(
-        comment
-      )
+      !comment ||
+      !this.getSuggestionsService()?.isRequestAiFixEnabled(comment.path) ||
+      comment.side === CommentSide.PARENT ||
+      isFileLevelComment(comment)
     ) {
       return false;
     }

@@ -24,6 +24,17 @@ export enum ReportSource {
   FIX_FOR_REVIEWER_COMMENT = 'FIX_FOR_REVIEWER_COMMENT',
 }
 
+export interface GenerateSuggestedFixData {
+  prompt: string;
+  patchsetNumber: RevisionPatchSetNum;
+  filePath: string;
+  range?: CommentRange;
+  lineNumber?: number;
+  generatedSuggestionId?: string;
+  commentId?: string;
+  reportSource?: ReportSource;
+}
+
 export interface SuggestionsService extends Finalizable {
   /**
    * Emits a boolean value whenever the enablement state of any suggestion
@@ -50,6 +61,12 @@ export interface SuggestionsService extends Finalizable {
   isGeneratedSuggestedFixEnabledForComment(comment?: Comment): boolean;
 
   /**
+   * Checks if explicit "Get AI Fix" requests are enabled for the given path
+   * (via `requestAiFix` or fallback `suggestFix`).
+   */
+  isRequestAiFixEnabled(path?: string): boolean;
+
+  /**
    * Generates a suggested fix.
    *
    * **Important:** This method should only be called if
@@ -58,16 +75,20 @@ export interface SuggestionsService extends Finalizable {
    * `suggestionsServiceUpdated$` and call `this.requestUpdate()` when it
    * emits to ensure they only call this method when enabled.
    */
-  generateSuggestedFix(data: {
-    prompt: string;
-    patchsetNumber: RevisionPatchSetNum;
-    filePath: string;
-    range?: CommentRange;
-    lineNumber?: number;
-    generatedSuggestionId?: string;
-    commentId?: string;
-    reportSource?: ReportSource;
-  }): Promise<FixSuggestionInfo | undefined>;
+  generateSuggestedFix(
+    data: GenerateSuggestedFixData
+  ): Promise<FixSuggestionInfo | undefined>;
+
+  /**
+   * Requests an explicit "Get AI Fix" action (via `requestAiFix`, falling back
+   * to `suggestFix`) and shows a notification when no fix can be produced.
+   *
+   * **Important:** This method should only be called if
+   * `isRequestAiFixEnabled(data.filePath)` returns `true`.
+   */
+  requestAiFix(
+    data: GenerateSuggestedFixData
+  ): Promise<FixSuggestionInfo | undefined>;
 
   /**
    * Generates a suggested fix specifically for a comment.

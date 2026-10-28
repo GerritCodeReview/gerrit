@@ -6,12 +6,15 @@
 import '../../../test/common-test-setup';
 import './gr-preferences';
 import {
+  query,
   queryAll,
   queryAndAssert,
   stubFlags,
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {ResponseCode} from '../../../api/suggestions';
 import {GrPreferences} from './gr-preferences';
 import {PreferencesInfo, TopMenuItemInfo} from '../../../types/common';
 import {
@@ -582,5 +585,45 @@ suite('gr-preferences tests', () => {
     // Save the change.
     await element.save();
     assert.isFalse(element.hasUnsavedChanges());
+  });
+
+  test('shows suggest-while-commenting preference only when provider implements suggestFix', async () => {
+    stubFlags('isEnabled').callsFake(
+      flag => flag === KnownExperimentId.ML_SUGGESTED_EDIT_V2
+    );
+
+    element.suggestionsProvider = {
+      requestAiFix: async () => {
+        return {responseCode: ResponseCode.OK, fix_suggestions: []};
+      },
+    };
+    await element.updateComplete;
+    assert.isNotOk(query(element, '#allowSuggestCodeWhileCommentingSection'));
+
+    element.suggestionsProvider = {
+      suggestFix: async () => {
+        return {responseCode: ResponseCode.OK, fix_suggestions: []};
+      },
+    };
+    await element.updateComplete;
+    assert.isOk(query(element, '#allowSuggestCodeWhileCommentingSection'));
+  });
+
+  test('shows comment-autocompletion preference only when provider implements autocompleteComment', async () => {
+    element.suggestionsProvider = {
+      requestAiFix: async () => {
+        return {responseCode: ResponseCode.OK, fix_suggestions: []};
+      },
+    };
+    await element.updateComplete;
+    assert.isNotOk(query(element, '#allowAiCommentAutocompletionSection'));
+
+    element.suggestionsProvider = {
+      autocompleteComment: async () => {
+        return {responseCode: ResponseCode.OK};
+      },
+    };
+    await element.updateComplete;
+    assert.isOk(query(element, '#allowAiCommentAutocompletionSection'));
   });
 });

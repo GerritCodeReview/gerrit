@@ -489,7 +489,7 @@ export class GrPreferences extends LitElement {
       this.flagsService.isEnabled(
         KnownExperimentId.ML_SUGGESTED_EDIT_UNCHECK_BY_DEFAULT
       ) ||
-      !this.suggestionsProvider
+      !this.suggestionsProvider?.suggestFix
     )
       return nothing;
     return html`
@@ -528,7 +528,7 @@ export class GrPreferences extends LitElement {
   // When the experiment is over, move this back to render(),
   // removing this function.
   private renderAiCommentAutocompletion() {
-    if (!this.suggestionsProvider) return nothing;
+    if (!this.suggestionsProvider?.autocompleteComment) return nothing;
     return html`
       <section id="allowAiCommentAutocompletionSection">
         <div class="title">

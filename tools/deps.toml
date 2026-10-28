@@ -12,7 +12,6 @@ mail = "1.6.0"
 mime4j = "0.8.1"
 ow2 = "9.10.1"
 prolog = "1.4.4"
-roaringBitmap = "0.9.44"
 
 [libraries]
 activation = { module = "javax.activation:activation", version = "1.1.1" }
@@ -93,7 +92,5 @@ prolog-cafeteria = { module = "com.googlecode.prolog-cafe:prolog-cafeteria", ver
 prolog-compiler = { module = "com.googlecode.prolog-cafe:prolog-compiler", version.ref = "prolog" }
 prolog-io = { module = "com.googlecode.prolog-cafe:prolog-io", version.ref = "prolog" }
 prolog-runtime = { module = "com.googlecode.prolog-cafe:prolog-runtime", version.ref = "prolog" }
-RoaringBitmap = { module = "org.roaringbitmap:RoaringBitmap", version.ref = "roaringBitmap" }
-shims = { module = "org.roaringbitmap:shims", version.ref = "roaringBitmap" }
 stringtemplate = { module = "org.antlr:stringtemplate", version = "4.0.2" }
 types = { module = "com.google.common.html.types:types", version = "1.0.8" }

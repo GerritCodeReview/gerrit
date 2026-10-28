@@ -53,6 +53,7 @@ import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 import org.roaringbitmap.RoaringBitmap;
@@ -236,6 +237,35 @@ public class TagSetTest {
     TagMatcher m = tagCache.get(project).matcher(tagCache, repo, include);
     assertThat(m.isReachable(tagRef)).isTrue();
     assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNotNull();
+  }
+
+  @Test
+  public void tagOnCommitsAddedByAFastForwardBecomesReachable() throws Exception {
+    InMemoryRepository repo = new InMemoryRepository(new DfsRepositoryDescription("project"));
+    Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    TagCache tagCache = new TagCache(guavaCache);
+    Project.NameKey project = Project.nameKey("project");
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit root = tr.commit().create();
+      tr.update("refs/heads/master", root);
+      RevCommit tagged = tr.commit().parent(root).create();
+      tr.update("refs/tags/v1", tr.tag("v1", tagged));
+      Ref tagRef = repo.exactRef("refs/tags/v1");
+      TagMatcher m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/master"));
+      assertThat(m.isReachable(tagRef)).isFalse();
+
+      tr.update("refs/heads/master", tr.commit().parent(tagged).create());
+      m = tagCache.get(project).matcher(tagCache, repo, refs(repo, "refs/heads/master"));
+      assertThat(m.isReachable(tagRef)).isTrue();
+    }
+  }
+
+  private static ImmutableList<Ref> refs(Repository repo, String... names) throws IOException {
+    ImmutableList.Builder<Ref> refs = ImmutableList.builder();
+    for (String name : names) {
+      refs.add(repo.exactRef(name));
+    }
+    return refs.build();
   }
 
   @Test

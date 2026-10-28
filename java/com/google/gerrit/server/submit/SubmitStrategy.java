@@ -46,7 +46,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergeUtilFactory;
-import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.SubmitWithStickyApprovalDiff;
@@ -124,7 +123,6 @@ public abstract class SubmitStrategy {
     final PersonIdent serverIdent;
     final RebaseChangeOp.Factory rebaseFactory;
     final OnSubmitValidators.Factory onSubmitValidatorsFactory;
-    final TagCache tagCache;
     final Provider<InternalChangeQuery> queryProvider;
     final ProjectConfig.Factory projectConfigFactory;
     final SetPrivateOp.Factory setPrivateOpFactory;
@@ -166,7 +164,6 @@ public abstract class SubmitStrategy {
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
-        TagCache tagCache,
         Provider<InternalChangeQuery> queryProvider,
         ProjectConfig.Factory projectConfigFactory,
         SetPrivateOp.Factory setPrivateOpFactory,
@@ -198,7 +195,6 @@ public abstract class SubmitStrategy {
       this.psUtil = psUtil;
       this.projectCache = projectCache;
       this.rebaseFactory = rebaseFactory;
-      this.tagCache = tagCache;
       this.queryProvider = queryProvider;
       this.setPrivateOpFactory = setPrivateOpFactory;
       this.submitWithStickyApprovalDiff = submitWithStickyApprovalDiff;

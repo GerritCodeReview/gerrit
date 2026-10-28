@@ -58,7 +58,7 @@ public class TagSetHolder {
 
     TagMatcher m = new TagMatcher(this, cache, db, include, tags, false);
     tags.prepare(m);
-    if (!m.newRefs.isEmpty() || !m.lostRefs.isEmpty()) {
+    if (!m.newRefs.isEmpty() || !m.lostRefs.isEmpty() || !m.gainedRefs.isEmpty()) {
       tags = rebuild(cache, db, tags, m);
 
       m = new TagMatcher(this, cache, db, include, tags, true);
@@ -72,6 +72,7 @@ public class TagSetHolder {
     m.mask.clear();
     m.newRefs.clear();
     m.lostRefs.clear();
+    m.gainedRefs.clear();
     m.tags.prepare(m);
   }
 

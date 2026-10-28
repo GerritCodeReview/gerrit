@@ -28,6 +28,7 @@ suite('gr-diff-check-result tests', () => {
   let element: GrDiffCheckResult;
 
   let reportingStub: sinon.SinonStub;
+  let requestAiFixStub: sinon.SinonStub;
   let suggestionsService: SuggestionsService;
 
   setup(async () => {
@@ -39,11 +40,9 @@ suite('gr-diff-check-result tests', () => {
     const checksModel = testResolver(checksModelToken);
     checksModel.changeNum = 123 as NumericChangeId;
 
-    sinon
-      .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
-      .returns(true);
+    sinon.stub(suggestionsService, 'isRequestAiFixEnabled').returns(true);
     stubFlags('isEnabled').returns(true);
-    sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
+    requestAiFixStub = sinon.stub(suggestionsService, 'requestAiFix').resolves({
       description: 'AI suggested fix',
       fix_id: '1' as FixId,
       replacements: [
@@ -197,6 +196,21 @@ suite('gr-diff-check-result tests', () => {
           })
         )
       );
+    });
+
+    test('stays collapsed without alert when requestAiFix resolves undefined', async () => {
+      requestAiFixStub.resolves(undefined);
+      const alertSpy = sinon.spy();
+      element.addEventListener('show-alert', alertSpy);
+
+      queryAndAssert<GrButton>(element, '#aiFixBtn').click();
+      await waitUntil(() => requestAiFixStub.calledOnce);
+      await element.updateComplete;
+
+      assert.isFalse(element.isExpanded);
+      assert.isFalse(element.suggestionLoading);
+      assert.isUndefined(element.suggestion);
+      assert.isFalse(alertSpy.called);
     });
   });
   test('reports AI_AGENT_SUGGESTION_TO_COMMENT when please-fix clicked', async () => {

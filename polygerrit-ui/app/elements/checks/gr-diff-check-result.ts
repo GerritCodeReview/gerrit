@@ -36,7 +36,6 @@ import {
 } from '../../services/suggestions/suggestions-service';
 import {FixSuggestionInfo, RevisionPatchSetNum} from '../../api/rest-api';
 import {when} from 'lit/directives/when.js';
-import {fireAlert} from '../../utils/event-util';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -443,10 +442,7 @@ export class GrDiffCheckResult extends LitElement {
     } finally {
       this.suggestionLoading = false;
     }
-    if (!suggestion) {
-      fireAlert(this, 'No suitable AI fix could be found');
-      return;
-    }
+    if (!suggestion) return;
     suggestion.description =
       ReportSource.GET_AI_FIX_FOR_CHECK + ' ' + suggestion.description;
     this.suggestion = suggestion;

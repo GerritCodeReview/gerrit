@@ -25,6 +25,7 @@ export declare interface SuggestCodeRequest {
   filePath: string;
   range?: CommentRange;
   lineNumber?: number;
+  reportSource?: string;
 }
 
 export declare interface AutocompleteCommentRequest {

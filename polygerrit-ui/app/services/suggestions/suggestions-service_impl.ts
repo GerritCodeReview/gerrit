@@ -6,6 +6,7 @@
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {
   AutocompleteCommentResponse,
+  ResponseCode,
   SuggestionsProvider,
 } from '../../api/suggestions';
 import {Interaction, Timing} from '../../constants/reporting';
@@ -26,6 +27,7 @@ import {ReportSource, SuggestionsService} from './suggestions-service';
 import {BehaviorSubject} from 'rxjs';
 import {PluginsModel} from '../../models/plugins/plugins-model';
 import {ChangeModel} from '../../models/change/change-model';
+import {fireAlert} from '../../utils/event-util';
 
 export class GrSuggestionsService implements SuggestionsService {
   private suggestionsProvider?: SuggestionsProvider;
@@ -105,6 +107,7 @@ export class GrSuggestionsService implements SuggestionsService {
       filePath: data.filePath,
       range: data.range,
       lineNumber: data.lineNumber,
+      reportSource: data.reportSource,
     });
 
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
@@ -120,6 +123,13 @@ export class GrSuggestionsService implements SuggestionsService {
 
     const suggestion = suggestionResponse.fix_suggestions?.[0];
     if (!suggestion?.replacements || suggestion.replacements.length === 0) {
+      if (
+        suggestionResponse.responseCode !== ResponseCode.OK &&
+        (data.reportSource === ReportSource.GET_AI_FIX_FOR_COMMENT ||
+          data.reportSource === ReportSource.GET_AI_FIX_FOR_CHECK)
+      ) {
+        fireAlert(document, 'No suitable AI fix could be found');
+      }
       return;
     }
     return suggestion;

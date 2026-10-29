@@ -4,10 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert, waitUntil} from '@open-wc/testing';
-import {checkRun1} from '../../test/test-data-generators';
+import {checkRun1, createComment} from '../../test/test-data-generators';
 import {RunResult} from '../../models/checks/checks-model';
+import {
+  pleaseFixMessage,
+  RESPONSE_PLACEHOLDER,
+} from '../../models/checks/checks-util';
 import '../../test/common-test-setup';
-import {queryAndAssert} from '../../utils/common-util';
+import {query, queryAndAssert} from '../../utils/common-util';
 import {stubFlags} from '../../test/test-utils';
 import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
@@ -18,16 +22,28 @@ import {
 } from '../../services/suggestions/suggestions-service';
 import {testResolver} from '../../test/common-test-setup';
 import {checksModelToken} from '../../models/checks/checks-model';
-import {commentsModelToken} from '../../models/comments/comments-model';
+import {
+  commentsModelToken,
+  setComments,
+  setPortedComments,
+} from '../../models/comments/comments-model';
 import {SavingState} from '../../types/common';
 import {Interaction} from '../../constants/reporting';
 import {getAppContext} from '../../services/app-context';
-import {FixId, NumericChangeId, UrlEncodedCommentId} from '../../api/rest-api';
+import {KnownExperimentId} from '../../services/flags/flags';
+import {
+  FixId,
+  NumericChangeId,
+  RevisionPatchSetNum,
+  UrlEncodedCommentId,
+} from '../../api/rest-api';
+import {Category} from '../../api/checks';
 
 suite('gr-diff-check-result tests', () => {
   let element: GrDiffCheckResult;
 
   let reportingStub: sinon.SinonStub;
+  let isEnabledStub: sinon.SinonStub;
   let suggestionsService: SuggestionsService;
 
   setup(async () => {
@@ -42,7 +58,10 @@ suite('gr-diff-check-result tests', () => {
     sinon
       .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
       .returns(true);
-    stubFlags('isEnabled').returns(true);
+    isEnabledStub = stubFlags('isEnabled');
+    isEnabledStub
+      .withArgs(KnownExperimentId.ML_SUGGESTED_EDIT_GET_FIX)
+      .returns(true);
     sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
       description: 'AI suggested fix',
       fix_id: '1' as FixId,
@@ -263,5 +282,288 @@ suite('gr-diff-check-result tests', () => {
         })
       )
     );
+  });
+
+  suite('Respond button', () => {
+    test('does not show respond button when experiment is disabled', async () => {
+      element.result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        category: Category.WARNING,
+      } as RunResult;
+      await element.updateComplete;
+      assert.isUndefined(query(element, '#respond'));
+    });
+
+    test('shows respond button for WARNING when experiment is enabled', async () => {
+      isEnabledStub
+        .withArgs(KnownExperimentId.RESPOND_TO_CHECK_WARNINGS)
+        .returns(true);
+      element.result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        category: Category.WARNING,
+      } as RunResult;
+      await element.updateComplete;
+      assert.isDefined(query(element, '#respond'));
+    });
+
+    test('does not show respond button for ERROR even when experiment is enabled', async () => {
+      isEnabledStub
+        .withArgs(KnownExperimentId.RESPOND_TO_CHECK_WARNINGS)
+        .returns(true);
+      element.result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        category: Category.ERROR,
+      } as RunResult;
+      await element.updateComplete;
+      assert.isUndefined(query(element, '#respond'));
+    });
+
+    test('adds new draft comment and reports when respond button is clicked', async () => {
+      isEnabledStub
+        .withArgs(KnownExperimentId.RESPOND_TO_CHECK_WARNINGS)
+        .returns(true);
+      element.result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        category: Category.WARNING,
+        codePointers: [
+          {
+            path: 'test/path.ts',
+            range: {
+              start_line: 10,
+              start_character: 0,
+              end_line: 12,
+              end_character: 5,
+            },
+          },
+        ],
+        externalId: JSON.stringify({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 1,
+        }),
+      } as RunResult;
+      await element.updateComplete;
+
+      const commentsModel = testResolver(commentsModelToken);
+      const addNewDraftStub = sinon.stub(commentsModel, 'addNewDraft');
+
+      const respondAction = queryAndAssert(element, '#respond');
+      const button = queryAndAssert<GrButton>(respondAction, 'gr-button');
+      button.click();
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      assert.isTrue(addNewDraftStub.calledOnce);
+      const draftArg = addNewDraftStub.lastCall.args[0];
+      assert.equal(draftArg.path, 'test/path.ts');
+      assert.equal(draftArg.line, 12);
+      assert.isTrue(draftArg.unresolved);
+      assert.include(
+        draftArg.message,
+        `${RESPONSE_PLACEHOLDER}\n\nIn response to WARNING reported by FAKE Super Check:`
+      );
+
+      assert.isTrue(
+        reportingStub.calledWith(
+          Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+          sinon.match({
+            agentId: 'test-agent',
+            conversationId: 'test-conv',
+            turnIndex: 1,
+            commentId: undefined,
+          })
+        )
+      );
+    });
+
+    test('hides please-fix and respond buttons when unresolved matching comment thread exists at location', async () => {
+      isEnabledStub
+        .withArgs(KnownExperimentId.RESPOND_TO_CHECK_WARNINGS)
+        .returns(true);
+      const range = {
+        start_line: 10,
+        start_character: 0,
+        end_line: 12,
+        end_character: 5,
+      };
+      const result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        patchset: 1,
+        category: Category.WARNING,
+        codePointers: [{path: 'test/path.ts', range}],
+      } as RunResult;
+      element.result = result;
+      await element.updateComplete;
+
+      assert.isDefined(query(element, '#please-fix'));
+      assert.isDefined(query(element, '#respond'));
+
+      const commentsModel = testResolver(commentsModelToken);
+      commentsModel.modifyState(s =>
+        setComments(s, {
+          'test/path.ts': [
+            createComment({
+              id: 'c1' as UrlEncodedCommentId,
+              patch_set: 1 as RevisionPatchSetNum,
+              line: 12,
+              range,
+              unresolved: true,
+              message: pleaseFixMessage(result),
+            }),
+          ],
+        })
+      );
+      await element.updateComplete;
+
+      assert.isUndefined(query(element, '#please-fix'));
+      assert.isUndefined(query(element, '#respond'));
+    });
+
+    test('keeps buttons when matching comment thread is resolved', async () => {
+      isEnabledStub
+        .withArgs(KnownExperimentId.RESPOND_TO_CHECK_WARNINGS)
+        .returns(true);
+      const range = {
+        start_line: 10,
+        start_character: 0,
+        end_line: 12,
+        end_character: 5,
+      };
+      const result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        patchset: 1,
+        category: Category.WARNING,
+        codePointers: [{path: 'test/path.ts', range}],
+      } as RunResult;
+      element.result = result;
+
+      const commentsModel = testResolver(commentsModelToken);
+      commentsModel.modifyState(s =>
+        setComments(s, {
+          'test/path.ts': [
+            createComment({
+              id: 'c1' as UrlEncodedCommentId,
+              patch_set: 1 as RevisionPatchSetNum,
+              line: 12,
+              range,
+              unresolved: false,
+              message: pleaseFixMessage(result),
+            }),
+          ],
+        })
+      );
+      await element.updateComplete;
+
+      assert.isDefined(query(element, '#please-fix'));
+      assert.isDefined(query(element, '#respond'));
+    });
+
+    test('hides buttons when unresolved thread from earlier patchset is ported to moved location', async () => {
+      isEnabledStub
+        .withArgs(KnownExperimentId.RESPOND_TO_CHECK_WARNINGS)
+        .returns(true);
+      const originalRange = {
+        start_line: 10,
+        start_character: 0,
+        end_line: 12,
+        end_character: 5,
+      };
+      const movedRange = {
+        start_line: 15,
+        start_character: 0,
+        end_line: 17,
+        end_character: 5,
+      };
+      const result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        patchset: 2,
+        category: Category.WARNING,
+        codePointers: [{path: 'test/path.ts', range: movedRange}],
+      } as RunResult;
+      element.result = result;
+
+      const originalComment = createComment({
+        id: 'c1' as UrlEncodedCommentId,
+        path: 'test/path.ts',
+        patch_set: 1 as RevisionPatchSetNum,
+        line: 12,
+        range: originalRange,
+        unresolved: true,
+        message: pleaseFixMessage(result),
+      });
+      const commentsModel = testResolver(commentsModelToken);
+      commentsModel.modifyState(s => {
+        s = setComments(s, {'test/path.ts': [originalComment]});
+        return setPortedComments(s, {
+          'test/path.ts': [
+            {
+              ...originalComment,
+              line: 17,
+              range: movedRange,
+            },
+          ],
+        });
+      });
+      await element.updateComplete;
+
+      assert.isUndefined(query(element, '#please-fix'));
+      assert.isUndefined(query(element, '#respond'));
+    });
+
+    test('keeps buttons when comment thread at location does not contain check text in first message', async () => {
+      isEnabledStub
+        .withArgs(KnownExperimentId.RESPOND_TO_CHECK_WARNINGS)
+        .returns(true);
+      const range = {
+        start_line: 10,
+        start_character: 0,
+        end_line: 12,
+        end_character: 5,
+      };
+      const result = {
+        ...checkRun1,
+        ...checkRun1.results?.[0],
+        patchset: 1,
+        category: Category.WARNING,
+        codePointers: [{path: 'test/path.ts', range}],
+      } as RunResult;
+      element.result = result;
+
+      const commentsModel = testResolver(commentsModelToken);
+      commentsModel.modifyState(s =>
+        setComments(s, {
+          'test/path.ts': [
+            createComment({
+              id: 'c1' as UrlEncodedCommentId,
+              patch_set: 1 as RevisionPatchSetNum,
+              line: 12,
+              range,
+              unresolved: true,
+              message: 'Unrelated comment',
+            }),
+            createComment({
+              id: 'c2' as UrlEncodedCommentId,
+              in_reply_to: 'c1' as UrlEncodedCommentId,
+              patch_set: 1 as RevisionPatchSetNum,
+              line: 12,
+              range,
+              unresolved: true,
+              message: pleaseFixMessage(result),
+            }),
+          ],
+        })
+      );
+      await element.updateComplete;
+
+      assert.isDefined(query(element, '#please-fix'));
+      assert.isDefined(query(element, '#respond'));
+    });
   });
 });

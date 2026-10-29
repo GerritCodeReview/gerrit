@@ -16,6 +16,24 @@
       "message": "I believe the `ref_storage` is redundant here, because the endpoint already has `ref-storage` in the URL component\nAlso, the result is `\"REFTABLE\"`; therefore, the body should just be `\"REFTABLE\"`, IMHO.\n\n@david.ostrovsky@gmail.com WDYT?",
       "revId": "e607aa388685258fcd65334f8a2165b240e7706b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "612f1117_193ecf10",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T00:13:37Z",
+      "side": 1,
+      "message": "Good point. Kept it an object — it also carries `backup` (and could gain `reflogs` like the SSH command).\n\nI added `@DefaultInput` so a bare `\"REFTABLE\"` body works too, same as `HeadInput`/`ParentInput`.\n\nDoc now shows both forms.",
+      "parentUuid": "60c295b2_7e2f72d3",
+      "revId": "e607aa388685258fcd65334f8a2165b240e7706b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

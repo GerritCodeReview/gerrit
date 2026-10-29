@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
 import static com.google.gerrit.entities.Change.Status.ABANDONED;
@@ -21,29 +22,35 @@ import static com.google.gerrit.entities.Change.Status.MERGED;
 import static com.google.gerrit.entities.Change.Status.NEW;
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.server.index.change.IndexedChangeQuery.convertOptions;
+import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.AndCardinalPredicate;
 import com.google.gerrit.index.query.AndPredicate;
 import com.google.gerrit.index.query.OrCardinalPredicate;
 import com.google.gerrit.index.query.OrPredicate;
+import com.google.gerrit.index.query.PostFilterPredicate;
+import com.google.gerrit.index.query.PostFilterablePredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIndexPredicate;
+import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -345,6 +352,129 @@ public class ChangeIndexRewriterTest {
     QueryParseException thrown =
         assertThrows(QueryParseException.class, () -> rewrite(parse(q + " OR file:e")));
     assertThat(thrown).hasMessageThat().contains("too many terms in query");
+  }
+
+  @Test
+  public void postFilterableWithinMaxTermsStaysInIndex() throws Exception {
+    useProjectAndRefIndex();
+    // 4 terms, exactly MAX_INDEX_QUERY_TERMS.
+    Predicate<ChangeData> in = branches("a", "b");
+
+    assertThat(rewrite(in)).isEqualTo(query(in));
+  }
+
+  @Test
+  public void postFilterableOverMaxTermsIsPostFiltered() throws Exception {
+    useProjectAndRefIndex();
+    // 1 + 6 terms.
+    Predicate<ChangeData> branches = branches("a", "b", "c");
+    Predicate<ChangeData> in = and(open(), branches);
+
+    Predicate<ChangeData> out = rewrite(in);
+
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
+    assertThat(out.getChildCount()).isEqualTo(2);
+    assertThat(out.getChild(0)).isEqualTo(query(open()));
+    assertPostFilterOf(out.getChild(1), branches);
+  }
+
+  @Test
+  public void largestPostFilterableIsPostFilteredFirst() throws Exception {
+    useProjectAndRefIndex();
+    Predicate<ChangeData> small = branches("a");
+    Predicate<ChangeData> large = branches("b", "c");
+    // 1 + 2 + 4 terms: post-filtering only the large set brings the query down to 3 terms.
+    Predicate<ChangeData> in = and(open(), small, large);
+
+    Predicate<ChangeData> out = rewrite(in);
+
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
+    assertThat(out.getChildCount()).isEqualTo(2);
+    Predicate<ChangeData> indexed = out.getChild(0);
+    assertThat(indexed).isInstanceOf(IndexedChangeQuery.class);
+    assertThat(indexed.getChild(0).getChildren()).containsExactly(open(), small).inOrder();
+    assertPostFilterOf(out.getChild(1), large);
+  }
+
+  @Test
+  public void tooManyTermsWithoutPostFilterableStillFails() throws Exception {
+    useProjectAndRefIndex();
+    Predicate<ChangeData> in = parse("file:a OR file:b OR file:c OR file:d OR file:e");
+
+    QueryParseException thrown = assertThrows(QueryParseException.class, () -> rewrite(in));
+    assertThat(thrown).hasMessageThat().contains("too many terms in query");
+  }
+
+  @Test
+  public void tooManyTermsAfterPostFilteringStillFails() throws Exception {
+    useProjectAndRefIndex();
+    Predicate<ChangeData> in =
+        and(branches("a"), parse("file:a OR file:b OR file:c OR file:d OR file:e"));
+
+    QueryParseException thrown = assertThrows(QueryParseException.class, () -> rewrite(in));
+    assertThat(thrown).hasMessageThat().contains("too many terms in query");
+  }
+
+  @Test
+  public void postFilteredPredicateMatchesSameChanges() throws Exception {
+    useProjectAndRefIndex();
+    Predicate<ChangeData> out = rewrite(and(open(), branches("a", "b", "c")));
+
+    Predicate<ChangeData> postFilter = out.getChild(1);
+    assertThat(postFilter.asMatchable().match(changeOn("a"))).isTrue();
+    assertThat(postFilter.asMatchable().match(changeOn("c"))).isTrue();
+    assertThat(postFilter.asMatchable().match(changeOn("d"))).isFalse();
+  }
+
+  /** Uses an index with project and ref fields, so the test predicates are index predicates. */
+  private void useProjectAndRefIndex() {
+    index = new FakeChangeIndex(FakeChangeIndex.V3);
+    indexes.setSearchIndex(index);
+  }
+
+  private static Predicate<ChangeData> branches(String... projects) {
+    return new TestPostFilterable(projects);
+  }
+
+  private static ChangeData changeOn(String project) {
+    return ChangeData.createForTest(Project.nameKey(project), Change.id(1), 1, ObjectId.zeroId());
+  }
+
+  /**
+   * Matches changes in any of the given projects. Like a branch set, it sends a project and a ref
+   * term per project to the index, but {@code match()} is a set lookup.
+   */
+  private static class TestPostFilterable extends OrPredicate<ChangeData>
+      implements PostFilterablePredicate<ChangeData> {
+    private final ImmutableSet<String> projects;
+
+    TestPostFilterable(String... projects) {
+      super(
+          Arrays.stream(projects)
+              .map(
+                  p ->
+                      and(
+                          ChangePredicates.project(Project.nameKey(p)),
+                          ChangePredicates.ref("refs/heads/master")))
+              .collect(toImmutableList()));
+      this.projects = ImmutableSet.copyOf(projects);
+    }
+
+    @Override
+    public boolean match(ChangeData cd) {
+      return projects.contains(cd.project().get());
+    }
+
+    @Override
+    public String toString() {
+      return "TestPostFilterable" + super.toString();
+    }
+  }
+
+  private static void assertPostFilterOf(Predicate<ChangeData> p, Predicate<ChangeData> source) {
+    assertThat(p).isInstanceOf(PostFilterPredicate.class);
+    assertThat(p.getChildCount()).isEqualTo(0);
+    assertThat(p.toString()).contains(source.toString());
   }
 
   @Test

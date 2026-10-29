@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.closed;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -37,6 +38,8 @@ import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.NotPredicate;
 import com.google.gerrit.index.query.OrCardinalPredicate;
 import com.google.gerrit.index.query.OrPredicate;
+import com.google.gerrit.index.query.PostFilterPredicate;
+import com.google.gerrit.index.query.PostFilterablePredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.TooManyTermsInQueryException;
@@ -50,7 +53,9 @@ import com.google.gerrit.server.query.change.IsSubmittablePredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
@@ -172,7 +177,15 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     MutableInteger leafTerms = new MutableInteger();
     Predicate<ChangeData> out = rewriteImpl(in, index, opts, leafTerms);
     if (leafTerms.value > config.maxTerms()) {
-      throw new TooManyTermsInQueryException(leafTerms.value, config.maxTerms());
+      Predicate<ChangeData> filtered = postFilterToFitMaxTerms(in, leafTerms.value);
+      if (!isSameInstance(filtered, in)) {
+        in = filtered;
+        leafTerms = new MutableInteger();
+        out = rewriteImpl(in, index, opts, leafTerms);
+      }
+      if (leafTerms.value > config.maxTerms()) {
+        throw new TooManyTermsInQueryException(leafTerms.value, config.maxTerms());
+      }
     }
     if (isSameInstance(in, out) || out instanceof IndexPredicate) {
       return new IndexedChangeQuery(index, out, opts);
@@ -350,6 +363,109 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       }
     }
     return in.copy(all);
+  }
+
+  /**
+   * Returns {@code in} with enough {@link PostFilterablePredicate} subtrees replaced by
+   * post-filters to bring the query from {@code leafTerms} down to at most {@code index.maxTerms}
+   * terms, or {@code in} itself if there are none. The largest subtrees are replaced first, since
+   * they free the most terms while keeping as many small, selective predicates as possible in the
+   * index.
+   *
+   * <p>If replacing all of them is still not enough, all are replaced and the caller still fails
+   * the query.
+   */
+  private Predicate<ChangeData> postFilterToFitMaxTerms(Predicate<ChangeData> in, int leafTerms) {
+    List<Predicate<ChangeData>> candidates = new ArrayList<>();
+    collectPostFilterable(in, candidates);
+    if (candidates.isEmpty()) {
+      return in;
+    }
+    candidates.sort(Comparator.comparingInt(ChangeIndexRewriter::countLeafTerms).reversed());
+    Set<Predicate<ChangeData>> toPostFilter = Sets.newIdentityHashSet();
+    int remaining = leafTerms;
+    for (Predicate<ChangeData> p : candidates) {
+      if (remaining <= config.maxTerms()) {
+        break;
+      }
+      toPostFilter.add(p);
+      remaining -= countLeafTerms(p);
+    }
+    logger.atInfo().atMostEvery(1, MINUTES).log(
+        "Query has %d index terms, more than index.maxTerms (%d); evaluating %d of %d"
+            + " post-filterable predicates after the index search instead",
+        leafTerms, config.maxTerms(), toPostFilter.size(), candidates.size());
+    return replace(in, toPostFilter);
+  }
+
+  private static void collectPostFilterable(
+      Predicate<ChangeData> p, List<Predicate<ChangeData>> out) {
+    if (p instanceof PostFilterablePredicate) {
+      out.add(p);
+      return;
+    }
+    for (Predicate<ChangeData> c : p.getChildren()) {
+      collectPostFilterable(c, out);
+    }
+  }
+
+  private static Predicate<ChangeData> replace(
+      Predicate<ChangeData> p, Set<Predicate<ChangeData>> toPostFilter) {
+    if (toPostFilter.contains(p)) {
+      return new PostFilteredPredicate(p);
+    }
+    if (p.getChildCount() == 0) {
+      return p;
+    }
+    List<Predicate<ChangeData>> children = new ArrayList<>(p.getChildCount());
+    boolean changed = false;
+    for (Predicate<ChangeData> c : p.getChildren()) {
+      Predicate<ChangeData> nc = replace(c, toPostFilter);
+      changed |= !isSameInstance(nc, c);
+      children.add(nc);
+    }
+    return changed ? p.copy(children) : p;
+  }
+
+  /**
+   * Counts index terms the same way {@link #rewriteImpl} does for a fully indexed subtree.
+   *
+   * <p>Unlike {@link #rewriteImpl}, this does not check that each field is in the index schema, so
+   * it may overcount a subtree with fields the index does not have. That can only post-filter more
+   * than needed, which is slower but returns the same results.
+   */
+  private static int countLeafTerms(Predicate<ChangeData> p) {
+    if (p instanceof IndexPredicate) {
+      return 1;
+    }
+    int n = 0;
+    for (Predicate<ChangeData> c : p.getChildren()) {
+      n += countLeafTerms(c);
+    }
+    return n;
+  }
+
+  /**
+   * Evaluates a {@link PostFilterablePredicate} with its {@code match()}, hiding its index children
+   * so the rewriter does not send them to the index.
+   */
+  private static class PostFilteredPredicate extends PostFilterPredicate<ChangeData> {
+    private final Predicate<ChangeData> delegate;
+
+    PostFilteredPredicate(Predicate<ChangeData> delegate) {
+      super("postfilter", delegate.toString());
+      this.delegate = delegate;
+    }
+
+    @Override
+    public boolean match(ChangeData cd) {
+      return delegate.asMatchable().match(cd);
+    }
+
+    @Override
+    public int getCost() {
+      return delegate.asMatchable().getCost();
+    }
   }
 
   private static boolean isRewritePossible(Predicate<ChangeData> p) {

@@ -46,6 +46,22 @@ public class FakeChangeIndex implements ChangeIndex {
           ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
               ChangeField.PATH_SPEC, ChangeField.STATUS_SPEC, ChangeField.UPDATED_SPEC));
 
+  static final Schema<ChangeData> V3 =
+      schema(
+          3,
+          ImmutableList.<IndexedField<ChangeData, ?>>of(
+              ChangeField.PATH_FIELD,
+              ChangeField.PROJECT_FIELD,
+              ChangeField.REF_FIELD,
+              ChangeField.STATUS_FIELD,
+              ChangeField.UPDATED_FIELD),
+          ImmutableList.<IndexedField<ChangeData, ?>.SearchSpec>of(
+              ChangeField.PATH_SPEC,
+              ChangeField.PROJECT_SPEC,
+              ChangeField.REF_SPEC,
+              ChangeField.STATUS_SPEC,
+              ChangeField.UPDATED_SPEC));
+
   private static class Source implements ChangeDataSource {
     private final Predicate<ChangeData> p;
 

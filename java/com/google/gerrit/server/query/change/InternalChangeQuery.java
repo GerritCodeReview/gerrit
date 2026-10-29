@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.index.query.Predicate.not;
 import static com.google.gerrit.index.query.Predicate.or;
@@ -182,6 +183,23 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   public List<ChangeData> byBranchOpen(BranchNameKey branch) {
     return query(and(ref(branch), project(branch.project()), open()));
+  }
+
+  public ImmutableList<ChangeData> byBranchKeysOpen(
+      BranchNameKey branch, Collection<Change.Key> keys) {
+    if (keys.isEmpty()) {
+      return ImmutableList.of();
+    }
+    int batchSize = indexConfig.maxTerms() - 3;
+    List<Predicate<ChangeData>> queries = new ArrayList<>();
+    for (List<Change.Key> part : Iterables.partition(keys, batchSize)) {
+      List<Predicate<ChangeData>> keyPredicates = new ArrayList<>(part.size());
+      for (Change.Key key : part) {
+        keyPredicates.add(change(key));
+      }
+      queries.add(and(ref(branch), project(branch.project()), open(), or(keyPredicates)));
+    }
+    return query(queries).stream().flatMap(List::stream).collect(toImmutableList());
   }
 
   public List<ChangeData> byBranchNew(BranchNameKey branch) {

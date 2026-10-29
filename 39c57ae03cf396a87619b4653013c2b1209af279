@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12aaa030_b5a70c50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T16:59:45Z",
+      "side": 1,
+      "message": "I tested it e2e and it seems to work.\n\nOnly nit: if a `reftable` directory is already present we surface a 500 with no explanation in the UI.",
+      "revId": "39c57ae03cf396a87619b4653013c2b1209af279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54a50ba5_6e95aa24",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T16:59:45Z",
+      "side": 1,
+      "message": "Is this supposed to automatically toggle between \"Convert to Files\" and \"Convert to Reftable\"?\n\nI have tried it out, and the page needs to be refreshed. Is this the expected behaviour? If so, it is ok, we can improve later on.",
+      "range": {
+        "startLine": 277,
+        "startChar": 21,
+        "endLine": 277,
+        "endChar": 58
+      },
+      "revId": "39c57ae03cf396a87619b4653013c2b1209af279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df065191_f062b1bc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T16:59:45Z",
+      "side": 1,
+      "message": "Shall we mention where? Here or in the docs.",
+      "range": {
+        "startLine": 295,
+        "startChar": 22,
+        "endLine": 295,
+        "endChar": 28
+      },
+      "revId": "39c57ae03cf396a87619b4653013c2b1209af279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75aecd17_3c05a2cc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T16:59:45Z",
+      "side": 1,
+      "message": "Those are the same. Can we collapse them in a single method?",
+      "range": {
+        "startLine": 1077,
+        "startChar": 0,
+        "endLine": 1087,
+        "endChar": 3
+      },
+      "revId": "39c57ae03cf396a87619b4653013c2b1209af279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ef98d39_c4089c57",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:34:25Z",
+      "side": 1,
+      "message": "```suggestion\n                    id\u003d\"convertRefStorageBtn\"\n```",
+      "range": {
+        "startLine": 268,
+        "startChar": 24,
+        "endLine": 268,
+        "endChar": 42
+      },
+      "revId": "3b795e32a57ed09a559396a20142230d8447ca1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed9181a6_89fe9d87",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:34:25Z",
+      "side": 1,
+      "message": "Should we have an `isConverting` state when starting the conversion to avoid concurrent calls? I have seen it done with `@state` in other parts of the frontend",
+      "revId": "3b795e32a57ed09a559396a20142230d8447ca1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e71608a5_4a7e49b9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:34:25Z",
+      "side": 1,
+      "message": "Should we `fireError` here as well?",
+      "range": {
+        "startLine": 1100,
+        "startChar": 9,
+        "endLine": 1100,
+        "endChar": 24
+      },
+      "revId": "3b795e32a57ed09a559396a20142230d8447ca1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

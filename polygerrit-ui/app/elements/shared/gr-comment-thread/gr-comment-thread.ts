@@ -41,6 +41,7 @@ import {
   Comment,
   CommentThread,
   isDraft,
+  isNew,
   NumericChangeId,
   PatchSetNumber,
   RepoName,
@@ -754,7 +755,8 @@ export class GrCommentThread extends LitElement {
   override firstUpdated() {
     const lastComment = this.thread ? this.getLastComment() : undefined;
     const isNewDraft =
-      isDraft(lastComment) && (lastComment?.message ?? '') === '';
+      isDraft(lastComment) &&
+      (isNew(lastComment) || (lastComment?.message ?? '') === '');
     if (this.shouldScrollIntoView) {
       whenRendered(this, () => {
         this.expandCollapseComments(false);

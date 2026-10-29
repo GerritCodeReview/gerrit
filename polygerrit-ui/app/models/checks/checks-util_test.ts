@@ -10,24 +10,34 @@ import {
   ALL_ATTEMPTS,
   AttemptChoice,
   computeIsExpandable,
+  createPleaseFixComment,
+  createRespondComment,
+  hasUnresolvedCheckCommentThread,
   LATEST_ATTEMPT,
   pleaseFixMessage,
   rectifyFix,
   reportAiAgentCommentDraft,
   reportAiAgentGetAIFix,
+  respondMessage,
+  RESPONSE_PLACEHOLDER,
   sortAttemptChoices,
   stringToAttemptChoice,
   toComment,
 } from './checks-util';
 import {Interaction} from '../../constants/reporting';
 import {Category, Fix, Replacement} from '../../api/checks';
-import {PROVIDED_FIX_ID} from '../../utils/comment-util';
-import {CommentRange, RevisionPatchSetNum} from '../../api/rest-api';
+import {createCommentThreads, PROVIDED_FIX_ID} from '../../utils/comment-util';
+import {
+  CommentRange,
+  RevisionPatchSetNum,
+  UrlEncodedCommentId,
+} from '../../api/rest-api';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {
   createCheckFix,
   createCheckLink,
   createCheckResult,
+  createComment,
   createRange,
   createRunResult,
 } from '../../test/test-data-generators';
@@ -449,6 +459,214 @@ suite('checks-util tests', () => {
       assert.equal(
         pleaseFixMessage(result),
         'Please fix this ERROR reported by test-check-name: this is the summary text\n\nthis is the message body text'
+      );
+    });
+  });
+
+  suite('respondMessage and createRespondComment', () => {
+    test('RESPONSE_PLACEHOLDER matches backend constant', () => {
+      assert.equal(RESPONSE_PLACEHOLDER, '<REASON HERE>');
+    });
+
+    test('when summary and message are the same', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the warning text',
+        message: 'this is the warning text',
+      };
+      assert.equal(
+        respondMessage(result),
+        `${RESPONSE_PLACEHOLDER}\n\nIn response to WARNING reported by test-check-name: this is the warning text`
+      );
+    });
+
+    test('when summary and message are not the same', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the summary text',
+        message: 'this is the message body text',
+      };
+      assert.equal(
+        respondMessage(result),
+        `${RESPONSE_PLACEHOLDER}\n\nIn response to WARNING reported by test-check-name: this is the summary text\n\nthis is the message body text`
+      );
+    });
+
+    test('when message is undefined', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the summary text',
+        message: undefined,
+      };
+      assert.equal(
+        respondMessage(result),
+        `${RESPONSE_PLACEHOLDER}\n\nIn response to WARNING reported by test-check-name: this is the summary text`
+      );
+    });
+
+    test('createRespondComment creates unresolved draft with respond message', () => {
+      const range = {
+        start_line: 1,
+        end_line: 2,
+        start_character: 3,
+        end_character: 4,
+      };
+      const result: RunResult = {
+        ...createRunResult(),
+        patchset: 3,
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the warning text',
+        message: 'this is the warning text',
+        codePointers: [{path: 'testpath', range}],
+      };
+      const comment = createRespondComment(result);
+      assert.equal(comment.path, 'testpath');
+      assert.equal(comment.patch_set, 3 as RevisionPatchSetNum);
+      assert.equal(comment.line, 2);
+      assert.deepEqual(comment.range, range);
+      assert.isTrue(comment.unresolved);
+      assert.equal(
+        comment.message,
+        `${RESPONSE_PLACEHOLDER}\n\nIn response to WARNING reported by test-check-name: this is the warning text`
+      );
+    });
+  });
+
+  suite('hasUnresolvedCheckCommentThread', () => {
+    const range = {
+      start_line: 10,
+      end_line: 12,
+      start_character: 0,
+      end_character: 5,
+    };
+    const baseResult: RunResult = {
+      ...createRunResult(),
+      patchset: 2,
+      category: Category.WARNING,
+      checkName: 'test-check',
+      summary: 'Summary warning',
+      message: 'Detailed warning text',
+      codePointers: [{path: 'src/foo.ts', range}],
+    };
+
+    test('returns true for unresolved thread created by Please Fix or Respond', () => {
+      const pleaseFixThreads = createCommentThreads([
+        createPleaseFixComment(baseResult),
+      ]);
+      assert.isTrue(
+        hasUnresolvedCheckCommentThread(baseResult, pleaseFixThreads)
+      );
+
+      const respondDraft = {
+        ...createRespondComment(baseResult),
+        message:
+          'Intentional.\n\nIn response to WARNING reported by test-check: Summary warning\n\nDetailed warning text',
+      };
+      const respondThreads = createCommentThreads([respondDraft]);
+      assert.isTrue(
+        hasUnresolvedCheckCommentThread(baseResult, respondThreads)
+      );
+    });
+
+    test('returns false when thread is resolved', () => {
+      const resolvedComment = createComment({
+        id: 'c1' as UrlEncodedCommentId,
+        path: 'src/foo.ts',
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 12,
+        range,
+        unresolved: false,
+        message: pleaseFixMessage(baseResult),
+      });
+      assert.isFalse(
+        hasUnresolvedCheckCommentThread(
+          baseResult,
+          createCommentThreads([resolvedComment])
+        )
+      );
+
+      const unresolvedRoot = {...resolvedComment, unresolved: true};
+      const resolvingReply = createComment({
+        id: 'c2' as UrlEncodedCommentId,
+        in_reply_to: 'c1' as UrlEncodedCommentId,
+        path: 'src/foo.ts',
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 12,
+        range,
+        unresolved: false,
+        message: 'Done',
+      });
+      assert.isFalse(
+        hasUnresolvedCheckCommentThread(
+          baseResult,
+          createCommentThreads([unresolvedRoot, resolvingReply])
+        )
+      );
+    });
+
+    test('returns false when first comment does not contain check text even if reply does', () => {
+      const root = createComment({
+        id: 'c1' as UrlEncodedCommentId,
+        path: 'src/foo.ts',
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 12,
+        range,
+        unresolved: true,
+        message: 'Unrelated comment',
+      });
+      const reply = createComment({
+        id: 'c2' as UrlEncodedCommentId,
+        in_reply_to: 'c1' as UrlEncodedCommentId,
+        path: 'src/foo.ts',
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 12,
+        range,
+        unresolved: true,
+        message: 'Summary warning\n\nDetailed warning text',
+      });
+      const threads = createCommentThreads([root, reply]);
+      assert.isFalse(hasUnresolvedCheckCommentThread(baseResult, threads));
+    });
+
+    test('returns false when location or range presence differs', () => {
+      const otherRange = {...range, start_character: 2};
+      const otherRangeComment = createComment({
+        id: 'c1' as UrlEncodedCommentId,
+        path: 'src/foo.ts',
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 12,
+        range: otherRange,
+        unresolved: true,
+        message: pleaseFixMessage(baseResult),
+      });
+      assert.isFalse(
+        hasUnresolvedCheckCommentThread(
+          baseResult,
+          createCommentThreads([otherRangeComment])
+        )
+      );
+
+      const lineOnlyComment = createComment({
+        id: 'c2' as UrlEncodedCommentId,
+        path: 'src/foo.ts',
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 12,
+        range: undefined,
+        unresolved: true,
+        message: pleaseFixMessage(baseResult),
+      });
+      assert.isFalse(
+        hasUnresolvedCheckCommentThread(
+          baseResult,
+          createCommentThreads([lineOnlyComment])
+        )
       );
     });
   });

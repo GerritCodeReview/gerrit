@@ -12,6 +12,8 @@ import {
   computeIsExpandable,
   createFixAction,
   createPleaseFixComment,
+  createRespondComment,
+  hasUnresolvedCheckCommentThread,
   iconFor,
   reportAiAgentCommentDraft,
   reportAiAgentGetAIFix,
@@ -39,6 +41,8 @@ import {
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../api/rest-api';
+import {PARENT} from '../../types/common';
+import {ChangeComments} from '../diff/gr-comment-api/gr-comment-api';
 import {when} from 'lit/directives/when.js';
 import {fireAlert} from '../../utils/event-util';
 
@@ -68,6 +72,9 @@ export class GrDiffCheckResult extends LitElement {
 
   @state()
   suggestion?: FixSuggestionInfo;
+
+  @state()
+  private changeComments?: ChangeComments;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -197,6 +204,11 @@ export class GrDiffCheckResult extends LitElement {
     );
     subscribe(
       this,
+      () => this.getCommentsModel().changeComments$,
+      x => (this.changeComments = x)
+    );
+    subscribe(
+      this,
       () => this.getSuggestionsService().suggestionsServiceUpdated$,
       updated => {
         if (updated) {
@@ -302,9 +314,12 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private renderActions() {
+    const canComment = !this.hasExistingUnresolvedCommentThread();
     return html`<div class="actions">
       ${this.renderAIFixButton()}
-      ${this.renderShowFixButton()}${this.renderPleaseFixButton()}
+      ${this.renderShowFixButton()}${canComment
+        ? html`${this.renderPleaseFixButton()}${this.renderRespondButton()}`
+        : nothing}
     </div>`;
   }
 
@@ -358,6 +373,21 @@ export class GrDiffCheckResult extends LitElement {
     return this.isOwner;
   }
 
+  private hasExistingUnresolvedCommentThread(): boolean {
+    const pointer = this.result?.codePointers?.[0];
+    if (!this.result?.patchset || !pointer || !this.changeComments) {
+      return false;
+    }
+    const threads = this.changeComments.getThreadsBySideForFile(
+      {path: pointer.path},
+      {
+        basePatchNum: PARENT,
+        patchNum: this.result.patchset as PatchSetNumber,
+      }
+    );
+    return hasUnresolvedCheckCommentThread(this.result, threads);
+  }
+
   private renderPleaseFixButton() {
     const action: Action = {
       name: 'Please Fix',
@@ -374,6 +404,35 @@ export class GrDiffCheckResult extends LitElement {
     return html`
       <gr-checks-action
         id="please-fix"
+        context="diff-fix"
+        .runOrResult=${this.result}
+        .action=${action}
+      ></gr-checks-action>
+    `;
+  }
+
+  private renderRespondButton() {
+    if (
+      !getAppContext().flagsService.isEnabled(
+        KnownExperimentId.RESPOND_TO_CHECK_WARNINGS
+      ) ||
+      this.result?.category !== Category.WARNING
+    ) {
+      return nothing;
+    }
+    const action: Action = {
+      name: 'Respond',
+      callback: () => {
+        const result = this.result;
+        assertIsDefined(result, 'result');
+        this.getCommentsModel().addNewDraft(createRespondComment(result));
+        reportAiAgentCommentDraft(this.reporting, result);
+        return undefined;
+      },
+    };
+    return html`
+      <gr-checks-action
+        id="respond"
         context="diff-fix"
         .runOrResult=${this.result}
         .action=${action}

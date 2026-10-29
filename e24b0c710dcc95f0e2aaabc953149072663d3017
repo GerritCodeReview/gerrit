@@ -100,6 +100,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a062fa6a_4f1772e7",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:03:04Z",
+      "side": 1,
+      "message": "What happens if a backup is already present?",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "690d9ac5_02b48591",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:03:04Z",
+      "side": 1,
+      "message": "We are bypassing the `core.usePerRequestRefCache` check. We might endup with a `REFTABLE`repo with  `core.usePerRequestRefCache`set.",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d33f0925_b7e288db",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:03:04Z",
+      "side": 1,
+      "message": "Shall we put the repository in readonly while doing the conversion?",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "546e4584_8d392e67",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
         "patchSetId": 17
@@ -111,6 +162,29 @@
       "writtenOn": "2026-10-29T07:39:25Z",
       "side": 1,
       "message": "```suggestion\n    adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in).assertOK();\n```\n\nnit: `adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in)` can be dried out across the test.",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15533812_6443d95e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:03:04Z",
+      "side": 1,
+      "message": "Should this be annotated with `@GerritConfig(name \u003d \"core.usePerRequestRefCache\", value \u003d \"false\")` ? I was expecting the creation of the project to fail",
+      "range": {
+        "startLine": 147,
+        "startChar": 14,
+        "endLine": 147,
+        "endChar": 47
+      },
       "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -179,6 +253,23 @@
       "writtenOn": "2026-10-29T07:39:25Z",
       "side": 1,
       "message": "```suggestion\n    adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", input).assertOK();\n```",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6a3c4aa_6da11146",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:03:04Z",
+      "side": 1,
+      "message": "I think we are missing tests for:\n* A \"REFTABLE\" JSON string input\n* invalid repo type\n* Mixcase input (?)\n* non-existent repository",
       "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -17,6 +17,25 @@
       "isAi": true,
       "revId": "9b25ffed75d54ffaf0fcbde13a947a8c7f3efa53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "627c80a1_3d89d776",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-29T18:49:21Z",
+      "side": 1,
+      "message": "Done. Renamed the test to \"attaches theme plugin module immediately before all plugins finish loading\" and added an assertion that a non-theme replace: true module still waits for awaitPluginsLoaded.",
+      "parentUuid": "dcb0b4ba_34097660",
+      "isAi": true,
+      "revId": "9b25ffed75d54ffaf0fcbde13a947a8c7f3efa53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

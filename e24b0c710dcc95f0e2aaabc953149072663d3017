@@ -149,6 +149,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce921f47_ca0f7ca0",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-10-29T08:12:48Z",
+      "side": 1,
+      "message": "Not pertinent anymore",
+      "parentUuid": "690d9ac5_02b48591",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "546e4584_8d392e67",

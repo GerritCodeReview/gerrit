@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcb0b4ba_34097660",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-10-29T18:00:43Z",
+      "side": 1,
+      "message": "Optional nit: Now that immediate attachment is scoped to `THEME_NAME`, consider updating the test name to `\u0027attaches theme plugin module immediately before all plugins finish loading\u0027` (and optionally asserting that a non-theme `replace: true` module still waits for `awaitPluginsLoaded()`).",
+      "isAi": true,
+      "revId": "9b25ffed75d54ffaf0fcbde13a947a8c7f3efa53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

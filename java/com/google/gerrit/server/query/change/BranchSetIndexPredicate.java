@@ -18,13 +18,21 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.OrPredicate;
+import com.google.gerrit.index.query.PostFilterablePredicate;
 import com.google.gerrit.index.query.Predicate;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/** A Predicate to match any number of BranchNameKeys with O(1) efficiency */
-public class BranchSetIndexPredicate extends OrPredicate<ChangeData> {
+/**
+ * A Predicate to match any number of BranchNameKeys with O(1) efficiency.
+ *
+ * <p>The index is queried for the project and ref of each branch, while {@link #match(ChangeData)}
+ * is a single set lookup on the change's destination branch. This makes it a {@link
+ * PostFilterablePredicate}: it can be evaluated in memory when a query has too many index terms.
+ */
+public class BranchSetIndexPredicate extends OrPredicate<ChangeData>
+    implements PostFilterablePredicate<ChangeData> {
   private final String name;
   private final Set<BranchNameKey> branches;
 
@@ -42,6 +50,12 @@ public class BranchSetIndexPredicate extends OrPredicate<ChangeData> {
     }
 
     return branches.contains(change.getDest());
+  }
+
+  @Override
+  public int getCost() {
+    // match() is a single set lookup, however many branches the OR has.
+    return 1;
   }
 
   @Override

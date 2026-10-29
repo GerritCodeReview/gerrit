@@ -4886,6 +4886,36 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("destination:destination4,group=" + group);
   }
 
+  @Test
+  public void namedDestinationWithMoreBranchesThanMaxTerms() throws Exception {
+    Project.NameKey project1 = Project.nameKey("repo1");
+    createProject(project1);
+    Change change1 = insert(project1, newChange(project1));
+    Project.NameKey project2 = Project.nameKey("repo2");
+    createProject(project2);
+    Change change2 = insert(project2, newChange(project2));
+
+    // Each branch is a project and a ref term, so this is about 2 * maxTerms index terms.
+    StringBuilder destinations = new StringBuilder("refs/heads/master\trepo1\n");
+    for (int i = 0; i < indexConfig.maxTerms(); i++) {
+      destinations.append("refs/heads/master\tmissing-repo-").append(i).append('\n');
+    }
+    try (TestRepository<Repository> allUsers =
+        new TestRepository<>(repoManager.openRepository(allUsersName))) {
+      allUsers
+          .branch(RefNames.refsUsers(userId))
+          .commit()
+          .add("destinations/large", destinations.toString())
+          .create();
+    }
+
+    assertQuery("destination:large", change1);
+    assertQuery("status:open destination:large", change1);
+    assertQuery("destination:large OR project:repo2", change2, change1);
+    assertQuery("-destination:large", change2);
+    assertQuery("status:open -destination:large", change2);
+  }
+
   @GerritConfig(name = "accounts.visibility", value = "NONE")
   @Test
   public void namedQuery() throws Exception {

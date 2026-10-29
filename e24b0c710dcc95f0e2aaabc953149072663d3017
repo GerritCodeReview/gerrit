@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e6b6b05_d9bdd1b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "Thanks for clarifying the payload: now I am convinced we do need a `POST` rather than a `PUT` in the rest API",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd8c7272_c00da2c6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "`backup` isn\u0027t part of the resource\u0027s status; therefore, using `PUT` here is inappropriate.\n\nThe correct HTTP method to use is `POST` because we\u0027re triggering an action, and those are the parameters for the process we are initiating.\n\n\n\n```suggestion\n  POST /projects/myproject/convert-ref-storage HTTP/1.0\n  Content-Type: application/json; charset\u003dUTF-8\n\n  {\n    \"ref_storage\": \"REFTABLE\",\n    \"backup\": false\n  }\n```",
+      "range": {
+        "startLine": 1078,
+        "startChar": 0,
+        "endLine": 1084,
+        "endChar": 3
+      },
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac8d5acf_779dd350",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "This class should be named `ConvertRefStorage` because we are triggering an action and not just setting the resource\u0027s current state.",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "536c18d2_103ff183",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "```suggestion\npublic class ConvertRefStorage implements RestModifyView\u003cProjectResource, RefStorageInput\u003e {\n```",
+      "range": {
+        "startLine": 46,
+        "startChar": 13,
+        "endLine": 46,
+        "endChar": 26
+      },
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c14c7d9_b45da6f8",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "```suggestion\n  ConvertRefStorage(GitRepositoryManager repoManager, PermissionBackend permissionBackend) {\n```",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "546e4584_8d392e67",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "```suggestion\n    adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in).assertOK();\n```\n\nnit: `adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in)` can be dried out across the test.",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a60faf_8cca8052",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "```suggestion\n    adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in).assertOK();\n```",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa6ae949_4eff8d37",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "```suggestion\n    adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in).assertConflict();\n```",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a493214d_629b6c47",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "```suggestion\n    userRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", input).assertForbidden();\n```",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c916f811_8ea7b719",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "```suggestion\n    adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", input).assertOK();\n```",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f95b0f8_d2f70cab",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/ProjectsRestApiBindingsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T07:39:25Z",
+      "side": 1,
+      "message": "```suggestion\n          RestCall.post(\"/projects/%s/convert-ref-storage\"),\n```",
+      "range": {
+        "startLine": 89,
+        "startChar": 19,
+        "endLine": 89,
+        "endChar": 22
+      },
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

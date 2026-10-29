@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad23d074_331f4734",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-10-29T14:36:05Z",
+      "side": 1,
+      "message": "If we are considering keeping both implementations, that gives me another idea. If storage is not a concern, then you could use the reduced DAG to quickly regenerate the bitmaps when they change!",
+      "revId": "a301360c9f98b4f04c5e0660a1da1fd5397880b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

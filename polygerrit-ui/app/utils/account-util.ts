@@ -92,7 +92,10 @@ export function removeServiceUsers(accounts?: AccountInfo[]): AccountInfo[] {
   return accounts?.filter(a => !isServiceUser(a)) || [];
 }
 
-export function hasSameAvatar(account?: AccountInfo, other?: AccountInfo) {
+export function hasSameAvatar(
+  account?: AccountInfo,
+  other?: AccountInfo
+): boolean {
   return account?.avatars?.[0]?.url === other?.avatars?.[0]?.url;
 }
 
@@ -102,7 +105,7 @@ export function getUserId(entry: AccountInfo | GroupInfo): UserId {
   assertNever(entry, 'entry must be account or group');
 }
 
-export function isAccountEmailOnly(entry: AccountInfo | GroupInfo) {
+export function isAccountEmailOnly(entry: AccountInfo | GroupInfo): boolean {
   if (isGroup(entry)) return false;
   return !entry._account_id;
 }
@@ -138,7 +141,7 @@ export function uniqueAccountId(
   );
 }
 
-export function isDetailedAccount(account?: AccountInfo) {
+export function isDetailedAccount(account?: AccountInfo): boolean {
   // In case ChangeInfo is requested without DetailedAccount option, the
   // reviewer entry is returned as just {_account_id: 123}.
   // At least a name or an email must be set for the account to be treated as

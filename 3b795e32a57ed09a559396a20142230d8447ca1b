@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1b2a927_cfbbb3b5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T14:44:57Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6ef98d39_c4089c57",
+      "range": {
+        "startLine": 268,
+        "startChar": 24,
+        "endLine": 268,
+        "endChar": 42
+      },
+      "revId": "3b795e32a57ed09a559396a20142230d8447ca1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed9181a6_89fe9d87",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac05bd8_61e4db26",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T14:44:57Z",
+      "side": 1,
+      "message": "Done. Added an `isConverting` `@state` that guards the confirm handler and disables the button while a conversion is in flight.",
+      "parentUuid": "ed9181a6_89fe9d87",
+      "revId": "3b795e32a57ed09a559396a20142230d8447ca1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e71608a5_4a7e49b9",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-10-29T08:34:25Z",
       "side": 1,
       "message": "Should we `fireError` here as well?",
+      "range": {
+        "startLine": 1100,
+        "startChar": 9,
+        "endLine": 1100,
+        "endChar": 24
+      },
+      "revId": "3b795e32a57ed09a559396a20142230d8447ca1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afffedc2_aa2f442a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T14:44:57Z",
+      "side": 1,
+      "message": "No — convertRepoRefStorage sets reportServerError (default true), so a non-ok response already fires fireServerError. A manual fireError here would double-toast. Dropped the redundant catch fireError too and let the auto-report surface it, matching handleSaveRepoConfig.",
+      "parentUuid": "e71608a5_4a7e49b9",
       "range": {
         "startLine": 1100,
         "startChar": 9,

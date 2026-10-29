@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1c11937_d1ae5b2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-29T07:16:13Z",
+      "side": 1,
+      "message": "Only partly. updateFastForward() moves an existing branch whose old tip the cache already knows. The cache can only use that for branches it already tracks: the old fast path also kept a new ref cheap only if it pointed at an existing ref\u0027s tip. The costly case is a new tag, or a new ref, on a commit that is not a known tip. To find which refs reach that commit, the bitmap version would have to check every ref (an isMergedInto() walk per ref, about 15k on our largest repository), and that is no cheaper than the rebuild it does today.\n\nupdateFastForward() also caused the bug fixed in the parent change (651103): it moved the ref in place without adding it to the tags it had just moved over.\n\nThe DAG avoids both: a new ref\u0027s commit is walked down until it reaches commits already in the DAG, so the cost depends on the new history, not on the number of refs.",
+      "parentUuid": "1ef5c1c0_985409bc",
+      "revId": "9b161f67354db541c66e4d644d190716a5b64392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b42ad555_12c9e44c",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-28T21:58:53Z",
       "side": 1,
       "message": "You could potentially create another reduced commit DAG on top of this one which only contains one node for longe stretches of decorated commits (likely ones without any DAG branching in them). That one node would act as if it held all the decorations which were in between them. Depending on how the DAG looks, this could potentially drastically reduce the number of hops in a walk and drastically speed things up. This DAG would be much cheaper to create as it would start with this decorated DAG, and could avoid the need to make it easily updateable, instead, a full rebuild of this DAG might be close to the current cached lookup time, and cheap enough to do instead of updating it when things change. I know that is getting really complicated, but I didn\u0027t want to loose the thought for posterity.",
+      "revId": "9b161f67354db541c66e4d644d190716a5b64392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d15ffde_a9cd9b60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-29T07:16:13Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s a good idea for cutting the hops in cached lookups, and it fits with keeping the decorated DAG as the updatable layer. I\u0027ll keep it in mind for the follow-up on lookup time and size.",
+      "parentUuid": "b42ad555_12c9e44c",
       "revId": "9b161f67354db541c66e4d644d190716a5b64392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "Yeah, that could be a good option. We\u0027d just need to make sure things like cache versions also change with the config.",
       "parentUuid": "141ec7da_ecd2535b",
+      "revId": "9b161f67354db541c66e4d644d190716a5b64392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58cc91b8_d73203c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-29T07:16:13Z",
+      "side": 1,
+      "message": "Agreed, I\u0027ll make it configurable: `cache.git_tags.implementation` (`bitmap` or `dag`), with `bitmap` as the default, so nothing changes for sites that don\u0027t opt in. The two implementations persist to separate caches, so switching never reads entries the other one wrote and needs no version juggling. This keeps the RoaringBitmap version, so I\u0027ll abandon the dependency removal (651104) for now. I\u0027ll still work on memory and cached lookup times for the DAG, so that it can become the default later.",
+      "parentUuid": "764f550e_e9de18bb",
       "revId": "9b161f67354db541c66e4d644d190716a5b64392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

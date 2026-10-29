@@ -33,6 +33,24 @@
       "message": "Not a frontend expert, but shouldn\u0027t we read the checkbox status from the event?\nOtherwise, we will treat any event as an inversion of the value.",
       "revId": "0b2a3fa61009d937e4b3c16df6322efcf13d3d6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed41db2_86b7cc8e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T14:44:41Z",
+      "side": 1,
+      "message": "Done. Reads the checkbox state from the event (`(e.target).checked`) instead of toggling the current value.",
+      "parentUuid": "541b16ea_270fd872",
+      "revId": "0b2a3fa61009d937e4b3c16df6322efcf13d3d6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

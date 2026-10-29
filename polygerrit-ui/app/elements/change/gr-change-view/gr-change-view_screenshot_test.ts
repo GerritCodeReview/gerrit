@@ -27,6 +27,7 @@ import {
 } from '../../../test/test-utils';
 import {testResolver} from '../../../test/common-test-setup';
 import {changeModelToken} from '../../../models/change/change-model';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {
   ChangeChildView,
@@ -369,9 +370,7 @@ suite('gr-change-view screenshot tests', () => {
   test('full page 1280px with chat panel', async () => {
     // Set viewport to ensure media queries respond correctly
     await setViewport({width: 1280, height: 800});
-    // Force open the chat panel
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (element as any).showSidebarChat = true;
+    testResolver(chatModelToken).setChatPanelOpen(true);
 
     const container = document.createElement('div');
     container.style.width = '1280px';

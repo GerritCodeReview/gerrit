@@ -1107,7 +1107,7 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   navigateToDiff(
-    diffView: {path: string; lineNum?: number},
+    diffView: {path: string; lineNum?: number; leftSide?: boolean},
     patchNum = this.patchNum,
     basePatchNum = this.basePatchNum
   ) {

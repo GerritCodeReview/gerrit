@@ -491,4 +491,29 @@ suite('gr-endpoint-decorator', () => {
       'ROOT-UNORDERED-2',
     ]);
   });
+
+  test('re-attaches plugin element when decorator is disconnected and reconnected', async () => {
+    const attachedElements: HTMLElement[] = [];
+    replacementHook.onAttached(el => attachedElements.push(el));
+
+    const module = Array.from(second.children).find(
+      el => el.nodeName === 'OTHER-MODULE'
+    );
+    assert.isOk(module);
+    assert.equal(replacementHook.getAllAttached().length, 1);
+
+    second.remove();
+    assert.equal(replacementHook.getAllAttached().length, 0);
+
+    container.appendChild(second);
+    assert.equal(replacementHook.getAllAttached().length, 1);
+    assert.strictEqual(replacementHook.getAllAttached()[0], module);
+    assert.equal(attachedElements.length, 1);
+    assert.strictEqual(attachedElements[0], module);
+    assert.equal(
+      Array.from(second.children).filter(el => el.nodeName === 'OTHER-MODULE')
+        .length,
+      1
+    );
+  });
 });

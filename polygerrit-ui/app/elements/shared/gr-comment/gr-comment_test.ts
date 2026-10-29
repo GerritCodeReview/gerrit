@@ -54,6 +54,7 @@ import {suggestionsServiceToken} from '../../../services/suggestions/suggestions
 import {AutocompletionContext} from '../../../utils/autocomplete-cache';
 import {FixSuggestionInfo} from '../../../api/rest-api';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
+import {RESPONSE_PLACEHOLDER} from '../../../models/checks/checks-util';
 
 suite('gr-comment tests', () => {
   let element: GrComment;
@@ -513,6 +514,10 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.isFalse(element.isSaveDisabled());
 
+      element.messageText = `${RESPONSE_PLACEHOLDER}\n\nIn response to WARNING reported by check: summary`;
+      await element.updateComplete;
+      assert.isTrue(element.isSaveDisabled());
+
       element.messageText = '';
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
@@ -543,6 +548,31 @@ suite('gr-comment tests', () => {
         assert.isTrue(spy.called);
       } finally {
         spy.restore();
+      }
+    });
+
+    test('selects placeholder when editing is set to true', async () => {
+      const selectRangeSpy = sinon.spy(
+        GrSuggestionTextarea.prototype,
+        'selectRange'
+      );
+      try {
+        element.comment = {
+          ...createDraft(),
+          message: `${RESPONSE_PLACEHOLDER}\n\nIn response to WARNING reported by check: msg`,
+        };
+        element.editing = false;
+        await element.updateComplete;
+
+        element.editing = true;
+        await element.updateComplete;
+        await new Promise(resolve => setTimeout(resolve, 0));
+
+        assert.isTrue(
+          selectRangeSpy.calledOnceWithExactly(0, RESPONSE_PLACEHOLDER.length)
+        );
+      } finally {
+        selectRangeSpy.restore();
       }
     });
 
@@ -743,6 +773,20 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
 
       element.messageText = '';
+      await element.updateComplete;
+
+      await element.save();
+      assert.isTrue(discardStub.called);
+      assert.isFalse(saveStub.called);
+    });
+
+    test('saving text starting with placeholder calls discard()', async () => {
+      const saveStub = sinon.stub(commentsModel, 'saveDraft');
+      const discardStub = sinon.stub(commentsModel, 'discardDraft');
+      element.comment = createNewDraft({
+        message: `${RESPONSE_PLACEHOLDER}\n\nIn response to WARNING reported by check: msg`,
+      });
+      element.editing = true;
       await element.updateComplete;
 
       await element.save();

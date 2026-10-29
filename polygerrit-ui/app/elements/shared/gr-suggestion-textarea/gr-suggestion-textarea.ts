@@ -376,6 +376,10 @@ export class GrSuggestionTextarea extends LitElement {
     this.textarea?.putCursorAtEnd();
   }
 
+  async selectRange(start: number, end: number) {
+    await this.textarea?.selectRange(start, end);
+  }
+
   private getVisibleDropdown() {
     if (this.emojiSuggestions && !this.emojiSuggestions.isHidden)
       return this.emojiSuggestions;

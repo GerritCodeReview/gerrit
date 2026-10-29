@@ -20,7 +20,7 @@ import {
   RevisionPatchSetNum,
 } from '../../api/rest-api';
 import {CommentSide} from '../../constants/constants';
-import {DraftInfo, FixSuggestionInfo} from '../../types/common';
+import {CommentThread, DraftInfo, FixSuggestionInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
 import {
@@ -30,7 +30,14 @@ import {
   Interaction,
 } from '../../constants/reporting';
 import {ReportingService as Reporting} from '../../services/gr-reporting/gr-reporting';
-import {createNew, PROVIDED_FIX_ID} from '../../utils/comment-util';
+import {
+  createCommentThreads,
+  createNew,
+  equalLocation,
+  getFirstComment,
+  isUnresolved,
+  PROVIDED_FIX_ID,
+} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';
@@ -100,12 +107,24 @@ export function tooltipForLink(linkIcon?: LinkIcon) {
   }
 }
 
+export function checkMessage(result: RunResult) {
+  return !result.message || result.summary === result.message
+    ? result.summary
+    : `${result.summary}\n\n${result.message}`;
+}
+
 export function pleaseFixMessage(result: RunResult) {
-  const message =
-    result.summary === result.message
-      ? result.message
-      : `${result.summary}\n\n${result.message}`;
-  return `Please fix this ${result.category} reported by ${result.checkName}: ${message}`;
+  return `Please fix this ${result.category} reported by ${
+    result.checkName
+  }: ${checkMessage(result)}`;
+}
+
+export const RESPONSE_PLACEHOLDER = '<REASON HERE>';
+
+export function respondMessage(result: RunResult) {
+  return `${RESPONSE_PLACEHOLDER}\n\nIn response to ${
+    result.category
+  } reported by ${result.checkName}: ${checkMessage(result)}`;
 }
 
 /**
@@ -154,6 +173,31 @@ export function toComment(
 
 export function createPleaseFixComment(result: RunResult): DraftInfo {
   return toComment(result, pleaseFixMessage(result), true);
+}
+
+export function createRespondComment(result: RunResult): DraftInfo {
+  return toComment(result, respondMessage(result), true);
+}
+
+/**
+ * Returns true if any unresolved comment thread in `threads` is at the same
+ * code location as `result` and starts with a message containing the text from
+ * `result`.
+ */
+export function hasUnresolvedCheckCommentThread(
+  result: RunResult,
+  threads: CommentThread[]
+): boolean {
+  if (!result.codePointers?.[0]) return false;
+  const checkText = checkMessage(result).trim();
+  if (!checkText) return false;
+  const targetThread = createCommentThreads([toComment(result)])[0];
+  return threads.some(
+    thread =>
+      isUnresolved(thread) &&
+      equalLocation(targetThread, thread) &&
+      !!getFirstComment(thread)?.message?.includes(checkText)
+  );
 }
 
 export function createFixAction(

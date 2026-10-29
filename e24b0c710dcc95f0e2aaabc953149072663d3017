@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81405e76_c192906d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done. Switched to POST and renamed the view to ConvertRefStorage.",
+      "parentUuid": "3e6b6b05_d9bdd1b2",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd8c7272_c00da2c6",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-29T07:39:25Z",
       "side": 1,
       "message": "`backup` isn\u0027t part of the resource\u0027s status; therefore, using `PUT` here is inappropriate.\n\nThe correct HTTP method to use is `POST` because we\u0027re triggering an action, and those are the parameters for the process we are initiating.\n\n\n\n```suggestion\n  POST /projects/myproject/convert-ref-storage HTTP/1.0\n  Content-Type: application/json; charset\u003dUTF-8\n\n  {\n    \"ref_storage\": \"REFTABLE\",\n    \"backup\": false\n  }\n```",
+      "range": {
+        "startLine": 1078,
+        "startChar": 0,
+        "endLine": 1084,
+        "endChar": 3
+      },
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5143b895_e690a975",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done. Now POST /projects/{name}/convert-ref-storage.",
+      "parentUuid": "bd8c7272_c00da2c6",
       "range": {
         "startLine": 1078,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b372b4_600a055c",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done. Renamed to ConvertRefStorage.",
+      "parentUuid": "ac8d5acf_779dd350",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "536c18d2_103ff183",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-10-29T07:39:25Z",
       "side": 1,
       "message": "```suggestion\npublic class ConvertRefStorage implements RestModifyView\u003cProjectResource, RefStorageInput\u003e {\n```",
+      "range": {
+        "startLine": 46,
+        "startChar": 13,
+        "endLine": 46,
+        "endChar": 26
+      },
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf9494c8_2f9df6d7",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "536c18d2_103ff183",
       "range": {
         "startLine": 46,
         "startChar": 13,
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02fe293b_f4c2e5bf",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8c14c7d9_b45da6f8",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a062fa6a_4f1772e7",
@@ -111,6 +213,24 @@
       "writtenOn": "2026-10-29T08:03:04Z",
       "side": 1,
       "message": "What happens if a backup is already present?",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d17500_403b9d36",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "JGit renames the old storage to `.old` with REPLACE_EXISTING, so an existing backup is overwritten. Only a non-empty target-format dir fails (409). Same behavior as the convert-ref-storage SSH command.",
+      "parentUuid": "a062fa6a_4f1772e7",
       "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +287,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25293739_2b00f467",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetRefStorage.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Native git doesn\u0027t lock either — git refs migrate documents it as a known limitation (\"no way to block concurrent writes during an ongoing migration … users are expected to block writes on a higher level\").\n\nThe JGit swap is non-atomic, and the SSH convert-ref-storage command has shipped that way since 2021. Rather than add a guard, I documented the limitation on both the REST endpoint and the SSH command here.\n\nA read-only guard spanning both paths could still be a follow-up if we want one.",
+      "parentUuid": "d33f0925_b7e288db",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "546e4584_8d392e67",
@@ -180,6 +318,24 @@
       "writtenOn": "2026-10-29T07:39:25Z",
       "side": 1,
       "message": "```suggestion\n    adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in).assertOK();\n```\n\nnit: `adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in)` can be dried out across the test.",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f107aec_8605c226",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done. Kept the call inline for now, can extract a helper in a follow-up.",
+      "parentUuid": "546e4584_8d392e67",
       "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -207,6 +363,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64b0f63_547fddbf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Creation succeeds with the cache on by design: a reftable repo skips the per-request snapshot at open (first commit of the series), so no failure is expected here.",
+      "parentUuid": "15533812_6443d95e",
+      "range": {
+        "startLine": 147,
+        "startChar": 14,
+        "endLine": 147,
+        "endChar": 47
+      },
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8a60faf_8cca8052",
@@ -220,6 +400,24 @@
       "writtenOn": "2026-10-29T07:39:25Z",
       "side": 1,
       "message": "```suggestion\n    adminRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", in).assertOK();\n```",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b54d6e91_b6809fa5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f8a60faf_8cca8052",
       "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -241,6 +439,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "507b9837_0e64217c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "aa6ae949_4eff8d37",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a493214d_629b6c47",
@@ -254,6 +470,24 @@
       "writtenOn": "2026-10-29T07:39:25Z",
       "side": 1,
       "message": "```suggestion\n    userRestSession.post(\"/projects/\" + name.get() + \"/convert-ref-storage\", input).assertForbidden();\n```",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecc14f58_8ef5dec0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a493214d_629b6c47",
       "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -275,6 +509,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed97ed6b_65f5faef",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c916f811_8ea7b719",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6a3c4aa_6da11146",
@@ -292,6 +544,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9a64879_c86c4ddd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Added here: bare-string input, mixed-case, invalid format (400), and non-existent project (404). The non-local-repo (409) case stays unit-covered in ConvertRefStorageTest, since the acceptance daemon only creates local repositories:\n\n| Ponch\u0027s item | Test |\n| --- | --- |\n| bare `\"REFTABLE\"` string | `conversionAcceptsBareStringBody` |\n| mixed-case input | `conversionAcceptsMixedCaseFormat` |\n| invalid format (400) | `conversionRejectsInvalidFormat` |\n| non-existent repository (404) | `conversionFailsForNonExistentProject` |\n| non-local repo (409) | `ConvertRefStorageTest.unsupportedManagerIsConflict` |",
+      "parentUuid": "f6a3c4aa_6da11146",
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f95b0f8_d2f70cab",
@@ -305,6 +575,30 @@
       "writtenOn": "2026-10-29T07:39:25Z",
       "side": 1,
       "message": "```suggestion\n          RestCall.post(\"/projects/%s/convert-ref-storage\"),\n```",
+      "range": {
+        "startLine": 89,
+        "startChar": 19,
+        "endLine": 89,
+        "endChar": 22
+      },
+      "revId": "e24b0c710dcc95f0e2aaabc953149072663d3017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97ec58e4_f9c886df",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/ProjectsRestApiBindingsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-29T13:40:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2f95b0f8_d2f70cab",
       "range": {
         "startLine": 89,
         "startChar": 19,

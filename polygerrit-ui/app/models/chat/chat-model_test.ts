@@ -74,6 +74,30 @@ suite('chat-model tests', () => {
     const state = model.getState();
     assert.isObject(state);
     assert.isEmpty(state.turns);
+    assert.isFalse(state.chatPanelOpen);
+  });
+
+  test('chatPanelOpen$ tracks open state and resets on new change', () => {
+    const emissions: boolean[] = [];
+    model.chatPanelOpen$.subscribe(open => emissions.push(open));
+    assert.deepEqual(emissions, [false]);
+
+    model.setChatPanelOpen(true);
+    assert.deepEqual(emissions, [false, true]);
+
+    // Updating the same change does not reset chatPanelOpen.
+    const change1 = createParsedChange();
+    changeModel.updateStateChange(change1);
+    model.setChatPanelOpen(true);
+    changeModel.updateStateChange({...change1, subject: 'Updated subject'});
+    assert.isTrue(model.getState().chatPanelOpen);
+
+    // Navigating to a different change resets chatPanelOpen to false.
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: (change1._number + 1) as typeof change1._number,
+    });
+    assert.isFalse(model.getState().chatPanelOpen);
   });
 
   test('change subscription triggers API calls', () => {

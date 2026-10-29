@@ -14,6 +14,7 @@ import {
 } from '../../../constants/constants';
 import {
   isVisible,
+  mockPromise,
   pressKey,
   query,
   queryAll,
@@ -62,6 +63,8 @@ import {
   ChangeModel,
   changeModelToken,
 } from '../../../models/change/change-model';
+import {chatModelToken} from '../../../models/chat/chat-model';
+import {GrEndpointParam} from '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {assert, fixture, html} from '@open-wc/testing';
@@ -411,7 +414,7 @@ suite('gr-diff-view tests', () => {
                 <gr-diff-host id="diffHost"> </gr-diff-host>
               </gr-endpoint-decorator>
             </div>
-            <div slot="side"></div>
+            <div class="sidebar" slot="side"></div>
           </gr-content-with-sidebar>
           <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
           <gr-diff-preferences-dialog id="diffPreferencesDialog">
@@ -2690,6 +2693,315 @@ suite('gr-diff-view tests', () => {
             'gr-content-with-sidebar'
           );
         assert.equal(contentWithSidebar?.side, 'right');
+      });
+    });
+
+    suite('chat panel', () => {
+      test('Agent Chat button visibility depends on login, AI plugins, and revision actions', async () => {
+        element.loggedIn = false;
+        element.aiPluginsRegistered = true;
+        element.revisionActions = {};
+        await element.updateComplete;
+        assert.isUndefined(query(element, 'gr-button#toggleChat'));
+
+        element.loggedIn = true;
+        element.aiPluginsRegistered = false;
+        await element.updateComplete;
+        assert.isUndefined(query(element, 'gr-button#toggleChat'));
+
+        element.aiPluginsRegistered = true;
+        element.revisionActions = undefined;
+        await element.updateComplete;
+        assert.isUndefined(query(element, 'gr-button#toggleChat'));
+
+        element.revisionActions = {aiReview: {enabled: false}};
+        await element.updateComplete;
+        assert.isUndefined(query(element, 'gr-button#toggleChat'));
+
+        element.revisionActions = {aiReview: {enabled: true}};
+        await element.updateComplete;
+        const chatBtn = queryAndAssert<GrButton>(
+          element,
+          'gr-button#toggleChat'
+        );
+        assert.include(chatBtn.textContent, 'Agent Chat');
+        const icon = queryAndAssert(chatBtn, 'gr-icon');
+        assert.equal(icon.getAttribute('icon'), 'ai');
+      });
+
+      test('loads revision actions and hides Agent Chat when aiReview is disabled', async () => {
+        const getRevisionActionsStub = stubRestApi(
+          'getChangeRevisionActions'
+        ).resolves({aiReview: {enabled: false}});
+        element.loggedIn = true;
+        element.aiPluginsRegistered = true;
+        element.patchNum = 2 as RevisionPatchSetNum;
+        await element.updateComplete;
+        await waitEventLoop();
+
+        assert.isTrue(
+          getRevisionActionsStub.calledWith(TEST_NUMERIC_CHANGE_ID, 2)
+        );
+        assert.isUndefined(query(element, 'gr-button#toggleChat'));
+
+        getRevisionActionsStub.resolves({aiReview: {enabled: true}});
+        element.patchNum = 3 as RevisionPatchSetNum;
+        await element.updateComplete;
+        await waitEventLoop();
+
+        assert.isDefined(query(element, 'gr-button#toggleChat'));
+      });
+
+      test('clicking Agent Chat toggles chat panel in right sidebar', async () => {
+        const chatModel = testResolver(chatModelToken);
+        element.loggedIn = true;
+        element.aiPluginsRegistered = true;
+        element.revisionActions = {};
+        await element.updateComplete;
+
+        const contentWithSidebar = queryAndAssert<GrContentWithSidebar>(
+          element,
+          'gr-content-with-sidebar'
+        );
+        const diffContainer = queryAndAssert(element, '.diffContainer');
+        assert.isTrue(contentWithSidebar.hideSide);
+        assert.isFalse(diffContainer.classList.contains('sidebarOpen'));
+
+        const chatBtn = queryAndAssert<GrButton>(
+          element,
+          'gr-button#toggleChat'
+        );
+        chatBtn.click();
+        await element.updateComplete;
+
+        assert.isFalse(contentWithSidebar.hideSide);
+        assert.equal(contentWithSidebar.side, 'right');
+        assert.isTrue(diffContainer.classList.contains('sidebarOpen'));
+        assert.isTrue(chatModel.getState().chatPanelOpen);
+        const decorator = queryAndAssert(
+          element,
+          'gr-endpoint-decorator[name="chat-panel"]'
+        );
+        queryAndAssert(decorator, 'chat-panel');
+
+        chatBtn.click();
+        await element.updateComplete;
+
+        assert.isTrue(contentWithSidebar.hideSide);
+        assert.isFalse(diffContainer.classList.contains('sidebarOpen'));
+        assert.isFalse(chatModel.getState().chatPanelOpen);
+      });
+
+      test('close-chat-panel event closes the chat panel', async () => {
+        const chatModel = testResolver(chatModelToken);
+        chatModel.setChatPanelOpen(true);
+        await element.updateComplete;
+
+        const contentWithSidebar = queryAndAssert<GrContentWithSidebar>(
+          element,
+          'gr-content-with-sidebar'
+        );
+        assert.isFalse(contentWithSidebar.hideSide);
+
+        element.dispatchEvent(
+          new CustomEvent('close-chat-panel', {
+            bubbles: true,
+            composed: true,
+          })
+        );
+        await element.updateComplete;
+
+        assert.isFalse(element.showSidebarChat);
+        assert.isTrue(contentWithSidebar.hideSide);
+        assert.isFalse(chatModel.getState().chatPanelOpen);
+      });
+
+      test('explain-code-requested opens chat panel and processes request', async () => {
+        const chatModel = testResolver(chatModelToken);
+        const processChatRequestStub = sinon.stub(
+          chatModel,
+          'processChatRequest'
+        );
+        const contentWithSidebar = queryAndAssert<GrContentWithSidebar>(
+          element,
+          'gr-content-with-sidebar'
+        );
+        assert.isTrue(contentWithSidebar.hideSide);
+
+        const event = new CustomEvent('explain-code-requested', {
+          detail: {prompt: 'Explain this code'},
+          bubbles: true,
+          composed: true,
+        });
+        element.dispatchEvent(event);
+        await element.updateComplete;
+
+        assert.isFalse(contentWithSidebar.hideSide);
+        assert.equal(contentWithSidebar.side, 'right');
+        assert.isTrue(
+          processChatRequestStub.calledOnceWithExactly({
+            prompt: 'Explain this code',
+          })
+        );
+      });
+
+      test('open-diff-in-change-view moves cursor on same file and navigates on different file', () => {
+        assertIsDefined(element.cursor);
+        const moveToLineNumberStub = sinon.stub(
+          element.cursor,
+          'moveToLineNumber'
+        );
+        element.path = 'some/path.txt';
+
+        element.dispatchEvent(
+          new CustomEvent('open-diff-in-change-view', {
+            detail: {path: 'some/path.txt', lineNum: 15, side: Side.LEFT},
+            bubbles: true,
+            composed: true,
+          })
+        );
+
+        assert.isTrue(
+          moveToLineNumberStub.calledOnceWithExactly(
+            15,
+            Side.LEFT,
+            'some/path.txt',
+            true
+          )
+        );
+        assert.isFalse(navToDiffStub.called);
+
+        element.dispatchEvent(
+          new CustomEvent('open-diff-in-change-view', {
+            detail: {path: 'other/file.ts', lineNum: 42},
+            bubbles: true,
+            composed: true,
+          })
+        );
+
+        assert.isTrue(
+          navToDiffStub.calledOnceWithExactly({
+            path: 'other/file.ts',
+            lineNum: 42,
+          })
+        );
+
+        element.dispatchEvent(
+          new CustomEvent('open-diff-in-change-view', {
+            detail: {path: 'other/left.ts', lineNum: 7, side: Side.LEFT},
+            bubbles: true,
+            composed: true,
+          })
+        );
+
+        assert.isTrue(
+          navToDiffStub.calledWithExactly({
+            path: 'other/left.ts',
+            lineNum: 7,
+            leftSide: true,
+          })
+        );
+      });
+
+      test('plugin sidebar takes priority over chat panel and opening chat closes plugin sidebar', async () => {
+        const chatModel = testResolver(chatModelToken);
+        chatModel.setChatPanelOpen(true);
+        await element.updateComplete;
+        assert.isTrue(element.showSidebarChat);
+
+        const triggerDecorator = queryAndAssert(
+          element,
+          'gr-endpoint-decorator[name="sidebarTrigger"]'
+        );
+        const onTriggerParam = queryAndAssert<GrEndpointParam>(
+          triggerDecorator,
+          'gr-endpoint-param[name="onTrigger"]'
+        );
+        const onTrigger = onTriggerParam.value as (pluginName: string) => void;
+        onTrigger('comments2code');
+        await element.updateComplete;
+
+        assert.equal(element.shownSidebar, 'comments2code');
+        assert.isFalse(element.showSidebarChat);
+        assert.isFalse(chatModel.getState().chatPanelOpen);
+
+        chatModel.setChatPanelOpen(true);
+        await element.updateComplete;
+
+        assert.isTrue(element.showSidebarChat);
+        assert.isUndefined(element.shownSidebar);
+      });
+
+      test('chat panel open state overrides diff_page_sidebar preference on initial load', async () => {
+        const chatModel = testResolver(chatModelToken);
+        chatModel.setChatPanelOpen(true);
+        userModel.setState({
+          ...userModel.getState(),
+          preferences: {
+            ...createDefaultPreferences(),
+            diff_page_sidebar: 'plugin-comments2code',
+          },
+        });
+
+        const freshDiffView = await fixture<GrDiffView>(
+          html`<gr-diff-view></gr-diff-view>`
+        );
+        await freshDiffView.updateComplete;
+        await waitEventLoop();
+
+        assert.isTrue(freshDiffView.showSidebarChat);
+        assert.isUndefined(freshDiffView.shownSidebar);
+      });
+
+      test('chat-panel endpoint passes change and revision and can be replaced by a plugin', async () => {
+        const revision = createRevision(1);
+        element.change = {
+          ...createParsedChange(),
+          revisions: {rev1: revision},
+        };
+        element.patchNum = 1 as RevisionPatchSetNum;
+        await element.updateComplete;
+
+        const promise = mockPromise();
+        window.Gerrit.install(
+          promise.resolve,
+          '0.1',
+          'http://some/plugins/diff-chat-plugin.js'
+        );
+        const plugin = (await promise) as PluginApi;
+
+        class CustomDiffPluginChatPanel extends HTMLElement {
+          change?: unknown;
+
+          revision?: unknown;
+        }
+
+        const customChatTagName = 'custom-diff-plugin-chat-panel';
+        if (!customElements.get(customChatTagName)) {
+          customElements.define(customChatTagName, CustomDiffPluginChatPanel);
+        }
+
+        plugin.registerCustomComponent('chat-panel', customChatTagName, {
+          replace: true,
+        });
+
+        const chatModel = testResolver(chatModelToken);
+        chatModel.setChatPanelOpen(true);
+        await element.updateComplete;
+
+        const decorator = queryAndAssert(
+          element,
+          'gr-endpoint-decorator[name="chat-panel"]'
+        );
+        await waitUntil(() => !!decorator.querySelector(customChatTagName));
+
+        const customChat = queryAndAssert<CustomDiffPluginChatPanel>(
+          decorator,
+          customChatTagName
+        );
+        assert.isNull(decorator.querySelector('chat-panel'));
+        assert.equal(customChat.change, element.change);
+        assert.equal(customChat.revision, revision);
       });
     });
   });

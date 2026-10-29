@@ -196,6 +196,7 @@ export declare interface ConversationState {
 
 export declare interface ChatState extends ConversationState {
   readonly mode: ChatPanelMode;
+  readonly chatPanelOpen?: boolean;
 
   /** The list of conversations for the current CL. */
   readonly conversations?: readonly Conversation[];
@@ -354,6 +355,11 @@ export class ChatModel extends Model<ChatState> {
     state => state.provider
   );
 
+  readonly chatPanelOpen$: Observable<boolean> = select(
+    this.state$,
+    state => !!state.chatPanelOpen
+  );
+
   private plugin?: AiCodeReviewProvider;
 
   private change?: ChangeInfo;
@@ -368,6 +374,7 @@ export class ChatModel extends Model<ChatState> {
   ) {
     super({
       mode: ChatPanelMode.CONVERSATION,
+      chatPanelOpen: false,
       ...initialConversationState,
     });
 
@@ -420,6 +427,7 @@ export class ChatModel extends Model<ChatState> {
 
       this.updateState({
         ...initialConversationState,
+        chatPanelOpen: false,
         // We need to explicitly clear these, because updateState does a shallow
         // merge, and initialConversationState does not contain these fields.
         models: undefined,
@@ -799,6 +807,10 @@ export class ChatModel extends Model<ChatState> {
     if (mode === ChatPanelMode.HISTORY) {
       this.listConversations();
     }
+  }
+
+  setChatPanelOpen(open: boolean) {
+    this.updateState({chatPanelOpen: open});
   }
 
   listConversations() {

@@ -500,12 +500,11 @@ export class GrChangeView extends LitElement {
       this.onOpenDiffInChangeView(e)
     );
     this.addEventListener('show-tab', e => this.setActiveTab(e));
-    this.addEventListener(
-      'close-chat-panel',
-      () => (this.showSidebarChat = false)
+    this.addEventListener('close-chat-panel', () =>
+      this.getChatModel().setChatPanelOpen(false)
     );
     this.addEventListener('explain-code-requested', e => {
-      this.showSidebarChat = true;
+      this.getChatModel().setChatPanelOpen(true);
       this.getChatModel().processChatRequest(e.detail);
     });
   }
@@ -771,6 +770,13 @@ export class GrChangeView extends LitElement {
       () => this.getRelatedChangesModel().revertingChange$,
       revertingChange => {
         this.revertingChange = revertingChange;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().chatPanelOpen$,
+      open => {
+        this.showSidebarChat = open;
       }
     );
   }
@@ -1276,7 +1282,7 @@ export class GrChangeView extends LitElement {
   }
 
   private toggleChat() {
-    this.showSidebarChat = !this.showSidebarChat;
+    this.getChatModel().setChatPanelOpen(!this.showSidebarChat);
   }
 
   private renderSidebar() {

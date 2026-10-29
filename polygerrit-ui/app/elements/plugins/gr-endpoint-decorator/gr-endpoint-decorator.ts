@@ -57,6 +57,9 @@ export class GrEndpointDecorator extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     assertIsDefined(this.name);
+    for (const [el, domHook] of this.domHooks) {
+      domHook.handleInstanceAttached(el);
+    }
     this.getPluginLoader().pluginEndPoints.onNewEndpoint(
       this.name,
       this.initModule
@@ -305,10 +308,11 @@ export class GrEndpointDecorator extends LitElement {
     }
     this.initializedPlugins.set(name, true);
     initPromise.then(el => {
-      if (!this.isConnected) return;
       if (domHook) {
-        domHook.handleInstanceAttached(el);
         this.domHooks.set(el, domHook);
+        if (this.isConnected) {
+          domHook.handleInstanceAttached(el);
+        }
       }
     });
   };

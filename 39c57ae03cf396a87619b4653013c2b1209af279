@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc5e4dca_551febfb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-29T21:43:53Z",
+      "side": 1,
+      "message": "I believe the location of this action is weird: I was expecting it to be closer to the ref storage field, so that the admin has the awareness *that* specific field has a specific way to be updated.",
+      "revId": "39c57ae03cf396a87619b4653013c2b1209af279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54a50ba5_6e95aa24",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 19

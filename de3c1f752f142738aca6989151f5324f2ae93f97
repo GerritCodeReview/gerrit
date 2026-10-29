@@ -22,6 +22,30 @@
       },
       "revId": "de3c1f752f142738aca6989151f5324f2ae93f97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae9bb16_cd58fe6b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-10-29T19:48:43Z",
+      "side": 1,
+      "message": "@ha.ow.laura@gmail.com good shout, done.\nI believe this also improves the behaviour for the diff view which I don\u0027t think had received much love lately.",
+      "parentUuid": "562185d4_a1f34c41",
+      "range": {
+        "startLine": 1813,
+        "startChar": 10,
+        "endLine": 1813,
+        "endChar": 18
+      },
+      "revId": "de3c1f752f142738aca6989151f5324f2ae93f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -216,6 +216,34 @@ public class ReftableProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void conversionBlockedByLeftoverBackupIsConflict() throws Exception {
+    Project.NameKey name = Project.nameKey(name("leftover-backup"));
+    ProjectInput create = new ProjectInput();
+    create.name = name.get();
+    create.refStorage = RefStorage.REFTABLE;
+    create.createEmptyCommit = true;
+    gApi.projects().create(create);
+
+    // Converting back to files while keeping a backup leaves the reftable/ dir
+    // on disk.
+    RefStorageInput toFiles = new RefStorageInput();
+    toFiles.refStorage = "FILES";
+    toFiles.backup = true;
+    assertThat(gApi.projects().name(name.get()).convertRefStorage(toFiles)).isEqualTo("FILES");
+
+    // The next files -> reftable is blocked by that leftover and must surface
+    // as the leftover-backup conflict (not a bare 500, and not the
+    // already-in-format conflict), so assert the actionable message too.
+    RefStorageInput toReftable = new RefStorageInput();
+    toReftable.refStorage = "REFTABLE";
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.projects().name(name.get()).convertRefStorage(toReftable));
+    assertThat(thrown).hasMessageThat().contains("Remove it before converting");
+  }
+
+  @Test
   public void conversionAcceptsBareStringBody() throws Exception {
     Project.NameKey name = Project.nameKey(name("convert-bare-string"));
     gApi.projects().create(name.get());

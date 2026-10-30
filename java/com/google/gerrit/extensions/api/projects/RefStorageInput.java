@@ -28,8 +28,9 @@ public class RefStorageInput {
 
   /**
    * Whether to keep the previous ref storage as a backup. Defaults to {@code true}. When {@code
-   * false}, the superseded ref storage is deleted instead of being renamed with a {@code .old}
-   * suffix.
+   * true}, the superseded ref storage is retained (converting from files renames it with a {@code
+   * .old} suffix; converting from reftable leaves the {@code reftable} directory in place). When
+   * {@code false}, it is deleted.
    */
   public Boolean backup;
 }

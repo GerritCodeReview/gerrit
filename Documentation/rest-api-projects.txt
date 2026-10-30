@@ -1061,9 +1061,16 @@ and `REFTABLE`.
 Conversion is supported in both directions, but only for a local repository
 that is not already in the requested format. A request is rejected with
 `409 Conflict` when it cannot be satisfied: the repository is already in the
-requested format, or is not a local repository. A missing or unrecognized
-`ref_storage` is rejected with `400 Bad Request`, and `404 Not Found` is
-returned if the repository cannot be opened.
+requested format, is not a local repository, or a backup from a previous
+conversion is still present and must be removed before converting again. A
+missing or unrecognized `ref_storage` is rejected with `400 Bad Request`, and
+`404 Not Found` is returned if the repository cannot be opened.
+
+When `backup` is kept, the previous ref storage is retained on the server and
+is not removed automatically: converting from `FILES` renames the old files
+(`refs.old`, `packed-refs.old`, `logs.old`), while converting from `REFTABLE`
+leaves the old `reftable` directory in place. A leftover backup blocks a later
+conversion back until it is removed.
 
 Caller must be a member of a group that is granted the
 link:access-control.html#capability_administrateServer[Administrate Server]

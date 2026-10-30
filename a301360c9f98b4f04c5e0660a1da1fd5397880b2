@@ -34,6 +34,24 @@
       "parentUuid": "ad23d074_331f4734",
       "revId": "a301360c9f98b4f04c5e0660a1da1fd5397880b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4dee11_0aea9752",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-10-30T21:55:25Z",
+      "side": 1,
+      "message": "As long as it is optional, I wouldn\u0027t worry about the in-memory cost. I would only worry about complexity. But if the tier which combines the two is simple, go for it.\n\nTo be honest, if we are thinking about extra layers, it seems we could have an extra layer at the ACL level instead, one that caches visibility based on the groups a user is in. I suspect that this would beat both of these approaches in speed, and it could be applied across the board to ref visibility, not just tags. This layer could use bitmaps to store one bitmap per group set, so it would be very space efficient (more efficient likely than both of the other solutions). The bitmap would index into a list of all refs for a project, and it would be updateable (since you can extend bitmaps). The cache likely only needs to get invalidated whenever the ACLs change. The number of bitmaps would be at worst the numbers of users on the server? The bitmaps themselves would be pretty big though.",
+      "parentUuid": "2249f681_2242799a",
+      "revId": "a301360c9f98b4f04c5e0660a1da1fd5397880b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

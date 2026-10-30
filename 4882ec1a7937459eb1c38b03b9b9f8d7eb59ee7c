@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc6866e3_0a5da50a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-30T22:04:22Z",
+      "side": 1,
+      "message": "I agree that this is a mitigation, not a complete safety guarantee. I raised the same concern on [PS2](https://gerrit-review.googlesource.com/c/gerrit/+/629201/comments/451718aa_87eb0ef9). Isolating H2 operations from request-thread interruption is worth pursuing separately (using our Lucene implementation as a guide). In the meantime, this change adopts H2\u0027s documented workaround. I agree we should avoid describing it as guaranteeing interruption safety. I tried to be clear that it wasn\u0027t, but re-reading the commit message now, that\u0027s not obvious to me.",
+      "parentUuid": "1ac1a536_2ba53a67",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "4882ec1a7937459eb1c38b03b9b9f8d7eb59ee7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08bd8913_65ca93a3",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-30T19:36:00Z",
       "side": 1,
       "message": "The `async` support is experimental in H2, and its safety isn\u0027t guaranteed either, as you pointed out at L69.\n\nWhy do we then consider `file` legacy and `async` (the experimental, not guaranteed safe option) the official format to use?",
+      "range": {
+        "startLine": 63,
+        "startChar": 16,
+        "endLine": 63,
+        "endChar": 21
+      },
+      "revId": "4882ec1a7937459eb1c38b03b9b9f8d7eb59ee7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c008a3c1_7d83e064",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-30T22:04:22Z",
+      "side": 1,
+      "message": "\"Legacy\" here just means Gerrit\u0027s previously documented URL format, not that H2 considers `file:` deprecated. Gerrit now normalizes those URLs to `async:` to apply the documented interruption workaround consistently, but that does not make `async:` production-safe by guarantee. We could update the wording to explicitly mention its experimental status and say \"previously documented\" rather than \"legacy\".",
+      "parentUuid": "08bd8913_65ca93a3",
       "range": {
         "startLine": 63,
         "startChar": 16,

@@ -16,6 +16,24 @@
       "message": "If we are considering keeping both implementations, that gives me another idea. If storage is not a concern, then you could use the reduced DAG to quickly regenerate the bitmaps when they change!",
       "revId": "a301360c9f98b4f04c5e0660a1da1fd5397880b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2249f681_2242799a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-30T16:02:55Z",
+      "side": 1,
+      "message": "I wondered about this too, but I was thinking the in-memory cost might be too much. But since we have a config, this could be a \"hybrid\" mode that sites opt into?",
+      "parentUuid": "ad23d074_331f4734",
+      "revId": "a301360c9f98b4f04c5e0660a1da1fd5397880b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

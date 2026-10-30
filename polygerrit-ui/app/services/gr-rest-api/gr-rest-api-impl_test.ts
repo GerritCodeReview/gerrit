@@ -382,18 +382,34 @@ suite('gr-rest-api-service-impl tests', () => {
     element._cache.set(cacheKey, {
       ref_storage: RefStorage.FILES,
     } as unknown as ParsedJSON);
-    element.convertRepoRefStorage('test-repo' as RepoName, RefStorage.REFTABLE);
+    element.convertRepoRefStorage(
+      'test-repo' as RepoName,
+      RefStorage.REFTABLE,
+      false
+    );
     assert.isTrue(fetchStub.called);
     assert.isFalse(element._cache.has(cacheKey));
   });
 
-  test('convertRepoRefStorage sends backup=false', () => {
+  test('convertRepoRefStorage forwards the backup flag', () => {
     const fetchStub = sinon.stub(element._restApiHelper, 'fetch');
-    element.convertRepoRefStorage('test-repo' as RepoName, RefStorage.REFTABLE);
-    assert.isTrue(fetchStub.called);
+    element.convertRepoRefStorage(
+      'test-repo' as RepoName,
+      RefStorage.REFTABLE,
+      false
+    );
     assert.deepEqual(
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
       {ref_storage: RefStorage.REFTABLE, backup: false}
+    );
+    element.convertRepoRefStorage(
+      'test-repo' as RepoName,
+      RefStorage.FILES,
+      true
+    );
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {ref_storage: RefStorage.FILES, backup: true}
     );
   });
 

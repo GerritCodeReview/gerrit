@@ -41,17 +41,18 @@ public class ChangeControl extends AbstractChangeControl {
       @Assisted ProjectControl projectControl,
       @Assisted RefControl refControl,
       @Assisted ChangeData changeData) {
-    super(
-        projectControl,
-        refControl,
-        permissionBackend,
-        changeData.change().isNew(),
-        isOwner(refControl, changeData));
+    super(projectControl, refControl, permissionBackend);
     this.changeData = changeData;
   }
 
-  private static boolean isOwner(RefControl refControl, ChangeData changeData) {
-    CurrentUser user = refControl.getUser();
+  @Override
+  protected boolean isNew() {
+    return changeData.change().isNew();
+  }
+
+  @Override
+  protected boolean isOwner() {
+    CurrentUser user = getUser();
     if (user.isIdentifiedUser()) {
       Account.Id id = user.asIdentifiedUser().getAccountId();
       return id.equals(changeData.change().getOwner());
@@ -81,7 +82,7 @@ public class ChangeControl extends AbstractChangeControl {
       return true;
     }
 
-    if (isOwner) {
+    if (isOwner()) {
       logger.atFine().log(
           "%s can see private change %s because this user is the change owner",
           getUser().getLoggableName(), cd.getId());

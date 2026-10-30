@@ -52,6 +52,7 @@ import {ChangeInfo} from '../../../api/rest-api';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 suite('gr-repo tests', () => {
   let element: GrRepo;
@@ -192,10 +193,126 @@ suite('gr-repo tests', () => {
 
       await element.handleConvertRefStorageConfirm();
 
-      assert.isTrue(convert.calledWithExactly(REPO as RepoName, target));
+      assert.isTrue(convert.calledWithExactly(REPO as RepoName, target, false));
       assert.isTrue(reload.calledOnce);
     });
   }
+
+  test('conversion keeps a backup when the option is checked', async () => {
+    await setRefStorage(RefStorage.FILES);
+    const convert = stubRestApi('convertRepoRefStorage').resolves(
+      new Response()
+    );
+    sinon.stub(element, 'loadRepo').resolves();
+    // Confirm calls dialog.close(), which resets keepBackup via @close. The
+    // flag is snapshotted before close, so the conversion still sees backup=true.
+    const dialog = queryAndAssert<HTMLDialogElement>(
+      element,
+      '#convertRefStorageModal'
+    );
+    dialog.showModal();
+    await element.updateComplete;
+    assert.isTrue(dialog.open);
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#keepBackupCheckbox');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+
+    await element.handleConvertRefStorageConfirm();
+
+    assert.isTrue(
+      convert.calledWithExactly(REPO as RepoName, RefStorage.REFTABLE, true)
+    );
+  });
+
+  test('closing the convert dialog resets the backup option', async () => {
+    await setRefStorage(RefStorage.FILES);
+    const convert = stubRestApi('convertRepoRefStorage').resolves(
+      new Response()
+    );
+    sinon.stub(element, 'loadRepo').resolves();
+    const dialog = queryAndAssert<HTMLDialogElement>(
+      element,
+      '#convertRefStorageModal'
+    );
+    dialog.showModal();
+    await element.updateComplete;
+    assert.isTrue(dialog.open);
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#keepBackupCheckbox');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+
+    // Dismiss via dialog.close() (the Cancel/ESC path) so @close runs and clears
+    // the choice. A later conversion must not inherit a stale keep-backup.
+    const closed = new Promise<void>(resolve =>
+      dialog.addEventListener('close', () => resolve(), {once: true})
+    );
+    dialog.close();
+    await closed;
+    await element.updateComplete;
+
+    await element.handleConvertRefStorageConfirm();
+
+    assert.isTrue(
+      convert.calledWithExactly(REPO as RepoName, RefStorage.REFTABLE, false)
+    );
+  });
+
+  // textContent preserves the template's newlines/indentation; collapse them.
+  function normalizedText(el: Element) {
+    return (el.textContent ?? '').replace(/\s+/g, ' ').trim();
+  }
+
+  test('convert-to-reftable backup note keeps backup without a failure warning', async () => {
+    await setRefStorage(RefStorage.FILES);
+    const main = queryAndAssert(element, '#convertRefStorageModal .main');
+    assert.include(normalizedText(main), 'removed after conversion');
+
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#keepBackupCheckbox');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+
+    // Converting away from files leaves only harmless .old files, so no
+    // round-trip failure is claimed.
+    assert.include(normalizedText(main), 'kept as a backup');
+    assert.include(normalizedText(main), 'Remove it manually');
+    assert.notInclude(normalizedText(main), 'will fail');
+  });
+
+  test('convert-to-files backup note warns about the blocked round-trip', async () => {
+    await setRefStorage(RefStorage.REFTABLE);
+    const main = queryAndAssert(element, '#convertRefStorageModal .main');
+
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#keepBackupCheckbox');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+
+    // Converting away from reftable leaves the reftable/ dir, which blocks a
+    // later conversion back to reftable.
+    assert.include(normalizedText(main), 'kept as a backup');
+    assert.include(normalizedText(main), 'will fail');
+    assert.include(normalizedText(main), 'leftover reftable directory');
+  });
+
+  test('checkbox is un-ticked when the backup choice is reset', async () => {
+    await setRefStorage(RefStorage.FILES);
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#keepBackupCheckbox');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+    assert.isTrue(checkbox.checked);
+
+    // Resetting keepBackup (as @close does) must drive the box back to unchecked
+    // through the ?checked binding.
+    queryAndAssert<HTMLDialogElement>(
+      element,
+      '#convertRefStorageModal'
+    ).dispatchEvent(new Event('close'));
+    await element.updateComplete;
+    assert.isFalse(checkbox.checked);
+  });
 
   test('ordinary config saves omit the read-only ref storage', () => {
     const config = {...repoConf, ref_storage: RefStorage.REFTABLE};
@@ -1375,7 +1492,11 @@ suite('gr-repo tests', () => {
       );
       await element.handleConvertRefStorageConfirm();
       assert.isTrue(
-        convertStub.calledWithExactly(REPO as RepoName, RefStorage.REFTABLE)
+        convertStub.calledWithExactly(
+          REPO as RepoName,
+          RefStorage.REFTABLE,
+          false
+        )
       );
     });
 

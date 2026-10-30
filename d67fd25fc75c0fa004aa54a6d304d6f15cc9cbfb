@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f71e024_90498d88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-30T18:09:17Z",
+      "side": 1,
+      "message": "Hey @david.ostrovsky@gmail.com, can you check why style-checks and tests-checks are failing?\n\n```\n18:22:05   263:12  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion\n18:22:05 \n18:22:05 ✖ 1 problem (1 error, 0 warnings)\n18:22:05   1 error and 0 warnings potentially fixable with the `--fix` option.\n```",
+      "revId": "d67fd25fc75c0fa004aa54a6d304d6f15cc9cbfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

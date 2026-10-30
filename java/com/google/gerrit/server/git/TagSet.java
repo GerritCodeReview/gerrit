@@ -21,6 +21,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.protobuf.ByteString;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -205,9 +207,16 @@ class TagSet {
     }
   }
 
-  void build(Repository git, TagSet old, TagMatcher m) {
+  /**
+   * Populates this set from {@code git}, by copying and extending {@code old} if possible and by
+   * walking the full history otherwise.
+   *
+   * @return {@code false} if the build was aborted because the thread was interrupted, in which
+   *     case the tag set is incomplete and must not be cached.
+   */
+  boolean build(Repository git, @Nullable TagSet old, @Nullable TagMatcher m) {
     if (old != null && m != null && refresh(old, m)) {
-      return;
+      return true;
     }
 
     try (TagWalk rw = new TagWalk(git)) {
@@ -223,6 +232,8 @@ class TagSet {
           // For a tag, remember where it points to.
           try {
             addTag(rw, git.getRefDatabase().peel(ref), isTag);
+          } catch (InterruptedIOException e) {
+            throw e;
           } catch (IOException e) {
             addTag(rw, ref, isTag);
           }
@@ -238,9 +249,15 @@ class TagSet {
       while ((c = (TagCommit) rw.next()) != null) {
         c.propagateReachabilityToParents(isTag);
       }
+    } catch (InterruptedIOException e) {
+      // The calling thread was interrupted, e.g. because the client disconnected. All further
+      // object reads would fail as well, so give up on the whole build.
+      logger.atFine().log("Interrupted while building tags for repository %s", projectName);
+      return false;
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
     }
+    return true;
   }
 
   static TagSet fromProto(TagSetProto proto) {
@@ -364,7 +381,7 @@ class TagSet {
     }
   }
 
-  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) {
+  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) throws InterruptedIOException {
     ObjectId id = ref.getPeeledObjectId();
     if (id == null) {
       id = ref.getObjectId();
@@ -381,6 +398,8 @@ class TagSet {
         flags = commit.refFlags;
       } catch (IncorrectObjectTypeException notCommit) {
         flags = new RoaringBitmap();
+      } catch (InterruptedIOException e) {
+        throw e;
       } catch (IOException e) {
         logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
         flags = new RoaringBitmap();
@@ -389,7 +408,7 @@ class TagSet {
     }
   }
 
-  private void addRef(TagWalk rw, Ref ref) {
+  private void addRef(TagWalk rw, Ref ref) throws InterruptedIOException {
     try {
       TagCommit commit = (TagCommit) rw.parseCommit(ref.getObjectId());
       rw.markStart(commit);
@@ -405,6 +424,8 @@ class TagSet {
       // Quite many refs will point to non-commits.
       // For instance, refs from refs/cache-automerge
       // will often end up here.
+    } catch (InterruptedIOException e) {
+      throw e;
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
     }

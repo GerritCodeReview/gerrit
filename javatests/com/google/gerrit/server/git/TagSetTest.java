@@ -19,7 +19,11 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byteString;
+import static org.eclipse.jgit.lib.ObjectReader.OBJ_ANY;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Streams;
@@ -32,13 +36,24 @@ import com.google.gerrit.server.git.TagSet.CachedRef;
 import com.google.gerrit.server.git.TagSet.Tag;
 import com.google.inject.TypeLiteral;
 import com.google.protobuf.ByteString;
+import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.lang.reflect.Type;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 import org.roaringbitmap.RoaringBitmap;
 
@@ -110,6 +125,117 @@ public class TagSetTest {
                 .build());
 
     assertEqual(tagSet, TagSet.fromProto(proto));
+  }
+
+  @Test
+  public void buildStopsReadingObjectsWhenInterrupted() throws Exception {
+    AtomicInteger interruptedReads = new AtomicInteger();
+    // Mimics JGit's file-based object reader, which throws InterruptedIOException for every
+    // object read once the current thread is interrupted.
+    InMemoryRepository repo =
+        new InMemoryRepository(new DfsRepositoryDescription("project")) {
+          @Override
+          public ObjectReader newObjectReader() {
+            ObjectReader delegate = super.newObjectReader();
+            return new ObjectReader.Filter() {
+              @Override
+              protected ObjectReader delegate() {
+                return delegate;
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId) throws IOException {
+                return open(objectId, OBJ_ANY);
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId, int typeHint) throws IOException {
+                if (Thread.currentThread().isInterrupted()) {
+                  interruptedReads.incrementAndGet();
+                  throw new InterruptedIOException();
+                }
+                return super.open(objectId, typeHint);
+              }
+            };
+          }
+        };
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit root = tr.commit().create();
+      for (int i = 0; i < 10; i++) {
+        tr.update("refs/heads/branch" + i, tr.commit().parent(root).create());
+      }
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+    }
+
+    Thread.currentThread().interrupt();
+    try {
+      assertThat(new TagSet(Project.nameKey("project")).build(repo, null, null)).isFalse();
+    } finally {
+      Thread.interrupted();
+    }
+
+    // The first failed read must abort the build instead of failing (and logging) once per ref.
+    assertThat(interruptedReads.get()).isEqualTo(1);
+  }
+
+  /**
+   * Interrupts a build after all refs and tags were added but before reachability was fully
+   * propagated, then checks that the incomplete TagSet was not cached and that the next build finds
+   * the tag reachable. Guards against caching a TagSet in which the tag is wrongly hidden.
+   */
+  @Test
+  public void tagSetInterruptedDuringHistoryWalkIsNotCached() throws Exception {
+    AtomicReference<ObjectId> failOn = new AtomicReference<>();
+    InMemoryRepository repo =
+        new InMemoryRepository(new DfsRepositoryDescription("project")) {
+          @Override
+          public ObjectReader newObjectReader() {
+            ObjectReader delegate = super.newObjectReader();
+            return new ObjectReader.Filter() {
+              @Override
+              protected ObjectReader delegate() {
+                return delegate;
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId) throws IOException {
+                return open(objectId, OBJ_ANY);
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId, int typeHint) throws IOException {
+                if (objectId.equals(failOn.get())) {
+                  throw new InterruptedIOException();
+                }
+                return super.open(objectId, typeHint);
+              }
+            };
+          }
+        };
+    Ref tagRef;
+    RevCommit middle;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit root = tr.commit().create();
+      middle = tr.commit().parent(root).create();
+      tr.update("refs/heads/master", tr.commit().parent(middle).create());
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+      tagRef = repo.exactRef("refs/tags/v1");
+    }
+    ImmutableList<Ref> include = ImmutableList.of(repo.exactRef("refs/heads/master"));
+    Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    TagCache tagCache = new TagCache(guavaCache);
+    Project.NameKey project = Project.nameKey("project");
+
+    // The middle commit is only read while propagating reachability through the history, i.e.
+    // after all refs and tags have already been added to the TagSet.
+    failOn.set(middle.copy());
+    var unused = tagCache.get(project).matcher(tagCache, repo, include);
+    assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNull();
+
+    failOn.set(null);
+    TagMatcher m = tagCache.get(project).matcher(tagCache, repo, include);
+    assertThat(m.isReachable(tagRef)).isTrue();
+    assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNotNull();
   }
 
   @Test

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -278,6 +279,18 @@ public interface ProjectApi {
 
   /** Reindexes all changes of the project. */
   void indexChanges() throws RestApiException;
+
+  /**
+   * Converts the ref storage of the project's repository.
+   *
+   * <p>Requires the caller to be a server administrator. The conversion does not lock the
+   * repository, so concurrent writes during the conversion can leave the ref storage in an
+   * inconsistent state.
+   *
+   * @param input the target format and backup preference
+   * @return the resulting ref storage format
+   */
+  RefStorage convertRefStorage(RefStorageInput input) throws RestApiException;
 
   ListLabelsRequest labels() throws RestApiException;
 

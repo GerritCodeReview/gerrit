@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.util.H2Url;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,7 +61,7 @@ public abstract class JdbcAccountPatchReviewStore
   public static final String TEST_IN_MEMORY_URL =
       "jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1";
 
-  private static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
+  static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
   private static final String H2_DB = "h2";
   private static final String MARIADB = "mariadb";
   private static final String MYSQL = "mysql";
@@ -127,10 +128,19 @@ public abstract class JdbcAccountPatchReviewStore
     this.ds = createDataSource(cfg, sitePaths, threadSettingsConfig);
   }
 
-  private static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
+  @VisibleForTesting
+  static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null) {
       return createH2Url(sitePaths.db_dir.resolve("account_patch_reviews"));
+    }
+    return normalizeH2Url(url);
+  }
+
+  @VisibleForTesting
+  static String normalizeH2Url(String url) {
+    if (url.startsWith(H2Url.FILE_PREFIX)) {
+      return H2Url.ASYNC_PREFIX + url.substring(H2Url.FILE_PREFIX.length());
     }
     return url;
   }
@@ -431,7 +441,12 @@ public abstract class JdbcAccountPatchReviewStore
     return 0;
   }
 
-  private static String createH2Url(Path path) {
-    return new StringBuilder().append("jdbc:h2:").append(path.toUri().toString()).toString();
+  @VisibleForTesting
+  static String createH2Url(Path path) {
+    return new StringBuilder()
+        .append(H2Url.ASYNC_PREFIX)
+        .append(path.toAbsolutePath().toString())
+        .toString()
+        .replace(";", "\\;");
   }
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a0efe8_b2f2b87e",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-30T17:56:53Z",
+      "side": 1,
+      "message": "What\u0027s the reason of moving it from L313 to L347?",
+      "revId": "766a1d1fe85a749a3651c8b4df6e3e2b6be603cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a9fa58f_46e58d48",
+        "filename": "java/com/google/gerrit/server/schema/H2PluginLockAccountPatchReviewStore.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-30T17:56:53Z",
+      "side": 1,
+      "message": "I do not see any reference to H2 in this class: what\u0027s the reason for having H2 in the name?",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 48
+      },
+      "revId": "766a1d1fe85a749a3651c8b4df6e3e2b6be603cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

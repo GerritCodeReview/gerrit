@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e9adc66_791a789f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-30T09:31:15Z",
+      "side": 1,
+      "message": "A one-way conversion works; a two-way doesn\u0027t.\n\nThe main reason is that when converting from `files` to `reftable`, we do not show the option to keep a backup (a backup is always kept).\n\nAs a result, when converting back to `files` format, the `/reftable` remains in the repository and will prevent future conversions from the UI.\n\nI believe we should:\n1. Give the option to keep a backup or not in the dialog\n2. Block the conversion button if a previous backup exists\n\nThe 1. should be part of this change, so that you can enable the two-way use case. The 2. would require more work on the backend. It can be addressed as a follow-up.",
+      "revId": "cef73a9f62a67aa6d905954c4d90bf9af9036934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

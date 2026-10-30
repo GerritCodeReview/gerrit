@@ -66,10 +66,14 @@ import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Rule;
@@ -91,6 +95,15 @@ import org.junit.Test;
  * </ul>
  */
 public class TraceIT extends AbstractDaemonTest {
+  /**
+   * Enough changes that the parallel stream in ChangeJson reliably hands some of them to
+   * ForkJoinPool workers rather than running them all on the request thread.
+   */
+  private static final int PARALLEL_CHANGE_COUNT = 20;
+
+  private static final String TO_CHANGE_INFO_LATENCY =
+      "http/server/rest_api/change_json/to_change_info_latency";
+
   @Rule public final Expect expect = Expect.create();
 
   @Inject private ExtensionRegistry extensionRegistry;
@@ -423,6 +436,48 @@ public class TraceIT extends AbstractDaemonTest {
       r.assertOkStatus();
 
       verifyNoInteractions(testPerformanceLogger);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.performanceLogging", value = "true")
+  public void performanceLoggingForParallelChangeQuery() throws Exception {
+    for (int i = 0; i < PARALLEL_CHANGE_COUNT; i++) {
+      createChange();
+    }
+
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testPerformanceLogger)) {
+      // MESSAGES requires lazy loading, so ensureLoaded also runs its parallel stage.
+      RestResponse response =
+          adminRestSession.get(
+              "/changes/?q=project:" + project.get() + "&o=DETAILED_LABELS&o=MESSAGES");
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(testPerformanceLogger.countAfterDone(TO_CHANGE_INFO_LATENCY))
+          .isEqualTo(PARALLEL_CHANGE_COUNT);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.performanceLogging", value = "true")
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void performanceLoggingForParallelChangeCollectionFormatting() throws Exception {
+    String topic = "parallel-format";
+    PushOneCommit.Result last = null;
+    for (int i = 0; i < PARALLEL_CHANGE_COUNT; i++) {
+      last = createChange("refs/for/master%topic=" + topic);
+    }
+
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testPerformanceLogger)) {
+      // SubmittedTogether formats its changes via ChangeJson#format(Collection).
+      RestResponse response =
+          adminRestSession.get("/changes/" + last.getChangeId() + "/submitted_together");
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(testPerformanceLogger.countAfterDone(TO_CHANGE_INFO_LATENCY))
+          .isEqualTo(PARALLEL_CHANGE_COUNT);
     }
   }
 
@@ -1219,6 +1274,29 @@ public class TraceIT extends AbstractDaemonTest {
       SubmitRecord submitRecord = new SubmitRecord();
       submitRecord.status = SubmitRecord.Status.OK;
       return Optional.of(submitRecord);
+    }
+  }
+
+  private static class TestPerformanceLogger implements PerformanceLogger {
+    private final List<PerformanceLogEntry> logEntries = new CopyOnWriteArrayList<>();
+    private final CountDownLatch doneLatch = new CountDownLatch(1);
+
+    @Override
+    public void logNanos(String operation, long durationNanos, Instant endTime, Metadata metadata) {
+      logEntries.add(PerformanceLogEntry.create(operation, metadata));
+    }
+
+    @Override
+    public void done() {
+      doneLatch.countDown();
+    }
+
+    /** Waits until the request's performance log records were flushed and counts the matches. */
+    long countAfterDone(String operation) throws InterruptedException {
+      assertWithMessage("performance log records flushed")
+          .that(doneLatch.await(5, TimeUnit.SECONDS))
+          .isTrue();
+      return logEntries.stream().filter(e -> operation.equals(e.operation())).count();
     }
   }
 

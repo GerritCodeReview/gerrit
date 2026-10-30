@@ -33,7 +33,10 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.text.MessageFormat;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefStorageFormat;
 
 /**
@@ -86,7 +89,27 @@ public class ConvertRefStorage implements RestModifyView<ProjectResource, RefSto
       throw new ResourceConflictException(e.getMessage(), e);
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(rsrc.getName(), e);
+    } catch (IOException e) {
+      if (isLeftoverBackup(e)) {
+        throw new ResourceConflictException(
+            "A backup from a previous conversion already exists. Remove it before converting again",
+            e);
+      }
+      throw e;
     }
     return Response.ok(target.name());
+  }
+
+  /**
+   * Whether {@code e} signals that a backend left over from a previous conversion blocks this one.
+   *
+   * <p>JGit throws a plain {@link IOException} for this precondition (a non-empty {@code reftable/}
+   * directory, or a stray {@code packed-refs}) with no dedicated type, so match on the message.
+   */
+  private static boolean isLeftoverBackup(IOException e) {
+    String message = e.getMessage();
+    return JGitText.get().reftableDirExists.equals(message)
+        || MessageFormat.format(JGitText.get().fileAlreadyExists, Constants.PACKED_REFS)
+            .equals(message);
   }
 }

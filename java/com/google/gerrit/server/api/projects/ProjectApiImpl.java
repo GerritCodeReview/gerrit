@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.api.projects.LabelApi;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.RefStorageInput;
 import com.google.gerrit.extensions.api.projects.SubmitRequirementApi;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -75,6 +76,7 @@ import com.google.gerrit.server.restapi.project.CheckAccess;
 import com.google.gerrit.server.restapi.project.ChildProjectsCollection;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.CommitsIncludedInRefs;
+import com.google.gerrit.server.restapi.project.ConvertRefStorage;
 import com.google.gerrit.server.restapi.project.CreateAccessChange;
 import com.google.gerrit.server.restapi.project.CreateProject;
 import com.google.gerrit.server.restapi.project.DeleteBranches;
@@ -169,6 +171,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final LabelApiImpl.Factory labelApi;
   private final SubmitRequirementApiImpl.Factory submitRequirementApi;
   private final Provider<GetDiffFile> getDiffFile;
+  private final ConvertRefStorage convertRefStorage;
 
   @AssistedInject
   ProjectApiImpl(
@@ -216,6 +219,7 @@ public class ProjectApiImpl implements ProjectApi {
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
       Provider<GetDiffFile> getDiffFile,
+      ConvertRefStorage convertRefStorage,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -263,6 +267,7 @@ public class ProjectApiImpl implements ProjectApi {
         postSubmitRequirements,
         postSubmitRequirementsReview,
         getDiffFile,
+        convertRefStorage,
         null);
   }
 
@@ -312,6 +317,7 @@ public class ProjectApiImpl implements ProjectApi {
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
       Provider<GetDiffFile> getDiffFile,
+      ConvertRefStorage convertRefStorage,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -359,6 +365,7 @@ public class ProjectApiImpl implements ProjectApi {
         postSubmitRequirements,
         postSubmitRequirementsReview,
         getDiffFile,
+        convertRefStorage,
         name);
   }
 
@@ -408,6 +415,7 @@ public class ProjectApiImpl implements ProjectApi {
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
       Provider<GetDiffFile> getDiffFile,
+      ConvertRefStorage convertRefStorage,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -455,6 +463,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.postSubmitRequirements = postSubmitRequirements;
     this.postSubmitRequirementsReview = postSubmitRequirementsReview;
     this.getDiffFile = getDiffFile;
+    this.convertRefStorage = convertRefStorage;
   }
 
   @Override
@@ -782,6 +791,15 @@ public class ProjectApiImpl implements ProjectApi {
       return getHead.apply(checkExists()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get HEAD", e);
+    }
+  }
+
+  @Override
+  public String convertRefStorage(RefStorageInput input) throws RestApiException {
+    try {
+      return convertRefStorage.apply(checkExists(), input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot convert ref storage", e);
     }
   }
 

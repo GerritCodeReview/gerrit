@@ -20,12 +20,17 @@ import static org.junit.Assert.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.RefStorageInput;
 import com.google.gerrit.extensions.client.RefStorage;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.inject.Inject;
 import java.io.File;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -39,6 +44,7 @@ import org.junit.Test;
  */
 @UseLocalDisk
 public class ReftableProjectIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void createReftableProjectWithInitialCommit() throws Exception {
@@ -134,7 +140,7 @@ public class ReftableProjectIT extends AbstractDaemonTest {
 
     RefStorageInput in = new RefStorageInput();
     in.refStorage = "REFTABLE";
-    adminRestSession.post("/projects/" + name.get() + "/convert-ref-storage", in).assertOK();
+    assertThat(gApi.projects().name(name.get()).convertRefStorage(in)).isEqualTo("REFTABLE");
 
     try (Repository repo = repoManager.openRepository(name)) {
       assertReftable(repo);
@@ -154,7 +160,7 @@ public class ReftableProjectIT extends AbstractDaemonTest {
 
     RefStorageInput in = new RefStorageInput();
     in.refStorage = "FILES";
-    adminRestSession.post("/projects/" + name.get() + "/convert-ref-storage", in).assertOK();
+    assertThat(gApi.projects().name(name.get()).convertRefStorage(in)).isEqualTo("FILES");
 
     try (Repository repo = repoManager.openRepository(name)) {
       assertFiles(repo);
@@ -171,7 +177,9 @@ public class ReftableProjectIT extends AbstractDaemonTest {
 
     RefStorageInput in = new RefStorageInput();
     in.refStorage = "FILES";
-    adminRestSession.post("/projects/" + name.get() + "/convert-ref-storage", in).assertConflict();
+    assertThrows(
+        ResourceConflictException.class,
+        () -> gApi.projects().name(name.get()).convertRefStorage(in));
   }
 
   @Test
@@ -181,9 +189,13 @@ public class ReftableProjectIT extends AbstractDaemonTest {
     RefStorageInput input = new RefStorageInput();
     input.refStorage = "REFTABLE";
 
-    userRestSession
-        .post("/projects/" + name.get() + "/convert-ref-storage", input)
-        .assertForbidden();
+    requestScopeOperations.setApiUser(user.id());
+    try {
+      assertThrows(
+          AuthException.class, () -> gApi.projects().name(name.get()).convertRefStorage(input));
+    } finally {
+      requestScopeOperations.setApiUser(admin.id());
+    }
     assertThat(gApi.projects().name(name.get()).config().refStorage).isEqualTo(RefStorage.FILES);
   }
 
@@ -195,7 +207,7 @@ public class ReftableProjectIT extends AbstractDaemonTest {
     input.refStorage = "REFTABLE";
     input.backup = false;
 
-    adminRestSession.post("/projects/" + name.get() + "/convert-ref-storage", input).assertOK();
+    assertThat(gApi.projects().name(name.get()).convertRefStorage(input)).isEqualTo("REFTABLE");
     try (Repository repo = repoManager.openRepository(name)) {
       assertReftable(repo);
       assertThat(repo.exactRef(RefNames.REFS_CONFIG)).isNotNull();
@@ -208,6 +220,8 @@ public class ReftableProjectIT extends AbstractDaemonTest {
     Project.NameKey name = Project.nameKey(name("convert-bare-string"));
     gApi.projects().create(name.get());
 
+    // Stays on REST: exercises the raw @DefaultInput string body, which the
+    // extension API (RefStorageInput only) cannot express.
     adminRestSession
         .post("/projects/" + name.get() + "/convert-ref-storage", "REFTABLE")
         .assertOK();
@@ -223,7 +237,7 @@ public class ReftableProjectIT extends AbstractDaemonTest {
 
     RefStorageInput in = new RefStorageInput();
     in.refStorage = "Reftable";
-    adminRestSession.post("/projects/" + name.get() + "/convert-ref-storage", in).assertOK();
+    assertThat(gApi.projects().name(name.get()).convertRefStorage(in)).isEqualTo("REFTABLE");
     try (Repository repo = repoManager.openRepository(name)) {
       assertReftable(repo);
     }
@@ -234,6 +248,7 @@ public class ReftableProjectIT extends AbstractDaemonTest {
     Project.NameKey name = Project.nameKey(name("convert-invalid-format"));
     gApi.projects().create(name.get());
 
+    // Stays on REST: exercises the raw @DefaultInput string body.
     adminRestSession
         .post("/projects/" + name.get() + "/convert-ref-storage", "bogus")
         .assertBadRequest();
@@ -243,9 +258,9 @@ public class ReftableProjectIT extends AbstractDaemonTest {
   public void conversionFailsForNonExistentProject() throws Exception {
     RefStorageInput in = new RefStorageInput();
     in.refStorage = "REFTABLE";
-    adminRestSession
-        .post("/projects/" + name("does-not-exist") + "/convert-ref-storage", in)
-        .assertNotFound();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.projects().name(name("does-not-exist")).convertRefStorage(in));
   }
 
   private static void assertReftable(Repository repo) {

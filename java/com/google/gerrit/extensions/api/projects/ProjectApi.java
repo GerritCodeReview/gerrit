@@ -279,6 +279,14 @@ public interface ProjectApi {
   /** Reindexes all changes of the project. */
   void indexChanges() throws RestApiException;
 
+  /**
+   * Converts the ref storage of the project's repository.
+   *
+   * @param input the target format and backup preference
+   * @return the resulting ref storage format
+   */
+  String convertRefStorage(RefStorageInput input) throws RestApiException;
+
   ListLabelsRequest labels() throws RestApiException;
 
   abstract class ListLabelsRequest {

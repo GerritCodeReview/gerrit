@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed038614_2281804e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2026-10-30T08:21:26Z",
+      "side": 1,
+      "message": "Side note: this change also upgrade Apache sshd from 2.19.0 to 2.20.0 which might deserve an entry in the release notes.  But I guess that can be done when preparing the future release notes 😊",
+      "revId": "85c0c04145404bffbfbf99e7b92167dfe6394b68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

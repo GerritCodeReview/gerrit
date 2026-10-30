@@ -14,6 +14,7 @@ import {
   GroupBaseInfo,
   GroupId,
   GroupName,
+  isReviewerAccountSuggestion,
   SuggestedReviewerInfo,
   Suggestion,
 } from '../../../types/common';
@@ -262,6 +263,61 @@ suite('gr-account-list tests', () => {
           },
         ]);
       });
+  });
+
+  test('getSuggestions includes locally removed accounts matching input', async () => {
+    const removedReviewer: AccountInfo = {
+      _account_id: 101 as AccountId,
+      name: 'Alice Smith',
+      email: 'alice@example.com' as EmailAddress,
+      username: 'alices',
+    };
+    element.accounts = [removedReviewer, existingAccount2];
+    element.change = {
+      ...createChange(),
+      reviewers: {
+        [ReviewerState.REVIEWER]: [removedReviewer, existingAccount2],
+      },
+    };
+    await element.updateComplete;
+
+    // Remove the reviewer locally before saving the reply.
+    element.removeAccount(removedReviewer);
+    await element.updateComplete;
+    assert.deepEqual(element.removals(), [removedReviewer]);
+
+    // Backend omits removedReviewer because it is still persisted on the change.
+    sinon.stub(suggestionsProvider, 'getSuggestions').resolves([]);
+    sinon
+      .stub(suggestionsProvider, 'makeSuggestionItem')
+      .callsFake(suggestion => {
+        const account = isReviewerAccountSuggestion(suggestion)
+          ? suggestion.account
+          : (suggestion as AccountInfo);
+        return {
+          name: `${account.name} <${account.email}>`,
+          value: {
+            account,
+            count: 1,
+          },
+        };
+      });
+
+    // Matching query returns the locally removed reviewer.
+    const matchingSuggestions = await element.getSuggestions('alice');
+    assert.deepEqual(matchingSuggestions, [
+      {
+        name: 'Alice Smith <alice@example.com>',
+        value: {
+          account: removedReviewer,
+          count: 1,
+        },
+      },
+    ]);
+
+    // Non-matching query does not return the removed reviewer.
+    const nonMatchingSuggestions = await element.getSuggestions('bob');
+    assert.deepEqual(nonMatchingSuggestions, []);
   });
 
   test('computeRemovable', async () => {

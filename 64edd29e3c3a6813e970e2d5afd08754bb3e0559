@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55c5bdd1_30a39f30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-30T18:52:53Z",
+      "side": 1,
+      "message": "Maybe we wait to submit this until there\u0027s a version released with a fix for https://github.com/h2database/h2database/issues/4504 ?",
+      "revId": "64edd29e3c3a6813e970e2d5afd08754bb3e0559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

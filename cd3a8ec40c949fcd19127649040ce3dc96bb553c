@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c7d7ba6_62922eff",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConvertRefStorage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-30T18:07:30Z",
+      "side": 1,
+      "message": "nit: This seems a bit fragile; it seems it can introduce false positives.\nAlso, if the exception is wrapped in a different way we might not find it, should we at least looked in the `cause` chain rather thank just the message, if possible?",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 3
+      },
+      "revId": "cd3a8ec40c949fcd19127649040ce3dc96bb553c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

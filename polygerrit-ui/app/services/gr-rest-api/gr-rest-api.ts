@@ -759,7 +759,8 @@ export interface RestApiService extends Finalizable {
 
   convertRepoRefStorage(
     repo: RepoName,
-    refStorage: RefStorage
+    refStorage: RefStorage,
+    backup: boolean
   ): Promise<Response>;
   deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
   deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;

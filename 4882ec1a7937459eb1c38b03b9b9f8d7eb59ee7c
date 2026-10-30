@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ac1a536_2ba53a67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-30T19:34:04Z",
+      "side": 1,
+      "message": "If I read correctly the documentation you pointed, it says:\n```\nWhen interrupts are possible the async: file system can be used as a workaround, but full safety is not guaranteed.\n```\n\nThis looks like a non-deterministic workaround; I believe we should aim for a better solution in the long term, such as using a separate non-interruptible thread pool, similar to what we do with Lucene.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "4882ec1a7937459eb1c38b03b9b9f8d7eb59ee7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

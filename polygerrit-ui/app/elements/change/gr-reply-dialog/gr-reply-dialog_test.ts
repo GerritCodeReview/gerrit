@@ -1671,6 +1671,45 @@ suite('gr-reply-dialog tests', () => {
     assert.isFalse(filter({group: cc2} as Suggestion));
   });
 
+  test('can delete a reviewer and add them back via autocomplete suggestions', async () => {
+    const reviewer: AccountInfo = {
+      _account_id: 77 as AccountId,
+      name: 'Alice Reviewer',
+      email: 'alice@example.com' as EmailAddress,
+    };
+    element.change = {
+      ...change,
+      reviewers: {
+        [ReviewerState.REVIEWER]: [reviewer],
+        [ReviewerState.CC]: [],
+      },
+      removable_reviewers: [reviewer],
+    };
+    await element.updateComplete;
+
+    const reviewersList = queryAndAssert<GrAccountList>(element, '#reviewers');
+    assert.deepEqual(element.reviewers, [reviewer]);
+
+    // Delete the reviewer from the reply dialog.
+    reviewersList.removeAccount(reviewer);
+    await element.updateComplete;
+    assert.deepEqual(element.reviewers, []);
+
+    // Even when backend suggest_reviewers returns [], the locally removed
+    // reviewer is suggested when typing their name/email and can be added back.
+    const suggestions = await reviewersList.getSuggestions('alice');
+    assert.equal(suggestions.length, 1);
+    assert.deepEqual(suggestions[0].value, {
+      account: reviewer,
+      count: 1,
+    });
+
+    reviewersList.addAccountItem(suggestions[0].value);
+    await element.updateComplete;
+    assert.deepEqual(element.reviewers, [reviewer]);
+    assert.deepEqual(element.computeReviewers(), []);
+  });
+
   test('focusOn', async () => {
     await element.updateComplete;
     const chooseFocusTargetSpy = sinon.spy(element, 'chooseFocusTarget');

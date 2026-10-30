@@ -66,10 +66,12 @@ import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Rule;
@@ -423,6 +425,49 @@ public class TraceIT extends AbstractDaemonTest {
       r.assertOkStatus();
 
       verifyNoInteractions(testPerformanceLogger);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.performanceLogging", value = "true")
+  public void performanceLoggingForParallelChangeQuery() throws Exception {
+    for (int i = 0; i < 5; i++) {
+      createChange();
+    }
+
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testPerformanceLogger)) {
+      RestResponse response =
+          adminRestSession.get(
+              "/changes/?q=project:" + project.get() + "&o=LABELS&o=DETAILED_LABELS");
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(testPerformanceLogger.doneLatch.await(5, java.util.concurrent.TimeUnit.SECONDS))
+          .isTrue();
+      long toChangeInfoRecords =
+          testPerformanceLogger.logEntries.stream()
+              .filter(
+                  e ->
+                      "http/server/rest_api/change_json/to_change_info_latency"
+                          .equals(e.operation()))
+              .count();
+      assertThat(toChangeInfoRecords).isEqualTo(5);
+    }
+  }
+
+  private static class TestPerformanceLogger implements PerformanceLogger {
+    final List<PerformanceLogEntry> logEntries = new CopyOnWriteArrayList<>();
+    final java.util.concurrent.CountDownLatch doneLatch =
+        new java.util.concurrent.CountDownLatch(1);
+
+    @Override
+    public void logNanos(String operation, long durationNanos, Instant endTime, Metadata metadata) {
+      logEntries.add(PerformanceLogEntry.create(operation, metadata));
+    }
+
+    @Override
+    public void done() {
+      doneLatch.countDown();
     }
   }
 

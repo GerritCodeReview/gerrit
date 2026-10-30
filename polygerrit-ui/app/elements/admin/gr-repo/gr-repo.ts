@@ -62,6 +62,9 @@ import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-
 import {formStyles} from '../../../styles/form-styles';
 import '@material/web/select/outlined-select';
 import '@material/web/select/select-option';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import '../../shared/gr-icon/gr-icon';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -142,6 +145,8 @@ export class GrRepo extends LitElement {
 
   @state() private isConverting = false;
 
+  @state() private keepBackup = false;
+
   @query('#convertRefStorageModal')
   private readonly convertRefStorageModal?: HTMLDialogElement;
 
@@ -198,6 +203,27 @@ export class GrRepo extends LitElement {
         }
         #convertRefStorageBtn {
           margin-left: var(--spacing-m);
+        }
+        #keepBackupOption {
+          align-items: center;
+          display: flex;
+          gap: var(--spacing-s);
+        }
+        #keepBackupOption label {
+          cursor: pointer;
+        }
+        /* Pin a stable width so toggling the backup option, which changes the
+           amount of body text, does not resize the dialog. */
+        #convertRefStorageModal gr-dialog {
+          width: calc(min(36em, 90vw));
+        }
+        .warning {
+          color: var(--warning-foreground);
+        }
+        .warning gr-icon {
+          color: var(--warning-icon-color);
+          vertical-align: bottom;
+          margin-right: var(--spacing-s);
         }
         h2.edited:after {
           color: var(--deemphasized-text-color);
@@ -344,7 +370,13 @@ export class GrRepo extends LitElement {
               title=${configChanged
                 ? 'Save or discard configuration edits before converting'
                 : nothing}
-              @click=${() => this.convertRefStorageModal?.showModal()}
+              @click=${() => {
+                // Reset on open as well as on @close, so the dialog is always
+                // shown unchecked even if a prior instance was torn down while
+                // open (e.g. the convert affordance disappeared mid-dialog).
+                this.keepBackup = false;
+                this.convertRefStorageModal?.showModal();
+              }}
               >Convert to ${this.convertTargetLabel}</gr-button
             >`
           )}
@@ -352,7 +384,13 @@ export class GrRepo extends LitElement {
       </fieldset>
       ${when(
         this.showConvertRefStorage,
-        () => html`<dialog id="convertRefStorageModal" tabindex="-1">
+        () => html`<dialog
+          id="convertRefStorageModal"
+          tabindex="-1"
+          @close=${() => {
+            this.keepBackup = false;
+          }}
+        >
           <gr-dialog
             confirm-label="Convert"
             @confirm=${this.handleConvertRefStorageConfirm}
@@ -362,8 +400,23 @@ export class GrRepo extends LitElement {
               Convert to ${this.convertTargetLabel}
             </div>
             <div class="main" slot="main">
-              Convert ${this.repo} to the ${this.convertTargetLabel} ref storage
-              backend? The previous ref storage is removed after conversion.
+              <p>
+                Convert ${this.repo} to the ${this.convertTargetLabel} ref
+                storage backend?
+              </p>
+              <section id="keepBackupOption">
+                <md-checkbox
+                  id="keepBackupCheckbox"
+                  ?checked=${this.keepBackup}
+                  @change=${(e: Event) => {
+                    this.keepBackup = (e.target as MdCheckbox).checked;
+                  }}
+                ></md-checkbox>
+                <label for="keepBackupCheckbox"
+                  >Keep a backup of the previous ref storage</label
+                >
+              </section>
+              ${this.renderConvertBackupNote()}
             </div>
           </gr-dialog>
         </dialog>`
@@ -1093,20 +1146,45 @@ export class GrRepo extends LitElement {
     return this.refStorageLabel(this.repoConfig?.ref_storage);
   }
 
+  private renderConvertBackupNote() {
+    if (!this.keepBackup) {
+      return html`<p>The previous ref storage is removed after conversion.</p>`;
+    }
+    // Only converting away from reftable is hazardous: the old reftable/ dir is
+    // left in place and blocks a later conversion back. The .old files from a
+    // files->reftable conversion are harmless.
+    if (this.convertTarget === RefStorage.FILES) {
+      return html`<div class="warning">
+        <gr-icon icon="warning"></gr-icon>
+        The previous ${this.currentRefStorageLabel} ref storage is kept as a
+        backup. A later conversion back to ${this.currentRefStorageLabel} will
+        fail until the leftover reftable directory is removed manually.
+      </div>`;
+    }
+    return html`<p>
+      The previous ${this.currentRefStorageLabel} ref storage is kept as a
+      backup. Remove it manually when no longer needed.
+    </p>`;
+  }
+
   async handleConvertRefStorageConfirm() {
     const repo = this.repo;
     const targetName = this.convertTargetLabel;
+    const target = this.convertTarget;
+    // Snapshot the backup choice before closing the dialog, since closing it
+    // resets keepBackup via the dialog's @close handler.
+    const backup = this.keepBackup;
     this.convertRefStorageModal?.close();
     if (!repo || !this.showConvertRefStorage || this.hasConfigChanged()) return;
     if (this.isConverting) return;
-    const target = this.convertTarget;
     this.isConverting = true;
     try {
       // convertRepoRefStorage reports failures itself (reportServerError),
       // so only react to success here, like handleSaveRepoConfig.
       const response = await this.restApiService.convertRepoRefStorage(
         repo,
-        target
+        target,
+        backup
       );
       if (!response?.ok) return;
       fireAlert(this, `Converted ${repo} to ${targetName}`);

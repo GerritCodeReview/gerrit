@@ -52,6 +52,24 @@
       "parentUuid": "0e7dc4ed_f00f40b7",
       "revId": "9d43bc465ae387cd893a6c2d0d6469bc573dd441",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f95dce18_97137b67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-31T17:32:35Z",
+      "side": 1,
+      "message": "alas, looks like my local setup was getting lucky, i can still reproduce now after some tweaks. mailed a revert - going to try another approach\n\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/652323",
+      "parentUuid": "15ded8e8_65d13481",
+      "revId": "9d43bc465ae387cd893a6c2d0d6469bc573dd441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

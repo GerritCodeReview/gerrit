@@ -22,6 +22,30 @@
       },
       "revId": "cd3a8ec40c949fcd19127649040ce3dc96bb553c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a2b8e28_812f963c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConvertRefStorage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-31T06:24:45Z",
+      "side": 1,
+      "message": "JGit throws a bare IOException here, no cause and no dedicated type, so there\u0027s nothing in the cause chain to match on. I key on the JGitText constants (not English text), and `unrelatedIoErrorPropagates` guards that any other IOException still 500s. Happy to switch if JGit grows a typed exception.",
+      "parentUuid": "2c7d7ba6_62922eff",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 3
+      },
+      "revId": "cd3a8ec40c949fcd19127649040ce3dc96bb553c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

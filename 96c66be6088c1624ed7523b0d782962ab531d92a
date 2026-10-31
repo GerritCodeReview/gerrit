@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc6e987_48e59e19",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-31T06:24:21Z",
+      "side": 1,
+      "message": "Done. Noted the admin requirement and that the conversion doesn\u0027t lock the repo.",
+      "parentUuid": "3f9db912_bd476577",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 57
+      },
+      "revId": "96c66be6088c1624ed7523b0d782962ab531d92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d70ea649_b4c555e4",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54456be8_3308fc9c",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-31T06:24:21Z",
+      "side": 1,
+      "message": "Done. Returns RefStorage now.",
+      "parentUuid": "d70ea649_b4c555e4",
+      "range": {
+        "startLine": 288,
+        "startChar": 2,
+        "endLine": 288,
+        "endChar": 8
+      },
+      "revId": "96c66be6088c1624ed7523b0d782962ab531d92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f94e5857_f488d5f1",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-10-30T17:34:38Z",
       "side": 1,
       "message": "This makes sense, but could we add a test for an invalid `RefStorageInput` through the new extension API as well? It would be useful to verify that `convertRefStorage()` propagates `BadRequestException` correctly.",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 28
+      },
+      "revId": "96c66be6088c1624ed7523b0d782962ab531d92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3549fc1_4265013e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ReftableProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-31T06:24:21Z",
+      "side": 1,
+      "message": "Done. Added conversionRejectsInvalidFormatViaApi, which checks an invalid input through the API propagates BadRequestException.",
+      "parentUuid": "f94e5857_f488d5f1",
       "range": {
         "startLine": 251,
         "startChar": 0,

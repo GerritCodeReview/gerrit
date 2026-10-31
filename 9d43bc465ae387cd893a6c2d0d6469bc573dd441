@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeeaaadb_9d3d7872",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-31T00:24:51Z",
+      "side": 1,
+      "message": "I have installed the latest master on GerritHub.io, which contains this fix. I can still flash on the gr-main-header.\n\nDoes this fix work for you?\n\nYou can see the gr-main-header flashing on https://review.gerrithub.io.",
+      "revId": "9d43bc465ae387cd893a6c2d0d6469bc573dd441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

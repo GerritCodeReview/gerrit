@@ -787,6 +787,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       errFn: resp => {
         if (!resp || resp.status === 403) {
           this._cache.delete('/accounts/self/detail');
+          this._cache.delete('/accounts/self/preferences');
+          this._cache.delete('/accounts/self/preferences.diff');
+          this._cache.delete('/accounts/self/preferences.edit');
         }
       },
     }) as Promise<AccountDetailInfo | undefined>;
@@ -1127,6 +1130,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getPreferences(): Promise<PreferencesInfo | undefined> {
+    if (
+      this._cache.has('/accounts/self/preferences') &&
+      this._cache.has('/accounts/self/detail')
+    ) {
+      return this._restApiHelper.fetchCacheJSON({
+        url: '/accounts/self/preferences',
+        reportUrlAsIs: true,
+      }) as unknown as Promise<PreferencesInfo | undefined>;
+    }
     return this.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
         const req = {url: '/accounts/self/preferences', reportUrlAsIs: true};

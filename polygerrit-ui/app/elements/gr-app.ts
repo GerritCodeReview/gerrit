@@ -26,11 +26,16 @@ import {
   ServiceWorkerInstaller,
   serviceWorkerInstallerToken,
 } from '../services/service-worker-installer';
-import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {
+  PluginLoader,
+  pluginLoaderToken,
+} from './shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../services/app-context';
 import {Finalizable} from '../types/types';
 
 initGlobalVariables(createAppContext(), true);
+
+const INITIAL_THEME_TIMEOUT_MS = 250;
 
 export const SCROLL_PADDING_TOP_CALC =
   'calc(var(--main-header-height) + var(--change-header-height) + var(--diff-header-height))';
@@ -40,6 +45,8 @@ export class GrApp extends LitElement {
   private finalizables: Finalizable[] = [];
 
   private serviceWorkerInstaller?: ServiceWorkerInstaller;
+
+  private unresolvedTimerId?: number;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -80,7 +87,9 @@ export class GrApp extends LitElement {
       provide(this, token, provider);
     }
 
-    initGerrit(resolver(pluginLoaderToken));
+    const pluginLoader = resolver(pluginLoaderToken);
+    initGerrit(pluginLoader);
+    this.revealBodyWhenReady(pluginLoader);
 
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = resolver(serviceWorkerInstallerToken);
@@ -97,6 +106,10 @@ export class GrApp extends LitElement {
   }
 
   override disconnectedCallback() {
+    if (this.unresolvedTimerId !== undefined) {
+      this.clearUnresolvedTimer();
+      document.body?.removeAttribute('unresolved');
+    }
     document.removeEventListener('focusin', this.handleFocusIn);
     document.removeEventListener('focusout', this.handleFocusOut);
     for (const f of this.finalizables) {
@@ -140,6 +153,33 @@ export class GrApp extends LitElement {
       }
     }
     return false;
+  }
+
+  private clearUnresolvedTimer() {
+    if (this.unresolvedTimerId !== undefined) {
+      window.clearTimeout(this.unresolvedTimerId);
+      this.unresolvedTimerId = undefined;
+    }
+  }
+
+  private revealBodyWhenReady(pluginLoader: PluginLoader) {
+    if (!document.body?.hasAttribute('unresolved')) return;
+    const reveal = () => {
+      this.clearUnresolvedTimer();
+      document.body?.removeAttribute('unresolved');
+    };
+    this.unresolvedTimerId = window.setTimeout(
+      reveal,
+      INITIAL_THEME_TIMEOUT_MS
+    );
+    Promise.all([this.updateComplete, pluginLoader.awaitInitialTheme()])
+      .then(async () => {
+        for (let i = 0; i < 10; i++) {
+          await Promise.resolve();
+        }
+        reveal();
+      })
+      .catch(reveal);
   }
 
   override render() {

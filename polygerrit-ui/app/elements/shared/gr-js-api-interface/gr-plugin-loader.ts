@@ -107,6 +107,12 @@ export class PluginLoader implements Gerrit, Finalizable {
   // Resolver to resolve loadingPromise once all plugins loaded
   private loadingResolver: (() => void) | null = null;
 
+  private initialThemePromise: Promise<void> | null = null;
+
+  private initialThemeResolver: (() => void) | null = null;
+
+  private defaultThemeKey?: string;
+
   private instanceId?: string;
 
   public readonly jsApiService: JsApiService;
@@ -125,9 +131,12 @@ export class PluginLoader implements Gerrit, Finalizable {
       this.reportingService
     );
     this.pluginsModel = new PluginsModel();
-    this.awaitPluginsLoaded().finally(() => {
-      this.pluginsModel.updateState({pluginsLoaded: true});
-    });
+    this.awaitPluginsLoaded()
+      .finally(() => {
+        this.pluginsModel.updateState({pluginsLoaded: true});
+        this.resolveInitialThemeIfReady();
+      })
+      .catch(() => {});
     this.pluginEndPoints = new GrPluginEndpoints();
   }
 
@@ -143,9 +152,16 @@ export class PluginLoader implements Gerrit, Finalizable {
   /**
    * Load multiple plugins with certain options.
    */
-  loadPlugins(plugins: string[] = [], instanceId?: string) {
+  loadPlugins(
+    plugins: string[] = [],
+    instanceId?: string,
+    defaultTheme?: string
+  ) {
     this.instanceId = instanceId;
     this.pluginListLoaded = true;
+    this.defaultThemeKey = defaultTheme
+      ? this.getPluginKeyFromUrl(this.urlFor(defaultTheme, window.ASSETS_PATH))
+      : undefined;
 
     plugins.forEach(path => {
       const url = this.urlFor(path, window.ASSETS_PATH);
@@ -165,6 +181,7 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.failToLoad(`Unrecognized plugin path ${path}`, path);
       }
     });
+    this.resolveInitialThemeIfReady();
 
     this.awaitPluginsLoaded().then(() => {
       const loaded = this.getPluginsByState(PluginState.LOADED);
@@ -264,6 +281,7 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.loadingResolver = null;
         this.loadingPromise = null;
       }
+      this.resolveInitialThemeIfReady();
     }
   }
 
@@ -306,7 +324,39 @@ export class PluginLoader implements Gerrit, Finalizable {
       });
     }
     console.debug(`Plugin ${key} ${state}`);
+    if (this.defaultThemeKey) {
+      this.resolveInitialThemeIfReady();
+    }
     return this.plugins.get(key)!;
+  }
+
+  private isInitialThemeReady(): boolean {
+    if (!this.pluginListLoaded) return false;
+    if (this.defaultThemeKey) {
+      const themePlugin = this.plugins.get(this.defaultThemeKey);
+      return !themePlugin || themePlugin.state !== PluginState.PENDING;
+    }
+    return this.arePluginsLoaded();
+  }
+
+  private resolveInitialThemeIfReady() {
+    if (this.initialThemeResolver && this.isInitialThemeReady()) {
+      this.initialThemeResolver();
+      this.initialThemeResolver = null;
+      this.initialThemePromise = null;
+    }
+  }
+
+  awaitInitialTheme(): Promise<void> {
+    if (this.isInitialThemeReady()) {
+      return Promise.resolve();
+    }
+    if (!this.initialThemePromise) {
+      this.initialThemePromise = new Promise<void>(
+        resolve => (this.initialThemeResolver = resolve)
+      );
+    }
+    return this.initialThemePromise;
   }
 
   private pluginInstalled(url: string, plugin: PluginApi) {
@@ -351,7 +401,10 @@ export class PluginLoader implements Gerrit, Finalizable {
     const urlWithoutAP = this.urlFor(pluginUrl);
     let onerror = undefined;
     if (urlWithAP !== urlWithoutAP) {
-      onerror = () => this.createScriptTag(urlWithoutAP);
+      onerror = () =>
+        this.createScriptTag(urlWithoutAP, () =>
+          this.failToLoad(`${urlWithoutAP} load error`, urlWithAP)
+        );
     }
 
     this.createScriptTag(urlWithAP, onerror);

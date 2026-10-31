@@ -9,7 +9,7 @@ export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
 export const THEME_JS = '/static/gerrit-theme.js';
 
-const THEME_NAME = 'gerrit-theme';
+export const THEME_NAME = 'gerrit-theme';
 
 export function isThemeFile(path: string) {
   return path.endsWith(THEME_JS);

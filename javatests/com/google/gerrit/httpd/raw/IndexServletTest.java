@@ -199,9 +199,7 @@ public class IndexServletTest {
     Server serverApi = mock(Server.class);
     when(serverApi.getVersion()).thenReturn("123");
     when(serverApi.topMenus()).thenReturn(ImmutableList.of());
-    ServerInfo serverInfo = new ServerInfo();
-    serverInfo.defaultTheme = "my-default-theme";
-    when(serverApi.getInfo()).thenReturn(serverInfo);
+    when(serverApi.getInfo()).thenReturn(new ServerInfo());
 
     Config configApi = mock(Config.class);
     when(configApi.server()).thenReturn(serverApi);
@@ -234,6 +232,9 @@ public class IndexServletTest {
     assertThat(output).contains("<!DOCTYPE html>");
     assertThat(output).contains("window.CANONICAL_PATH = '" + testCanonicalUrl);
     assertThat(output).contains("<link rel=\"preload\" href=\"" + testCdnPath);
+    assertThat(output).contains("const currentThemeClass = isDark ? 'darkTheme' : 'lightTheme';");
+    assertThat(output).contains("document.documentElement.classList.add(currentThemeClass);");
+    assertThat(output).contains("link.rel = 'preload';");
     assertThat(output)
         .contains(
             "<link rel=\"icon\" type=\"image/x-icon\" href=\""
@@ -244,9 +245,8 @@ public class IndexServletTest {
         .contains(
             "window.INITIAL_DATA = JSON.parse("
                 + "'\\x7b\\x22foo-url\\/config\\/server\\/top-menus\\x22: \\x5b\\x5d, "
-                + "\\x22foo-url\\/config\\/server\\/info\\x22: \\x7b\\x22default_theme\\x22:"
-                + "\\x22my-default-theme\\x22\\x7d, \\x22foo-url\\/config\\/server\\/version\\x22: "
-                + "\\x22123\\x22\\x7d');");
+                + "\\x22foo-url\\/config\\/server\\/info\\x22: \\x7b\\x7d, "
+                + "\\x22foo-url\\/config\\/server\\/version\\x22: \\x22123\\x22\\x7d');");
     ImmutableSet<String> enabledDefaults =
         ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES.stream()
             .collect(ImmutableSet.toImmutableSet());

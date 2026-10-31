@@ -21,6 +21,10 @@ import {GrRouter, routerToken} from './core/gr-router/gr-router';
 import {resolve} from '../models/dependency';
 import {removeRequestDependencyListener} from '../test/common-test-setup';
 import {ReactiveElement} from 'lit';
+import {
+  PluginLoader,
+  pluginLoaderToken,
+} from './shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-app callback tests', () => {
   const requestUpdateStub = sinon.stub(
@@ -203,5 +207,46 @@ suite('gr-app tests', () => {
     );
 
     secondSticky.remove();
+  });
+
+  test('removes body unresolved attribute once initial theme settles', async () => {
+    let resolveTheme!: () => void;
+    sinon
+      .stub(PluginLoader.prototype, 'awaitInitialTheme')
+      .returns(new Promise<void>(r => (resolveTheme = r)));
+    document.body.setAttribute('unresolved', '');
+    try {
+      const app = await fixture<GrApp>(html`<gr-app></gr-app>`);
+      assert.isTrue(document.body.hasAttribute('unresolved'));
+
+      resolveTheme();
+      for (let i = 0; i < 12; i++) {
+        await Promise.resolve();
+      }
+      assert.isFalse(document.body.hasAttribute('unresolved'));
+      assert.ok(resolve(app, pluginLoaderToken)());
+    } finally {
+      document.body.removeAttribute('unresolved');
+    }
+  });
+
+  test('removes body unresolved attribute after 250ms safety timeout', async () => {
+    const clock = sinon.useFakeTimers();
+    sinon
+      .stub(PluginLoader.prototype, 'awaitInitialTheme')
+      .returns(new Promise<void>(() => {}));
+    document.body.setAttribute('unresolved', '');
+    try {
+      const el = document.createElement('gr-app');
+      document.body.appendChild(el);
+      assert.isTrue(document.body.hasAttribute('unresolved'));
+
+      clock.tick(250);
+      assert.isFalse(document.body.hasAttribute('unresolved'));
+      el.remove();
+    } finally {
+      document.body.removeAttribute('unresolved');
+      clock.restore();
+    }
   });
 });

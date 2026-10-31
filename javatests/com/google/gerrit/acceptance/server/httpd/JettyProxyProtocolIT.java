@@ -27,17 +27,28 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Assume;
 import org.junit.Test;
 
 public class JettyProxyProtocolIT extends StandaloneSiteTest {
   private static final String SERVER_ADDRESS = "127.0.0.1";
-  private static final String TRUSTED_PROXY_ADDRESS = "127.0.0.2";
-  private static final String PROXY_SOURCE_ADDRESS = "127.0.0.3";
-  private static final String UNTRUSTED_PEER_ADDRESS = "127.0.0.99";
+
+  // Carried in the PROXY header, never bound as a socket address. Kept distinct from the
+  // connecting peer (127.0.0.1) so the trusted tests prove trust is based on the real peer, not
+  // this header value.
+  private static final String PROXY_SOURCE_ADDRESS = "198.51.100.1";
   private static final String FORWARDED_CLIENT_ADDRESS = "192.0.2.1";
-  private static final int PROXY_SOURCE_PORT = 12345;
+
+  // Trust is config-driven, not bound to source addresses. macOS assigns only 127.0.0.1 to lo0 by
+  // default, so binding any other 127.x fails with EADDRNOTAVAIL even though the range routes to
+  // lo0 (see bind(2)). Linux lets a socket bind to any 127.0.0.0/8 address.
+  private static final String TRUSTED_PROXY_NETWORK = SERVER_ADDRESS + "/32";
+  private static final String UNTRUSTED_PROXY_NETWORK = "127.0.0.2/32";
+  private static final int PROXY_SOURCE_PORT = 12345; // In the PROXY header, not asserted.
   private static final byte[] PROXY_PROTOCOL_V2_SIGNATURE = {
     0x0d, 0x0a, 0x0d, 0x0a, 0x00, 0x0d, 0x0a, 0x51, 0x55, 0x49, 0x54, 0x0a
   };
@@ -58,8 +69,9 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
     Config cfg = new Config();
     cfg.setString("auth", null, "type", "HTTP");
     cfg.setString("auth", null, "httpHeader", "X-Remote-User");
-    cfg.setStringList(
-        "auth", null, "httpTrustedProxyNetworks", List.of(TRUSTED_PROXY_ADDRESS + "/32"));
+    // Must stay non-empty, or every peer is trusted. The untrusted tests replace it via
+    // untrustConnectingPeer() with a network that excludes the connecting peer.
+    cfg.setStringList("auth", null, "httpTrustedProxyNetworks", List.of(TRUSTED_PROXY_NETWORK));
     cfg.setBoolean("auth", null, "trustContainerAuth", true);
     int serverPort = HttpTestUtil.getFreePort();
     cfg.setString("httpd", null, "listenUrl", "proxy-http://" + SERVER_ADDRESS + ":" + serverPort);
@@ -97,7 +109,7 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
-        HttpResponse proxyResponse = sendRequest(serverPort, proxyRequest, TRUSTED_PROXY_ADDRESS);
+        HttpResponse proxyResponse = sendRequest(serverPort, proxyRequest);
         assertThat(proxyResponse.statusCode()).isEqualTo(200);
         assertThat(proxyResponse.body()).contains(admin.username());
         assertThat(proxyResponse.headers())
@@ -110,6 +122,7 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
   public void directHttpFromUntrustedPeerCannotUseHttpHeaderAuthentication() throws Exception {
     Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
 
+    untrustConnectingPeer();
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
@@ -121,7 +134,7 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
               + "\r\n"
               + "Connection: close\r\n\r\n";
 
-      HttpResponse response = sendRequest(serverPort, request, UNTRUSTED_PEER_ADDRESS);
+      HttpResponse response = sendRequest(serverPort, request);
       assertThat(response.statusCode()).isEqualTo(403);
     }
   }
@@ -130,6 +143,7 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
   public void untrustedProxyCannotUseProxyProtocolForHttpHeaderAuthentication() throws Exception {
     Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
 
+    untrustConnectingPeer();
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
@@ -143,7 +157,7 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
-        HttpResponse response = sendRequest(serverPort, proxyRequest, UNTRUSTED_PEER_ADDRESS);
+        HttpResponse response = sendRequest(serverPort, proxyRequest);
         assertThat(response.statusCode()).isEqualTo(403);
       }
     }
@@ -169,7 +183,7 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
-        HttpResponse response = sendRequest(serverPort, proxyRequest, TRUSTED_PROXY_ADDRESS);
+        HttpResponse response = sendRequest(serverPort, proxyRequest);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).contains(admin.username());
         assertThat(response.headers())
@@ -196,11 +210,11 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
               + "Connection: close\r\n\r\n";
       byte[] localRequest = createProxyRequest(ProxyProtocolFormat.V2_LOCAL, serverPort, request);
 
-      HttpResponse response = sendRequest(serverPort, localRequest, TRUSTED_PROXY_ADDRESS);
+      HttpResponse response = sendRequest(serverPort, localRequest);
       assertThat(response.statusCode()).isEqualTo(200);
       assertThat(response.body()).contains(admin.username());
       assertThat(response.headers())
-          .contains(HttpTestUtil.REMOTE_ADDRESS_HEADER + ": " + TRUSTED_PROXY_ADDRESS);
+          .contains(HttpTestUtil.REMOTE_ADDRESS_HEADER + ": " + SERVER_ADDRESS);
       assertThat(response.headers()).doesNotContain(PROXY_SOURCE_ADDRESS);
     }
   }
@@ -222,24 +236,27 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
-        HttpResponse response = sendRequest(serverPort, proxyRequest, TRUSTED_PROXY_ADDRESS);
+        HttpResponse response = sendRequest(serverPort, proxyRequest);
         assertThat(response.statusCode()).isEqualTo(400);
       }
     }
   }
 
-  private static HttpResponse sendRequest(int port, String request, String sourceAddress)
-      throws IOException {
-    return sendRequest(port, request.getBytes(StandardCharsets.US_ASCII), sourceAddress);
+  // Narrow the trusted-proxy networks to exclude the connecting peer (SERVER_ADDRESS), so it is
+  // treated as untrusted.
+  private void untrustConnectingPeer() throws IOException, ConfigInvalidException {
+    FileBasedConfig cfg = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
+    cfg.load();
+    cfg.setStringList("auth", null, "httpTrustedProxyNetworks", List.of(UNTRUSTED_PROXY_NETWORK));
+    cfg.save();
   }
 
-  private static HttpResponse sendRequest(int port, byte[] request, String sourceAddress)
-      throws IOException {
-    try (Socket socket = new Socket()) {
-      if (sourceAddress != null) {
-        socket.bind(new InetSocketAddress(sourceAddress, 0));
-      }
-      socket.connect(new InetSocketAddress(SERVER_ADDRESS, port));
+  private static HttpResponse sendRequest(int port, String request) throws IOException {
+    return sendRequest(port, request.getBytes(StandardCharsets.US_ASCII));
+  }
+
+  private static HttpResponse sendRequest(int port, byte[] request) throws IOException {
+    try (Socket socket = new Socket(SERVER_ADDRESS, port)) {
       socket.getOutputStream().write(request);
       socket.getOutputStream().flush();
       return parseResponse(

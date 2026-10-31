@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a8728a1_ed3b3305",
+        "filename": "javatests/com/google/gerrit/acceptance/server/httpd/JettyProxyProtocolIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-31T16:48:17Z",
+      "side": 1,
+      "message": "This doesn\u0027t work on macOS, fixed in change 652303.",
+      "range": {
+        "startLine": 36,
+        "startChar": 55,
+        "endLine": 36,
+        "endChar": 65
+      },
+      "revId": "3af7430e0a94054cddf40215e46486491f262807",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

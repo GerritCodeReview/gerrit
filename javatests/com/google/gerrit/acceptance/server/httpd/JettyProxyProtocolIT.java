@@ -94,18 +94,12 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   @Test
   public void trustedProxyAllowsHttpHeaderAuthenticationWithProxyProtocol() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
@@ -120,19 +114,13 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   @Test
   public void directHttpFromUntrustedPeerCannotUseHttpHeaderAuthentication() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
     untrustConnectingPeer();
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
 
       HttpResponse response = sendRequest(serverPort, request);
       assertThat(response.statusCode()).isEqualTo(403);
@@ -141,19 +129,13 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   @Test
   public void untrustedProxyCannotUseProxyProtocolForHttpHeaderAuthentication() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
     untrustConnectingPeer();
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
@@ -165,21 +147,12 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   @Test
   public void xForwardedForTakesPrecedenceOverProxyProtocolAddress() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "X-Forwarded-For: "
-              + FORWARDED_CLIENT_ADDRESS
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest("X-Forwarded-For: " + FORWARDED_CLIENT_ADDRESS);
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
@@ -196,18 +169,12 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
   // The receiver must ignore the address block and keep the actual socket peer address.
   @Test
   public void localCommandUsesActualPeerAddress() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
       byte[] localRequest = createProxyRequest(ProxyProtocolFormat.V2_LOCAL, serverPort, request);
 
       HttpResponse response = sendRequest(serverPort, localRequest);
@@ -221,18 +188,12 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   @Test
   public void proxyProtocolHeaderIsRejectedWhenDisabled() throws Exception {
-    Assume.assumeFalse(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeFalse(proxyProtocolEnabled());
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
@@ -251,6 +212,23 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
     cfg.save();
   }
 
+  private boolean proxyProtocolEnabled() {
+    return baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false);
+  }
+
+  private String getRequest(String... extraHeaders) {
+    StringBuilder request =
+        new StringBuilder("GET /a/accounts/self HTTP/1.1\r\n")
+            .append("Host: localhost\r\n")
+            .append("X-Remote-User: ")
+            .append(admin.username())
+            .append("\r\n");
+    for (String header : extraHeaders) {
+      request.append(header).append("\r\n");
+    }
+    return request.append("Connection: close\r\n\r\n").toString();
+  }
+
   private static HttpResponse sendRequest(int port, String request) throws IOException {
     return sendRequest(port, request.getBytes(StandardCharsets.US_ASCII));
   }
@@ -266,12 +244,13 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   private static byte[] createProxyRequest(
       ProxyProtocolFormat format, int targetPort, String request) throws IOException {
-    if (format == ProxyProtocolFormat.V1_PROXY) {
-      return (PROXY_PROTOCOL_HEADER_PREFIX + targetPort + "\r\n" + request)
-          .getBytes(StandardCharsets.US_ASCII);
-    }
-    byte command = format == ProxyProtocolFormat.V2_LOCAL ? (byte) 0x20 : (byte) 0x21;
-    return concat(createProxyProtocolV2Header(command, targetPort), request);
+    return switch (format) {
+      case V1_PROXY ->
+          (PROXY_PROTOCOL_HEADER_PREFIX + targetPort + "\r\n" + request)
+              .getBytes(StandardCharsets.US_ASCII);
+      case V2_PROXY -> concat(createProxyProtocolV2Header((byte) 0x21, targetPort), request);
+      case V2_LOCAL -> concat(createProxyProtocolV2Header((byte) 0x20, targetPort), request);
+    };
   }
 
   private static byte[] createProxyProtocolV2Header(byte command, int targetPort)

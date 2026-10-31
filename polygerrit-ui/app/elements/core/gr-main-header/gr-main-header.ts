@@ -207,7 +207,6 @@ export class GrMainHeader extends LitElement {
     const observer = new ResizeObserver(entries => {
       for (const entry of entries) {
         const height = entry.borderBoxSize[0].blockSize;
-        if (this.hidden || height === 0) continue;
         document.documentElement.style.setProperty(
           '--main-header-height',
           `${height}px`

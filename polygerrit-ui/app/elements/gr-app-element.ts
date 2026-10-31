@@ -76,7 +76,6 @@ import {
   ALLOW_LISTED_FULL_SCREEN_PLUGINS,
   pluginViewModelToken,
 } from '../models/views/plugin';
-import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
 
 interface ErrorInfo {
   text: string;
@@ -135,8 +134,6 @@ export class GrAppElement extends LitElement {
 
   @state() private theme = AppTheme.AUTO;
 
-  @state() private themeLoading = false;
-
   @state() private pluginScreenName = '';
 
   @state() serverConfig?: ServerInfo;
@@ -160,8 +157,6 @@ export class GrAppElement extends LitElement {
   private readonly getChangeViewModel = resolve(this, changeViewModelToken);
 
   private readonly getPluginViewModel = resolve(this, pluginViewModelToken);
-
-  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getSearchViewModel = resolve(this, searchViewModelToken);
 
@@ -215,13 +210,6 @@ export class GrAppElement extends LitElement {
       theme => {
         this.theme = theme;
         this.applyTheme();
-      }
-    );
-    subscribe(
-      this,
-      () => this.getPluginLoader().pluginsModel.themeLoading$,
-      themeLoading => {
-        this.themeLoading = themeLoading;
       }
     );
     subscribe(
@@ -328,9 +316,6 @@ export class GrAppElement extends LitElement {
           padding-bottom: var(--spacing-xxl);
           position: relative;
         }
-        gr-main-header[hidden] + main {
-          margin-top: var(--main-header-height, 48px);
-        }
         .errorView {
           align-items: center;
           display: none;
@@ -405,7 +390,6 @@ export class GrAppElement extends LitElement {
     return html`
       <gr-main-header
         id="mainHeader"
-        ?hidden=${this.themeLoading}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
       >
       </gr-main-header>

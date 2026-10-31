@@ -21,8 +21,6 @@ import {SuggestionsProvider} from '../../api/suggestions';
 import {ChangeUpdatesPublisher} from '../../api/change-updates';
 import {AiCodeReviewProvider} from '../../api/ai-code-review';
 import {FlowsAutosubmitProvider, FlowsProvider} from '../../api/flows';
-import {ServerInfo} from '../../types/common';
-import {getInitialData} from '../../utils/url-util';
 
 export interface CoveragePlugin {
   pluginName: string;
@@ -83,12 +81,6 @@ interface PluginsState {
    * loading plugins has timed out. Once true, it will not change again.
    */
   pluginsLoaded: boolean;
-  /**
-   * Initially false. Becomes true while a theme plugin (default_theme) is
-   * pending to be loaded, and returns to false once the theme plugin has
-   * loaded or failed to load.
-   */
-  themeLoading: boolean;
   /**
    * List of plugins that have called annotationApi().setCoverageProvider().
    */
@@ -183,15 +175,9 @@ export class PluginsModel extends Model<PluginsState> {
 
   public pluginsLoaded$ = select(this.state$, state => state.pluginsLoaded);
 
-  public themeLoading$ = select(this.state$, state => state.themeLoading);
-
   constructor() {
-    const initialServerConfig = getInitialData<ServerInfo>(
-      '/config/server/info'
-    );
     super({
       pluginsLoaded: false,
-      themeLoading: Boolean(initialServerConfig?.default_theme),
       coveragePlugins: [],
       changeUpdatesPlugins: [],
       checksPlugins: [],
@@ -204,9 +190,11 @@ export class PluginsModel extends Model<PluginsState> {
     });
   }
 
-  private registerPlugin<
-    K extends keyof Omit<PluginsState, 'pluginsLoaded' | 'themeLoading'>
-  >(key: K, plugin: PluginsState[K][number], typeDescription: string) {
+  private registerPlugin<K extends keyof Omit<PluginsState, 'pluginsLoaded'>>(
+    key: K,
+    plugin: PluginsState[K][number],
+    typeDescription: string
+  ) {
     const list = this.getState()[key] as Array<{pluginName: string}>;
     const alreadyRegistered = list.some(
       p => p.pluginName === plugin.pluginName

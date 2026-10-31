@@ -32,7 +32,6 @@ import {define} from '../dependency';
 import {Model} from '../base/model';
 import {isDefined} from '../../types/types';
 import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {getInitialData} from '../../utils/url-util';
 
 export function changeTablePrefs(prefs: Partial<PreferencesInfo>) {
   const cols = prefs.change_table ?? [];
@@ -145,8 +144,8 @@ export class UserModel extends Model<UserState> {
   );
 
   readonly preferenceTheme$: Observable<AppTheme> = select(
-    this.state$,
-    userState => userState.preferences?.theme ?? AppTheme.AUTO
+    this.preferences$,
+    preference => preference.theme
   );
 
   readonly myMenuItems$: Observable<TopMenuItemInfo[]> = select(
@@ -162,9 +161,6 @@ export class UserModel extends Model<UserState> {
   constructor(readonly restApiService: RestApiService) {
     super({
       accountLoaded: false,
-      preferences: getInitialData<PreferencesInfo>(
-        '/accounts/self/preferences'
-      ),
     });
     this.loadAccount();
     this.subscriptions = [

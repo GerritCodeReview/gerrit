@@ -8,7 +8,6 @@ import {
   isThemeFile,
   PLUGIN_LOADING_TIMEOUT_MS,
   THEME_JS,
-  THEME_NAME,
 } from './gr-api-utils';
 import {Plugin} from './gr-public-js-api';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -166,8 +165,6 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.failToLoad(`Unrecognized plugin path ${path}`, path);
       }
     });
-    this.pluginEndPoints.setPluginsReady(this.arePluginsLoaded());
-    this.syncThemeLoadingState();
 
     this.awaitPluginsLoaded().then(() => {
       const loaded = this.getPluginsByState(PluginState.LOADED);
@@ -309,15 +306,7 @@ export class PluginLoader implements Gerrit, Finalizable {
       });
     }
     console.debug(`Plugin ${key} ${state}`);
-    this.syncThemeLoadingState();
     return this.plugins.get(key)!;
-  }
-
-  private syncThemeLoadingState() {
-    const themePlugin = this.plugins.get(THEME_NAME);
-    if (!themePlugin && !this.pluginListLoaded) return;
-    const themeLoading = themePlugin?.state === PluginState.PENDING;
-    this.pluginsModel.updateState({themeLoading});
   }
 
   private pluginInstalled(url: string, plugin: PluginApi) {
@@ -362,10 +351,7 @@ export class PluginLoader implements Gerrit, Finalizable {
     const urlWithoutAP = this.urlFor(pluginUrl);
     let onerror = undefined;
     if (urlWithAP !== urlWithoutAP) {
-      onerror = () =>
-        this.createScriptTag(urlWithoutAP, () =>
-          this.failToLoad(`${urlWithoutAP} load error`, urlWithoutAP)
-        );
+      onerror = () => this.createScriptTag(urlWithoutAP);
     }
 
     this.createScriptTag(urlWithAP, onerror);

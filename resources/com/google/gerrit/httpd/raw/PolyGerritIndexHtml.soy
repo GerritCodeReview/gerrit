@@ -76,6 +76,72 @@
       // '/accounts/self/detail' => { 'username' : 'gerrit-user' }
       window.INITIAL_DATA = JSON.parse({$gerritInitialData});
     {/if}
+    (function() {lb}
+      const basePath = window.CANONICAL_PATH || '';
+      const prefs =
+        window.INITIAL_DATA &&
+        (window.INITIAL_DATA[basePath + '/accounts/self/preferences'] ||
+          window.INITIAL_DATA['/accounts/self/preferences']);
+      const theme = (prefs && prefs.theme) || 'AUTO';
+      const isDark =
+        theme === 'DARK' ||
+        (theme === 'AUTO' &&
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches);
+      const currentThemeClass = isDark ? 'darkTheme' : 'lightTheme';
+      document.documentElement.classList.add(currentThemeClass);
+      window.setTimeout(function() {lb}
+        if (document.body) document.body.removeAttribute('unresolved');
+      {rb}, 2000);
+      const info =
+        window.INITIAL_DATA &&
+        (window.INITIAL_DATA[basePath + '/config/server/info'] ||
+          window.INITIAL_DATA['/config/server/info']);
+      if (!info) return;
+      const nonce = document.currentScript && document.currentScript.nonce;
+      const assetsPath = window.ASSETS_PATH || '';
+      function toPreloadUrl(p) {lb}
+        if (/^https?:/.test(p)) {lb}
+          return assetsPath && p.indexOf(window.location.host) !== -1
+            ? p.replace(window.location.origin, assetsPath)
+            : p;
+        {rb}
+        const rel = p.startsWith('/') ? p : '/' + p;
+        return (assetsPath || basePath) + rel;
+      {rb}
+      const urls = [];
+      if (info.default_theme) {lb}
+        if (info.default_theme.endsWith('/static/gerrit-theme.js')) {lb}
+          if (assetsPath && info.gerrit && info.gerrit.instance_id) {lb}
+            urls.push(assetsPath + '/hosts/' + info.gerrit.instance_id + '/static/gerrit-theme.js');
+          {rb} else {lb}
+            urls.push(basePath + '/static/gerrit-theme.js');
+          {rb}
+        {rb} else {lb}
+          urls.push(toPreloadUrl(info.default_theme));
+        {rb}
+      {rb} else if (
+        info.plugin &&
+        Array.isArray(info.plugin.js_resource_paths) &&
+        info.plugin.js_resource_paths.length <= 10
+      ) {lb}
+        for (let i = 0; i < info.plugin.js_resource_paths.length; i++) {lb}
+          const p = info.plugin.js_resource_paths[i];
+          if (typeof p === 'string' && p.split('?')[0].endsWith('.js')) {lb}
+            urls.push(toPreloadUrl(p));
+          {rb}
+        {rb}
+      {rb}
+      for (let i = 0; i < urls.length; i++) {lb}
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'script';
+        link.crossOrigin = 'anonymous';
+        if (nonce) link.nonce = nonce;
+        link.href = urls[i];
+        document.head.appendChild(link);
+      {rb}
+    {rb})();
     {if $enabledExperiments}
       // ENABLED_EXPERIMENTS is a list of string that contains all enabled experiments
       // for the given user.

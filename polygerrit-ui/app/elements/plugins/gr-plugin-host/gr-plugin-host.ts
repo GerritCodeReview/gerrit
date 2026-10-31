@@ -32,10 +32,18 @@ export class GrPluginHost extends LitElement {
           ? [config.default_theme]
           : [];
         const instanceId = config?.gerrit?.instance_id;
-        this.getPluginLoader().loadPlugins(
-          [...themes, ...jsPlugins],
-          instanceId
-        );
+        if (config?.default_theme) {
+          this.getPluginLoader().loadPlugins(
+            [...themes, ...jsPlugins],
+            instanceId,
+            config.default_theme
+          );
+        } else {
+          this.getPluginLoader().loadPlugins(
+            [...themes, ...jsPlugins],
+            instanceId
+          );
+        }
       }
     );
   }

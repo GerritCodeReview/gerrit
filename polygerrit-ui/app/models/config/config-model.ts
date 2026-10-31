@@ -95,6 +95,7 @@ export class ConfigModel extends Model<ConfigState> {
   // visible for testing
   async getDocsBaseUrl(config: ServerInfo | undefined): Promise<string> {
     if (config?.gerrit?.doc_url) return config.gerrit.doc_url;
+    if (config?.gerrit?.doc_search) return getBaseUrl() + DOCS_BASE_PATH;
 
     const ok = await this.restApiService.probePath(getBaseUrl() + PROBE_PATH);
     if (ok) return getBaseUrl() + DOCS_BASE_PATH;

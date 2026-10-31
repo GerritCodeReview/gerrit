@@ -342,10 +342,22 @@ export function applyTheme() {
   // OTOH we want to insert before any plugin provided styles, because we do NOT
   // want to override those.
   const pluginStyleEl = document.head.querySelector('style#plugin-style');
-  document.head.insertBefore(styleEl, pluginStyleEl);
+  if (pluginStyleEl) {
+    document.head.insertBefore(styleEl, pluginStyleEl);
+  } else {
+    const lightThemeEl = document.head.querySelector('#light-theme');
+    document.head.insertBefore(
+      styleEl,
+      lightThemeEl ? lightThemeEl.nextSibling : null
+    );
+  }
 }
 
 export function removeTheme() {
   const styleEl = document.head.querySelector('#dark-theme');
   styleEl?.remove();
+}
+
+if (document.documentElement.classList.contains('darkTheme')) {
+  applyTheme();
 }

@@ -34,6 +34,7 @@
   {@param? dashboardQuery: ?}
   {@param? userIsAuthenticated: ?}
   {@param? submitRequirementsHex: ?}
+  {@param? defaultTheme: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
@@ -76,6 +77,25 @@
       // '/accounts/self/detail' => { 'username' : 'gerrit-user' }
       window.INITIAL_DATA = JSON.parse({$gerritInitialData});
     {/if}
+    (function() {lb}
+      const prefsKey = (window.CANONICAL_PATH || '') + '/accounts/self/preferences';
+      const theme =
+        (window.INITIAL_DATA && window.INITIAL_DATA[prefsKey] && window.INITIAL_DATA[prefsKey].theme) || 'AUTO';
+      const isDark =
+        theme === 'DARK' ||
+        (theme === 'AUTO' &&
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.add(isDark ? 'darkTheme' : 'lightTheme');
+      window.Gerrit = window.Gerrit || {lb}
+        _earlyInstallCallbacks: [],
+        install: function(callback, version, src) {lb}
+          const script = document.currentScript;
+          const resolvedSrc = src || (script && (script.src || script.baseURI));
+          this._earlyInstallCallbacks.push({lb}callback, version, src: resolvedSrc{rb});
+        {rb},
+      {rb};
+    {rb})();
     {if $enabledExperiments}
       // ENABLED_EXPERIMENTS is a list of string that contains all enabled experiments
       // for the given user.
@@ -145,6 +165,9 @@
     <link rel="preload" as="style" href="{$staticResourcePath}/styles/material-icons.css">{\n}
   {/if}
   <link rel="preload" as="style" href="{$staticResourcePath}/styles/main.css">{\n}
+  {if $defaultTheme}
+    <link rel="preload" href="{$defaultTheme}" as="script" crossorigin="anonymous">{\n}
+  {/if}
 
   // Optional host-specific asset bundle loaded before gr-app.js.
   // Be careful when changing this, because it affects early page startup.
@@ -168,4 +191,7 @@
   // Load gr-app.js after <gr-app ...> tag because gr-router expects that
   // <gr-app ...> already exists in the document when script is executed.
   <script src="{$staticResourcePath}/elements/gr-app.js" crossorigin="anonymous"></script>{\n}
+  {if $defaultTheme}
+    <script src="{$defaultTheme}" crossorigin="anonymous"></script>{\n}
+  {/if}
 {/template}

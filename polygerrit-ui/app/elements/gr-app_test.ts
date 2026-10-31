@@ -21,6 +21,11 @@ import {GrRouter, routerToken} from './core/gr-router/gr-router';
 import {resolve} from '../models/dependency';
 import {removeRequestDependencyListener} from '../test/common-test-setup';
 import {ReactiveElement} from 'lit';
+import {initGerrit} from './gr-app-global-var-init';
+import {
+  PluginLoader,
+  pluginLoaderToken,
+} from './shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-app callback tests', () => {
   const requestUpdateStub = sinon.stub(
@@ -203,5 +208,31 @@ suite('gr-app tests', () => {
     );
 
     secondSticky.remove();
+  });
+
+  test('initGerrit replays _earlyInstallCallbacks onto pluginLoader', () => {
+    const pluginLoader: PluginLoader = resolve(grApp, pluginLoaderToken)();
+    const installStub = sinon.stub(pluginLoader, 'install');
+    const callback = sinon.stub();
+    (window as unknown as {Gerrit: unknown}).Gerrit = {
+      _earlyInstallCallbacks: [
+        {
+          callback,
+          version: '0.1',
+          src: 'http://localhost:8080/static/gerrit-theme.js',
+        },
+      ],
+    };
+
+    initGerrit(pluginLoader);
+
+    assert.strictEqual(window.Gerrit, pluginLoader);
+    assert.isTrue(
+      installStub.calledOnceWithExactly(
+        callback,
+        '0.1',
+        'http://localhost:8080/static/gerrit-theme.js'
+      )
+    );
   });
 });

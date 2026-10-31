@@ -14,6 +14,7 @@
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
 import {AppContext, injectAppContext} from '../services/app-context';
 import {PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {PluginApi} from '../api/plugin';
 import {
   initClickReporter,
   initErrorReporter,
@@ -46,5 +47,19 @@ export function initGlobalVariables(
 }
 
 export function initGerrit(pluginLoader: PluginLoader) {
+  const earlyCallbacks = (
+    window.Gerrit as unknown as {
+      _earlyInstallCallbacks?: Array<{
+        callback: (plugin: PluginApi) => void;
+        version?: string;
+        src?: string;
+      }>;
+    }
+  )?._earlyInstallCallbacks;
   window.Gerrit = pluginLoader;
+  if (earlyCallbacks?.length) {
+    for (const {callback, version, src} of earlyCallbacks) {
+      pluginLoader.install(callback, version, src);
+    }
+  }
 }

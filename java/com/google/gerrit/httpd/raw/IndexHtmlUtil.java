@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
+import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
@@ -71,10 +72,24 @@ public class IndexHtmlUtil {
       String requestedURL)
       throws URISyntaxException, RestApiException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
-    data.putAll(
-            staticTemplateData(
-                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
-        .putAll(dynamicTemplateData(gerritApi, requestedURL, canonicalURL));
+    ImmutableMap<String, Object> dynamicData =
+        dynamicTemplateData(gerritApi, requestedURL, canonicalURL);
+    ImmutableMap<String, Object> staticData =
+        staticTemplateData(
+            canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer);
+    data.putAll(staticData);
+    String canonicalPath = (String) staticData.get("canonicalPath");
+    for (Map.Entry<String, Object> entry : dynamicData.entrySet()) {
+      if ("defaultTheme".equals(entry.getKey())) {
+        String defaultTheme = (String) entry.getValue();
+        String themePath = defaultTheme.startsWith("/") ? defaultTheme : "/" + defaultTheme;
+        data.put(
+            "defaultTheme",
+            urlInScriptTagOrdainer.apply(Strings.nullToEmpty(canonicalPath) + themePath));
+      } else {
+        data.put(entry);
+      }
+    }
     Set<String> enabledExperiments = new HashSet<>();
     enabledExperiments.addAll(experimentFeatures.getEnabledExperimentFeatures());
     // Add all experiments enabled through url
@@ -120,9 +135,12 @@ public class IndexHtmlUtil {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
+    ServerInfo serverInfo = serverApi.getInfo();
     initialData.put(
-        addCanonicalUrl("/config/server/info", canonicalURL),
-        serializeObject(GSON, serverApi.getInfo()));
+        addCanonicalUrl("/config/server/info", canonicalURL), serializeObject(GSON, serverInfo));
+    if (serverInfo != null && !Strings.isNullOrEmpty(serverInfo.defaultTheme)) {
+      data.put("defaultTheme", serverInfo.defaultTheme);
+    }
     initialData.put(
         addCanonicalUrl("/config/server/version", canonicalURL),
         serializeObject(GSON, serverApi.getVersion()));

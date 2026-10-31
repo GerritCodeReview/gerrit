@@ -236,6 +236,18 @@ public class IndexServletTest {
     assertThat(output).contains("<link rel=\"preload\" href=\"" + testCdnPath);
     assertThat(output)
         .contains(
+            "<link rel=\"preload\" href=\""
+                + testCanonicalUrl
+                + "/my-default-theme\" as=\"script\" crossorigin=\"anonymous\">");
+    assertThat(output)
+        .contains(
+            "<script src=\""
+                + testCanonicalUrl
+                + "/my-default-theme\" crossorigin=\"anonymous\"></script>");
+    assertThat(output)
+        .contains("document.documentElement.classList.add(isDark ? 'darkTheme' : 'lightTheme');");
+    assertThat(output)
+        .contains(
             "<link rel=\"icon\" type=\"image/x-icon\" href=\""
                 + testCanonicalUrl
                 + "/"

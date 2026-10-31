@@ -33,7 +33,7 @@ export class GrPluginStyleApi implements StylePluginApi {
 
     const styleEl = getOrCreatePluginStyleEl();
     try {
-      styleEl.sheet?.insertRule(rule);
+      styleEl.sheet?.insertRule(rule, styleEl.sheet.cssRules.length);
     } catch (error) {
       console.error(
         `Failed to insert CSS rule for plugin ${this.plugin.getPluginName()}: ${error}`

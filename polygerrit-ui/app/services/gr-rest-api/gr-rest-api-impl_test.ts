@@ -552,41 +552,6 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(obj!.diff_view, 'SIDE_BY_SIDE');
   });
 
-  test('getPreferences returns cached value without calling getLoggedIn', async () => {
-    const getLoggedInSpy = sinon.spy(element, 'getLoggedIn');
-    element._cache.set('/accounts/self/preferences', {
-      diff_view: 'UNIFIED_DIFF',
-      theme: 'DARK',
-    } as unknown as ParsedJSON);
-
-    const obj = await element.getPreferences();
-    assert.isFalse(getLoggedInSpy.called);
-    assert.equal(obj!.diff_view, 'UNIFIED_DIFF');
-    assert.equal(obj!.theme, 'DARK');
-  });
-
-  test('getDiffPreferences returns cached value without calling getLoggedIn', async () => {
-    const getLoggedInSpy = sinon.spy(element, 'getLoggedIn');
-    element._cache.set('/accounts/self/preferences.diff', {
-      tab_size: 4,
-    } as unknown as ParsedJSON);
-
-    const obj = await element.getDiffPreferences();
-    assert.isFalse(getLoggedInSpy.called);
-    assert.equal(obj!.tab_size, 4);
-  });
-
-  test('getEditPreferences returns cached value without calling getLoggedIn', async () => {
-    const getLoggedInSpy = sinon.spy(element, 'getLoggedIn');
-    element._cache.set('/accounts/self/preferences.edit', {
-      tab_size: 4,
-    } as unknown as ParsedJSON);
-
-    const obj = await element.getEditPreferences();
-    assert.isFalse(getLoggedInSpy.called);
-    assert.equal(obj!.tab_size, 4);
-  });
-
   test('savePreferences normalizes download scheme', () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetch')

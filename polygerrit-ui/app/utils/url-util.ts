@@ -18,15 +18,6 @@ export function getBaseUrl(): string {
   return self.CANONICAL_PATH || '';
 }
 
-export function getInitialData<T>(path: string): T | undefined {
-  if (typeof window === 'undefined' || !window.INITIAL_DATA) return undefined;
-  const baseUrl = getBaseUrl();
-  const data =
-    (baseUrl ? window.INITIAL_DATA[`${baseUrl}${path}`] : undefined) ??
-    window.INITIAL_DATA[path];
-  return data as unknown as T | undefined;
-}
-
 export function getDocUrl(docsBaseUrl: string, relativeUrl: string): string {
   if (docsBaseUrl.endsWith('/')) {
     docsBaseUrl = docsBaseUrl.slice(0, -1);

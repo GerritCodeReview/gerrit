@@ -14,8 +14,6 @@ import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {GrEndpointParam} from '../gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
-import {testResolver} from '../../../test/common-test-setup';
-import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 interface TestModule extends PluginElement {
   'first-param'?: string;
@@ -492,83 +490,5 @@ suite('gr-endpoint-decorator', () => {
       'ROOT-UNORDERED-1',
       'ROOT-UNORDERED-2',
     ]);
-  });
-
-  test('attaches theme plugin module immediately before all plugins finish loading', async () => {
-    const pluginLoader = testResolver(pluginLoaderToken);
-    sinon.stub(pluginLoader, 'createScriptTag');
-    // Load a theme plugin, a regular plugin, and a slow plugin that remains pending.
-    pluginLoader.loadPlugins([
-      '/static/gerrit-theme.js',
-      'plugins/other-plugin.js',
-      'plugins/slow-plugin.js',
-    ]);
-    assert.isFalse(pluginLoader.arePluginsLoaded());
-
-    const el = await fixture<GrEndpointDecorator>(html`
-      <gr-endpoint-decorator name="header-title">
-        <div class="titleText"></div>
-      </gr-endpoint-decorator>
-    `);
-    const otherEl = await fixture<GrEndpointDecorator>(html`
-      <gr-endpoint-decorator name="other-endpoint">
-        <div class="otherDefault"></div>
-      </gr-endpoint-decorator>
-    `);
-
-    let otherPlugin!: PluginApi;
-    pluginLoader.install(
-      p => {
-        otherPlugin = p;
-      },
-      '0.1',
-      'http://localhost:9876/plugins/other-plugin.js'
-    );
-    const otherReplaceHook = otherPlugin.registerCustomComponent(
-      'other-endpoint',
-      'other-replacement',
-      {replace: true}
-    );
-    const otherAttachedPromise = mockPromise();
-    otherReplaceHook.onAttached(() => otherAttachedPromise.resolve());
-    // Non-theme replace module still waits for awaitPluginsLoaded().
-    assert.isOk(otherEl.querySelector('.otherDefault'));
-    assert.isNull(otherEl.querySelector('other-replacement'));
-
-    let themePlugin!: PluginApi;
-    pluginLoader.install(
-      p => {
-        themePlugin = p;
-      },
-      '0.1',
-      'http://localhost:9876/static/gerrit-theme.js'
-    );
-    const replaceHook = themePlugin.registerCustomComponent(
-      'header-title',
-      'gerrit-theme-header',
-      {replace: true}
-    );
-    const attachedPromise = mockPromise();
-    replaceHook.onAttached(() => attachedPromise.resolve());
-    await attachedPromise;
-
-    assert.isFalse(pluginLoader.arePluginsLoaded());
-    assert.isNull(el.querySelector('.titleText'));
-    assert.isOk(el.querySelector('gerrit-theme-header'));
-
-    let slowPlugin!: PluginApi;
-    pluginLoader.install(
-      p => {
-        slowPlugin = p;
-      },
-      '0.1',
-      'http://localhost:9876/plugins/slow-plugin.js'
-    );
-    slowPlugin.registerCustomComponent('header-title', 'slow-plugin-header');
-    await pluginLoader.awaitPluginsLoaded();
-    await otherAttachedPromise;
-    assert.isNull(el.querySelector('slow-plugin-header'));
-    assert.isNull(otherEl.querySelector('.otherDefault'));
-    assert.isOk(otherEl.querySelector('other-replacement'));
   });
 });

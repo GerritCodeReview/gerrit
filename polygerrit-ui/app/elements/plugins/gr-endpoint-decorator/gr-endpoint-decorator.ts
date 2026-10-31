@@ -9,6 +9,7 @@ import {
   EndpointType,
   ModuleInfo,
 } from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
+import {THEME_NAME} from '../../shared/gr-js-api-interface/gr-api-utils';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {getAppContext} from '../../../services/app-context';
@@ -44,6 +45,8 @@ export class GrEndpointDecorator extends LitElement {
 
   private readonly initializedPlugins = new Map<string, boolean>();
 
+  private hasReplacement = false;
+
   private readonly timeoutIds = new Set<number>();
 
   private readonly reporting = getAppContext().reportingService;
@@ -64,6 +67,13 @@ export class GrEndpointDecorator extends LitElement {
       this.name,
       this.initModule
     );
+    for (const module of this.getPluginLoader().pluginEndPoints.getDetails(
+      this.name
+    )) {
+      if (module.plugin.getPluginName() === THEME_NAME) {
+        this.initModule(module);
+      }
+    }
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -107,6 +117,7 @@ export class GrEndpointDecorator extends LitElement {
       // this.shadowRoot.querySelector('slot').assignedElements()[0].
       this.firstElementChild
     ).then(el => {
+      if (this.hasReplacement) return el;
       const slotEl = slot
         ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
         : null;
@@ -174,22 +185,44 @@ export class GrEndpointDecorator extends LitElement {
     return meta.pluginName.localeCompare(pluginName) > 0;
   }
 
+  private removeReplacedNodes() {
+    const directChildren = [...this.childNodes];
+    const shadowChildren = [...(this.shadowRoot?.childNodes ?? [])];
+    [...directChildren, ...shadowChildren]
+      .filter(node => node.nodeName !== 'GR-ENDPOINT-PARAM')
+      .filter(node => node.nodeName !== 'SLOT')
+      .forEach(node => {
+        const hook = this.domHooks.get(node as PluginElement);
+        if (hook) {
+          if (this.isConnected) {
+            hook.handleInstanceDetached(node as PluginElement);
+          }
+          this.domHooks.delete(node as PluginElement);
+        }
+        node.remove();
+      });
+  }
+
   private initReplacement(
     name: string,
     plugin: PluginApi
   ): Promise<HTMLElement> {
     // The direct children are slotted into <slot>, so they are identical to
     // this.shadowRoot.querySelector('slot').assignedElements().
-    const directChildren = [...this.childNodes];
-    const shadowChildren = [...(this.shadowRoot?.childNodes ?? [])];
-    [...directChildren, ...shadowChildren]
-      .filter(node => node.nodeName !== 'GR-ENDPOINT-PARAM')
-      .filter(node => node.nodeName !== 'SLOT')
-      .forEach(node => node.remove());
+    this.removeReplacedNodes();
     const el = document.createElement(name);
-    return this.initProperties(el, plugin).then((el: HTMLElement) =>
-      this.appendChild(el)
-    );
+    return this.initProperties(el, plugin).then((el: HTMLElement) => {
+      this.removeReplacedNodes();
+      this.appendChild(el);
+      if (this.name === 'header-title') {
+        document.documentElement.classList.remove('gr-custom-header-title');
+      } else if (this.name === 'header-mobile-title') {
+        document.documentElement.classList.remove(
+          'gr-custom-mobile-header-title'
+        );
+      }
+      return el;
+    });
   }
 
   private getEndpointParams() {
@@ -294,12 +327,16 @@ export class GrEndpointDecorator extends LitElement {
     if (this.initializedPlugins.get(name)) {
       return;
     }
+    if (type === EndpointType.DECORATE && this.hasReplacement) {
+      return;
+    }
     let initPromise;
     switch (type) {
       case EndpointType.DECORATE:
         initPromise = this.initDecoration(moduleName, plugin, slot, order);
         break;
       case EndpointType.REPLACE:
+        this.hasReplacement = true;
         initPromise = this.initReplacement(moduleName, plugin);
         break;
     }

@@ -11,7 +11,7 @@ import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
 import {Model} from '../base/model';
 import {define} from '../dependency';
-import {getBaseUrl, loginUrl} from '../../utils/url-util';
+import {getBaseUrl, getInitialData, loginUrl} from '../../utils/url-util';
 
 export const PROBE_PATH = '/Documentation/index.html';
 export const DOCS_BASE_PATH = '/Documentation';
@@ -65,7 +65,12 @@ export class ConfigModel extends Model<ConfigState> {
 
   public docsBaseUrl$ = select(
     this.serverConfig$.pipe(
-      switchMap(serverConfig => from(this.getDocsBaseUrl(serverConfig)))
+      switchMap(serverConfig => {
+        if (serverConfig?.gerrit?.doc_url) {
+          return of(serverConfig.gerrit.doc_url);
+        }
+        return from(this.getDocsBaseUrl(serverConfig));
+      })
     ),
     url => url
   );
@@ -74,7 +79,10 @@ export class ConfigModel extends Model<ConfigState> {
     readonly changeModel: ChangeModel,
     readonly restApiService: RestApiService
   ) {
-    super({});
+    const initialServerConfig = getInitialData<ServerInfo>(
+      '/config/server/info'
+    );
+    super(initialServerConfig ? {serverConfig: initialServerConfig} : {});
     this.subscriptions = [
       from(this.restApiService.getConfig()).subscribe((config?: ServerInfo) => {
         this.updateServerConfig(config);

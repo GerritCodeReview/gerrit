@@ -12,8 +12,11 @@ import {addListenerForTest, stubRestApi} from '../../../test/test-utils';
 import {PluginApi} from '../../../api/plugin';
 import {SinonFakeTimers} from 'sinon';
 import {Timestamp} from '../../../api/rest-api';
+import {ParsedJSON} from '../../../types/common';
 import {assert} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
+import {createServerInfo} from '../../../test/test-data-generators';
+import {getThemeStyleCacheStorageKey} from '../../../utils/url-util';
 
 suite('gr-plugin-loader tests', () => {
   let plugin: PluginApi;
@@ -417,5 +420,160 @@ suite('gr-plugin-loader tests', () => {
     await pluginLoader.awaitPluginsLoaded();
     assert.isTrue(installed);
     await pluginLoader.awaitPluginsLoaded();
+  });
+
+  suite('initialThemePending and cache reconciliation', () => {
+    let hadInitialData: boolean;
+    let originalInitialData: typeof window.INITIAL_DATA;
+    let hadCacheHit: boolean;
+    let originalCacheHit: boolean | undefined;
+
+    setup(() => {
+      hadInitialData = 'INITIAL_DATA' in window;
+      originalInitialData = window.INITIAL_DATA;
+      hadCacheHit = '__grThemeStyleCacheHit' in window;
+      originalCacheHit = window.__grThemeStyleCacheHit;
+      window.localStorage.removeItem(getThemeStyleCacheStorageKey());
+    });
+
+    teardown(() => {
+      if (hadInitialData) {
+        window.INITIAL_DATA = originalInitialData;
+      } else {
+        delete window.INITIAL_DATA;
+      }
+      if (hadCacheHit) {
+        window.__grThemeStyleCacheHit = originalCacheHit;
+      } else {
+        delete window.__grThemeStyleCacheHit;
+      }
+      window.localStorage.removeItem(getThemeStyleCacheStorageKey());
+      document.head.querySelector('style#plugin-style')?.remove();
+    });
+
+    test('clears initialThemePending when gerrit-theme settles even if another plugin is pending', async () => {
+      window.INITIAL_DATA = {
+        '/config/server/info': {
+          ...createServerInfo(),
+          default_theme: '/static/gerrit-theme.js',
+          plugin: {
+            has_avatars: false,
+            js_resource_paths: ['plugins/slow/static/slow.js'],
+          },
+        } as unknown as ParsedJSON,
+      };
+      window.__grThemeStyleCacheHit = false;
+
+      const loader = new PluginLoader(
+        getAppContext().reportingService,
+        getAppContext().restApiService
+      );
+      assert.isTrue(loader.pluginsModel.getState().initialThemePending);
+
+      let installSlowPlugin!: () => void;
+      sinon.stub(loader, 'loadJsPlugin').callsFake(pluginPath => {
+        if (pluginPath.includes('gerrit-theme.js')) {
+          loader.install(
+            p => {
+              p.styleApi().insertCSSRule(
+                'html { --header-background-color: #d2e3fc; }'
+              );
+            },
+            '0.1',
+            `${url}/static/gerrit-theme.js`
+          );
+        } else {
+          installSlowPlugin = () =>
+            loader.install(
+              () => {},
+              '0.1',
+              `${url}/plugins/slow/static/slow.js`
+            );
+        }
+      });
+
+      loader.loadPlugins([
+        '/static/gerrit-theme.js',
+        'plugins/slow/static/slow.js',
+      ]);
+      assert.isFalse(loader.arePluginsLoaded());
+      assert.isFalse(loader.pluginsModel.getState().initialThemePending);
+
+      installSlowPlugin();
+      await loader.awaitPluginsLoaded();
+      await waitEventLoop();
+      const cached = JSON.parse(
+        window.localStorage.getItem(getThemeStyleCacheStorageKey()) ?? '{}'
+      );
+      assert.deepEqual(cached.rules, [
+        'html { --header-background-color: #d2e3fc; }',
+      ]);
+    });
+
+    test('waits for js_resource_paths plugins on cold load when default_theme is unset', async () => {
+      window.INITIAL_DATA = {
+        '/config/server/info': {
+          ...createServerInfo(),
+          plugin: {
+            has_avatars: false,
+            js_resource_paths: ['plugins/gerrithub/static/gerrithub.js'],
+          },
+        } as unknown as ParsedJSON,
+      };
+      window.__grThemeStyleCacheHit = false;
+
+      const loader = new PluginLoader(
+        getAppContext().reportingService,
+        getAppContext().restApiService
+      );
+      assert.isTrue(loader.pluginsModel.getState().initialThemePending);
+
+      let finishPlugin!: () => void;
+      sinon.stub(loader, 'loadJsPlugin').callsFake(() => {
+        finishPlugin = () =>
+          loader.install(
+            p => {
+              p.styleApi().insertCSSRule(
+                'html { --header-background-color: #3b78e7; }'
+              );
+            },
+            '0.1',
+            `${url}/plugins/gerrithub/static/gerrithub.js`
+          );
+      });
+
+      loader.loadPlugins(['plugins/gerrithub/static/gerrithub.js']);
+      assert.isTrue(loader.pluginsModel.getState().initialThemePending);
+
+      finishPlugin();
+      assert.isFalse(loader.pluginsModel.getState().initialThemePending);
+      await loader.awaitPluginsLoaded();
+      await waitEventLoop();
+      const cached = JSON.parse(
+        window.localStorage.getItem(getThemeStyleCacheStorageKey()) ?? '{}'
+      );
+      assert.deepEqual(cached.rules, [
+        'html { --header-background-color: #3b78e7; }',
+      ]);
+    });
+
+    test('starts with initialThemePending false when head cache hit is set', () => {
+      window.INITIAL_DATA = {
+        '/config/server/info': {
+          ...createServerInfo(),
+          plugin: {
+            has_avatars: false,
+            js_resource_paths: ['plugins/gerrithub/static/gerrithub.js'],
+          },
+        } as unknown as ParsedJSON,
+      };
+      window.__grThemeStyleCacheHit = true;
+
+      const loader = new PluginLoader(
+        getAppContext().reportingService,
+        getAppContext().restApiService
+      );
+      assert.isFalse(loader.pluginsModel.getState().initialThemePending);
+    });
   });
 });

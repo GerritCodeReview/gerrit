@@ -36,6 +36,31 @@ body {
   height: 100%;
   transition: none;
 }
+html.darkTheme {
+  background-color: var(--background-color-secondary, #2f3034);
+  color: var(--primary-text-color, #e8eaed);
+}
+html.lightTheme {
+  background-color: var(--background-color-secondary, #f8f9fa);
+  color: var(--primary-text-color, #202124);
+}
+html.gr-custom-header-title {
+  --gr-default-header-title-visibility: hidden;
+}
+html.gr-custom-mobile-header-title {
+  --gr-default-mobile-header-title-visibility: hidden;
+}
+html.gr-header-shell-ready gr-app:not(:defined) {
+  display: block;
+}
+html.gr-header-shell-ready gr-app:not(:defined)::before {
+  content: '';
+  display: block;
+  height: var(--gr-cached-header-height, 48px);
+  background: var(--gr-cached-header-bg, #314972);
+  border-bottom: var(--gr-cached-header-border-bottom, none);
+  box-shadow: var(--gr-cached-header-box-shadow, none);
+}
 body {
   /*
    * IE has shoddy support for the font shorthand property.

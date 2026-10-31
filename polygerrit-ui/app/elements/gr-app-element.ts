@@ -76,6 +76,10 @@ import {
   ALLOW_LISTED_FULL_SCREEN_PLUGINS,
   pluginViewModelToken,
 } from '../models/views/plugin';
+import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
+import {updateThemeStyleCacheSnapshot} from './shared/gr-js-api-interface/gr-plugin-style-api';
+
+const INITIAL_THEME_TIMEOUT_MS = 300;
 
 interface ErrorInfo {
   text: string;
@@ -134,6 +138,15 @@ export class GrAppElement extends LitElement {
 
   @state() private theme = AppTheme.AUTO;
 
+  @property({
+    type: Boolean,
+    reflect: true,
+    attribute: 'waiting-for-initial-theme',
+  })
+  waitingForInitialTheme = false;
+
+  private initialThemeTimerId?: number;
+
   @state() private pluginScreenName = '';
 
   @state() serverConfig?: ServerInfo;
@@ -157,6 +170,8 @@ export class GrAppElement extends LitElement {
   private readonly getChangeViewModel = resolve(this, changeViewModelToken);
 
   private readonly getPluginViewModel = resolve(this, pluginViewModelToken);
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getSearchViewModel = resolve(this, searchViewModelToken);
 
@@ -210,6 +225,24 @@ export class GrAppElement extends LitElement {
       theme => {
         this.theme = theme;
         this.applyTheme();
+      }
+    );
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.initialThemePending$,
+      pending => {
+        if (pending) {
+          this.waitingForInitialTheme = true;
+          if (this.initialThemeTimerId === undefined) {
+            this.initialThemeTimerId = window.setTimeout(() => {
+              this.initialThemeTimerId = undefined;
+              this.waitingForInitialTheme = false;
+            }, INITIAL_THEME_TIMEOUT_MS);
+          }
+        } else {
+          this.clearInitialThemeTimer();
+          this.waitingForInitialTheme = false;
+        }
       }
     );
     subscribe(
@@ -271,6 +304,18 @@ export class GrAppElement extends LitElement {
     this.settingsUrl = createSettingsUrl();
   }
 
+  override disconnectedCallback() {
+    this.clearInitialThemeTimer();
+    super.disconnectedCallback();
+  }
+
+  private clearInitialThemeTimer() {
+    if (this.initialThemeTimerId !== undefined) {
+      window.clearTimeout(this.initialThemeTimerId);
+      this.initialThemeTimerId = undefined;
+    }
+  }
+
   static override get styles() {
     return [
       sharedStyles,
@@ -282,14 +327,17 @@ export class GrAppElement extends LitElement {
           flex-direction: column;
           min-height: 100%;
         }
+        :host([waiting-for-initial-theme]) {
+          visibility: hidden;
+        }
         gr-main-header,
         footer {
           color: var(--primary-text-color);
         }
         gr-main-header {
           background: var(
-            --header-background,
-            var(--header-background-color, #eee)
+            --gr-cached-header-bg,
+            var(--header-background, var(--header-background-color, #eee))
           );
           /* Make sure the header is above the main content, to preserve
             box-shadow visibility. We need 111 here 1, because dropdowns in the
@@ -603,6 +651,11 @@ export class GrAppElement extends LitElement {
       applyDarkTheme();
     } else {
       removeDarkTheme();
+    }
+    if (this.getPluginLoader().arePluginsLoaded()) {
+      window.requestAnimationFrame?.(() => {
+        updateThemeStyleCacheSnapshot();
+      });
     }
   }
 

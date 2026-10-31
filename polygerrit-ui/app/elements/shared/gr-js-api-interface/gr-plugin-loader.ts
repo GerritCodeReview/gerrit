@@ -8,11 +8,17 @@ import {
   isThemeFile,
   PLUGIN_LOADING_TIMEOUT_MS,
   THEME_JS,
+  THEME_NAME,
 } from './gr-api-utils';
 import {Plugin} from './gr-public-js-api';
-import {getBaseUrl} from '../../../utils/url-util';
+import {getBaseUrl, getInitialData} from '../../../utils/url-util';
 import {GrPluginEndpoints} from './gr-plugin-endpoints';
+import {
+  reconcilePluginStyleCache,
+  resetRecordedCSSRules,
+} from './gr-plugin-style-api';
 import {PluginApi} from '../../../api/plugin';
+import {ServerInfo} from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert} from '../../../utils/event-util';
 import {JsApiService} from './gr-js-api-types';
@@ -120,14 +126,20 @@ export class PluginLoader implements Gerrit, Finalizable {
     private readonly restApiService: RestApiService,
     private readonly getFlowsModel?: () => FlowsModel
   ) {
+    resetRecordedCSSRules();
     this.jsApiService = new GrJsApiInterface(
       () => this.awaitPluginsLoaded(),
       this.reportingService
     );
     this.pluginsModel = new PluginsModel();
-    this.awaitPluginsLoaded().finally(() => {
-      this.pluginsModel.updateState({pluginsLoaded: true});
-    });
+    this.awaitPluginsLoaded()
+      .finally(() => {
+        this.pluginsModel.updateState({
+          pluginsLoaded: true,
+          initialThemePending: false,
+        });
+      })
+      .catch(() => {});
     this.pluginEndPoints = new GrPluginEndpoints();
   }
 
@@ -165,13 +177,29 @@ export class PluginLoader implements Gerrit, Finalizable {
         this.failToLoad(`Unrecognized plugin path ${path}`, path);
       }
     });
+    this.syncInitialThemeState();
 
-    this.awaitPluginsLoaded().then(() => {
-      const loaded = this.getPluginsByState(PluginState.LOADED);
-      const failed = this.getPluginsByState(PluginState.LOAD_FAILED);
-      this.reportingService.pluginsLoaded(loaded.map(p => p.name));
-      this.reportingService.pluginsFailed(failed.map(p => p.name));
-    });
+    this.awaitPluginsLoaded()
+      .then(() => {
+        const loaded = this.getPluginsByState(PluginState.LOADED);
+        const failed = this.getPluginsByState(PluginState.LOAD_FAILED);
+        this.reportingService.pluginsLoaded(loaded.map(p => p.name));
+        this.reportingService.pluginsFailed(failed.map(p => p.name));
+        reconcilePluginStyleCache(
+          getInitialData<ServerInfo>('/config/server/info'),
+          this.pluginEndPoints.hasHeaderTitleReplacement(),
+          failed.length === 0,
+          this.pluginEndPoints.hasMobileHeaderTitleReplacement()
+        );
+      })
+      .catch(() => {
+        reconcilePluginStyleCache(
+          getInitialData<ServerInfo>('/config/server/info'),
+          this.pluginEndPoints.hasHeaderTitleReplacement(),
+          false,
+          this.pluginEndPoints.hasMobileHeaderTitleReplacement()
+        );
+      });
   }
 
   private isPathEndsWith(url: string | URL, suffix: string) {
@@ -306,7 +334,29 @@ export class PluginLoader implements Gerrit, Finalizable {
       });
     }
     console.debug(`Plugin ${key} ${state}`);
+    this.syncInitialThemeState();
     return this.plugins.get(key)!;
+  }
+
+  private syncInitialThemeState() {
+    if (!this.pluginsModel.getState().initialThemePending) return;
+    const initialServerConfig = getInitialData<ServerInfo>(
+      '/config/server/info'
+    );
+    if (initialServerConfig?.default_theme) {
+      const themeKey = this.getPluginKeyFromUrl(
+        this.urlFor(initialServerConfig.default_theme, window.ASSETS_PATH)
+      );
+      const themePlugin =
+        this.plugins.get(themeKey) ?? this.plugins.get(THEME_NAME);
+      if (themePlugin && themePlugin.state !== PluginState.PENDING) {
+        this.pluginsModel.updateState({initialThemePending: false});
+      } else if (this.pluginListLoaded && !themePlugin) {
+        this.pluginsModel.updateState({initialThemePending: false});
+      }
+    } else if (this.arePluginsLoaded()) {
+      this.pluginsModel.updateState({initialThemePending: false});
+    }
   }
 
   private pluginInstalled(url: string, plugin: PluginApi) {

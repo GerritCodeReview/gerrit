@@ -5,6 +5,7 @@
  */
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
+import {THEME_NAME} from './gr-api-utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (value: any) => void;
@@ -128,9 +129,24 @@ export class GrPluginEndpoints {
     // one register before plugins ready
     // the other done after, then only the later one will have the callbacks
     // invoked.
-    if (this.pluginLoaded && this._callbacks.has(endpoint)) {
+    if (
+      (this.pluginLoaded || plugin.getPluginName() === THEME_NAME) &&
+      this._callbacks.has(endpoint)
+    ) {
       this._callbacks.get(endpoint)!.forEach(callback => callback(moduleInfo));
     }
+  }
+
+  hasHeaderTitleReplacement(): boolean {
+    return (this._endpoints.get('header-title') ?? []).some(
+      info => info.type === EndpointType.REPLACE
+    );
+  }
+
+  hasMobileHeaderTitleReplacement(): boolean {
+    return (this._endpoints.get('header-mobile-title') ?? []).some(
+      info => info.type === EndpointType.REPLACE
+    );
   }
 
   getDynamicEndpoints(dynamicEndpoint: string): string[] {

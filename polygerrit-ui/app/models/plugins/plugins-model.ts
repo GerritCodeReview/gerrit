@@ -21,6 +21,8 @@ import {SuggestionsProvider} from '../../api/suggestions';
 import {ChangeUpdatesPublisher} from '../../api/change-updates';
 import {AiCodeReviewProvider} from '../../api/ai-code-review';
 import {FlowsAutosubmitProvider, FlowsProvider} from '../../api/flows';
+import {ServerInfo} from '../../types/common';
+import {getInitialData} from '../../utils/url-util';
 
 export interface CoveragePlugin {
   pluginName: string;
@@ -81,6 +83,11 @@ interface PluginsState {
    * loading plugins has timed out. Once true, it will not change again.
    */
   pluginsLoaded: boolean;
+  /**
+   * True on cold visits when server config declares a default_theme or JS
+   * plugins and no matching cached theme styles were replayed in <head>.
+   */
+  initialThemePending: boolean;
   /**
    * List of plugins that have called annotationApi().setCoverageProvider().
    */
@@ -175,9 +182,24 @@ export class PluginsModel extends Model<PluginsState> {
 
   public pluginsLoaded$ = select(this.state$, state => state.pluginsLoaded);
 
+  public initialThemePending$ = select(
+    this.state$,
+    state => state.initialThemePending
+  );
+
   constructor() {
+    const initialServerConfig = getInitialData<ServerInfo>(
+      '/config/server/info'
+    );
+    const hasThemeOrPlugins = Boolean(
+      initialServerConfig?.default_theme ||
+        initialServerConfig?.plugin?.js_resource_paths?.length
+    );
+    const cacheHit =
+      typeof window !== 'undefined' && Boolean(window.__grThemeStyleCacheHit);
     super({
       pluginsLoaded: false,
+      initialThemePending: hasThemeOrPlugins && !cacheHit,
       coveragePlugins: [],
       changeUpdatesPlugins: [],
       checksPlugins: [],
@@ -190,11 +212,9 @@ export class PluginsModel extends Model<PluginsState> {
     });
   }
 
-  private registerPlugin<K extends keyof Omit<PluginsState, 'pluginsLoaded'>>(
-    key: K,
-    plugin: PluginsState[K][number],
-    typeDescription: string
-  ) {
+  private registerPlugin<
+    K extends keyof Omit<PluginsState, 'pluginsLoaded' | 'initialThemePending'>
+  >(key: K, plugin: PluginsState[K][number], typeDescription: string) {
     const list = this.getState()[key] as Array<{pluginName: string}>;
     const alreadyRegistered = list.some(
       p => p.pluginName === plugin.pluginName

@@ -12,13 +12,17 @@ import {
   RepoName,
   RevisionPatchSetNum,
 } from '../api/rest-api';
+import {ParsedJSON} from '../types/common';
 import '../test/common-test-setup';
 import {
+  computeThemeStyleCacheKey,
   encodeURL,
   getBaseUrl,
   getChangePrefix,
   getDocUrl,
+  getInitialData,
   getPatchRangeExpression,
+  getThemeStyleCacheStorageKey,
   loginUrl,
   PatchRangeParams,
   sameOrigin,
@@ -28,7 +32,7 @@ import {
   toSearchParams,
 } from './url-util';
 import {assert} from '@open-wc/testing';
-import {createAuth} from '../test/test-data-generators';
+import {createAuth, createServerInfo} from '../test/test-data-generators';
 
 suite('url-util tests', () => {
   suite('getBaseUrl tests', () => {
@@ -254,6 +258,81 @@ suite('url-util tests', () => {
           _number: 456 as NumericChangeId,
         }),
         `${origin}/c/my/project%252Bspecial%2525repo/+/456`
+      );
+    });
+  });
+
+  suite('getInitialData and theme cache key helpers', () => {
+    let hadCanonicalPath: boolean;
+    let originalCanonicalPath: string | undefined;
+    let hadAssetsPath: boolean;
+    let originalAssetsPath: string | undefined;
+    let hadInitialData: boolean;
+    let originalInitialData: typeof window.INITIAL_DATA;
+
+    setup(() => {
+      hadCanonicalPath = 'CANONICAL_PATH' in window;
+      originalCanonicalPath = window.CANONICAL_PATH;
+      hadAssetsPath = 'ASSETS_PATH' in window;
+      originalAssetsPath = window.ASSETS_PATH;
+      hadInitialData = 'INITIAL_DATA' in window;
+      originalInitialData = window.INITIAL_DATA;
+    });
+
+    teardown(() => {
+      if (hadCanonicalPath) {
+        window.CANONICAL_PATH = originalCanonicalPath;
+      } else {
+        delete window.CANONICAL_PATH;
+      }
+      if (hadAssetsPath) {
+        window.ASSETS_PATH = originalAssetsPath;
+      } else {
+        delete window.ASSETS_PATH;
+      }
+      if (hadInitialData) {
+        window.INITIAL_DATA = originalInitialData;
+      } else {
+        delete window.INITIAL_DATA;
+      }
+    });
+
+    test('getInitialData handles missing INITIAL_DATA and CANONICAL_PATH', () => {
+      delete window.INITIAL_DATA;
+      assert.isUndefined(getInitialData('/config/server/info'));
+
+      window.CANONICAL_PATH = '/r';
+      window.INITIAL_DATA = {
+        '/r/config/server/version': '3.13' as unknown as ParsedJSON,
+        '/accounts/self/preferences': {
+          theme: 'DARK',
+        } as unknown as ParsedJSON,
+      };
+      assert.equal(getInitialData<string>('/config/server/version'), '3.13');
+      assert.deepEqual(
+        getInitialData<{theme: string}>('/accounts/self/preferences'),
+        {theme: 'DARK'}
+      );
+      assert.equal(getThemeStyleCacheStorageKey(), 'gr-theme-style-cache:/r');
+    });
+
+    test('computeThemeStyleCacheKey incorporates assets, theme, and plugins', () => {
+      window.ASSETS_PATH = 'https://cdn.example.com';
+      const info = {
+        ...createServerInfo(),
+        default_theme: '/static/gerrit-theme.js',
+        plugin: {
+          has_avatars: false,
+          js_resource_paths: ['plugins/gerrithub/static/gerrithub.js'],
+        },
+      };
+      assert.equal(
+        computeThemeStyleCacheKey(info),
+        JSON.stringify([
+          'https://cdn.example.com',
+          '/static/gerrit-theme.js',
+          'plugins/gerrithub/static/gerrithub.js',
+        ])
       );
     });
   });

@@ -76,6 +76,69 @@
       // '/accounts/self/detail' => { 'username' : 'gerrit-user' }
       window.INITIAL_DATA = JSON.parse({$gerritInitialData});
     {/if}
+    (function() {lb}
+      const basePath = window.CANONICAL_PATH || '';
+      const prefs =
+        window.INITIAL_DATA &&
+        (window.INITIAL_DATA[basePath + '/accounts/self/preferences'] ||
+          window.INITIAL_DATA['/accounts/self/preferences']);
+      const theme = (prefs && prefs.theme) || 'AUTO';
+      const isDark =
+        theme === 'DARK' ||
+        (theme === 'AUTO' &&
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches);
+      const currentThemeClass = isDark ? 'darkTheme' : 'lightTheme';
+      document.documentElement.classList.add(currentThemeClass);
+      const info =
+        window.INITIAL_DATA &&
+        (window.INITIAL_DATA[basePath + '/config/server/info'] ||
+          window.INITIAL_DATA['/config/server/info']);
+      if (!info) return;
+      const nonce = document.currentScript && document.currentScript.nonce;
+      const assetsPath = window.ASSETS_PATH || '';
+      function toPreloadUrl(p) {lb}
+        if (/^https?:/.test(p)) {lb}
+          return assetsPath && p.indexOf(window.location.host) !== -1
+            ? p.replace(window.location.origin, assetsPath)
+            : p;
+        {rb}
+        const rel = p.startsWith('/') ? p : '/' + p;
+        return (assetsPath || basePath) + rel;
+      {rb}
+      const urls = [];
+      if (info.default_theme) {lb}
+        if (info.default_theme.split('?')[0].endsWith('/static/gerrit-theme.js')) {lb}
+          if (assetsPath && info.gerrit && info.gerrit.instance_id) {lb}
+            urls.push(assetsPath + '/hosts/' + info.gerrit.instance_id + '/static/gerrit-theme.js');
+          {rb} else {lb}
+            urls.push(basePath + '/static/gerrit-theme.js');
+          {rb}
+        {rb} else {lb}
+          urls.push(toPreloadUrl(info.default_theme));
+        {rb}
+      {rb} else if (
+        info.plugin &&
+        Array.isArray(info.plugin.js_resource_paths) &&
+        info.plugin.js_resource_paths.length <= 10
+      ) {lb}
+        for (let i = 0; i < info.plugin.js_resource_paths.length; i++) {lb}
+          const p = info.plugin.js_resource_paths[i];
+          if (typeof p === 'string' && p.split('?')[0].endsWith('.js')) {lb}
+            urls.push(toPreloadUrl(p));
+          {rb}
+        {rb}
+      {rb}
+      for (let i = 0; i < urls.length; i++) {lb}
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'script';
+        link.crossOrigin = 'anonymous';
+        if (nonce) link.nonce = nonce;
+        link.href = urls[i];
+        document.head.appendChild(link);
+      {rb}
+    {rb})();
     {if $enabledExperiments}
       // ENABLED_EXPERIMENTS is a list of string that contains all enabled experiments
       // for the given user.
@@ -161,6 +224,116 @@
     <link rel="stylesheet" href="{$staticResourcePath}/styles/material-icons.css">{\n}
   {/if}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
+  <script>
+    (function() {lb}
+      const basePath = window.CANONICAL_PATH || '';
+      const serverInfo =
+        window.INITIAL_DATA &&
+        (window.INITIAL_DATA[basePath + '/config/server/info'] ||
+          window.INITIAL_DATA['/config/server/info']);
+      if (!serverInfo) return;
+      const jsPaths =
+        serverInfo.plugin && Array.isArray(serverInfo.plugin.js_resource_paths)
+          ? serverInfo.plugin.js_resource_paths
+          : [];
+      const relPath = (window.location.pathname || '').slice(basePath.length);
+      const hashPath = (window.location.hash || '').replace(/^#/, '');
+      const isFullScreenPlugin =
+        /^\/x\/git_source_editor(\/|$)/.test(relPath) ||
+        /^\/x\/git_source_editor(\/|$)/.test(hashPath);
+      if (!serverInfo.default_theme && jsPaths.length === 0) {lb}
+        if (!isFullScreenPlugin) {lb}
+          document.documentElement.classList.add('gr-header-shell-ready');
+        {rb}
+        return;
+      {rb}
+      const currentThemeClass = document.documentElement.classList.contains('darkTheme')
+        ? 'darkTheme'
+        : 'lightTheme';
+      const nonce = document.currentScript && document.currentScript.nonce;
+      const storageKey = 'gr-theme-style-cache:' + basePath;
+      let parsed = null;
+      try {lb}
+        const rawCache = window.localStorage && window.localStorage.getItem(storageKey);
+        if (rawCache) {lb}
+          try {lb}
+            parsed = JSON.parse(rawCache);
+          {rb} catch (_) {lb}
+            window.localStorage.removeItem(storageKey);
+          {rb}
+        {rb}
+      {rb} catch (_) {lb}{rb}
+      if (!parsed || typeof parsed !== 'object') return;
+      const expectedKey = JSON.stringify(
+        [window.ASSETS_PATH || '', serverInfo.default_theme || ''].concat(jsPaths)
+      );
+      if (parsed.key !== expectedKey) {lb}
+        try {lb}
+          window.localStorage.removeItem(storageKey);
+        {rb} catch (_) {lb}{rb}
+        return;
+      {rb}
+      let insertedRules = 0;
+      if (Array.isArray(parsed.rules) && parsed.rules.length > 0) {lb}
+        const styleEl = document.createElement('style');
+        styleEl.setAttribute('id', 'plugin-style-cache');
+        if (nonce) styleEl.nonce = nonce;
+        document.head.appendChild(styleEl);
+        for (let i = 0; i < parsed.rules.length; i++) {lb}
+          const rule = parsed.rules[i];
+          if (typeof rule === 'string') {lb}
+            try {lb}
+              if (styleEl.sheet) {lb}
+                styleEl.sheet.insertRule(rule, styleEl.sheet.cssRules.length);
+                insertedRules++;
+              {rb}
+            {rb} catch (_) {lb}{rb}
+          {rb}
+        {rb}
+      {rb}
+      if (parsed.hasCustomHeaderTitle === true) {lb}
+        document.documentElement.classList.add('gr-custom-header-title');
+      {rb}
+      if (parsed.hasCustomMobileHeaderTitle === true) {lb}
+        document.documentElement.classList.add('gr-custom-mobile-header-title');
+      {rb}
+      const snap =
+        parsed.snapshots && typeof parsed.snapshots === 'object'
+          ? parsed.snapshots[currentThemeClass]
+          : null;
+      const hasValidSnap = Boolean(
+        snap &&
+          typeof snap === 'object' &&
+          typeof snap.headerBg === 'string' &&
+          snap.headerBg.length > 0 &&
+          !/url\s*\(/i.test(snap.headerBg) &&
+          typeof snap.headerHeight === 'string' &&
+          /^\d+(\.\d+)?px$/.test(snap.headerHeight)
+      );
+      if (hasValidSnap) {lb}
+        const rootStyle = document.documentElement.style;
+        rootStyle.setProperty('--gr-cached-header-bg', snap.headerBg);
+        rootStyle.setProperty('--gr-cached-header-height', snap.headerHeight);
+        if (typeof snap.headerBorderBottom === 'string' && snap.headerBorderBottom) {lb}
+          rootStyle.setProperty('--gr-cached-header-border-bottom', snap.headerBorderBottom);
+        {rb}
+        if (typeof snap.headerBoxShadow === 'string' && snap.headerBoxShadow) {lb}
+          rootStyle.setProperty('--gr-cached-header-box-shadow', snap.headerBoxShadow);
+        {rb}
+        if (!isFullScreenPlugin) {lb}
+          document.documentElement.classList.add('gr-header-shell-ready');
+        {rb}
+      {rb}
+      if (
+        insertedRules > 0 ||
+        parsed.hasCustomHeaderTitle === true ||
+        parsed.hasCustomMobileHeaderTitle === true ||
+        hasValidSnap
+      ) {lb}
+        window.__grThemeStyleCacheHit = true;
+      {rb}
+    {rb})();
+  </script>{\n}
 
   <body unresolved>{\n}
   <gr-app id="pg-app"></gr-app>{\n}

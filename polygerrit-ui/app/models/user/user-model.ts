@@ -31,6 +31,7 @@ import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
 import {Model} from '../base/model';
 import {isDefined} from '../../types/types';
+import {getInitialData} from '../../utils/url-util';
 import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export function changeTablePrefs(prefs: Partial<PreferencesInfo>) {
@@ -145,7 +146,7 @@ export class UserModel extends Model<UserState> {
 
   readonly preferenceTheme$: Observable<AppTheme> = select(
     this.preferences$,
-    preference => preference.theme
+    preference => preference.theme ?? AppTheme.AUTO
   );
 
   readonly myMenuItems$: Observable<TopMenuItemInfo[]> = select(
@@ -159,8 +160,24 @@ export class UserModel extends Model<UserState> {
   );
 
   constructor(readonly restApiService: RestApiService) {
+    const initialAccount = getInitialData<AccountDetailInfo>(
+      '/accounts/self/detail'
+    );
+    const initialPreferences = getInitialData<PreferencesInfo>(
+      '/accounts/self/preferences'
+    );
+    const initialDiffPreferences = getInitialData<DiffPreferencesInfo>(
+      '/accounts/self/preferences.diff'
+    );
+    const initialEditPreferences = getInitialData<EditPreferencesInfo>(
+      '/accounts/self/preferences.edit'
+    );
     super({
-      accountLoaded: false,
+      account: initialAccount,
+      accountLoaded: initialAccount !== undefined,
+      preferences: initialPreferences,
+      diffPreferences: initialDiffPreferences,
+      editPreferences: initialEditPreferences,
     });
     this.loadAccount();
     this.subscriptions = [

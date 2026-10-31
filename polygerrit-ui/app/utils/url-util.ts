@@ -9,6 +9,7 @@ import {
   BasePatchSetNum,
   PARENT,
   RevisionPatchSetNum,
+  ServerInfo,
 } from '../types/common';
 import {AuthType, ChangeInfo} from '../api/rest-api';
 
@@ -16,6 +17,31 @@ export function getBaseUrl(): string {
   // window is not defined in service worker, therefore no CANONICAL_PATH
   if (typeof window === 'undefined') return '';
   return self.CANONICAL_PATH || '';
+}
+
+export function getInitialData<T>(path: string): T | undefined {
+  if (typeof window === 'undefined' || !window.INITIAL_DATA) return undefined;
+  const base = getBaseUrl();
+  const keyWithBase = base ? `${base}${path}` : path;
+  return (window.INITIAL_DATA[keyWithBase] ?? window.INITIAL_DATA[path]) as
+    | T
+    | undefined;
+}
+
+export function getThemeStyleCacheStorageKey(): string {
+  return `gr-theme-style-cache:${getBaseUrl()}`;
+}
+
+export function computeThemeStyleCacheKey(
+  serverInfo?: Pick<ServerInfo, 'default_theme' | 'plugin'>
+): string {
+  const assetsPath =
+    typeof window !== 'undefined' ? window.ASSETS_PATH || '' : '';
+  return JSON.stringify([
+    assetsPath,
+    serverInfo?.default_theme || '',
+    ...(serverInfo?.plugin?.js_resource_paths || []),
+  ]);
 }
 
 export function getDocUrl(docsBaseUrl: string, relativeUrl: string): string {

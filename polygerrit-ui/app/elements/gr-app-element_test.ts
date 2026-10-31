@@ -6,7 +6,10 @@
 import '../test/common-test-setup';
 import './gr-app';
 import {assert, fixture, html} from '@open-wc/testing';
+import * as sinon from 'sinon';
 import {GrAppElement} from './gr-app-element';
+import {testResolver} from '../test/common-test-setup';
+import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
 
 suite('gr-app-element tests', () => {
   let element: GrAppElement;
@@ -55,5 +58,37 @@ suite('gr-app-element tests', () => {
         <gr-plugin-host id="plugins"> </gr-plugin-host>
       `
     );
+  });
+
+  test('reflects waiting-for-initial-theme and clears when theme settles', async () => {
+    const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+    assert.isFalse(element.hasAttribute('waiting-for-initial-theme'));
+
+    pluginsModel.updateState({initialThemePending: true});
+    await element.updateComplete;
+    assert.isTrue(element.hasAttribute('waiting-for-initial-theme'));
+
+    pluginsModel.updateState({initialThemePending: false});
+    await element.updateComplete;
+    assert.isFalse(element.hasAttribute('waiting-for-initial-theme'));
+  });
+
+  test('clears waiting-for-initial-theme after 300ms safety timeout', async () => {
+    const clock = sinon.useFakeTimers();
+    try {
+      const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+      pluginsModel.updateState({initialThemePending: true});
+      await element.updateComplete;
+      assert.isTrue(element.hasAttribute('waiting-for-initial-theme'));
+
+      clock.tick(300);
+      await element.updateComplete;
+      assert.isFalse(element.hasAttribute('waiting-for-initial-theme'));
+    } finally {
+      testResolver(pluginLoaderToken).pluginsModel.updateState({
+        initialThemePending: false,
+      });
+      clock.restore();
+    }
   });
 });

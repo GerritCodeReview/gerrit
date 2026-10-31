@@ -7,7 +7,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
-import {getBaseUrl, getDocUrl} from '../../../utils/url-util';
+import {getBaseUrl, getDocUrl, getInitialData} from '../../../utils/url-util';
 import {getAdminLinks, NavLink} from '../../../models/views/admin';
 import {
   AccountDetailInfo,
@@ -175,6 +175,30 @@ export class GrMainHeader extends LitElement {
 
   constructor() {
     super();
+    const initialServerConfig = getInitialData<ServerInfo>(
+      '/config/server/info'
+    );
+    if (initialServerConfig) {
+      this.docsBaseUrl =
+        initialServerConfig.gerrit?.doc_url ||
+        (initialServerConfig.gerrit?.doc_search
+          ? `${getBaseUrl()}/Documentation`
+          : 'https://gerrit-review.googlesource.com/Documentation');
+    }
+    const initialTopMenus = getInitialData<TopMenuEntryInfo[]>(
+      '/config/server/top-menus'
+    );
+    if (initialTopMenus !== undefined) {
+      this.topMenus = initialTopMenus;
+    }
+    const initialAccount = getInitialData<AccountDetailInfo>(
+      '/accounts/self/detail'
+    );
+    if (initialAccount !== undefined) {
+      this.account = initialAccount;
+      this.loggedIn = true;
+      this.loading = false;
+    }
     subscribe(
       this,
       () => this.getUserModel().myMenuItems$,
@@ -300,6 +324,12 @@ export class GrMainHeader extends LitElement {
           align-items: center;
           min-width: 0;
           overflow: hidden;
+        }
+        gr-endpoint-decorator[name='header-title'] .titleText {
+          visibility: var(--gr-default-header-title-visibility, visible);
+        }
+        gr-endpoint-decorator[name='header-mobile-title'] .titleText {
+          visibility: var(--gr-default-mobile-header-title-visibility, visible);
         }
         .titleText::before {
           --icon-width: var(--header-icon-width, var(--header-icon-size, 0));
@@ -985,7 +1015,9 @@ export class GrMainHeader extends LitElement {
 
   // private but used in test
   loadAccount() {
-    this.loading = true;
+    if (!this.account) {
+      this.loading = true;
+    }
 
     return Promise.all([
       this.restApiService.getAccount(),

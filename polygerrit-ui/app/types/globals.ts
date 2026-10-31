@@ -13,6 +13,7 @@ declare global {
   interface Window {
     CANONICAL_PATH?: string;
     INITIAL_DATA?: {[key: string]: ParsedJSON};
+    __grThemeStyleCacheHit?: boolean;
     LitElement?: typeof LitElement;
     html?: typeof html;
     css?: typeof css;

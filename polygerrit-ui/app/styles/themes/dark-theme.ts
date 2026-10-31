@@ -349,3 +349,7 @@ export function removeTheme() {
   const styleEl = document.head.querySelector('#dark-theme');
   styleEl?.remove();
 }
+
+if (document.documentElement.classList.contains('darkTheme')) {
+  applyTheme();
+}

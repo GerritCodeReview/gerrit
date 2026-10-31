@@ -18,16 +18,19 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.dynamicTemplateData;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.experimentData;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
+import static com.google.gerrit.httpd.raw.IndexHtmlUtil.templateData;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import java.util.HashMap;
@@ -207,7 +210,43 @@ public class IndexHtmlUtilTest {
         .containsAtLeast(
             "defaultChangeDetailHex", "896394",
             "submitRequirementsHex", "1900000",
-            "changeRequestsPath", "changes/project~123");
+            "changeRequestsPath", "changes/project~123",
+            "defaultTheme", "my-default-theme");
+  }
+
+  @Test
+  public void templateDataOrdainsDefaultThemeWithCanonicalPath() throws Exception {
+    Accounts accountsApi = mock(Accounts.class);
+    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
+
+    Server serverApi = mock(Server.class);
+    when(serverApi.getVersion()).thenReturn("123");
+    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "/static/gerrit-theme.js";
+    when(serverApi.getInfo()).thenReturn(serverInfo);
+
+    Config configApi = mock(Config.class);
+    when(configApi.server()).thenReturn(serverApi);
+
+    GerritApi gerritApi = mock(GerritApi.class);
+    when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.config()).thenReturn(configApi);
+
+    ExperimentFeatures experimentFeatures = mock(ExperimentFeatures.class);
+    when(experimentFeatures.getEnabledExperimentFeatures()).thenReturn(ImmutableSet.of());
+
+    assertThat(
+            templateData(
+                gerritApi,
+                experimentFeatures,
+                "http://example.com/gerrit/",
+                null,
+                null,
+                new HashMap<>(),
+                IndexHtmlUtilTest::ordain,
+                "/"))
+        .containsEntry("defaultTheme", ordain("/gerrit/static/gerrit-theme.js"));
   }
 
   private static SanitizedContent ordain(String s) {

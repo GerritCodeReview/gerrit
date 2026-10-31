@@ -584,7 +584,8 @@ export function applyTheme() {
   const styleEl = document.createElement('style');
   styleEl.setAttribute('id', 'light-theme');
   setStyleTextContent(styleEl, appThemeCss);
-  document.head.appendChild(styleEl);
+  const pluginStyleEl = document.head.querySelector('style#plugin-style');
+  document.head.insertBefore(styleEl, pluginStyleEl);
 }
 
 applyTheme();

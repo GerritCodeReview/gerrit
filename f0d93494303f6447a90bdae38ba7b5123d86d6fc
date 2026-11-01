@@ -16,6 +16,24 @@
       "message": "I\u0027ve deployed this fix to eclipse.gerrithub.io. I can still see the header color flashing upon refresh.\n\nSee the video at: https://drive.google.com/file/d/1L6lCgSX0PS2hfanFcdLAz9CyOlnZGTCX/view?usp\u003dsharing\n\nYou can try it yourself by visiting https://eclipse.gerrithub.io",
       "revId": "f0d93494303f6447a90bdae38ba7b5123d86d6fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8a93284_f1e69e3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-01T16:45:07Z",
+      "side": 1,
+      "message": "interesting - with this fix I 100% can *not* reproduce",
+      "parentUuid": "37ff8151_692d82a0",
+      "revId": "f0d93494303f6447a90bdae38ba7b5123d86d6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

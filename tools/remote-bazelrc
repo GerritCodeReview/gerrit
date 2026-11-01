@@ -30,6 +30,10 @@ common:remote_toplevel --remote_download_outputs=toplevel
 common:remote_shared --extra_execution_platforms=//tools/remote:platform
 common:remote_shared --host_platform=//tools/remote:platform
 common:remote_shared --platforms=//tools/remote:platform
+# Resolve a linux/x86_64 C++ toolchain for the RBE platform independent of the
+# host OS, so a non-Linux client (for example macOS) passes analysis. Never
+# invoked: Gerrit runs no C++ compile actions. See tools/remote/BUILD.
+common:remote_shared --extra_toolchains=//tools/remote:cc-toolchain
 
 # Set various strategies so that all actions execute remotely. Mixing remote
 # and local execution will lead to errors unless the toolchain and remote

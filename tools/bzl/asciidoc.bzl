@@ -31,9 +31,9 @@ def _replace_macros_impl(ctx):
     else:
         args.append("--no-searchbox")
     ctx.actions.run(
-        inputs = [ctx.file._exe, ctx.file.src],
+        inputs = [ctx.file.src],
         outputs = [ctx.outputs.out],
-        executable = ctx.file._exe.path,
+        executable = ctx.executable._exe,
         arguments = args,
         use_default_shell_env = True,
         progress_message = "Replacing macros in %s" % ctx.file.src.short_path,
@@ -49,8 +49,9 @@ _replace_macros = rule(
         "searchbox": attr.bool(default = True),
         "suffix": attr.string(mandatory = True),
         "_exe": attr.label(
-            default = Label("//Documentation:replace_macros.py"),
-            allow_single_file = True,
+            default = Label("//Documentation:replace_macros"),
+            executable = True,
+            cfg = "exec",
         ),
     },
     implementation = _replace_macros_impl,

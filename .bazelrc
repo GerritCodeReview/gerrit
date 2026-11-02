@@ -13,6 +13,7 @@ common --incompatible_disallow_empty_glob=false
 # @bazel_tools//tools/jdk:proguard_allowlister. This is the upcoming default, see
 # https://github.com/bazel-contrib/rules_python/issues/2945.
 common --@rules_python//python/config_settings:incompatible_default_to_explicit_init_py=true
+common --@rules_python//python/config_settings:bootstrap_impl=script
 common --@aspect_rules_ts//ts:default_to_tsc_transpiler
 common --repo_env=ASPECT_TOOLS_TELEMETRY=-all
 

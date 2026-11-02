@@ -3,8 +3,10 @@
  * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Side} from '../constants/constants';
+import {FileInfoStatus, Side} from '../constants/constants';
+import {FileInfo} from '../types/common';
 import {DiffInfo, SkipInfo, SkipObject} from '../types/diff';
+import {isMagicPath} from './path-list-util';
 
 export function normalizeSkipInfo(skip: SkipInfo | undefined): SkipObject {
   if (!skip) return {left: 0, right: 0};
@@ -131,5 +133,31 @@ export function isMarkdownDiff(path?: string, diff?: DiffInfo): boolean {
     !!contentTypeB?.startsWith('text/x-markdown') ||
     !!contentTypeA?.startsWith('text/markdown') ||
     !!contentTypeB?.startsWith('text/markdown')
+  );
+}
+
+export function computeBlameToggleLabel(isLoading: boolean, isLoaded: boolean) {
+  if (isLoading) return 'Loading blame ...';
+  return isLoaded ? 'Hide Blame' : 'Show Blame';
+}
+
+/**
+ * Whether the blame of the left side of a file can be shown, wherever its diff
+ * is displayed. Callers check their own additional conditions.
+ */
+export function canBlameFile(
+  allowBlame: boolean,
+  path?: string,
+  file?: FileInfo,
+  diff?: DiffInfo
+): boolean {
+  return (
+    allowBlame &&
+    !!path &&
+    !isMagicPath(path) &&
+    !isImageDiff(diff) &&
+    !file?.binary &&
+    !file?.diffs_too_expensive_to_compute &&
+    file?.status !== FileInfoStatus.ADDED
   );
 }

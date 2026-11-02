@@ -371,6 +371,16 @@ suite('gr-formatted-text tests', () => {
                 </p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -461,6 +471,16 @@ suite('gr-formatted-text tests', () => {
                 </h1>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -489,6 +509,16 @@ suite('gr-formatted-text tests', () => {
                 </p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -517,6 +547,16 @@ suite('gr-formatted-text tests', () => {
             </pre>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -535,6 +575,16 @@ suite('gr-formatted-text tests', () => {
                 <p>![img](google.com/img.png)</p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -555,6 +605,16 @@ suite('gr-formatted-text tests', () => {
                 </p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -590,6 +650,16 @@ suite('gr-formatted-text tests', () => {
                 </p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -647,6 +717,16 @@ suite('gr-formatted-text tests', () => {
                 </p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -693,6 +773,16 @@ suite('gr-formatted-text tests', () => {
                 </blockquote>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -735,6 +825,16 @@ suite('gr-formatted-text tests', () => {
                 </p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -827,6 +927,16 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
                 </p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -851,6 +961,16 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
                 </blockquote>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -884,6 +1004,16 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
                 </p>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -970,6 +1100,16 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
                 </ol>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -1013,6 +1153,16 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
                 </ul>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -1053,6 +1203,16 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
                 </ul>
               </div>
             </gr-marked-element>
+            <div class="raw-markdown-container">
+              <div class="raw-markdown-warning">
+                Warning: Markdown rendering could obscure hidden prompts.
+              </div>
+              <details class="raw-markdown-details">
+                <summary class="raw-markdown-summary">
+                  View Raw Markdown
+                </summary>
+              </details>
+            </div>
           </gr-endpoint-decorator>
         `
       );
@@ -1077,10 +1237,43 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
                   <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix>
                 </div>
               </gr-marked-element>
+              <div class="raw-markdown-container">
+                <div class="raw-markdown-warning">
+                  Warning: Markdown rendering could obscure hidden prompts.
+                </div>
+                <details class="raw-markdown-details">
+                  <summary class="raw-markdown-summary">
+                    View Raw Markdown
+                  </summary>
+                </details>
+              </div>
             </gr-endpoint-decorator>
           `
         );
       });
+    });
+
+    test('toggles raw markdown view without rendering wrapper', async () => {
+      const rawContent = '```hidden instruction\ncode\n```';
+      element.content = rawContent;
+      await element.updateComplete;
+
+      assert.isUndefined(query(element, 'pre.raw-markdown'));
+
+      const summary = queryAndAssert<HTMLElement>(
+        element,
+        'summary.raw-markdown-summary'
+      );
+      summary.click();
+      await element.updateComplete;
+
+      const rawPre = queryAndAssert<HTMLElement>(element, 'pre.raw-markdown');
+      assert.equal(rawPre.textContent, rawContent);
+
+      summary.click();
+      await element.updateComplete;
+
+      assert.isUndefined(query(element, 'pre.raw-markdown'));
     });
   });
 });

@@ -55,6 +55,9 @@ export class GrFormattedText extends LitElement {
   @state()
   private allowMarkdownBase64ImagesInComments = false;
 
+  @state()
+  private showRawMarkdown = false;
+
   /**
    * Note: Do not use sharedStyles or other styles here that should not affect
    * the generated HTML of the markdown.
@@ -121,6 +124,30 @@ export class GrFormattedText extends LitElement {
            should overflow in that case rather than wrapping or leaking out */
           overflow-x: var(--gr-formatted-text-markdown-html-overflow-x, auto);
           overflow-wrap: break-word;
+        }
+        .raw-markdown-container {
+          margin-top: var(--spacing-m);
+        }
+        .raw-markdown-warning {
+          color: var(--deemphasized-text-color);
+          font-size: var(--font-size-small);
+        }
+        .raw-markdown-summary {
+          color: var(--deemphasized-text-color);
+          cursor: pointer;
+          font-size: var(--font-size-small);
+          user-select: none;
+        }
+        pre.raw-markdown {
+          background-color: var(--background-color-secondary);
+          border: var(--spacing-xxs) solid var(--border-color);
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-code);
+          line-height: var(--line-height-mono);
+          margin: var(--spacing-s) 0 0 0;
+          padding: var(--spacing-xxs) var(--spacing-s);
+          white-space: pre-wrap;
+          word-wrap: break-word;
         }
       `,
     ];
@@ -358,6 +385,31 @@ export class GrFormattedText extends LitElement {
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>
+      <div class="raw-markdown-container">
+        <div class="raw-markdown-warning">
+          Warning: Markdown rendering could obscure hidden prompts.
+        </div>
+        <details
+          class="raw-markdown-details"
+          ?open=${this.showRawMarkdown}
+          @toggle=${(e: Event) => {
+            this.showRawMarkdown = (e.target as HTMLDetailsElement).open;
+          }}
+        >
+          <summary
+            class="raw-markdown-summary"
+            @click=${(e: MouseEvent) => {
+              e.preventDefault();
+              this.showRawMarkdown = !this.showRawMarkdown;
+            }}
+          >
+            View Raw Markdown
+          </summary>
+          ${this.showRawMarkdown
+            ? html`<pre class="raw-markdown">${this.content}</pre>`
+            : ''}
+        </details>
+      </div>
     `;
   }
 

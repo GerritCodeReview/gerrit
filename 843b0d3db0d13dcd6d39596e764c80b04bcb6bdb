@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48291738_9d78f228",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-11-02T23:25:51Z",
+      "side": 1,
+      "message": "Might want to point out in the commit message that this was introduced in https://gerrit-review.git.corp.google.com/c/gerrit/+/402300",
+      "revId": "843b0d3db0d13dcd6d39596e764c80b04bcb6bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

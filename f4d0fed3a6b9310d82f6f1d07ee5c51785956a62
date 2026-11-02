@@ -22,6 +22,30 @@
       },
       "revId": "f4d0fed3a6b9310d82f6f1d07ee5c51785956a62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8555177b_a11864ea",
+        "filename": "javatests/com/google/gerrit/acceptance/server/httpd/JettyProxyProtocolIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-02T10:07:44Z",
+      "side": 1,
+      "message": "Agreed, the old name was misleading. Renamed it to ANOTHER_PROXY_NETWORK and clarified the comments. Done.",
+      "parentUuid": "b79a294b_9320cb3b",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 98
+      },
+      "revId": "f4d0fed3a6b9310d82f6f1d07ee5c51785956a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b79a294b_9320cb3b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/httpd/JettyProxyProtocolIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-11-02T07:55:52Z",
+      "side": 1,
+      "message": "This works, but reads wrong. It reads strange to set the trusted proxy networks to a constant that is called `UNTRUSTED_PROXY_NETWORK`. \n\n```suggestion\n    cfg.setStringList(\"auth\", null, \"httpTrustedProxyNetworks\", List.of(ANOTHER_PROXY_NETWORK));\n```",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 98
+      },
+      "revId": "f4d0fed3a6b9310d82f6f1d07ee5c51785956a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

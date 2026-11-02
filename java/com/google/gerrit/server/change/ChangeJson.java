@@ -106,6 +106,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -138,6 +139,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -369,18 +371,22 @@ public class ChangeJson {
     // CurrentUser is thread-safe for reading. It is not mutated during the parallel formatting.
     CurrentUser user = userProvider.get();
     ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange = getPluginInfos(in);
-    List<ChangeInfo> out =
-        in.parallelStream()
-            .map(
-                cd -> {
-                  try (ManualRequestContext ctx = new ManualRequestContext(user, requestContext)) {
-                    return format(
-                        cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()), user);
-                  }
-                })
+    List<Callable<ChangeInfo>> tasks =
+        in.stream()
+            .map(cd -> LoggingContext.copy(() -> formatChange(cd, pluginInfosByChange, user)))
             .collect(toList());
+    List<ChangeInfo> out = tasks.parallelStream().map(ChangeJson::call).collect(toList());
     accountLoader.fill();
     return out;
+  }
+
+  private ChangeInfo formatChange(
+      ChangeData cd,
+      ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange,
+      CurrentUser user) {
+    try (ManualRequestContext ctx = new ManualRequestContext(user, requestContext)) {
+      return format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()), user);
+    }
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id) {
@@ -530,30 +536,13 @@ public class ChangeJson {
           TraceContext.newTimer(
               "Load change data for lazyLoad options",
               Metadata.builder().resourceCount(all.size()).build())) {
-        boolean isIdentifiedUser = userProvider.get().isIdentifiedUser();
-        all.parallelStream()
-            .forEach(
-                cd -> {
-                  // Mark all ChangeDatas as coming from the index, but allow backfilling data from
-                  // NoteDb
-                  cd.setStorageConstraint(
-                      ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
-
-                  Set<ChangeData> singleCdSet = Collections.singleton(cd);
-                  ChangeData.ensureChangeLoaded(singleCdSet);
-                  if (has(ALL_REVISIONS)) {
-                    ChangeData.ensureAllPatchSetsLoaded(singleCdSet);
-                  } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
-                    ChangeData.ensureCurrentPatchSetLoaded(singleCdSet);
-                  }
-                  if (has(REVIEWED) && isIdentifiedUser) {
-                    ChangeData.ensureReviewedByLoadedForOpenChanges(singleCdSet);
-                  }
-                  if (has(STAR) && isIdentifiedUser) {
-                    ChangeData.ensureChangeServerId(singleCdSet);
-                  }
-                  ChangeData.ensureCurrentApprovalsLoaded(singleCdSet);
-                });
+        CurrentUser user = userProvider.get();
+        boolean isIdentifiedUser = user.isIdentifiedUser();
+        List<Runnable> tasks =
+            all.stream()
+                .map(cd -> LoggingContext.copy(() -> loadChangeData(cd, user, isIdentifiedUser)))
+                .collect(toList());
+        tasks.parallelStream().forEach(Runnable::run);
       }
     } else {
       all.parallelStream()
@@ -562,6 +551,29 @@ public class ChangeJson {
                 // Mark all ChangeDatas as coming from the index. Disallow using NoteDb
                 cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_ONLY);
               });
+    }
+  }
+
+  private void loadChangeData(ChangeData cd, CurrentUser user, boolean isIdentifiedUser) {
+    try (ManualRequestContext ctx = new ManualRequestContext(user, requestContext)) {
+      // Mark all ChangeDatas as coming from the index, but allow backfilling data from
+      // NoteDb
+      cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
+
+      Set<ChangeData> singleCdSet = Collections.singleton(cd);
+      ChangeData.ensureChangeLoaded(singleCdSet);
+      if (has(ALL_REVISIONS)) {
+        ChangeData.ensureAllPatchSetsLoaded(singleCdSet);
+      } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
+        ChangeData.ensureCurrentPatchSetLoaded(singleCdSet);
+      }
+      if (has(REVIEWED) && isIdentifiedUser) {
+        ChangeData.ensureReviewedByLoadedForOpenChanges(singleCdSet);
+      }
+      if (has(STAR) && isIdentifiedUser) {
+        ChangeData.ensureChangeServerId(singleCdSet);
+      }
+      ChangeData.ensureCurrentApprovalsLoaded(singleCdSet);
     }
   }
 
@@ -575,55 +587,16 @@ public class ChangeJson {
       ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange,
       CurrentUser user) {
     try (Timer0.Context _ = metrics.toChangeInfosLatency.start()) {
-      List<ChangeInfo> changeInfos =
+      List<Callable<ChangeInfo>> tasks =
           IntStream.range(0, changes.size())
-              .parallel()
               .mapToObj(
-                  i -> {
-                    try (ManualRequestContext ctx =
-                        new ManualRequestContext(user, requestContext)) {
-                      ChangeData cd = changes.get(i);
-                      // Cache/re-use only if it is not the last entity in the list.
-                      // The last entity may have _moreChanges set later, which would
-                      // propagate to the original cached/re-used entity, yielding
-                      // incorrect results. This applies to both caching and reusing.
-                      boolean isCacheable =
-                          cacheQueryResultsByChangeNum && (i != changes.size() - 1);
-                      if (cd.hasFailedParsingFromIndex()) {
-                        return createFaultyChangeInfo(cd).orElse(null);
-                      }
-                      try {
-                        Change.Id cdUniqueId = cd.virtualId();
-                        if (isCacheable) {
-                          ChangeInfo info = cache.get(cdUniqueId);
-                          if (info != null) {
-                            return info;
-                          }
-                        }
-
-                        ChangeInfo info =
-                            format(
-                                cd,
-                                Optional.empty(),
-                                false,
-                                pluginInfosByChange.get(cd.getId()),
-                                user);
-                        if (isCacheable) {
-                          cache.put(cdUniqueId, info);
-                        }
-                        return info;
-                      } catch (RuntimeException e) {
-                        Optional<RequestCancelledException> requestCancelledException =
-                            RequestCancelledException.getFromCausalChain(e);
-                        if (requestCancelledException.isPresent()) {
-                          throw e;
-                        }
-                        logger.atWarning().withCause(e).log(
-                            "Omitting corrupt change %s from results", cd.getId());
-                        return null;
-                      }
-                    }
-                  })
+                  i ->
+                      LoggingContext.copy(
+                          () -> toChangeInfo(changes, i, cache, pluginInfosByChange, user)))
+              .collect(toList());
+      List<ChangeInfo> changeInfos =
+          tasks.parallelStream()
+              .map(ChangeJson::call)
               .filter(java.util.Objects::nonNull)
               .collect(toList());
 
@@ -631,6 +604,59 @@ public class ChangeJson {
         populateStarField(changeInfos);
       }
       return changeInfos;
+    }
+  }
+
+  @Nullable
+  private ChangeInfo toChangeInfo(
+      List<ChangeData> changes,
+      int i,
+      Map<Change.Id, ChangeInfo> cache,
+      ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange,
+      CurrentUser user) {
+    try (ManualRequestContext ctx = new ManualRequestContext(user, requestContext)) {
+      ChangeData cd = changes.get(i);
+      // Cache/re-use only if it is not the last entity in the list.
+      // The last entity may have _moreChanges set later, which would
+      // propagate to the original cached/re-used entity, yielding
+      // incorrect results. This applies to both caching and reusing.
+      boolean isCacheable = cacheQueryResultsByChangeNum && (i != changes.size() - 1);
+      if (cd.hasFailedParsingFromIndex()) {
+        return createFaultyChangeInfo(cd).orElse(null);
+      }
+      try {
+        Change.Id cdUniqueId = cd.virtualId();
+        if (isCacheable) {
+          ChangeInfo info = cache.get(cdUniqueId);
+          if (info != null) {
+            return info;
+          }
+        }
+
+        ChangeInfo info =
+            format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()), user);
+        if (isCacheable) {
+          cache.put(cdUniqueId, info);
+        }
+        return info;
+      } catch (RuntimeException e) {
+        Optional<RequestCancelledException> requestCancelledException =
+            RequestCancelledException.getFromCausalChain(e);
+        if (requestCancelledException.isPresent()) {
+          throw e;
+        }
+        logger.atWarning().withCause(e).log("Omitting corrupt change %s from results", cd.getId());
+        return null;
+      }
+    }
+  }
+
+  private static <T> T call(Callable<T> callable) {
+    try {
+      return callable.call();
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      throw new RuntimeException(e);
     }
   }
 

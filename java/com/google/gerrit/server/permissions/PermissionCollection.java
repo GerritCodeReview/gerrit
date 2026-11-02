@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Permission;
@@ -182,13 +183,20 @@ public class PermissionCollection {
   }
 
   /** Returns permissions in the right order for evaluating ALLOW/DENY status. */
-  List<PermissionRule> getAllowRules(String perm) {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public List<PermissionRule> getAllowRules(String perm) {
     List<PermissionRule> ps = rulesByPermission.get(perm);
     if (ps == null) {
       ps = calculateAllowRules(perm);
       rulesByPermission.put(perm, ps);
     }
     return ps;
+  }
+
+  /** Returns the access sections that apply to this reference, ordered from child to parent. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public List<AccessSection> getAccessSectionsUpward() {
+    return accessSectionsUpward;
   }
 
   /** calculates permissions for ALLOW processing. */

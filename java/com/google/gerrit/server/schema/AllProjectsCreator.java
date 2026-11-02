@@ -169,7 +169,11 @@ public class AllProjectsCreator {
           initDefaultAclsForDefaultReaders(
               heads, config, input.defaultReadersGroup().orElse(anonymous));
           initDefaultAclsForDefaultUsers(
-              heads, codeReviewLabel, config, input.defaultUsersGroup().orElse(registered));
+              heads,
+              codeReviewLabel,
+              config,
+              input.defaultUsersGroup().orElse(registered),
+              input.initDefaultAiReviewAcl());
         });
 
     config.upsertAccessSection(
@@ -215,10 +219,13 @@ public class AllProjectsCreator {
       AccessSection.Builder heads,
       LabelType codeReviewLabel,
       ProjectConfig config,
-      GroupReference defaultUsersGroup) {
+      GroupReference defaultUsersGroup,
+      boolean initDefaultAiReviewAcl) {
     grant(config, heads, codeReviewLabel, -1, 1, defaultUsersGroup);
     grant(config, heads, Permission.FORGE_AUTHOR, defaultUsersGroup);
-    grant(config, heads, Permission.AI_REVIEW, registered);
+    if (initDefaultAiReviewAcl) {
+      grant(config, heads, Permission.AI_REVIEW, registered);
+    }
 
     config.upsertAccessSection(
         "refs/for/*",

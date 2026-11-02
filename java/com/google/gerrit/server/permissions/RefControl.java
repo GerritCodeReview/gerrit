@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
@@ -99,12 +100,18 @@ public class RefControl {
     return projectControl;
   }
 
-  CurrentUser getUser() {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected CurrentUser getUser() {
     return projectControl.getUser();
   }
 
   protected String getRefName() {
     return refName;
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected PermissionCollection getRelevantPermissions() {
+    return relevant;
   }
 
   /** Is this user a ref owner? */
@@ -194,7 +201,8 @@ public class RefControl {
   }
 
   /** True if the user has this permission. Works only for non labels. */
-  boolean canPerform(String permissionName) {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected boolean canPerform(String permissionName) {
     return canPerform(permissionName, false, false);
   }
 
@@ -367,7 +375,8 @@ public class RefControl {
         /* max= */ Math.min(voteMax, blockAllowMax));
   }
 
-  private boolean isBlocked(String permissionName, boolean isChangeOwner, boolean withForce) {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected boolean isBlocked(String permissionName, boolean isChangeOwner, boolean withForce) {
     // Permissions are ordered by (more general project, more specific ref). Because Permission
     // does not have back pointers, we can't tell what ref-pattern or project each permission comes
     // from.

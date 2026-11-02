@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "228163eb_48e8b525",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-11-02T10:20:18Z",
+      "side": 1,
+      "message": "For my taste this name is too long/elaborate: imagine we make a method which adds two numbers and we name it \"computeResultUsingPlusOperator\".\n\nThe return value of this method is an OR expression which combines all single expressions. The fact that we use a joining operation on the text level should not be leaked in the method name, it is an implementation detail. Method name should reflect what it returns, not how does it compute the return value.\n\n\n```suggestion\n  private static String orExpression(\n```",
+      "range": {
+        "startLine": 1094,
+        "startChar": 24,
+        "endLine": 1094,
+        "endChar": 54
+      },
+      "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a81d5231_4c721f5b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-11-02T10:20:18Z",
+      "side": 1,
+      "message": "why are these doubled?",
+      "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

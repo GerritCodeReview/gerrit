@@ -24,10 +24,10 @@ def license_map(name, targets = [], opts = [], json_maps = [], **kwargs):
 
     # Generate XML for all targets that depend directly on a LICENSE file
     xmls = []
-    tools = ["//tools/bzl:license-map.py", "//lib:all-licenses"]
+    tools = ["//tools/bzl:license_map", "//lib:all-licenses"]
     for target in targets:
         subname = name + "_" + normalize_target_name(target) + ".xml"
-        xmls.append("$(location :%s)" % subname)
+        xmls.append("$(execpath :%s)" % subname)
         tools.append(subname)
         native.genquery(
             name = subname,
@@ -46,14 +46,14 @@ def license_map(name, targets = [], opts = [], json_maps = [], **kwargs):
     json_maps_locations = []
 
     for json_map in json_maps:
-        json_maps_locations.append("--json-map=$(location %s)" % json_map)
+        json_maps_locations.append("--json-map=$(execpath %s)" % json_map)
         tools.append(json_map)
 
     # post process the XML into our favorite format.
     native.genrule(
         name = "gen_license_txt_" + name,
         # Use sed 's/\\r$$//' to remove non-Unix line endings.
-        cmd = "python3 $(location //tools/bzl:license-map.py) %s %s %s | sed 's/\\r$$//' > $@" % (" ".join(opts), " ".join(json_maps_locations), " ".join(xmls)),
+        cmd = "$(execpath //tools/bzl:license_map) %s %s %s | sed 's/\\r$$//' > $@" % (" ".join(opts), " ".join(json_maps_locations), " ".join(xmls)),
         outs = [name + ".gen.txt"],
         tools = tools,
         **kwargs
@@ -80,6 +80,6 @@ def license_test(name, target):
     sh_test(
         name = name,
         srcs = ["//tools/bzl:test_license.sh"],
-        args = ["$(location :%s)" % txt],
+        args = ["$(execpath :%s)" % txt],
         data = [txt],
     )

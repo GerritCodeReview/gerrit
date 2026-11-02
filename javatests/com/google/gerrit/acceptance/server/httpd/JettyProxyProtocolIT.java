@@ -27,17 +27,29 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Assume;
 import org.junit.Test;
 
 public class JettyProxyProtocolIT extends StandaloneSiteTest {
   private static final String SERVER_ADDRESS = "127.0.0.1";
-  private static final String TRUSTED_PROXY_ADDRESS = "127.0.0.2";
-  private static final String PROXY_SOURCE_ADDRESS = "127.0.0.3";
-  private static final String UNTRUSTED_PEER_ADDRESS = "127.0.0.99";
+
+  // Carried in the PROXY header, never bound as a socket address. Kept distinct from the
+  // connecting peer (127.0.0.1) so the trusted tests prove trust is based on the real peer, not
+  // this header value.
+  private static final String PROXY_SOURCE_ADDRESS = "198.51.100.1";
   private static final String FORWARDED_CLIENT_ADDRESS = "192.0.2.1";
-  private static final int PROXY_SOURCE_PORT = 12345;
+
+  // Trust is config-driven, not bound to source addresses. macOS assigns only 127.0.0.1 to lo0 by
+  // default, so binding any other 127.x fails with EADDRNOTAVAIL even though the range routes to
+  // lo0 (see bind(2)). Linux lets a socket bind to any 127.0.0.0/8 address.
+  private static final String TRUSTED_PROXY_NETWORK = SERVER_ADDRESS + "/32";
+  // A different network that excludes the connecting peer (SERVER_ADDRESS).
+  private static final String ANOTHER_PROXY_NETWORK = "127.0.0.2/32";
+  private static final int PROXY_SOURCE_PORT = 12345; // In the PROXY header, not asserted.
   private static final byte[] PROXY_PROTOCOL_V2_SIGNATURE = {
     0x0d, 0x0a, 0x0d, 0x0a, 0x00, 0x0d, 0x0a, 0x51, 0x55, 0x49, 0x54, 0x0a
   };
@@ -58,8 +70,9 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
     Config cfg = new Config();
     cfg.setString("auth", null, "type", "HTTP");
     cfg.setString("auth", null, "httpHeader", "X-Remote-User");
-    cfg.setStringList(
-        "auth", null, "httpTrustedProxyNetworks", List.of(TRUSTED_PROXY_ADDRESS + "/32"));
+    // Must stay non-empty, or every peer is trusted. The untrusted tests replace it via
+    // untrustConnectingPeer() with a network that excludes the connecting peer.
+    cfg.setStringList("auth", null, "httpTrustedProxyNetworks", List.of(TRUSTED_PROXY_NETWORK));
     cfg.setBoolean("auth", null, "trustContainerAuth", true);
     int serverPort = HttpTestUtil.getFreePort();
     cfg.setString("httpd", null, "listenUrl", "proxy-http://" + SERVER_ADDRESS + ":" + serverPort);
@@ -82,22 +95,16 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   @Test
   public void trustedProxyAllowsHttpHeaderAuthenticationWithProxyProtocol() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
-        HttpResponse proxyResponse = sendRequest(serverPort, proxyRequest, TRUSTED_PROXY_ADDRESS);
+        HttpResponse proxyResponse = sendRequest(serverPort, proxyRequest);
         assertThat(proxyResponse.statusCode()).isEqualTo(200);
         assertThat(proxyResponse.body()).contains(admin.username());
         assertThat(proxyResponse.headers())
@@ -108,42 +115,32 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   @Test
   public void directHttpFromUntrustedPeerCannotUseHttpHeaderAuthentication() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
+    untrustConnectingPeer();
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
 
-      HttpResponse response = sendRequest(serverPort, request, UNTRUSTED_PEER_ADDRESS);
+      HttpResponse response = sendRequest(serverPort, request);
       assertThat(response.statusCode()).isEqualTo(403);
     }
   }
 
   @Test
   public void untrustedProxyCannotUseProxyProtocolForHttpHeaderAuthentication() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
+    untrustConnectingPeer();
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
-        HttpResponse response = sendRequest(serverPort, proxyRequest, UNTRUSTED_PEER_ADDRESS);
+        HttpResponse response = sendRequest(serverPort, proxyRequest);
         assertThat(response.statusCode()).isEqualTo(403);
       }
     }
@@ -151,25 +148,16 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   @Test
   public void xForwardedForTakesPrecedenceOverProxyProtocolAddress() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "X-Forwarded-For: "
-              + FORWARDED_CLIENT_ADDRESS
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest("X-Forwarded-For: " + FORWARDED_CLIENT_ADDRESS);
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
-        HttpResponse response = sendRequest(serverPort, proxyRequest, TRUSTED_PROXY_ADDRESS);
+        HttpResponse response = sendRequest(serverPort, proxyRequest);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).contains(admin.username());
         assertThat(response.headers())
@@ -182,64 +170,71 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
   // The receiver must ignore the address block and keep the actual socket peer address.
   @Test
   public void localCommandUsesActualPeerAddress() throws Exception {
-    Assume.assumeTrue(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeTrue(proxyProtocolEnabled());
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
       byte[] localRequest = createProxyRequest(ProxyProtocolFormat.V2_LOCAL, serverPort, request);
 
-      HttpResponse response = sendRequest(serverPort, localRequest, TRUSTED_PROXY_ADDRESS);
+      HttpResponse response = sendRequest(serverPort, localRequest);
       assertThat(response.statusCode()).isEqualTo(200);
       assertThat(response.body()).contains(admin.username());
       assertThat(response.headers())
-          .contains(HttpTestUtil.REMOTE_ADDRESS_HEADER + ": " + TRUSTED_PROXY_ADDRESS);
+          .contains(HttpTestUtil.REMOTE_ADDRESS_HEADER + ": " + SERVER_ADDRESS);
       assertThat(response.headers()).doesNotContain(PROXY_SOURCE_ADDRESS);
     }
   }
 
   @Test
   public void proxyProtocolHeaderIsRejectedWhenDisabled() throws Exception {
-    Assume.assumeFalse(baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false));
+    Assume.assumeFalse(proxyProtocolEnabled());
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
       int serverPort = httpAddress.getPort();
-      String request =
-          "GET /a/accounts/self HTTP/1.1\r\n"
-              + "Host: localhost\r\n"
-              + "X-Remote-User: "
-              + admin.username()
-              + "\r\n"
-              + "Connection: close\r\n\r\n";
+      String request = getRequest();
       for (ProxyProtocolFormat format : PROXY_FORMATS) {
         byte[] proxyRequest = createProxyRequest(format, serverPort, request);
 
-        HttpResponse response = sendRequest(serverPort, proxyRequest, TRUSTED_PROXY_ADDRESS);
+        HttpResponse response = sendRequest(serverPort, proxyRequest);
         assertThat(response.statusCode()).isEqualTo(400);
       }
     }
   }
 
-  private static HttpResponse sendRequest(int port, String request, String sourceAddress)
-      throws IOException {
-    return sendRequest(port, request.getBytes(StandardCharsets.US_ASCII), sourceAddress);
+  // Trust a different network so the connecting peer (SERVER_ADDRESS) is untrusted.
+  private void untrustConnectingPeer() throws IOException, ConfigInvalidException {
+    FileBasedConfig cfg = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
+    cfg.load();
+    cfg.setStringList("auth", null, "httpTrustedProxyNetworks", List.of(ANOTHER_PROXY_NETWORK));
+    cfg.save();
   }
 
-  private static HttpResponse sendRequest(int port, byte[] request, String sourceAddress)
-      throws IOException {
-    try (Socket socket = new Socket()) {
-      if (sourceAddress != null) {
-        socket.bind(new InetSocketAddress(sourceAddress, 0));
-      }
-      socket.connect(new InetSocketAddress(SERVER_ADDRESS, port));
+  private boolean proxyProtocolEnabled() {
+    return baseConfig.getBoolean("httpd", null, "enableProxyProtocol", false);
+  }
+
+  private String getRequest(String... extraHeaders) {
+    StringBuilder request =
+        new StringBuilder("GET /a/accounts/self HTTP/1.1\r\n")
+            .append("Host: localhost\r\n")
+            .append("X-Remote-User: ")
+            .append(admin.username())
+            .append("\r\n");
+    for (String header : extraHeaders) {
+      request.append(header).append("\r\n");
+    }
+    return request.append("Connection: close\r\n\r\n").toString();
+  }
+
+  private static HttpResponse sendRequest(int port, String request) throws IOException {
+    return sendRequest(port, request.getBytes(StandardCharsets.US_ASCII));
+  }
+
+  private static HttpResponse sendRequest(int port, byte[] request) throws IOException {
+    try (Socket socket = new Socket(SERVER_ADDRESS, port)) {
       socket.getOutputStream().write(request);
       socket.getOutputStream().flush();
       return parseResponse(
@@ -249,12 +244,13 @@ public class JettyProxyProtocolIT extends StandaloneSiteTest {
 
   private static byte[] createProxyRequest(
       ProxyProtocolFormat format, int targetPort, String request) throws IOException {
-    if (format == ProxyProtocolFormat.V1_PROXY) {
-      return (PROXY_PROTOCOL_HEADER_PREFIX + targetPort + "\r\n" + request)
-          .getBytes(StandardCharsets.US_ASCII);
-    }
-    byte command = format == ProxyProtocolFormat.V2_LOCAL ? (byte) 0x20 : (byte) 0x21;
-    return concat(createProxyProtocolV2Header(command, targetPort), request);
+    return switch (format) {
+      case V1_PROXY ->
+          (PROXY_PROTOCOL_HEADER_PREFIX + targetPort + "\r\n" + request)
+              .getBytes(StandardCharsets.US_ASCII);
+      case V2_PROXY -> concat(createProxyProtocolV2Header((byte) 0x21, targetPort), request);
+      case V2_LOCAL -> concat(createProxyProtocolV2Header((byte) 0x20, targetPort), request);
+    };
   }
 
   private static byte[] createProxyProtocolV2Header(byte command, int targetPort)

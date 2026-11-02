@@ -33,6 +33,10 @@ import com.google.gerrit.server.git.RefStorageNotSupportedException;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectResource;
+import java.io.IOException;
+import java.text.MessageFormat;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefStorageFormat;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,6 +83,39 @@ public class ConvertRefStorageTest {
     RefStorageInput input = new RefStorageInput();
     input.refStorage = "FILES";
     assertThrows(ResourceConflictException.class, () -> view.apply(resource, input));
+  }
+
+  @Test
+  public void leftoverReftableDirIsConflict() throws Exception {
+    RefStorageInput input = new RefStorageInput();
+    input.refStorage = "REFTABLE";
+    when(repoManager.convertRefStorage(name, RefStorageFormat.REFTABLE, true, true))
+        .thenThrow(new IOException(JGitText.get().reftableDirExists));
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> view.apply(resource, input));
+    assertThat(thrown).hasMessageThat().contains("Remove it before converting");
+  }
+
+  @Test
+  public void leftoverPackedRefsIsConflict() throws Exception {
+    RefStorageInput input = new RefStorageInput();
+    input.refStorage = "FILES";
+    when(repoManager.convertRefStorage(name, RefStorageFormat.FILES, true, true))
+        .thenThrow(
+            new IOException(
+                MessageFormat.format(JGitText.get().fileAlreadyExists, Constants.PACKED_REFS)));
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> view.apply(resource, input));
+    assertThat(thrown).hasMessageThat().contains("Remove it before converting");
+  }
+
+  @Test
+  public void unrelatedIoErrorPropagates() throws Exception {
+    RefStorageInput input = new RefStorageInput();
+    input.refStorage = "REFTABLE";
+    when(repoManager.convertRefStorage(name, RefStorageFormat.REFTABLE, true, true))
+        .thenThrow(new IOException("disk failure"));
+    assertThrows(IOException.class, () -> view.apply(resource, input));
   }
 
   @Test

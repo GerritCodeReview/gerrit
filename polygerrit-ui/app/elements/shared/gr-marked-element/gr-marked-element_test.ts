@@ -7,6 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-marked-element';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrMarkedElement} from './gr-marked-element';
+import {Token} from 'marked';
 
 suite('gr-marked-element tests', () => {
   let element: GrMarkedElement;
@@ -27,5 +28,16 @@ suite('gr-marked-element tests', () => {
         </slot>
       `
     );
+  });
+
+  test('emits tokens on marked-render-complete', async () => {
+    let emittedTokens: Token[] = [];
+    element.addEventListener('marked-render-complete', (e: Event) => {
+      emittedTokens = (e as CustomEvent<{tokens: Token[]}>).detail.tokens;
+    });
+    element.markdown = 'Hello `world`';
+    await element.updateComplete;
+
+    assert.isTrue(emittedTokens.some(token => token.type === 'codespan'));
   });
 });

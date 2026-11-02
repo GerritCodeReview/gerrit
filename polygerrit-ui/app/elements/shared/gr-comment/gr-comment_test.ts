@@ -53,6 +53,7 @@ import {ResponseCode} from '../../../api/suggestions';
 import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 import {AutocompletionContext} from '../../../utils/autocomplete-cache';
 import {FixSuggestionInfo} from '../../../api/rest-api';
+import {GrFormattedText} from '../gr-formatted-text/gr-formatted-text';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 
 suite('gr-comment tests', () => {
@@ -178,6 +179,10 @@ suite('gr-comment tests', () => {
           </dialog>
         `
       );
+      assert.isTrue(
+        queryAndAssert<GrFormattedText>(element, 'gr-formatted-text')
+          .showRawMarkdownToggle
+      );
     });
 
     test('renders expanded admin', async () => {
@@ -284,6 +289,10 @@ suite('gr-comment tests', () => {
             </gr-confirm-delete-comment-dialog>
           </dialog>
         `
+      );
+      assert.isFalse(
+        queryAndAssert<GrFormattedText>(element, 'gr-formatted-text')
+          .showRawMarkdownToggle
       );
     });
 

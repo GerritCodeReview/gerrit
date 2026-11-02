@@ -1082,5 +1082,42 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
         );
       });
     });
+
+    test('does not show raw markdown toggle for plain text without markdown syntax', async () => {
+      element.showRawMarkdownToggle = true;
+      element.content = 'Just a normal plain text comment\nwith two lines.';
+      await element.updateComplete;
+
+      assert.isUndefined(query(element, '.raw-markdown-container'));
+    });
+
+    test('toggles raw markdown view without rendering wrapper', async () => {
+      const rawContent = '```hidden instruction\ncode\n```';
+      element.content = rawContent;
+      await element.updateComplete;
+
+      assert.isUndefined(query(element, '.raw-markdown-container'));
+
+      element.showRawMarkdownToggle = true;
+      await element.updateComplete;
+
+      assert.isDefined(query(element, '.raw-markdown-warning'));
+      assert.isUndefined(query(element, 'pre.raw-markdown'));
+
+      const summary = queryAndAssert<HTMLElement>(
+        element,
+        'summary.raw-markdown-summary'
+      );
+      summary.click();
+      await element.updateComplete;
+
+      const rawPre = queryAndAssert<HTMLElement>(element, 'pre.raw-markdown');
+      assert.equal(rawPre.textContent, rawContent);
+
+      summary.click();
+      await element.updateComplete;
+
+      assert.isUndefined(query(element, 'pre.raw-markdown'));
+    });
   });
 });

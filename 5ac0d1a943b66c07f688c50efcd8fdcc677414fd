@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c7ec775_86eeef7b",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-11-02T11:47:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "228163eb_48e8b525",
+      "range": {
+        "startLine": 1094,
+        "startChar": 24,
+        "endLine": 1094,
+        "endChar": 54
+      },
+      "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a81d5231_4c721f5b",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-11-02T10:20:18Z",
       "side": 1,
       "message": "why are these doubled?",
+      "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6924ce5_ce4905a9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-11-02T11:47:31Z",
+      "side": 1,
+      "message": "Since in this change, we are allowing multiple applicableIf and overrideIf, this case tests multiblank values. (Eventually, It also confirms if the single blank is also working as expected.)",
+      "parentUuid": "a81d5231_4c721f5b",
       "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

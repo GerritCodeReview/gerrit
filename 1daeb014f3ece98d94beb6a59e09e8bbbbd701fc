@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f994532a_b1ec5365",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-02T11:58:04Z",
+      "side": 1,
+      "message": "Is this true? When converting from reftable to files with backup\u003dtrue, a backup is created that prevents a subsequent conversion back.\n\nFurthermore by looking at the tests it seems we warn when, for example, a `reftable`directory is already there. Might be worth mentuoning in the commit mesage.",
+      "range": {
+        "startLine": 12,
+        "startChar": 55,
+        "endLine": 13,
+        "endChar": 40
+      },
+      "revId": "1daeb014f3ece98d94beb6a59e09e8bbbbd701fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7b201e9_9584d9f9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-02T11:58:04Z",
+      "side": 1,
+      "message": "I think we are adding a test for the following scenario:\n\n1. Sets keepBackup to true.\n2. Clicks #convertRefStorageBtn.\n3. Verifies the dialog opens.\n4. Verifies the checkbox and keepBackup are false.\n\nThis would cover the reset-on-open behavior that lives in the Convert button’s click handler",
+      "revId": "1daeb014f3ece98d94beb6a59e09e8bbbbd701fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

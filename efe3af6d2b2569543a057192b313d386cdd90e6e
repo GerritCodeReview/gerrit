@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "262a8cd2_319ffd18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-11-02T15:02:54Z",
+      "side": 1,
+      "message": "The backend part LGTM.",
+      "revId": "efe3af6d2b2569543a057192b313d386cdd90e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "834d6106_49f53257",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-11-02T15:02:54Z",
+      "side": 1,
+      "message": "[optional] no need for local variables:\n\n```suggestion\n    return config.getBoolean(\"change\", \"submitWholeTopic\", false) // deprecated\n        || config.getBoolean(\"change\", \"enforceWholeTopicSubmit\", false);\n```",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 55
+      },
+      "revId": "efe3af6d2b2569543a057192b313d386cdd90e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

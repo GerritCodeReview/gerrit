@@ -20,6 +20,7 @@ import static com.google.gerrit.server.permissions.DefaultPermissionMappings.lab
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
@@ -108,6 +109,7 @@ abstract class AbstractChangeControl {
    * also allow registered users when the {@code allow_ai_review_for_registered_users} experiment is
    * enabled, which overrides the ACL (including a {@code block}) for identified users.
    */
+  @UsedAt(UsedAt.Project.GOOGLE)
   protected boolean canAiReview() {
     return refControl.canPerform(Permission.AI_REVIEW);
   }

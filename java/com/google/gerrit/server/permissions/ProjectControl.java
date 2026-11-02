@@ -182,7 +182,8 @@ public class ProjectControl {
     }
   }
 
-  boolean match(PermissionRule rule, boolean isChangeOwner) {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected boolean match(PermissionRule rule, boolean isChangeOwner) {
     return match(rule.getGroup().getUUID(), isChangeOwner);
   }
 

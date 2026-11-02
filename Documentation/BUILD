@@ -1,3 +1,4 @@
+load("@rules_python//python:defs.bzl", "py_binary")
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
@@ -7,8 +8,13 @@ package(default_visibility = ["//visibility:public"])
 
 exports_files([
     "licenses.txt",
-    "replace_macros.py",
 ])
+
+py_binary(
+    name = "replace_macros",
+    srcs = ["replace_macros.py"],
+    visibility = ["//visibility:public"],
+)
 
 filegroup(
     name = "prettify_files",

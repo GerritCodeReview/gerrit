@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # reads bazel query XML files, to join target names with their licenses.
 
 from __future__ import print_function

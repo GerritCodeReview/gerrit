@@ -24,7 +24,7 @@ def license_map(name, targets = [], opts = [], json_maps = [], **kwargs):
 
     # Generate XML for all targets that depend directly on a LICENSE file
     xmls = []
-    tools = ["//tools/bzl:license-map.py", "//lib:all-licenses"]
+    tools = ["//tools/bzl:license_map", "//lib:all-licenses"]
     for target in targets:
         subname = name + "_" + normalize_target_name(target) + ".xml"
         xmls.append("$(location :%s)" % subname)
@@ -53,7 +53,7 @@ def license_map(name, targets = [], opts = [], json_maps = [], **kwargs):
     native.genrule(
         name = "gen_license_txt_" + name,
         # Use sed 's/\\r$$//' to remove non-Unix line endings.
-        cmd = "python3 $(location //tools/bzl:license-map.py) %s %s %s | sed 's/\\r$$//' > $@" % (" ".join(opts), " ".join(json_maps_locations), " ".join(xmls)),
+        cmd = "$(location //tools/bzl:license_map) %s %s %s | sed 's/\\r$$//' > $@" % (" ".join(opts), " ".join(json_maps_locations), " ".join(xmls)),
         outs = [name + ".gen.txt"],
         tools = tools,
         **kwargs

@@ -36,3 +36,10 @@ sh_test(
     srcs = ["always_pass_test.sh"],
     tags = ["no_rbe"],
 )
+
+py_binary(
+    name = "license_map",
+    srcs = ["license-map.py"],
+    main = "license-map.py",
+    visibility = ["//visibility:public"],
+)

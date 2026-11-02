@@ -1011,6 +1011,7 @@ export class GrComment extends LitElement {
         class="message"
         .markdown=${true}
         .content=${this.comment?.message ?? ''}
+        .showRawMarkdownToggle=${!isDraft(this.comment)}
       ></gr-formatted-text>
     `;
   }

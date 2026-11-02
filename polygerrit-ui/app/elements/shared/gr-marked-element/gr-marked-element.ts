@@ -10,7 +10,7 @@ import {
   property,
   queryAssignedElements,
 } from 'lit/decorators.js';
-import {Marked, Renderer, Tokenizer} from 'marked';
+import {Marked, Renderer, Token, Tokenizer} from 'marked';
 
 import {
   sanitizeHtml,
@@ -88,6 +88,13 @@ export class GrMarkedElement extends LitElement {
 
     if (!this.markdown) {
       this.outputElement[0].textContent = '';
+      this.dispatchEvent(
+        new CustomEvent('marked-render-complete', {
+          bubbles: true,
+          composed: true,
+          detail: {tokens: []},
+        })
+      );
       return;
     }
 
@@ -100,6 +107,7 @@ export class GrMarkedElement extends LitElement {
       this.tokenizer(tokenizer);
     }
 
+    const tokens: Token[] = [];
     const marked = new Marked();
     const unsafeHtml =
       marked.parse(this.markdown, {
@@ -108,12 +116,19 @@ export class GrMarkedElement extends LitElement {
         pedantic: this.pedantic,
         renderer,
         tokenizer,
+        walkTokens: (token: Token) => {
+          tokens.push(token);
+        },
       }) || '';
     const safeHtml = sanitizeHtml(unsafeHtml);
 
     setElementInnerHtml(this.outputElement[0], safeHtml);
     this.dispatchEvent(
-      new CustomEvent('marked-render-complete', {bubbles: true, composed: true})
+      new CustomEvent('marked-render-complete', {
+        bubbles: true,
+        composed: true,
+        detail: {tokens},
+      })
     );
   }
 }

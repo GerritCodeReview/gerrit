@@ -16,6 +16,7 @@ package com.google.gerrit.server.permissions;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.server.CurrentUser;
@@ -70,6 +71,7 @@ public class ChangeControl extends AbstractChangeControl {
     return new ForChangeImpl(changeData.getId());
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
   @Override
   protected boolean canAiReview() {
     return super.canAiReview()

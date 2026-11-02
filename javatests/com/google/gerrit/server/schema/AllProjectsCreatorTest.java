@@ -168,6 +168,16 @@ public class AllProjectsCreatorTest {
   }
 
   @Test
+  public void createAllProjectsWithoutInitializingDefaultAiReviewAcl() throws Exception {
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builder().initDefaultAiReviewAcl(false).build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config config = readAllProjectsConfig(repoManager, allProjectsName);
+    assertThat(config).stringValues("access", "refs/heads/*", "aiReview").isEmpty();
+  }
+
+  @Test
   public void createAllProjectsWithoutInitializingDefaultSubmitRequirements() throws Exception {
     GroupReference adminsGroup = createGroupReference("Administrators");
     GroupReference serviceUsersGroup = createGroupReference(ServiceUserClassifier.SERVICE_USERS);

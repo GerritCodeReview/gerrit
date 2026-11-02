@@ -125,6 +125,10 @@ public abstract class AllProjectsInput {
   /** Whether initializing default access sections in All-Projects. */
   public abstract boolean initDefaultAcls();
 
+  /** Whether to initialize the default AI review ACL in All-Projects. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public abstract boolean initDefaultAiReviewAcl();
+
   /** Whether default submit requirements should be initialized in All-Projects. */
   public abstract boolean initDefaultSubmitRequirements();
 
@@ -137,6 +141,7 @@ public abstract class AllProjectsInput {
             .codeReviewSubmitRequirement(getDefaultCodeReviewSubmitRequirements())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .initDefaultAcls(true)
+            .initDefaultAiReviewAcl(true)
             .initDefaultSubmitRequirements(true);
     DEFAULT_BOOLEAN_PROJECT_CONFIGS.forEach(builder::addBooleanProjectConfig);
 
@@ -144,7 +149,7 @@ public abstract class AllProjectsInput {
   }
 
   public static Builder builderWithNoDefault() {
-    return new AutoValue_AllProjectsInput.Builder();
+    return new AutoValue_AllProjectsInput.Builder().initDefaultAiReviewAcl(true);
   }
 
   @AutoValue.Builder
@@ -189,6 +194,9 @@ public abstract class AllProjectsInput {
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder initDefaultAcls(boolean initDefaultACLs);
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder initDefaultAiReviewAcl(boolean initDefaultAiReviewAcl);
 
     public abstract Builder initDefaultSubmitRequirements(boolean initDefaultSubmitRequirements);
 

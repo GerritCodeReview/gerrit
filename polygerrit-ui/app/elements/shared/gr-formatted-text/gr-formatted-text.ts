@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   htmlEscape,
@@ -15,6 +15,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
+import '../gr-icon/gr-icon';
 import '../gr-user-suggestion-fix/gr-user-suggestion-fix';
 import {
   getUserSuggestionFromString,
@@ -41,6 +42,9 @@ export class GrFormattedText extends LitElement {
   @property({type: Boolean})
   markdown = false;
 
+  @property({type: Boolean})
+  showRawMarkdownToggle = false;
+
   @state()
   private repoCommentLinks: CommentLinks = {};
 
@@ -54,6 +58,9 @@ export class GrFormattedText extends LitElement {
 
   @state()
   private allowMarkdownBase64ImagesInComments = false;
+
+  @state()
+  private showRawMarkdown = false;
 
   /**
    * Note: Do not use sharedStyles or other styles here that should not affect
@@ -121,6 +128,43 @@ export class GrFormattedText extends LitElement {
            should overflow in that case rather than wrapping or leaking out */
           overflow-x: var(--gr-formatted-text-markdown-html-overflow-x, auto);
           overflow-wrap: break-word;
+        }
+        .raw-markdown-container {
+          margin-top: var(--spacing-m);
+        }
+        .raw-markdown-warning {
+          align-items: center;
+          background-color: var(--warning-background);
+          border: 1px solid var(--warning-foreground);
+          border-radius: var(--border-radius);
+          color: var(--primary-text-color);
+          display: inline-flex;
+          font-size: var(--font-size-small);
+          gap: var(--spacing-xs);
+          line-height: var(--line-height-small);
+          margin-bottom: var(--spacing-xs);
+          padding: var(--spacing-xxs) var(--spacing-s);
+        }
+        .raw-markdown-warning gr-icon {
+          --gr-icon-size: var(--line-height-small);
+          color: var(--warning-foreground);
+        }
+        .raw-markdown-summary {
+          color: var(--deemphasized-text-color);
+          cursor: pointer;
+          font-size: var(--font-size-small);
+          user-select: none;
+        }
+        pre.raw-markdown {
+          background-color: var(--background-color-secondary);
+          border: var(--spacing-xxs) solid var(--border-color);
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-code);
+          line-height: var(--line-height-mono);
+          margin: var(--spacing-s) 0 0 0;
+          padding: var(--spacing-xxs) var(--spacing-s);
+          white-space: pre-wrap;
+          word-wrap: break-word;
         }
       `,
     ];
@@ -358,6 +402,36 @@ export class GrFormattedText extends LitElement {
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>
+      ${this.showRawMarkdownToggle
+        ? html`<div class="raw-markdown-container">
+            <div class="raw-markdown-warning">
+              <gr-icon icon="warning" filled></gr-icon>
+              <span
+                >Warning: Markdown rendering could obscure hidden prompts.</span
+              >
+            </div>
+            <details
+              class="raw-markdown-details"
+              ?open=${this.showRawMarkdown}
+              @toggle=${(e: Event) => {
+                this.showRawMarkdown = (e.target as HTMLDetailsElement).open;
+              }}
+            >
+              <summary
+                class="raw-markdown-summary"
+                @click=${(e: MouseEvent) => {
+                  e.preventDefault();
+                  this.showRawMarkdown = !this.showRawMarkdown;
+                }}
+              >
+                View Raw Markdown
+              </summary>
+              ${this.showRawMarkdown
+                ? html`<pre class="raw-markdown">${this.content}</pre>`
+                : ''}
+            </details>
+          </div>`
+        : nothing}
     `;
   }
 

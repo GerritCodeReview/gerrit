@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9321ef7e_5dbf7443",
+        "filename": "java/com/google/gerrit/server/events/ProjectCreatedEvent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T17:40:28Z",
+      "side": 1,
+      "message": "```suggestion\n  /** Repository Git configuration text. */\n  @Nullable public String gitConfig;\n```",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e11549_a6de9d31",
+        "filename": "java/com/google/gerrit/server/events/ProjectCreatedEvent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T17:40:28Z",
+      "side": 1,
+      "message": "Do we really need a data structure? The git config is a text file isn\u0027t it?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82008974_c4986afd",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T17:40:28Z",
+      "side": 1,
+      "message": "```suggestion\n    event.gitConfig \u003d \"\"\"\n    [core]\n      repositoryformatversion \u003d 1\n    [extensions]\n      refStorage \u003d reftable\n    \"\"\";\n```",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 584,
+        "endChar": 59
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8359e3ed_6dee1cb4",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T17:40:28Z",
+      "side": 1,
+      "message": "```suggestion\n                .put(\"gitConfig\", event.gitConfig)\n```",
+      "range": {
+        "startLine": 591,
+        "startChar": 0,
+        "endLine": 609,
+        "endChar": 66
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc169ce2_95a2ae7b",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T17:40:28Z",
+      "side": 1,
+      "message": "```suggestion\n    event.gitConfig \u003d \"foo \u003d bar\";\n```",
+      "range": {
+        "startLine": 618,
+        "startChar": 0,
+        "endLine": 624,
+        "endChar": 46
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0294780b_3855e4b7",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T17:40:28Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(result.gitConfig).isEqualTo(event.gitConfig);\n```",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 634,
+        "endChar": 19
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

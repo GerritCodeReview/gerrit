@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2642c22_b561f516",
+        "filename": "java/com/google/gerrit/server/events/ProjectCreatedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T17:40:28Z",
+      "side": 1,
+      "message": "We just include the git config, which specifies the underlying storage.",
+      "parentUuid": "38a64f05_95a3c32a",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "819bd54750e71cf18d3acf749a5bddff50658a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e58fc4e_3ebc08eb",
@@ -60,6 +84,24 @@
       "writtenOn": "2026-11-03T11:31:29Z",
       "side": 1,
       "message": "Could we also add a test for `RefStorage.FILES` and one where `refStorage` is not set?\n\nOlder producers won\u0027t populate this field and it would be useful to verify that the existing event payload remains unchanged when the value is missing.",
+      "revId": "819bd54750e71cf18d3acf749a5bddff50658a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2341432d_26120b28",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T17:40:28Z",
+      "side": 1,
+      "message": "I don\u0027t believe we need to go into the details of what the config contains.",
+      "parentUuid": "9e58fc4e_3ebc08eb",
       "revId": "819bd54750e71cf18d3acf749a5bddff50658a4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

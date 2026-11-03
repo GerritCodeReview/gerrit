@@ -11,20 +11,33 @@ bazel_dep(name = "aspect_rules_js", version = "3.5.1")
 bazel_dep(name = "aspect_rules_rollup", version = "2.0.1")
 bazel_dep(name = "aspect_rules_ts", version = "3.10.1")
 bazel_dep(name = "rules_android", version = "0.7.3")
-bazel_dep(name = "rules_cc", version = "0.2.18")
+bazel_dep(name = "rules_cc", version = "0.2.25")
 bazel_dep(name = "rules_go", version = "0.63.0")
 bazel_dep(name = "rules_java", version = "9.9.0")
+bazel_dep(name = "java_tools", version = "23.0-davido.1")
+bazel_dep(name = "java_toolchains", version = "0.0.2-catalog.1")
 bazel_dep(name = "rules_nodejs", version = "6.7.6")
 bazel_dep(name = "rules_python", version = "2.4.5")
 bazel_dep(name = "rules_shell", version = "0.8.0")
 
-# Pin rules_java to Gerrit's chosen version. Transitive bzlmod modules can
-# otherwise raise it through MVS, which changes the Java toolchain inputs
-# and can break custom plugin builds. When merging up, keep this override
-# but update the version to the target branch's chosen rules_java version.
-single_version_override(
+# Pin the Bzlmod catalog-split prototype to reproducible GitHub commits.
+# These source overrides replace registry resolution for all three modules.
+git_override(
     module_name = "rules_java",
-    version = "9.9.0",
+    commit = "a6ac7cbd7160104dcb3b7e974ce7d087fdbaeda1",
+    remote = "https://github.com/davido/rules_java.git",
+)
+
+git_override(
+    module_name = "java_tools",
+    commit = "34d71142ce6b94f4434ea42d5fdaeba699e386b8",
+    remote = "https://github.com/davido/java_tools.git",
+)
+
+git_override(
+    module_name = "java_toolchains",
+    commit = "d4de6da36f73dcc0cff2db9fd73a633c4426083d",
+    remote = "https://github.com/davido/java_toolchains.git",
 )
 
 # Libraries / toolchains.

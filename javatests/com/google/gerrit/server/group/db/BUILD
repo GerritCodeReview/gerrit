@@ -22,6 +22,7 @@ junit_tests(
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-junit",
+        "//lib/errorprone:annotations",
         "//lib/truth",
     ],
 )

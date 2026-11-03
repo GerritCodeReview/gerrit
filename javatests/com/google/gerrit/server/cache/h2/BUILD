@@ -12,6 +12,7 @@ junit_tests(
         "//lib:guava",
         "//lib:h2",
         "//lib:jgit",
+        "//lib:jsr305",
         "//lib:junit",
         "//lib/guice",
         "//lib/mockito",

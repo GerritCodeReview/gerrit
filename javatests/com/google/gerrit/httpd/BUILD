@@ -23,6 +23,7 @@ junit_tests(
         "//lib:servlet-api-without-neverlink",
         "//lib:soy",
         "//lib/bouncycastle:bcprov",
+        "//lib/errorprone:annotations",
         "//lib/guice",
         "//lib/guice:guice-servlet",
         "//lib/jsoup",

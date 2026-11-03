@@ -22,6 +22,7 @@ junit_tests(
         "//lib/bouncycastle:bcpg-neverlink",
         "//lib/bouncycastle:bcprov",
         "//lib/bouncycastle:bcprov-neverlink",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

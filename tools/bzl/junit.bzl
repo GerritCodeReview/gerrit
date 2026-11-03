@@ -76,9 +76,19 @@ def junit_tests(name, srcs, **kwargs):
     )
     jvm_flags = kwargs.get("jvm_flags", [])
     jvm_flags = jvm_flags
+
+    # The JUnit runner no longer exports the errorprone annotations
+    # transitively, so provide them here instead of in each test BUILD file.
+    # Skip the append when a target already lists the dependency, which would
+    # otherwise be a duplicate label error.
+    annotations = "//lib/errorprone:annotations"
+    deps = kwargs.pop("deps", [])
+    if type(deps) != "list" or annotations not in deps:
+        deps = deps + [annotations]
     java_test(
         name = name,
         test_class = s_name,
         srcs = srcs + [":" + s_name],
+        deps = deps,
         **dict(kwargs, jvm_flags = jvm_flags)
     )

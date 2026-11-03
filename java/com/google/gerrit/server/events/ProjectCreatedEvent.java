@@ -15,11 +15,13 @@
 package com.google.gerrit.server.events;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.RefStorage;
 
 public class ProjectCreatedEvent extends ProjectEvent {
   static final String TYPE = "project-created";
   public String projectName;
   public String headName;
+  public RefStorage refStorage;
 
   public ProjectCreatedEvent() {
     super(TYPE);

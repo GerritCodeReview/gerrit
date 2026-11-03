@@ -14,12 +14,16 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 
 public class ProjectCreatedEvent extends ProjectEvent {
   static final String TYPE = "project-created";
   public String projectName;
   public String headName;
+
+  /** Repository Git configuration in Git config file format. */
+  @Nullable public String gitConfig;
 
   public ProjectCreatedEvent() {
     super(TYPE);

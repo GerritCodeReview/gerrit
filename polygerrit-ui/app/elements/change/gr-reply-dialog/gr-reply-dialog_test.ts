@@ -2299,6 +2299,7 @@ suite('gr-reply-dialog tests', () => {
       test('yes', async () => {
         const promise = mockPromise();
         const refreshSpy = sinon.spy();
+        const reloadStub = sinon.stub(commentsModel, 'reloadAllComments');
         element.addEventListener('comment-refresh', refreshSpy);
         stubRestApi('hasPendingDiffDrafts').returns(1);
         stubRestApi('awaitPendingDiffDrafts').returns(promise as Promise<void>);
@@ -2306,19 +2307,23 @@ suite('gr-reply-dialog tests', () => {
         element.open();
 
         assert.isFalse(refreshSpy.called);
+        assert.isFalse(reloadStub.called);
         assert.isTrue(element.savingComments);
 
         promise.resolve();
         await element.updateComplete;
 
         assert.isTrue(refreshSpy.called);
+        assert.isTrue(reloadStub.calledOnce);
         assert.isFalse(element.savingComments);
       });
 
       test('no', () => {
+        const reloadStub = sinon.stub(commentsModel, 'reloadAllComments');
         stubRestApi('hasPendingDiffDrafts').returns(0);
         element.open();
         assert.isFalse(element.savingComments);
+        assert.isTrue(reloadStub.calledOnce);
       });
     });
   });

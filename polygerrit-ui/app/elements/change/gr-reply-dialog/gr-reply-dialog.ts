@@ -1338,8 +1338,11 @@ export class GrReplyDialog extends LitElement {
       this.savingComments = true;
       this.restApiService.awaitPendingDiffDrafts().then(() => {
         fire(this, 'comment-refresh', {});
+        this.getCommentsModel().reloadAllComments();
         this.savingComments = false;
       });
+    } else {
+      this.getCommentsModel().reloadAllComments();
     }
   }
 

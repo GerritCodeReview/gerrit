@@ -63,6 +63,8 @@ export class GrRepoDetailList extends LitElement {
 
   @state() isOwner = false;
 
+  @state() private canCreate = false;
+
   @state() loggedIn = false;
 
   @state() offset = 0;
@@ -158,7 +160,8 @@ export class GrRepoDetailList extends LitElement {
     if (!this.detailType) return nothing;
     return html`
       <gr-list-view
-        .createNew=${this.loggedIn}
+        .createNew=${this.loggedIn &&
+        (this.detailType !== RepoDetailView.BRANCHES || this.canCreate)}
         .filter=${this.filter}
         .itemsPerPage=${this.itemsPerPage}
         .items=${this.items}
@@ -365,10 +368,12 @@ export class GrRepoDetailList extends LitElement {
   }
 
   // private but used in test
-  determineIfOwner(repo: RepoName) {
-    return this.restApiService
-      .getRepoAccess(repo)
-      .then(access => (this.isOwner = !!access?.[repo]?.is_owner));
+  loadRepoAccess(repo: RepoName) {
+    this.canCreate = false;
+    return this.restApiService.getRepoAccess(repo).then(access => {
+      this.isOwner = !!access?.[repo]?.is_owner;
+      this.canCreate = !!access?.[repo]?.can_add;
+    });
   }
 
   // private but used in test
@@ -393,7 +398,7 @@ export class GrRepoDetailList extends LitElement {
     this.getLoggedIn().then(loggedIn => {
       this.loggedIn = loggedIn;
       if (loggedIn && this.repo) {
-        this.determineIfOwner(this.repo);
+        this.loadRepoAccess(this.repo);
       }
     });
 

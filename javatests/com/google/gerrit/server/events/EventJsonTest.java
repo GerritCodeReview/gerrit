@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
@@ -571,12 +572,14 @@ public class EventJsonTest {
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.projectName = PROJECT;
     event.headName = REF;
+    event.refStorage = RefStorage.REFTABLE;
 
     assertThatJsonMap(event)
         .isEqualTo(
             ImmutableMap.builder()
                 .put("projectName", PROJECT)
                 .put("headName", REF)
+                .put("refStorage", "REFTABLE")
                 .put("type", "project-created")
                 .put("eventCreatedOn", TS1)
                 .build());

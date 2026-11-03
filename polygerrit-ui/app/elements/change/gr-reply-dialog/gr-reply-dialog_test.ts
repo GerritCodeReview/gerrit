@@ -3243,4 +3243,28 @@ suite('gr-reply-dialog tests', () => {
     }
     assert.isFalse(saveReviewStub.called);
   });
+
+  test('computeDraftsTitle counts all draft comments across threads', () => {
+    assert.equal(element.computeDraftsTitle(undefined), '');
+    assert.equal(element.computeDraftsTitle([]), '');
+
+    const c1 = createComment({id: 'c1' as UrlEncodedCommentId});
+    const d1 = createDraft({
+      id: 'd1' as UrlEncodedCommentId,
+      in_reply_to: 'c1' as UrlEncodedCommentId,
+    });
+    const d2 = createDraft({
+      id: 'd2' as UrlEncodedCommentId,
+      in_reply_to: 'c1' as UrlEncodedCommentId,
+    });
+
+    assert.equal(
+      element.computeDraftsTitle([createCommentThread([c1, d1])]),
+      '1 Draft'
+    );
+    assert.equal(
+      element.computeDraftsTitle([createCommentThread([c1, d1, d2])]),
+      '2 Drafts'
+    );
+  });
 });

@@ -1702,7 +1702,12 @@ export class GrReplyDialog extends LitElement {
   }
 
   computeDraftsTitle(draftCommentThreads?: CommentThread[]) {
-    const total = draftCommentThreads ? draftCommentThreads.length : 0;
+    const total = draftCommentThreads
+      ? draftCommentThreads.reduce(
+          (acc, thread) => acc + thread.comments.filter(isDraft).length,
+          0
+        )
+      : 0;
     return pluralize(total, 'Draft');
   }
 

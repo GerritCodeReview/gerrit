@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a64f05_95a3c32a",
+        "filename": "java/com/google/gerrit/server/events/ProjectCreatedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-11-03T11:25:12Z",
+      "side": 1,
+      "message": "Do we not need a `getRefStorage`?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "819bd54750e71cf18d3acf749a5bddff50658a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

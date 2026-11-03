@@ -1853,6 +1853,10 @@ By default 5,000.
 Maximum number of comments allowed per user on a single change.
 Additional comments from the same user are rejected.
 +
+link:rest-api-changes.html#delete-comment[Deleted] comments and
+link:rest-api-changes.html#delete-change-message[deleted] change messages don't
+count towards this limit, unlike for `change.maxComments`.
++
 By default 0, which means no limit.
 
 [[change.maxFiles]]change.maxFiles::

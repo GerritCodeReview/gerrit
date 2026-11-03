@@ -126,14 +126,17 @@ public class DeleteChangeMessage
       return createNewChangeMessage(deletedBy);
     }
     return String.format(
-        "Change message removed by: %s\nReason: %s",
-        AccountTemplateUtil.getAccountTemplate(deletedBy), deletedReason);
+        "%s%s\nReason: %s",
+        ChangeMessagesUtil.DELETED_CHANGE_MESSAGE_PREFIX,
+        AccountTemplateUtil.getAccountTemplate(deletedBy),
+        deletedReason);
   }
 
   public static String createNewChangeMessage(Account.Id deletedBy) {
     requireNonNull(deletedBy, "user must not be null");
 
-    return "Change message removed by: " + AccountTemplateUtil.getAccountTemplate(deletedBy);
+    return ChangeMessagesUtil.DELETED_CHANGE_MESSAGE_PREFIX
+        + AccountTemplateUtil.getAccountTemplate(deletedBy);
   }
 
   private class DeleteChangeMessageOp implements BatchUpdateOp {

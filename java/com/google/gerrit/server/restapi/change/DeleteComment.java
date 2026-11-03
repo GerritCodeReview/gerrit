@@ -114,7 +114,8 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
   }
 
   private static String getCommentNewMessage(String name, String reason) {
-    StringBuilder stringBuilder = new StringBuilder("Comment removed by: ").append(name);
+    StringBuilder stringBuilder =
+        new StringBuilder(CommentsUtil.DELETED_COMMENT_MESSAGE_PREFIX).append(name);
     if (!Strings.isNullOrEmpty(reason)) {
       stringBuilder.append("; Reason: ").append(reason);
     }

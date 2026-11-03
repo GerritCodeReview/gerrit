@@ -206,7 +206,7 @@ public class CommitRewriter {
       Pattern.compile("\\* (.*) by (.*)");
 
   private static final Pattern REMOVED_CHANGE_MESSAGE_PATTERN =
-      Pattern.compile("Change message removed by: (.*)(\nReason: .*)?");
+      Pattern.compile(ChangeMessagesUtil.DELETED_CHANGE_MESSAGE_PREFIX + "(.*)(\nReason: .*)?");
 
   private static final Pattern SUBMITTED_PATTERN =
       Pattern.compile("Change has been successfully (.*) by (.*)");

@@ -51,6 +51,8 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
+import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -464,6 +466,77 @@ public class PostReviewIT extends AbstractDaemonTest {
         .contains("Exceeding maximum comments per user: 1 (existing) + 4 (new) > 2");
 
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(0);
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxCommentsPerUser", value = "5")
+  public void deletedCommentsDoNotCountTowardsNumberOfCommentsPerUser() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+
+    // Uploading the change created one change message. Each review below adds one comment plus one
+    // change message, which exhausts the limit of 5.
+    postComment(r, filePath, /* line= */ 1, "first comment");
+    postComment(r, filePath, /* line= */ 2, "second comment");
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class, () -> postComment(r, filePath, /* line= */ 3, "spam"));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Exceeding maximum comments per user: 5 (existing) + 2 (new) > 5");
+
+    for (CommentInfo comment : testCommentHelper.getPublishedComments(r.getChangeId())) {
+      gApi.changes()
+          .id(r.getChangeId())
+          .current()
+          .comment(comment.id)
+          .delete(new DeleteCommentInput("spam"));
+    }
+
+    // The deleted comments are still in NoteDb, but they no longer count, so there is room again.
+    postComment(r, filePath, /* line= */ 3, "third comment");
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(3);
+  }
+
+  @Test
+  @GerritConfig(name = "change.maxCommentsPerUser", value = "3")
+  public void deletedChangeMessagesDoNotCountTowardsNumberOfCommentsPerUser() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+
+    // Uploading the change created one change message, each review below adds another one, which
+    // exhausts the limit of 3.
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().message("first"));
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().message("second"));
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .current()
+                    .review(new ReviewInput().message("spam")));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Exceeding maximum comments per user: 3 (existing) + 1 (new) > 3");
+
+    String messageId = Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).id;
+    ChangeMessageInfo deletedMessage =
+        gApi.changes()
+            .id(r.getChangeId())
+            .message(messageId)
+            .delete(new DeleteChangeMessageInput("spam"));
+    assertThat(deletedMessage.message).startsWith("Change message removed by:");
+
+    // The deleted change message is still in NoteDb, but it no longer counts, so there is room
+    // again.
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().message("third"));
+    assertThat(gApi.changes().id(r.getChangeId()).messages()).hasSize(4);
   }
 
   @Test
@@ -1260,6 +1333,17 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   private static CommentInput newComment(String path) {
     return TestCommentHelper.populate(new CommentInput(), path, PostReviewIT.COMMENT_TEXT);
+  }
+
+  private void postComment(PushOneCommit.Result r, String filePath, int line, String message)
+      throws Exception {
+    CommentInput comment = new CommentInput();
+    comment.line = line;
+    comment.message = message;
+    comment.path = filePath;
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(comment));
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
   }
 
   private static CommentValidationContext contextFor(PushOneCommit.Result result) {

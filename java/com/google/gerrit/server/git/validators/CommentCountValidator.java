@@ -23,6 +23,8 @@ import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -85,14 +87,18 @@ public class CommentCountValidator implements CommentValidator {
 
     Account.Id userId = user.asIdentifiedUser().getAccountId();
 
-    // Count existing comments per user only if needed
+    // Count existing comments per user only if needed. Comments and change messages that have been
+    // deleted are still present in NoteDb (only their message is masked), but they must not count
+    // towards the limit, as otherwise deleting them wouldn't let the user comment again.
     long existing =
         notes.getHumanComments().values().stream()
             .filter(c -> c.author != null && c.author.getId().equals(userId))
+            .filter(c -> !CommentsUtil.isDeleted(c))
             .count();
     existing +=
         notes.getChangeMessages().stream()
             .filter(cm -> cm.getAuthor() != null && cm.getAuthor().equals(userId))
+            .filter(cm -> !ChangeMessagesUtil.isDeleted(cm))
             .count();
 
     if (existing + comments.size() > maxCommentsPerUser) {

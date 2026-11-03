@@ -98,6 +98,12 @@ public class CommentsUtil {
         }
       };
 
+  /**
+   * Prefix of the message that replaces the message of a comment that was deleted by rewriting the
+   * change meta ref.
+   */
+  public static final String DELETED_COMMENT_MESSAGE_PREFIX = "Comment removed by: ";
+
   public static PatchSet.Id getCommentPsId(Change.Id changeId, Comment comment) {
     return PatchSet.id(changeId, comment.key.patchSetId);
   }
@@ -330,6 +336,15 @@ public class CommentsUtil {
   public void deleteCommentByRewritingHistory(
       ChangeUpdate update, Comment.Key commentKey, String newMessage) {
     update.deleteCommentByRewritingHistory(commentKey.uuid, newMessage);
+  }
+
+  /**
+   * Returns whether the comment has been deleted by rewriting the change meta ref. Deleting a
+   * comment doesn't remove it from NoteDb, it only replaces its message, so the comment is still
+   * returned when the change is loaded.
+   */
+  public static boolean isDeleted(Comment comment) {
+    return comment.message != null && comment.message.startsWith(DELETED_COMMENT_MESSAGE_PREFIX);
   }
 
   private static <T extends Comment> List<T> commentsOnPatchSet(

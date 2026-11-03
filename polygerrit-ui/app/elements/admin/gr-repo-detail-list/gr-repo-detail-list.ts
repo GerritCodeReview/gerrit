@@ -63,6 +63,8 @@ export class GrRepoDetailList extends LitElement {
 
   @state() isOwner = false;
 
+  @state() private canAdd = false;
+
   @state() loggedIn = false;
 
   @state() offset = 0;
@@ -159,7 +161,8 @@ export class GrRepoDetailList extends LitElement {
     if (!this.detailType) return nothing;
     return html`
       <gr-list-view
-        .createNew=${this.loggedIn}
+        .createNew=${this.loggedIn &&
+        (this.detailType !== RepoDetailView.BRANCHES || this.canAdd)}
         .createNewText=${this.detailType === RepoDetailView.BRANCHES
           ? 'Create Branch'
           : ' Create Tag'}
@@ -371,10 +374,12 @@ export class GrRepoDetailList extends LitElement {
   }
 
   // private but used in test
-  determineIfOwner(repo: RepoName) {
-    return this.restApiService
-      .getRepoAccess(repo)
-      .then(access => (this.isOwner = !!access?.[repo]?.is_owner));
+  determineRepoAccess(repo: RepoName) {
+    this.canAdd = false;
+    return this.restApiService.getRepoAccess(repo).then(access => {
+      this.isOwner = !!access?.[repo]?.is_owner;
+      this.canAdd = !!access?.[repo]?.can_add;
+    });
   }
 
   // private but used in test
@@ -397,7 +402,7 @@ export class GrRepoDetailList extends LitElement {
     this.getLoggedIn().then(loggedIn => {
       this.loggedIn = loggedIn;
       if (loggedIn && this.repo) {
-        this.determineIfOwner(this.repo);
+        this.determineRepoAccess(this.repo);
       }
     });
 

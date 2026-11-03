@@ -214,6 +214,8 @@ public class ConflictsPredicate {
       ObjectId other = changeData.currentPatchSet().commitId();
       try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
           CodeReviewCommit.CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+        // Dry runs do not need message bodies.
+        rw.setRetainBody(false);
         // Only check whether the other change itself conflicts with the tested change. Whether the
         // other change's own dependencies are open or already merged is irrelevant for this, so
         // treat its parents as already accepted. Since all ancestors of already accepted commits

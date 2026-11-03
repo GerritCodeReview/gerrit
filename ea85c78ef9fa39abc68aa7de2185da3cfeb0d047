@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de75c26_0f51010b",
+        "filename": "tools/deps.toml",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-11-03T20:07:00Z",
+      "side": 1,
+      "message": "This requires to checked if safe to be upgraded in Google. i need to verify 1.23.2 upgrade before the Library-Compliance vote",
+      "fixSuggestions": [
+        {
+          "fixId": "c3600b81_5ee23926",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "tools/deps.toml",
+              "range": {
+                "startLine": 86,
+                "startChar": 0,
+                "endLine": 87,
+                "endChar": 0
+              },
+              "replacement": "jsoup \u003d { module \u003d \"org.jsoup:jsoup\", version \u003d \"1.15.4\" }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ea85c78ef9fa39abc68aa7de2185da3cfeb0d047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

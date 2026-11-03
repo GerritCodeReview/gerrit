@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0514aad_6f3d954e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T18:16:25Z",
+      "side": 1,
+      "message": "Keep -1 to avoid merging it. A followup change to populate the event at creation time is needed.",
+      "revId": "8fd01f911c07edbe52683af818206c727e9b298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -571,6 +571,41 @@ public class EventJsonTest {
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.projectName = PROJECT;
     event.headName = REF;
+    event.gitConfig =
+        "[extensions]\n\trefStorage = reftable\n[branch \"main\"]\n\tmerge = refs/heads/main\n";
+
+    assertThatJsonMap(event)
+        .isEqualTo(
+            ImmutableMap.builder()
+                .put("projectName", PROJECT)
+                .put("headName", REF)
+                .put(
+                    "gitConfig",
+                    "[extensions]\n\trefStorage = reftable\n[branch \"main\"]\n"
+                        + "\tmerge = refs/heads/main\n")
+                .put("type", "project-created")
+                .put("eventCreatedOn", TS1)
+                .build());
+  }
+
+  @Test
+  public void projectCreatedEventGitConfigRoundTrip() {
+    ProjectCreatedEvent event = new ProjectCreatedEvent();
+    event.gitConfig =
+        "[remote \"origin\"]\n"
+            + "\tfetch = +refs/heads/*:refs/remotes/origin/*\n"
+            + "\tfetch = +refs/tags/*:refs/tags/*\n";
+
+    ProjectCreatedEvent result = gson.fromJson(gson.toJson(event), ProjectCreatedEvent.class);
+
+    assertThat(result.gitConfig).isEqualTo(event.gitConfig);
+  }
+
+  @Test
+  public void projectCreatedEventWithoutGitConfigOmitsField() {
+    ProjectCreatedEvent event = new ProjectCreatedEvent();
+    event.projectName = PROJECT;
+    event.headName = REF;
 
     assertThatJsonMap(event)
         .isEqualTo(
@@ -580,6 +615,17 @@ public class EventJsonTest {
                 .put("type", "project-created")
                 .put("eventCreatedOn", TS1)
                 .build());
+  }
+
+  @Test
+  public void projectCreatedEventWithoutGitConfigIsBackwardCompatible() {
+    ProjectCreatedEvent event =
+        gson.fromJson(
+            "{\"type\":\"project-created\",\"projectName\":\"legacy-project\","
+                + "\"headName\":\"refs/heads/master\"}",
+            ProjectCreatedEvent.class);
+
+    assertThat(event.gitConfig).isNull();
   }
 
   @Test

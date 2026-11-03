@@ -151,13 +151,13 @@ public abstract class JdbcAccountPatchReviewStore
     this.ds = null;
   }
 
+  @VisibleForTesting
   static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null) {
       return createH2Url(sitePaths.db_dir.resolve("account_patch_reviews"));
     }
-    url = normalizeH2Url(url);
-    return url;
+    return normalizeH2Url(url);
   }
 
   @VisibleForTesting

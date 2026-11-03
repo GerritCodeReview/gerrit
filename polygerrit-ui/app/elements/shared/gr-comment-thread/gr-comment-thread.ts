@@ -46,7 +46,7 @@ import {
   RepoName,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
+import {GrComment} from '../gr-comment/gr-comment';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
@@ -131,6 +131,9 @@ export class GrCommentThread extends LitElement {
 
   @query('gr-comment.draft')
   draftElement?: GrComment;
+
+  @queryAll('gr-comment.draft')
+  draftElements?: NodeListOf<GrComment>;
 
   @queryAll('gr-comment')
   commentElements?: NodeList;
@@ -551,19 +554,11 @@ export class GrCommentThread extends LitElement {
 
   renderComments() {
     assertIsDefined(this.thread, 'thread');
-    const publishedComments = repeat(
-      this.thread.comments.filter(c => !isDraft(c)),
-      comment => comment.id,
+    return repeat(
+      this.thread.comments,
+      comment => id(comment),
       comment => this.renderComment(comment)
     );
-    // We are deliberately not including the draft in the repeat directive,
-    // because we ran into spurious issues with <gr-comment> being destroyed
-    // and re-created when an unsaved draft transitions to 'saved' state.
-    // TODO: Revisit this, because this transition should not cause issues
-    // anymore. Just put the draft into the `repeat` directive above and
-    // then use `id()` instead of `.id` above.
-    const draftComment = this.renderComment(this.getDraft());
-    return html`${publishedComments}${draftComment}`;
   }
 
   private renderComment(comment?: Comment) {
@@ -584,10 +579,12 @@ export class GrCommentThread extends LitElement {
         ?show-ported-comment=${this.showPortedComment && isFirstComment}
         @reply-to-comment=${this.handleReplyToComment}
         @copy-comment-link=${this.handleCopyLink}
-        @comment-editing-changed=${(
-          e: CustomEvent<CommentEditingChangedDetail>
-        ) => {
-          if (isDraft(comment)) this.editing = e.detail.editing;
+        @comment-editing-changed=${() => {
+          if (isDraft(comment)) {
+            this.editing = Array.from(this.draftElements ?? []).some(
+              el => el.editing
+            );
+          }
         }}
         @comment-unresolved-changed=${(e: ValueChangedEvent<boolean>) => {
           if (isDraft(comment)) this.unresolved = e.detail.value;
@@ -780,35 +777,38 @@ export class GrCommentThread extends LitElement {
     }
   }
 
+  private getLastDraftElement(): GrComment | undefined {
+    const drafts = this.draftElements;
+    if (!drafts || drafts.length === 0) return undefined;
+    return drafts[drafts.length - 1];
+  }
+
   private async editDraft() {
     await waitUntil(
-      () => !!this.draftElement,
+      () => !!this.getLastDraftElement(),
       'draft element not found',
       5 * 1000
     );
-    this.draftElement!.edit();
+    this.getLastDraftElement()!.edit();
   }
 
   async autoSave(): Promise<void> {
-    await this.draftElement?.autoSave();
+    await Promise.all(
+      Array.from(this.draftElements ?? []).map(el => el.autoSave())
+    );
   }
 
   private async addQuote(quote: string) {
     await waitUntil(
-      () => !!this.draftElement,
+      () => !!this.getLastDraftElement(),
       'draft element not found',
       5 * 1000
     );
-    await this.draftElement!.addQuote(quote);
+    await this.getLastDraftElement()!.addQuote(quote);
   }
 
   private isDraft() {
     return isDraft(this.getLastComment());
-  }
-
-  private getDraft(): Comment | undefined {
-    if (this.isDraft()) return this.getLastComment();
-    return undefined;
   }
 
   private isPatchsetLevel() {

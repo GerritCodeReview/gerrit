@@ -72,6 +72,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5bde4c6d_2b37ecc2",
+        "filename": "java/com/google/gerrit/server/events/ProjectCreatedEvent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T18:11:21Z",
+      "side": 1,
+      "message": "I initially implemented it that way, and then had second thoughts.\n\nMy concern was the following: is there any case where, at creation time, we might have information we don\u0027t want to serialize in the event? \n\nInitially, I was thinking about sensitive information, but I don\u0027t think there is any risk. Bottom line I am happy to revert to a `String`.",
+      "parentUuid": "e5e11549_a6de9d31",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82008974_c4986afd",
         "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
         "patchSetId": 5

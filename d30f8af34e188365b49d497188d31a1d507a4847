@@ -16,6 +16,46 @@
       "message": "We are also missing the `backup` flag",
       "revId": "d30f8af34e188365b49d497188d31a1d507a4847",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d02a959_479db80d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T11:47:23Z",
+      "side": 1,
+      "message": "For future pro",
+      "revId": "d30f8af34e188365b49d497188d31a1d507a4847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e001b83_f2daa3c4",
+        "filename": "java/com/google/gerrit/server/events/ProjectCreatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T11:47:23Z",
+      "side": 1,
+      "message": "Instead of just adding `refStorage` we could propagate the full git config. This will be future-proof for any other configuration.",
+      "range": {
+        "startLine": 24,
+        "startChar": 20,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "d30f8af34e188365b49d497188d31a1d507a4847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

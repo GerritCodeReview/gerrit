@@ -15,11 +15,22 @@
 package com.google.gerrit.server.events;
 
 import com.google.gerrit.entities.Project;
+import java.util.List;
 
 public class ProjectCreatedEvent extends ProjectEvent {
   static final String TYPE = "project-created";
   public String projectName;
   public String headName;
+
+  /** Repository Git configuration grouped into section, subsection, name, and values. */
+  public List<GitConfigEntry> gitConfig;
+
+  public static class GitConfigEntry {
+    public String section;
+    public String subsection;
+    public String name;
+    public List<String> values;
+  }
 
   public ProjectCreatedEvent() {
     super(TYPE);

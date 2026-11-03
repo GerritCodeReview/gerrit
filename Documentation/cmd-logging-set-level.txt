@@ -10,7 +10,8 @@ gerrit logging set - set the logging level.
 --
 _ssh_ -p <port> <host> _gerrit logging set-level_ | _set_
   <LEVEL>
-  <NAME>
+  [<NAME>]
+  [--reset-after <DURATION>]
 --
 
 == DESCRIPTION
@@ -27,6 +28,25 @@ Set the logging level of specified loggers.
   If this argument is not provided, all loggers will have their level changed.
   Note that this argument has no effect if 'reset' is passed in LEVEL.
 
+--reset-after <DURATION>::
+  Automatically reset the matched loggers back to their previous level after
+  the specified duration.  This is useful when temporarily enabling verbose
+  logging for troubleshooting so that loggers are guaranteed to revert even if
+  the operator forgets to reset them manually.
++
+The duration is expressed as an integer followed by a unit suffix:
+`ms` (milliseconds), `s` / `sec` / `seconds`, `m` / `min` / `minutes`,
+`h` / `hr` / `hours`, `d` / `day` / `days`, `w` / `week` / `weeks`.
++
+If `set-level` is called a second time before the timer fires, both reset tasks
+will run independently at their respective scheduled times.
++
+If the Gerrit server is restarted before the timer fires, the scheduled reset
+is lost; however, the logging configuration is also reset on restart, so the
+logger levels return to their configured defaults regardless.
++
+This option has no effect when LEVEL is 'reset'.
+
 == ACCESS
 Caller must have the ADMINISTRATE_SERVER capability.
 
@@ -40,6 +60,16 @@ $ssh -p 29418 review.example.com gerrit logging set-level debug com.google.
 Reset the logging level of every logger to what they were at deployment time.
 ----
 $ssh -p 29418 review.example.com gerrit logging set-level reset
+----
+
+Enable DEBUG logging for a package for 2 hours, then revert automatically.
+----
+$ssh -p 29418 review.example.com gerrit logging set-level debug com.google.gerrit.server --reset-after 2h
+----
+
+Enable TRACE logging for 30 minutes using the short alias.
+----
+$ssh -p 29418 review.example.com gerrit logging set trace com.google.gerrit --reset-after 30min
 ----
 
 GERRIT

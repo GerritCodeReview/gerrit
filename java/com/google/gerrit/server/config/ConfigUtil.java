@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -263,6 +264,22 @@ public class ConfigUtil {
     } catch (NumberFormatException nfe) {
       throw notTimeUnit(valueString, nfe);
     }
+  }
+
+  /**
+   * Parse a numerical time unit, such as "1 minute", from a string and return it as a {@link
+   * Duration}.
+   *
+   * @param valueString the string to parse.
+   * @param defaultValue default value to return if {@code valueString} is null or empty.
+   * @return the parsed value as a {@link Duration}, or {@code defaultValue} if not set.
+   */
+  public static Duration getDuration(String valueString, Duration defaultValue) {
+    long ms = getTimeUnit(valueString, -1, TimeUnit.MILLISECONDS);
+    if (ms < 0) {
+      return defaultValue;
+    }
+    return Duration.ofMillis(ms);
   }
 
   public static String getRequired(Config cfg, String section, String name) {

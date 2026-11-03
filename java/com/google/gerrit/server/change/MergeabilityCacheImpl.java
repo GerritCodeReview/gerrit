@@ -199,6 +199,8 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
               return true; // Assume yes on new branch.
             }
             try (CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+              // Dry runs only need the commit graph, not message bodies.
+              rw.setRetainBody(false);
               return submitDryRun.run(
                   null,
                   key.submitType,

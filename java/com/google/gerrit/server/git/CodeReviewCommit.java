@@ -77,8 +77,8 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
     }
 
     @Override
-    protected CodeReviewCommit createCommit(AnyObjectId id) {
-      return new CodeReviewCommit(id);
+    protected CodeReviewCommit createCommit(AnyObjectId id, int graphPos) {
+      return new CodeReviewCommit(id, graphPos);
     }
 
     @Override
@@ -151,6 +151,10 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
 
   public CodeReviewCommit(AnyObjectId id) {
     super(id);
+  }
+
+  private CodeReviewCommit(AnyObjectId id, int graphPosition) {
+    super(id, graphPosition);
   }
 
   public ChangeNotes notes() {

@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8276fe34_2d114eee",
+        "filename": "java/com/google/gerrit/server/events/ProjectCreatedEvent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T18:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9321ef7e_5dbf7443",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5e11549_a6de9d31",
@@ -117,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcad9faa_d65698fa",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T18:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82008974_c4986afd",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 584,
+        "endChar": 59
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8359e3ed_6dee1cb4",
@@ -130,6 +178,30 @@
       "writtenOn": "2026-11-03T17:40:28Z",
       "side": 1,
       "message": "```suggestion\n                .put(\"gitConfig\", event.gitConfig)\n```",
+      "range": {
+        "startLine": 591,
+        "startChar": 0,
+        "endLine": 609,
+        "endChar": 66
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "436279c4_0f34c7e6",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T18:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8359e3ed_6dee1cb4",
       "range": {
         "startLine": 591,
         "startChar": 0,
@@ -163,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b035942_70e4bedb",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T18:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc169ce2_95a2ae7b",
+      "range": {
+        "startLine": 618,
+        "startChar": 0,
+        "endLine": 624,
+        "endChar": 46
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0294780b_3855e4b7",
@@ -176,6 +272,30 @@
       "writtenOn": "2026-11-03T17:40:28Z",
       "side": 1,
       "message": "```suggestion\n    assertThat(result.gitConfig).isEqualTo(event.gitConfig);\n```",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 634,
+        "endChar": 19
+      },
+      "revId": "f378430988173459349b687e653796ef378e1152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf5bd2c3_aceee2f6",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-03T18:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0294780b_3855e4b7",
       "range": {
         "startLine": 628,
         "startChar": 0,

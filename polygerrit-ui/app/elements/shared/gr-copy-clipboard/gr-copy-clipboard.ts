@@ -230,6 +230,15 @@ export class GrCopyClipboard extends LitElement {
     queryAndAssert<GrButton>(this, '#copy-clipboard-button').focus();
   }
 
+  // Synced with google3/java/com/google/devtools/gerritcodereview/web/CopyUtil.ts
+  @property({type: String})
+  copyStatus = 'Loading...';
+
+  renderCopyStatus() {
+    if (this.copyStatus === 'Loading...') return html``;
+    return html`<span class="status ${this.multiline ? 'multi' : 'single'}">${this.copyStatus}</span>`;
+  }
+
   private handleInputClick(e: MouseEvent) {
     if (this.disableAutoSelect) return;
     e.preventDefault();

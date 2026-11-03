@@ -17,6 +17,7 @@ junit_tests(
         "//lib:guava",
         "//lib:guava-testlib",
         "//lib:jgit",
+        "//lib:jsr305",
         "//lib:protobuf",
         "//lib/commons:lang3",
         "//lib/guice",

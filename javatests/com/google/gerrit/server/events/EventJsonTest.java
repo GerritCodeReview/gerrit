@@ -29,6 +29,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.ProjectCreatedEvent.GitConfigEntry;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.Gson;
@@ -571,15 +572,77 @@ public class EventJsonTest {
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.projectName = PROJECT;
     event.headName = REF;
+    GitConfigEntry refStorage = new GitConfigEntry();
+    refStorage.section = "extensions";
+    refStorage.name = "refStorage";
+    refStorage.values = ImmutableList.of("reftable");
+    GitConfigEntry branch = new GitConfigEntry();
+    branch.section = "branch";
+    branch.subsection = "main";
+    branch.name = "merge";
+    branch.values = ImmutableList.of("refs/heads/main");
+    event.gitConfig = ImmutableList.of(refStorage, branch);
 
     assertThatJsonMap(event)
         .isEqualTo(
             ImmutableMap.builder()
                 .put("projectName", PROJECT)
                 .put("headName", REF)
+                .put(
+                    "gitConfig",
+                    ImmutableList.of(
+                        ImmutableMap.of(
+                            "section",
+                            "extensions",
+                            "name",
+                            "refStorage",
+                            "values",
+                            ImmutableList.of("reftable")),
+                        ImmutableMap.of(
+                            "section",
+                            "branch",
+                            "subsection",
+                            "main",
+                            "name",
+                            "merge",
+                            "values",
+                            ImmutableList.of("refs/heads/main"))))
                 .put("type", "project-created")
                 .put("eventCreatedOn", TS1)
                 .build());
+  }
+
+  @Test
+  public void projectCreatedEventGitConfigRoundTrip() {
+    ProjectCreatedEvent event = new ProjectCreatedEvent();
+    GitConfigEntry entry = new GitConfigEntry();
+    entry.section = "remote";
+    entry.subsection = "origin";
+    entry.name = "fetch";
+    entry.values =
+        ImmutableList.of("+refs/heads/*:refs/remotes/origin/*", "+refs/tags/*:refs/tags/*");
+    event.gitConfig = ImmutableList.of(entry);
+
+    ProjectCreatedEvent result = gson.fromJson(gson.toJson(event), ProjectCreatedEvent.class);
+
+    assertThat(result.gitConfig).hasSize(1);
+    assertThat(result.gitConfig.get(0).section).isEqualTo("remote");
+    assertThat(result.gitConfig.get(0).subsection).isEqualTo("origin");
+    assertThat(result.gitConfig.get(0).name).isEqualTo("fetch");
+    assertThat(result.gitConfig.get(0).values)
+        .containsExactly("+refs/heads/*:refs/remotes/origin/*", "+refs/tags/*:refs/tags/*")
+        .inOrder();
+  }
+
+  @Test
+  public void projectCreatedEventWithoutGitConfigIsBackwardCompatible() {
+    ProjectCreatedEvent event =
+        gson.fromJson(
+            "{\"type\":\"project-created\",\"projectName\":\"legacy-project\","
+                + "\"headName\":\"refs/heads/master\"}",
+            ProjectCreatedEvent.class);
+
+    assertThat(event.gitConfig).isNull();
   }
 
   @Test

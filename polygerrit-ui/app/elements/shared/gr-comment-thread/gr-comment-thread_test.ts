@@ -1310,4 +1310,41 @@ suite('gr-comment-thread tests', () => {
       );
     });
   });
+
+  test('renders multiple drafts in thread and handles editing and autoSave', async () => {
+    const c4: DraftInfo = {
+      author: {name: 'Kermit', _account_id: 1 as AccountId},
+      id: 'the-draft-2' as UrlEncodedCommentId,
+      message: 'another draft reply',
+      updated: '2021-11-04 10:11:12.000000000' as Timestamp,
+      in_reply_to: 'the-reply' as UrlEncodedCommentId,
+      savingState: SavingState.OK,
+    };
+    element.thread = createThread(c1, c2, c3, c4);
+    await element.updateComplete;
+
+    const draftElements = Array.from(element.draftElements ?? []);
+    assert.lengthOf(draftElements, 2);
+    assert.equal(draftElements[0].comment?.id, 'the-draft');
+    assert.equal(draftElements[1].comment?.id, 'the-draft-2');
+
+    await Promise.all(draftElements.map(el => el.updateComplete));
+    assert.isFalse(element.editing);
+
+    draftElements[0].editing = true;
+    await draftElements[0].updateComplete;
+    await element.updateComplete;
+    assert.isTrue(element.editing);
+
+    draftElements[0].editing = false;
+    await draftElements[0].updateComplete;
+    await element.updateComplete;
+    assert.isFalse(element.editing);
+
+    const autoSaveStub0 = sinon.stub(draftElements[0], 'autoSave').resolves();
+    const autoSaveStub1 = sinon.stub(draftElements[1], 'autoSave').resolves();
+    await element.autoSave();
+    assert.isTrue(autoSaveStub0.calledOnce);
+    assert.isTrue(autoSaveStub1.calledOnce);
+  });
 });

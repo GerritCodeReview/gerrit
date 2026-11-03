@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf61fd10_cf20e48d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T12:08:07Z",
+      "side": 1,
+      "message": "I would align with the previous name, but with a broader scope, as it determines ownership and the ability to create.\n\n```suggestion\n  determineRepoAccess(repo: RepoName) {\n```",
+      "revId": "515fa89947d78f7c30800387b3ab12288ed86a28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb370cee_052b8b0e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-03T12:08:07Z",
+      "side": 1,
+      "message": "Align the internal name with the repo access, as we did with `is_owner` \u003d\u003e `isOwner`\n\n```suggestion\n      this.canAdd \u003d !!access?.[repo]?.can_add;\n```",
+      "revId": "515fa89947d78f7c30800387b3ab12288ed86a28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

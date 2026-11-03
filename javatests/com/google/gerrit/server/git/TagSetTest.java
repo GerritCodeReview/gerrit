@@ -42,22 +42,32 @@ import java.lang.reflect.Type;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.roaringbitmap.RoaringBitmap;
 
 public class TagSetTest {
+  @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
   @Test
   public void roundTripToProto() {
     HashMap<String, CachedRef> refs = new HashMap<>();
@@ -125,6 +135,61 @@ public class TagSetTest {
                 .build());
 
     assertEqual(tagSet, TagSet.fromProto(proto));
+  }
+
+  @Test
+  public void buildParsesCommitsFromCommitGraph() throws Exception {
+    AtomicInteger reads = new AtomicInteger();
+    FileRepository repo =
+        new FileRepository(temporaryFolder.newFolder("project.git")) {
+          @Override
+          public ObjectReader newObjectReader() {
+            ObjectReader delegate = super.newObjectReader();
+            return new ObjectReader.Filter() {
+              @Override
+              protected ObjectReader delegate() {
+                return delegate;
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId) throws IOException {
+                return open(objectId, OBJ_ANY);
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId, int typeHint) throws IOException {
+                reads.incrementAndGet();
+                return super.open(objectId, typeHint);
+              }
+
+              @Override
+              public Optional<CommitGraph> getCommitGraph() throws IOException {
+                return delegate.getCommitGraph();
+              }
+            };
+          }
+        };
+    repo.create(true);
+    try (TestRepository<FileRepository> tr = new TestRepository<>(repo)) {
+      RevCommit c1 = tr.commit().create();
+      RevCommit c2 = tr.commit().parent(c1).create();
+      tr.update("refs/heads/master", tr.commit().parent(c2).create());
+      tr.update("refs/tags/v1", c1);
+    }
+    StoredConfig cfg = repo.getConfig();
+    cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null, "commitGraph", true);
+    cfg.setBoolean(
+        ConfigConstants.CONFIG_GC_SECTION,
+        null,
+        ConfigConstants.CONFIG_KEY_WRITE_COMMIT_GRAPH,
+        true);
+    cfg.save();
+    new GC(repo).gc().get();
+
+    reads.set(0);
+    assertThat(new TagSet(Project.nameKey("project")).build(repo, null, null)).isTrue();
+    // Only the branch and tag tips are read; the commit between them comes from the graph.
+    assertThat(reads.get()).isEqualTo(2);
   }
 
   @Test

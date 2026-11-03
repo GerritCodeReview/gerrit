@@ -44,6 +44,20 @@ the class path.
 +
 Default is to create H2 database in the db folder of the site path.
 +
+To configure an H2 database explicitly, use the `async:` file system:
++
+----
+[accountPatchReviewDb]
+  url = jdbc:h2:async:/path/to/db
+----
++
+For legacy configurations, Gerrit also accepts the previous
+`jdbc:h2:file:/path/to/db` form as an alias for `jdbc:h2:async:/path/to/db`.
+H2 documents the `async:` file system as a workaround for applications that
+may interrupt embedded H2 operations, but not as a complete safety guarantee.
+Use a client/server database for the strongest isolation from interrupted
+request threads.
++
 Changing this parameter requires to migrate database using the
 link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb] program.
 Migration cannot be done while the server is running.

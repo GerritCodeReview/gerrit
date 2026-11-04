@@ -134,6 +134,10 @@ public class MergeUtil {
     return cfg.getBoolean("core", null, "useGitattributesForMerge", false);
   }
 
+  public static boolean useBinaryTheirs(Config cfg) {
+    return cfg.getBoolean("change", null, "useBinaryTheirs", false);
+  }
+
   public static ThreeWayMergeStrategy getMergeStrategy(Config cfg) {
     return useRecursiveMerge(cfg) ? MergeStrategy.RECURSIVE : MergeStrategy.RESOLVE;
   }
@@ -145,6 +149,7 @@ public class MergeUtil {
   private final boolean useContentMerge;
   private final boolean useRecursiveMerge;
   private final boolean useGitattributesForMerge;
+  private final boolean useBinaryTheirs;
   private final PluggableCommitMessageGenerator commitMessageGenerator;
   private final ChangeUtil changeUtil;
   private final boolean addChangeReviewFootersToCommitMessage;
@@ -186,6 +191,7 @@ public class MergeUtil {
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
     this.useGitattributesForMerge = useGitattributesForMerge(serverConfig);
+    this.useBinaryTheirs = useBinaryTheirs(serverConfig);
     this.addChangeReviewFootersToCommitMessage =
         serverConfig.getBoolean("change", "addChangeReviewFootersToCommitMessage", true);
   }
@@ -240,6 +246,18 @@ public class MergeUtil {
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
     RevCommit baseCommit = originalCommit.getParent(parentIndex);
     m.setBase(baseCommit);
+
+    logger.atFine().log(
+        "CherryPick start: project=%s, useBinaryTheirs=%s, useContentMerge=%s,"
+            + " allowConflicts=%s, merger=%s, base=%s, ours=%s, theirs=%s",
+        project.getName(),
+        useBinaryTheirs,
+        useContentMerge,
+        allowConflicts,
+        m.getClass().getSimpleName(),
+        baseCommit.name(),
+        mergeTip.name(),
+        originalCommit.name());
 
     DirCache dc = DirCache.newInCore();
     if (allowConflicts && m instanceof ResolveMerger resolveMerger) {
@@ -301,30 +319,62 @@ public class MergeUtil {
             ((ResolveMerger) m).getFailingPaths());
       }
 
-      Map<String, MergeResult<? extends Sequence>> mergeResults =
-          ((ResolveMerger) m).getMergeResults();
+      Map<String, MergeResult<? extends Sequence>> mergeResults;
+      ImmutableSet<String> binaryConflictsResolvedAsTheirs = ImmutableSet.of();
+      if (useBinaryTheirs) {
+        // Copy so binary paths can be removed without mutating ResolveMerger's internal map.
+        mergeResults = new HashMap<>(((ResolveMerger) m).getMergeResults());
+        // JGit cannot insert conflict markers into binary files and would format them as 0-byte
+        // blobs. Follow ContentMergeStrategy.THEIRS for those paths (the cherry-picked commit).
+        binaryConflictsResolvedAsTheirs = resolveBinaryConflictsAsTheirs(dc, mergeResults);
+      } else {
+        mergeResults = ((ResolveMerger) m).getMergeResults();
+      }
 
-      filesWithGitConflicts =
+      ImmutableSet<String> remainingFormattableConflicts =
           mergeResults.entrySet().stream()
               .filter(e -> e.getValue().containsConflicts())
               .map(Map.Entry::getKey)
               .collect(toImmutableSet());
-
-      tree =
-          mergeWithConflicts(
-              rw,
-              inserter,
-              dc,
-              "BASE",
-              MergeBase.create(baseCommit),
-              "HEAD",
-              mergeTip,
-              "CHANGE",
-              originalCommit,
-              mergeResults,
-              diff3Format);
+      // Keep THEIRS-resolved binary paths in filesWithGitConflicts so the UI/comment still lists
+      // every conflicted file, even though content was auto-resolved.
+      filesWithGitConflicts =
+          ImmutableSet.<String>builder()
+              .addAll(remainingFormattableConflicts)
+              .addAll(binaryConflictsResolvedAsTheirs)
+              .build();
       logger.atFine().log(
-          "AutoMerge treeId=%s (with conflicts, inserter: %s)", tree.name(), inserter);
+          "CherryPick filesWithGitConflicts=%s (formattable=%s, binaryTheirs=%s)",
+          filesWithGitConflicts, remainingFormattableConflicts, binaryConflictsResolvedAsTheirs);
+
+      if (useBinaryTheirs && remainingFormattableConflicts.isEmpty()) {
+        tree = dc.writeTree(inserter);
+        logger.atFine().log(
+            "CherryPick treeId=%s (binary conflicts resolved as theirs, inserter: %s)",
+            tree.name(), inserter);
+        if (tree.equals(mergeTip.getTree()) && !ignoreIdenticalTree) {
+          throw new MergeIdenticalTreeException("identical tree");
+        }
+      } else {
+        logger.atFine().log(
+            "CherryPick using mergeWithConflicts (useBinaryTheirs=%s, remainingConflicts=%s)",
+            useBinaryTheirs, remainingFormattableConflicts);
+        tree =
+            mergeWithConflicts(
+                rw,
+                inserter,
+                dc,
+                "BASE",
+                MergeBase.create(baseCommit),
+                "HEAD",
+                mergeTip,
+                "CHANGE",
+                originalCommit,
+                mergeResults,
+                diff3Format);
+        logger.atFine().log(
+            "AutoMerge treeId=%s (with conflicts, inserter: %s)", tree.name(), inserter);
+      }
     }
 
     CommitBuilder cherryPickCommit = new CommitBuilder();
@@ -459,6 +509,90 @@ public class MergeUtil {
     }
     builder.finish();
     return dc.writeTree(ins);
+  }
+
+  /**
+   * Resolves binary (and other unformattable) content conflicts using {@code
+   * ContentMergeStrategy.THEIRS}.
+   *
+   * <p>JGit cannot insert conflict markers into binary files. The default {@code
+   * ContentMergeStrategy.CONFLICT} path records an empty {@link MergeResult}, which {@link
+   * #mergeWithConflicts} then formats as a 0-byte blob. For cherry-pick, THEIRS is the commit being
+   * cherry-picked (DirCache stage 3).
+   *
+   * <p>Only conflicts whose merge result has no sequences are rewritten. Text conflicts still
+   * receive conflict markers. Setting {@code ResolveMerger.setContentMergeStrategy(THEIRS)} on the
+   * whole merger would also auto-resolve text hunks, which we do not want.
+   *
+   * @return paths that were resolved as THEIRS; callers should still list them in {@code
+   *     filesWithGitConflicts} so the UI can show all conflicted files
+   */
+  private static ImmutableSet<String> resolveBinaryConflictsAsTheirs(
+      DirCache dc, Map<String, MergeResult<? extends Sequence>> mergeResults) {
+
+    ImmutableSet<String> binaryConflicts =
+        mergeResults.entrySet().stream()
+            .filter(e -> isUnformattableConflict(e.getValue()))
+            .map(Map.Entry::getKey)
+            .collect(toImmutableSet());
+    if (binaryConflicts.isEmpty()) {
+      logger.atFine().log(
+          "CherryPick THEIRS: no unformattable/empty-sequence conflicts; skip rewrite");
+      return ImmutableSet.of();
+    }
+
+    logger.atFine().log(
+        "Resolving binary cherry-pick conflicts using ContentMergeStrategy.THEIRS: %s",
+        binaryConflicts);
+
+    DirCacheBuilder builder = dc.builder();
+    int cnt = dc.getEntryCount();
+    for (int i = 0; i < cnt; ) {
+      DirCacheEntry entry = dc.getEntry(i);
+      if (entry.getStage() == 0) {
+        builder.add(entry);
+        i++;
+        continue;
+      }
+
+      int next = dc.nextEntry(i);
+      String path = entry.getPathString();
+      if (binaryConflicts.contains(path)) {
+        DirCacheEntry theirs = findStage(dc, i, next, DirCacheEntry.STAGE_3);
+        if (theirs != null) {
+          DirCacheEntry resolved = new DirCacheEntry(path);
+          resolved.setFileMode(theirs.getFileMode());
+          resolved.setObjectId(theirs.getObjectId());
+          builder.add(resolved);
+        }
+        mergeResults.remove(path);
+      } else {
+        for (int j = i; j < next; j++) {
+          builder.add(dc.getEntry(j));
+        }
+      }
+      i = next;
+    }
+    builder.finish();
+    return binaryConflicts;
+  }
+
+  /**
+   * JGit reports binary (and some symlink) conflicts as a {@link MergeResult} with no sequences.
+   */
+  private static boolean isUnformattableConflict(MergeResult<? extends Sequence> result) {
+    return result.containsConflicts() && result.getSequences().isEmpty();
+  }
+
+  @Nullable
+  private static DirCacheEntry findStage(DirCache dc, int start, int end, int stage) {
+    for (int i = start; i < end; i++) {
+      DirCacheEntry entry = dc.getEntry(i);
+      if (entry.getStage() == stage) {
+        return entry;
+      }
+    }
+    return null;
   }
 
   public static CodeReviewCommit createMergeCommit(

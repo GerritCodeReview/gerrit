@@ -928,6 +928,160 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.useBinaryTheirs", value = "true")
+  public void cherryPickBinaryConflictUsesTheirsContent() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    String destBranch = "foo";
+    gApi.projects().name(project.get()).branch(destBranch).create(new BranchInput());
+
+    String destBinary = "\0\1dest-binary";
+    String srcBinary = "\0\1src-binary";
+    pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            ImmutableMap.of("bin.dat", destBinary))
+        .to("refs/heads/" + destBranch);
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                PushOneCommit.SUBJECT,
+                ImmutableMap.of("bin.dat", srcBinary))
+            .to("refs/for/master");
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = destBranch;
+    in.message = "Cherry-Pick binary";
+    in.allowConflicts = true;
+    ChangeInfo cherryPickChange = change(r).revision(r.getCommit().name()).cherryPickAsInfo(in);
+
+    assertThat(cherryPickChange.containsGitConflicts).isTrue();
+    assertThat(cherryPickChange.workInProgress).isTrue();
+
+    ChangeInfo cherryPickChangeWithDetails = gApi.changes().id(cherryPickChange._number).get();
+    assertThat(cherryPickChangeWithDetails.messages).hasSize(1);
+    assertThat(cherryPickChangeWithDetails.messages.iterator().next().message)
+        .contains("* bin.dat");
+
+    BinaryResult bin =
+        gApi.changes().id(cherryPickChange._number).current().file("bin.dat").content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    assertThat(os.toByteArray()).isEqualTo(srcBinary.getBytes(UTF_8));
+  }
+
+  @Test
+  @GerritConfig(name = "change.useBinaryTheirs", value = "true")
+  public void cherryPickMixedTextAndBinaryConflictTakesTheirsForBinary() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    String destBranch = "foo";
+    gApi.projects().name(project.get()).branch(destBranch).create(new BranchInput());
+
+    String destContent = "dest text";
+    String destBinary = "\0\1dest-binary";
+    pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            ImmutableMap.of(PushOneCommit.FILE_NAME, destContent, "bin.dat", destBinary))
+        .to("refs/heads/" + destBranch);
+
+    testRepo.reset(initialHead);
+    String changeContent = "src text";
+    String srcBinary = "\0\1src-binary";
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                PushOneCommit.SUBJECT,
+                ImmutableMap.of(PushOneCommit.FILE_NAME, changeContent, "bin.dat", srcBinary))
+            .to("refs/for/master");
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = destBranch;
+    in.message = "Cherry-Pick mixed";
+    in.allowConflicts = true;
+    ChangeInfo cherryPickChange = change(r).revision(r.getCommit().name()).cherryPickAsInfo(in);
+
+    assertThat(cherryPickChange.containsGitConflicts).isTrue();
+    assertThat(cherryPickChange.workInProgress).isTrue();
+
+    BinaryResult textBin =
+        gApi.changes()
+            .id(cherryPickChange._number)
+            .current()
+            .file(PushOneCommit.FILE_NAME)
+            .content();
+    ByteArrayOutputStream textOs = new ByteArrayOutputStream();
+    textBin.writeTo(textOs);
+    String fileContent = new String(textOs.toByteArray(), UTF_8);
+    assertThat(fileContent).contains("<<<<<<< HEAD");
+    assertThat(fileContent).contains(destContent);
+    assertThat(fileContent).contains(changeContent);
+
+    BinaryResult bin =
+        gApi.changes().id(cherryPickChange._number).current().file("bin.dat").content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    assertThat(os.toByteArray()).isEqualTo(srcBinary.getBytes(UTF_8));
+    assertThat(os.toByteArray()).isNotEmpty();
+
+    ChangeInfo cherryPickChangeWithDetails = gApi.changes().id(cherryPickChange._number).get();
+    String conflictMessage = cherryPickChangeWithDetails.messages.iterator().next().message;
+    assertThat(conflictMessage).contains("* " + PushOneCommit.FILE_NAME);
+    assertThat(conflictMessage).contains("* bin.dat");
+  }
+
+  @Test
+  public void cherryPickBinaryConflictWithoutUseBinaryTheirsWritesEmptyFile() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    String destBranch = "foo";
+    gApi.projects().name(project.get()).branch(destBranch).create(new BranchInput());
+
+    String destBinary = "\0\1dest-binary";
+    String srcBinary = "\0\1src-binary";
+    pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            PushOneCommit.SUBJECT,
+            ImmutableMap.of("bin.dat", destBinary))
+        .to("refs/heads/" + destBranch);
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                PushOneCommit.SUBJECT,
+                ImmutableMap.of("bin.dat", srcBinary))
+            .to("refs/for/master");
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = destBranch;
+    in.message = "Cherry-Pick binary";
+    in.allowConflicts = true;
+    ChangeInfo cherryPickChange = change(r).revision(r.getCommit().name()).cherryPickAsInfo(in);
+
+    assertThat(cherryPickChange.containsGitConflicts).isTrue();
+    assertThat(cherryPickChange.workInProgress).isTrue();
+
+    BinaryResult bin =
+        gApi.changes().id(cherryPickChange._number).current().file("bin.dat").content();
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    bin.writeTo(os);
+    assertThat(os.toByteArray()).isEmpty();
+  }
+
+  @Test
   public void cherryPickWithValidationOptions() throws Exception {
     PushOneCommit.Result r = createChange();
 

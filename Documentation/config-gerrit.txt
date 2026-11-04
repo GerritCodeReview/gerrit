@@ -2125,6 +2125,16 @@ Changing the setting leaves existing changes unaffected.
 +
 Default is `false`.
 
+[[change.useBinaryTheirs]]change.useBinaryTheirs::
++
+When cherry-picking with `allow_conflicts`, resolve binary file conflicts
+using JGit's `ContentMergeStrategy.THEIRS` (the cherry-picked commit)
+instead of writing empty 0-byte files.
++
+Text conflicts are unaffected and still receive conflict markers.
++
+Default is `false`.
+
 [[change.maxFileSizeDiff]]change.maxFileSizeDiff::
 +
 The threshold of file sizes in megabytes beyond which a

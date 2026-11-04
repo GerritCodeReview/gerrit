@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de37c70e_dc3dae33",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2131,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-04T19:01:36Z",
+      "side": 1,
+      "message": "But for binary files, how do we know if `THEIRS` or `OURS` is correct, or if a newly generated file is correct?\n\nI can see why a 0-byte file might not be good, but I don\u0027t see how a server-wide setting to change that behavior to a different fixed (i.e. not user selected) behavior is going to really help the problem.",
+      "range": {
+        "startLine": 2130,
+        "startChar": 0,
+        "endLine": 2131,
+        "endChar": 69
+      },
+      "revId": "8c14759d363f81e378c7893bce58e8b6cb926706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

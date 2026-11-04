@@ -15,8 +15,11 @@
 # War packaging.
 
 load("@rules_java//java:defs.bzl", "JavaInfo")
+load("//tools/bzl:jar.bzl", "JAR_FLAGS")
 
 jar_filetype = [".jar"]
+
+_JAVA_TOOLCHAIN_TYPE = "@bazel_tools//tools/jdk:toolchain_type"
 
 LIBS = [
     "//java/com/google/gerrit/common:version",
@@ -162,7 +165,7 @@ def is_third_party_jar_id(jar_id):
 
 def _add_context(in_file, output):
     return [
-        "unzip -qd %s %s" % (output, in_file.path),
+        "(cd %s && \"$jar\" xf \"$root/%s\")" % (output, in_file.path),
     ]
 
 def _add_file(in_file, output):
@@ -173,14 +176,24 @@ def _add_file(in_file, output):
     ]
 
 def _make_war(input_dir, output):
+    # jar(1) is used instead of zip(1) because the JDK is the only archive tool
+    # guaranteed to exist on minimal remote executors.
+
+    list_file = "${root}/%s.list" % output.path
     return "(%s)" % " && ".join([
         "set -o pipefail",
-        "root=$(pwd)",
         "TZ=UTC",
         "export TZ",
         "cd %s" % input_dir,
         "find . -exec touch -t 198001010000 '{}' ';' 2> /dev/null",
-        "find . -mindepth 1 -print | LC_ALL=C sort | zip -X -9q ${root}/%s -@" % (output.path),
+        # The list is passed to jar as an @argfile, which is split on whitespace:
+        # entry names must not contain whitespace, quotes or backslashes.
+        # jar recurses into listed directories in filesystem order, so files are
+        # listed first (sorted) and directories last: their recursion then adds
+        # nothing and only the directory entries themselves are appended.
+        "find . ! -type d -print | LC_ALL=C sort > %s" % list_file,
+        "find . -mindepth 1 -type d -print | LC_ALL=C sort >> %s" % list_file,
+        "\"$jar\" %s --file ${root}/%s @%s" % (JAR_FLAGS, output.path, list_file),
     ])
 
 def _ci_sorted(xs):
@@ -188,6 +201,7 @@ def _ci_sorted(xs):
 
 def _war_impl(ctx):
     war = ctx.outputs.war
+    java_runtime = ctx.toolchains[_JAVA_TOOLCHAIN_TYPE].java.java_runtime
     build_output = war.path + ".build_output"
     inputs = []
 
@@ -197,7 +211,10 @@ def _war_impl(ctx):
 
     # Create war layout
     cmd = [
-        "set -e;rm -rf " + build_output,
+        "set -e",
+        "root=$(pwd)",
+        "jar=$(cd %s && pwd)/bin/jar" % java_runtime.java_home,
+        "rm -rf " + build_output,
         "mkdir -p " + build_output,
         "mkdir -p %s/WEB-INF/lib" % build_output,
         "mkdir -p %s/WEB-INF/pgm-lib" % build_output,
@@ -276,7 +293,7 @@ def _war_impl(ctx):
     cmd.append(_make_war(build_output, war))
 
     ctx.actions.run_shell(
-        inputs = inputs,
+        inputs = depset(inputs, transitive = [java_runtime.files]),
         outputs = [war],
         mnemonic = "WAR",
         command = "\n".join(cmd),
@@ -297,6 +314,7 @@ _pkg_war = rule(
         "libs": attr.label_list(allow_files = jar_filetype),
         "pgmlibs": attr.label_list(allow_files = False),
     },
+    toolchains = [_JAVA_TOOLCHAIN_TYPE],
     outputs = {
         "war": "%{name}.war",
         "jars": "%{name}.war.jars.txt",

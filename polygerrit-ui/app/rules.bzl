@@ -2,6 +2,7 @@
 
 load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
+load("//tools/bzl:jar.bzl", "JAR_CREATE", "JAR_SETUP", "JAR_TOOLCHAINS")
 
 def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
     """Build .zip bundle from source code
@@ -121,6 +122,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
         ],
         outs = outs,
         cmd = " && ".join([
+            JAR_SETUP,
             "FONT_DIR=$(location //polygerrit-ui/app:node_modules/@polymer/font-roboto-local/dir)/fonts",
             "RESEMBLEJS_DIR=$(location //polygerrit-ui/app:node_modules/resemblejs/dir)",
             "mkdir -p $$TMP/polygerrit_ui/{workers,styles/themes,fonts/{roboto,robotomono},bower_components/{emojis,highlightjs,resemblejs},elements}",
@@ -137,6 +139,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
             "cp $$FONT_DIR/robotomono/*.ttf $$TMP/polygerrit_ui/fonts/robotomono/",
             "cd $$TMP",
             "find . -exec touch -t 198001010000 '{}' ';'",
-            "zip -qr $$ROOT/$@ *",
+            JAR_CREATE + " --file $$ROOT/$@ *",
         ]),
+        toolchains = JAR_TOOLCHAINS,
     )

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08724cbd_d707b6ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2441,
+      "author": {
+        "id": 5119937
+      },
+      "writtenOn": "2026-11-04T22:04:35Z",
+      "side": 1,
+      "message": "Dropped from this CL on rebase. https://gerrit-review.git.corp.google.com/c/gerrit/+/628541 landed this change.",
+      "parentUuid": "4ffb1e56_2ccf766a",
+      "revId": "0fd34d4fd1f4f31bb280fef0505ac8468c4d50cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ee4a63b_2273e67b",
@@ -54,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d153fd85_076bc580",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 5119937
+      },
+      "writtenOn": "2026-11-04T22:04:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee4a63b_2273e67b",
+      "revId": "0fd34d4fd1f4f31bb280fef0505ac8468c4d50cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf7d8b4c_dbf323f6",
@@ -68,6 +104,24 @@
       "side": 1,
       "message": "With the mergeable gate removed, an open change with `submittable\u003dtrue` that turns out to have a merge conflict will now show \"Ready to submit\" for the 1-3s while mergeability loads, and then flip to \"Merge Conflict\" (and with the header class fix, the border goes green -\u003e red). That\u0027s a false positive the old gate was implicitly protecting against.\n\nCould we avoid claiming READY_TO_SUBMIT until mergeability is known? Showing ACTIVE in the meantime is fine (optimistic upgrade later is OK, a wrong \"ready\" claim isn\u0027t):\n\n```ts\nif (change.submittable \u0026\u0026 options.mergeable !\u003d\u003d undefined) {\n  states.push(ChangeStates.READY_TO_SUBMIT);\n}\n```\n\nand update the new test case `{mergeable: undefined}` + `submittable \u003d true` to expect `[ChangeStates.ACTIVE]`.",
       "isAi": true,
+      "revId": "0fd34d4fd1f4f31bb280fef0505ac8468c4d50cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12930baf_a6b7f650",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5119937
+      },
+      "writtenOn": "2026-11-04T22:04:35Z",
+      "side": 1,
+      "message": "Done. Gated READY_TO_SUBMIT on options.mergeable !\u003d\u003d undefined so submittable open changes show ACTIVE until mergeability resolves. Updated the unit test.",
+      "parentUuid": "cf7d8b4c_dbf323f6",
       "revId": "0fd34d4fd1f4f31bb280fef0505ac8468c4d50cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -75,8 +75,8 @@ public class ChangeNotesCommit extends RevCommit {
     }
 
     @Override
-    protected ChangeNotesCommit createCommit(AnyObjectId id) {
-      return new ChangeNotesCommit(id);
+    protected ChangeNotesCommit createCommit(AnyObjectId id, int graphPos) {
+      return new ChangeNotesCommit(id, graphPos);
     }
 
     @Override
@@ -113,8 +113,8 @@ public class ChangeNotesCommit extends RevCommit {
 
   private List<FooterLine> footerLines;
 
-  public ChangeNotesCommit(AnyObjectId id) {
-    super(id);
+  public ChangeNotesCommit(AnyObjectId id, int graphPos) {
+    super(id, graphPos);
   }
 
   private void initFooterLines() {

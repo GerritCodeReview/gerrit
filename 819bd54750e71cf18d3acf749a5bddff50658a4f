@@ -128,6 +128,24 @@
       "parentUuid": "9e58fc4e_3ebc08eb",
       "revId": "819bd54750e71cf18d3acf749a5bddff50658a4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ba29781_16788be4",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-04T08:02:47Z",
+      "side": 1,
+      "message": "This comment was for PS1 and relevant when only `refStorage` was serialised.\nIf we are now serialising the whole configuration, this is no longer needed.\nResolving.",
+      "parentUuid": "2341432d_26120b28",
+      "revId": "819bd54750e71cf18d3acf749a5bddff50658a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

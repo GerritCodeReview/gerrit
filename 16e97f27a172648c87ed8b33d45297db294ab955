@@ -1,0 +1,49 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e5f5166_53cda510",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-11-04T00:23:21Z",
+      "side": 1,
+      "message": "This would show warning on all markdown comments. Would it be cleaner if we can have pre-approved set of markdown token types that won\u0027t be a risk and not show the warning on those. \n\nOk to ship it as is if that would be heavy to maintain.",
+      "fixSuggestions": [
+        {
+          "fixId": "2bb3708d_51ff575e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+              "range": {
+                "startLine": 28,
+                "startChar": 0,
+                "endLine": 29,
+                "endChar": 0
+              },
+              "replacement": "const PRE_APPROVED_MARKDOWN_TOKEN_TYPES \u003d new Set([\n  \u0027paragraph\u0027,\n  \u0027text\u0027,\n  \u0027space\u0027,\n  \u0027br\u0027,\n  \u0027strong\u0027,\n  \u0027em\u0027,\n  \u0027codespan\u0027,\n  \u0027code\u0027,\n  \u0027list\u0027,\n  \u0027list_item\u0027,\n  \u0027blockquote\u0027,\n  \u0027heading\u0027,\n  \u0027hr\u0027,\n  \u0027del\u0027,\n  \u0027escape\u0027,\n]);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+              "range": {
+                "startLine": 453,
+                "startChar": 0,
+                "endLine": 454,
+                "endChar": 0
+              },
+              "replacement": "      if (!PRE_APPROVED_MARKDOWN_TOKEN_TYPES.has(token.type)) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "16e97f27a172648c87ed8b33d45297db294ab955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

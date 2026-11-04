@@ -77,8 +77,8 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
     }
 
     @Override
-    protected CodeReviewCommit createCommit(AnyObjectId id) {
-      return new CodeReviewCommit(id);
+    protected CodeReviewCommit createCommit(AnyObjectId id, int graphPos) {
+      return new CodeReviewCommit(id, graphPos);
     }
 
     @Override
@@ -149,8 +149,8 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
   /** List of files in this commit that contain Git conflict markers. */
   private ImmutableSet<String> filesWithGitConflicts;
 
-  public CodeReviewCommit(AnyObjectId id) {
-    super(id);
+  public CodeReviewCommit(AnyObjectId id, int graphPos) {
+    super(id, graphPos);
   }
 
   public ChangeNotes notes() {

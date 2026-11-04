@@ -21,6 +21,9 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 public interface NewProjectCreatedListener {
   interface Event extends ProjectEvent {
     String getHeadName();
+
+    /** Returns the repository Git configuration in Git config file format. */
+    String getGitConfig();
   }
 
   void onNewProjectCreated(Event event);

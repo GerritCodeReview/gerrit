@@ -786,6 +786,9 @@ suite('gr-change-metadata tests', () => {
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const button = queryAndAssert<GrButton>(chip, 'gr-button');
       assert.isTrue(button.hasAttribute('hidden'));
+      assert.isTrue(chip.showCopyButton);
+      assert.equal(chip.copyButtonTitle, 'Copy topic to clipboard');
+      assert.equal(chip.copyTargetName, 'Topic');
     });
 
     test('topic not read only does not hide delete button', async () => {

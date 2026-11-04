@@ -10,6 +10,7 @@ import {GrLinkedChip} from './gr-linked-chip';
 import {queryAndAssert, waitEventLoop} from '../../../test/test-utils';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
+import {GrCopyClipboard} from '../gr-copy-clipboard/gr-copy-clipboard';
 
 suite('gr-linked-chip tests', () => {
   let element: GrLinkedChip;
@@ -44,5 +45,25 @@ suite('gr-linked-chip tests', () => {
     await waitEventLoop();
     queryAndAssert<GrButton>(element, '#remove').click();
     assert.isTrue(spy.called);
+  });
+
+  test('renders copy button when showCopyButton is true', async () => {
+    assert.isNull(element.shadowRoot!.querySelector('gr-copy-clipboard'));
+
+    element.text = 'my-topic-name';
+    element.showCopyButton = true;
+    element.copyButtonTitle = 'Copy topic to clipboard';
+    element.copyTargetName = 'Topic';
+    await element.updateComplete;
+
+    const copyClipboard = queryAndAssert<GrCopyClipboard>(
+      element,
+      'gr-copy-clipboard'
+    );
+    assert.isTrue(copyClipboard.hideInput);
+    assert.isTrue(copyClipboard.hasTooltip);
+    assert.equal(copyClipboard.text, 'my-topic-name');
+    assert.equal(copyClipboard.buttonTitle, 'Copy topic to clipboard');
+    assert.equal(copyClipboard.copyTargetName, 'Topic');
   });
 });

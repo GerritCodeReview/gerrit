@@ -664,6 +664,9 @@ export class GrChangeMetadata extends LitElement {
             limit="40"
             href=${createSearchUrl({topic: this.change!.topic!})}
             ?removable=${!this.topicReadOnly}
+            showCopyButton
+            copyButtonTitle="Copy topic to clipboard"
+            copyTargetName="Topic"
             @remove=${this.handleTopicRemoved}
           ></gr-linked-chip>`
         )}

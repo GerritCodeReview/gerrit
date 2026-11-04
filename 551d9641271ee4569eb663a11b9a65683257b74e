@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6c5c5c7_d0a29ca5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-04T08:47:06Z",
+      "side": 1,
+      "message": "I would say that we only require the `run-as` permission, rather than asking to be a Gerrit admin.",
+      "range": {
+        "startLine": 34,
+        "startChar": 41,
+        "endLine": 34,
+        "endChar": 71
+      },
+      "revId": "551d9641271ee4569eb663a11b9a65683257b74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

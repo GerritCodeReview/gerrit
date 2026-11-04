@@ -1243,7 +1243,8 @@ Values should use common unit suffixes to express their setting:
 * m, min, minute, minutes
 * h, hr, hour, hours
 +
-This applies only to these caches that support refreshing:
+If not set, cached values are not refreshed, unless the cache defines its own
+default. These caches define a default:
 +
 * `"projects"`: Caching project information in-memory. Defaults to 15 minutes.
 

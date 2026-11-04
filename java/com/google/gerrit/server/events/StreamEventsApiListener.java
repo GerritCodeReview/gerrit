@@ -374,6 +374,7 @@ public class StreamEventsApiListener
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.projectName = ev.getProjectName();
     event.headName = ev.getHeadName();
+    event.gitConfig = ev.getGitConfig();
 
     dispatcher.run(d -> d.postEvent(event.getProjectNameKey(), event));
   }

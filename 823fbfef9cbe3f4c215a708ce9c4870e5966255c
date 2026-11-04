@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b641f839_62ef19be",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-04T17:24:50Z",
+      "side": 1,
+      "message": "Can you document the new `gitConfig` field here?",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 19
+      },
+      "revId": "823fbfef9cbe3f4c215a708ce9c4870e5966255c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

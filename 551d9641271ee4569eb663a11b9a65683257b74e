@@ -22,6 +22,29 @@
       },
       "revId": "551d9641271ee4569eb663a11b9a65683257b74e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220115f3_a2a731b8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3089,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-04T08:50:37Z",
+      "side": 1,
+      "message": "I would opt for using a `run-as` permission rather than relying on being an administrator.",
+      "range": {
+        "startLine": 3088,
+        "startChar": 17,
+        "endLine": 3089,
+        "endChar": 21
+      },
+      "revId": "551d9641271ee4569eb663a11b9a65683257b74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

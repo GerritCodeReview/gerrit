@@ -16,6 +16,29 @@
       "message": "Keep -1 to avoid merging it. A followup change to populate the event at creation time is needed.",
       "revId": "8fd01f911c07edbe52683af818206c727e9b298d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "414fb666_a7554a22",
+        "filename": "javatests/com/google/gerrit/server/events/EventJsonTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-04T08:11:12Z",
+      "side": 1,
+      "message": "nit: Consider also adding a test for serialisation when `gitConfig` is `null`.\n\nAll existing serialisation tests explicitly populate `gitConfig`, but the field is nullable. It would be useful to verify that it\u0027s omitted from the serialised JSON when not set (rather than being added as `null`, for example).",
+      "range": {
+        "startLine": 604,
+        "startChar": 0,
+        "endLine": 613,
+        "endChar": 3
+      },
+      "revId": "8fd01f911c07edbe52683af818206c727e9b298d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

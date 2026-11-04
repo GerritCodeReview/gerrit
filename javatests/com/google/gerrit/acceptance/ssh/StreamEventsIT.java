@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.Reader;
@@ -46,6 +48,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -219,7 +222,23 @@ public class StreamEventsIT extends AbstractDaemonTest {
   public void projectCreatedShowInStreamEvents() throws Exception {
     ensureStreamEventsIsRegistered();
     String projectNameCreated = createProjectOverAPI("test-repo-1", project, true, null).get();
-    waitForEvent(() -> pollEventsContaining("project-created", projectNameCreated).size() == 1);
+    List<String> projectCreatedEvents = new ArrayList<>();
+    waitForEvent(
+        () -> {
+          projectCreatedEvents.addAll(pollEventsContaining("project-created", projectNameCreated));
+          return projectCreatedEvents.size() == 1;
+        });
+
+    String expectedGitConfig;
+    try (Repository repo = repoManager.openRepository(Project.nameKey(projectNameCreated))) {
+      expectedGitConfig = repo.getConfig().toText();
+    }
+    assertThat(
+            JsonParser.parseString(projectCreatedEvents.get(0))
+                .getAsJsonObject()
+                .get("gitConfig")
+                .getAsString())
+        .isEqualTo(expectedGitConfig);
   }
 
   @Test

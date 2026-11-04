@@ -175,6 +175,9 @@ projectName:: The created project name
 
 headName:: The created project head name
 
+gitConfig:: The repository Git configuration in Git config file format.
+This field is omitted if the configuration is not available.
+
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 

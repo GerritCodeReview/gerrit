@@ -300,7 +300,7 @@ public class ProjectCreator {
       md.getRepository().setGitwebDescription(args.projectDescription);
     } finally {
       if (configRevCommit != null) {
-        fireEvents(args.getProject(), args.getHead(), configRevCommit);
+        fireEvents(args.getProject(), args.getHead(), repo.getConfig().toText(), configRevCommit);
       }
     }
     projectCache.onCreateProject(args.getProject());
@@ -371,9 +371,11 @@ public class ProjectCreator {
     }
   }
 
-  private void fireEvents(Project.NameKey name, String head, ObjectId configNewObjectId) {
+  private void fireEvents(
+      Project.NameKey name, String head, String gitConfig, ObjectId configNewObjectId) {
     if (!createdListeners.isEmpty()) {
-      ProjectCreator.Event event = new ProjectCreator.Event(name, head, gerritInstanceId);
+      ProjectCreator.Event event =
+          new ProjectCreator.Event(name, head, gerritInstanceId, gitConfig);
       createdListeners.runEach(l -> l.onNewProjectCreated(event));
     }
 
@@ -389,11 +391,13 @@ public class ProjectCreator {
     private final Project.NameKey name;
     private final String head;
     private final String gerritInstanceId;
+    private final String gitConfig;
 
-    Event(Project.NameKey name, String head, @Nullable String gerritInstanceId) {
+    Event(Project.NameKey name, String head, @Nullable String gerritInstanceId, String gitConfig) {
       this.name = name;
       this.head = head;
       this.gerritInstanceId = gerritInstanceId;
+      this.gitConfig = gitConfig;
     }
 
     @Override
@@ -404,6 +408,11 @@ public class ProjectCreator {
     @Override
     public String getHeadName() {
       return head;
+    }
+
+    @Override
+    public String getGitConfig() {
+      return gitConfig;
     }
 
     @Override

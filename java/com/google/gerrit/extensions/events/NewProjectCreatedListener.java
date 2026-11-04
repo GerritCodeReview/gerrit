@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.events;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
 /** Notified whenever a project is created on the master. */
@@ -21,6 +22,15 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 public interface NewProjectCreatedListener {
   interface Event extends ProjectEvent {
     String getHeadName();
+
+    /**
+     * Returns the repository-local Git configuration in Git config file format,
+     * excluding inherited global and system configuration.
+     */
+    @Nullable
+    default String getGitConfig() {
+      return null;
+    }
   }
 
   void onNewProjectCreated(Event event);

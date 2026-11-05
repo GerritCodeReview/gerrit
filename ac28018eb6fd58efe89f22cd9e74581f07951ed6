@@ -34,6 +34,132 @@
       "parentUuid": "ec61e1b3_02625573",
       "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8add268_61426c65",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T23:45:55Z",
+      "side": 1,
+      "message": "unused? (also doesn\u0027t match a typical refspec for branches, that\u0027s already `Constants.R_HEADS`)",
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f31120c_6444fde3",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T23:45:55Z",
+      "side": 1,
+      "message": "Would it work to move this into the constructor and then always use `createBranchAllowedRefs`? Also, this is always used as an array, so maybe store it that way up front?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 68
+      },
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8affe6f2_c18824f9",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T23:45:55Z",
+      "side": 1,
+      "message": "Both here and L182, you\u0027re introducing extra lookups that were previously skipped in the `if (forPush \u0026\u0026 forRef.test(RefPermission.UPDATE)) {` (L238) case. Can you pass the `refsFromWhichTheCommitMustBeReachable` array instead?",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 95
+      },
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62ad9031_972a7bee",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T23:45:55Z",
+      "side": 1,
+      "message": "nit: typo\n```suggestion\n    // Do not check whether the commit is visible via a change. If the commit is not part of any\n```",
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d80e91b3_3d3cd0bf",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T23:45:55Z",
+      "side": 1,
+      "message": "Oh, I guess this is the admin motivation I was looking for. Can you add this to the commit message and the config doc too?\n\nThough, this feels more like a per-project setting than a server-wide config, but I get that at Google the hosts are effectively per-project. If it\u0027s reasonable to make it per-project, I think that would overall be a better fit, but it\u0027s not a hard ask.",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 64
+      },
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a83767f6_89483427",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T23:45:55Z",
+      "side": 1,
+      "message": "Conditionally add this when `restrictCreateRefToVisibleBranches \u003d\u003d true`? (like we do with the `forPush` extra text below)",
+      "range": {
+        "startLine": 286,
+        "startChar": 86,
+        "endLine": 287,
+        "endChar": 77
+      },
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

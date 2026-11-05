@@ -205,6 +205,68 @@ export function threadChangeList(
   );
 }
 
+/** Expand seed rows to whole connected networks, then apply a soft row limit.
+ * consumed counts a prefix of search results, never added context rows. This
+ * lets the next page resume without skipping results displaced by expansion.
+ */
+export function expandChangeList(
+  seeds: ChangeInfo[],
+  additional: ChangeInfo[],
+  edges: ChangeThreadEdge[],
+  limit = Infinity,
+  groupTopics = false
+): {changes: ChangeInfo[]; consumed: number} {
+  // Source rows are authoritative and keep their search order.
+  const all = [
+    ...seeds,
+    ...additional.filter(
+      change => !seeds.some(seed => seed._number === change._number)
+    ),
+  ];
+  const rows = threadChangeList(all, edges, true, groupTopics);
+  const numberById = new Map(
+    rows.map(row => [row.node.id, row.node.value._number])
+  );
+  const neighbours = new Map(
+    all.map(change => [change._number, new Set<number>()])
+  );
+  const connect = (a: number, b: number) => {
+    neighbours.get(a as ChangeInfo['_number'])?.add(b);
+    neighbours.get(b as ChangeInfo['_number'])?.add(a);
+  };
+  const topics = new Map<string, number>();
+  for (const row of rows) {
+    const number = row.node.value._number;
+    for (const parent of row.parents) connect(number, numberById.get(parent)!);
+    if (row.node.topic) {
+      const other = topics.get(row.node.topic);
+      if (other !== undefined) connect(number, other);
+      topics.set(row.node.topic, number);
+    }
+  }
+  const included = new Set<number>();
+  let consumed = 0;
+  for (const seed of seeds) {
+    if (!included.has(seed._number)) {
+      if (included.size >= Math.max(1, limit)) break;
+      const pending: number[] = [seed._number];
+      while (pending.length) {
+        const number = pending.pop()!;
+        if (included.has(number)) continue;
+        included.add(number);
+        pending.push(
+          ...(neighbours.get(number as ChangeInfo['_number']) ?? [])
+        );
+      }
+    }
+    consumed++;
+  }
+  return {
+    changes: all.filter(change => included.has(change._number)),
+    consumed,
+  };
+}
+
 export function threadRelatedChanges(
   changes: RelatedChangeAndCommitInfo[],
   edges: ChangeThreadEdge[] = [],

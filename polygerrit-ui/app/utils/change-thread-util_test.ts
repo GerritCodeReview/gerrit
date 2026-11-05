@@ -6,6 +6,7 @@
 import '../test/common-test-setup';
 import {assert} from '@open-wc/testing';
 import {
+  expandChangeList,
   threadChangeList,
   threadChanges,
   ThreadNode,
@@ -26,6 +27,61 @@ suite('change-thread-util', () => {
   ): ThreadNode<string> => {
     return {id, value: id, parents, topic};
   };
+
+  test('expansion follows both directions and paginates entire cyclic networks', () => {
+    const changes = [1, 2, 3, 4, 5].map(number =>
+      createChange({_number: number as NumericChangeId})
+    );
+    const [seed, later, dependency, dependent, unrelated] = changes;
+    const edges = [
+      {from: 1, to: 3, type: 'depends-on'},
+      {from: 4, to: 1, type: 'depends-on'},
+      {from: 3, to: 4, type: 'git'},
+    ] as const;
+    const result = expandChangeList(
+      [seed, later],
+      [dependency, dependent, unrelated],
+      [...edges],
+      2
+    );
+    assert.deepEqual(
+      result.changes.map(change => change._number),
+      [1, 3, 4]
+    );
+    assert.equal(result.consumed, 1);
+    const next = expandChangeList(
+      [later],
+      [dependency, dependent],
+      [...edges],
+      2
+    );
+    assert.deepEqual(
+      next.changes.map(change => change._number),
+      [2]
+    );
+    assert.equal(next.consumed, 1);
+  });
+
+  test('counts seed prefixes when a network contains a later search result', () => {
+    const changes = [1, 2, 3].map(number =>
+      createChange({_number: number as NumericChangeId})
+    );
+    const result = expandChangeList(
+      changes,
+      [],
+      [{from: 2, to: 1, type: 'depends-on'}],
+      2
+    );
+    assert.deepEqual(
+      result.changes.map(change => change._number),
+      [1, 2]
+    );
+    assert.equal(result.consumed, 2);
+    assert.deepEqual(
+      expandChangeList(changes, [], [], 2).changes,
+      changes.slice(0, 2)
+    );
+  });
 
   test('topic grouping and dependency threading support all four combinations', () => {
     const base = createChange({

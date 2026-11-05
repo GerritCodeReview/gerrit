@@ -53,6 +53,7 @@ import {ChangeDependencyChange} from '../../../api/change-dependencies';
 import {ChangeDependenciesController} from '../../lit/change-dependencies-controller';
 import {
   ChangeThreadEdge,
+  expandChangeList,
   threadChangeList,
 } from '../../../utils/change-thread-util';
 import {configModelToken} from '../../../models/config/config-model';
@@ -117,6 +118,17 @@ export class GrChangeList extends LitElement {
 
   @property({type: Array})
   changes?: ChangeInfo[];
+
+  /** Soft page size: a connected network is never split. */
+  @property({type: Number}) rowLimit?: number;
+
+  private displaySections: ChangeListSection[] = [];
+
+  private consumedResults = 0;
+
+  private lastPageKey = '';
+
+  private expansionInputs: unknown[] = [];
 
   /**
    * ChangeInfo objects grouped into arrays. The sections and changes
@@ -291,11 +303,11 @@ export class GrChangeList extends LitElement {
 
   override render() {
     if (!this.sections) return;
-    const labelNames = this.computeLabelNames(this.sections);
-    const startIndices = this.calculateStartIndices(this.sections);
+    const labelNames = this.computeLabelNames(this.displaySections);
+    const startIndices = this.calculateStartIndices(this.displaySections);
     return html`
       <table id="changeList">
-        ${this.sections.map((changeSection, sectionIndex) =>
+        ${this.displaySections.map((changeSection, sectionIndex) =>
           this.renderSection(
             changeSection,
             sectionIndex,
@@ -337,7 +349,7 @@ export class GrChangeList extends LitElement {
         .selectedIndex=${computeRelativeIndex(
           this.selectedIndex,
           sectionIndex,
-          this.sections
+          this.displaySections
         )}
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
@@ -395,11 +407,44 @@ export class GrChangeList extends LitElement {
         ).values(),
       ];
     }
+    const expansionInputs = [
+      this.sections,
+      this.dependencies.additionalChanges,
+      this.dependencies.edges,
+      this.dependencyEdges,
+      this.rowLimit,
+      this.threadedChanges,
+      this.groupTopics,
+    ];
+    if (
+      expansionInputs.some(
+        (value, index) => value !== this.expansionInputs[index]
+      )
+    ) {
+      this.expansionInputs = expansionInputs;
+      this.displaySections = (this.sections ?? []).map(section => {
+        if (!this.threadedChanges) return section;
+        const expanded = expandChangeList(
+          section.results,
+          this.dependencies.additionalChanges,
+          [...this.dependencyEdges, ...this.dependencies.edges],
+          this.changes ? this.rowLimit : undefined,
+          this.groupTopics
+        );
+        if (this.changes) this.consumedResults = expanded.consumed;
+        return {...section, results: expanded.changes};
+      });
+      if (!this.threadedChanges)
+        this.consumedResults = this.changes?.length ?? 0;
+    }
     const threadKey = JSON.stringify([
       this.threadedChanges,
       this.groupTopics,
       this.dependencyEdges,
       this.dependencies.edges,
+      this.displaySections.map(section =>
+        section.results.map(change => change._number)
+      ),
     ]);
     if (
       threadKey !== this.displayedThreadKey &&
@@ -416,9 +461,9 @@ export class GrChangeList extends LitElement {
       const selected = items[this.selectedIndex];
       if (selected?.change) {
         let offset = 0;
-        for (let index = 0; index < (this.sections?.length ?? 0); index++) {
+        for (let index = 0; index < this.displaySections.length; index++) {
           const rows = threadChangeList(
-            this.sections![index].results,
+            this.displaySections[index].results,
             [...this.dependencyEdges, ...this.dependencies.edges],
             this.threadedChanges,
             this.groupTopics
@@ -427,17 +472,30 @@ export class GrChangeList extends LitElement {
             const position = rows.findIndex(
               row => row.node.value._number === selected.change!._number
             );
-            if (position >= 0) this.selectedIndex = offset + position;
+            this.selectedIndex = offset + (position >= 0 ? position : 0);
             break;
           }
           offset += rows.length;
         }
       }
     }
+    if (this.displayedThreadKey !== threadKey) {
+      this.updateComplete.then(() => this.sectionsChanged());
+    }
     this.displayedThreadKey = threadKey;
   }
 
   override updated(changedProperties: PropertyValues) {
+    if (this.changes) {
+      const key = `${this.consumedResults}:${this.changes.length}`;
+      if (key !== this.lastPageKey || changedProperties.has('changes')) {
+        this.lastPageKey = key;
+        fire(this, 'network-page-changed', {
+          source: this.changes,
+          consumed: this.consumedResults,
+        });
+      }
+    }
     if (changedProperties.has('sections')) {
       this.sectionsChanged();
     }
@@ -457,9 +515,9 @@ export class GrChangeList extends LitElement {
       this,
       'gr-change-list-section'
     );
-    for (let i = 0; i < this.sections.length; i++) {
-      if (selectedIndex >= this.sections[i].results.length) {
-        selectedIndex -= this.sections[i].results.length;
+    for (let i = 0; i < this.displaySections.length; i++) {
+      if (selectedIndex >= this.displaySections[i].results.length) {
+        selectedIndex -= this.displaySections[i].results.length;
         continue;
       }
       changeSections[i].toggleChange(selectedIndex);
@@ -615,6 +673,10 @@ declare global {
   }
   interface HTMLElementEventMap {
     'selected-index-changed': ValueChangedEvent<number>;
+    'network-page-changed': CustomEvent<{
+      source: ChangeInfo[];
+      consumed: number;
+    }>;
     /** Fired when next page key shortcut was pressed. */
     'next-page': CustomEvent<{}>;
     /** Fired when previous page key shortcut was pressed. */

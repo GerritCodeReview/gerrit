@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b90540_920c656d",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSubmitStrategy.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-05T07:54:20Z",
+      "side": 1,
+      "message": "This query needs a `CurrentUser` (`ChangeQueryProcessor.getInitialPageSize` asks for the user\u0027s query limit). When mergeability is computed from `ChangeIndexer`, which is exactly the reindex after P is submitted, there is no user, so it throws `OutOfScopeException` wrapped in a `ProvisionException`. That isn\u0027t caught here. `MergeabilityCacheImpl` logs SEVERE and returns false, so with `API_REF_UPDATED_AND_CHANGE_REINDEX` the indexed mergeable stays false for C/D. The `mergeabilityCheckEnabled` test variants only pass because `mergeable()` recomputes in a request. Wrap the query in a `OneOffRequestContext` like `SearchingChangeCacheImpl.Loader` does, and maybe assert `is:mergeable` in a test?",
+      "revId": "3caa4f4c6fd71d2d72b73937a8089c4e1f793370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

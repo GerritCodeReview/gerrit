@@ -19,6 +19,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
@@ -4008,7 +4009,7 @@ class ReceiveCommits {
                         rw.markStart(newTip);
                         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
 
-                        Map<Change.Key, ChangeData> changeDataByKey = null;
+                        Map<RevCommit, List<String>> changeIdsByCommit = new LinkedHashMap<>();
                         List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
                         int existingPatchSets = 0;
@@ -4044,28 +4045,43 @@ class ReceiveCommits {
                             }
                           }
 
-                          for (String changeId : changeUtil.getChangeIdsFromFooter(c)) {
-                            if (changeDataByKey == null) {
-                              changeDataByKey =
-                                  retryHelper
-                                      .changeIndexQuery(
-                                          "queryOpenChangesByKeyByBranch",
-                                          q -> openChangesByKeyByBranch(q, branch))
-                                      .call();
-                            }
+                          List<String> changeIds = changeUtil.getChangeIdsFromFooter(c);
+                          if (!changeIds.isEmpty()) {
+                            changeIdsByCommit.put(c, changeIds);
+                          }
+                        }
 
-                            ChangeData onto = changeDataByKey.get(Change.key(changeId.trim()));
-                            if (onto != null) {
-                              newPatchSets++;
-                              // Hold onto this until we're done with the walk, as the call to
-                              // req.validate below calls isMergedInto which resets the walk.
-                              ChangeNotes ontoNotes = onto.notes();
-                              ReplaceRequest req =
-                                  new ReplaceRequest(
-                                      globalRevWalk, ontoNotes.getChangeId(), c, cmd, false);
-                              req.notes = ontoNotes;
-                              replaceAndClose.add(req);
-                              continue COMMIT;
+                        if (!changeIdsByCommit.isEmpty()) {
+                          ImmutableSet<Change.Key> keys =
+                              changeIdsByCommit.values().stream()
+                                  .flatMap(List::stream)
+                                  .map(id -> Change.key(id.trim()))
+                                  .collect(toImmutableSet());
+                          Map<Change.Key, ChangeData> changeDataByKey =
+                              retryHelper
+                                  .changeIndexQuery(
+                                      "queryOpenChangesByKeysByBranch",
+                                      q -> openChangesByKeysByBranch(q, branch, keys))
+                                  .call();
+
+                          for (Map.Entry<RevCommit, List<String>> e :
+                              changeIdsByCommit.entrySet()) {
+                            for (String changeId : e.getValue()) {
+                              ChangeData onto = changeDataByKey.get(Change.key(changeId.trim()));
+                              if (onto != null) {
+                                newPatchSets++;
+                                ChangeNotes ontoNotes = onto.notes();
+                                ReplaceRequest req =
+                                    new ReplaceRequest(
+                                        globalRevWalk,
+                                        ontoNotes.getChangeId(),
+                                        e.getKey(),
+                                        cmd,
+                                        false);
+                                req.notes = ontoNotes;
+                                replaceAndClose.add(req);
+                                break;
+                              }
                             }
                           }
                         }
@@ -4139,12 +4155,12 @@ class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, ChangeData> openChangesByKeyByBranch(
-      InternalChangeQuery internalChangeQuery, BranchNameKey branch) {
+  private Map<Change.Key, ChangeData> openChangesByKeysByBranch(
+      InternalChangeQuery internalChangeQuery, BranchNameKey branch, Set<Change.Key> keys) {
     try (TraceTimer traceTimer =
-        newTimer("openChangesByKeyByBranch", Metadata.builder().branchName(branch.branch()))) {
+        newTimer("openChangesByKeysByBranch", Metadata.builder().branchName(branch.branch()))) {
       Map<Change.Key, ChangeData> r = new HashMap<>();
-      for (ChangeData cd : internalChangeQuery.byBranchOpen(branch)) {
+      for (ChangeData cd : internalChangeQuery.byBranchKeysOpen(branch, keys)) {
         try {
           // ChangeData is not materialised into a ChangeNotes for avoiding
           // to load a potentially large number of changes meta-data into memory

@@ -22,6 +22,30 @@
       },
       "revId": "ab4ae2fb2900830404909400634b0cb50a30a592",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eaf4b8c_63271ed6",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5299003
+      },
+      "writtenOn": "2026-11-05T10:39:49Z",
+      "side": 1,
+      "message": "Fair point",
+      "parentUuid": "fbff39d1_c201fcee",
+      "range": {
+        "startLine": 56,
+        "startChar": 15,
+        "endLine": 56,
+        "endChar": 25
+      },
+      "revId": "ab4ae2fb2900830404909400634b0cb50a30a592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

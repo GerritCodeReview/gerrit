@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1560c516_e4d93be4",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-05T01:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e598b68_96e4da93",
+      "revId": "0733b7f71c0804900171f0f0505b7642346d9eb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "585e2d4a_e5331c49",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-04T21:37:13Z",
       "side": 1,
       "message": "```suggestion\n        // Dry runs do not need message bodies.\n```",
+      "revId": "0733b7f71c0804900171f0f0505b7642346d9eb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04f8cb35_7dde8196",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-05T01:35:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "585e2d4a_e5331c49",
       "revId": "0733b7f71c0804900171f0f0505b7642346d9eb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

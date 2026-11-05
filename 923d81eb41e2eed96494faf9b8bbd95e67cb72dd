@@ -150,6 +150,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dba10dde_63fcca22",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-11-05T18:32:09Z",
+      "side": 1,
+      "message": "Do we want to give this exception though? Google CLA would still require them to be attributed to a human. Do we have an use case for this.",
+      "fixSuggestions": [
+        {
+          "fixId": "b9ac90ec_75ac3e8d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "Documentation/dev-contributing.txt",
+              "range": {
+                "startLine": 158,
+                "startChar": 0,
+                "endLine": 160,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70dc610e_78327ff5",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 39
@@ -161,6 +196,30 @@
       "writtenOn": "2026-10-23T18:16:08Z",
       "side": 1,
       "message": "Agreement from PS18 discussion was to remove this statement about the commit message.\n```suggestion\nthe Gerrit maintainers.\n```",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 51
+      },
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1398f2f6_6fde5231",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-11-05T18:32:09Z",
+      "side": 1,
+      "message": "+1 this. I don\u0027t see why commit messages should be treated any differently than code. AI can help write it but should adhere to the same CLA guidelines of associating the authorship to a human who created the chagne",
+      "parentUuid": "70dc610e_78327ff5",
       "range": {
         "startLine": 159,
         "startChar": 0,

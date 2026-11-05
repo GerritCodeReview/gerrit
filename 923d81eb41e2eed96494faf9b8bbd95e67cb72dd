@@ -185,6 +185,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5e32f6f_b6a17d76",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T18:37:34Z",
+      "side": 1,
+      "message": "Yeah, [PS18](https://gerrit-review.googlesource.com/c/gerrit/+/641963/comment/9c9dfedd_0eb1dcb1/) had a list of specific use cases (release automation is the only one creating changes I think), but I argued that this isn\u0027t the best place to maintain that list.\n\nHow does the CLA handle that for what the git-repo folks are doing with their release automation?",
+      "parentUuid": "dba10dde_63fcca22",
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70dc610e_78327ff5",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 39

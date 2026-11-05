@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75f98769_8bc2067c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-05T10:39:04Z",
+      "side": 1,
+      "message": "Looks like documenting `soy_sauce_compiled_templates` should be a separate change.\nThis one is about documenting the default value of `cache.\u003cname\u003e.refreshAfterWrite`",
+      "range": {
+        "startLine": 1250,
+        "startChar": 0,
+        "endLine": 1251,
+        "endChar": 22
+      },
+      "revId": "006b3d47f7452802ef649856a89c296ce6946636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

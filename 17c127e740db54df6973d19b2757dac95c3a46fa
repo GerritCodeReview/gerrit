@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c995fcd3_41cb8686",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-11-05T13:28:47Z",
+      "side": 1,
+      "message": "IIRC, I can already push a commit from jj to gerrit without a change-id footer.\nThat first step is not a problem. The problem is, if I recall correctly, pushing the next patch-set, right?\nCan you describe more which exactly scenario(s) this change improves?",
+      "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

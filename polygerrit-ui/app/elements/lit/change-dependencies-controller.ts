@@ -9,6 +9,8 @@ import {
   ChangeDependencyChange,
   ChangeDependencyEdge,
 } from '../../api/change-dependencies';
+import {ChangeInfo, ChangeStatus} from '../../api/rest-api';
+import {getAppContext} from '../../services/app-context';
 import {ChangeDependenciesPlugin} from '../../models/plugins/plugins-model';
 import {resolve} from '../../models/dependency';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
@@ -17,6 +19,14 @@ import {subscribe} from './subscription-controller';
 /** One batched request per provider and view; native rendering never waits for it. */
 export class ChangeDependenciesController implements ReactiveController {
   private resultEdges: ChangeDependencyEdge[] = [];
+
+  private resultChanges: ChangeInfo[] = [];
+
+  get additionalChanges(): ChangeInfo[] {
+    return this.enabled() && this.changes() === this.previousChanges
+      ? this.resultChanges
+      : [];
+  }
 
   get edges(): ChangeDependencyEdge[] {
     // Never render a result from the previous source array, even for one frame.
@@ -76,8 +86,9 @@ export class ChangeDependenciesController implements ReactiveController {
     clearTimeout(this.timeout);
     const controller = new AbortController();
     this.abort = controller;
-    if (this.resultEdges.length) {
+    if (this.resultEdges.length || this.resultChanges.length) {
       this.resultEdges = [];
+      this.resultChanges = [];
       this.host.requestUpdate();
     }
     if (!enabled || !changes.length || !this.plugins.length) return;
@@ -85,7 +96,12 @@ export class ChangeDependenciesController implements ReactiveController {
       changes.map(change => Object.freeze({...change}))
     );
     const allowed = new Set(snapshot.map(change => change._number));
-    const results = this.plugins.map(() => [] as ChangeDependencyEdge[]);
+    const results = this.plugins.map(() => {
+      return {
+        edges: [] as ChangeDependencyEdge[],
+        changes: [] as ChangeInfo[],
+      };
+    });
     const request: ChangeDependenciesRequest = {
       context: this.context,
       changes: snapshot,
@@ -99,13 +115,72 @@ export class ChangeDependenciesController implements ReactiveController {
             ? {edges: []}
             : plugin.provider.fetch(request)
         )
-        .then(response => {
+        .then(async response => {
           if (controller.signal.aborted || this.abort !== controller) return;
-          results[index] = (response.edges ?? [])
+          const nominations =
+            this.context === 'change-list'
+              ? new Map(
+                  (response.changes ?? [])
+                    .slice(0, 500)
+                    .filter(
+                      change =>
+                        Number.isSafeInteger(change._number) &&
+                        change._number > 0 &&
+                        !allowed.has(change._number)
+                    )
+                    .map(change => [change._number, change])
+                )
+              : new Map<number, ChangeDependencyChange>();
+          const loaded: ChangeInfo[] = [];
+          const ids = [...nominations.keys()];
+          for (let start = 0; start < ids.length; start += 50) {
+            if (controller.signal.aborted || this.abort !== controller) return;
+            const batch = ids.slice(start, start + 50);
+            const changes = await getAppContext()
+              .restApiService.getChanges(
+                batch.length,
+                batch.map(id => `change:${id}`).join(' OR ')
+              )
+              .catch(error => {
+                if (!controller.signal.aborted)
+                  console.warn('Could not load dependency rows', error);
+                return [];
+              });
+            for (const change of changes ?? []) {
+              const expected = nominations.get(change._number);
+              const revision =
+                change.indexed_dependencies?.revision ??
+                change.current_revision;
+              const patchSet =
+                change.indexed_dependencies?.patch_set_number ??
+                change.current_revision_number;
+              if (
+                !expected ||
+                change.status === ChangeStatus.MERGED ||
+                change.project !== expected.project ||
+                change.branch !== expected.branch ||
+                (expected.current_revision &&
+                  revision &&
+                  expected.current_revision !== revision) ||
+                (expected.current_revision_number &&
+                  patchSet &&
+                  expected.current_revision_number !== patchSet)
+              )
+                continue;
+              loaded.push(change);
+            }
+          }
+          if (controller.signal.aborted || this.abort !== controller) return;
+          const endpoints = new Set([
+            ...allowed,
+            ...loaded.map(change => change._number),
+          ]);
+          results[index].changes = loaded;
+          results[index].edges = (response.edges ?? [])
             .filter(
               edge =>
-                allowed.has(edge.from) &&
-                allowed.has(edge.to) &&
+                endpoints.has(edge.from) &&
+                endpoints.has(edge.to) &&
                 (edge.type === 'git' || edge.type === 'depends-on')
             )
             .map(({from, to, type}) => {
@@ -114,8 +189,15 @@ export class ChangeDependenciesController implements ReactiveController {
           this.resultEdges = [
             ...new Map(
               results
-                .flat()
+                .flatMap(result => result.edges)
                 .map(edge => [`${edge.from}:${edge.to}:${edge.type}`, edge])
+            ).values(),
+          ];
+          this.resultChanges = [
+            ...new Map(
+              results
+                .flatMap(result => result.changes)
+                .map(change => [change._number, change])
             ).values(),
           ];
           this.host.requestUpdate();
@@ -138,5 +220,6 @@ export class ChangeDependenciesController implements ReactiveController {
     clearTimeout(this.timeout);
     this.previousChanges = undefined;
     this.resultEdges = [];
+    this.resultChanges = [];
   }
 }

@@ -14,7 +14,12 @@ import {
 } from '../../api/change-dependencies';
 import {NumericChangeId} from '../../api/rest-api';
 import {createChange} from '../../test/test-data-generators';
-import {mockPromise, waitEventLoop, waitUntil} from '../../test/test-utils';
+import {
+  mockPromise,
+  stubRestApi,
+  waitEventLoop,
+  waitUntil,
+} from '../../test/test-utils';
 import {GrChangeList} from '../change-list/gr-change-list/gr-change-list';
 import '../change-list/gr-change-list/gr-change-list';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
@@ -84,6 +89,117 @@ suite('change dependency providers', () => {
     assert.lengthOf(items[1].thread!.parents, 1);
     assert.isTrue(items[1].selected);
     assert.isTrue(fetch.calledOnce);
+  });
+
+  test('loads missing cross-project network members before rendering and paginates whole networks', async () => {
+    const source = changes();
+    element.changes = source;
+    element.rowLimit = 2;
+    const missing = createChange({
+      _number: 3 as NumericChangeId,
+      project: 'other/repo' as ReturnType<typeof createChange>['project'],
+    });
+    const load = stubRestApi('getChanges').resolves([missing]);
+    const pages: number[] = [];
+    element.addEventListener('network-page-changed', event => {
+      pages.push(event.detail.consumed);
+    });
+    register(async () => {
+      return {edges: [edge(2, 3)], changes: [missing]};
+    });
+    await waitUntil(async () => (await numbers()).includes(3));
+    assert.deepEqual(await numbers(), [3, 2]);
+    assert.equal(pages[pages.length - 1], 1);
+    assert.equal(load.firstCall.args[1], 'change:3');
+    const items = await element.getListItems();
+    assert.equal(items[0].change, missing);
+    assert.isTrue(items[1].selected);
+    // A reload must use the original search seeds, never the expanded rows.
+    const next = sinon.stub().resolves({edges: [], changes: []});
+    register(next, 'other');
+    await waitUntil(() => next.calledOnce);
+    assert.deepEqual(
+      next.firstCall.args[0].changes.map(
+        (change: {_number: number}) => change._number
+      ),
+      [2, 1]
+    );
+  });
+
+  test('filters unreadable, merged, stale and disconnected nominated changes', async () => {
+    const merged = createChange({
+      _number: 3 as NumericChangeId,
+      status: 'MERGED' as ReturnType<typeof createChange>['status'],
+    });
+    const stale = createChange({_number: 4 as NumericChangeId});
+    const unrelated = createChange({_number: 5 as NumericChangeId});
+    stubRestApi('getChanges').resolves([merged, stale, unrelated]);
+    register(async () => {
+      return {
+        edges: [edge(2, 3), edge(2, 4), edge(2, 6)],
+        changes: [
+          merged,
+          {...stale, branch: 'other' as typeof stale.branch},
+          unrelated,
+          createChange({_number: 6 as NumericChangeId}),
+        ],
+      };
+    });
+    await waitEventLoop();
+    await waitEventLoop();
+    assert.deepEqual(await numbers(), [2, 1]);
+  });
+
+  test('hydration failure leaves existing dependency edges usable', async () => {
+    sinon.stub(console, 'warn');
+    stubRestApi('getChanges').rejects(new Error('offline'));
+    register(async () => {
+      return {
+        edges: [edge(), edge(2, 3)],
+        changes: [createChange({_number: 3 as NumericChangeId})],
+      };
+    });
+    await waitUntil(async () => (await numbers())[0] === 1);
+    assert.deepEqual(await numbers(), [1, 2]);
+  });
+
+  test('expands dashboard sections independently', async () => {
+    element.changes = undefined;
+    await element.updateComplete;
+    element.sections = [
+      {results: [createChange({_number: 2 as NumericChangeId})]},
+      {results: [createChange({_number: 9 as NumericChangeId})]},
+    ];
+    const extra = createChange({_number: 3 as NumericChangeId});
+    stubRestApi('getChanges').resolves([extra]);
+    register(async () => {
+      return {edges: [edge(2, 3)], changes: [extra]};
+    });
+    await waitUntil(async () => (await numbers()).includes(3));
+    assert.deepEqual(await numbers(), [3, 2, 9]);
+  });
+
+  test('ignores hydration after navigation and removes extra rows when disabled', async () => {
+    const pending = mockPromise<ReturnType<typeof changes>>();
+    const extra = createChange({_number: 3 as NumericChangeId});
+    const load = stubRestApi('getChanges').returns(pending);
+    register(async () => {
+      return {edges: [edge(2, 3)], changes: [extra]};
+    });
+    await waitUntil(() => load.calledOnce);
+    element.changes = [createChange({_number: 9 as NumericChangeId})];
+    pending.resolve([extra]);
+    await waitEventLoop();
+    assert.deepEqual(await numbers(), [9]);
+    element.changes = changes();
+    await waitUntil(async () => (await numbers()).includes(3));
+    const prefs = testResolver(userModelToken);
+    prefs.setPreferences({
+      ...prefs.getState().preferences!,
+      threaded_changes: false,
+    });
+    await waitUntil(async () => !(await numbers()).includes(3));
+    assert.deepEqual(await numbers(), [2, 1]);
   });
 
   test('default and missing preferences disable providers', async () => {

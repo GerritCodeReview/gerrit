@@ -32,7 +32,7 @@ Gerrit.install(plugin => {
 
 == Requests and lifecycle
 
-`fetch(request)` returns a promise of `{edges}`. A request contains:
+`fetch(request)` returns a promise of `{edges, changes?}`. A request contains:
 
 * `context`: `change-list` for search results and dashboards, or
   `related-changes` for the relation chain on a change page.
@@ -65,11 +65,26 @@ native Git edges, combines providers' edges, and deduplicates repeated edges.
 Git ancestry takes priority when choosing one display parent. Multiple parents
 and cycles are retained in graph data even though a change is rendered once.
 
-Only relationships between requested, displayed changes participate. Dashboard
-sections and result pages remain separate: an edge does not move a change into
-another section, add rows, change result counts, or expand bulk selection.
-This version supplies edges only. Full-network expansion, extra nodes, explicit
-groups, and completeness indicators are outside this API version.
+For `change-list`, providers may also return `changes`, an array of additional
+change identities in the network, including reverse dependencies. Gerrit loads
+their normal list details using authenticated search requests; it does not render
+plugin-supplied account or permission information. Missing, unreadable, merged,
+and stale changes are omitted. Only members connected to a section's seed rows
+are displayed. Added rows participate in ordinary keyboard and bulk selection.
+Each provider may nominate up to 500 extra rows per request, loaded in batches
+of 50. Backend network discovery limits can also bound the returned component.
+
+Search pages apply their row limit after network expansion. This is a soft limit:
+a connected network is kept whole even if it exceeds the page size. The next
+page advances by the consumed prefix of original search results, not the number
+of rendered rows, so unrelated results displaced by expansion remain reachable.
+Added context rows may not match the original query and can reappear as context
+on another page. Result counts and offsets refer to original query matches.
+Dashboard sections expand independently without a page cutoff.
+
+For `related-changes`, only edges between requested changes participate; the
+provider cannot add entries to the relation chain. Providers returning edges
+only remain compatible. Older frontends ignore the optional `changes` field.
 
 == Topic grouping
 

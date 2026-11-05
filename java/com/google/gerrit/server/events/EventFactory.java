@@ -36,6 +36,7 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.UserIdentity;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountAttributeLoader;
@@ -598,6 +599,7 @@ public class EventFactory {
   public PatchSetCommentAttribute asPatchSetLineAttribute(
       HumanComment c, AccountAttributeLoader accountLoader) {
     PatchSetCommentAttribute a = new PatchSetCommentAttribute();
+    a.id = Url.encode(c.key.uuid);
     a.reviewer = asAccountAttribute(c.author.getId(), accountLoader);
     a.file = c.key.filename;
     a.line = c.lineNbr;

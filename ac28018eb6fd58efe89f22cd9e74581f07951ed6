@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec61e1b3_02625573",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T23:33:00Z",
+      "side": 1,
+      "message": "Can you add some reason(s) why an admin would want to enable this? Is it for performance?",
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

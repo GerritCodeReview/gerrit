@@ -19,11 +19,12 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -52,21 +54,34 @@ public class CreateRefControl {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private static final ImmutableList<String> DEFAULT_REFS_FROM_WHICH_COMMIT_MUST_BE_REACHABLE =
+      ImmutableList.of(Constants.R_HEADS, Constants.R_TAGS, RefNames.REFS_CONFIG);
+
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Reachable reachable;
   private final RetryHelper retryHelper;
+  private final boolean defaultRestrictCreateRefToVisibleBranches;
+  private final ImmutableList<String> defaultCreateBranchAllowedRefs;
 
   @Inject
   CreateRefControl(
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Reachable reachable,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      @GerritServerConfig Config cfg) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.reachable = reachable;
     this.retryHelper = retryHelper;
+    this.defaultRestrictCreateRefToVisibleBranches =
+        cfg.getBoolean("receive", null, "restrictCreateRefToVisibleBranches", false);
+    String[] configuredBranchRefs = cfg.getStringList("receive", null, "createBranchAllowedRefs");
+    this.defaultCreateBranchAllowedRefs =
+        configuredBranchRefs.length > 0
+            ? ImmutableList.copyOf(configuredBranchRefs)
+            : DEFAULT_REFS_FROM_WHICH_COMMIT_MUST_BE_REACHABLE;
   }
 
   /**
@@ -104,7 +119,7 @@ public class CreateRefControl {
     if (object instanceof RevCommit commit) {
       perm.check(RefPermission.CREATE);
       if (sourceBranches.length == 0) {
-        checkCreateCommit(user, repo, commit, ps.getNameKey(), perm, forPush);
+        checkCreateCommit(user, repo, commit, ps, perm, forPush);
       } else {
         List<Ref> sourceRefs = new ArrayList<>();
         for (BranchNameKey src : sourceBranches) {
@@ -147,7 +162,7 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit revCommit) {
-        checkCreateCommit(user, repo, revCommit, ps.getNameKey(), perm, forPush);
+        checkCreateCommit(user, repo, revCommit, ps, perm, forPush);
       } else {
         checkCreateRef(user, repo, destBranch, target, forPush);
       }
@@ -167,6 +182,25 @@ public class CreateRefControl {
             "Ref creation not allowed. Object %s is neither Commit or Tag.", object.getId()));
   }
 
+  private boolean isRestrictCreateRefToVisibleBranches(ProjectState ps) {
+    for (ProjectState state : ps.tree()) {
+      if (state.getConfig() != null
+          && state.getConfig().getRestrictCreateRefToVisibleBranches().isPresent()) {
+        return state.getConfig().getRestrictCreateRefToVisibleBranches().get();
+      }
+    }
+    return defaultRestrictCreateRefToVisibleBranches;
+  }
+
+  private ImmutableList<String> getCreateBranchAllowedRefs(ProjectState ps) {
+    for (ProjectState state : ps.tree()) {
+      if (state.getConfig() != null && !state.getConfig().getCreateBranchAllowedRefs().isEmpty()) {
+        return state.getConfig().getCreateBranchAllowedRefs();
+      }
+    }
+    return defaultCreateBranchAllowedRefs;
+  }
+
   /**
    * Check if the user is allowed to create a new commit object if this creation would introduce a
    * new commit to the repository.
@@ -175,7 +209,7 @@ public class CreateRefControl {
       Provider<? extends CurrentUser> user,
       Repository repo,
       RevCommit commit,
-      Project.NameKey project,
+      ProjectState ps,
       PermissionBackend.ForRef forRef,
       boolean forPush)
       throws PermissionBackendException, IOException, UnprocessableEntityException {
@@ -200,12 +234,18 @@ public class CreateRefControl {
     if (forPush && forRef.test(RefPermission.UPDATE)) {
       return;
     }
+    boolean restrictCreateRefToVisibleBranches = isRestrictCreateRefToVisibleBranches(ps);
+    ImmutableList<String> refsFromWhichTheCommitMustBeReachable =
+        restrictCreateRefToVisibleBranches
+            ? getCreateBranchAllowedRefs(ps)
+            : ImmutableList.of(Constants.R_HEADS, Constants.R_TAGS);
     // Fall through to check reachability.
     if (reachable.fromRefs(
-        project,
+        ps.getNameKey(),
         repo,
         commit,
-        repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS),
+        repo.getRefDatabase()
+            .getRefsByPrefix(refsFromWhichTheCommitMustBeReachable.toArray(new String[0])),
         Optional.of(user.get()))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
@@ -214,22 +254,34 @@ public class CreateRefControl {
       return;
     }
 
-    // Previous check only catches normal branches. Try PatchSet refs too. If we can create refs,
-    // we're not a replica, so we can always use the change index.
-    List<ChangeData> changes =
-        retryHelper
-            .changeIndexQuery(
-                "queryChangesByProjectCommitWithLimit1",
-                q -> q.enforceVisibility(true).setLimit(1).byProjectCommit(project, commit))
-            .call();
-    if (!changes.isEmpty()) {
-      return;
+    // If restrictCreateRefToVisibleBranches is enabled, do not check whether the commit is visible
+    // via a change. If the commit is not part of any branch or tag, but only via a change, then
+    // this commit hasn't been reviewed and approved yet, and hence we do not allow using it for
+    // creating branches.
+    if (!restrictCreateRefToVisibleBranches) {
+      // Previous check only catches normal branches. Try PatchSet refs too. If we can create refs,
+      // we're not a replica, so we can always use the change index.
+      List<ChangeData> changes =
+          retryHelper
+              .changeIndexQuery(
+                  "queryChangesByProjectCommitWithLimit1",
+                  q ->
+                      q.enforceVisibility(true)
+                          .setLimit(1)
+                          .byProjectCommit(ps.getNameKey(), commit))
+              .call();
+      if (!changes.isEmpty()) {
+        return;
+      }
     }
 
     // Don't expose existence of the commit to the caller
     String msg =
         String.format(
             "Unable to resolve object '%s'. Check that the object exists on the server ", commit);
+    if (restrictCreateRefToVisibleBranches) {
+      msg += "and that it's reachable from a branch/tag that is visible to you ";
+    }
     if (forPush) {
       msg +=
           String.format(

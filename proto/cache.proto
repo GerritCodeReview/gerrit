@@ -576,7 +576,7 @@ message StoredCommentLinkInfoProto {
 }
 
 // Serialized form of com.google.gerrit.entities.CachedProjectConfigProto.
-// Next ID: 20
+// Next ID: 22
 message CachedProjectConfigProto {
   ProjectProto project = 1;
   repeated GroupReferenceProto group_list = 2;
@@ -597,6 +597,8 @@ message CachedProjectConfigProto {
   map<string, string> plugin_configs = 17;
   map<string, string> project_level_configs = 18;
   repeated SubmitRequirementProto submit_requirement_sections = 19;
+  optional bool restrict_create_ref_to_visible_branches = 20;
+  repeated string create_branch_allowed_refs = 21;
 
   // Next ID: 2
   message ExtensionPanelSectionProto {

@@ -32,7 +32,12 @@ public class CachedProjectConfigSerializer {
         CachedProjectConfig.builder()
             .setProject(ProjectSerializer.deserialize(proto.getProject()))
             .setMaxObjectSizeLimit(proto.getMaxObjectSizeLimit())
-            .setCheckReceivedObjects(proto.getCheckReceivedObjects());
+            .setCheckReceivedObjects(proto.getCheckReceivedObjects())
+            .setCreateBranchAllowedRefs(proto.getCreateBranchAllowedRefsList());
+    if (proto.hasRestrictCreateRefToVisibleBranches()) {
+      builder.setRestrictCreateRefToVisibleBranches(
+          Optional.of(proto.getRestrictCreateRefToVisibleBranches()));
+    }
     if (proto.hasBranchOrderSection()) {
       builder.setBranchOrderSection(
           Optional.of(BranchOrderSectionSerializer.deserialize(proto.getBranchOrderSection())));
@@ -108,7 +113,12 @@ public class CachedProjectConfigSerializer {
         Cache.CachedProjectConfigProto.newBuilder()
             .setProject(ProjectSerializer.serialize(autoValue.getProject()))
             .setMaxObjectSizeLimit(autoValue.getMaxObjectSizeLimit())
-            .setCheckReceivedObjects(autoValue.getCheckReceivedObjects());
+            .setCheckReceivedObjects(autoValue.getCheckReceivedObjects())
+            .addAllCreateBranchAllowedRefs(autoValue.getCreateBranchAllowedRefs());
+    if (autoValue.getRestrictCreateRefToVisibleBranches().isPresent()) {
+      builder.setRestrictCreateRefToVisibleBranches(
+          autoValue.getRestrictCreateRefToVisibleBranches().get());
+    }
 
     if (autoValue.getBranchOrderSection().isPresent()) {
       builder.setBranchOrderSection(

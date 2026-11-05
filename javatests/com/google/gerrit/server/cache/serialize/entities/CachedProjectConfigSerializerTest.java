@@ -62,6 +62,8 @@ public class CachedProjectConfigSerializerTest {
           .setExtensionPanelSections(ImmutableMap.of("key1", ImmutableList.of("val1", "val2")))
           .addPluginConfig("foo-plugin", "[plugin \"foo-plugin\"]\n\tkey = value")
           .addProjectLevelConfig("foo-plugin.config", "[section]\n\tkey = value")
+          .setRestrictCreateRefToVisibleBranches(Optional.of(true))
+          .setCreateBranchAllowedRefs(ImmutableList.of("refs/heads/", "refs/branch-heads/"))
           .build();
 
   @Test

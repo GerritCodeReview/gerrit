@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "110585b2_d2e95e2e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T01:07:02Z",
+      "side": 1,
+      "message": "Can this name somehow reflect that it returns null for merged changes?\n\nAlso, should it return null for abandoned changes?",
+      "revId": "f40b36d348131514772847ac87d2a774e07dd885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48660ca6_040db9f1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T01:07:02Z",
+      "side": 1,
+      "message": "If you decide it should be null for abandoned changes too. But also, `change()` is Nullable, so you need to check that (and I guess return null then too).\n\n```suggestion\n    if (change() \u003d\u003d null || change().isClosed()) {\n```",
+      "revId": "f40b36d348131514772847ac87d2a774e07dd885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e039f5c5_9206b9cc",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T01:07:02Z",
+      "side": 1,
+      "message": "I think this is what `lazyload()` is already for, so you shouldn\u0027t need this separate method.",
+      "revId": "f40b36d348131514772847ac87d2a774e07dd885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

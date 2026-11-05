@@ -509,8 +509,8 @@ class TagSet {
     }
 
     @Override
-    protected TagCommit createCommit(AnyObjectId id) {
-      return new TagCommit(id);
+    protected TagCommit createCommit(AnyObjectId id, int graphPos) {
+      return new TagCommit(id, graphPos);
     }
   }
 
@@ -520,8 +520,8 @@ class TagSet {
     /** CachedRef.flag => isVisible, indicating if this commit is reachable from the ref. */
     RoaringBitmap refFlags;
 
-    TagCommit(AnyObjectId id) {
-      super(id);
+    TagCommit(AnyObjectId id, int graphPos) {
+      super(id, graphPos);
     }
 
     /**

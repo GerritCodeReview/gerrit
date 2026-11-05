@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbff39d1_c201fcee",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 4415287
+      },
+      "writtenOn": "2026-11-05T08:42:37Z",
+      "side": 1,
+      "message": "Optional: `location` is deprecated, better to use `execpath` straight away. See https://github.com/bazel-contrib/buildtools/pull/1484\n```suggestion\n        cmd \u003d \"$(execpath //tools/bzl:license_map) %s %s %s | sed \u0027s/\\\\r$$//\u0027 \u003e $@\" % (\" \".join(opts), \" \".join(json_maps_locations), \" \".join(xmls)),\n```",
+      "range": {
+        "startLine": 56,
+        "startChar": 15,
+        "endLine": 56,
+        "endChar": 25
+      },
+      "revId": "ab4ae2fb2900830404909400634b0cb50a30a592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

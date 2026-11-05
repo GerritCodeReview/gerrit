@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c744595_14996ea9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-11-05T23:53:16Z",
+      "side": 1,
+      "message": "I just acked all your comments for now. I\u0027ll add you when it\u0027s ready.",
+      "parentUuid": "6329566e_27e23b2e",
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8add268_61426c65",
@@ -89,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6413230_d11d782b",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-11-05T23:53:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b8add268_61426c65",
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f31120c_6444fde3",
@@ -102,6 +138,30 @@
       "writtenOn": "2026-11-05T23:45:55Z",
       "side": 1,
       "message": "Would it work to move this into the constructor and then always use `createBranchAllowedRefs`? Also, this is always used as an array, so maybe store it that way up front?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 68
+      },
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fd0ce0e_ce0c5c05",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-11-05T23:53:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6f31120c_6444fde3",
       "range": {
         "startLine": 122,
         "startChar": 0,
@@ -135,6 +195,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94758dde_f2b4d159",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-11-05T23:53:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8affe6f2_c18824f9",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 95
+      },
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62ad9031_972a7bee",
@@ -148,6 +232,24 @@
       "writtenOn": "2026-11-05T23:45:55Z",
       "side": 1,
       "message": "nit: typo\n```suggestion\n    // Do not check whether the commit is visible via a change. If the commit is not part of any\n```",
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "656329da_83496d04",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-11-05T23:53:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "62ad9031_972a7bee",
       "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -175,6 +277,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f83853_3196b935",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-11-05T23:53:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d80e91b3_3d3cd0bf",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 64
+      },
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a83767f6_89483427",
@@ -188,6 +314,30 @@
       "writtenOn": "2026-11-05T23:45:55Z",
       "side": 1,
       "message": "Conditionally add this when `restrictCreateRefToVisibleBranches \u003d\u003d true`? (like we do with the `forPush` extra text below)",
+      "range": {
+        "startLine": 286,
+        "startChar": 86,
+        "endLine": 287,
+        "endChar": 77
+      },
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4b328ca_15756639",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-11-05T23:53:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a83767f6_89483427",
       "range": {
         "startLine": 286,
         "startChar": 86,

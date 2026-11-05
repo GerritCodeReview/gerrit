@@ -42,6 +42,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {SuggestionProvider} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {keyed} from 'lit/directives/keyed.js';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field.js';
 import {
   computeFlowString,
@@ -1099,28 +1100,34 @@ export class GrCreateFlow extends LitElement {
           `
         )}
       </md-outlined-select>
-      <md-outlined-select
-        class="vote-parameter-input"
-        label="Value"
-        value=${this.selectedValueForVote ?? ''}
-        @change=${(e: Event) => {
-          // TODO: Remove the reading from attribute
-          // For some reason in the test, the value is only read from the attribute and not from the value property
-          this.selectedValueForVote =
-            ((e.target as HTMLSelectElement).value ||
-              (e.target as HTMLSelectElement).getAttribute('value')) ??
-            '';
-          this.updateCurrentParameterForVote();
-        }}
-      >
-        ${labelValues.map(
-          val => html`
-            <md-select-option value=${val}>
-              <div slot="headline">${val}</div>
-            </md-select-option>
-          `
-        )}
-      </md-outlined-select>
+      ${keyed(
+        this.selectedLabelForVote,
+        html`<md-outlined-select
+          class="vote-parameter-input"
+          label="Value"
+          value=${this.selectedValueForVote ?? ''}
+          @change=${(e: Event) => {
+            // TODO: Remove the reading from attribute
+            // For some reason in the test, the value is only read from the attribute and not from the value property
+            this.selectedValueForVote =
+              ((e.target as HTMLSelectElement).value ||
+                (e.target as HTMLSelectElement).getAttribute('value')) ??
+              '';
+            this.updateCurrentParameterForVote();
+          }}
+        >
+          ${labelValues.map(
+            val => html`
+              <md-select-option
+                ?selected=${val === this.selectedValueForVote}
+                value=${val}
+              >
+                <div slot="headline">${val}</div>
+              </md-select-option>
+            `
+          )}
+        </md-outlined-select>`
+      )}
     `;
   }
 

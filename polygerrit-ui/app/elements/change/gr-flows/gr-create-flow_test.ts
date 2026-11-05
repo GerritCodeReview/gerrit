@@ -888,6 +888,14 @@ suite('gr-create-flow tests', () => {
             '+1': 'Verified',
           },
         },
+        {
+          name: 'Commit-Queue',
+          values: {
+            ' 0': 'Not ready',
+            '+1': 'Dry run',
+            '+2': 'Commit',
+          },
+        },
       ];
       await element.updateComplete;
     });
@@ -930,6 +938,54 @@ suite('gr-create-flow tests', () => {
       assert.equal(element['selectedLabelForVote'], 'Verified');
       assert.equal(element['selectedValueForVote'], '-1');
       assert.equal(element['currentParameter'], 'Verified-1');
+    });
+
+    test('selects correct option when switching label and picking last value', async () => {
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'vote';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      let voteParamInputs = queryAll<MdOutlinedSelect>(
+        element,
+        '.vote-parameter-input'
+      );
+      const labelSelect = voteParamInputs[0];
+
+      labelSelect.setAttribute('value', 'Commit-Queue');
+      labelSelect.value = 'Commit-Queue';
+      labelSelect.dispatchEvent(new Event('input', {bubbles: true}));
+      labelSelect.dispatchEvent(new Event('change', {bubbles: true}));
+      await element.updateComplete;
+
+      assert.equal(element['selectedLabelForVote'], 'Commit-Queue');
+      assert.equal(element['selectedValueForVote'], ' 0');
+      assert.equal(element['currentParameter'], 'Commit-Queue+0');
+
+      voteParamInputs = queryAll<MdOutlinedSelect>(
+        element,
+        '.vote-parameter-input'
+      );
+      const valueSelect = voteParamInputs[1];
+      await valueSelect.updateComplete;
+      assert.isTrue(valueSelect.options[0].selected);
+      assert.isFalse(valueSelect.options[2].selected);
+
+      valueSelect.setAttribute('value', '+2');
+      valueSelect.value = '+2';
+      valueSelect.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
+      valueSelect.dispatchEvent(
+        new Event('change', {bubbles: true, composed: true})
+      );
+      await element.updateComplete;
+
+      assert.equal(element['selectedValueForVote'], '+2');
+      assert.equal(element['currentParameter'], 'Commit-Queue+2');
     });
 
     test('updates parameter when value is changed', async () => {

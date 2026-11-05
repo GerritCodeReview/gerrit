@@ -32,8 +32,11 @@ export declare interface ChangeDependencyEdge {
 }
 
 export declare interface ChangeDependenciesResponse {
-  /** Only edges between requested changes are rendered. No rows are added. */
   edges: ChangeDependencyEdge[];
+  /** Optional network members for change lists. Gerrit loads their list details.
+   * Related-change views continue to use edges between requested changes only.
+   */
+  changes?: ChangeDependencyChange[];
 }
 
 export declare interface ChangeDependenciesProvider {

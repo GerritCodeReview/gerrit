@@ -142,6 +142,36 @@ suite('gr-change-list-view tests', () => {
     assert.equal(element.computeNavLink(direction), '/q/status:open,10');
   });
 
+  test('network cutoff advances by consumed search seeds and keeps displaced results pageable', async () => {
+    element.query = 'status:open';
+    element.offset = 0;
+    element.changesPerPage = 25;
+    element.changes = [1, 2, 3].map(number =>
+      createChange({
+        _number: number as ReturnType<typeof createChange>['_number'],
+      })
+    );
+    element.loading = false;
+    await element.updateComplete;
+    const list = queryAndAssert<GrChangeList>(element, 'gr-change-list');
+    await list.updateComplete;
+    list.dispatchEvent(
+      new CustomEvent('network-page-changed', {
+        detail: {source: element.changes, consumed: 1},
+      })
+    );
+    await element.updateComplete;
+    assert.equal(element.computeNavLink(1), '/q/status:open,1');
+    assert.isFalse(
+      queryAndAssert(element, '#nextArrow').hasAttribute('disabled')
+    );
+    element.offset = 1;
+    assert.equal(element.computeNavLink(-1), '/q/status:open');
+    // An old view's result must not affect the next page's cursor.
+    element.changes = [createChange()];
+    assert.equal(element.computeNavLink(1), '/q/status:open,2');
+  });
+
   test('prevArrow', async () => {
     element.changes = Array(25)
       .fill(0)

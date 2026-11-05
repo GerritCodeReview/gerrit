@@ -57,6 +57,23 @@ export class GrChangeListView extends LitElement {
   // private but used in test
   @state() changes: ChangeInfo[] = [];
 
+  @state() private networkPage?: {source: ChangeInfo[]; consumed: number};
+
+  private previousOffsets = new Map<string, number>();
+
+  private get consumedResults() {
+    return this.networkPage?.source === this.changes
+      ? this.networkPage.consumed
+      : this.changes.length;
+  }
+
+  private get hasMoreResults() {
+    return (
+      this.consumedResults < this.changes.length ||
+      !!this.changes[this.changes.length - 1]?._more_changes
+    );
+  }
+
   // private but used in test
   @state() loading = true;
 
@@ -186,6 +203,13 @@ export class GrChangeListView extends LitElement {
         <gr-change-list
           .loggedInUser=${this.account}
           .changes=${this.changes}
+          .rowLimit=${this.limitFor(this.query, this.changesPerPage)}
+          @network-page-changed=${(
+            event: CustomEvent<{source: ChangeInfo[]; consumed: number}>
+          ) => {
+            if (event.detail.source === this.changes)
+              this.networkPage = event.detail;
+          }}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -230,8 +254,8 @@ export class GrChangeListView extends LitElement {
       return html`<span><strong>${this.changes.length}</strong></span>`;
     }
 
-    const changesCount = this.changes?.length ?? 0;
-    const hasMore = this.changes?.[changesCount - 1]._more_changes;
+    const changesCount = this.consumedResults;
+    const hasMore = this.hasMoreResults;
 
     return html`<span>
       <strong
@@ -263,7 +287,7 @@ export class GrChangeListView extends LitElement {
     const changesCount = this.changes?.length ?? 0;
     if (changesCount === 0) return nothing;
 
-    const isDisabled = !this.changes?.[changesCount - 1]._more_changes;
+    const isDisabled = !this.hasMoreResults;
     if (isDisabled) {
       return html`<span id="nextArrow" disabled>
         <gr-icon icon="chevron_right" aria-label="Newer"></gr-icon>
@@ -296,7 +320,12 @@ export class GrChangeListView extends LitElement {
   computeNavLink(direction: number) {
     const offset = this.offset ?? 0;
     const limit = this.limitFor(this.query, this.changesPerPage);
-    const newOffset = Math.max(0, offset + limit * direction);
+    const key = (value: number) => `${this.query}:${limit}:${value}`;
+    const newOffset =
+      direction > 0
+        ? offset + (this.consumedResults || limit)
+        : this.previousOffsets.get(key(offset)) ?? Math.max(0, offset - limit);
+    if (direction > 0) this.previousOffsets.set(key(newOffset), offset);
     return createSearchUrl({query: this.query, offset: newOffset});
   }
 

@@ -1,0 +1,52 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2e61587_ee7a8224",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-05T00:50:28Z",
+      "side": 1,
+      "message": "Clear `diff_page_sidebar` user preference when opening the chat panel replaces an active plugin sidebar.\n\nWhen switching from the chat panel to a plugin sidebar, `onTrigger` in `renderSidebarTriggers()` resets `chatPanelOpen` to `false` and updates `diff_page_sidebar` to `plugin-${pluginName}`. However, in the reverse direction—when a plugin sidebar is open (`this.shownSidebar` is a plugin name) and the user opens Agent Chat—`diff_page_sidebar` remains set to `plugin-${pluginName}` in `userModel.preferences$`. If the user subsequently closes the chat panel and navigates away and back to the cached `\u003cgr-diff-view\u003e`, `connectedCallback()` re-reads `preferences$` and unexpectedly reopens the previously replaced plugin sidebar.\n\n```suggestion\n    subscribe(\n      this,\n      () \u003d\u003e this.getChatModel().chatPanelOpen$,\n      open \u003d\u003e {\n        if (open) {\n          if (\n            this.shownSidebar !\u003d\u003d undefined \u0026\u0026\n            this.shownSidebar !\u003d\u003d CHAT_PANEL_SIDEBAR\n          ) {\n            this.getUserModel().updatePreferences({\n              diff_page_sidebar: \u0027NONE\u0027,\n            });\n          }\n          this.shownSidebar \u003d CHAT_PANEL_SIDEBAR;\n        } else if (this.shownSidebar \u003d\u003d\u003d CHAT_PANEL_SIDEBAR) {\n          this.shownSidebar \u003d undefined;\n        }\n      }\n    );\n```",
+      "range": {
+        "startLine": 499,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1fc4ae3a1cf23c3cacba7ef5a1acf6468f051776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d80789c_6ceaf3b0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-05T00:50:28Z",
+      "side": 1,
+      "message": "Prefer `this.patchNum` (when not `EDIT`) over `this.latestPatchNum` when loading revision actions.\n\nBecause `this.latestPatchNum` is populated by `ChangeModel` as soon as the change loads, `this.latestPatchNum ?? this.patchNum` always evaluates to `this.latestPatchNum` in production and ignores `this.patchNum` when viewing or switching between earlier patchsets (the unit test `loads revision actions and hides Agent Chat when aiReview is disabled` only hits the fallback because `element.latestPatchNum` is `undefined` in that test). In addition:\n1. When navigating directly to a non-latest patchset diff URL, `this.patchNum` is available from the route before `this.latestPatchNum` is populated, so `loadRevisionActions()` fetches actions for `this.patchNum` first and then immediately refetches for `this.latestPatchNum` once the change loads.\n2. When opening a diff in edit mode (`this.patchNum \u003d\u003d\u003d EDIT`) before `this.latestPatchNum` is populated, `patchNum` resolves to `\u0027edit\u0027`, which is not a valid revision ID for `GET /changes/{id}/revisions/{revision-id}/actions`.\n\n```suggestion\n  private async loadRevisionActions() {\n    const patchNum \u003d\n      this.patchNum \u0026\u0026 this.patchNum !\u003d\u003d EDIT\n        ? this.patchNum\n        : this.latestPatchNum;\n    if (!this.changeNum || !patchNum) {\n      return;\n    }\n```",
+      "range": {
+        "startLine": 919,
+        "startChar": 0,
+        "endLine": 923,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1fc4ae3a1cf23c3cacba7ef5a1acf6468f051776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

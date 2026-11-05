@@ -46,6 +46,30 @@
       },
       "revId": "8c14759d363f81e378c7893bce58e8b6cb926706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46b0fcf_04304894",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2131,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T18:19:14Z",
+      "side": 1,
+      "message": "But why as a server-wide setting instead of an option in the request, like `allow_conflicts` itself is? It could be something like `binary_conflict_strategy` with the default staying as `EMPTY` and then have new choices for `OURS` and `THEIRS`.",
+      "parentUuid": "916d15a0_0b469029",
+      "range": {
+        "startLine": 2130,
+        "startChar": 0,
+        "endLine": 2131,
+        "endChar": 69
+      },
+      "revId": "8c14759d363f81e378c7893bce58e8b6cb926706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

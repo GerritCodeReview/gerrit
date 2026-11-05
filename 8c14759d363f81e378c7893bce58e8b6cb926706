@@ -22,6 +22,30 @@
       },
       "revId": "8c14759d363f81e378c7893bce58e8b6cb926706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "916d15a0_0b469029",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2131,
+      "author": {
+        "id": 1016008
+      },
+      "writtenOn": "2026-11-05T03:42:25Z",
+      "side": 1,
+      "message": "This config useBinaryTheirs feature, developer could directly resolve binary conflict on web ui, and binary conflict filelist also record in comment, developer still judge and hold `THEIRS` effect by config useBinaryTheirs, or `OURS` effect by web ui edit ACTION `Restore`.\n\nIn addition, most of our team would like to choose `THEIRS` default conflict resolve strategy ~ that more in line with realistic expectations 😊\n\nIf not exist this feature, developer have to fallback in localhost by git cherry-pick command to fix binary 0KB problem, and manaully copy Change-Id to update patchset. It\u0027s too trouble ...",
+      "parentUuid": "de37c70e_dc3dae33",
+      "range": {
+        "startLine": 2130,
+        "startChar": 0,
+        "endLine": 2131,
+        "endChar": 69
+      },
+      "revId": "8c14759d363f81e378c7893bce58e8b6cb926706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

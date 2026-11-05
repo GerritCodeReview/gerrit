@@ -25,6 +25,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd12cd50_64b41fff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-11-05T01:40:04Z",
+      "side": 1,
+      "message": "Good catch on the cached `\u003cgr-diff-view\u003e` behavior when navigating `Up` and back after closing chat!\n\nRather than calling `updatePreferences({ diff_page_sidebar: \u0027NONE\u0027 })` when opening chat, I guarded `connectedCallback()`\u0027s `preferences$` hydration with a one-time per-instance flag so `\u003cgr-diff-view\u003e` only initializes `shownSidebar` from `diff_page_sidebar` on initial creation for a CL, not on cached view reconnects.\n\nTwo reasons for preferring that over mutating `diff_page_sidebar`:\n1. **Preserves user defaults for ephemeral chat usage**: `diff_page_sidebar` is persisted on the server (`PUT /accounts/self/preferences`), whereas Agent Chat is currently per-CL/ephemeral in `ChatModel` (resetting on change switches, matching `gr-change-view`). If a user has a sidebar like AI Rationale pinned by default and clicks `\"Explain this code\"` or opens chat on one diff, overwriting `diff_page_sidebar` to `\u0027NONE\u0027` would permanently disable their pinned sidebar across all future CLs.\n2. **Covers opening chat from Change View first**: If a user opens `\"Agent Chat\"` on Change View before entering Diff View, `this.shownSidebar` wasn\u0027t set to the plugin sidebar when `chatPanelOpen$` fired, so checking `this.shownSidebar` wouldn\u0027t clear `diff_page_sidebar` anyway—and closing chat + re-entering cached Diff View would still hit the same reopen bug. Guarding `connectedCallback()` handles both entry points cleanly.\n\n(Persisting Agent Chat\u0027s own open state across CLs would be a broader `ChatModel` + `gr-change-view` change since `ChatModel` currently resets `chatPanelOpen` on every change switch, so keeping `diff_page_sidebar` scoped to plugin sidebars feels right here—let me know what you think!)",
+      "parentUuid": "d2e61587_ee7a8224",
+      "range": {
+        "startLine": 499,
+        "startChar": 0,
+        "endLine": 509,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1fc4ae3a1cf23c3cacba7ef5a1acf6468f051776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d80789c_6ceaf3b0",
@@ -38,6 +63,31 @@
       "writtenOn": "2026-11-05T00:50:28Z",
       "side": 1,
       "message": "Prefer `this.patchNum` (when not `EDIT`) over `this.latestPatchNum` when loading revision actions.\n\nBecause `this.latestPatchNum` is populated by `ChangeModel` as soon as the change loads, `this.latestPatchNum ?? this.patchNum` always evaluates to `this.latestPatchNum` in production and ignores `this.patchNum` when viewing or switching between earlier patchsets (the unit test `loads revision actions and hides Agent Chat when aiReview is disabled` only hits the fallback because `element.latestPatchNum` is `undefined` in that test). In addition:\n1. When navigating directly to a non-latest patchset diff URL, `this.patchNum` is available from the route before `this.latestPatchNum` is populated, so `loadRevisionActions()` fetches actions for `this.patchNum` first and then immediately refetches for `this.latestPatchNum` once the change loads.\n2. When opening a diff in edit mode (`this.patchNum \u003d\u003d\u003d EDIT`) before `this.latestPatchNum` is populated, `patchNum` resolves to `\u0027edit\u0027`, which is not a valid revision ID for `GET /changes/{id}/revisions/{revision-id}/actions`.\n\n```suggestion\n  private async loadRevisionActions() {\n    const patchNum \u003d\n      this.patchNum \u0026\u0026 this.patchNum !\u003d\u003d EDIT\n        ? this.patchNum\n        : this.latestPatchNum;\n    if (!this.changeNum || !patchNum) {\n      return;\n    }\n```",
+      "range": {
+        "startLine": 919,
+        "startChar": 0,
+        "endLine": 923,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1fc4ae3a1cf23c3cacba7ef5a1acf6468f051776",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ddafa39_c974e147",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-11-05T01:40:04Z",
+      "side": 1,
+      "message": "Good catch—updated to prefer `this.patchNum` (when defined and `!\u003d\u003d EDIT`) and fall back to `this.latestPatchNum`, along with test coverage for non-latest patchsets and edit mode.",
+      "parentUuid": "5d80789c_6ceaf3b0",
       "range": {
         "startLine": 919,
         "startChar": 0,

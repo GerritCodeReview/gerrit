@@ -16,6 +16,24 @@
       "message": "How do we expect this to be used on gerrit-review to solve the comment spam problem? Most importantly:\n\nWho are we granting the Write Change perm to?\n\nHow does someone request to be granted that permission?",
       "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0957682c_98c679e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T18:11:46Z",
+      "side": 1,
+      "message": "Copying over notes from the [Google Doc](https://docs.google.com/document/d/1GCioZymU01gacga2PKk3olM4KHvSVpeZyHVQ2b7NwUQ/edit?tab\u003dt.0) about the workflow UX challenges we should try to solve in this change (or immediate follow-ups):\n\n* Users need to *know* that the project is SPAM-protected and where/how to ask (or who?) for permission to post comments\n* It looks like the SPAM-protected workflow risks being a bad user experience vs. the current workflow\n* We currently have a similar issue for uploading changes (users cannot upload and wonder why?)\n* Can we just resolve it with a nice error message? This should be project-specific (perhaps a text field in the project settings), as different projects may have different policies for preventing SPAMers.\n* What could a default workflow look like?\n  - Provide a “button” to request to be unblocked and be able to comment\n  - The “button” sends an e-mail to someone and they add you to a group\n  - Possible enhanced/plugin version: Pressing the button triggers a “CAPTCHA” to demonstrate you are a human and then you’re added to the group automatically (project owner configures which group in the project settings?)\n  - Other possible enhanced version: Pressing the button triggers a “request to be added to group” workflow (new Gerrit feature) and the project/group owner approves the request",
+      "parentUuid": "5b045537_55a6ed9b",
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6329566e_27e23b2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-05T23:46:38Z",
+      "side": 1,
+      "message": "Gotcha, no worries. Just looked interesting 😊",
+      "parentUuid": "0b9407c4_cd09aee0",
+      "revId": "ac28018eb6fd58efe89f22cd9e74581f07951ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8add268_61426c65",

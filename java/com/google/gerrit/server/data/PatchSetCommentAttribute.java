@@ -15,6 +15,7 @@
 package com.google.gerrit.server.data;
 
 public class PatchSetCommentAttribute {
+  public String id;
   public String file;
   public Integer line;
   public AccountAttribute reviewer;

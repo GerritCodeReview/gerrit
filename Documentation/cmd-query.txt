@@ -80,7 +80,8 @@ command line parser in the server).
 --comments::
 	Include comments for all changes. If combined with the
 	--patch-sets flag then all inline/file comments are included for
-	each patch set that is visible to the caller.
+	each patch set that is visible to the caller. Each inline comment
+	includes its UUID in the `id` field.
 
 --commit-message::
 	Include the full commit message in the change description.

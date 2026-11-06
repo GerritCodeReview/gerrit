@@ -80,7 +80,10 @@ public class ProjectDiffUtils {
     }
   }
 
-  public void validateAncestorRelationship(RevWalk rw, RevCommit oldCommit, RevCommit newCommit)
+  public record AncestorRelationship(boolean oldIsAncestorOfNew, boolean newIsAncestorOfOld) {}
+
+  public AncestorRelationship validateAncestorRelationship(
+      RevWalk rw, RevCommit oldCommit, RevCommit newCommit)
       throws BadRequestException, IOException {
     boolean oldIsAncestorOfNew = rw.isMergedInto(oldCommit, newCommit);
     boolean newIsAncestorOfOld = rw.isMergedInto(newCommit, oldCommit);
@@ -91,14 +94,19 @@ public class ProjectDiffUtils {
               "Commits %s and %s are not in ancestor/descendant relationship",
               oldCommit.name(), newCommit.name()));
     }
+    return new AncestorRelationship(oldIsAncestorOfNew, newIsAncestorOfOld);
   }
 
+  /**
+   * Verifies visibility using the relationship returned by {@link #validateAncestorRelationship}.
+   */
   public void verifyPathVisibility(
       ProjectState projectState,
       Repository repo,
       RevWalk rw,
       RevCommit oldCommit,
-      RevCommit newCommit)
+      RevCommit newCommit,
+      AncestorRelationship relationship)
       throws ResourceNotFoundException, IOException {
     // Check visibility of both endpoints
     if (!commitsCollection.canRead(projectState, repo, oldCommit)
@@ -107,16 +115,12 @@ public class ProjectDiffUtils {
     }
 
     // Determine topological order to walk from descendant to ancestor
-    rw.reset();
-    boolean oldIsAncestorOfNew = rw.isMergedInto(oldCommit, newCommit);
-    boolean newIsAncestorOfOld = rw.isMergedInto(newCommit, oldCommit);
-
     RevCommit descendant;
     RevCommit ancestor;
-    if (oldIsAncestorOfNew) {
+    if (relationship.oldIsAncestorOfNew()) {
       descendant = newCommit;
       ancestor = oldCommit;
-    } else if (newIsAncestorOfOld) {
+    } else if (relationship.newIsAncestorOfOld()) {
       descendant = oldCommit;
       ancestor = newCommit;
     } else {

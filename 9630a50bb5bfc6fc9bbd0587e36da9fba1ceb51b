@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c19490c4_5dac687b",
+        "filename": "javatests/com/google/gerrit/server/git/receive/ReplaceOpTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-06T14:32:11Z",
+      "side": 1,
+      "message": "Could we also test when the preferred branch exists but does not contain the commit, and another branch does? Including an alias of the preferred tip would verify that we skip the duplicate check, still find the other branch, and return its name.",
+      "revId": "9630a50bb5bfc6fc9bbd0587e36da9fba1ceb51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

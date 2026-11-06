@@ -173,7 +173,7 @@ type:: "project-created"
 
 projectName:: The created project name
 
-projectHead:: The created project head name
+headName:: The created project head name
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.

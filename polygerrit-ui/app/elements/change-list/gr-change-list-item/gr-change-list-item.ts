@@ -17,7 +17,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getAppContext} from '../../../services/app-context';
-import {truncatePath} from '../../../utils/path-list-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {
   AccountInfo,
@@ -280,6 +279,28 @@ export class GrChangeListItem extends LitElement {
         .spacer {
           height: 0;
           overflow: hidden;
+          /* The spacer sets the subject column's preferred width. Cap it so
+             long subjects don't take spare width away from other columns. */
+          max-width: 60ch;
+        }
+        /* The repo cell uses the same container/content/spacer layout as the
+           subject, so it shrinks with the table instead of holding its full
+           width. The spacer wraps, so it doesn't set a large minimum width;
+           min-width keeps enough of the name visible. */
+        .repo .spacer {
+          min-width: 8rem;
+          white-space: normal;
+          overflow-wrap: anywhere;
+        }
+        /* Elide the start of long repo names so the distinctive end of the
+           name stays visible. The inner span keeps the text itself LTR. */
+        .repo .content {
+          direction: rtl;
+          text-align: left;
+        }
+        .repo .content > span {
+          direction: ltr;
+          unicode-bidi: isolate;
         }
         .size gr-tooltip-content {
           margin: -0.4rem -0.6rem;
@@ -432,11 +453,9 @@ export class GrChangeListItem extends LitElement {
             white-space: normal;
             overflow-wrap: anywhere;
           }
-          .repo .truncatedRepo {
-            display: none;
-          }
-          .repo .fullRepo {
+          .repo .content {
             display: block;
+            direction: ltr;
           }
           .cell.votes {
             display: flex;
@@ -651,10 +670,17 @@ export class GrChangeListItem extends LitElement {
     const repo = this.change?.project ?? '';
     return html`
       <td class="cell repo">
-        <a class="fullRepo" href=${this.computeRepoUrl()}> ${repo} </a>
-        <a class="truncatedRepo" href=${this.computeRepoUrl()} title=${repo}>
-          ${truncatePath(repo, 2)}
-        </a>
+        <div class="container">
+          <a
+            class="fullRepo content"
+            href=${this.computeRepoUrl()}
+            title=${repo}
+          >
+            <span>${repo}</span>
+          </a>
+          <div class="spacer">${repo}</div>
+          <span>&nbsp;</span>
+        </div>
       </td>
     `;
   }

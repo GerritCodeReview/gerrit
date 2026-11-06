@@ -123,9 +123,6 @@ export const changeListStyles = css`
     text-align: center;
     width: 3rem;
   }
-  .truncatedRepo {
-    display: none;
-  }
   .hashtags {
     white-space: nowrap;
   }
@@ -135,12 +132,6 @@ export const changeListStyles = css`
       overflow: hidden;
       max-width: 18rem;
       text-overflow: ellipsis;
-    }
-    .truncatedRepo {
-      display: inline-block;
-    }
-    .fullRepo {
-      display: none;
     }
   }
   @media only screen and (max-width: 100em) {

@@ -34,6 +34,24 @@
       "parentUuid": "1dc1910f_9a7f9ce1",
       "revId": "ff20058c7c37b0d43d56f6510c2937e0bccac05c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b917392_0a98d69c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-06T20:04:22Z",
+      "side": 1,
+      "message": "I suspect that using generation numbers is important too.",
+      "parentUuid": "c7ef17b4_243251f9",
+      "revId": "ff20058c7c37b0d43d56f6510c2937e0bccac05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

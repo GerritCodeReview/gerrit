@@ -1334,7 +1334,8 @@ file contents nor does it include the edits (modified regions) of the files.
 +
 Caches successful commit ancestry answers, including false answers, by project
 and ordered commit IDs. Used for parent commit information when Gerrit change
-metadata is unavailable. The default `memoryLimit` is 8 MiB, estimated in bytes.
+metadata is unavailable, and for branch mergeability checks. The default
+`memoryLimit` is 8 MiB, estimated in bytes.
 The default `diskLimit` is 128 MiB when `cache.directory` is configured.
 Set `diskLimit` to 0 to keep answers only in memory.
 

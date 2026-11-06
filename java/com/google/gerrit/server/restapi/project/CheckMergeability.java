@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.change.MergedCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -69,12 +70,17 @@ public class CheckMergeability implements RestReadView<BranchResource> {
 
   private final GitRepositoryManager gitManager;
   private final CommitsCollection commits;
+  private final MergedCache mergedCache;
 
   @Inject
   CheckMergeability(
-      GitRepositoryManager gitManager, CommitsCollection commits, @GerritServerConfig Config cfg) {
+      GitRepositoryManager gitManager,
+      CommitsCollection commits,
+      MergedCache mergedCache,
+      @GerritServerConfig Config cfg) {
     this.gitManager = gitManager;
     this.commits = commits;
+    this.mergedCache = mergedCache;
     this.strategy = MergeUtil.getMergeStrategy(cfg).getName();
     this.submitType = cfg.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.useGitattributesForMerge = MergeUtil.useGitattributesForMerge(cfg);
@@ -119,7 +125,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
             e);
       }
 
-      if (rw.isMergedInto(sourceCommit, targetCommit)) {
+      if (mergedCache.isMergedInto(resource.getNameKey(), rw, sourceCommit, targetCommit)) {
         result.mergeable = true;
         result.commitMerged = true;
         result.contentMerged = true;

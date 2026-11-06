@@ -15,20 +15,26 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.server.change.MergedCacheImpl;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
@@ -39,12 +45,87 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
 
+  @Inject
+  @Named(MergedCacheImpl.CACHE_NAME)
+  private Cache<MergedCacheImpl.Key, Boolean> mergedCache;
+
   private BranchNameKey branch;
 
   @Before
   public void setUp() throws Exception {
     branch = BranchNameKey.create(project, "test");
     gApi.projects().name(branch.project().get()).branch(branch.branch()).create(new BranchInput());
+  }
+
+  @Test
+  public void cachesAncestryAcrossRequestsAndBranchMovement() throws Exception {
+    RevCommit base = projectOperations.project(project).getHead("master");
+    MergedCacheImpl.Key same = new MergedCacheImpl.Key(project, base, base);
+    mergedCache.invalidateAll();
+    assertCommitMerged("test", "master", "recursive");
+    assertThat(mergedCache.getIfPresent(same)).isTrue();
+    long hits = mergedCache.stats().hitCount();
+    assertCommitMerged("test", "master", "recursive");
+    assertThat(mergedCache.stats().hitCount()).isGreaterThan(hits);
+
+    RevCommit tip =
+        testRepo
+            .branch("HEAD")
+            .commit()
+            .message("advance master")
+            .add("new.txt", "new content")
+            .create();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
+    MergedCacheImpl.Key notMerged = new MergedCacheImpl.Key(project, tip, base);
+    MergeableInfo first = getMergeableInfo("test", "master", "recursive");
+    assertThat(first.mergeable).isTrue();
+    assertThat(first.commitMerged).isFalse();
+    assertThat(first.contentMerged).isFalse();
+    assertThat(mergedCache.getIfPresent(notMerged)).isFalse();
+    MergeableInfo cached = getMergeableInfo("test", "master", "recursive");
+    assertThat(cached.mergeable).isTrue();
+    assertThat(cached.commitMerged).isFalse();
+    assertThat(cached.contentMerged).isFalse();
+    assertThat(mergedCache.getIfPresent(same)).isTrue();
+  }
+
+  @Test
+  public void cachedAncestryDoesNotBypassSourceVisibility() throws Exception {
+    RevCommit base = projectOperations.project(project).getHead("master");
+    RevCommit secret =
+        testRepo
+            .branch("HEAD")
+            .commit()
+            .message("secret")
+            .add("secret.txt", "secret contents")
+            .create();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/secret"))
+        .call();
+    assertMergeable("test", secret.name(), "recursive");
+    MergedCacheImpl.Key key = new MergedCacheImpl.Key(project, secret, base);
+    assertThat(mergedCache.getIfPresent(key)).isFalse();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/secret").group(REGISTERED_USERS))
+        .update();
+    assertBadRequest(
+        "test",
+        secret.name(),
+        "recursive",
+        "Error resolving: '"
+            + secret.name()
+            + "'. Do not have read permission, or failed to resolve to a commit.");
+    assertThat(mergedCache.getIfPresent(key)).isFalse();
   }
 
   @Test

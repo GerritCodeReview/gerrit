@@ -69,6 +69,24 @@
       "parentUuid": "d3042c50_2d2dc620",
       "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee15a5bd_fc1438b2",
+        "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4223656
+      },
+      "writtenOn": "2026-11-06T07:04:49Z",
+      "side": 1,
+      "message": "It doesn\u0027t. Let me give a more concrete example of my concern:\n* You land this change\n* Months pass\n* I use `jj gerrit upload` to upload change with jj change-id \u0027xyz\u0027 and the change-ID footer \u0027abc\u0027. Gerrit uses \u0027abc\u0027, as intended.\n* We decide that gerrit\u0027s jj change id support is good enough and make jj gerrit upload not create a change-ID footer\n* The user updates their version of jj\n* The user makes changes and runs `jj gerrit upload` again. This time the change ID is xyz. It creates a new change instead of uploading a new patchset to the old change because the old change used abc.\n\nI can see potential ways to get around this, depending on your design. But the simplest possible way of achieving this, where you just add a fallback method to calculate the change ID, would break things.",
+      "parentUuid": "3eb4c1ec_df44abb6",
+      "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

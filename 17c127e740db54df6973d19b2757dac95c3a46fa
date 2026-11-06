@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aab2d4ff_182d14fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-11-06T19:28:09Z",
+      "side": 1,
+      "message": "Yes, if you use `jj gerrit upload` it will automatically add the `Change-Id` footer. This wasn\u0027t the case when I started this series, nor when [1] was created.\n\nThe idea would be that eventually jj wouldn\u0027t need a Gerrit command, but stick with `jj git push`. Although I don\u0027t think you can currently specify refspec\u0027s there, so a sort of `jj git push --for\u003d\u003cbranch\u003e` might need to be added. Maybe @msta@google.com can comment on wether that would make sense or not?\n\n\u003e I have that change duplicated in jj, one with and one without Change-Id\n\nYeah, this wouldn\u0027t happen anymore, as neither would have `Change-Id` footer.\nHowever, if you modify in the Gerrit UI and then fetch, you still end up with a divergent state, which is why I\u0027ve got a local version of jj where I added a `--supersede` option that automatically abandons the local version in favour of the one I\u0027m fetching from Gerrit.\n\n@msta@google.com, I\u0027d like your opinion here, do you think there\u0027s still value in adding native support for jj change-id header in Gerrit and removing what I consider a workaround in the `jj gerrit upload` command, or not really?\n\n[1] https://www.gerritcodereview.com/design-docs/support-jujutsu-use-cases.html",
+      "parentUuid": "d31e37b1_33f6248d",
+      "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3042c50_2d2dc620",
         "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
         "patchSetId": 34

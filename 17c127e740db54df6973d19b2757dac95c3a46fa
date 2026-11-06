@@ -105,6 +105,24 @@
       "parentUuid": "ee15a5bd_fc1438b2",
       "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fb3adf0_0b7e5fa1",
+        "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-11-06T08:36:59Z",
+      "side": 1,
+      "message": "\u003e The user makes changes and runs jj gerrit upload again. This time the change ID is xyz. It creates a new change instead of uploading a new patchset to the old change because the old change used abc.\n\nJust to confirm I understand correctly, this would only be the case if the user actively removed the `Change-Id` footer from the commit message. If he just edits the commit and leaves that footer in the place, then the footer would take precedence.",
+      "parentUuid": "c42e4dea_a26cee38",
+      "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

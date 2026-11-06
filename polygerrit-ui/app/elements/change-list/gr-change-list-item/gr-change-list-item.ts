@@ -17,7 +17,6 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getAppContext} from '../../../services/app-context';
-import {truncatePath} from '../../../utils/path-list-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {
   AccountInfo,
@@ -280,6 +279,9 @@ export class GrChangeListItem extends LitElement {
         .spacer {
           height: 0;
           overflow: hidden;
+          /* The spacer sets the subject column's preferred width. Cap it so
+             long subjects don't take spare width away from other columns. */
+          max-width: 60ch;
         }
         .size gr-tooltip-content {
           margin: -0.4rem -0.6rem;
@@ -432,11 +434,9 @@ export class GrChangeListItem extends LitElement {
             white-space: normal;
             overflow-wrap: anywhere;
           }
-          .repo .truncatedRepo {
-            display: none;
-          }
-          .repo .fullRepo {
-            display: block;
+          .repo a {
+            direction: ltr;
+            max-width: none;
           }
           .cell.votes {
             display: flex;
@@ -651,9 +651,8 @@ export class GrChangeListItem extends LitElement {
     const repo = this.change?.project ?? '';
     return html`
       <td class="cell repo">
-        <a class="fullRepo" href=${this.computeRepoUrl()}> ${repo} </a>
-        <a class="truncatedRepo" href=${this.computeRepoUrl()} title=${repo}>
-          ${truncatePath(repo, 2)}
+        <a class="fullRepo" href=${this.computeRepoUrl()} title=${repo}>
+          <span>${repo}</span>
         </a>
       </td>
     `;

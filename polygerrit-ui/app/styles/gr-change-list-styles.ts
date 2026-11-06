@@ -123,8 +123,18 @@ export const changeListStyles = css`
     text-align: center;
     width: 3rem;
   }
-  .truncatedRepo {
-    display: none;
+  .repo a {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Elide the start of long repo names so the distinctive end of the
+       name stays visible. The inner span keeps the text itself LTR. */
+    direction: rtl;
+    text-align: left;
+  }
+  .repo a > span {
+    direction: ltr;
+    unicode-bidi: isolate;
   }
   .hashtags {
     white-space: nowrap;
@@ -136,17 +146,17 @@ export const changeListStyles = css`
       max-width: 18rem;
       text-overflow: ellipsis;
     }
-    .truncatedRepo {
-      display: inline-block;
-    }
-    .fullRepo {
-      display: none;
+    .repo a {
+      max-width: 30rem;
     }
   }
   @media only screen and (max-width: 100em) {
     .branch,
     .hashtags {
       max-width: 10rem;
+    }
+    .repo a {
+      max-width: 20rem;
     }
   }
   @media only screen and (max-width: 50em) {

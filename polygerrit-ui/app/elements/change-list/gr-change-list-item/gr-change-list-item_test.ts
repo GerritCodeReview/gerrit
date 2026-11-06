@@ -516,15 +516,12 @@ suite('gr-change-list-item tests', () => {
           highlightattention=""
         ></gr-account-label>
         <div></div>
-        <a class="fullRepo" href="/q/project:test-project+status:open">
-          test-project
-        </a>
         <a
-          class="truncatedRepo"
+          class="fullRepo"
           href="/q/project:test-project+status:open"
           title="test-project"
         >
-          test-project
+          <span>test-project</span>
         </a>
         <a href="/q/project:test-project+branch:test-branch"> test-branch </a>
         <gr-date-formatter withtooltip=""></gr-date-formatter>

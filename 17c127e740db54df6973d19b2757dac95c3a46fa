@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d31e37b1_33f6248d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-11-06T15:18:07Z",
+      "side": 1,
+      "message": "I tested it now: just created a new Gerrit site with all default init options. The requireChangeId was set to true in All-Projects. I was able to push a new change from jj using `jj gerrit upload`. Locally the commit didn\u0027t have Change-Id. In Gerrit I see that the Change-Id footer was added. This is the same behaviour I observed when uploading to gerrit-review using jj.\n\nNow I remember the main issue: If I download such a patch-set then I have that change duplicated in jj, one with and one without Change-Id... and then I have to abandon one. This is why, for now, I configured my local jj to always add Change-Id to the commit message. Would that scenario be fixed?",
+      "parentUuid": "72f72ec3_72ae612d",
+      "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3042c50_2d2dc620",
         "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
         "patchSetId": 34

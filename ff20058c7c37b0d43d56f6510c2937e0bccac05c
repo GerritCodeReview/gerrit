@@ -16,6 +16,24 @@
       "message": "It is not obvious from this what this implies, and much of the stuff below is not helping me understand much better. What are \"true\" and \"false\" questions even about?\n\nFrom this summary, it sounds like something that should be better answered by commit graphs, it would be good to know why it can\u0027t. If it can\u0027t, it would be good to potentially propose improved git structures to better answer this instead of having a Gerrit only solution.",
       "revId": "ff20058c7c37b0d43d56f6510c2937e0bccac05c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7ef17b4_243251f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-06T20:03:05Z",
+      "side": 1,
+      "message": "\u003e It is not obvious from this what this implies, and much of the stuff below is not helping me understand much better. What are \"true\" and \"false\" questions even about?\n\nOops, lost the `isMergedInto()` context (that\u0027s what\u0027s returning `true` and `false`).\n\n\u003e \n\u003e From this summary, it sounds like something that should be better answered by commit graphs, it would be good to know why it can\u0027t. If it can\u0027t, it would be good to potentially propose improved git structures to better answer this instead of having a Gerrit only solution.\n\nAgreed that if commit graphs can answer this efficiently already, that\u0027s a better solution. Let me check on that and what would be needed if they can\u0027t yet.",
+      "parentUuid": "1dc1910f_9a7f9ce1",
+      "revId": "ff20058c7c37b0d43d56f6510c2937e0bccac05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

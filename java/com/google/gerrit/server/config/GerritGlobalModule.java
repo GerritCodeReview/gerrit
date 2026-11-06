@@ -131,6 +131,7 @@ import com.google.gerrit.server.change.EmailNewPatchSet;
 import com.google.gerrit.server.change.FileInfoJsonModule;
 import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
+import com.google.gerrit.server.change.MergedCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.comment.CommentContextCacheImpl;
@@ -286,6 +287,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(MergeabilityCacheImpl.module());
+    install(MergedCacheImpl.module());
     install(ServiceUserClassifierImpl.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());

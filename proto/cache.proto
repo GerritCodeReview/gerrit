@@ -38,6 +38,14 @@ message MergeabilityKeyProto {
   string merge_strategy = 4;
 }
 
+// Serialized form of com.google.gerrit.server.change.MergedCacheImpl.Key.
+// Next ID: 4
+message MergedKeyProto {
+  devtools.gerritcodereview.Project_NameKey project = 1;
+  bytes commit = 2;
+  bytes into = 3;
+}
+
 // Serialized form of com.google.gerrit.extensions.auth.oauth.OAuthToken.
 // Next ID: 6
 message OAuthTokenProto {

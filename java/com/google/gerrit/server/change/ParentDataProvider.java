@@ -60,6 +60,7 @@ public class ParentDataProvider {
   private record ParentDataCacheKey(
       Project.NameKey project, ObjectId commitId, String targetBranch) {}
 
+  private final MergedCache mergedCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Map<ProjectCommitKey, Optional<ChangeData>> parentChangeCache =
       new ConcurrentHashMap<>();
@@ -69,7 +70,8 @@ public class ParentDataProvider {
       new ConcurrentHashMap<>();
 
   @Inject
-  public ParentDataProvider(Provider<InternalChangeQuery> queryProvider) {
+  public ParentDataProvider(MergedCache mergedCache, Provider<InternalChangeQuery> queryProvider) {
+    this.mergedCache = mergedCache;
     this.queryProvider = queryProvider;
   }
 
@@ -186,12 +188,10 @@ public class ParentDataProvider {
         return false;
       }
       if (rw != null) {
-        return rw.isMergedInto(
-            rw.parseCommit(parentCommitId), rw.parseCommit(targetBranchTip.get()));
+        return mergedCache.isMergedInto(project, rw, parentCommitId, targetBranchTip.get());
       }
       try (RevWalk localRw = new RevWalk(repo)) {
-        return localRw.isMergedInto(
-            localRw.parseCommit(parentCommitId), localRw.parseCommit(targetBranchTip.get()));
+        return mergedCache.isMergedInto(project, localRw, parentCommitId, targetBranchTip.get());
       }
     } catch (IOException e) {
       logger.atWarning().withCause(e).log(

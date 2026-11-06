@@ -1330,6 +1330,14 @@ Each item caches the list of git modified files between two git trees
 corresponding to two different commits. This cache does not read the actual
 file contents nor does it include the edits (modified regions) of the files.
 
+[[cache.merged_into]]cache `"merged_into"`::
++
+Caches successful commit ancestry answers, including false answers, by project
+and ordered commit IDs. Used for parent commit information when Gerrit change
+metadata is unavailable. The default `memoryLimit` is 8 MiB, estimated in bytes.
+The default `diskLimit` is 128 MiB when `cache.directory` is configured.
+Set `diskLimit` to 0 to keep answers only in memory.
+
 cache `"modified_files"`::
 +
 Each item caches the list of modified files between two commits. This cache

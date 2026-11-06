@@ -25,6 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -50,6 +51,8 @@ import org.junit.Test;
 public class ParentDataProviderTest {
   private static final String TARGET_BRANCH = "refs/heads/main";
 
+  private final MergedCache mergedCache = new MergedCacheImpl(CacheBuilder.newBuilder().build());
+
   private Account.Id userId;
   private Project.NameKey project;
   private InMemoryRepositoryManager repoManager;
@@ -72,6 +75,7 @@ public class ParentDataProviderTest {
     AtomicInteger queryAllocations = new AtomicInteger();
     ParentDataProvider provider =
         new ParentDataProvider(
+            mergedCache,
             () -> {
               queryAllocations.incrementAndGet();
               return query;
@@ -142,6 +146,7 @@ public class ParentDataProviderTest {
     AtomicInteger queryAllocations = new AtomicInteger();
     ParentDataProvider provider =
         new ParentDataProvider(
+            mergedCache,
             () -> {
               queryAllocations.incrementAndGet();
               return query;
@@ -210,6 +215,7 @@ public class ParentDataProviderTest {
     AtomicInteger queryAllocations = new AtomicInteger();
     ParentDataProvider provider =
         new ParentDataProvider(
+            mergedCache,
             () -> {
               queryAllocations.incrementAndGet();
               return query;
@@ -243,13 +249,40 @@ public class ParentDataProviderTest {
     when(query.byProjectCommit(project, sharedCommit.getId()))
         .thenReturn(ImmutableList.of(change1, change2));
 
-    ParentDataProvider provider = new ParentDataProvider(() -> query);
+    ParentDataProvider provider = new ParentDataProvider(mergedCache, () -> query);
     try (RevWalk rw = new RevWalk(testRepo.getRepository())) {
       provider.prefetch(project, ImmutableList.of(sharedCommit.getId()));
       ParentCommitData data =
           provider.get(project, testRepo.getRepository(), rw, sharedCommit.getId(), TARGET_BRANCH);
       assertThat(data.changeNumber()).isEmpty();
       assertThat(data.isMergedInTargetBranch()).isTrue();
+    }
+  }
+
+  @Test
+  public void get_reusesAncestryAcrossRequestsAndKeysByTip() throws Exception {
+    RevCommit base = testRepo.branch(TARGET_BRANCH).commit().create();
+    InternalChangeQuery query = mockQuery();
+    when(query.byProjectCommit(project, base)).thenReturn(ImmutableList.of());
+    assertThat(
+            new ParentDataProvider(mergedCache, () -> query)
+                .get(project, testRepo.getRepository(), base, TARGET_BRANCH)
+                .isMergedInTargetBranch())
+        .isTrue();
+    RevWalk unused = mock(RevWalk.class);
+    assertThat(
+            new ParentDataProvider(mergedCache, () -> query)
+                .get(project, testRepo.getRepository(), unused, base, TARGET_BRANCH)
+                .isMergedInTargetBranch())
+        .isTrue();
+    org.mockito.Mockito.verifyNoInteractions(unused);
+    testRepo.update(TARGET_BRANCH, testRepo.commit().message("unrelated root").create());
+    try (RevWalk rw = new RevWalk(testRepo.getRepository())) {
+      assertThat(
+              new ParentDataProvider(mergedCache, () -> query)
+                  .get(project, testRepo.getRepository(), rw, base, TARGET_BRANCH)
+                  .isMergedInTargetBranch())
+          .isFalse();
     }
   }
 

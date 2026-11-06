@@ -87,6 +87,24 @@
       "parentUuid": "3eb4c1ec_df44abb6",
       "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c42e4dea_a26cee38",
+        "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-11-06T08:10:03Z",
+      "side": 1,
+      "message": "But `xyz` would still have the footer in this scenario?\n\nI see the general point you\u0027re trying to make, but I think it\u0027s a minor concern tbh. There\u0027s already a well known bug in Gerrit where a change with the same change `Change-Id` footer can create two separate changes.\n\nIt\u0027s something we could look at in the future, but I\u0027d be happy to get to a point where we have this problem first.",
+      "parentUuid": "ee15a5bd_fc1438b2",
+      "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

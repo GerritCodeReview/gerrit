@@ -50,6 +50,23 @@
       "message": "Yes",
       "revId": "67c81d28f9589cf16b19144de5bef72bb11ffadb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22abd0f1_3f570b49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5301522
+      },
+      "writtenOn": "2026-11-06T17:56:00Z",
+      "side": 1,
+      "message": "https://issues.gerritcodereview.com/500769405#attachment75328297",
+      "revId": "67c81d28f9589cf16b19144de5bef72bb11ffadb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

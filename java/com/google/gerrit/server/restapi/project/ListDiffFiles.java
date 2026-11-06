@@ -106,10 +106,11 @@ public class ListDiffFiles implements RestReadView<CommitResource> {
       RevCommit newCommit = rw.parseCommit(newCommitId);
 
       // Validate that commits are in ancestor/descendant relationship
-      diffUtils.validateAncestorRelationship(rw, baseCommit, newCommit);
+      ProjectDiffUtils.AncestorRelationship relationship =
+          diffUtils.validateAncestorRelationship(rw, baseCommit, newCommit);
 
       // Walk all commits in path and verify visibility for each (critical for private changes)
-      diffUtils.verifyPathVisibility(projectState, repo, rw, baseCommit, newCommit);
+      diffUtils.verifyPathVisibility(projectState, repo, rw, baseCommit, newCommit, relationship);
 
       // Compute the diff
       // Don't skip files due to rebase - this is a direct commit comparison, not patchset

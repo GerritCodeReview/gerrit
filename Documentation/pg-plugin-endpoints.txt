@@ -84,8 +84,8 @@ link:rest-api-changes.html#revision-info[RevisionInfo]
 
 === chat-panel
 The `chat-panel` extension point wraps the `<chat-panel>` component in the
-change view's right-hand sidebar. Plugins can decorate or replace the default
-chat panel.
+change view's and diff view's right-hand sidebar. Plugins can decorate or
+replace the default chat panel.
 
 * `change`
 +

@@ -5,6 +5,7 @@
  */
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../chat-panel/chat-panel';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
@@ -37,6 +38,7 @@ import {
 import {CommentAnchorTapEventDetail} from '../../shared/gr-comment/gr-comment';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {
+  ActionNameToActionInfoMap,
   BasePatchSetNum,
   Comment,
   CommentMap,
@@ -49,10 +51,11 @@ import {
   PatchSetNumber,
   PreferencesInfo,
   RepoName,
+  RevisionInfo,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo, WebLinkInfo} from '../../../types/diff';
-import {ParsedChangeInfo} from '../../../types/types';
+import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {
   FilesWebLinks,
   PatchRangeChangeEvent,
@@ -60,7 +63,11 @@ import {
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
-import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
+import {
+  ExplainCodeRequestedEvent,
+  OpenFixPreviewEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {whenVisible} from '../../../utils/dom-util';
@@ -81,6 +88,7 @@ import {
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {resolve} from '../../../models/dependency';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {ShortcutController} from '../../lit/shortcut-controller';
@@ -128,6 +136,10 @@ const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 // Files larger than this cannot be downloaded.
 const FILE_DOWNLOAD_LIMIT_BYTES = 50 * 1000 * 1000;
+
+// Reserved sidebar key for chat-panel in shownSidebar.
+// visible for testing
+export const CHAT_PANEL_SIDEBAR = 'chat-panel';
 
 // visible for testing
 export interface Files {
@@ -209,6 +221,23 @@ export class GrDiffView extends LitElement {
 
   // Private but used in tests.
   @state()
+  revision?: RevisionInfo | EditRevisionInfo;
+
+  // Private but used in tests.
+  @state()
+  revisionActions?: ActionNameToActionInfoMap;
+
+  // Whether any plugin has registered via plugin.aiCodeReview().register(),
+  // matching gr-change-actions. Private but used in tests.
+  @state()
+  aiPluginsRegistered = false;
+
+  private lastRevisionActionsKey?: string;
+
+  private hasInitializedSidebarFromPrefs = false;
+
+  // Private but used in tests.
+  @state()
   changeComments?: ChangeComments;
 
   // Private but used in tests.
@@ -287,9 +316,13 @@ export class GrDiffView extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly restApiService = getAppContext().restApiService;
+
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
@@ -322,6 +355,17 @@ export class GrDiffView extends LitElement {
       );
     }
   });
+
+  private readonly handleCloseChatPanel = () => {
+    this.getChatModel().setChatPanelOpen(false);
+  };
+
+  private readonly handleExplainCodeRequested = (
+    e: ExplainCodeRequestedEvent
+  ) => {
+    this.getChatModel().setChatPanelOpen(true);
+    this.getChatModel().processChatRequest(e.detail);
+  };
 
   constructor() {
     super();
@@ -446,6 +490,29 @@ export class GrDiffView extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       latestPatchNum => (this.latestPatchNum = latestPatchNum)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revision$,
+      revision => (this.revision = revision)
+    );
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.aiCodeReviewPlugins$,
+      plugins => {
+        this.aiPluginsRegistered = plugins.length > 0;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().chatPanelOpen$,
+      open => {
+        if (open) {
+          this.shownSidebar = CHAT_PANEL_SIDEBAR;
+        } else if (this.shownSidebar === CHAT_PANEL_SIDEBAR) {
+          this.shownSidebar = undefined;
+        }
+      }
     );
     subscribe(
       this,
@@ -766,9 +833,30 @@ export class GrDiffView extends LitElement {
           display: inline-block;
           margin-right: var(--spacing-m);
         }
+        .chatButton {
+          display: inline-flex;
+          align-items: center;
+          margin-right: var(--spacing-m);
+        }
+        .chatButton gr-icon {
+          color: inherit;
+          margin-right: var(--spacing-xs);
+        }
+        .sidebar {
+          height: 100%;
+        }
         .sidebarContents {
           background: var(--background-color-secondary);
           box-sizing: border-box;
+          height: 100%;
+        }
+        .sidebarContents gr-endpoint-decorator[name='chat-panel'] {
+          display: block;
+          height: 100%;
+        }
+        .sidebarContents
+          gr-endpoint-decorator[name='chat-panel']
+          > :not(gr-endpoint-param) {
           height: 100%;
         }
         md-checkbox {
@@ -800,28 +888,95 @@ export class GrDiffView extends LitElement {
       this.handleToggleFileReviewed()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
+    this.addEventListener('close-chat-panel', this.handleCloseChatPanel);
+    this.addEventListener(
+      'explain-code-requested',
+      this.handleExplainCodeRequested
+    );
     this.cursor = new GrDiffCursor();
     if (this.diffHost) this.reInitCursor();
-    this.getUserModel()
-      .preferences$.pipe(
-        map(p => p.diff_page_sidebar),
-        take(1)
-      )
-      .toPromise()
-      .then(initialSidebar => {
-        if (initialSidebar === 'NONE' || initialSidebar === undefined) {
-          this.shownSidebar = undefined;
-        } else {
-          this.shownSidebar = initialSidebar.substring('plugin-'.length);
-        }
-      });
+    if (!this.hasInitializedSidebarFromPrefs) {
+      this.hasInitializedSidebarFromPrefs = true;
+      this.getUserModel()
+        .preferences$.pipe(
+          map(p => p.diff_page_sidebar),
+          take(1)
+        )
+        .toPromise()
+        .then(initialSidebar => {
+          if (this.shownSidebar === CHAT_PANEL_SIDEBAR) return;
+          if (initialSidebar === 'NONE' || initialSidebar === undefined) {
+            this.shownSidebar = undefined;
+          } else {
+            this.shownSidebar = initialSidebar.substring('plugin-'.length);
+          }
+        });
+    }
   }
 
   override disconnectedCallback() {
+    this.removeEventListener('close-chat-panel', this.handleCloseChatPanel);
+    this.removeEventListener(
+      'explain-code-requested',
+      this.handleExplainCodeRequested
+    );
     this.cursor?.dispose();
     this.headerResizeObserver.disconnect();
     document.documentElement.style.setProperty('--diff-header-height', '0px');
     super.disconnectedCallback();
+  }
+
+  private async loadRevisionActions() {
+    const patchNum =
+      this.patchNum && this.patchNum !== EDIT
+        ? this.patchNum
+        : this.latestPatchNum;
+    if (!this.changeNum || !patchNum) {
+      this.lastRevisionActionsKey = undefined;
+      this.revisionActions = undefined;
+      return;
+    }
+    const key = `${this.changeNum}:${patchNum}`;
+    if (this.lastRevisionActionsKey === key) {
+      return;
+    }
+    this.lastRevisionActionsKey = key;
+    this.revisionActions = undefined;
+    try {
+      const revisionActions =
+        await this.restApiService.getChangeRevisionActions(
+          this.changeNum,
+          patchNum
+        );
+      if (this.lastRevisionActionsKey !== key) return;
+      this.revisionActions = revisionActions ?? {};
+    } catch {
+      if (this.lastRevisionActionsKey !== key) return;
+      this.revisionActions = {};
+    }
+  }
+
+  protected override willUpdate(changedProperties: PropertyValues): void {
+    super.willUpdate(changedProperties);
+    if (
+      changedProperties.has('changeNum') ||
+      changedProperties.has('latestPatchNum') ||
+      changedProperties.has('patchNum')
+    ) {
+      void this.loadRevisionActions();
+    }
+    if (
+      (changedProperties.has('change') || changedProperties.has('patchNum')) &&
+      this.change &&
+      this.patchNum
+    ) {
+      const matchingRevision = Object.values(this.change.revisions ?? {}).find(
+        r => r._number === this.patchNum
+      );
+      if (matchingRevision && this.revision !== matchingRevision) {
+        this.revision = matchingRevision;
+      }
+    }
   }
 
   private reInitCursor() {
@@ -973,7 +1128,7 @@ export class GrDiffView extends LitElement {
             </gr-diff-host>
           </gr-endpoint-decorator>
         </div>
-        <div slot="side">${this.renderSidebarContent()}</div>
+        <div class="sidebar" slot="side">${this.renderSidebarContent()}</div>
       </gr-content-with-sidebar>
       ${this.renderDialogs()}
     `;
@@ -1089,7 +1244,11 @@ export class GrDiffView extends LitElement {
             name="onTrigger"
             .value=${(pluginName: string) => {
               const closeSidebar = this.shownSidebar === pluginName;
+              const wasChatOpen = this.shownSidebar === CHAT_PANEL_SIDEBAR;
               this.shownSidebar = closeSidebar ? undefined : pluginName;
+              if (!closeSidebar && wasChatOpen) {
+                this.getChatModel().setChatPanelOpen(false);
+              }
               this.getUserModel().updatePreferences({
                 diff_page_sidebar: closeSidebar
                   ? 'NONE'
@@ -1108,6 +1267,9 @@ export class GrDiffView extends LitElement {
   }
 
   private getSidebarSide(): 'left' | 'right' {
+    if (this.shownSidebar === CHAT_PANEL_SIDEBAR) {
+      return 'right';
+    }
     if (!this.shownSidebar) {
       return 'left';
     }
@@ -1130,6 +1292,23 @@ export class GrDiffView extends LitElement {
   }
 
   private renderSidebarContent() {
+    if (this.shownSidebar === CHAT_PANEL_SIDEBAR) {
+      return html`
+        <div class="sidebarContents">
+          <gr-endpoint-decorator name="chat-panel">
+            <gr-endpoint-param
+              name="change"
+              .value=${this.change}
+            ></gr-endpoint-param>
+            <gr-endpoint-param
+              name="revision"
+              .value=${this.revision}
+            ></gr-endpoint-param>
+            <chat-panel></chat-panel>
+          </gr-endpoint-decorator>
+        </div>
+      `;
+    }
     return html`
       ${when(this.shownSidebar !== undefined, () =>
         keyed(
@@ -1232,8 +1411,9 @@ export class GrDiffView extends LitElement {
       <gr-endpoint-decorator
         name="diff-header-controls"
       ></gr-endpoint-decorator>
-      ${this.renderSidebarTriggers()} ${this.renderShowEntireFileButton()}
-      ${this.renderBlameButton()} ${this.renderRichMarkdownToggle()}
+      ${this.renderSidebarTriggers()} ${this.renderChatButton()}
+      ${this.renderShowEntireFileButton()} ${this.renderBlameButton()}
+      ${this.renderRichMarkdownToggle()}
       ${when(
         this.computeCanEdit(),
         () => html`
@@ -1299,6 +1479,31 @@ export class GrDiffView extends LitElement {
         </span>
       </gr-endpoint-decorator>
     </div>`;
+  }
+
+  private canShowChat(): boolean {
+    if (!this.loggedIn) return false;
+    if (this.revisionActions === undefined) return false;
+    if (this.revisionActions.aiReview?.enabled === false) return false;
+    if (!this.aiPluginsRegistered) return false;
+    return true;
+  }
+
+  private toggleChat() {
+    this.getChatModel().setChatPanelOpen(
+      this.shownSidebar !== CHAT_PANEL_SIDEBAR
+    );
+  }
+
+  private renderChatButton() {
+    if (!this.canShowChat()) return nothing;
+    return html`<gr-button
+      link=""
+      id="toggleChat"
+      class="chatButton"
+      @click=${this.toggleChat}
+      ><gr-icon icon="ai"></gr-icon>Agent Chat</gr-button
+    >`;
   }
 
   private renderShowEntireFileButton() {

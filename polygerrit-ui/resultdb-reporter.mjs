@@ -3,6 +3,7 @@ import path from 'path';
 import { URL } from 'url';
 
 const uiDir = path.dirname(new URL(import.meta.url).pathname);
+const visualDiffPathPattern = /^See diff for details: (.+-diff\.png)$/m;
 
 function getExistingDir(dirPath) {
   if (fs.existsSync(dirPath)) return dirPath;
@@ -12,7 +13,7 @@ function getExistingDir(dirPath) {
 }
 
 function attachVisualDiff(test, artifacts) {
-  const match = test.error.message.match(/See diff for details: (\S+)/);
+  const match = test.error.message.match(visualDiffPathPattern);
   if (!match || !match[1]) return '';
   const diffPath = match[1];
   if (!fs.existsSync(diffPath)) return '';
@@ -36,12 +37,16 @@ function attachSideBySideScreenshots(test, testFile, artifacts) {
     const files = fs.readdirSync(failedDir).filter(f => f.endsWith('.png') && !f.endsWith('-diff.png'));
     if (files.length === 0) return '';
 
-    let bestFile = null;
+    const reportedDiff = test.error.message.match(visualDiffPathPattern)?.[1];
+    const exactFile = reportedDiff
+      ? path.basename(reportedDiff, '-diff.png') + '.png'
+      : null;
+    let bestFile = exactFile;
     let bestScore = -9999;
     const testBase = path.basename(testFile, path.extname(testFile)).replace('_screenshot_test', '');
     const testNameLower = `${testBase} ${test.suiteName ? test.suiteName : ''} ${test.name}`.toLowerCase();
 
-    for (const file of files) {
+    for (const file of exactFile ? [] : files) {
       const fileTokens = file.replace(/\.png$/, '').split(/[-_]/).filter(Boolean);
       let matchedCount = 0;
       for (const token of fileTokens) {

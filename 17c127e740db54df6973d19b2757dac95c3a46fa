@@ -123,6 +123,24 @@
       "parentUuid": "c42e4dea_a26cee38",
       "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aff758f_c7ea4137",
+        "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4223656
+      },
+      "writtenOn": "2026-11-06T10:38:50Z",
+      "side": 1,
+      "message": "\u003e Just to confirm I understand correctly, this would only be the case if the user actively removed the Change-Id footer from the commit message. If he just edits the commit and leaves that footer in the place, then the footer would take precedence.\n\nYou are understanding correctly, but there\u0027s a part that you\u0027ve missed. Change-ID footers in JJ are ephemeral. When I run `jj gerrit upload`, it:\n* Starts a transaction\n* Adds the footer to the description\n* Uploads that amended commit\n* Abandons the transaction\n\nSo changing the jj code to not add the footer would actually be equivalent to deleting the footer from existing commits when you re-upload them.",
+      "parentUuid": "2fb3adf0_0b7e5fa1",
+      "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

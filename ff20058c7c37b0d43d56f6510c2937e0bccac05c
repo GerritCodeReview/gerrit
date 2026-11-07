@@ -52,6 +52,24 @@
       "parentUuid": "c7ef17b4_243251f9",
       "revId": "ff20058c7c37b0d43d56f6510c2937e0bccac05c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "244e2537_fec42eeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-07T00:57:02Z",
+      "side": 1,
+      "message": "Yeah, seems like they\u0027ll help as they do for the other `*MergedInto*` methods, but `isMergedInto()` doesn\u0027t use them currently. There\u0027s also a perf issue in the other methods when there\u0027s no graph, which I tried to solve here: 1258522: Fall back to merge bases in getCommitsMergedInto() | https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1258522",
+      "parentUuid": "6b917392_0a98d69c",
+      "revId": "ff20058c7c37b0d43d56f6510c2937e0bccac05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

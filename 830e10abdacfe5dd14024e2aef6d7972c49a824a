@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae32bfb_834827d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-07T22:48:57Z",
+      "side": 1,
+      "message": "This change provided *a massive* improvement in the latency of the change results.\nIt is definitely worth mentioning in the release notes *and* I\u0027ll also present it on Monday, 9th of November 2026, at the Gerrit User Summit 2026 in Sunnyvale, CA.",
+      "revId": "830e10abdacfe5dd14024e2aef6d7972c49a824a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -78,6 +78,11 @@ npm.npm_translate_lock(
 use_repo(npm, "ui_npm")
 npm.npm_translate_lock(
     name = "ui_dev_npm",
+    # TODO(davido): Remove after upgrading to a pngjs release with correct
+    # archive permissions. See https://github.com/pngjs/pngjs/issues/381.
+    custom_postinstalls = {
+        "pngjs": "chmod -R a+X *",
+    },
     data = [
         "//polygerrit-ui:package.json",
         "//polygerrit-ui:pnpm-workspace.yaml",

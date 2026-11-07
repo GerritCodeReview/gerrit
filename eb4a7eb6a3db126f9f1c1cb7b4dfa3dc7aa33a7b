@@ -181,6 +181,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2b2fdd7_42e72980",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-07T10:31:54Z",
+      "side": 1,
+      "message": "Is this correct? Are we safe to release it on Gerrit v3.15? Is it usable E2E?",
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98b14d27_2f422774",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8
@@ -198,6 +215,23 @@
         "endLine": 4166,
         "endChar": 59
       },
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a58dd092_60e9c182",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-07T10:31:54Z",
+      "side": 1,
+      "message": "The default of `commitWithin` is 5 minutes; see https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java#80\n\nIs the stale index recovery mechanism reliable when `commitWithin` is 5 minutes?",
       "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

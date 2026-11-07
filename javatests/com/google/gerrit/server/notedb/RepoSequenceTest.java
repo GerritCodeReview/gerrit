@@ -39,6 +39,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -57,7 +58,17 @@ public class RepoSequenceTest {
 
   // Don't sleep in tests.
   private static final Retryer<ImmutableList<Integer>> RETRYER =
-      RepoSequence.retryerBuilder().withBlockStrategy(t -> {}).build();
+      RepoSequence.retryerBuilder()
+          .withBlockStrategy(t -> {})
+          .withStopStrategy(StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS))
+          .build();
+
+  // Permanent failures need retries, but not the production wall-clock deadline.
+  private static final Retryer<ImmutableList<Integer>> BOUNDED_RETRYER =
+      RepoSequence.retryerBuilder()
+          .withBlockStrategy(t -> {})
+          .withStopStrategy(StopStrategies.stopAfterAttempt(3))
+          .build();
 
   private InMemoryRepositoryManager repoManager;
   private Project.NameKey project;
@@ -273,7 +284,10 @@ public class RepoSequenceTest {
             1,
             1,
             bgUpdate,
-            RepoSequence.retryerBuilder().withBlockStrategy(blockStrategy).build());
+            RepoSequence.retryerBuilder()
+                .withBlockStrategy(blockStrategy)
+                .withStopStrategy(StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS))
+                .build());
 
     assertThat(doneBgUpdate.get()).isFalse();
 
@@ -388,7 +402,8 @@ public class RepoSequenceTest {
 
   @Test
   public void failOnNonIncrementingSequence() throws Exception {
-    RepoSequence s = newSequence("id", 10, 1);
+    AtomicInteger readCount = new AtomicInteger();
+    RepoSequence s = newSequence("id", 10, 1, readCount::incrementAndGet, BOUNDED_RETRYER);
     assertThat(s.next()).isEqualTo(10);
     writeBlob("id", "5");
     StorageException thrown = assertThrows(StorageException.class, s::next);
@@ -396,6 +411,7 @@ public class RepoSequenceTest {
         .hasMessageThat()
         .contains(
             "For refs/sequences/id, expected new value 6 to be greater than last stored value 11");
+    assertThat(readCount.get()).isEqualTo(4); // Initial allocation and three failed attempts.
 
     // Verify that the sequence ref is deleted
     assertThat(assertThrows(IllegalStateException.class, s::current))
@@ -406,16 +422,18 @@ public class RepoSequenceTest {
   @Test
   public void failOnNonIncrementingSequenceWithReadAfterRef() throws Exception {
     writeBlob("id", "10");
+    AtomicInteger readCount = new AtomicInteger();
     AtomicBoolean doUpdate = new AtomicBoolean(false);
     Runnable bgUpdate =
         () -> {
+          readCount.incrementAndGet();
           if (doUpdate.get()) {
             writeBlob("id", "5");
             doUpdate.set(false);
           }
         };
 
-    RepoSequence s = newSequence("id", 10, 1, bgUpdate, RETRYER);
+    RepoSequence s = newSequence("id", 10, 1, bgUpdate, BOUNDED_RETRYER);
     assertThat(s.next()).isEqualTo(10);
     doUpdate.set(true);
     StorageException thrown = assertThrows(StorageException.class, s::next);
@@ -423,6 +441,7 @@ public class RepoSequenceTest {
         .hasMessageThat()
         .contains(
             "For refs/sequences/id, expected new value 6 to be greater than last stored value 11");
+    assertThat(readCount.get()).isEqualTo(4); // Initial allocation and three failed attempts.
 
     // Verify that the sequence ref is deleted
     assertThat(assertThrows(IllegalStateException.class, s::current))

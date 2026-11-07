@@ -177,11 +177,13 @@ public class RepoSequence implements Sequence {
         .withWaitStrategy(
             WaitStrategies.join(
                 WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
-                WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))
-        .withStopStrategy(StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS));
+                WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)));
   }
 
-  private static final Retryer<ImmutableList<Integer>> RETRYER = retryerBuilder().build();
+  private static final Retryer<ImmutableList<Integer>> RETRYER =
+      retryerBuilder()
+          .withStopStrategy(StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS))
+          .build();
 
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;

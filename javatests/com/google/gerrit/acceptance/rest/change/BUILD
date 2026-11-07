@@ -14,6 +14,7 @@ acceptance_tests(
     srcs = OTHER_TESTS,
     group = "rest_change_other",
     labels = ["rest"],
+    shard_count = 4,
     deps = [
         ":submit_util",
         "//java/com/google/gerrit/entities/converter:converters",

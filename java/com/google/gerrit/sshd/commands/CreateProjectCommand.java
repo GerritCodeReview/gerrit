@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -81,6 +82,9 @@ final class CreateProjectCommand extends SshCommand {
       aliases = {"-t"},
       usage = "project submit type")
   private SubmitType submitType;
+
+  @Option(name = "--ref-storage", usage = "ref storage format for the project repository")
+  private RefStorage refStorage;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
   private InheritableBoolean contributorAgreements = InheritableBoolean.INHERIT;
@@ -184,6 +188,7 @@ final class CreateProjectCommand extends SshCommand {
         input.permissionsOnly = permissionsOnly;
         input.description = projectDescription;
         input.submitType = submitType;
+        input.refStorage = refStorage;
         input.useContributorAgreements = contributorAgreements;
         input.useSignedOffBy = signedOffBy;
         input.useContentMerge = contentMerge;

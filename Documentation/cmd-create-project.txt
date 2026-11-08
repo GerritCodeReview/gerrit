@@ -13,6 +13,7 @@ _ssh_ -p <port> <host> _gerrit create-project_
   [--permissions-only]
   [--description <DESC> | -d <DESC>]
   [--submit-type <TYPE> | -t <TYPE>]
+  [--ref-storage <FILES | REFTABLE>]
   [--use-contributor-agreements | --ca]
   [--use-signed-off-by | --so]
   [--use-content-merge]
@@ -123,6 +124,12 @@ repository.<name>.defaultSubmitType] is set to a different value.
 For more details see link:config-project-config.html#submit-type[
 Submit Types].
 
+--ref-storage::
+	Ref storage format for the new project's repository: `FILES` (loose
+	and packed refs) or `REFTABLE`.
+	If omitted, the repository manager selects the format. Local disk
+	storage uses JGit's init defaults, falling back to `FILES`.
+
 --use-content-merge::
 	If enabled, Gerrit will try to perform a 3-way merge of text
 	file content when a file has been modified by both the
@@ -196,6 +203,12 @@ Note that it is necessary to quote the description twice.  The local
 shell needs double quotes around the value to ensure the single quotes
 are passed through SSH as-is to the remote Gerrit server, which uses
 the single quotes to delimit the value.
+
+Create a new project with reftable ref storage:
+
+----
+$ ssh -p 29418 review.example.com gerrit create-project --ref-storage REFTABLE tools/gerrit
+----
 
 == REPLICATION
 If the replication plugin is installed, the plugin will attempt to

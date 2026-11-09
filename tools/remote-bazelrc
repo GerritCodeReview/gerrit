@@ -30,6 +30,8 @@ common:remote_toplevel --remote_download_outputs=toplevel
 common:remote_shared --extra_execution_platforms=//tools/remote:platform
 common:remote_shared --host_platform=//tools/remote:platform
 common:remote_shared --platforms=//tools/remote:platform
+# Hermetic LLVM C++ toolchain for the linux-x86_64 executor (see rbe.MODULE.bazel).
+common:remote_shared --extra_toolchains=@llvm_toolchain//:all
 
 # Set various strategies so that all actions execute remotely. Mixing remote
 # and local execution will lead to errors unless the toolchain and remote

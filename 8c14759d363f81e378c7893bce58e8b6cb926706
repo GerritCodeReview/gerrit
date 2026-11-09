@@ -70,6 +70,30 @@
       },
       "revId": "8c14759d363f81e378c7893bce58e8b6cb926706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1005ce47_0df6a20a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2131,
+      "author": {
+        "id": 1016008
+      },
+      "writtenOn": "2026-11-09T11:23:27Z",
+      "side": 1,
+      "message": "thanks advice, let me try and update patchset later ...",
+      "parentUuid": "f46b0fcf_04304894",
+      "range": {
+        "startLine": 2130,
+        "startChar": 0,
+        "endLine": 2131,
+        "endChar": 69
+      },
+      "revId": "8c14759d363f81e378c7893bce58e8b6cb926706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "381c9a83_0043ad4e",
+        "filename": "javatests/com/google/gerrit/server/index/change/IndexedChangeQueryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-09T06:22:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9fe7b32_d638d67a",
+      "revId": "35f915ddbf0ea92e55a630e34585cba763167e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e42d1da3_e3047ebd",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-09T06:14:09Z",
       "side": 1,
       "message": "Double checking that I\u0027m understanding correctly... if you added this test without the fix, this would be 3 instead of 1, right? (assuming you also added `fromSourceSize()` as the count of keys)",
+      "revId": "35f915ddbf0ea92e55a630e34585cba763167e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0379f59c_f030857a",
+        "filename": "javatests/com/google/gerrit/server/index/change/IndexedChangeQueryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-09T06:22:22Z",
+      "side": 1,
+      "message": "Yes, that\u0027s correct",
+      "parentUuid": "e42d1da3_e3047ebd",
       "revId": "35f915ddbf0ea92e55a630e34585cba763167e04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

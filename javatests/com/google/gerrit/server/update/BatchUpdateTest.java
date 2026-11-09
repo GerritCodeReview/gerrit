@@ -52,6 +52,9 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateContext;
+import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.change.AbandonOp;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -861,6 +864,108 @@ public class BatchUpdateTest {
     }
     assertThat(getUpdateCount(id)).isEqualTo(totalUpdates);
     return id;
+  }
+
+  @Test
+  public void cancellationAfterCommitDoesNotAbortPostUpdateOps() throws Exception {
+    Change.Id id = createChangeWithUpdates(1);
+    AtomicBoolean cancelled = new AtomicBoolean();
+    AtomicInteger postUpdateCalls = new AtomicInteger();
+    try (RequestStateContext _ =
+            RequestStateContext.open().addRequestStateProvider(cancelledIf(cancelled));
+        BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+      bu.addOp(
+          id,
+          new AddMessageOp("First update") {
+            @Override
+            public void postUpdate(PostUpdateContext ctx) {
+              postUpdateCalls.incrementAndGet();
+              cancelled.set(true);
+            }
+          });
+      bu.addOp(
+          id,
+          new AddMessageOp("Second update") {
+            @Override
+            public void postUpdate(PostUpdateContext ctx) {
+              postUpdateCalls.incrementAndGet();
+            }
+          });
+      RequestCancelledException thrown = assertThrows(RequestCancelledException.class, bu::execute);
+      assertThat(thrown.getCancellationReason())
+          .isEqualTo(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST);
+    }
+    assertThat(postUpdateCalls.get()).isEqualTo(2);
+    assertThat(getUpdateCount(id)).isEqualTo(2);
+  }
+
+  @Test
+  public void cancellationDuringCommitDoesNotAbortPostUpdateOps() throws Exception {
+    Change.Id id = createChangeWithUpdates(1);
+    AtomicBoolean cancelled = new AtomicBoolean();
+    AtomicInteger postUpdateCalls = new AtomicInteger();
+    BatchUpdateListener cancellingListener =
+        new BatchUpdateListener() {
+          @Override
+          public BatchRefUpdate beforeUpdateRefs(BatchRefUpdate bru) {
+            cancelled.set(true);
+            return bru;
+          }
+        };
+    try (RequestStateContext _ =
+            RequestStateContext.open().addRequestStateProvider(cancelledIf(cancelled));
+        BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+      bu.addOp(
+          id,
+          new AddMessageOp("Update") {
+            @Override
+            public void postUpdate(PostUpdateContext ctx) {
+              postUpdateCalls.incrementAndGet();
+            }
+          });
+      assertThrows(RequestCancelledException.class, () -> bu.execute(cancellingListener));
+    }
+    assertThat(cancelled.get()).isTrue();
+    assertThat(postUpdateCalls.get()).isEqualTo(1);
+    assertThat(getUpdateCount(id)).isEqualTo(2);
+  }
+
+  @Test
+  public void cancellationBeforeCommitAbortsBatchUpdate() throws Exception {
+    Change.Id id = createChangeWithUpdates(1);
+    ObjectId oldMetaId = getMetaId(id);
+    AtomicBoolean cancelled = new AtomicBoolean();
+    AtomicInteger postUpdateCalls = new AtomicInteger();
+    try (RequestStateContext _ =
+            RequestStateContext.open().addRequestStateProvider(cancelledIf(cancelled));
+        BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+      bu.addOp(
+          id,
+          new AddMessageOp("Update") {
+            @Override
+            public boolean updateChange(ChangeContext ctx) throws Exception {
+              cancelled.set(true);
+              return super.updateChange(ctx);
+            }
+
+            @Override
+            public void postUpdate(PostUpdateContext ctx) {
+              postUpdateCalls.incrementAndGet();
+            }
+          });
+      assertThrows(RequestCancelledException.class, bu::execute);
+    }
+    assertThat(postUpdateCalls.get()).isEqualTo(0);
+    assertThat(getMetaId(id)).isEqualTo(oldMetaId);
+  }
+
+  private static RequestStateProvider cancelledIf(AtomicBoolean cancelled) {
+    return onCancelled -> {
+      if (cancelled.get()) {
+        onCancelled.onCancel(
+            RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
+      }
+    };
   }
 
   private Change.Id createChangeWithPatchSets(int patchSets) throws Exception {

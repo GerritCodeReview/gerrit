@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0d41162_a2024bec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4223656
+      },
+      "writtenOn": "2026-11-09T02:21:01Z",
+      "side": 1,
+      "message": "Definitely still value in it. I agree that it\u0027s a workaround, I\u0027d probably go a step further and call it a hack.\n\nThere are some tradeoffs that were made with that approach, and it definitely isn\u0027t perfect. Eg. https://github.com/jj-vcs/jj/issues/7587. I did it because otherwise when you ran `jj split` you\u0027d end up with multiple commits with the same Change-ID footer.\n\nBeing able to upload them as-is would be really nice.",
+      "parentUuid": "aab2d4ff_182d14fe",
+      "revId": "17c127e740db54df6973d19b2757dac95c3a46fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3042c50_2d2dc620",
         "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
         "patchSetId": 34

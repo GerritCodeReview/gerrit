@@ -81,6 +81,24 @@
       "parentUuid": "a81d5231_4c721f5b",
       "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd79ef60_7364d1ee",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-11-09T09:11:05Z",
+      "side": 1,
+      "message": "How can we conclude that two empty `applicableIf` expressions being treated as absent expression also means that a single empty `applicableIf` expression is treated as absent? Testing that a single empty `applicableIf` is treated as absent is a more basic test and we should add it if it doesn\u0027t already exist.",
+      "parentUuid": "a6924ce5_ce4905a9",
+      "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

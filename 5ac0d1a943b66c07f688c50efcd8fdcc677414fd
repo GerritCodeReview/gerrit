@@ -99,6 +99,24 @@
       "parentUuid": "a6924ce5_ce4905a9",
       "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b244a025_d6610365",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-11-09T10:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd79ef60_7364d1ee",
+      "revId": "5ac0d1a943b66c07f688c50efcd8fdcc677414fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

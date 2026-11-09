@@ -148,6 +148,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cff0e6a_ef1cee13",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 39
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-11-09T09:00:13Z",
+      "side": 1,
+      "message": "What I meant here is that \"one more step\" is not enough if there were many cherry-picks done by *different* maintainers. Yes, the author is preserved by cherry-pick but the committer field is always the person performing cherry-pick. Now if you have 2 cherry-picks of the same commit done by an AI agent you end up with 3 commits:\nC1(AI, Human1)\nC2(AI, Human2)\nC3(AI, Human3)\n\nWhich of the 3 humans would be considered the author of the change? You need to check each in Gerrit and find which of the changes is the oldest.",
+      "parentUuid": "7d89ddae_f34805a0",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 46
+      },
+      "revId": "923d81eb41e2eed96494faf9b8bbd95e67cb72dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dba10dde_63fcca22",

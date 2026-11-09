@@ -271,6 +271,7 @@ export class GrChangeSummary extends LitElement {
         }
         div.info .right,
         div.error .right {
+          flex: 1;
           overflow: hidden;
         }
         div.info .right .message,

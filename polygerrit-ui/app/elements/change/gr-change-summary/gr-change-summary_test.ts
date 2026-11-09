@@ -197,6 +197,20 @@ suite('gr-change-summary test', () => {
     );
   });
 
+  test('expands summary message container so trailing italics are not clipped', async () => {
+    element.runs = [checkRun0];
+    element.messages = ['Status: *Merged*'];
+    element.showChecksSummary = true;
+    await element.updateComplete;
+    const info = queryAndAssert(element, '.checksSummary .info');
+    const right = queryAndAssert(element, '.checksSummary .info .right');
+    assert.equal(getComputedStyle(right).flexGrow, '1');
+    assert.isAbove(
+      right.getBoundingClientRect().width,
+      info.getBoundingClientRect().width - 50
+    );
+  });
+
   suite('checks summary', () => {
     const checkSummary = async (runs: CheckRun[], texts: string[]) => {
       element.runs = runs;

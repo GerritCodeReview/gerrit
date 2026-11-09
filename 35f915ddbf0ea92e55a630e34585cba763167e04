@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9fe7b32_d638d67a",
+        "filename": "javatests/com/google/gerrit/server/index/change/IndexedChangeQueryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-09T06:14:09Z",
+      "side": 1,
+      "message": "Since some of these options are important to the test behavior, can you annotate them or distinguish that somehow?",
+      "revId": "35f915ddbf0ea92e55a630e34585cba763167e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e42d1da3_e3047ebd",
+        "filename": "javatests/com/google/gerrit/server/index/change/IndexedChangeQueryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-09T06:14:09Z",
+      "side": 1,
+      "message": "Double checking that I\u0027m understanding correctly... if you added this test without the fix, this would be 3 instead of 1, right? (assuming you also added `fromSourceSize()` as the count of keys)",
+      "revId": "35f915ddbf0ea92e55a630e34585cba763167e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

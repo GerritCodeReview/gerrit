@@ -63,6 +63,6 @@ test --build_tests_only
 test --test_output=errors
 
 import %workspace%/tools/remote-bazelrc
-
+import %workspace%/tools/meroton-bazelrc
 # User-specific .bazelrc
 try-import %workspace%/user.bazelrc

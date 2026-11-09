@@ -16,6 +16,24 @@
       "message": "@sasa.zivkov@sap.com About the point we discussed about canOverrideInChildProject flag: Different scenarios for flag canOverrideInChildProject are being tested in SubmitRequirementIT.java [1] and other test in that class.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementIT.java#1055",
       "revId": "54aee74ce48b1b0ddb887339275147045692967f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a45b079_c7dcc895",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-11-09T10:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c52b4412_169b82c7",
+      "revId": "54aee74ce48b1b0ddb887339275147045692967f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

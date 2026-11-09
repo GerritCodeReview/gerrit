@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb1a9fe4_30b50e5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-09T11:37:51Z",
+      "side": 1,
+      "message": "AI-assisted review. The two blockers are the main ones: the auto-reset restores the inherited level rather than the previous one the doc promises, and invalid `--reset-after` durations are handled inconsistently.\n\nThis patch adds no tests. Could cover the following scenarios:\n\n* with an injected/controllable scheduler (no sleeps): explicit WARN -\u003e DEBUG -\u003e WARN (incl. a different parent level)\n* inherited -\u003e DEBUG -\u003e inherited again; no-NAME restoring each logger\u0027s own previous value; a later permanent change and an explicit reset versus a pending timer (per the chosen policy)\n* a stale callback that has already started not overwriting a newer change\n* 0/empty/negative/malformed durations failing with nonzero status while 30min/2h/1day schedule",
+      "isAi": true,
+      "revId": "62200cda2d3f0a46dd732484d653719d56ceba39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a63bac1_20ef3730",
+        "filename": "java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-09T11:37:51Z",
+      "side": 1,
+      "message": "Do we need this single-use `getDuration` wrapper? The command can call `getTimeUnit(value, 0, MILLISECONDS)` and require a positive result directly; `--deadline` is the precedent (`SshCommand.java:59`, `DeadlineChecker.java:276`). Also decide/document the bare-number policy: the code accepts `30` as 30 ms, while the doc describes a unit suffix. (Separately, `getTimeUnit` has no overflow guard at `ConfigUtil.java:263`, so very large values wrap negative; pre-existing, not for this change.)",
+      "isAi": true,
+      "revId": "62200cda2d3f0a46dd732484d653719d56ceba39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79ce0213_f9ea1a02",
+        "filename": "java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-09T11:37:51Z",
+      "side": 1,
+      "message": "Route all invalid durations through `die(...)`. `0s` and empty print to stderr and `return`, which exits 0 (success) so callers can\u0027t detect the error, while `bogus` and `-1s` throw `IllegalArgumentException` and reach the generic internal-error path (`BaseCommand.java:372`). `die()` gives a clean nonzero failure (`BaseCommand.java:443`) in all cases. Catch the parse exception around the parse only, and fail before any logger is touched.",
+      "isAi": true,
+      "revId": "62200cda2d3f0a46dd732484d653719d56ceba39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a755441_5e00d3d7",
+        "filename": "java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-09T11:37:51Z",
+      "side": 1,
+      "message": "Levels change here, before `schedule()` below. If scheduling is rejected (e.g. a shutting-down queue) the new levels stay installed with no reset. Roll back the captured levels and fail the command if scheduling throws, using the same synchronization as the reset registry so rollback can\u0027t overwrite a newer change. Minor, same file: compute `Level.toLevel(level.name())` once rather than per logger, and use `.toList()` instead of `.collect(Collectors.toList())` at line 91.",
+      "isAi": true,
+      "revId": "62200cda2d3f0a46dd732484d653719d56ceba39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28c50414_f42b93df",
+        "filename": "java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-09T11:37:51Z",
+      "side": 1,
+      "message": "The scheduled future is discarded here (`var unused`), so a pending reset cannot be superseded: a later permanent `set-level ERROR` is undone by the old timer, and an explicit `set-level reset` can be undone too. Independent timers are documented, but these outcomes are surprising. Suggest a process-wide registry of pending resets keyed by logger, with a later command (and explicit reset) invalidating the earlier reset for the loggers it touches. A map of futures alone is not enough: one callback covers many loggers, a callback already running must no-op if superseded, and the restore baseline for overlapping temporary changes (WARN -\u003e DEBUG -\u003e TRACE) must be defined. The validity check and `setLevel` need to be synchronized. Given this is an admin-only, low-concurrency command, a small `static` registry with a synchronized generation check is enough.",
+      "isAi": true,
+      "revId": "62200cda2d3f0a46dd732484d653719d56ceba39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e1e60d_d7f17fb2",
+        "filename": "java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-09T11:37:51Z",
+      "side": 1,
+      "message": "`setLevel(null)` enables inheritance, it does not restore the previous level the doc promises (\"back to their previous level\"). With an ERROR parent and an explicit WARN logger, temporary DEBUG expires to ERROR, not WARN. Capture each logger\u0027s explicit `getLevel()` (including `null`) before changing it and restore that. Use `getLevel()`, not `getEffectiveLevel()`, so inherited loggers keep inheriting. A `HashMap\u003cLogger, Level\u003e` holds the `null` values; `Collectors.toMap`/`Map.copyOf` do not.",
+      "isAi": true,
+      "revId": "62200cda2d3f0a46dd732484d653719d56ceba39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

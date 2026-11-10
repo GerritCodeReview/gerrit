@@ -7,6 +7,7 @@ common:rbe --remote_instance_name=gerrit
 common:rbe --host_platform=//tools/remote:host
 common:rbe --extra_execution_platforms=//tools/remote:ubuntu-24-04
 common:rbe --extra_toolchains=@llvm_toolchain//:all
+common:rbe --extra_toolchains=//tools/remote/nodejs:nodejs_toolchain,//tools/remote/nodejs:nodejs_toolchain_runtime
 
 common:rbe --remote_timeout=600s
 common:rbe --jobs=256

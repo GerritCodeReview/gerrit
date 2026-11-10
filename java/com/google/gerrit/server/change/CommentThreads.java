@@ -22,9 +22,12 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Comment;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -76,6 +79,26 @@ public class CommentThreads<T extends Comment> {
     return buildThreadsOf(roots);
   }
 
+  /** Returns all unresolved comment threads. */
+  public ImmutableSet<CommentThread<T>> getUnresolvedThreads() {
+    return getThreads().stream().filter(CommentThread::unresolved).collect(toImmutableSet());
+  }
+
+  /** Returns all comment threads whose root comment belongs to {@code filename}. */
+  public ImmutableSet<CommentThread<T>> getThreadsForFile(String filename) {
+    Objects.requireNonNull(filename, "filename");
+    return getThreads().stream()
+        .filter(thread -> filename.equals(thread.filename()))
+        .collect(toImmutableSet());
+  }
+
+  /** Returns all comment threads containing at least one comment on {@code patchSetId}. */
+  public ImmutableSet<CommentThread<T>> getThreadsForPatchSet(int patchSetId) {
+    return getThreads().stream()
+        .filter(thread -> thread.patchSetIds().contains(patchSetId))
+        .collect(toImmutableSet());
+  }
+
   /**
    * Returns only the comment threads to which the specified comments are a reply.
    *
@@ -99,14 +122,22 @@ public class CommentThreads<T extends Comment> {
 
   private T findRoot(T comment) {
     T current = comment;
+    Set<String> visitedUuids = new HashSet<>();
+    visitedUuids.add(current.key.uuid);
     while (!isRoot(current)) {
-      current = commentPerUuid.get(current.parentUuid);
+      T parent = commentPerUuid.get(current.parentUuid);
+      if (parent == null || !visitedUuids.add(parent.key.uuid)) {
+        break;
+      }
+      current = parent;
     }
     return current;
   }
 
   private boolean isRoot(T current) {
-    return current.parentUuid == null || !commentPerUuid.containsKey(current.parentUuid);
+    return current.parentUuid == null
+        || current.parentUuid.equals(current.key.uuid)
+        || !commentPerUuid.containsKey(current.parentUuid);
   }
 
   private ImmutableSet<CommentThread<T>> buildThreadsOf(ImmutableSet<T> roots) {
@@ -124,13 +155,19 @@ public class CommentThreads<T extends Comment> {
         new PriorityQueue<>(
             Comparator.comparing((T comment) -> comment.writtenOn)
                 .thenComparing(comment -> comment.key.uuid));
+    Set<String> visitedUuids = new HashSet<>();
     unvisited.add(root);
+    visitedUuids.add(root.key.uuid);
     while (!unvisited.isEmpty()) {
       T nextComment = unvisited.remove();
       commentThread.addComment(nextComment);
       ImmutableSet<T> children =
           childrenPerParent.getOrDefault(nextComment.key.uuid, ImmutableSet.of());
-      unvisited.addAll(children);
+      for (T child : children) {
+        if (visitedUuids.add(child.key.uuid)) {
+          unvisited.add(child);
+        }
+      }
     }
     return commentThread.build();
   }

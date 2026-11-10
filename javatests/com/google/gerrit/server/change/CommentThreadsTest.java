@@ -266,15 +266,50 @@ public class CommentThreadsTest {
     assertThat(commentThreads).isEqualTo(expectedThreads);
   }
 
+  @Test
+  public void filtersUnresolvedFileAndPatchSetThreads() {
+    HumanComment resolvedRoot = createComment("resolvedRoot", "a.txt", 1, false);
+    HumanComment unresolvedRoot = createComment("unresolvedRoot", "b.txt", 1, false);
+    HumanComment unresolvedReply =
+        asReply(createComment("unresolvedReply", "b.txt", 2, true), "unresolvedRoot");
+
+    CommentThreads<HumanComment> threads =
+        CommentThreads.forComments(ImmutableList.of(resolvedRoot, unresolvedRoot, unresolvedReply));
+
+    assertThat(threads.getUnresolvedThreads())
+        .containsExactly(toThread(unresolvedRoot, unresolvedReply));
+    assertThat(threads.getThreadsForFile("a.txt")).containsExactly(toThread(resolvedRoot));
+    assertThat(threads.getThreadsForPatchSet(2))
+        .containsExactly(toThread(unresolvedRoot, unresolvedReply));
+  }
+
+  @Test
+  public void selfReferencingParentIsTreatedAsRootWithoutLooping() {
+    HumanComment selfParent = asReply(createComment("selfParent"), "selfParent");
+    HumanComment child = asReply(createComment("child"), "selfParent");
+
+    CommentThreads<HumanComment> threads =
+        CommentThreads.forComments(ImmutableList.of(selfParent, child));
+
+    assertThat(threads.getThreads()).containsExactly(toThread(selfParent, child));
+    assertThat(threads.getThreadsForChildren(ImmutableList.of(child)))
+        .containsExactly(toThread(selfParent, child));
+  }
+
   private static HumanComment createComment(String commentUuid) {
+    return createComment(commentUuid, "myFile", 1, true);
+  }
+
+  private static HumanComment createComment(
+      String commentUuid, String filename, int patchSetId, boolean unresolved) {
     return new HumanComment(
-        new Comment.Key(commentUuid, "myFile", 1),
+        new Comment.Key(commentUuid, filename, patchSetId),
         Account.id(100),
         Instant.ofEpochMilli(1234),
         (short) 1,
         "Comment text",
         "serverId",
-        true);
+        unresolved);
   }
 
   private static HumanComment asReply(HumanComment comment, String parentUuid) {

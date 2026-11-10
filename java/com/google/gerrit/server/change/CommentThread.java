@@ -14,15 +14,20 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -39,6 +44,43 @@ public abstract class CommentThread<T extends Comment> {
 
   /** Comments in the thread in exactly the order they appear in the thread. */
   public abstract ImmutableList<T> comments();
+
+  /** Returns the root comment that started the thread. */
+  public T root() {
+    return comments().get(0);
+  }
+
+  /** Returns the number of comments in the thread. */
+  public int size() {
+    return comments().size();
+  }
+
+  /** Returns the file path associated with the root comment of the thread. */
+  public String filename() {
+    return root().key.filename;
+  }
+
+  /** Returns the diff side associated with the root comment of the thread. */
+  public short side() {
+    return root().side;
+  }
+
+  /**
+   * Returns the unique author account IDs across the thread in first-appearance order, ignoring
+   * comments without an author identity.
+   */
+  public ImmutableSet<Account.Id> participants() {
+    return comments().stream()
+        .map(comment -> comment.author)
+        .filter(Objects::nonNull)
+        .map(Comment.Identity::getId)
+        .collect(toImmutableSet());
+  }
+
+  /** Returns the distinct patch set numbers referenced by comments in this thread, in order. */
+  public ImmutableSet<Integer> patchSetIds() {
+    return comments().stream().map(comment -> comment.key.patchSetId).collect(toImmutableSet());
+  }
 
   /** Whether the whole thread is considered as unresolved. */
   public boolean unresolved() {

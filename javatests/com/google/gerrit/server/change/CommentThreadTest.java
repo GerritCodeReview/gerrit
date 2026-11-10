@@ -56,10 +56,48 @@ public class CommentThreadTest {
     assertThat(commentThread.unresolved()).isTrue();
   }
 
+  @Test
+  public void rootAndMetadataAccessorsReturnRootProperties() {
+    HumanComment root = createComment("root", "java/Foo.java", 2, Account.id(101));
+    HumanComment reply = createComment("reply", "java/Foo.java", 3, Account.id(202));
+    CommentThread<Comment> commentThread =
+        CommentThread.builder().addComment(root).addComment(reply).build();
+
+    assertThat(commentThread.root()).isEqualTo(root);
+    assertThat(commentThread.size()).isEqualTo(2);
+    assertThat(commentThread.filename()).isEqualTo("java/Foo.java");
+    assertThat(commentThread.side()).isEqualTo((short) 1);
+  }
+
+  @Test
+  public void participantsAndPatchSetIdsPreserveThreadAppearanceOrder() {
+    HumanComment root = createComment("root", "myFile", 1, Account.id(100));
+    HumanComment reply1 = createComment("reply1", "myFile", 2, Account.id(200));
+    HumanComment reply2 = createComment("reply2", "myFile", 2, Account.id(100));
+    HumanComment reply3 = createComment("reply3", "myFile", 4, Account.id(300));
+    CommentThread<Comment> commentThread =
+        CommentThread.builder()
+            .addComment(root)
+            .addComment(reply1)
+            .addComment(reply2)
+            .addComment(reply3)
+            .build();
+
+    assertThat(commentThread.participants())
+        .containsExactly(Account.id(100), Account.id(200), Account.id(300))
+        .inOrder();
+    assertThat(commentThread.patchSetIds()).containsExactly(1, 2, 4).inOrder();
+  }
+
   private static HumanComment createComment(String commentUuid) {
+    return createComment(commentUuid, "myFile", 1, Account.id(100));
+  }
+
+  private static HumanComment createComment(
+      String commentUuid, String filename, int patchSetId, Account.Id authorId) {
     return new HumanComment(
-        new Comment.Key(commentUuid, "myFile", 1),
-        Account.id(100),
+        new Comment.Key(commentUuid, filename, patchSetId),
+        authorId,
         Instant.ofEpochMilli(1234),
         (short) 1,
         "Comment text",

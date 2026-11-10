@@ -81,6 +81,8 @@ final class FlushCaches extends SshCommand {
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());
+    } catch (Failure e) {
+      throw e;
     } catch (Exception e) {
       throw new Failure(1, "unavailable", e);
     }

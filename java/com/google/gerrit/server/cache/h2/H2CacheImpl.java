@@ -50,6 +50,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +63,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Hybrid in-memory and database backed cache built on H2.
@@ -85,6 +88,9 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements PersistentCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final DateTimeFormatter BACKUP_TIMESTAMP =
+      DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").withZone(ZoneOffset.UTC);
 
   private static final ImmutableSet<String> OLD_CLASS_NAMES =
       ImmutableSet.of("com.google.gerrit.server.change.ChangeKind");
@@ -209,6 +215,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
   @Override
   public DiskStats diskStats() {
     return store.diskStats();
+  }
+
+  /**
+   * Replaces the on-disk cache with a fresh empty one. The old file is kept next to it as {@code
+   * <name>.mv.db.corrupt-<timestamp>} so it can be inspected. Entries held in memory are kept.
+   */
+  @Override
+  public void reinit() throws IOException {
+    store.reinit();
   }
 
   void start() {
@@ -354,6 +369,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private volatile boolean ensuredSchemaCreation;
     private final Path cacheFilePath;
     private final boolean preWarmForBloomFilter;
+    private final ReentrantReadWriteLock acquireLock = new ReentrantReadWriteLock();
+    private final AtomicLong generation = new AtomicLong();
 
     SqlStore(
         String jdbcUrl,
@@ -457,24 +474,77 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void close() {
+      closeHandles();
+      @SuppressWarnings("unused")
+      boolean unused = shutdown();
+    }
+
+    private void closeHandles() {
       SqlHandle h;
       while ((h = handles.poll()) != null) {
         h.close();
       }
-      shutdown();
     }
 
-    private void shutdown() {
-      try (SqlHandle h = new SqlHandle(url)) {
-        try (Statement stmt = h.conn.createStatement()) {
-          stmt.execute("SHUTDOWN");
+    void reinit() throws IOException {
+      if (cacheFilePath == null) {
+        throw new IOException("cache is not backed by a file");
+      }
+      // Waits for acquire() calls that are connecting right now, so that nothing can reopen the
+      // file while we move it. Meanwhile acquire() fails and requests are served by the loader.
+      acquireLock.writeLock().lock();
+      try {
+        generation.incrementAndGet();
+        ensuredSchemaCreation = false;
+        closeHandles();
+        if (!shutdown()) {
+          throw new IOException("cannot shut down the cache database, not moving its file");
         }
-      } catch (SQLException e) {
-        logger.atSevere().withCause(e).log("Cannot shutdown cache %s", url);
+        if (Files.exists(cacheFilePath)) {
+          String base =
+              cacheFilePath.getFileName() + ".corrupt-" + BACKUP_TIMESTAMP.format(TimeUtil.now());
+          Path backup = cacheFilePath.resolveSibling(base);
+          for (int n = 1; Files.exists(backup); n++) {
+            backup = cacheFilePath.resolveSibling(base + "-" + n);
+          }
+          Files.move(cacheFilePath, backup);
+          logger.atWarning().log("Reinitialized cache %s, backup: %s", url, backup);
+        }
+        bloomFilter.clear();
+        hitCount.set(0);
+        missCount.set(0);
+      } finally {
+        acquireLock.writeLock().unlock();
       }
     }
 
+    private boolean shutdown() {
+      SqlHandle h;
+      try {
+        h = new SqlHandle(url);
+      } catch (SQLException e) {
+        logger.atSevere().withCause(e).log("Cannot open cache %s to shut it down", url);
+        return true;
+      }
+      try (h;
+          Statement stmt = h.conn.createStatement()) {
+        stmt.execute("SHUTDOWN");
+        return true;
+      } catch (SQLException e) {
+        logger.atSevere().withCause(e).log("Cannot shutdown cache %s", url);
+        return false;
+      }
+    }
+
+    /** While true the disk is not touched; reads fall back to the loader and writes are skipped. */
+    private boolean isReinitializing() {
+      return acquireLock.isWriteLocked();
+    }
+
     boolean mightContain(K key) {
+      if (isReinitializing()) {
+        return false;
+      }
       ConcurrentBloomFilter<K> b = bloomFilter;
       if (buildBloomFilter && b == null) {
         synchronized (this) {
@@ -617,7 +687,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private void touch(SqlHandle c, K key) throws IOException, SQLException {
-      if (isDiskCacheReadOnly.get()) {
+      if (isDiskCacheReadOnly.get() || isReinitializing()) {
         return;
       }
       if (c.touch == null) {
@@ -634,7 +704,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void put(K key, ValueHolder<V> holder) {
-      if (isDiskCacheReadOnly.get() || holder.clean) {
+      if (isDiskCacheReadOnly.get() || isReinitializing() || holder.clean) {
         return;
       }
 
@@ -668,7 +738,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void invalidate(K key) {
-      if (isDiskCacheReadOnly.get()) {
+      if (isDiskCacheReadOnly.get() || isReinitializing()) {
         return;
       }
       SqlHandle c = null;
@@ -698,7 +768,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void invalidateAll() {
-      if (isDiskCacheReadOnly.get()) {
+      if (isDiskCacheReadOnly.get() || isReinitializing()) {
         return;
       }
       SqlHandle c = null;
@@ -717,7 +787,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     synchronized void prune(Cache<K, ?> mem) {
-      if (isDiskCacheReadOnly.get()) {
+      if (isDiskCacheReadOnly.get() || isReinitializing()) {
         return;
       }
       SqlHandle c = null;
@@ -806,13 +876,20 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private SqlHandle acquire() throws SQLException {
-      createSchema();
-      SqlHandle h = handles.poll();
-      return h != null ? h : new SqlHandle(url);
+      if (!acquireLock.readLock().tryLock()) {
+        throw new SQLException("cache is being reinitialized");
+      }
+      try {
+        createSchema();
+        SqlHandle h = handles.poll();
+        return h != null ? h : new SqlHandle(url, generation.get());
+      } finally {
+        acquireLock.readLock().unlock();
+      }
     }
 
     private void release(SqlHandle h) {
-      if (h != null && !handles.offer(h)) {
+      if (h != null && (h.generation != generation.get() || !handles.offer(h))) {
         h.close();
       }
     }
@@ -828,6 +905,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   static class SqlHandle implements AutoCloseable {
     private final String url;
+    private final long generation;
     Connection conn;
     PreparedStatement get;
     PreparedStatement put;
@@ -835,7 +913,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     PreparedStatement invalidate;
 
     SqlHandle(String url) throws SQLException {
+      this(url, 0);
+    }
+
+    SqlHandle(String url, long generation) throws SQLException {
       this.url = url;
+      this.generation = generation;
       this.conn = org.h2.Driver.load().connect(url, null);
     }
 

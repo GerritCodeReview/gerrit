@@ -20,6 +20,8 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.c
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH;
 import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH_ALL;
+import static com.google.gerrit.server.restapi.config.PostCaches.Operation.REINIT;
+import static com.google.gerrit.server.restapi.config.PostCaches.Operation.REINIT_ALL;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -49,6 +51,35 @@ public class CacheOperationsIT extends AbstractDaemonTest {
     r.assertOK();
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isNull();
+  }
+
+  @Test
+  public void reinit_forbidden() throws Exception {
+    userRestSession
+        .post("/config/server/caches/", new PostCaches.Input(REINIT, Arrays.asList("diff")))
+        .assertForbidden();
+  }
+
+  @Test
+  public void reinit_badRequest() throws Exception {
+    adminRestSession
+        .post("/config/server/caches/", new PostCaches.Input(REINIT))
+        .assertBadRequest();
+    adminRestSession
+        .post("/config/server/caches/", new PostCaches.Input(REINIT_ALL, Arrays.asList("diff")))
+        .assertBadRequest();
+  }
+
+  @Test
+  public void reinit_nonPersistentCacheUnprocessable() throws Exception {
+    adminRestSession
+        .post("/config/server/caches/", new PostCaches.Input(REINIT, Arrays.asList("projects")))
+        .assertUnprocessableEntity();
+  }
+
+  @Test
+  public void reinitAll_skipsNonPersistentCaches() throws Exception {
+    adminRestSession.post("/config/server/caches/", new PostCaches.Input(REINIT_ALL)).assertOK();
   }
 
   @Test

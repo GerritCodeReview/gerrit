@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -24,10 +25,13 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.DelegateRefDatabase;
 import com.google.gerrit.server.git.DelegateRepository;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -38,8 +42,10 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryableIndexQueryAction;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -49,6 +55,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,13 +70,17 @@ public class CreateRefControlTest {
   private TestRepository<InMemoryRepository> testRepo;
   private Repository repo;
   private List<ImmutableList<String>> recordedPrefixCalls;
+  private List<ImmutableSet<String>> recordedExclusionCalls;
+  private Set<Project.NameKey> optimizeCreateTagEnabledProjects;
   private CurrentUser currentUser;
   private PermissionBackend permissionBackend;
   private PermissionBackend.ForRef forRef;
   private ProjectCache projectCache;
   private RetryHelper retryHelper;
+  private ExperimentFeatures experimentFeatures;
   private RetryableIndexQueryAction<InternalChangeQuery, List<ChangeData>> indexQueryAction;
   private CreateRefControl createRefControl;
+  private RevCommit mainCommit;
   private RevCommit branchHeadCommit;
 
   @Before
@@ -78,12 +89,20 @@ public class CreateRefControlTest {
     baseRepo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     testRepo = new TestRepository<>(baseRepo);
     recordedPrefixCalls = new ArrayList<>();
+    recordedExclusionCalls = new ArrayList<>();
     RefDatabase recordingRefDatabase =
         new DelegateRefDatabase(baseRepo) {
           @Override
           public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
             recordedPrefixCalls.add(ImmutableList.copyOf(prefixes));
             return super.getRefsByPrefix(prefixes);
+          }
+
+          @Override
+          public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
+              throws IOException {
+            recordedExclusionCalls.add(ImmutableSet.copyOf(excludes));
+            return super.getRefsByPrefixWithExclusions(include, excludes);
           }
         };
     repo =
@@ -94,6 +113,7 @@ public class CreateRefControlTest {
           }
         };
 
+    mainCommit = testRepo.branch("refs/heads/main").commit().create();
     branchHeadCommit = testRepo.branch("refs/branch-heads/m1").commit().create();
 
     currentUser = mock(CurrentUser.class);
@@ -120,12 +140,39 @@ public class CreateRefControlTest {
     when(indexQueryAction.call()).thenReturn(ImmutableList.of());
     when(retryHelper.<List<ChangeData>>changeIndexQuery(any(), any())).thenReturn(indexQueryAction);
 
+    optimizeCreateTagEnabledProjects = new HashSet<>();
+    experimentFeatures =
+        new ExperimentFeatures() {
+          @Override
+          public boolean isFeatureEnabled(String featureFlag) {
+            return false;
+          }
+
+          @Override
+          public boolean isFeatureEnabled(String featureFlag, Project.NameKey project) {
+            if (GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY.equals(featureFlag)) {
+              return optimizeCreateTagEnabledProjects.contains(project);
+            }
+            return false;
+          }
+
+          @Override
+          public ImmutableSet<String> getEnabledExperimentFeatures() {
+            return ImmutableSet.of();
+          }
+        };
+
     createRefControl = newCreateRefControl(new Config());
   }
 
   private CreateRefControl newCreateRefControl(Config cfg) {
     return new CreateRefControl(
-        permissionBackend, projectCache, new Reachable(permissionBackend), retryHelper, cfg);
+        permissionBackend,
+        projectCache,
+        new Reachable(permissionBackend),
+        retryHelper,
+        experimentFeatures,
+        cfg);
   }
 
   @After
@@ -232,5 +279,125 @@ public class CreateRefControlTest {
 
     assertThat(recordedPrefixCalls).isEmpty();
     verifyNoInteractions(retryHelper);
+  }
+
+  @Test
+  public void checkCreateTagCommit_whenRestrictionDisabled_skipsVisibilityCheck() throws Exception {
+    try (RevWalk rw = new RevWalk(repo)) {
+      createRefControl.checkCreateTagCommit(
+          () -> currentUser, repo, rw, branchHeadCommit, PROJECT_DISABLED, branchHeadCommit.name());
+    }
+
+    assertThat(recordedPrefixCalls).isEmpty();
+    assertThat(recordedExclusionCalls).isEmpty();
+    verifyNoInteractions(retryHelper);
+  }
+
+  @Test
+  public void checkCreateTagCommit_whenRestrictedAndUnoptimized_excludesRefsChanges()
+      throws Exception {
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "restrictCreateRefToVisibleBranches", true);
+    CreateRefControl control = newCreateRefControl(cfg);
+
+    try (RevWalk rw = new RevWalk(repo)) {
+      control.checkCreateTagCommit(
+          () -> currentUser, repo, rw, mainCommit, PROJECT_DISABLED, mainCommit.name());
+    }
+
+    assertThat(recordedExclusionCalls).containsExactly(ImmutableSet.of(RefNames.REFS_CHANGES));
+    assertThat(recordedPrefixCalls).isEmpty();
+    verifyNoInteractions(retryHelper);
+  }
+
+  @Test
+  public void checkCreateTagCommit_whenRestrictedAndOptimizedWithDefaultAllowedRefs_usesRefsHeads()
+      throws Exception {
+    optimizeCreateTagEnabledProjects.add(PROJECT_ENABLED);
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "restrictCreateRefToVisibleBranches", true);
+    CreateRefControl control = newCreateRefControl(cfg);
+
+    try (RevWalk rw = new RevWalk(repo)) {
+      control.checkCreateTagCommit(
+          () -> currentUser, repo, rw, mainCommit, PROJECT_ENABLED, mainCommit.name());
+      assertThat(recordedPrefixCalls).containsExactly(ImmutableList.of(Constants.R_HEADS));
+      assertThat(recordedExclusionCalls).isEmpty();
+    }
+  }
+
+  @Test
+  public void
+      checkCreateTagCommit_whenRestrictedAndOptimizedWithCustomAllowedRefs_usesConfiguredPrefixes()
+          throws Exception {
+    optimizeCreateTagEnabledProjects.add(PROJECT_ENABLED);
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "restrictCreateRefToVisibleBranches", true);
+    cfg.setStringList(
+        "receive",
+        null,
+        "createTagAllowedRefs",
+        ImmutableList.of(Constants.R_HEADS, RefNames.REFS_CONFIG, REFS_BRANCH_HEADS));
+    CreateRefControl control = newCreateRefControl(cfg);
+
+    try (RevWalk rw = new RevWalk(repo)) {
+      control.checkCreateTagCommit(
+          () -> currentUser, repo, rw, branchHeadCommit, PROJECT_ENABLED, branchHeadCommit.name());
+      assertThat(recordedPrefixCalls)
+          .containsExactly(
+              ImmutableList.of(Constants.R_HEADS, RefNames.REFS_CONFIG, REFS_BRANCH_HEADS));
+      assertThat(recordedExclusionCalls).isEmpty();
+    }
+  }
+
+  @Test
+  public void
+      checkCreateTagCommit_whenOptimizedWithBranchName_checksOnlySourceRefWithoutScanningPrefixes()
+          throws Exception {
+    optimizeCreateTagEnabledProjects.add(PROJECT_ENABLED);
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "restrictCreateRefToVisibleBranches", true);
+    cfg.setStringList(
+        "receive",
+        null,
+        "createTagAllowedRefs",
+        ImmutableList.of(Constants.R_HEADS, REFS_BRANCH_HEADS));
+    CreateRefControl control = newCreateRefControl(cfg);
+
+    try (RevWalk rw = new RevWalk(repo)) {
+      control.checkCreateTagCommit(
+          () -> currentUser, repo, rw, mainCommit, PROJECT_ENABLED, "refs/heads/main");
+      control.checkCreateTagCommit(
+          () -> currentUser, repo, rw, mainCommit, PROJECT_ENABLED, "main");
+      control.checkCreateTagCommit(
+          () -> currentUser, repo, rw, branchHeadCommit, PROJECT_ENABLED, "refs/branch-heads/m1");
+      assertThat(recordedPrefixCalls).isEmpty();
+      assertThat(recordedExclusionCalls).isEmpty();
+    }
+  }
+
+  @Test
+  public void checkCreateTagCommit_whenOptimizedWithDisallowedRefName_fallsBackToPrefixScan()
+      throws Exception {
+    optimizeCreateTagEnabledProjects.add(PROJECT_ENABLED);
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "restrictCreateRefToVisibleBranches", true);
+    CreateRefControl control = newCreateRefControl(cfg);
+    RevCommit changeCommit = testRepo.branch("refs/changes/01/1001/1").commit().create();
+
+    try (RevWalk rw = new RevWalk(repo)) {
+      assertThrows(
+          UnprocessableEntityException.class,
+          () ->
+              control.checkCreateTagCommit(
+                  () -> currentUser,
+                  repo,
+                  rw,
+                  changeCommit,
+                  PROJECT_ENABLED,
+                  "refs/changes/01/1001/1"));
+      assertThat(recordedPrefixCalls).containsExactly(ImmutableList.of(Constants.R_HEADS));
+      assertThat(recordedExclusionCalls).isEmpty();
+    }
   }
 }

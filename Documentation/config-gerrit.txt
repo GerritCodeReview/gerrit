@@ -5785,11 +5785,16 @@ If `true`, creating a new branch or reference on an existing commit without
 reference matching link:#receive.createBranchAllowedRefs[
 `receive.createBranchAllowedRefs`], and does not fall back to checking whether
 the commit is visible via an open or closed change (since commits that are only
-part of a change may not have been reviewed and approved yet).
+part of a change may not have been reviewed and approved yet). Creating a new
+tag via the REST API also requires the target commit to be reachable from a
+visible non-change reference (or from a visible reference matching
+link:#receive.createTagAllowedRefs[`receive.createTagAllowedRefs`] when the
+`GerritBackendFeature__optimize_create_tag_visibility` experiment is enabled).
 +
 If `false`, creating a new branch or reference checks whether the commit is
 reachable from a visible branch under `refs/heads/` or tag under `refs/tags/`,
-or whether the commit is visible through a change.
+or whether the commit is visible through a change, and tag creation via the
+REST API does not check commit reachability.
 +
 Default is `false`.
 
@@ -5803,6 +5808,18 @@ link:#receive.restrictCreateRefToVisibleBranches[
 May be specified more than once to allow multiple ref prefixes.
 +
 Defaults to `refs/heads/` and `refs/tags/`.
+
+[[receive.createTagAllowedRefs]]receive.createTagAllowedRefs::
++
+List of ref prefixes from which a target commit must be reachable when creating
+a new tag via the REST API and both
+link:#receive.restrictCreateRefToVisibleBranches[
+`receive.restrictCreateRefToVisibleBranches`] and the
+`GerritBackendFeature__optimize_create_tag_visibility` experiment are enabled.
++
+May be specified more than once to allow multiple ref prefixes.
++
+Defaults to `refs/heads/`.
 
 [[repository]]
 === Section repository

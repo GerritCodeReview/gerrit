@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cc98669_f71f90d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-10T21:23:54Z",
+      "side": 1,
+      "message": "Since this is intended to help achieve stability, we should put this in the earliest non eol release to which it applies.",
+      "revId": "9b9e84cb227c3f497345f476a27e9472e1f28d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

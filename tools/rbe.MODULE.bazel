@@ -14,3 +14,18 @@ llvm.toolchain(
 )
 
 use_repo(llvm, "llvm_toolchain")
+
+# The Node.js binary from nodejs.org needs libatomic.so.1, which the remote
+# executor image lacks. //tools/remote/nodejs:nodejs_toolchain bundles it with node and
+# is only selected by the rbe config (see tools/meroton-bazelrc).
+libatomic = use_repo_rule("//tools/remote/nodejs:libatomic.bzl", "libatomic")
+
+libatomic(
+    name = "libatomic_ubuntu_24_04",
+    sha256 = "fe49cbbc7be753528380c724a8eef5f1e31dffa9221f692c5069048d81c7449d",
+    urls = ["https://archive.ubuntu.com/ubuntu/pool/main/g/gcc-14/libatomic1_14.2.0-4ubuntu2~24.04.1_amd64.deb"],
+)
+
+rbe_node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
+
+use_repo(rbe_node, "nodejs_linux_amd64")

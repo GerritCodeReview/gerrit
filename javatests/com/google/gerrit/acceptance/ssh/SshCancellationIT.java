@@ -24,6 +24,8 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.TestMetricMaker;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
@@ -254,6 +256,70 @@ public class SshCancellationIT extends AbstractDaemonTest {
                 "",
                 RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST))
         .isEqualTo(1);
+  }
+
+  @Test
+  public void reviewWhoseClientDisconnectsAfterCommitIsCompletedAndCountedAsCancelled()
+      throws Exception {
+    String changeId = createChange().getChangeId();
+    int changeNumber = gApi.changes().id(changeId).get()._number;
+
+    CountDownLatch inFirstListener = new CountDownLatch(1);
+    AtomicReference<Thread> commandThread = new AtomicReference<>();
+    AtomicReference<String> commandThreadName = new AtomicReference<>();
+    AtomicBoolean commandThreadInterrupted = new AtomicBoolean();
+    AtomicInteger secondListenerCalls = new AtomicInteger();
+    CommentAddedListener disconnectAwaitingListener =
+        event -> {
+          commandThread.set(Thread.currentThread());
+          commandThreadName.set(Thread.currentThread().getName());
+          inFirstListener.countDown();
+          commandThreadInterrupted.set(waitFor(() -> Thread.currentThread().isInterrupted()));
+          // Simulate a library that swallows the interrupt, e.g. H2 while it waits for a lock.
+          Thread.interrupted();
+        };
+    CommentAddedListener secondListener = event -> secondListenerCalls.incrementAndGet();
+
+    testMetricMaker.reset();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(disconnectAwaitingListener).add(secondListener)) {
+      var unused =
+          adminSshSession.execAndReturnReader(
+              String.format("gerrit review -m done %d,1", changeNumber));
+      assertThat(inFirstListener.await(30, SECONDS)).isTrue();
+      adminSshSession.close();
+      assertThat(waitFor(() -> !commandThread.get().getName().equals(commandThreadName.get())))
+          .isTrue();
+    }
+
+    assertThat(commandThreadInterrupted.get()).isTrue();
+    assertThat(secondListenerCalls.get()).isEqualTo(1);
+    assertThat(
+            gApi.changes().id(changeId).messages().stream()
+                .anyMatch(m -> m.message.contains("done")))
+        .isTrue();
+    assertThat(
+            testMetricMaker.getCount(
+                "cancellation/cancelled_requests_count",
+                "SSH",
+                "",
+                RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST))
+        .isEqualTo(1);
+  }
+
+  @Test
+  public void setReviewersReportsCancellation() throws Exception {
+    String changeId = createChange().getChangeId();
+    ReviewerAddedListener reviewerAddedListener =
+        event -> {
+          throw new RequestCancelledException(
+              RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* cancellationMessage= */ null);
+        };
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(reviewerAddedListener)) {
+      adminSshSession.exec("gerrit set-reviewers -a " + user.email() + " " + changeId);
+      adminSshSession.assertFailure("Client Closed Request");
+    }
   }
 
   private static boolean waitFor(BooleanSupplier condition) {

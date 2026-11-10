@@ -241,6 +241,7 @@ public class ReviewCommand extends SshCommand {
         ok = false;
         writeError("error", "no such change " + patchSet.id().changeId().get());
       } catch (Exception e) {
+        rethrowIfCancelled(e);
         ok = false;
         writeError("fatal", "internal server error while reviewing " + patchSet.id() + "\n");
         logger.atSevere().withCause(e).log("internal error while reviewing %s", patchSet.id());

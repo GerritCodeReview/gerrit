@@ -14,9 +14,19 @@
 
 package com.google.gerrit.server.cache;
 
+import java.io.IOException;
+
 public interface PersistentCache {
 
   DiskStats diskStats();
+
+  /**
+   * Reinitializes the persistent store of this cache. Meant for recovering from a corrupted store
+   * without restarting the server.
+   *
+   * @throws IOException if the store cannot be reinitialized
+   */
+  void reinit() throws IOException;
 
   class DiskStats {
     private final long size;

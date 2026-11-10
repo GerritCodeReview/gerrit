@@ -14,6 +14,7 @@ export enum Metadata {
   MERGED_AS = 'Merged as',
   REVERT_CREATED_AS = 'Revert Created as',
   STRATEGY = 'Strategy',
+  CREATED = 'Created',
   UPDATED = 'Updated',
   CC = 'CC',
   HASHTAGS = 'Hashtags',
@@ -47,6 +48,7 @@ export const DisplayRules = {
     Metadata.MERGED_AS,
     Metadata.REVERT_CREATED_AS,
     Metadata.STRATEGY,
+    Metadata.CREATED,
     Metadata.UPDATED,
   ],
 };

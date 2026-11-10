@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -44,6 +45,7 @@ import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -204,7 +206,8 @@ public class CreateRefControl {
       Repository repo,
       RevWalk rw,
       RevObject object,
-      Project.NameKey project)
+      Project.NameKey project,
+      String baseRevision)
       throws PermissionBackendException, IOException, UnprocessableEntityException {
     if (!restrictCreateRefToVisibleBranches) {
       return;
@@ -231,13 +234,31 @@ public class CreateRefControl {
     if (!(rw.peel(object) instanceof RevCommit commit)) {
       return;
     }
+    Optional<Ref> sourceRef = resolveAllowedTagSourceRef(repo, baseRevision);
+    List<Ref> refsFromWhichCommitMustBeReachable =
+        sourceRef.isPresent()
+            ? ImmutableList.of(sourceRef.get())
+            : repo.getRefDatabase().getRefsByPrefix(createTagAllowedRefs.toArray(String[]::new));
     checkCreateCommit(
-        user,
-        repo,
-        repo.getRefDatabase().getRefsByPrefix(createTagAllowedRefs.toArray(String[]::new)),
-        commit,
-        project,
-        /* forPush= */ false);
+        user, repo, refsFromWhichCommitMustBeReachable, commit, project, /* forPush= */ false);
+  }
+
+  private Optional<Ref> resolveAllowedTagSourceRef(Repository repo, String baseRevision)
+      throws IOException {
+    if (Strings.isNullOrEmpty(baseRevision) || ObjectId.isId(baseRevision)) {
+      return Optional.empty();
+    }
+    Ref ref = repo.exactRef(RefNames.fullName(baseRevision));
+    if (ref != null && ref.isSymbolic()) {
+      ref = ref.getTarget();
+    }
+    if (ref == null || ref.getObjectId() == null) {
+      return Optional.empty();
+    }
+    String refName = ref.getName();
+    return createTagAllowedRefs.stream().anyMatch(refName::startsWith)
+        ? Optional.of(ref)
+        : Optional.empty();
   }
 
   /**

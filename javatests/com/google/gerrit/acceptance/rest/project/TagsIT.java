@@ -1055,6 +1055,133 @@ public class TagsIT extends AbstractDaemonTest {
                 + " that is visible to you and is visible to you.");
   }
 
+  @Test
+  @GerritConfig(name = "receive.restrictCreateRefToVisibleBranches", value = "true")
+  @GerritConfig(
+      name = "receive.createTagAllowedRefs",
+      values = {"refs/heads/", "refs/branch-heads/"})
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {"GerritBackendFeature__optimize_create_tag_visibility"})
+  public void canCreateTagWithBranchNameAsRevision() throws Exception {
+    grantLightweightTagPermissions();
+
+    String masterRevision = projectOperations.project(project).getHead("refs/heads/master").name();
+    String branchHeadRef = "refs/branch-heads/m1";
+    String branchHeadRevision;
+    try (RefUpdateContext ctx = openTestRefUpdateContext();
+        Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      RevCommit commit = tr.commit().create();
+      branchHeadRevision = commit.name();
+
+      RefUpdate u = repo.updateRef(branchHeadRef);
+      u.setExpectedOldObjectId(ObjectId.zeroId());
+      u.setNewObjectId(commit);
+      u.update(rw);
+      RefUpdateUtil.checkResult(u);
+    }
+
+    TagInput shortBranchInput = new TagInput();
+    shortBranchInput.ref = "tag-short-branch";
+    shortBranchInput.revision = "master";
+    TagInfo shortBranchResult = tag(shortBranchInput.ref).create(shortBranchInput).get();
+    assertThat(shortBranchResult.ref).isEqualTo(R_TAGS + shortBranchInput.ref);
+    assertThat(shortBranchResult.revision).isEqualTo(masterRevision);
+
+    TagInput fullBranchInput = new TagInput();
+    fullBranchInput.ref = "tag-full-branch";
+    fullBranchInput.revision = "refs/heads/master";
+    TagInfo fullBranchResult = tag(fullBranchInput.ref).create(fullBranchInput).get();
+    assertThat(fullBranchResult.ref).isEqualTo(R_TAGS + fullBranchInput.ref);
+    assertThat(fullBranchResult.revision).isEqualTo(masterRevision);
+
+    TagInput branchHeadInput = new TagInput();
+    branchHeadInput.ref = "tag-branch-head";
+    branchHeadInput.revision = branchHeadRef;
+    TagInfo branchHeadResult = tag(branchHeadInput.ref).create(branchHeadInput).get();
+    assertThat(branchHeadResult.ref).isEqualTo(R_TAGS + branchHeadInput.ref);
+    assertThat(branchHeadResult.revision).isEqualTo(branchHeadRevision);
+  }
+
+  @Test
+  @GerritConfig(name = "receive.restrictCreateRefToVisibleBranches", value = "true")
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {"GerritBackendFeature__optimize_create_tag_visibility"})
+  public void
+      cannotCreateTagWithNonVisibleBranchNameAsRevisionEvenWhenCommitIsVisibleOnAnotherBranch()
+          throws Exception {
+    grantLightweightTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
+    RevCommit masterCommit = projectOperations.project(project).getHead("refs/heads/master");
+    try (RefUpdateContext ctx = openTestRefUpdateContext();
+        Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RefUpdate u = repo.updateRef("refs/heads/hidden");
+      u.setExpectedOldObjectId(ObjectId.zeroId());
+      u.setNewObjectId(masterCommit);
+      u.update(rw);
+      RefUpdateUtil.checkResult(u);
+    }
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/hidden").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    input.revision = "refs/heads/hidden";
+    UnprocessableEntityException exception =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).tag(input.ref).create(input));
+    assertThat(exception).hasMessageThat().contains(masterCommit.name());
+    assertThat(exception)
+        .hasMessageThat()
+        .contains(
+            "Check that the object exists on the server and that it's reachable from a branch/tag"
+                + " that is visible to you and is visible to you.");
+  }
+
+  @Test
+  @GerritConfig(name = "receive.restrictCreateRefToVisibleBranches", value = "true")
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {"GerritBackendFeature__optimize_create_tag_visibility"})
+  public void cannotCreateTagWithUnsubmittedChangeRefNameAsRevision() throws Exception {
+    grantLightweightTagPermissions();
+
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+    String changeRevision = gApi.changes().id(changeIdentifier).get().currentRevision;
+    String patchSetRef =
+        gApi.changes().id(changeIdentifier).get().revisions.values().iterator().next().ref;
+
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    input.revision = patchSetRef;
+    UnprocessableEntityException exception =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).tag(input.ref).create(input));
+    assertThat(exception).hasMessageThat().contains(changeRevision);
+    assertThat(exception)
+        .hasMessageThat()
+        .contains(
+            "Check that the object exists on the server and that it's reachable from a branch/tag"
+                + " that is visible to you and is visible to you.");
+  }
+
   private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)
       throws Exception {
     assertThat(actual).hasSize(expected.size());

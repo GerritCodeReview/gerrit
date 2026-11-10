@@ -1,0 +1,16 @@
+# Hermetic C++ toolchain for remote execution. The executor is linux-x86_64
+# (//tools/remote:platform), which may differ from the machine running Bazel,
+# so the toolchain is selected through --extra_toolchains in the remote
+# configs (see tools/remote-bazelrc) rather than register_toolchains(), which
+# would also change local builds.
+llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
+
+llvm.toolchain(
+    # Generate the toolchain for the executor, not for the machine that runs
+    # Bazel (e.g. macOS).
+    exec_arch = "x86_64",
+    exec_os = "linux",
+    llvm_version = "20.1.8",
+)
+
+use_repo(llvm, "llvm_toolchain")

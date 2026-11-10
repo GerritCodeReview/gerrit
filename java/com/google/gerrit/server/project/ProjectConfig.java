@@ -174,6 +174,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String RECEIVE = "receive";
   private static final String KEY_CHECK_RECEIVED_OBJECTS = "checkReceivedObjects";
+  private static final String KEY_RESTRICT_CREATE_REF_TO_VISIBLE_BRANCHES =
+      "restrictCreateRefToVisibleBranches";
+  private static final String KEY_CREATE_BRANCH_ALLOWED_REFS = "createBranchAllowedRefs";
 
   private static final String SUBMIT = "submit";
   private static final String KEY_ACTION = "action";
@@ -268,6 +271,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, Config> pluginConfigs;
   private Map<String, Config> projectLevelConfigs;
   private boolean checkReceivedObjects;
+  private Optional<Boolean> restrictCreateRefToVisibleBranches = Optional.empty();
+  private ImmutableList<String> createBranchAllowedRefs = ImmutableList.of();
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
   private Map<String, List<String>> extensionPanelSections;
@@ -284,6 +289,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             .setRevision(Optional.ofNullable(getRevision()))
             .setMaxObjectSizeLimit(maxObjectSizeLimit)
             .setCheckReceivedObjects(checkReceivedObjects)
+            .setRestrictCreateRefToVisibleBranches(restrictCreateRefToVisibleBranches)
+            .setCreateBranchAllowedRefs(createBranchAllowedRefs)
             .setExtensionPanelSections(extensionPanelSections);
     groupList.byUUID().values().forEach(g -> builder.addGroup(g));
     contributorAgreements.values().forEach(c -> builder.addContributorAgreement(c));
@@ -658,6 +665,22 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   /** Returns the checkReceivedObjects for this project, default is true. */
   public boolean getCheckReceivedObjects() {
     return checkReceivedObjects;
+  }
+
+  public Optional<Boolean> getRestrictCreateRefToVisibleBranches() {
+    return restrictCreateRefToVisibleBranches;
+  }
+
+  public void setRestrictCreateRefToVisibleBranches(Optional<Boolean> value) {
+    restrictCreateRefToVisibleBranches = value;
+  }
+
+  public ImmutableList<String> getCreateBranchAllowedRefs() {
+    return createBranchAllowedRefs;
+  }
+
+  public void setCreateBranchAllowedRefs(List<String> value) {
+    createBranchAllowedRefs = ImmutableList.copyOf(value);
   }
 
   /**
@@ -1322,6 +1345,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void loadReceiveSection(Config rc) {
     checkReceivedObjects = rc.getBoolean(RECEIVE, KEY_CHECK_RECEIVED_OBJECTS, true);
     maxObjectSizeLimit = rc.getLong(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, 0);
+    if (rc.getString(RECEIVE, null, KEY_RESTRICT_CREATE_REF_TO_VISIBLE_BRANCHES) != null) {
+      restrictCreateRefToVisibleBranches =
+          Optional.of(
+              rc.getBoolean(RECEIVE, null, KEY_RESTRICT_CREATE_REF_TO_VISIBLE_BRANCHES, false));
+    } else {
+      restrictCreateRefToVisibleBranches = Optional.empty();
+    }
+    createBranchAllowedRefs =
+        ImmutableList.copyOf(rc.getStringList(RECEIVE, null, KEY_CREATE_BRANCH_ALLOWED_REFS));
   }
 
   private void loadPluginSections(Config rc) {
@@ -1416,6 +1448,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         null,
         KEY_MAX_OBJECT_SIZE_LIMIT,
         validMaxObjectSizeLimit(p.getMaxObjectSizeLimit()));
+    if (restrictCreateRefToVisibleBranches.isPresent()) {
+      rc.setBoolean(
+          RECEIVE,
+          null,
+          KEY_RESTRICT_CREATE_REF_TO_VISIBLE_BRANCHES,
+          restrictCreateRefToVisibleBranches.get());
+    } else {
+      rc.unset(RECEIVE, null, KEY_RESTRICT_CREATE_REF_TO_VISIBLE_BRANCHES);
+    }
+    if (!createBranchAllowedRefs.isEmpty()) {
+      rc.setStringList(RECEIVE, null, KEY_CREATE_BRANCH_ALLOWED_REFS, createBranchAllowedRefs);
+    } else {
+      rc.unset(RECEIVE, null, KEY_CREATE_BRANCH_ALLOWED_REFS);
+    }
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_TYPE);
 

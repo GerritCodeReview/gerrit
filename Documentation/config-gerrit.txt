@@ -5791,6 +5791,10 @@ If `false`, creating a new branch or reference checks whether the commit is
 reachable from a visible branch under `refs/heads/` or tag under `refs/tags/`,
 or whether the commit is visible through a change.
 +
+Can be overridden per project in `project.config` (see
+link:config-project-config.html#receive.restrictCreateRefToVisibleBranches[
+receive.restrictCreateRefToVisibleBranches in project.config]).
++
 Default is `false`.
 
 [[receive.createBranchAllowedRefs]]receive.createBranchAllowedRefs::
@@ -5800,7 +5804,10 @@ a new branch or reference and
 link:#receive.restrictCreateRefToVisibleBranches[
 `receive.restrictCreateRefToVisibleBranches`] is `true`.
 +
-May be specified more than once to allow multiple ref prefixes.
+May be specified more than once to allow multiple ref prefixes. Can be
+overridden per project in `project.config` (see
+link:config-project-config.html#receive.createBranchAllowedRefs[
+receive.createBranchAllowedRefs in project.config]).
 +
 Defaults to `refs/heads/`, `refs/tags/`, and `refs/meta/config`.
 

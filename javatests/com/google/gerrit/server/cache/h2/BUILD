@@ -9,6 +9,7 @@ junit_tests(
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/util/time",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:h2",
         "//lib:jgit",

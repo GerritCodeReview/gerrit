@@ -10,3 +10,24 @@ platform(
     },
     visibility = ["//visibility:public"],
 )
+
+platform(
+    name = "ubuntu-24-04",
+    constraint_values = [
+        "@platforms//cpu:x86_64",
+        "@platforms//os:linux",
+    ],
+    exec_properties = {
+        "ISA": "x86-64",
+        "container-image": "docker://ubuntu:24.04",
+        "OSFamily": "linux",
+    },
+)
+
+platform(
+    name = "host",
+    exec_properties = {
+        "no-remote-exec": "true",
+    },
+    parents = ["@platforms//host"],
+)

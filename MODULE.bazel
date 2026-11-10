@@ -17,6 +17,9 @@ bazel_dep(name = "rules_nodejs", version = "6.7.6")
 bazel_dep(name = "rules_python", version = "2.4.5")
 bazel_dep(name = "rules_shell", version = "0.8.0")
 
+# RBE
+bazel_dep(name = "toolchains_llvm", version = "1.12.0")
+
 # Pin rules_java to Gerrit's chosen version. Transitive bzlmod modules can
 # otherwise raise it through MVS, which changes the Java toolchain inputs
 # and can break custom plugin builds. When merging up, keep this override
@@ -56,3 +59,6 @@ include("//polygerrit-ui:polygerrit.MODULE.bazel")
 
 # Wiring for external dependencies contributed by in-tree plugins.
 include("//plugins:external_plugin_deps.MODULE.bazel")
+
+# RBE toolchains
+include("//tools:rbe.MODULE.bazel")

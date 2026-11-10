@@ -2287,6 +2287,10 @@ The cache operation that should be executed:
 `FLUSH_ALL`: Flushes all caches, except the `web_sessions` cache.
 
 `FLUSH`: Flushes the specified caches.
+
+`REINIT_ALL`: Reinitializes all persistent caches.
+
+`REINIT`: Reinitializes the specified persistent caches.
 |`caches`             |optional|
 A list of cache names. This list defines the caches on which the
 specified operation should be executed. Whether this list must be

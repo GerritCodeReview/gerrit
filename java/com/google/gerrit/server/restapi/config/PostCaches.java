@@ -24,9 +24,11 @@ import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.cache.PersistentCache;
 import com.google.gerrit.server.config.CacheResource;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -57,16 +59,21 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
 
   public enum Operation {
     FLUSH_ALL,
-    FLUSH
+    FLUSH,
+    REINIT_ALL,
+    REINIT
   }
 
   private final DynamicMap<Cache<?, ?>> cacheMap;
   private final FlushCache flushCache;
+  private final ReinitCache reinitCache;
 
   @Inject
-  public PostCaches(DynamicMap<Cache<?, ?>> cacheMap, FlushCache flushCache) {
+  public PostCaches(
+      DynamicMap<Cache<?, ?>> cacheMap, FlushCache flushCache, ReinitCache reinitCache) {
     this.cacheMap = cacheMap;
     this.flushCache = flushCache;
+    this.reinitCache = reinitCache;
   }
 
   @Override
@@ -74,7 +81,8 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
       throws AuthException,
           BadRequestException,
           UnprocessableEntityException,
-          PermissionBackendException {
+          PermissionBackendException,
+          ResourceConflictException {
     if (input == null || input.operation == null) {
       throw new BadRequestException("operation must be specified");
     }
@@ -95,6 +103,21 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
         flush(input.caches);
         yield Response.ok();
       }
+      case REINIT_ALL -> {
+        if (input.caches != null) {
+          throw new BadRequestException(
+              "specifying caches is not allowed for operation 'REINIT_ALL'");
+        }
+        reinitAll();
+        yield Response.ok();
+      }
+      case REINIT -> {
+        if (input.caches == null || input.caches.isEmpty()) {
+          throw new BadRequestException("caches must be specified for operation 'REINIT'");
+        }
+        reinit(input.caches);
+        yield Response.ok();
+      }
     };
   }
 
@@ -111,6 +134,29 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
 
   private void flush(List<String> cacheNames)
       throws UnprocessableEntityException, AuthException, PermissionBackendException {
+    for (CacheResource rsrc : resolve(cacheNames)) {
+      var _ = flushCache.apply(rsrc, null);
+    }
+  }
+
+  private void reinitAll() throws UnprocessableEntityException, ResourceConflictException {
+    for (Extension<Cache<?, ?>> e : cacheMap) {
+      CacheResource cacheResource =
+          new CacheResource(e.getPluginName(), e.getExportName(), e.getProvider());
+      if (cacheResource.getCache() instanceof PersistentCache) {
+        reinitCache.apply(cacheResource);
+      }
+    }
+  }
+
+  private void reinit(List<String> cacheNames)
+      throws UnprocessableEntityException, ResourceConflictException {
+    for (CacheResource rsrc : resolve(cacheNames)) {
+      reinitCache.apply(rsrc);
+    }
+  }
+
+  private List<CacheResource> resolve(List<String> cacheNames) throws UnprocessableEntityException {
     List<CacheResource> cacheResources = new ArrayList<>(cacheNames.size());
 
     for (String n : cacheNames) {
@@ -130,8 +176,6 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
       }
     }
 
-    for (CacheResource rsrc : cacheResources) {
-      var _ = flushCache.apply(rsrc, null);
-    }
+    return cacheResources;
   }
 }

@@ -18,6 +18,8 @@ import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH;
 import static com.google.gerrit.server.restapi.config.PostCaches.Operation.FLUSH_ALL;
+import static com.google.gerrit.server.restapi.config.PostCaches.Operation.REINIT;
+import static com.google.gerrit.server.restapi.config.PostCaches.Operation.REINIT_ALL;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
@@ -49,6 +51,9 @@ final class FlushCaches extends SshCommand {
   @Option(name = "--list", usage = "list available caches")
   private boolean list;
 
+  @Option(name = "--reinit", usage = "reinitialize persistent caches instead of flushing")
+  private boolean reinit;
+
   @Inject private ListCaches listCaches;
 
   @Inject private PostCaches postCaches;
@@ -58,11 +63,15 @@ final class FlushCaches extends SshCommand {
     enableGracefulStop();
     try {
       if (list) {
-        if (all || !caches.isEmpty()) {
-          throw die("cannot use --list with --all or --cache");
+        if (all || reinit || !caches.isEmpty()) {
+          throw die("cannot use --list with --all, --cache or --reinit");
         }
         doList();
         return;
+      }
+
+      if (reinit && !all && caches.isEmpty()) {
+        throw die("--reinit requires --all or --cache");
       }
 
       if (all && !caches.isEmpty()) {
@@ -75,9 +84,13 @@ final class FlushCaches extends SshCommand {
       }
 
       if (all) {
-        var _ = postCaches.apply(new ConfigResource(), new PostCaches.Input(FLUSH_ALL));
+        var _ =
+            postCaches.apply(
+                new ConfigResource(), new PostCaches.Input(reinit ? REINIT_ALL : FLUSH_ALL));
       } else {
-        var _ = postCaches.apply(new ConfigResource(), new PostCaches.Input(FLUSH, caches));
+        var _ =
+            postCaches.apply(
+                new ConfigResource(), new PostCaches.Input(reinit ? REINIT : FLUSH, caches));
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());

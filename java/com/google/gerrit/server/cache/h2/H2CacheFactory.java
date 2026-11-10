@@ -187,10 +187,13 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   @Override
   public <K, V> Cache<K, V> buildImpl(PersistentCacheDef<K, V> in, long limit) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
-    SqlStore<K, V> store = newSqlStore(def, limit);
     H2CacheImpl<K, V> cache =
         new H2CacheImpl<>(
-            executor, store, def.keyType(), (Cache<K, ValueHolder<V>>) memCacheFactory.build(def));
+            executor,
+            def.keyType(),
+            (Cache<K, ValueHolder<V>>) memCacheFactory.build(def),
+            null,
+            () -> newSqlStore(def, limit));
     synchronized (caches) {
       caches.add(cache);
     }
@@ -202,12 +205,11 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   public <K, V> LoadingCache<K, V> buildImpl(
       PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, long limit) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
-    SqlStore<K, V> store = newSqlStore(def, limit);
+    H2CacheImpl.Loader<K, V> h2Loader = new H2CacheImpl.Loader<>(executor, loader);
     Cache<K, ValueHolder<V>> mem =
-        (Cache<K, ValueHolder<V>>)
-            memCacheFactory.build(
-                def, (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
-    H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
+        (Cache<K, ValueHolder<V>>) memCacheFactory.build(def, (CacheLoader<K, V>) h2Loader);
+    H2CacheImpl<K, V> cache =
+        new H2CacheImpl<>(executor, def.keyType(), mem, h2Loader, () -> newSqlStore(def, limit));
     synchronized (caches) {
       caches.add(cache);
     }

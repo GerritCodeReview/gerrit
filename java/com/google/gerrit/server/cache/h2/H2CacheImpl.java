@@ -61,6 +61,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 /**
  * Hybrid in-memory and database backed cache built on H2.
@@ -90,20 +92,33 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       ImmutableSet.of("com.google.gerrit.server.change.ChangeKind");
 
   private final Executor executor;
-  private final SqlStore<K, V> store;
+  private final AtomicReference<SqlStore<K, V>> store;
   private final TypeLiteral<K> keyType;
   private final Cache<K, ValueHolder<V>> mem;
   private final String cacheName;
+  @Nullable private final Loader<K, V> loader;
+  private final Supplier<SqlStore<K, V>> storeFactory;
 
+  /**
+   * @param loader the loader of {@code mem}, if any; it is pointed at every store of this cache
+   * @param storeFactory creates the store of this cache, initially and again on each reinit
+   */
   H2CacheImpl(
       Executor executor,
-      SqlStore<K, V> store,
       TypeLiteral<K> keyType,
-      Cache<K, ValueHolder<V>> mem) {
+      Cache<K, ValueHolder<V>> mem,
+      @Nullable Loader<K, V> loader,
+      Supplier<SqlStore<K, V>> storeFactory) {
     this.executor = executor;
-    this.store = store;
+    SqlStore<K, V> store = storeFactory.get();
+    this.store = new AtomicReference<>(store);
     this.keyType = keyType;
     this.mem = mem;
+    this.loader = loader;
+    this.storeFactory = storeFactory;
+    if (loader != null) {
+      loader.setStore(store);
+    }
     this.cacheName = store.url.substring(store.url.lastIndexOf('/') + 1);
   }
 
@@ -119,7 +134,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     ValueHolder<V> h = mem.getIfPresent(key);
     if (h == null) {
-      h = store.getIfPresent(key);
+      h = store.get().getIfPresent(key);
       if (h == null) {
         return null;
       }
@@ -133,7 +148,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     if (mem instanceof LoadingCache) {
       LoadingCache<K, ValueHolder<V>> asLoadingCache = (LoadingCache<K, ValueHolder<V>>) mem;
       ValueHolder<V> valueHolder = asLoadingCache.get(key);
-      if (store.needsRefresh(valueHolder.created)) {
+      if (store.get().needsRefresh(valueHolder.created)) {
         asLoadingCache.refresh(key);
       }
       return valueHolder.value;
@@ -149,7 +164,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       ImmutableMap<K, ValueHolder<V>> values = asLoadingCache.getAll(keys);
       for (Map.Entry<K, ValueHolder<V>> entry : values.entrySet()) {
         result.put(entry.getKey(), entry.getValue().value);
-        if (store.needsRefresh(entry.getValue().created)) {
+        if (store.get().needsRefresh(entry.getValue().created)) {
           asLoadingCache.refresh(entry.getKey());
         }
       }
@@ -163,11 +178,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     return mem.get(
             key,
             () -> {
-              ValueHolder<V> h = store.getIfPresent(key);
+              ValueHolder<V> h = store.get().getIfPresent(key);
               if (h == null) {
                 h = new ValueHolder<>(valueLoader.call(), TimeUtil.now());
                 ValueHolder<V> fh = h;
-                executor.execute(() -> store.put(key, fh));
+                executor.execute(() -> store.get().put(key, fh));
               }
               return h;
             })
@@ -178,21 +193,21 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
   public void put(K key, V val) {
     final ValueHolder<V> h = new ValueHolder<>(val, TimeUtil.now());
     mem.put(key, h);
-    executor.execute(() -> store.put(key, h));
+    executor.execute(() -> store.get().put(key, h));
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public void invalidate(Object key) {
-    if (keyType.getRawType().isInstance(key) && store.mightContain((K) key)) {
-      store.invalidate((K) key);
+    if (keyType.getRawType().isInstance(key) && store.get().mightContain((K) key)) {
+      store.get().invalidate((K) key);
     }
     mem.invalidate(key);
   }
 
   @Override
   public void invalidateAll() {
-    store.invalidateAll();
+    store.get().invalidateAll();
     mem.invalidateAll();
   }
 
@@ -208,12 +223,40 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   @Override
   public DiskStats diskStats() {
-    return store.diskStats();
+    return store.get().diskStats();
+  }
+
+  /**
+   * Replaces the on-disk cache with a fresh empty one. The old file is kept next to it as {@code
+   * <name>.mv.db.old-<millis>} so it can be inspected. Entries held in memory are kept.
+   */
+  @Override
+  public void reinit() throws IOException {
+    SqlStore<K, V> old = store.get();
+    Path file = old.cacheFilePath;
+    if (file == null) {
+      throw new IOException("cache is not backed by a file");
+    }
+    try {
+      old.close();
+      if (Files.exists(file)) {
+        Path backup = file.resolveSibling(file.getFileName() + ".old-" + TimeUtil.nowMs());
+        Files.move(file, backup);
+        logger.atWarning().log("Reinitialized cache %s, backup: %s", cacheName, backup);
+      }
+    } finally {
+      SqlStore<K, V> fresh = storeFactory.get();
+      fresh.open();
+      store.set(fresh);
+      if (loader != null) {
+        loader.setStore(fresh);
+      }
+    }
   }
 
   void start() {
     logger.atFine().log("Opening disk cache %s...", cacheName);
-    store.open();
+    store.get().open();
     logger.atFine().log("Finished opening disk cache %s...", cacheName);
   }
 
@@ -221,15 +264,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     for (Map.Entry<K, ValueHolder<V>> e : mem.asMap().entrySet()) {
       ValueHolder<V> h = e.getValue();
       if (!h.clean) {
-        store.put(e.getKey(), h);
+        store.get().put(e.getKey(), h);
       }
     }
-    store.close();
+    store.get().close();
   }
 
   void prune() {
     logger.atFine().log("Pruning cache %s...", cacheName);
-    store.prune(mem);
+    store.get().prune(mem);
     logger.atFine().log("Finished pruning cache %s...", cacheName);
   }
 
@@ -250,13 +293,17 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   static class Loader<K, V> extends CacheLoader<K, ValueHolder<V>> {
     private final Executor executor;
-    private final SqlStore<K, V> store;
+    private final AtomicReference<SqlStore<K, V>> store = new AtomicReference<>();
     private final CacheLoader<K, V> loader;
 
-    Loader(Executor executor, SqlStore<K, V> store, CacheLoader<K, V> loader) {
+    /** The store has to be set with {@link #setStore} before this loader is used. */
+    Loader(Executor executor, CacheLoader<K, V> loader) {
       this.executor = executor;
-      this.store = store;
       this.loader = loader;
+    }
+
+    void setStore(SqlStore<K, V> store) {
+      this.store.set(store);
     }
 
     @Override
@@ -264,11 +311,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading value from cache", Metadata.builder().cacheKey(key.toString()).build())) {
-        ValueHolder<V> h = store.getIfPresent(key);
+        ValueHolder<V> h = store.get().getIfPresent(key);
         if (h == null) {
           h = new ValueHolder<>(loader.load(key), TimeUtil.now());
           ValueHolder<V> fh = h;
-          executor.execute(() -> store.put(key, fh));
+          executor.execute(() -> store.get().put(key, fh));
         }
         return h;
       }
@@ -280,7 +327,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         List<K> notInMemory = new ArrayList<>();
         Map<K, ValueHolder<V>> result = new HashMap<>();
         for (K key : keys) {
-          ValueHolder<V> h = store.getIfPresent(key);
+          ValueHolder<V> h = store.get().getIfPresent(key);
           if (h == null) {
             notInMemory.add(key);
             continue;
@@ -313,7 +360,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           new FutureCallback<V>() {
             @Override
             public void onSuccess(V result) {
-              store.put(key, new ValueHolder<>(result, TimeUtil.now()));
+              store.get().put(key, new ValueHolder<>(result, TimeUtil.now()));
             }
 
             @Override
@@ -330,7 +377,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       executor.execute(
           () -> {
             for (Map.Entry<K, V> entry : entries.entrySet()) {
-              store.put(entry.getKey(), new ValueHolder<>(entry.getValue(), instant));
+              store.get().put(entry.getKey(), new ValueHolder<>(entry.getValue(), instant));
             }
           });
     }
@@ -354,6 +401,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private volatile boolean ensuredSchemaCreation;
     private final Path cacheFilePath;
     private final boolean preWarmForBloomFilter;
+    private final AtomicBoolean closed = new AtomicBoolean();
 
     SqlStore(
         String jdbcUrl,
@@ -456,7 +504,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       bloomFilter.initIfNeeded();
     }
 
+    /**
+     * Closes this store for good: afterwards no new connections are opened and reads fall back to
+     * the loader.
+     */
     void close() {
+      closed.set(true);
       SqlHandle h;
       while ((h = handles.poll()) != null) {
         h.close();
@@ -806,13 +859,16 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private SqlHandle acquire() throws SQLException {
+      if (closed.get()) {
+        throw new SQLException("cache is closed");
+      }
       createSchema();
       SqlHandle h = handles.poll();
       return h != null ? h : new SqlHandle(url);
     }
 
     private void release(SqlHandle h) {
-      if (h != null && !handles.offer(h)) {
+      if (h != null && (closed.get() || !handles.offer(h))) {
         h.close();
       }
     }

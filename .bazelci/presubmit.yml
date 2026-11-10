@@ -1,0 +1,41 @@
+---
+platforms:
+  fedora45:
+    build_targets:
+      - "//:release"
+      - "//:api"
+    test_flags:
+      - "--test_tag_filters=-git,-git-protocol-v2,-git-upload-archive,-ssh"
+    test_targets:
+      - "//..."
+  ubuntu2404:
+    build_targets:
+      - "//:release"
+      - "//:api"
+    test_targets:
+      - "//..."
+  macos:
+    build_targets:
+      - "//:release"
+      - "//:api"
+    test_flags:
+      - "--test_tag_filters=-git,-git-protocol-v2,-git-upload-archive,-ssh"
+    test_targets:
+      - "//..."
+  rbe_gcp:
+    platform: rbe_ubuntu2404
+    build_flags:
+      - "--config=remote"
+      - "--remote_instance_name=projects/bazel-untrusted/instances/default_instance"
+      - "--remote_executor=grpcs://remotebuildexecution.googleapis.com"
+    build_targets:
+      - "//:release"
+      - "//:api-skip-javadoc"
+    test_flags:
+      - "--config=remote"
+      - "--remote_instance_name=projects/bazel-untrusted/instances/default_instance"
+      - "--remote_executor=grpcs://remotebuildexecution.googleapis.com"
+      - "--experimental_remote_cache_async"
+      - "--remote_download_minimal"
+    test_targets:
+      - "//..."

@@ -89,6 +89,20 @@ suite('gr-change-metadata tests', () => {
         <span class="title">
           <gr-tooltip-content
             has-tooltip=""
+            title="Time when the first patchset of this change was uploaded."
+          >
+            Created
+          </gr-tooltip-content>
+        </span>
+        <span class="value">
+          <gr-date-formatter showyesterday="" withtooltip="">
+          </gr-date-formatter>
+        </span>
+      </section>
+      <section class="hideDisplay">
+        <span class="title">
+          <gr-tooltip-content
+            has-tooltip=""
             title="Last update of (meta)data for this change."
           >
             Updated

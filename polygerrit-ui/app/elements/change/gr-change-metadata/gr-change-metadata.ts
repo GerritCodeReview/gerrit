@@ -337,8 +337,8 @@ export class GrChangeMetadata extends LitElement {
         <h3 class="metadata-title heading-3">Change Info</h3>
         ${this.renderShowAllButton()}
       </div>
-      ${this.renderSubmitted()} ${this.renderUpdated()} ${this.renderOwner()}
-      ${this.renderNonOwner(ChangeRole.UPLOADER)}
+      ${this.renderSubmitted()} ${this.renderCreated()} ${this.renderUpdated()}
+      ${this.renderOwner()} ${this.renderNonOwner(ChangeRole.UPLOADER)}
       ${this.renderNonOwner(ChangeRole.AUTHOR)}
       ${this.renderNonOwner(ChangeRole.COMMITTER)} ${this.renderReviewers()}
       ${this.renderCCs()} ${this.renderProjectBranch()} ${this.renderParent()}
@@ -387,6 +387,26 @@ export class GrChangeMetadata extends LitElement {
         ></gr-date-formatter>
       </span>
     </section> `;
+  }
+
+  private renderCreated() {
+    return html`<section class=${this.computeDisplayState(Metadata.CREATED)}>
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip
+          title="Time when the first patchset of this change was uploaded."
+        >
+          Created
+        </gr-tooltip-content>
+      </span>
+      <span class="value">
+        <gr-date-formatter
+          withTooltip
+          .dateStr=${this.change!.created}
+          showYesterday
+        ></gr-date-formatter>
+      </span>
+    </section>`;
   }
 
   private renderUpdated() {

@@ -22,7 +22,9 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.capabilityKey;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.entities.RefNames.patchSetRef;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.common.testing.ChangeInfoSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -61,6 +63,7 @@ import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -1260,6 +1263,68 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(reviewerUpdate.updatedBy._accountId).isEqualTo(impersonatedUser.id().get());
     assertThat(reviewerUpdate.reviewer._accountId).isEqualTo(reviewer.id().get());
     assertThat(reviewerUpdate.realUpdatedBy._accountId).isEqualTo(realUser.id().get());
+  }
+
+  @Test
+  public void cannotRemoveReviewerOnBehalfOfWithoutRunAs() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(admin2.id());
+    recommend(r.getChangeId());
+    assertThat(gApi.changes().id(r.getChangeId()).reviewer(admin2.id().toString()).votes())
+        .containsExactly(LabelId.CODE_REVIEW, (short) 1);
+
+    requestScopeOperations.setApiUser(user.id());
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = admin2.id().toString();
+    in.state = ReviewerState.REMOVED;
+    in.onBehalfOf = admin.id().toString();
+
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.changes().id(r.getChangeId()).addReviewer(in));
+    assertThat(thrown).hasMessageThat().isEqualTo("run as not permitted");
+    assertThat(gApi.changes().id(r.getChangeId()).reviewer(admin2.id().toString()).votes())
+        .containsExactly(LabelId.CODE_REVIEW, (short) 1);
+  }
+
+  @Test
+  public void removeReviewerOnBehalfOfWithRunAs() throws Exception {
+    allowRunAs();
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(admin2.id());
+    recommend(r.getChangeId());
+    assertThat(gApi.changes().id(r.getChangeId()).reviewer(admin2.id().toString()).votes())
+        .containsExactly(LabelId.CODE_REVIEW, (short) 1);
+
+    requestScopeOperations.setApiUser(user.id());
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = admin2.id().toString();
+    in.state = ReviewerState.REMOVED;
+    in.onBehalfOf = admin.id().toString();
+
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(result.removed._accountId).isEqualTo(admin2.id().get());
+    assertThat(gApi.changes().id(r.getChangeId()).get().reviewers.get(ReviewerState.REVIEWER))
+        .isNull();
+    assertThat(gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS)).hasNoVotes();
+  }
+
+  @Test
+  public void internalUserCanRemoveReviewerOnBehalfOfWithoutRunAs() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(admin2.id());
+    recommend(r.getChangeId());
+
+    requestScopeOperations.setApiUserInternal();
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = admin2.id().toString();
+    in.state = ReviewerState.REMOVED;
+    in.onBehalfOf = admin.id().toString();
+
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(in);
+    assertThat(result.removed._accountId).isEqualTo(admin2.id().get());
+    assertThat(gApi.changes().id(r.getChangeId()).get().reviewers.get(ReviewerState.REVIEWER))
+        .isNull();
+    assertThat(gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS)).hasNoVotes();
   }
 
   private void assertLastChangeMessage(

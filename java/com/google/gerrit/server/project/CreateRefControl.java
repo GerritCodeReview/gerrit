@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.common.collect.ImmutableList;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -59,13 +61,17 @@ public class CreateRefControl {
 
   private static final ImmutableList<String> DEFAULT_REFS_FROM_WHICH_COMMIT_MUST_BE_REACHABLE =
       ImmutableList.of(Constants.R_HEADS, Constants.R_TAGS);
+  private static final ImmutableList<String> DEFAULT_REFS_FROM_WHICH_TAG_COMMIT_MUST_BE_REACHABLE =
+      ImmutableList.of(Constants.R_HEADS);
 
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Reachable reachable;
   private final RetryHelper retryHelper;
+  private final ExperimentFeatures experimentFeatures;
   private final boolean restrictCreateRefToVisibleBranches;
   private final ImmutableList<String> createBranchAllowedRefs;
+  private final ImmutableList<String> createTagAllowedRefs;
 
   @Inject
   CreateRefControl(
@@ -73,11 +79,13 @@ public class CreateRefControl {
       ProjectCache projectCache,
       Reachable reachable,
       RetryHelper retryHelper,
+      ExperimentFeatures experimentFeatures,
       @GerritServerConfig Config cfg) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.reachable = reachable;
     this.retryHelper = retryHelper;
+    this.experimentFeatures = experimentFeatures;
     this.restrictCreateRefToVisibleBranches =
         cfg.getBoolean("receive", null, "restrictCreateRefToVisibleBranches", false);
     String[] configuredBranchRefs = cfg.getStringList("receive", null, "createBranchAllowedRefs");
@@ -85,6 +93,11 @@ public class CreateRefControl {
         configuredBranchRefs.length > 0
             ? ImmutableList.copyOf(configuredBranchRefs)
             : DEFAULT_REFS_FROM_WHICH_COMMIT_MUST_BE_REACHABLE;
+    String[] configuredTagRefs = cfg.getStringList("receive", null, "createTagAllowedRefs");
+    this.createTagAllowedRefs =
+        configuredTagRefs.length > 0
+            ? ImmutableList.copyOf(configuredTagRefs)
+            : DEFAULT_REFS_FROM_WHICH_TAG_COMMIT_MUST_BE_REACHABLE;
   }
 
   /**
@@ -189,23 +202,42 @@ public class CreateRefControl {
   public void checkCreateTagCommit(
       Provider<? extends CurrentUser> user,
       Repository repo,
+      RevWalk rw,
       RevObject object,
       Project.NameKey project)
       throws PermissionBackendException, IOException, UnprocessableEntityException {
     if (!restrictCreateRefToVisibleBranches) {
       return;
     }
-    if (object instanceof RevCommit commit) {
-      checkCreateCommit(
-          user,
-          repo,
-          repo.getRefDatabase()
-              .getRefsByPrefixWithExclusions(
-                  RefDatabase.ALL, ImmutableSet.of(RefNames.REFS_CHANGES)),
-          commit,
-          project,
-          /* forPush= */ false);
+    if (!experimentFeatures.isFeatureEnabled(
+        GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY, project)) {
+      if (object instanceof RevCommit commit) {
+        checkCreateCommit(
+            user,
+            repo,
+            repo.getRefDatabase()
+                .getRefsByPrefixWithExclusions(
+                    RefDatabase.ALL, ImmutableSet.of(RefNames.REFS_CHANGES)),
+            commit,
+            project,
+            /* forPush= */ false);
+      }
+      return;
     }
+
+    // Peel annotated tags (RevTag) so tag creation pointing to an existing tag object still
+    // verifies visibility of the underlying target commit; if the peeled target is a tree or blob,
+    // commit reachability does not apply.
+    if (!(rw.peel(object) instanceof RevCommit commit)) {
+      return;
+    }
+    checkCreateCommit(
+        user,
+        repo,
+        repo.getRefDatabase().getRefsByPrefix(createTagAllowedRefs.toArray(String[]::new)),
+        commit,
+        project,
+        /* forPush= */ false);
   }
 
   /**

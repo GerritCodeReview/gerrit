@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16d14f1a_5006cea5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-10T21:56:12Z",
+      "side": 1,
+      "message": "Can you explain why this could not be done prior to your change? I.e. does some API need them? If so, it might be worth mention that here.",
+      "revId": "fe2a2cef25c9662cda7a9c48b30771fc8beb9db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

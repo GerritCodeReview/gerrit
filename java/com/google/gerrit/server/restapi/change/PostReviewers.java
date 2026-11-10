@@ -37,6 +37,7 @@ import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -114,6 +115,9 @@ public class PostReviewers
 
   private IdentifiedUser onBehalfOf(CurrentUser caller, String onBehalfOf, ChangeNotes changeNotes)
       throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException {
+    if (!caller.isInternalUser()) {
+      permissionBackend.user(caller).check(GlobalPermission.RUN_AS);
+    }
     IdentifiedUser reviewer =
         accountResolver
             .resolve(onBehalfOf)

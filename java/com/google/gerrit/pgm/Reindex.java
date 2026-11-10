@@ -270,8 +270,10 @@ public class Reindex extends SiteProgram {
   private void overrideConfig() {
     // Disable auto-commit for speed; committing will happen at the end of the process.
     if (IndexModule.getIndexType(dbInjector).isLucene()) {
-      globalConfig.setLong("index", "changes_open", "commitWithin", -1);
-      globalConfig.setLong("index", "changes_closed", "commitWithin", -1);
+      for (String index :
+          ImmutableSet.of("changes_open", "changes_closed", "accounts", "groups", "projects")) {
+        globalConfig.setLong("index", index, "commitWithin", -1);
+      }
     }
 
     // Disable change cache.

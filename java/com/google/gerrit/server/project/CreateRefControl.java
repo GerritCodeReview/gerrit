@@ -19,7 +19,6 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -61,8 +60,8 @@ public class CreateRefControl {
   private final ProjectCache projectCache;
   private final Reachable reachable;
   private final RetryHelper retryHelper;
-  private final boolean restrictCreateRefToVisibleBranches;
-  private final ImmutableList<String> createBranchAllowedRefs;
+  private final boolean defaultRestrictCreateRefToVisibleBranches;
+  private final ImmutableList<String> defaultCreateBranchAllowedRefs;
 
   @Inject
   CreateRefControl(
@@ -75,10 +74,10 @@ public class CreateRefControl {
     this.projectCache = projectCache;
     this.reachable = reachable;
     this.retryHelper = retryHelper;
-    this.restrictCreateRefToVisibleBranches =
+    this.defaultRestrictCreateRefToVisibleBranches =
         cfg.getBoolean("receive", null, "restrictCreateRefToVisibleBranches", false);
     String[] configuredBranchRefs = cfg.getStringList("receive", null, "createBranchAllowedRefs");
-    this.createBranchAllowedRefs =
+    this.defaultCreateBranchAllowedRefs =
         configuredBranchRefs.length > 0
             ? ImmutableList.copyOf(configuredBranchRefs)
             : DEFAULT_REFS_FROM_WHICH_COMMIT_MUST_BE_REACHABLE;
@@ -119,7 +118,7 @@ public class CreateRefControl {
     if (object instanceof RevCommit commit) {
       perm.check(RefPermission.CREATE);
       if (sourceBranches.length == 0) {
-        checkCreateCommit(user, repo, commit, ps.getNameKey(), perm, forPush);
+        checkCreateCommit(user, repo, commit, ps, perm, forPush);
       } else {
         List<Ref> sourceRefs = new ArrayList<>();
         for (BranchNameKey src : sourceBranches) {
@@ -162,7 +161,7 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit revCommit) {
-        checkCreateCommit(user, repo, revCommit, ps.getNameKey(), perm, forPush);
+        checkCreateCommit(user, repo, revCommit, ps, perm, forPush);
       } else {
         checkCreateRef(user, repo, destBranch, target, forPush);
       }
@@ -182,6 +181,25 @@ public class CreateRefControl {
             "Ref creation not allowed. Object %s is neither Commit or Tag.", object.getId()));
   }
 
+  private boolean isRestrictCreateRefToVisibleBranches(ProjectState ps) {
+    for (ProjectState state : ps.tree()) {
+      if (state.getConfig() != null
+          && state.getConfig().getRestrictCreateRefToVisibleBranches().isPresent()) {
+        return state.getConfig().getRestrictCreateRefToVisibleBranches().get();
+      }
+    }
+    return defaultRestrictCreateRefToVisibleBranches;
+  }
+
+  private ImmutableList<String> getCreateBranchAllowedRefs(ProjectState ps) {
+    for (ProjectState state : ps.tree()) {
+      if (state.getConfig() != null && !state.getConfig().getCreateBranchAllowedRefs().isEmpty()) {
+        return state.getConfig().getCreateBranchAllowedRefs();
+      }
+    }
+    return defaultCreateBranchAllowedRefs;
+  }
+
   /**
    * Check if the user is allowed to create a new commit object if this creation would introduce a
    * new commit to the repository.
@@ -190,7 +208,7 @@ public class CreateRefControl {
       Provider<? extends CurrentUser> user,
       Repository repo,
       RevCommit commit,
-      Project.NameKey project,
+      ProjectState ps,
       PermissionBackend.ForRef forRef,
       boolean forPush)
       throws PermissionBackendException, IOException, UnprocessableEntityException {
@@ -216,12 +234,13 @@ public class CreateRefControl {
       return;
     }
     // Fall through to check reachability.
+    boolean restrictCreateRefToVisibleBranches = isRestrictCreateRefToVisibleBranches(ps);
     ImmutableList<String> allowedRefs =
         restrictCreateRefToVisibleBranches
-            ? createBranchAllowedRefs
+            ? getCreateBranchAllowedRefs(ps)
             : DEFAULT_REFS_FROM_WHICH_COMMIT_MUST_BE_REACHABLE;
     if (reachable.fromRefs(
-        project,
+        ps.getNameKey(),
         repo,
         commit,
         repo.getRefDatabase().getRefsByPrefix(allowedRefs.toArray(String[]::new)),
@@ -244,7 +263,10 @@ public class CreateRefControl {
           retryHelper
               .changeIndexQuery(
                   "queryChangesByProjectCommitWithLimit1",
-                  q -> q.enforceVisibility(true).setLimit(1).byProjectCommit(project, commit))
+                  q ->
+                      q.enforceVisibility(true)
+                          .setLimit(1)
+                          .byProjectCommit(ps.getNameKey(), commit))
               .call();
       if (!changes.isEmpty()) {
         return;

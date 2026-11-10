@@ -61,6 +61,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -323,6 +324,37 @@ public class CreateBranchIT extends AbstractDaemonTest {
     RevCommit otherRevision = projectOperations.project(project).getHead("master");
 
     assertThat(revision).isNotEqualTo(otherRevision);
+
+    BranchInput input = new BranchInput();
+    input.revision = revision.name();
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertThat(created.revision).isEqualTo(revision.name());
+    assertThat(projectOperations.project(project).getHead(testBranch.branch())).isEqualTo(revision);
+  }
+
+  @Test
+  public void createWithRevisionFromRefsBranchHeadsConfiguredInProjectConfig() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().setRestrictCreateRefToVisibleBranches(Optional.of(true));
+      u.getConfig()
+          .setCreateBranchAllowedRefs(
+              ImmutableList.of("refs/heads/", "refs/tags/", REFS_BRANCH_HEADS));
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(REFS_BRANCH_HEADS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(REFS_BRANCH_HEADS + "*").group(REGISTERED_USERS))
+        .update();
+    String branchName = REFS_BRANCH_HEADS + "abc";
+    BranchNameKey testBranchHeads = BranchNameKey.create(project, branchName);
+    assertCreateSucceeds(testBranchHeads);
+    createCommitAndPush(
+        testRepo, testBranchHeads.branch(), "Commit Message", "file.txt", "content");
+
+    RevCommit revision = projectOperations.project(project).getHead(branchName);
 
     BranchInput input = new BranchInput();
     input.revision = revision.name();

@@ -122,6 +122,18 @@ public abstract class CachedProjectConfig {
   /** Returns {@code true} if received objects should be checked for validity. */
   public abstract boolean getCheckReceivedObjects();
 
+  /**
+   * Returns whether creating new branches/refs on commits without push permission is restricted to
+   * commits reachable from visible refs (and not via changes), if configured on this project.
+   */
+  public abstract Optional<Boolean> getRestrictCreateRefToVisibleBranches();
+
+  /**
+   * Returns the configured ref prefixes from which a target commit must be reachable when creating
+   * a new branch/ref and {@code restrictCreateRefToVisibleBranches} is enabled.
+   */
+  public abstract ImmutableList<String> getCreateBranchAllowedRefs();
+
   /** Returns a list of panel sections keyed by title. */
   public abstract ImmutableMap<String, ImmutableList<String>> getExtensionPanelSections();
 
@@ -136,7 +148,9 @@ public abstract class CachedProjectConfig {
   public abstract ImmutableMap<String, ImmutableConfig> getParsedProjectLevelConfigs();
 
   public static Builder builder() {
-    return new AutoValue_CachedProjectConfig.Builder();
+    return new AutoValue_CachedProjectConfig.Builder()
+        .setRestrictCreateRefToVisibleBranches(Optional.empty())
+        .setCreateBranchAllowedRefs(ImmutableList.of());
   }
 
   public abstract Builder toBuilder();
@@ -208,6 +222,10 @@ public abstract class CachedProjectConfig {
     public abstract Builder setMaxObjectSizeLimit(long value);
 
     public abstract Builder setCheckReceivedObjects(boolean value);
+
+    public abstract Builder setRestrictCreateRefToVisibleBranches(Optional<Boolean> value);
+
+    public abstract Builder setCreateBranchAllowedRefs(List<String> value);
 
     public abstract ImmutableMap.Builder<String, ImmutableList<String>>
         extensionPanelSectionsBuilder();

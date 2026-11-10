@@ -24,7 +24,10 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.AccountsSection;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.CachedProjectConfig;
+import com.google.gerrit.entities.ConfiguredMimeTypes;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
@@ -67,6 +70,8 @@ public class CreateRefControlTest {
   private PermissionBackend permissionBackend;
   private PermissionBackend.ForRef forRef;
   private ProjectCache projectCache;
+  private ProjectState enabledState;
+  private ProjectState disabledState;
   private RetryHelper retryHelper;
   private RetryableIndexQueryAction<InternalChangeQuery, List<ChangeData>> indexQueryAction;
   private CreateRefControl createRefControl;
@@ -107,12 +112,14 @@ public class CreateRefControlTest {
     when(forProject.filter(any(), any(), any())).thenAnswer(inv -> inv.getArgument(0));
 
     projectCache = mock(ProjectCache.class);
-    ProjectState enabledState = mock(ProjectState.class);
+    enabledState = mock(ProjectState.class);
     when(enabledState.getNameKey()).thenReturn(PROJECT_ENABLED);
+    when(enabledState.tree()).thenReturn(ImmutableList.of(enabledState));
     when(projectCache.get(PROJECT_ENABLED)).thenReturn(Optional.of(enabledState));
 
-    ProjectState disabledState = mock(ProjectState.class);
+    disabledState = mock(ProjectState.class);
     when(disabledState.getNameKey()).thenReturn(PROJECT_DISABLED);
+    when(disabledState.tree()).thenReturn(ImmutableList.of(disabledState));
     when(projectCache.get(PROJECT_DISABLED)).thenReturn(Optional.of(disabledState));
 
     retryHelper = mock(RetryHelper.class);
@@ -217,6 +224,49 @@ public class CreateRefControlTest {
         ImmutableList.of(Constants.R_HEADS, Constants.R_TAGS, REFS_BRANCH_HEADS);
     assertThat(recordedPrefixCalls).containsExactly(expectedPrefixes, expectedPrefixes);
     verifyNoInteractions(retryHelper);
+  }
+
+  @Test
+  public void checkCreateRef_projectConfigOverridesServerConfigAndInheritsFromParent()
+      throws Exception {
+    ProjectState parentState = mock(ProjectState.class);
+    CachedProjectConfig parentConfig =
+        newCachedProjectConfig(Project.nameKey("parent"), Optional.of(true), ImmutableList.of());
+    when(parentState.getConfig()).thenReturn(parentConfig);
+
+    CachedProjectConfig childConfig =
+        newCachedProjectConfig(
+            PROJECT_ENABLED,
+            Optional.empty(),
+            ImmutableList.of(Constants.R_HEADS, REFS_BRANCH_HEADS));
+    when(enabledState.getConfig()).thenReturn(childConfig);
+    when(enabledState.tree()).thenReturn(ImmutableList.of(enabledState, parentState));
+
+    createRefControl.checkCreateRef(
+        () -> currentUser,
+        repo,
+        BranchNameKey.create(PROJECT_ENABLED, "refs/heads/new-branch"),
+        branchHeadCommit,
+        /* forPush= */ false);
+
+    assertThat(recordedPrefixCalls)
+        .containsExactly(ImmutableList.of(Constants.R_HEADS, REFS_BRANCH_HEADS));
+    verifyNoInteractions(retryHelper);
+  }
+
+  private static CachedProjectConfig newCachedProjectConfig(
+      Project.NameKey project,
+      Optional<Boolean> restrictCreateRefToVisibleBranches,
+      ImmutableList<String> createBranchAllowedRefs) {
+    return CachedProjectConfig.builder()
+        .setProject(Project.builder(project).build())
+        .setAccountsSection(AccountsSection.create(ImmutableList.of()))
+        .setMimeTypes(ConfiguredMimeTypes.create(ImmutableList.of()))
+        .setMaxObjectSizeLimit(0)
+        .setCheckReceivedObjects(true)
+        .setRestrictCreateRefToVisibleBranches(restrictCreateRefToVisibleBranches)
+        .setCreateBranchAllowedRefs(createBranchAllowedRefs)
+        .build();
   }
 
   @Test

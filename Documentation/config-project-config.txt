@@ -684,6 +684,38 @@ branch first and for review to another branch for example. Or in cases
 where a commit is already merged into a branch and you want to create
 a new open change for that commit on another branch.
 
+[[receive.restrictCreateRefToVisibleBranches]]receive.restrictCreateRefToVisibleBranches::
++
+If `true`, creating a new branch or reference on an existing commit without
+`push` (update) permission requires the commit to be reachable from a visible
+reference matching link:#receive.createBranchAllowedRefs[
+`receive.createBranchAllowedRefs`], and does not fall back to checking whether
+the commit is visible via an open or closed change (since commits that are only
+part of a change may not have been reviewed and approved yet).
++
+If `false`, creating a new branch or reference checks whether the commit is
+reachable from a visible branch under `refs/heads/` or tag under `refs/tags/`,
+or whether the commit is visible through a change.
++
+If not set on the project, the value is inherited from the parent project, or
+falls back to the global
+link:config-gerrit.html#receive.restrictCreateRefToVisibleBranches[
+`receive.restrictCreateRefToVisibleBranches`] setting in `gerrit.config`
+(default `false`).
+
+[[receive.createBranchAllowedRefs]]receive.createBranchAllowedRefs::
++
+List of ref prefixes from which a target commit must be reachable when creating
+a new branch or reference and
+link:#receive.restrictCreateRefToVisibleBranches[
+`receive.restrictCreateRefToVisibleBranches`] is `true`.
++
+May be specified more than once to allow multiple ref prefixes. If not set on
+the project, the value is inherited from the parent project, or falls back to
+the global link:config-gerrit.html#receive.createBranchAllowedRefs[
+`receive.createBranchAllowedRefs`] setting in `gerrit.config` (which defaults to
+`refs/heads/` and `refs/tags/`).
+
 [[reviewer-section]]
 === reviewer section
 

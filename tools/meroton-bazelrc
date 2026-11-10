@@ -1,0 +1,20 @@
+common --credential_helper=*.meroton.com=%workspace%/tools/bazel-credential-helper.py
+common --credential_helper_cache_duration=0s
+
+common:rbe --remote_executor=grpcs://rbe.buildbar-stage.meroton.com
+common:rbe --experimental_remote_downloader=grpcs://rbe.buildbar-stage.meroton.com
+common:rbe --remote_instance_name=gerrit
+common:rbe --host_platform=//tools/remote:host
+common:rbe --extra_execution_platforms=//tools/remote:ubuntu-24-04
+common:rbe --extra_toolchains=@llvm_toolchain//:all
+
+common:rbe --remote_timeout=600s
+common:rbe --jobs=256
+common:rbe --experimental_remote_downloader_local_fallback
+
+common:bes --bes_backend=grpcs://bes.buildbar-stage.meroton.com
+common:bes --bes_results_url=https://buildbar-stage.meroton.com/bazel-invocations/
+common:bes --bes_instance_name=gerrit
+common:bes --bes_upload_mode=fully_async
+
+common:meroton --config=rbe --config=bes

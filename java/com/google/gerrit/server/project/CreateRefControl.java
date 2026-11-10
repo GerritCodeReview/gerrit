@@ -17,9 +17,11 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -42,6 +44,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -182,6 +185,29 @@ public class CreateRefControl {
             "Ref creation not allowed. Object %s is neither Commit or Tag.", object.getId()));
   }
 
+  /** Checks if the user is allowed to create a new tag pointing to the given object. */
+  public void checkCreateTagCommit(
+      Provider<? extends CurrentUser> user,
+      Repository repo,
+      RevObject object,
+      Project.NameKey project)
+      throws PermissionBackendException, IOException, UnprocessableEntityException {
+    if (!restrictCreateRefToVisibleBranches) {
+      return;
+    }
+    if (object instanceof RevCommit commit) {
+      checkCreateCommit(
+          user,
+          repo,
+          repo.getRefDatabase()
+              .getRefsByPrefixWithExclusions(
+                  RefDatabase.ALL, ImmutableSet.of(RefNames.REFS_CHANGES)),
+          commit,
+          project,
+          /* forPush= */ false);
+    }
+  }
+
   /**
    * Check if the user is allowed to create a new commit object if this creation would introduce a
    * new commit to the repository.
@@ -215,17 +241,30 @@ public class CreateRefControl {
     if (forPush && forRef.test(RefPermission.UPDATE)) {
       return;
     }
-    // Fall through to check reachability.
     ImmutableList<String> allowedRefs =
         restrictCreateRefToVisibleBranches
             ? createBranchAllowedRefs
             : DEFAULT_REFS_FROM_WHICH_COMMIT_MUST_BE_REACHABLE;
-    if (reachable.fromRefs(
-        project,
+    checkCreateCommit(
+        user,
         repo,
-        commit,
         repo.getRefDatabase().getRefsByPrefix(allowedRefs.toArray(String[]::new)),
-        Optional.of(user.get()))) {
+        commit,
+        project,
+        forPush);
+  }
+
+  private void checkCreateCommit(
+      Provider<? extends CurrentUser> user,
+      Repository repo,
+      List<Ref> refsFromWhichTheCommitMustBeReachable,
+      RevCommit commit,
+      Project.NameKey project,
+      boolean forPush)
+      throws PermissionBackendException, IOException, UnprocessableEntityException {
+    // Fall through to check reachability.
+    if (reachable.fromRefs(
+        project, repo, commit, refsFromWhichTheCommitMustBeReachable, Optional.of(user.get()))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref

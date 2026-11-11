@@ -748,19 +748,24 @@ suite('gr-change-actions tests', () => {
     test('handleSubmitConfirm', () => {
       const fireStub = sinon.stub(element, 'fireAction');
       sinon.stub(element, 'canSubmitChange').returns(true);
-      element.handleSubmitConfirm();
+      element.handleSubmitConfirm(
+        new CustomEvent('confirm', {detail: {submitWholeTopic: false}})
+      );
       assert.isTrue(fireStub.calledOnce);
       assert.deepEqual(fireStub.lastCall.args, [
         '/submit',
         assertUIActionInfo(element.revisionActions?.submit),
         true,
+        undefined,
       ]);
     });
 
     test('handleSubmitConfirm when not able to submit', () => {
       const fireStub = sinon.stub(element, 'fireAction');
       sinon.stub(element, 'canSubmitChange').returns(false);
-      element.handleSubmitConfirm();
+      element.handleSubmitConfirm(
+        new CustomEvent('confirm', {detail: {submitWholeTopic: false}})
+      );
       assert.isFalse(fireStub.called);
     });
 

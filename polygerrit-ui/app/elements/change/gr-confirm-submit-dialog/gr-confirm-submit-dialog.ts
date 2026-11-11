@@ -8,12 +8,15 @@ import '../../shared/gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-thread-list/gr-thread-list';
+import '../../shared/gr-button/gr-button';
 import {
   ActionInfo,
   ChangeActionDialog,
+  ChangeInfo,
   CommentThread,
   EDIT,
   RevisionInfo,
+  ServerInfo,
 } from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
@@ -26,8 +29,11 @@ import {subscribe} from '../../lit/subscription-controller';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {configModelToken} from '../../../models/config/config-model';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {resolve} from '../../../models/dependency';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
@@ -64,13 +70,23 @@ export class GrConfirmSubmitDialog
   initialised = false;
 
   @state()
+  private serverConfig?: ServerInfo;
+
+  @state()
+  private sameTopicChanges: ChangeInfo[] = [];
+
+  @state()
   sortedRevisions: (RevisionInfo | EditRevisionInfo)[] = [];
 
   private getCommentsModel = resolve(this, commentsModelToken);
 
   private getChangeModel = resolve(this, changeModelToken);
 
+  private getConfigModel = resolve(this, configModelToken);
+
   private getNavigation = resolve(this, navigationToken);
+
+  private getRelatedChangesModel = resolve(this, relatedChangesModelToken);
 
   static override get styles() {
     return [
@@ -80,8 +96,41 @@ export class GrConfirmSubmitDialog
         #dialog {
           min-width: 40em;
         }
+        .topicDashboardLink {
+          display: block;
+          margin-top: var(--spacing-m);
+        }
+        .warningBox {
+          display: flex;
+          align-items: flex-start;
+          gap: var(--spacing-s);
+          background-color: var(--warning-background);
+          color: var(--warning-foreground);
+          border: 1px solid var(--warning-foreground);
+          border-radius: var(--border-radius);
+          padding: var(--spacing-m) var(--spacing-l);
+          margin-bottom: var(--spacing-l);
+        }
+        .warningBox gr-icon {
+          color: var(--warning-foreground);
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+
+        .footer-buttons {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-l);
+          flex: 1;
+        }
+        .footer-space {
+          flex-grow: 1;
+        }
         p {
           margin-bottom: var(--spacing-l);
+        }
+        p:last-child {
+          margin-bottom: 0;
         }
         .warningBeforeSubmit {
           color: var(--warning-foreground);
@@ -115,6 +164,69 @@ export class GrConfirmSubmitDialog
       () => this.getChangeModel().revisions$,
       x => (this.sortedRevisions = x)
     );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      x => (this.serverConfig = x)
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().sameTopicChanges$,
+      x => (this.sameTopicChanges = x ?? [])
+    );
+  }
+
+  private isWholeTopicEnforced() {
+    return (
+      this.serverConfig?.change.submit_whole_topic ||
+      this.serverConfig?.change.enforce_whole_topic_submit
+    );
+  }
+
+  private hasSameTopicUnsubmittableChanges() {
+    return this.sameTopicChanges.some(c => !c.submittable);
+  }
+
+  private renderTopicWarning() {
+    if (
+      !this.sameTopicChanges.length ||
+      !this.hasSameTopicUnsubmittableChanges()
+    )
+      return '';
+    return html`
+      <div class="warningBox">
+        <gr-icon icon="warning" filled></gr-icon>
+        Some changes in this topic are not ready to submit.
+      </div>
+    `;
+  }
+
+  private renderTopicSection() {
+    const topic = this.change?.topic;
+    if (!topic) return '';
+    const dashboardUrl = createSearchUrl({topic});
+    return html`
+      <div class="section">
+        ${this.renderTopicWarning()}
+        <a
+          class="topicDashboardLink"
+          href=${dashboardUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          >View all changes with topic <strong>${topic}</strong></a
+        >
+      </div>
+    `;
+  }
+
+  private renderWarnings() {
+    const private_ = this.renderPrivate();
+    const unresolvedComments = this.renderUnresolvedCommentCount();
+    const changeEdit = this.renderChangeEdit();
+    if (!private_ && !unresolvedComments && !changeEdit) return '';
+    return html`
+      <div class="section">${private_}${unresolvedComments}${changeEdit}</div>
+    `;
   }
 
   private renderPrivate() {
@@ -175,13 +287,17 @@ export class GrConfirmSubmitDialog
 
   private renderInitialised() {
     if (!this.initialised) return '';
+    const hasTopicWithChanges =
+      !!this.change?.topic && this.sameTopicChanges.length > 0;
+    const submitWholeTopicDisabled = this.hasSameTopicUnsubmittableChanges();
+    const showSubmitButton =
+      !hasTopicWithChanges || !this.isWholeTopicEnforced();
     return html`
       <div class="header" slot="header">${this.action?.label}</div>
       <div class="main" slot="main">
         <gr-endpoint-decorator name="confirm-submit-change">
           <p>Ready to submit "<strong>${this.change?.subject}</strong>"?</p>
-          ${this.renderPrivate()} ${this.renderUnresolvedCommentCount()}
-          ${this.renderChangeEdit()}
+          ${this.renderWarnings()} ${this.renderTopicSection()}
           <gr-endpoint-param
             name="change"
             .value=${this.change}
@@ -192,13 +308,31 @@ export class GrConfirmSubmitDialog
           ></gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>
+      <div class="footer-buttons" slot="footer">
+        <div class="footer-space"></div>
+        <gr-button link @click=${this.handleCancelTap}>Cancel</gr-button>
+        ${showSubmitButton
+          ? html`<gr-button primary @click=${this.handleConfirmTap}
+              >Submit</gr-button
+            >`
+          : ''}
+        ${hasTopicWithChanges
+          ? html`<gr-button
+              primary
+              ?disabled=${submitWholeTopicDisabled}
+              @click=${this.handleSubmitWholeTopicTap}
+              >Submit Whole Topic</gr-button
+            >`
+          : ''}
+      </div>
     `;
   }
 
   override render() {
     return html` <gr-dialog
       id="dialog"
-      confirm-label="Continue"
+      confirm-label=""
+      cancel-label=""
       confirm-on-enter=""
       @cancel=${this.handleCancelTap}
       @confirm=${this.handleConfirmTap}
@@ -212,7 +346,12 @@ export class GrConfirmSubmitDialog
   }
 
   resetFocus() {
-    this.dialog?.resetFocus();
+    // Buttons are rendered directly in slot="footer", not by gr-dialog,
+    // so focus the Submit button directly instead of delegating to gr-dialog.
+    const submitBtn = this.shadowRoot?.querySelector<HTMLElement>(
+      '.footer-buttons gr-button[primary]'
+    );
+    submitBtn?.focus();
   }
 
   // Private method, but visible for testing.
@@ -232,7 +371,13 @@ export class GrConfirmSubmitDialog
   private handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    fireNoBubbleNoCompose(this, 'confirm', {});
+    fireNoBubbleNoCompose(this, 'confirm', {submitWholeTopic: false});
+  }
+
+  private handleSubmitWholeTopicTap(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    fireNoBubbleNoCompose(this, 'confirm', {submitWholeTopic: true});
   }
 
   private handleCancelTap(e: Event) {

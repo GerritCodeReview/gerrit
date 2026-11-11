@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8140a6b_4b5dc4f1",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-11T02:26:26Z",
+      "side": 1,
+      "message": "Probably should be `startupThreads` here instead?\n```suggestion\n              startupThreads, new ThreadFactoryBuilder().setNameFormat(\"DiskCache-Store-Startup-%d\").build()));\n```",
+      "revId": "708eaf45747dc7c38dcdeadcbcf48308809e2e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -102,12 +102,10 @@
     "commons-beanutils:commons-beanutils": -399736270,
     "commons-codec:commons-codec": -104521094,
     "commons-collections:commons-collections": -1308259318,
-    "commons-dbcp:commons-dbcp": 2032916076,
     "commons-digester:commons-digester": 1688456634,
     "commons-io:commons-io": 1226199767,
     "commons-logging:commons-logging": -264381874,
     "commons-net:commons-net": 1869273666,
-    "commons-pool:commons-pool": 2048447638,
     "commons-validator:commons-validator": -577653668,
     "dk.brics:automaton": -1644468747,
     "eu.medsea.mimeutil:mime-util": 1812448407,
@@ -116,6 +114,7 @@
     "io.sweers.autotransient:autotransient": -1866824261,
     "jakarta.inject:jakarta.inject-api": -251046605,
     "jakarta.servlet:jakarta.servlet-api": -3550902,
+    "jakarta.transaction:jakarta.transaction-api": -2036896455,
     "javax.activation:activation": 357577168,
     "javax.annotation:jsr250-api": -593155132,
     "javax.inject:javax.inject": -1699438632,
@@ -134,8 +133,10 @@
     "org.antlr:stringtemplate": 1543798403,
     "org.apache.ant:ant": 51716534,
     "org.apache.commons:commons-compress": -314451781,
+    "org.apache.commons:commons-dbcp2": 263774962,
     "org.apache.commons:commons-lang3": 1729335886,
     "org.apache.commons:commons-math3": -1738699872,
+    "org.apache.commons:commons-pool2": -1727038109,
     "org.apache.commons:commons-text": 1055279470,
     "org.apache.httpcomponents:fluent-hc": -439690549,
     "org.apache.httpcomponents:httpclient": -214613560,
@@ -344,14 +345,10 @@
     "com.vladsch.flexmark:flexmark-all:jar:lib": 1454723856,
     "commons-codec:commons-codec": -1332445711,
     "commons-codec:commons-codec:jar:sources": 1241814857,
-    "commons-dbcp:commons-dbcp": 1878088686,
-    "commons-dbcp:commons-dbcp:jar:sources": 699520492,
     "commons-io:commons-io": 1072619124,
     "commons-io:commons-io:jar:sources": -238571367,
     "commons-net:commons-net": 2103840351,
     "commons-net:commons-net:jar:sources": -729248524,
-    "commons-pool:commons-pool": -212519749,
-    "commons-pool:commons-pool:jar:sources": 1134824914,
     "commons-validator:commons-validator": -842137273,
     "commons-validator:commons-validator:jar:sources": 1073953409,
     "dk.brics:automaton": -509279352,
@@ -415,10 +412,14 @@
     "org.apache.ant:ant:jar:sources": 389240804,
     "org.apache.commons:commons-compress": 151329248,
     "org.apache.commons:commons-compress:jar:sources": -1888643111,
+    "org.apache.commons:commons-dbcp2": 1773802677,
+    "org.apache.commons:commons-dbcp2:jar:sources": -306955567,
     "org.apache.commons:commons-lang3": 1841935436,
     "org.apache.commons:commons-lang3:jar:sources": -982252396,
     "org.apache.commons:commons-math3": -1383243934,
     "org.apache.commons:commons-math3:jar:sources": -2132756896,
+    "org.apache.commons:commons-pool2": 1285556555,
+    "org.apache.commons:commons-pool2:jar:sources": 424657886,
     "org.apache.commons:commons-text": 869132518,
     "org.apache.commons:commons-text:jar:sources": 400790036,
     "org.apache.httpcomponents:fluent-hc": 213470706,
@@ -1050,13 +1051,6 @@
       },
       "version": "1.20.0"
     },
-    "commons-dbcp:commons-dbcp": {
-      "shasums": {
-        "jar": "a6e2d83551d0e5b59aa942359f3010d35e79365e6552ad3dbaa6776e4851e4f6",
-        "sources": "c5b337b9d3177473da7795ef437b5dfda9f2575be374029491964a69bab551d7"
-      },
-      "version": "1.4"
-    },
     "commons-io:commons-io": {
       "shasums": {
         "jar": "2b9a7b1f726fb86216dbd2c8321eabe0221dbd5b1be81c18e1cb53811b104758",
@@ -1070,13 +1064,6 @@
         "sources": "5024a2b980df7bec5f837177775ebf0e5bec25374deaca65f02571fe65ed52f5"
       },
       "version": "3.6"
-    },
-    "commons-pool:commons-pool": {
-      "shasums": {
-        "jar": "31033df4b06efc7e449a657cc335a202e4ec845657c6e77a7684735c5941a3e7",
-        "sources": "aa4b9d6e8f616b08bd9b73406ac24c1347dafa1442a63f7442fe62e4db225b1f"
-      },
-      "version": "1.5.5"
     },
     "commons-validator:commons-validator": {
       "shasums": {
@@ -1301,6 +1288,13 @@
       },
       "version": "1.28.0"
     },
+    "org.apache.commons:commons-dbcp2": {
+      "shasums": {
+        "jar": "459bebb8191906bacfeb73c62fcebc3e8c1e405a54594212b5f148d0567e668a",
+        "sources": "cc526f324ffc6353a5398201168083cb78083d67c4c0bee644e8e3aa4d36c9a3"
+      },
+      "version": "2.14.0"
+    },
     "org.apache.commons:commons-lang3": {
       "shasums": {
         "jar": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4",
@@ -1314,6 +1308,13 @@
         "sources": "e2ff85a3c360d56c51a7021614a194f3fbaf224054642ac535016f118322934d"
       },
       "version": "3.6.1"
+    },
+    "org.apache.commons:commons-pool2": {
+      "shasums": {
+        "jar": "f77a5060d6936a9144023584232f9de3f2248f1abfe156e9d31795f18770674f",
+        "sources": "b0d796f9396ac7dd2c4b3f8ffe788f93ecb57f831701122012cef6ffc18088ee"
+      },
+      "version": "2.13.1"
     },
     "org.apache.commons:commons-text": {
       "shasums": {
@@ -2034,9 +2035,6 @@
     "com.sun.mail:javax.mail": [
       "javax.activation:activation"
     ],
-    "commons-dbcp:commons-dbcp": [
-      "commons-pool:commons-pool"
-    ],
     "eu.medsea.mimeutil:mime-util": [
       "org.slf4j:slf4j-api"
     ],
@@ -2090,6 +2088,9 @@
       "commons-codec:commons-codec",
       "commons-io:commons-io",
       "org.apache.commons:commons-lang3"
+    ],
+    "org.apache.commons:commons-dbcp2": [
+      "org.apache.commons:commons-pool2"
     ],
     "org.apache.commons:commons-text": [
       "org.apache.commons:commons-lang3"
@@ -3015,13 +3016,6 @@
       "org.apache.commons.codec.language.bm",
       "org.apache.commons.codec.net"
     ],
-    "commons-dbcp:commons-dbcp": [
-      "org.apache.commons.dbcp",
-      "org.apache.commons.dbcp.cpdsadapter",
-      "org.apache.commons.dbcp.datasources",
-      "org.apache.commons.dbcp.managed",
-      "org.apache.commons.jocl"
-    ],
     "commons-io:commons-io": [
       "org.apache.commons.io",
       "org.apache.commons.io.build",
@@ -3060,10 +3054,6 @@
       "org.apache.commons.net.time",
       "org.apache.commons.net.util",
       "org.apache.commons.net.whois"
-    ],
-    "commons-pool:commons-pool": [
-      "org.apache.commons.pool",
-      "org.apache.commons.pool.impl"
     ],
     "commons-validator:commons-validator": [
       "org.apache.commons.validator",
@@ -3398,6 +3388,12 @@
       "org.apache.commons.compress.parallel",
       "org.apache.commons.compress.utils"
     ],
+    "org.apache.commons:commons-dbcp2": [
+      "org.apache.commons.dbcp2",
+      "org.apache.commons.dbcp2.cpdsadapter",
+      "org.apache.commons.dbcp2.datasources",
+      "org.apache.commons.dbcp2.managed"
+    ],
     "org.apache.commons:commons-lang3": [
       "org.apache.commons.lang3",
       "org.apache.commons.lang3.arch",
@@ -3494,6 +3490,11 @@
       "org.apache.commons.math3.stat.regression",
       "org.apache.commons.math3.transform",
       "org.apache.commons.math3.util"
+    ],
+    "org.apache.commons:commons-pool2": [
+      "org.apache.commons.pool2",
+      "org.apache.commons.pool2.impl",
+      "org.apache.commons.pool2.proxy"
     ],
     "org.apache.commons:commons-text": [
       "org.apache.commons.text",
@@ -5041,14 +5042,10 @@
       "com.vladsch.flexmark:flexmark-all:jar:lib",
       "commons-codec:commons-codec",
       "commons-codec:commons-codec:jar:sources",
-      "commons-dbcp:commons-dbcp",
-      "commons-dbcp:commons-dbcp:jar:sources",
       "commons-io:commons-io",
       "commons-io:commons-io:jar:sources",
       "commons-net:commons-net",
       "commons-net:commons-net:jar:sources",
-      "commons-pool:commons-pool",
-      "commons-pool:commons-pool:jar:sources",
       "commons-validator:commons-validator",
       "commons-validator:commons-validator:jar:sources",
       "dk.brics:automaton",
@@ -5112,10 +5109,14 @@
       "org.apache.ant:ant:jar:sources",
       "org.apache.commons:commons-compress",
       "org.apache.commons:commons-compress:jar:sources",
+      "org.apache.commons:commons-dbcp2",
+      "org.apache.commons:commons-dbcp2:jar:sources",
       "org.apache.commons:commons-lang3",
       "org.apache.commons:commons-lang3:jar:sources",
       "org.apache.commons:commons-math3",
       "org.apache.commons:commons-math3:jar:sources",
+      "org.apache.commons:commons-pool2",
+      "org.apache.commons:commons-pool2:jar:sources",
       "org.apache.commons:commons-text",
       "org.apache.commons:commons-text:jar:sources",
       "org.apache.httpcomponents:fluent-hc",
@@ -5407,14 +5408,10 @@
       "com.vladsch.flexmark:flexmark-all:jar:lib",
       "commons-codec:commons-codec",
       "commons-codec:commons-codec:jar:sources",
-      "commons-dbcp:commons-dbcp",
-      "commons-dbcp:commons-dbcp:jar:sources",
       "commons-io:commons-io",
       "commons-io:commons-io:jar:sources",
       "commons-net:commons-net",
       "commons-net:commons-net:jar:sources",
-      "commons-pool:commons-pool",
-      "commons-pool:commons-pool:jar:sources",
       "commons-validator:commons-validator",
       "commons-validator:commons-validator:jar:sources",
       "dk.brics:automaton",
@@ -5478,10 +5475,14 @@
       "org.apache.ant:ant:jar:sources",
       "org.apache.commons:commons-compress",
       "org.apache.commons:commons-compress:jar:sources",
+      "org.apache.commons:commons-dbcp2",
+      "org.apache.commons:commons-dbcp2:jar:sources",
       "org.apache.commons:commons-lang3",
       "org.apache.commons:commons-lang3:jar:sources",
       "org.apache.commons:commons-math3",
       "org.apache.commons:commons-math3:jar:sources",
+      "org.apache.commons:commons-pool2",
+      "org.apache.commons:commons-pool2:jar:sources",
       "org.apache.commons:commons-text",
       "org.apache.commons:commons-text:jar:sources",
       "org.apache.httpcomponents:fluent-hc",

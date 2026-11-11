@@ -18,11 +18,11 @@ caffeine
 caffeine-guava
 commons-codec
 commons-compress
-commons-dbcp
+commons-dbcp2
 commons-io
 commons-lang3
 commons-net
-commons-pool
+commons-pool2
 commons-text
 commons-validator
 failureaccess

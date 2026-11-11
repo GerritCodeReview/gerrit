@@ -83,7 +83,7 @@ EXPORTS = [
     "//lib/auto:auto-value-gson",
     "//lib/commons:codec",
     "//lib/commons:compress",
-    "//lib/commons:dbcp",
+    "//lib/commons:dbcp2",
     "//lib/commons:lang3",
     "//lib/commons:io",
     "//lib/commons:net",

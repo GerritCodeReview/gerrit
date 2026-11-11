@@ -28,16 +28,20 @@ java_library(
 )
 
 java_library(
-    name = "dbcp",
+    name = "dbcp2",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@external_deps//:commons_dbcp_commons_dbcp"],
-    runtime_deps = [":pool"],
+    exports = ["@external_deps//:org_apache_commons_commons_dbcp2"],
+    runtime_deps = [
+        ":pool2",
+        # commons-logging is excluded; jcl-over-slf4j provides its API.
+        "//lib/log:jcl-over-slf4j",
+    ],
 )
 
 java_library(
-    name = "pool",
+    name = "pool2",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@external_deps//:commons_pool_commons_pool"],
+    exports = ["@external_deps//:org_apache_commons_commons_pool2"],
 )
 
 java_library(

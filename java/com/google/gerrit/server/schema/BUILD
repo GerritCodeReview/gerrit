@@ -22,7 +22,7 @@ java_library(
         "//lib:jgit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/commons:dbcp",
+        "//lib/commons:dbcp2",
         "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",

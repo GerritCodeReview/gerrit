@@ -45,10 +45,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
 public abstract class JdbcAccountPatchReviewStore
@@ -175,22 +176,23 @@ public abstract class JdbcAccountPatchReviewStore
     int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
     datasource.setUrl(url);
     datasource.setDriverClassName(getDriverFromUrl(url));
-    datasource.setMaxActive(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolLimit", poolLimit));
+    datasource.setMaxTotal(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolLimit", poolLimit));
     datasource.setMinIdle(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolminidle", 4));
     datasource.setMaxIdle(
         cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolmaxidle", Math.min(poolLimit, 16)));
     datasource.setInitialSize(datasource.getMinIdle());
     datasource.setMaxWait(
-        ConfigUtil.getTimeUnit(
-            cfg,
-            ACCOUNT_PATCH_REVIEW_DB,
-            null,
-            "poolmaxwait",
-            MILLISECONDS.convert(30, SECONDS),
-            MILLISECONDS));
-    long evictIdleTimeMs = 1000L * 60;
-    datasource.setMinEvictableIdleTimeMillis(evictIdleTimeMs);
-    datasource.setTimeBetweenEvictionRunsMillis(evictIdleTimeMs / 2);
+        Duration.ofMillis(
+            ConfigUtil.getTimeUnit(
+                cfg,
+                ACCOUNT_PATCH_REVIEW_DB,
+                null,
+                "poolmaxwait",
+                MILLISECONDS.convert(30, SECONDS),
+                MILLISECONDS)));
+    Duration evictIdleTime = Duration.ofMinutes(1);
+    datasource.setMinEvictableIdle(evictIdleTime);
+    datasource.setDurationBetweenEvictionRuns(evictIdleTime.dividedBy(2));
     return datasource;
   }
 

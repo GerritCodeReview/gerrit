@@ -80,6 +80,10 @@ _OTHER_EXCLUDES = [
     "commons-collections:commons-collections",
     "commons-digester:commons-digester",
 
+    # commons-dbcp2: JTA API is only used by the unused
+    # org.apache.commons.dbcp2.managed package.
+    "jakarta.transaction:jakarta.transaction-api",
+
     # sshd-common/core bundled inside sshd-osgi in your runtime set.
     "org.apache.sshd:sshd-common",
     "org.apache.sshd:sshd-core",

@@ -33,6 +33,8 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -41,6 +43,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -70,6 +73,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CreateBranchIT extends AbstractDaemonTest {
+  private static final String REFS_BRANCH_HEADS = "refs/branch-heads/";
+
+  @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private GroupOperations groupOperations;
@@ -256,6 +262,67 @@ public class CreateBranchIT extends AbstractDaemonTest {
     // new branch
     pushTo("refs/heads/master");
     assertThat(projectOperations.project(project).getHead("master")).isNotEqualTo(revision);
+
+    BranchInput input = new BranchInput();
+    input.revision = revision.name();
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertThat(created.revision).isEqualTo(revision.name());
+    assertThat(projectOperations.project(project).getHead(testBranch.branch())).isEqualTo(revision);
+  }
+
+  @Test
+  @GerritConfig(name = "receive.restrictCreateRefToConfiguredRefs", value = "true")
+  public void createWithRevisionFromRefsBranchHeadsFails() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(REFS_BRANCH_HEADS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(REFS_BRANCH_HEADS + "*").group(REGISTERED_USERS))
+        .update();
+    String branchName = REFS_BRANCH_HEADS + "abc";
+    BranchNameKey testBranchHeads = BranchNameKey.create(project, branchName);
+    assertCreateSucceeds(testBranchHeads);
+    createCommitAndPush(
+        testRepo, testBranchHeads.branch(), "Commit Message", "file.txt", "content");
+
+    RevCommit revision = projectOperations.project(project).getHead(branchName);
+
+    RevCommit otherRevision = projectOperations.project(project).getHead("master");
+
+    assertThat(revision).isNotEqualTo(otherRevision);
+
+    assertCreateFails(
+        testBranch,
+        revision.name(),
+        UnprocessableEntityException.class,
+        "Check that the object exists on the server and that it's reachable from a branch/tag that"
+            + " is visible to you");
+  }
+
+  @Test
+  @GerritConfig(name = "receive.restrictCreateRefToConfiguredRefs", value = "true")
+  @GerritConfig(
+      name = "receive.createBranchAllowedRefs",
+      values = {"refs/heads/", "refs/tags/", "refs/branch-heads/"})
+  public void createWithRevisionFromRefsBranchHeads() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(REFS_BRANCH_HEADS + "*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(REFS_BRANCH_HEADS + "*").group(REGISTERED_USERS))
+        .update();
+    String branchName = REFS_BRANCH_HEADS + "abc";
+    BranchNameKey testBranchHeads = BranchNameKey.create(project, branchName);
+    assertCreateSucceeds(testBranchHeads);
+    createCommitAndPush(
+        testRepo, testBranchHeads.branch(), "Commit Message", "file.txt", "content");
+
+    RevCommit revision = projectOperations.project(project).getHead(branchName);
+
+    RevCommit otherRevision = projectOperations.project(project).getHead("master");
+
+    assertThat(revision).isNotEqualTo(otherRevision);
 
     BranchInput input = new BranchInput();
     input.revision = revision.name();
@@ -492,6 +559,31 @@ public class CreateBranchIT extends AbstractDaemonTest {
     BranchInfo created = branch(testBranch).create(input).get();
     assertThat(created.ref).isEqualTo(testBranch.branch());
     assertEmptyCommit(testBranch);
+  }
+
+  @Test
+  public void canCreateBranchOnUnsubmittedChangeWhenRestrictionDisabled() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+    String changeRevision = gApi.changes().id(changeIdentifier).get().currentRevision;
+
+    BranchInput input = new BranchInput();
+    input.revision = changeRevision;
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertThat(created.revision).isEqualTo(changeRevision);
+  }
+
+  @Test
+  @GerritConfig(name = "receive.restrictCreateRefToConfiguredRefs", value = "true")
+  public void cannotCreateBranchOnUnsubmmitedChange() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+    String changeRevision = gApi.changes().id(changeIdentifier).get().currentRevision;
+    assertCreateFails(
+        testBranch,
+        changeRevision,
+        UnprocessableEntityException.class,
+        "Check that the object exists on the server and that it's reachable from a branch/tag that"
+            + " is visible to you and is visible to you.");
   }
 
   @Test

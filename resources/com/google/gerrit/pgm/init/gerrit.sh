@@ -69,6 +69,26 @@ running() {
   return 0
 }
 
+# Wait up to $2 seconds for the process in pid file $1 to exit, checking
+# frequently so that a quick shutdown is not padded out to the full timeout.
+# Returns 0 if the process exited, 1 if it was still running at the deadline.
+wait_for_exit() {
+  if sleep 0.1 2>/dev/null ; then
+    wait_tick=0.1
+    wait_ticks=`expr $2 '*' 10`
+  else
+    # sleep does not support fractional seconds; fall back to 1s checks.
+    wait_tick=1
+    wait_ticks=$2
+  fi
+  while running "$1" ; do
+    test $wait_ticks -gt 0 || return 1
+    sleep $wait_tick
+    wait_ticks=`expr $wait_ticks - 1`
+  done
+  return 0
+}
+
 thread_dump() {
   test -f $1 || return 1
   PID=`cat $1`
@@ -565,30 +585,18 @@ case "$ACTION" in
     if test 1 = "$START_STOP_DAEMON" && type start-stop-daemon >/dev/null 2>&1
     then
       start-stop-daemon -K -p "$GERRIT_PID" -s HUP
-      sleep 1
-      if running "$GERRIT_PID" ; then
-        sleep 3
-        if running "$GERRIT_PID" ; then
-          sleep $STOP_TIMEOUT
-          if running "$GERRIT_PID" ; then
-            start-stop-daemon -K -p "$GERRIT_PID" -s KILL
-          fi
-        fi
+      if ! wait_for_exit "$GERRIT_PID" $STOP_TIMEOUT ; then
+        start-stop-daemon -K -p "$GERRIT_PID" -s KILL
       fi
-      rm -f "$GERRIT_PID" "$GERRIT_RUN"
-      echo OK
     else
       PID=`cat "$GERRIT_PID" 2>/dev/null`
-      TIMEOUT=$STOP_TIMEOUT
-      while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
-        kill $PID 2>/dev/null
-        sleep 1
-        TIMEOUT=`expr $TIMEOUT - 1`
-      done
-      test $TIMEOUT -gt 0 || kill -9 $PID 2>/dev/null
-      rm -f "$GERRIT_PID" "$GERRIT_RUN"
-      echo OK
+      kill $PID 2>/dev/null
+      if ! wait_for_exit "$GERRIT_PID" $STOP_TIMEOUT ; then
+        kill -9 $PID 2>/dev/null
+      fi
     fi
+    rm -f "$GERRIT_PID" "$GERRIT_RUN"
+    echo OK
   ;;
 
   restart)

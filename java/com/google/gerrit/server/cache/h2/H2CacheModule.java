@@ -127,7 +127,8 @@ public class H2CacheModule extends LifecycleModule {
     if (startupThreads > 1) {
       return new LoggingContextAwareExecutorService(
           Executors.newFixedThreadPool(
-              1, new ThreadFactoryBuilder().setNameFormat("DiskCache-Store-Startup-%d").build()));
+              startupThreads,
+              new ThreadFactoryBuilder().setNameFormat("DiskCache-Store-Startup-%d").build()));
     }
     return null;
   }

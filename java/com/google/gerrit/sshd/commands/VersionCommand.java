@@ -38,6 +38,11 @@ final class VersionCommand extends SshCommand {
   @Inject private VersionInfo versionInfo;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   protected void run() throws Failure {
     enableGracefulStop();
     if (versionInfo.gerritVersion == null) {

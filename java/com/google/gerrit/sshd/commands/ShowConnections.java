@@ -86,6 +86,11 @@ final class ShowConnections extends SshCommand {
   }
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   protected void run() throws Failure {
     enableGracefulStop();
     final IoAcceptor acceptor = daemon.getIoAcceptor();

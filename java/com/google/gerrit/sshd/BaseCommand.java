@@ -55,6 +55,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.channel.exception.SshChannelClosedException;
@@ -111,6 +112,8 @@ public abstract class BaseCommand implements Command {
 
   /** The task, as scheduled on a worker thread. */
   private final AtomicReference<Future<?>> task;
+
+  private volatile TaskThunk taskThunk;
 
   /** Channel this command runs on; set when sshd destroys the command. */
   private volatile ChannelSession channel;
@@ -206,8 +209,32 @@ public abstract class BaseCommand implements Command {
     this.channel = channel;
     Future<?> future = task.getAndSet(null);
     if (future != null && !future.isDone()) {
-      future.cancel(true);
+      if (cancelOnClientDisconnect()) {
+        future.cancel(true);
+      } else if (taskThunk.preventStart()) {
+        // The command has not started yet, so it is never run. A running command is left alone:
+        // cancelling its future would mark it as cancelled while it goes on running, and then
+        // administrators could no longer kill it.
+        future.cancel(false);
+        taskThunk.cancel();
+      }
     }
+  }
+
+  /**
+   * Whether the command is aborted when the client disconnects.
+   *
+   * <p>Commands that must not be aborted halfway, e.g. because they write data and then do
+   * follow-up work, should return {@code false}. Such commands run to completion after the client
+   * is gone.
+   *
+   * <p>This is called on the thread that destroys the command, possibly before or while the command
+   * line is parsed on the command's worker thread. Implementations must be cheap and may only
+   * depend on state that is safely published to other threads (e.g. a {@code volatile} option
+   * field).
+   */
+  protected boolean cancelOnClientDisconnect() {
+    return true;
   }
 
   /**
@@ -317,6 +344,7 @@ public abstract class BaseCommand implements Command {
       //
       new Thread(tt, tt.toString()).start();
     } else {
+      taskThunk = tt;
       task.set(executor.submit(tt));
     }
   }
@@ -491,14 +519,25 @@ public abstract class BaseCommand implements Command {
 
     private Project.NameKey projectName;
 
+    private final AtomicBoolean started = new AtomicBoolean();
+    private final AtomicBoolean cancelled = new AtomicBoolean();
+
     private TaskThunk(final CommandRunnable thunk, AccessPath accessPath) {
       this.thunk = thunk;
       this.taskName = getTaskName();
       this.accessPath = accessPath;
     }
 
+    /** Returns {@code true} if the command had not started yet and will now never run. */
+    private boolean preventStart() {
+      return started.compareAndSet(false, true);
+    }
+
     @Override
     public void cancel() {
+      if (!cancelled.compareAndSet(false, true)) {
+        return;
+      }
       synchronized (this) {
         final Context old = sshScope.set(context);
         try {
@@ -511,6 +550,9 @@ public abstract class BaseCommand implements Command {
 
     @Override
     public void run() {
+      if (!started.compareAndSet(false, true)) {
+        return;
+      }
       synchronized (this) {
         final Thread thisThread = Thread.currentThread();
         final String thisName = thisThread.getName();

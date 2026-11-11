@@ -63,6 +63,11 @@ public class CheckProjectAccessCommand extends SshCommand {
   private String userName;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   protected void run() throws Failure, ConfigInvalidException, IOException {
     PermissionBackend.WithUser userPermission = permissionBackend.user(userProvider.get());
 

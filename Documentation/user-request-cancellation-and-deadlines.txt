@@ -19,6 +19,15 @@ waiting for the response, Gerrit shouldn't spend resources to compute it.
 Detecting cancelled requests is not easily possible with all protocols that a
 client may use.
 
+SSH commands that only read data (e.g. `query`, `ls-projects`, `show-queue`)
+are aborted when the client disconnects. SSH commands that write data (e.g.
+`review`, `create-project`, `set-project`) run to completion after the client
+disconnected, so that their work is not left half done. They can still be killed
+with link:cmd-kill.html[kill], and their actual exit status is recorded in the
+`sshd_log`. SSH commands of plugins
+also run to completion, unless they override
+`SshCommand#cancelOnClientDisconnect()` to return `true`.
+
 [[server-side-deadlines]]
 == Server-side deadlines
 

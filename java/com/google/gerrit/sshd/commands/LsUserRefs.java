@@ -73,6 +73,11 @@ public class LsUserRefs extends SshCommand {
   private boolean onlyRefsHeads;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   protected void run() throws Failure {
     enableGracefulStop();
     Account.Id userAccountId;

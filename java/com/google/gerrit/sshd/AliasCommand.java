@@ -94,6 +94,12 @@ public class AliasCommand extends BaseCommand {
   }
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    Command cmd = atomicCmd.get();
+    return !(cmd instanceof BaseCommand baseCommand) || baseCommand.cancelOnClientDisconnect();
+  }
+
+  @Override
   public void destroy(ChannelSession channel) {
     Command cmd = atomicCmd.getAndSet(null);
     if (cmd != null) {

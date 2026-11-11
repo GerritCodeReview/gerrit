@@ -39,6 +39,11 @@ public class ListLoggingLevelCommand extends SshCommand {
   private String name;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   protected void run() {
     enableGracefulStop();
     Map<String, String> logs = new TreeMap<>();

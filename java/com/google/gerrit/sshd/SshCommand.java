@@ -128,7 +128,24 @@ public abstract class SshCommand extends BaseCommand {
   }
 
   /**
-   * Cancels the request once the SSH channel was destroyed (e.g. because the client disconnected).
+   * Whether the command is aborted when the client disconnects.
+   *
+   * <p>SSH commands run to completion after the client disconnected, unless they override this
+   * method to return {@code true}. Only commands that do not write anything should do so, e.g.
+   * queries that may run for a long time and whose output nobody reads anymore. Aborting a command
+   * that writes can leave its work half done, e.g. a change is updated but not reindexed, or a
+   * branch is created but no event is fired for it.
+   *
+   * <p>See {@link BaseCommand#cancelOnClientDisconnect()} for the thread on which this is called.
+   */
+  @Override
+  protected boolean cancelOnClientDisconnect() {
+    return false;
+  }
+
+  /**
+   * Cancels the request once the SSH channel was destroyed (e.g. because the client disconnected),
+   * if the command is aborted on client disconnect (see {@link #cancelOnClientDisconnect()}).
    *
    * <p>{@link #destroy(ChannelSession)} also interrupts the command thread, but code that runs on
    * that thread may clear the interrupt flag (e.g. H2 does so while waiting for a lock). Unlike the
@@ -136,7 +153,7 @@ public abstract class SshCommand extends BaseCommand {
    * reliably aborts the command.
    */
   private void checkIfDestroyed(RequestStateProvider.OnCancelled onCancelled) {
-    if (destroyed) {
+    if (destroyed && cancelOnClientDisconnect()) {
       onCancelled.onCancel(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, /* message= */ null);
     }
   }

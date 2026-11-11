@@ -26,5 +26,6 @@ public class TestSshCommandModule extends CommandModule {
     command("graceful").to(GracefulCommand.class);
     command("non-graceful").to(NonGracefulCommand.class);
     command("interrupted").to(InterruptedCommand.class);
+    command("blocking-write").to(BlockingWriteCommand.class);
   }
 }

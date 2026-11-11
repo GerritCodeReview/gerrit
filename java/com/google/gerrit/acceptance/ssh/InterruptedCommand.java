@@ -37,6 +37,11 @@ public class InterruptedCommand extends SshCommand {
   public static final CountDownLatch threwWrapped = new CountDownLatch(1);
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   protected void run() throws Exception {
     syncPoint.await();
     try {

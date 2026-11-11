@@ -59,6 +59,11 @@ abstract class BaseTestPrologCommand extends SshCommand {
   protected abstract RestModifyView<RevisionResource, TestSubmitRuleInput> createView();
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   protected final void run() throws UnloggedFailure {
     enableGracefulStop();
     try {

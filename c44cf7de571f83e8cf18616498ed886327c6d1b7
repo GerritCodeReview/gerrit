@@ -34,6 +34,70 @@
       "parentUuid": "ae24740d_726669b8",
       "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fef03b3d_55eedda0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-11T23:20:23Z",
+      "side": 1,
+      "message": "Sure",
+      "parentUuid": "f1c5450a_f704057d",
+      "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b4ad03e_6ffe40d0",
+        "filename": "Documentation/cmd-flush-caches.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-11T23:20:23Z",
+      "side": 1,
+      "message": "Worth saying here that the old file is kept as `\u003cname\u003e.mv.db.corrupt-\u003ctimestamp\u003e` and has to be deleted by hand. With `--reinit --all` that\u0027s a full second copy of every cache, and diff alone can be tens of GB.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 64
+      },
+      "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16fc54de_f8fba79a",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReinitCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-11T23:20:23Z",
+      "side": 1,
+      "message": "As `FlushCache` requires `MAINTAIN_SERVER` for `web_sessions`, and `FLUSH_ALL` skips it, should we do the same here as well in `reinitAll()`?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 5
+      },
+      "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

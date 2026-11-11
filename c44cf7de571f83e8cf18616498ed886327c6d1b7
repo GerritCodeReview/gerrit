@@ -16,6 +16,24 @@
       "message": "This adds a new public interface method plus new REST operations. Probably something that should go on master rather than stable-3.13 as it might break plugins that implement `PersistentCache`, e.g. `cache-chroniclemap`.",
       "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c5450a_f704057d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-11T05:19:25Z",
+      "side": 1,
+      "message": "As this is a stability fix I guess we can just add a default implementation on the interface throwing NotSupported ?",
+      "parentUuid": "ae24740d_726669b8",
+      "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

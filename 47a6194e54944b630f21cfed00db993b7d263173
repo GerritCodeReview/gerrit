@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "692fb107_f14e46dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5315019
+      },
+      "writtenOn": "2026-11-11T19:24:57Z",
+      "side": 1,
+      "message": "repo download -b change-3872730 kernel/common 3872730",
+      "revId": "47a6194e54944b630f21cfed00db993b7d263173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

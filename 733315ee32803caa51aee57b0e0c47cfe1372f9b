@@ -22,6 +22,30 @@
       },
       "revId": "733315ee32803caa51aee57b0e0c47cfe1372f9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55f9fe0e_753b0fbe",
+        "filename": ".bazelrc",
+        "patchSetId": 39
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-11T07:25:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b0e2073_3f38b215",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 52
+      },
+      "revId": "733315ee32803caa51aee57b0e0c47cfe1372f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

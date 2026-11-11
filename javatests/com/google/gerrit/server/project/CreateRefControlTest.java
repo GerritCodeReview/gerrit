@@ -24,8 +24,10 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.DelegateRefDatabase;
@@ -40,6 +42,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -63,6 +66,7 @@ public class CreateRefControlTest {
   private TestRepository<InMemoryRepository> testRepo;
   private Repository repo;
   private List<ImmutableList<String>> recordedPrefixCalls;
+  private List<ImmutableSet<String>> recordedExclusionCalls;
   private CurrentUser currentUser;
   private PermissionBackend permissionBackend;
   private PermissionBackend.ForRef forRef;
@@ -70,6 +74,7 @@ public class CreateRefControlTest {
   private RetryHelper retryHelper;
   private RetryableIndexQueryAction<InternalChangeQuery, List<ChangeData>> indexQueryAction;
   private CreateRefControl createRefControl;
+  private RevCommit mainCommit;
   private RevCommit branchHeadCommit;
 
   @Before
@@ -78,12 +83,20 @@ public class CreateRefControlTest {
     baseRepo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     testRepo = new TestRepository<>(baseRepo);
     recordedPrefixCalls = new ArrayList<>();
+    recordedExclusionCalls = new ArrayList<>();
     RefDatabase recordingRefDatabase =
         new DelegateRefDatabase(baseRepo) {
           @Override
           public List<Ref> getRefsByPrefix(String... prefixes) throws IOException {
             recordedPrefixCalls.add(ImmutableList.copyOf(prefixes));
             return super.getRefsByPrefix(prefixes);
+          }
+
+          @Override
+          public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
+              throws IOException {
+            recordedExclusionCalls.add(ImmutableSet.copyOf(excludes));
+            return super.getRefsByPrefixWithExclusions(include, excludes);
           }
         };
     repo =
@@ -94,6 +107,7 @@ public class CreateRefControlTest {
           }
         };
 
+    mainCommit = testRepo.branch("refs/heads/main").commit().create();
     branchHeadCommit = testRepo.branch("refs/branch-heads/m1").commit().create();
 
     currentUser = mock(CurrentUser.class);
@@ -230,6 +244,29 @@ public class CreateRefControlTest {
         branchHeadCommit,
         /* forPush= */ true);
 
+    assertThat(recordedPrefixCalls).isEmpty();
+    verifyNoInteractions(retryHelper);
+  }
+
+  @Test
+  public void checkCreateTagCommit_whenRestrictionDisabled_skipsVisibilityCheck() throws Exception {
+    createRefControl.checkCreateTagCommit(
+        () -> currentUser, repo, branchHeadCommit, PROJECT_DISABLED);
+
+    assertThat(recordedPrefixCalls).isEmpty();
+    assertThat(recordedExclusionCalls).isEmpty();
+    verifyNoInteractions(retryHelper);
+  }
+
+  @Test
+  public void checkCreateTagCommit_whenRestricted_excludesRefsChanges() throws Exception {
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "restrictCreateRefToConfiguredRefs", true);
+    CreateRefControl control = newCreateRefControl(cfg);
+
+    control.checkCreateTagCommit(() -> currentUser, repo, mainCommit, PROJECT_DISABLED);
+
+    assertThat(recordedExclusionCalls).containsExactly(ImmutableSet.of(RefNames.REFS_CHANGES));
     assertThat(recordedPrefixCalls).isEmpty();
     verifyNoInteractions(retryHelper);
   }

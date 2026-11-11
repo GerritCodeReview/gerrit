@@ -45,6 +45,11 @@ public class ListMembersCommand extends SshCommand {
   @Inject ListMembersCommandImpl impl;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   public void run() throws Exception {
     enableGracefulStop();
     impl.display(stdout);

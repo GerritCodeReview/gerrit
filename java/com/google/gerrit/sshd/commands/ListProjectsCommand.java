@@ -31,6 +31,11 @@ public class ListProjectsCommand extends SshCommand {
   @Inject @Options public ListProjectsImpl impl;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   public void run() throws Exception {
     enableGracefulStop();
     if (!impl.getFormat().isJson()) {

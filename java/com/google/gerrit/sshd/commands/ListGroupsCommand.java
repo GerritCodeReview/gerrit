@@ -51,6 +51,11 @@ public class ListGroupsCommand extends SshCommand {
   private boolean verboseOutput;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   public void run() throws Exception {
     enableGracefulStop();
     if (listGroups.getUser() != null && !listGroups.getProjects().isEmpty()) {

@@ -249,13 +249,19 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     private void onDestroy(ChannelSession channel) {
       synchronized (this) {
         if (cmd != null) {
+          // Commands that are not cancelled go on running and log their real exit code when done.
+          boolean cancel = cmd.cancelOnClientDisconnect();
           final Context old = sshScope.set(ctx);
           try {
             cmd.destroy(channel);
-            log(BaseCommand.STATUS_CANCEL);
+            if (cancel) {
+              log(BaseCommand.STATUS_CANCEL);
+            }
           } finally {
-            ctx = null;
-            cmd = null;
+            if (cancel) {
+              ctx = null;
+              cmd = null;
+            }
             sshScope.set(old);
           }
         }

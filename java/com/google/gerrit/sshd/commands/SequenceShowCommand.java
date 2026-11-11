@@ -32,6 +32,11 @@ final class SequenceShowCommand extends SshCommand {
   @Inject Sequences sequences;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   public void run() throws Exception {
     int current =
         switch (name) {

@@ -38,6 +38,11 @@ final class AproposCommand extends SshCommand {
   private String q;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   public void run() throws Exception {
     enableGracefulStop();
     try {

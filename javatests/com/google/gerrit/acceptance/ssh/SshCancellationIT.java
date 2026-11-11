@@ -30,12 +30,15 @@ import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import com.google.inject.Module;
+import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,7 +50,13 @@ import org.junit.Test;
 @UseSsh
 public class SshCancellationIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private WorkQueue workQueue;
   private final TestMetricMaker testMetricMaker = TestMetricMaker.getInstance();
+
+  @Override
+  public Module createSshModule() {
+    return new TestSshCommandModule();
+  }
 
   @Test
   public void handleClientDisconnected() throws Exception {
@@ -259,26 +268,34 @@ public class SshCancellationIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewWhoseClientDisconnectsAfterCommitIsCompletedAndCountedAsCancelled()
-      throws Exception {
+  public void writeCommandIsCompletedWhenClientDisconnects() throws Exception {
     String changeId = createChange().getChangeId();
     int changeNumber = gApi.changes().id(changeId).get()._number;
 
     CountDownLatch inFirstListener = new CountDownLatch(1);
-    AtomicReference<Thread> commandThread = new AtomicReference<>();
-    AtomicReference<String> commandThreadName = new AtomicReference<>();
+    CountDownLatch sessionClosed = new CountDownLatch(1);
     AtomicBoolean commandThreadInterrupted = new AtomicBoolean();
     AtomicInteger secondListenerCalls = new AtomicInteger();
+    CountDownLatch commandDone = new CountDownLatch(1);
     CommentAddedListener disconnectAwaitingListener =
         event -> {
-          commandThread.set(Thread.currentThread());
-          commandThreadName.set(Thread.currentThread().getName());
           inFirstListener.countDown();
-          commandThreadInterrupted.set(waitFor(() -> Thread.currentThread().isInterrupted()));
-          // Simulate a library that swallows the interrupt, e.g. H2 while it waits for a lock.
-          Thread.interrupted();
+          try {
+            sessionClosed.await(30, SECONDS);
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+          }
+          // Nothing happens to the command when the server destroys it, so give an interrupt some
+          // time to arrive (writeCommandIsNotAbortedWhenClientDisconnects checks this
+          // deterministically).
+          commandThreadInterrupted.set(
+              waitFor(() -> Thread.currentThread().isInterrupted(), Duration.ofSeconds(2)));
         };
-    CommentAddedListener secondListener = event -> secondListenerCalls.incrementAndGet();
+    CommentAddedListener secondListener =
+        event -> {
+          secondListenerCalls.incrementAndGet();
+          commandDone.countDown();
+        };
 
     testMetricMaker.reset();
     try (Registration registration =
@@ -288,11 +305,11 @@ public class SshCancellationIT extends AbstractDaemonTest {
               String.format("gerrit review -m done %d,1", changeNumber));
       assertThat(inFirstListener.await(30, SECONDS)).isTrue();
       adminSshSession.close();
-      assertThat(waitFor(() -> !commandThread.get().getName().equals(commandThreadName.get())))
-          .isTrue();
+      sessionClosed.countDown();
+      assertThat(commandDone.await(30, SECONDS)).isTrue();
     }
 
-    assertThat(commandThreadInterrupted.get()).isTrue();
+    assertThat(commandThreadInterrupted.get()).isFalse();
     assertThat(secondListenerCalls.get()).isEqualTo(1);
     assertThat(
             gApi.changes().id(changeId).messages().stream()
@@ -304,7 +321,7 @@ public class SshCancellationIT extends AbstractDaemonTest {
                 "SSH",
                 "",
                 RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST))
-        .isEqualTo(1);
+        .isEqualTo(0);
   }
 
   @Test
@@ -322,8 +339,47 @@ public class SshCancellationIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void writeCommandIsNotAbortedWhenClientDisconnects() throws Exception {
+    BlockingWriteCommand.reset();
+    var unused = adminSshSession.execAndReturnReader("blocking-write");
+    assertThat(BlockingWriteCommand.running.await(30, SECONDS)).isTrue();
+    adminSshSession.close();
+    assertThat(BlockingWriteCommand.destroyed.await(30, SECONDS)).isTrue();
+
+    assertThat(blockingWriteTask().isCancelled()).isFalse();
+    BlockingWriteCommand.release.countDown();
+    assertThat(BlockingWriteCommand.finished.await(30, SECONDS)).isTrue();
+    assertThat(BlockingWriteCommand.interruptedOnDisconnect.get()).isFalse();
+    assertThat(BlockingWriteCommand.cancelledOnDisconnect.get()).isFalse();
+    assertThat(BlockingWriteCommand.killed.getCount()).isEqualTo(1);
+  }
+
+  @Test
+  public void writeCommandCanBeKilledAfterClientDisconnects() throws Exception {
+    BlockingWriteCommand.reset();
+    var unused = adminSshSession.execAndReturnReader("blocking-write");
+    assertThat(BlockingWriteCommand.running.await(30, SECONDS)).isTrue();
+    adminSshSession.close();
+    assertThat(BlockingWriteCommand.destroyed.await(30, SECONDS)).isTrue();
+
+    assertThat(blockingWriteTask().cancel(true)).isTrue();
+    assertThat(BlockingWriteCommand.killed.await(30, SECONDS)).isTrue();
+  }
+
+  private WorkQueue.Task<?> blockingWriteTask() {
+    return workQueue.getTasks().stream()
+        .filter(t -> t.toString().contains("blocking-write"))
+        .findFirst()
+        .orElseThrow();
+  }
+
   private static boolean waitFor(BooleanSupplier condition) {
-    long deadline = System.nanoTime() + SECONDS.toNanos(30);
+    return waitFor(condition, Duration.ofSeconds(30));
+  }
+
+  private static boolean waitFor(BooleanSupplier condition, Duration timeout) {
+    long deadline = System.nanoTime() + timeout.toNanos();
     while (!condition.getAsBoolean()) {
       if (System.nanoTime() > deadline) {
         return false;

@@ -26,6 +26,7 @@ DEPLOY_ENV = [
     "//java/com/google/gerrit/metrics",
     "//java/com/google/gerrit/server",
     "//java/com/google/gerrit/server/audit",
+    "//java/com/google/gerrit/server/cancellation",
     "//java/com/google/gerrit/server/flow",
     "//java/com/google/gerrit/server/git/receive",
     "//java/com/google/gerrit/server/logging",

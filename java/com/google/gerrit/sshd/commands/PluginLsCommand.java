@@ -40,6 +40,11 @@ public class PluginLsCommand extends SshCommand {
   private OutputFormat format = OutputFormat.TEXT;
 
   @Override
+  protected boolean cancelOnClientDisconnect() {
+    return true;
+  }
+
+  @Override
   public void run() throws Exception {
     enableGracefulStop();
     Map<String, PluginInfo> output = list.apply(TopLevelResource.INSTANCE).value();

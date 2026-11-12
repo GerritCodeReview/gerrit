@@ -92,3 +92,7 @@ genrule2(
         "zip -qr $$ROOT/$@ .",
     ]),
 )
+alias(
+    name = "ci_credential_canary",
+    actual = "@ci_credential_canary//:dummy",
+)

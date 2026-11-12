@@ -8,6 +8,7 @@ import {
   isQuickLabelInfo,
   LabelNameToValuesMap,
   LabelValueToDescriptionMap,
+  SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../api/rest-api';
@@ -22,6 +23,10 @@ import {
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {assertNever, hasOwnProperty, unique} from './common-util';
+import {
+  atomizeExpression,
+  SubmitRequirementExpressionAtomStatus,
+} from './submit-requirement-util';
 
 export interface Label {
   name: string;
@@ -573,14 +578,44 @@ export function getApplicableLabels(change?: ParsedChangeInfo | ChangeInfo) {
   );
 }
 
+/**
+ * Returns true if the requirement is unsatisfied because something is present
+ * that must be absent, e.g. a veto vote (`-label:Code-Review=MIN`) or a
+ * forbidden commit subject (`-subject:WIP`). Such a requirement cannot be
+ * satisfied by adding votes.
+ */
 export function isBlockingCondition(
   requirement: SubmitRequirementResultInfo
 ): boolean {
   if (requirement.status !== SubmitRequirementStatus.UNSATISFIED) return false;
 
-  return !!requirement.submittability_expression_result.passing_atoms?.some(
-    atom => atom.match(/^label[0-9]*:[\w-]+=MIN$/)
-  );
+  const result = requirement.submittability_expression_result;
+  if (
+    result.passing_atoms?.some(atom => atom.match(/^label[0-9]*:[\w-]+=MIN$/))
+  ) {
+    return true;
+  }
+  return hasPassingNegatedAtom(result);
+}
+
+function hasPassingNegatedAtom(expression: SubmitRequirementExpressionInfo) {
+  if (!expression.passing_atoms?.length) return false;
+  const parts = atomizeExpression(expression);
+  return parts.some((part, i) => {
+    if (!part.isAtom) return false;
+    // atomizeExpression() includes a unary minus in the atom and negates its
+    // status, so a passing atom that is negated is reported as failing.
+    if (part.value.startsWith('-')) {
+      return part.atomStatus === SubmitRequirementExpressionAtomStatus.FAILING;
+    }
+    const previous = i > 0 ? parts[i - 1] : undefined;
+    return (
+      part.atomStatus === SubmitRequirementExpressionAtomStatus.PASSING &&
+      !!previous &&
+      !previous.isAtom &&
+      /(^|[\s(])NOT\s+$/.test(previous.value)
+    );
+  });
 }
 
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';

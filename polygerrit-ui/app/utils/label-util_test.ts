@@ -912,6 +912,86 @@ suite('label-util', () => {
       };
       assert.isFalse(isBlockingCondition(requirement));
     });
+
+    test('true for passing negated non-label atom', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Commit-Subject',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: '-prefixsubject:Edit',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['prefixsubject:Edit'],
+          failing_atoms: [],
+        },
+      };
+      assert.isTrue(isBlockingCondition(requirement));
+    });
+
+    test('true for passing atom negated with NOT', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Commit-Subject',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: 'label:Verified=MAX AND NOT prefixsubject:Edit',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['label:Verified=MAX', 'prefixsubject:Edit'],
+          failing_atoms: [],
+        },
+      };
+      assert.isTrue(isBlockingCondition(requirement));
+    });
+
+    test('false for failing non-negated non-label atom', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Commit-Subject',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: 'prefixsubject:Fix',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: [],
+          failing_atoms: ['prefixsubject:Fix'],
+        },
+      };
+      assert.isFalse(isBlockingCondition(requirement));
+    });
+
+    test('false for passing non-negated atom', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Commit-Subject',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: 'label:Verified=MAX AND prefixsubject:Fix',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['prefixsubject:Fix'],
+          failing_atoms: ['label:Verified=MAX'],
+        },
+      };
+      assert.isFalse(isBlockingCondition(requirement));
+    });
+
+    test('false when satisfied', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Commit-Subject',
+        status: SubmitRequirementStatus.SATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: '-prefixsubject:Edit',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['prefixsubject:Edit'],
+          failing_atoms: [],
+        },
+      };
+      assert.isFalse(isBlockingCondition(requirement));
+    });
   });
 
   suite('valueString', () => {

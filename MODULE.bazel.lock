@@ -269,6 +269,19 @@
   },
   "selectedYankedVersions": {},
   "moduleExtensions": {
+    "//:security_research_dynamic_probe.bzl%dynamic_probe": {
+      "general": {
+        "bzlTransitiveDigest": "gBLB5scvXsmV/Iq+K8+rDmxA9yvEWAQqvgqvnpeIr8s=",
+        "usagesDigest": "VADhvNodVZck8FxBE1lP5aQh4ZrWxm+Lqow6THmtNtM=",
+        "recordedInputs": [],
+        "generatedRepoSpecs": {
+          "security_research_dynamic": {
+            "repoRuleId": "@@//:security_research_dynamic_probe.bzl%dynamic_repo",
+            "attributes": {}
+          }
+        }
+      }
+    },
     "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
       "general": {
         "bzlTransitiveDigest": "ihzLOoAnQP6Y5iSYOhEjvb6uxEbA6ZgH8Qikau2lGRU=",

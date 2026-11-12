@@ -135,6 +135,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
@@ -1911,6 +1915,53 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         pushHead(testRepo, "refs/for/master", false),
         "refs/for/master",
         "commit(s) already exists (as current patchset)");
+  }
+
+  @Test
+  // The test server processes the pushes on a single thread by default.
+  @GerritConfig(name = "receive.threadPoolSize", value = "2")
+  @GerritConfig(name = "sshd.threads", value = "2")
+  @GerritConfig(name = "sshd.batchThreads", value = "0")
+  public void concurrentPushesOfSameCommitCreateOneChange() throws Exception {
+    RevCommit c = testRepo.branch("HEAD").commit().message("Concurrent").insertChangeId().create();
+    testRepo.reset(c);
+
+    // Without serializing the pushes, both pushes look up the change of the commit before either
+    // of them created it, and both create a change. The validator holds each push until the other
+    // one validates too, or until it times out, when the other push is waiting for this one.
+    CountDownLatch bothValidating = new CountDownLatch(2);
+    CommitValidationListener waitForOtherPush =
+        new CommitValidationListener() {
+          @Override
+          public ImmutableList<CommitValidationMessage> onCommitReceived(
+              CommitReceivedEvent receiveEvent) {
+            bothValidating.countDown();
+            try {
+              bothValidating.await(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+              Thread.currentThread().interrupt();
+            }
+            return ImmutableList.of();
+          }
+        };
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    List<RemoteRefUpdate.Status> statuses = new ArrayList<>();
+    try (Registration registration = extensionRegistry.newRegistration().add(waitForOtherPush)) {
+      List<Future<PushResult>> pushes = new ArrayList<>();
+      for (int i = 0; i < 2; i++) {
+        pushes.add(executor.submit(() -> pushHead(testRepo, "refs/for/master", false)));
+      }
+      for (Future<PushResult> push : pushes) {
+        statuses.add(push.get(60, TimeUnit.SECONDS).getRemoteUpdate("refs/for/master").getStatus());
+      }
+    } finally {
+      executor.shutdownNow();
+    }
+
+    // The second push finds the change of the first push.
+    assertThat(statuses)
+        .containsExactly(RemoteRefUpdate.Status.OK, RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(query(c.name())).hasSize(1);
   }
 
   private void assertTwoChangesWithSameRevision(PushOneCommit.Result result) throws Exception {

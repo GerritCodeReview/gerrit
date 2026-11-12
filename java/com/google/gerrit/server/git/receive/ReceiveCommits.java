@@ -235,6 +235,8 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -282,6 +284,9 @@ class ReceiveCommits {
   public static final String DIRECT_PUSH_JUSTIFICATION_OPTION = "push-justification";
 
   private static final String CUSTOM_KEYED_VALUE_OPTION = "custom-keyed-value";
+
+  /** How long a push waits for a concurrent push of the same change. */
+  private static final long CHANGE_LOOKUP_LOCK_TIMEOUT_SECONDS = 60;
 
   interface Factory {
     ReceiveCommits create(
@@ -398,6 +403,7 @@ class ReceiveCommits {
   private final PluginSetContext<ExceptionHook> exceptionHooks;
   private final ChangeIndexer indexer;
   private final ChangeInserter.Factory changeInserterFactory;
+  private final ChangeLookupLocks changeLookupLocks;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeReportFormatter changeFormatter;
   private final ChangeUtil changeUtil;
@@ -467,6 +473,9 @@ class ReceiveCommits {
 
   private final LinkedHashMap<ReceiveCommand, RejectionReason> rejectionReasons;
 
+  /** Locks of the change lookups of this push, held until its changes are created. */
+  private final List<Lock> heldChangeLookupLocks;
+
   private final ListMultimap<String, String> pushOptions;
   private final ReceivePackRefCache receivePackRefCache;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
@@ -501,6 +510,7 @@ class ReceiveCommits {
       PluginSetContext<ExceptionHook> exceptionHooks,
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
+      ChangeLookupLocks changeLookupLocks,
       ChangeNotes.Factory notesFactory,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       ChangeUtil changeUtil,
@@ -560,6 +570,7 @@ class ReceiveCommits {
     this.changeFormatter = changeFormatterProvider.get();
     this.changeUtil = changeUtil;
     this.changeInserterFactory = changeInserterFactory;
+    this.changeLookupLocks = changeLookupLocks;
     this.draftCommentsReader = draftCommentsReader;
     this.commentValidators = commentValidators;
     this.commitValidatorFactory = commitValidatorFactory;
@@ -624,6 +635,7 @@ class ReceiveCommits {
 
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
     rejectionReasons = new LinkedHashMap<>();
+    heldChangeLookupLocks = new ArrayList<>();
     messages = new ConcurrentLinkedQueue<>();
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
@@ -948,6 +960,7 @@ class ReceiveCommits {
         preparePatchSetsForReplace(globalRevWalk, newChanges);
         insertChangesAndPatchSets(globalRevWalk, ins, newChanges, replaceProgress);
       } finally {
+        releaseChangeLookupLocks();
         newProgress.end();
         replaceProgress.end();
       }
@@ -2725,8 +2738,19 @@ class ReceiveCommits {
           }
 
           List<String> idList = changeUtil.getChangeIdsFromFooter(c);
-          if (!idList.isEmpty()) {
-            pending.put(c, lookupByChangeKey(c, Change.key(idList.get(idList.size() - 1).trim())));
+          Change.Key changeKey =
+              idList.isEmpty() ? null : Change.key(idList.get(idList.size() - 1).trim());
+          if (!lockChangeLookup(changeKey != null ? changeKey.get() : c.name())) {
+            reject(
+                magicBranch.cmd,
+                RejectionReason.create(
+                    MetricBucket.CONCURRENT_PUSH,
+                    String.format(
+                        "commit %s is being pushed concurrently, try again", abbreviateName(c))));
+            return ImmutableList.of();
+          }
+          if (changeKey != null) {
+            pending.put(c, lookupByChangeKey(c, changeKey));
           } else {
             pending.put(c, lookupByCommit(c));
           }
@@ -3078,6 +3102,39 @@ class ReceiveCommits {
       this.changeKey = key;
       this.destChanges = destChanges;
     }
+  }
+
+  /**
+   * Locks the lookup of a change by its Change-Id, or by its commit, on the destination branch, so
+   * that a concurrent push of the same change waits until this push has created its changes, and
+   * finds them, instead of creating a duplicate change. The lock is held until {@link
+   * #releaseChangeLookupLocks()}.
+   *
+   * @return whether the lock was acquired. {@code false} if another push held it for too long.
+   */
+  private boolean lockChangeLookup(String key) {
+    Lock lock = changeLookupLocks.get(magicBranch.dest, key);
+    try (TraceTimer traceTimer = newTimer("lockChangeLookup")) {
+      // A timeout instead of waiting forever, since the locks are striped and taken in the order of
+      // the commits, so two pushes can wait for each other.
+      if (!lock.tryLock(CHANGE_LOOKUP_LOCK_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+        logger.atWarning().log(
+            "Timed out waiting for a concurrent push of %s to %s", key, magicBranch.dest);
+        return false;
+      }
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      return false;
+    }
+    heldChangeLookupLocks.add(lock);
+    return true;
+  }
+
+  private void releaseChangeLookupLocks() {
+    for (Lock lock : Lists.reverse(heldChangeLookupLocks)) {
+      lock.unlock();
+    }
+    heldChangeLookupLocks.clear();
   }
 
   private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) {

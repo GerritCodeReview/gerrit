@@ -1,3 +1,7 @@
+load("//tools/bzl:jar.bzl", "JAR_FLAGS")
+
+_JAVA_TOOLCHAIN_TYPE = "@bazel_tools//tools/jdk:toolchain_type"
+
 def documentation_attributes():
     return [
         "toc2",
@@ -249,11 +253,13 @@ def _genasciidoc_htmlonly_zip(
 
 def _asciidoc_zip_impl(ctx):
     tmpdir = ctx.outputs.out.path + "_tmpdir"
+    java_runtime = ctx.toolchains[_JAVA_TOOLCHAIN_TYPE].java.java_runtime
     cmd = [
         "p=$PWD",
+        "jar=$(cd %s && pwd)/bin/jar" % java_runtime.java_home,
         "rm -rf %s" % tmpdir,
         "mkdir -p %s/%s/" % (tmpdir, ctx.attr.directory),
-        "unzip -q %s -d %s/%s/" % (ctx.file.src.path, tmpdir, ctx.attr.directory),
+        '(cd %s/%s/ && "$jar" xf "$p/%s")' % (tmpdir, ctx.attr.directory, ctx.file.src.path),
     ]
     for r in ctx.files.resources:
         if r.path == r.short_path:
@@ -265,10 +271,10 @@ def _asciidoc_zip_impl(ctx):
             )
     cmd.extend([
         "cd %s" % tmpdir,
-        "zip -qr $p/%s *" % ctx.outputs.out.path,
+        '"$jar" %s --file "$p/%s" *' % (JAR_FLAGS, ctx.outputs.out.path),
     ])
     ctx.actions.run_shell(
-        inputs = [ctx.file.src] + ctx.files.resources,
+        inputs = depset([ctx.file.src] + ctx.files.resources, transitive = [java_runtime.files]),
         outputs = [ctx.outputs.out],
         command = " && ".join(cmd),
         progress_message =
@@ -290,6 +296,7 @@ _asciidoc_zip = rule(
     outputs = {
         "out": "%{name}.zip",
     },
+    toolchains = [_JAVA_TOOLCHAIN_TYPE],
     implementation = _asciidoc_zip_impl,
 )
 

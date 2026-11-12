@@ -290,7 +290,7 @@ public class TagSetTest {
     }
     ImmutableList<Ref> include = ImmutableList.of(repo.exactRef("refs/heads/master"));
     Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
-    TagCache tagCache = new TagCache(guavaCache);
+    BitmapTagCache tagCache = new BitmapTagCache(guavaCache);
     Project.NameKey project = Project.nameKey("project");
 
     // The middle commit is only read while propagating reachability through the history, i.e.
@@ -309,7 +309,7 @@ public class TagSetTest {
   public void tagOnCommitsAddedByAFastForwardBecomesReachable() throws Exception {
     InMemoryRepository repo = new InMemoryRepository(new DfsRepositoryDescription("project"));
     Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
-    TagCache tagCache = new TagCache(guavaCache);
+    BitmapTagCache tagCache = new BitmapTagCache(guavaCache);
     Project.NameKey project = Project.nameKey("project");
     try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
       RevCommit root = tr.commit().create();
@@ -330,7 +330,7 @@ public class TagSetTest {
   public void tagOnCommitsAddedByAForcePushBecomesReachable() throws Exception {
     InMemoryRepository repo = new InMemoryRepository(new DfsRepositoryDescription("project"));
     Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
-    TagCache tagCache = new TagCache(guavaCache);
+    BitmapTagCache tagCache = new BitmapTagCache(guavaCache);
     Project.NameKey project = Project.nameKey("project");
     try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
       RevCommit root = tr.commit().create();
@@ -356,7 +356,7 @@ public class TagSetTest {
   public void newRefAtTheOldTipOfAFastForwardedRefDoesNotGetItsNewTags() throws Exception {
     InMemoryRepository repo = new InMemoryRepository(new DfsRepositoryDescription("project"));
     Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
-    TagCache tagCache = new TagCache(guavaCache);
+    BitmapTagCache tagCache = new BitmapTagCache(guavaCache);
     Project.NameKey project = Project.nameKey("project");
     try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
       RevCommit x = tr.commit().create();
@@ -396,7 +396,7 @@ public class TagSetTest {
                     TagSetHolder.Serializer.INSTANCE.serialize(value)));
           }
         };
-    TagCache tagCache = new TagCache(guavaCache);
+    BitmapTagCache tagCache = new BitmapTagCache(guavaCache);
     Project.NameKey project = Project.nameKey("project");
     try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
       RevCommit x = tr.commit().create();
@@ -447,7 +447,7 @@ public class TagSetTest {
           }
         };
     Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
-    TagCache tagCache = new TagCache(guavaCache);
+    BitmapTagCache tagCache = new BitmapTagCache(guavaCache);
     Project.NameKey project = Project.nameKey("project");
     try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
       RevCommit x = tr.commit().create();

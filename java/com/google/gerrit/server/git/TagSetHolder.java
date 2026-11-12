@@ -48,7 +48,7 @@ public class TagSetHolder {
     this.tags = tags;
   }
 
-  public TagMatcher matcher(TagCache cache, Repository db, Collection<Ref> include) {
+  public TagMatcher matcher(BitmapTagCache cache, Repository db, Collection<Ref> include) {
     include = include.stream().filter(r -> !TagSet.skip(r)).collect(toList());
 
     TagSet tags = this.tags;
@@ -67,7 +67,7 @@ public class TagSetHolder {
     return m;
   }
 
-  void rebuildForNewTags(TagCache cache, TagMatcher m) {
+  void rebuildForNewTags(BitmapTagCache cache, TagMatcher m) {
     m.tags = rebuild(cache, m.db, m.tags, null);
     m.mask.clear();
     m.newRefs.clear();
@@ -77,7 +77,7 @@ public class TagSetHolder {
     m.tags.prepare(m);
   }
 
-  private TagSet build(TagCache cache, Repository db) {
+  private TagSet build(BitmapTagCache cache, Repository db) {
     synchronized (buildLock) {
       TagSet tags = this.tags;
       if (tags == null) {
@@ -91,7 +91,7 @@ public class TagSetHolder {
     }
   }
 
-  private TagSet rebuild(TagCache cache, Repository db, TagSet old, TagMatcher m) {
+  private TagSet rebuild(BitmapTagCache cache, Repository db, TagSet old, TagMatcher m) {
     synchronized (buildLock) {
       TagSet cur = this.tags;
       if (identity().equivalent(cur, old)) {

@@ -26,7 +26,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.roaringbitmap.RoaringBitmap;
 
-public class TagMatcher {
+public class TagMatcher implements TagCache.Matcher {
   final RoaringBitmap mask = new RoaringBitmap();
   final List<Ref> newRefs = new ArrayList<>();
   final List<RefFlag> lostRefs = new ArrayList<>();
@@ -36,7 +36,7 @@ public class TagMatcher {
   final Map<String, ObjectId> movedRefs = new HashMap<>();
 
   final TagSetHolder holder;
-  final TagCache cache;
+  final BitmapTagCache cache;
   final Repository db;
   final Collection<Ref> include;
   TagSet tags;
@@ -45,7 +45,7 @@ public class TagMatcher {
 
   TagMatcher(
       TagSetHolder holder,
-      TagCache cache,
+      BitmapTagCache cache,
       Repository db,
       Collection<Ref> include,
       TagSet tags,
@@ -58,6 +58,7 @@ public class TagMatcher {
     this.updated = updated;
   }
 
+  @Override
   public boolean isReachable(Ref tagRef) throws IOException {
     tagRef = db.getRefDatabase().peel(tagRef);
     ObjectId tagObj = tagRef.getPeeledObjectId();

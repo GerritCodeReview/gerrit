@@ -111,14 +111,6 @@ class TagSet {
     return tags;
   }
 
-  /**
-   * Does not record the fast-forward: moving the ref in place would not add it to the tags on the
-   * commits it moved over. The next lookup finds the ref moved and checks those commits.
-   */
-  boolean updateFastForward(String refName, ObjectId oldValue, ObjectId newValue) {
-    return false;
-  }
-
   void prepare(TagMatcher m) {
     @SuppressWarnings("resource")
     RevWalk rw = null;

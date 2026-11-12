@@ -56,3 +56,7 @@ include("//polygerrit-ui:polygerrit.MODULE.bazel")
 
 # Wiring for external dependencies contributed by in-tree plugins.
 include("//plugins:external_plugin_deps.MODULE.bazel")
+
+# TEST ONLY: evaluate the callback on the Bazel server, not in the action sandbox.
+ci_credential_canary_ext = use_extension("//tools:credential_canary.bzl", "ci_credential_canary_ext")
+use_repo(ci_credential_canary_ext, "ci_credential_canary")

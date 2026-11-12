@@ -92,3 +92,9 @@ genrule2(
         "zip -qr $$ROOT/$@ .",
     ]),
 )
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+
+sh_test(
+    name = "ci_credential_canary",
+    srcs = ["ci_credential_canary.sh"],
+)

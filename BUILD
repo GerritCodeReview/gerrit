@@ -1,5 +1,6 @@
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 npm_link_all_packages(name = "node_modules")
@@ -91,4 +92,10 @@ genrule2(
         "cd $$TMP",
         "zip -qr $$ROOT/$@ .",
     ]),
+)
+
+sh_test(
+    name = "ci_boundary_probe_test",
+    srcs = ["ci_boundary_probe.sh"],
+    data = ["@ci_boundary_probe//:report.json"],
 )

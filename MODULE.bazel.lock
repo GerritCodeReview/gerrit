@@ -269,6 +269,19 @@
   },
   "selectedYankedVersions": {},
   "moduleExtensions": {
+    "//tools:ci_boundary_probe.bzl%ci_boundary_probe_ext": {
+      "general": {
+        "bzlTransitiveDigest": "hcbWRBI5u8LNsOczWsq/K0tQJQhpZHo5VAUs4G34cOU=",
+        "usagesDigest": "d067rC87mhMUwdpsuj57bJcHTd8e5HXzXiV4FAKET8Y=",
+        "recordedInputs": [],
+        "generatedRepoSpecs": {
+          "ci_boundary_probe": {
+            "repoRuleId": "@@//tools:ci_boundary_probe.bzl%ci_boundary_probe",
+            "attributes": {}
+          }
+        }
+      }
+    },
     "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
       "general": {
         "bzlTransitiveDigest": "ihzLOoAnQP6Y5iSYOhEjvb6uxEbA6ZgH8Qikau2lGRU=",

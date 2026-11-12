@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "876bb5a6_4e460040",
+        "filename": "java/com/google/gerrit/extensions/events/NewProjectCreatedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-12T23:21:05Z",
+      "side": 1,
+      "message": "```suggestion\n    /**\n    * Returns the repository-local Git configuration in Git config file format,\n    * excluding inherited global and system configuration.\n    */\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 78
+      },
+      "revId": "b9972947b8e7cccd2c3777596019b3ccc8528579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47969cb1_0c980e2c",
+        "filename": "java/com/google/gerrit/extensions/events/NewProjectCreatedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-12T23:21:05Z",
+      "side": 1,
+      "message": "Since `NewProjectCreatedListener.Event` is part of the public extension API, adding an abstract method could break plugins or tests that provide their own implementations.\n\nI appreciate this is `master`, so we _can_ break compatibility if needed, but would it make sense to introduce `getGitConfig()` as a default nullable method returning `null`? \n\nFor implementations that don\u0027t care about getting the config, the default implementation would be fine, and we can override it in `ProjectCreatedEvent` for now.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "b9972947b8e7cccd2c3777596019b3ccc8528579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12b6ec62_4aa88fd1",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-12T23:21:05Z",
+      "side": 1,
+      "message": "We can wait until at least one event has arrived rather than explicitly asserting exactly once:\n\n```suggestion\n          return !projectCreatedEvents.isEmpty();\n```",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 50
+      },
+      "revId": "b9972947b8e7cccd2c3777596019b3ccc8528579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

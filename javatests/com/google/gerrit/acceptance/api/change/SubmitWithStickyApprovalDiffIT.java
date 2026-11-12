@@ -20,19 +20,23 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -42,6 +46,7 @@ import com.google.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -588,6 +593,48 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
 
     // patch-set 2 was the latest approved one.
     assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+        .contains("2 is the latest approved patch-set.");
+  }
+
+  @Test
+  @UseClockStep(clockStep = 0, clockStepUnit = SECONDS)
+  public void submitSucceedsWhenEarlierAndCurrentPatchsetsShareCommitId() throws Exception {
+    PersonIdent ident = new PersonIdent("Author", "author@example.com");
+    ChangeIdentifier changeIdentifier =
+        changeOperations
+            .newChange()
+            .project(project)
+            .authorIdent(ident)
+            .committerIdent(ident)
+            .create();
+    PatchSet.Id ps1Id =
+        changeOperations.change(changeIdentifier).currentPatchset().get().patchsetId();
+
+    changeOperations
+        .change(changeIdentifier)
+        .newPatchset()
+        .file("file")
+        .content("tmp")
+        .authorIdent(ident)
+        .committerIdent(ident)
+        .create();
+    gApi.changes().id(changeIdentifier).current().review(ReviewInput.approve());
+
+    PatchSet.Id ps3Id =
+        changeOperations
+            .change(changeIdentifier)
+            .newPatchset()
+            .file("file")
+            .delete()
+            .authorIdent(ident)
+            .committerIdent(ident)
+            .create();
+    assertThat(changeOperations.change(changeIdentifier).patchset(ps3Id).get().commitId())
+        .isEqualTo(changeOperations.change(changeIdentifier).patchset(ps1Id).get().commitId());
+
+    gApi.changes().id(changeIdentifier).current().submit();
+
+    assertThat(Iterables.getLast(gApi.changes().id(changeIdentifier).messages()).message)
         .contains("2 is the latest approved patch-set.");
   }
 

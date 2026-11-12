@@ -610,9 +610,14 @@ public class GerritServer implements AutoCloseable {
     cfg.setInt("execution", null, "fanOutThreadPoolSize", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);
 
-    cfg.setInt("sshd", null, "threads", 1);
+    // Tests of concurrent requests can set more threads.
+    if (cfg.getString("sshd", null, "threads") == null) {
+      cfg.setInt("sshd", null, "threads", 1);
+    }
     cfg.setInt("sshd", null, "commandStartThreads", 1);
-    cfg.setInt("receive", null, "threadPoolSize", 1);
+    if (cfg.getString("receive", null, "threadPoolSize") == null) {
+      cfg.setInt("receive", null, "threadPoolSize", 1);
+    }
     cfg.setInt("index", null, "threads", 1);
     if (cfg.getString("index", null, "mergeabilityComputationBehavior") == null) {
       cfg.setString("index", null, "mergeabilityComputationBehavior", "NEVER");

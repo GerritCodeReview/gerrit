@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a85b91c6_b1c1f689",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-12T12:42:34Z",
+      "side": 1,
+      "message": "I think you need to add `Metadata.CREATED` to http://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/utils/change-metadata-util.ts#L45 ?",
+      "revId": "b1de22b70ff42c337ac634d48f13322f6fc85ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

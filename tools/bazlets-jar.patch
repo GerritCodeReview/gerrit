@@ -1,0 +1,313 @@
+diff --git a/a/gerrit_plugin.bzl b/b/gerrit_plugin.bzl
+index 3917ec9..2f9344b 100644
+--- a/a/gerrit_plugin.bzl
++++ b/b/gerrit_plugin.bzl
+@@ -12,6 +12,7 @@ load(
+ )
+ load("//tools:genrule2.bzl", "genrule2")
+ load("//tools:in_gerrit_tree.bzl", "in_gerrit_tree_enabled")
++load("//tools:jar.bzl", "JAR_CREATE", "JAR_SETUP", "JAR_TOOLCHAINS")
+ load("//tools:junit.bzl", "junit_tests")
+ load("//tools:runtime_jars_allowlist.bzl", "runtime_jars_allowlist_test")
+ load("//tools:runtime_jars_overlap.bzl", "runtime_jars_overlap_test")
+@@ -202,7 +203,7 @@ def gerrit_plugin(
+     )
+ 
+     EXCLUDES = " ".join([
+-        "'META-INF/%s'" % p
++        "META-INF/%s" % p
+         for p in [
+             "LICENSE",
+             "LICENSE.txt",
+@@ -222,13 +223,20 @@ def gerrit_plugin(
+             "export TZ",
+             "GEN_VERSION=$$(cat $(location :%s__gen_stamp_info))" % name,
+             "API_VERSION=$$(cat $(location @gerrit_api_version//:version.txt))",
++            JAR_SETUP,
+             "cd $$TMP",
+-            "unzip -qo $$ROOT/$< -x " + EXCLUDES + " 2>/dev/null",
++            "$$JAR xf $$ROOT/$<",
++            "rm -rf " + EXCLUDES,
+             copy_license_cmd,
+             "echo \"Implementation-Version: $$GEN_VERSION\nGerrit-ApiVersion: $$API_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
+             "find . -exec touch -t 198001010000 '{}' ';'",
+-            "find . -mindepth 1 -print | LC_ALL=C sort | zip -Xq $$ROOT/$@ -@",
++            # jar recurses into listed directories in filesystem order: list
++            # the files (sorted) first and the directories last.
++            "find . ! -type d -print | LC_ALL=C sort > $$ROOT/$@.list",
++            "find . -mindepth 1 -type d -print | LC_ALL=C sort >> $$ROOT/$@.list",
++            JAR_CREATE + " --file $$ROOT/$@ @$$ROOT/$@.list",
+         ]),
++        toolchains = JAR_TOOLCHAINS,
+         tools = [
+             ":%s__gen_stamp_info" % name,
+             "@gerrit_api_version//:version.txt",
+diff --git a/a/js/private/plugin.bzl b/b/js/private/plugin.bzl
+index 212c798..5c248a0 100644
+--- a/a/js/private/plugin.bzl
++++ b/b/js/private/plugin.bzl
+@@ -1,5 +1,6 @@
+ load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
+ load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
++load("@com_googlesource_gerrit_bazlets//tools:jar.bzl", "JAR_CREATE", "JAR_SETUP", "JAR_TOOLCHAINS")
+ 
+ def _rollup_minify(
+         name,
+@@ -62,11 +63,13 @@ def gerrit_js_bundle(
+         srcs = [main],
+         outs = [name + ".jar"],
+         cmd = " && ".join([
++            JAR_SETUP,
+             "mkdir $$TMP/static",
+             "cp $(SRCS) $$TMP/static",
+             "cd $$TMP",
+-            "zip -Drq $$ROOT/$@ -g .",
++            JAR_CREATE + " --file $$ROOT/$@ $$(find . -type f | LC_ALL=C sort)",
+         ]),
++        toolchains = JAR_TOOLCHAINS,
+     )
+ 
+ def polygerrit_plugin(
+diff --git a/b/tools/jar.bzl b/b/tools/jar.bzl
+new file mode 100644
+index 0000000..7521a33
+--- /dev/null
++++ b/b/tools/jar.bzl
+@@ -0,0 +1,32 @@
++"""Building zip archives in genrules with the JDK's jar tool.
++
++zip(1) and unzip(1) are missing on minimal remote executors, the JDK is not.
++
++Usage in a genrule (or genrule2) that runs in the exec configuration:
++
++    genrule2(
++        ...
++        cmd = " && ".join([
++            JAR_SETUP,
++            "cd somedir",
++            JAR_CREATE + " --file $$ROOT/$@ .",
++        ]),
++        toolchains = JAR_TOOLCHAINS,
++    )
++"""
++
++# The host (exec) runtime, so that jar matches the machine running the action.
++# current_java_runtime would resolve for the target platform instead.
++JAR_TOOLCHAINS = ["@bazel_tools//tools/jdk:current_host_java_runtime"]
++
++# $(JAVABASE) can be relative to the execroot: define $JAR before any cd.
++JAR_SETUP = "JAR=$$(cd $(JAVABASE) && pwd)/bin/jar"
++
++# Flags shared by every archive creation, also usable outside of genrules (e.g.
++# in ctx.actions.run_shell). The fixed date keeps archives reproducible. It
++# cannot be earlier than 1980-01-01T00:00:02Z, the epoch of the zip format with
++# a 2s granularity.
++JAR_FLAGS = "--create --no-manifest --date=1980-01-01T00:00:02Z"
++
++# For genrules only: $$ is the genrule escape for $.
++JAR_CREATE = "$$JAR " + JAR_FLAGS
+diff --git a/a/tools/javadoc.bzl b/b/tools/javadoc.bzl
+index b4b4f4e..8bd1195 100644
+--- a/a/tools/javadoc.bzl
++++ b/b/tools/javadoc.bzl
+@@ -14,10 +14,14 @@
+ 
+ # Javadoc rule.
+ 
+-load("@rules_java//java:defs.bzl", "JavaInfo", "java_common")
++load("@rules_java//java:defs.bzl", "JavaInfo")
++load("//tools:jar.bzl", "JAR_FLAGS")
++
++_JAVA_TOOLCHAIN_TYPE = "@bazel_tools//tools/jdk:toolchain_type"
+ 
+ def _impl(ctx):
+     zip_output = ctx.outputs.zip
++    java_runtime = ctx.toolchains[_JAVA_TOOLCHAIN_TYPE].java.java_runtime
+ 
+     transitive_jars = depset(transitive = [j[JavaInfo].transitive_compile_time_jars for j in ctx.attr.libs])
+     # TODO(davido): Remove list to depset conversion on source_jars, when this issue is fixed:
+@@ -31,13 +35,15 @@ def _impl(ctx):
+     cmd = [
+         "TZ=UTC",
+         "export TZ",
++        "root=$(pwd)",
++        "jar=$(cd %s && pwd)/bin/jar" % java_runtime.java_home,
+         "rm -rf %s" % source,
+         "mkdir %s" % source,
+-        " && ".join(["unzip -qoud %s %s" % (source, j.path) for j in source_jars.to_list()]),
++        " && ".join(['(cd %s && "$jar" xf "$root/%s")' % (source, j.path) for j in source_jars.to_list()]),
+         "rm -rf %s" % dir,
+         "mkdir %s" % dir,
+         " ".join([
+-            "%s/bin/javadoc" % ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home,
++            "%s/bin/javadoc" % java_runtime.java_home,
+             " ".join(["-J%s" % opt for opt in ctx.fragments.java.default_jvm_opts]),
+             "-Xdoclint:-missing",
+             "-protected",
+@@ -55,10 +61,10 @@ def _impl(ctx):
+             "-d %s" % dir,
+         ]),
+         "find %s -exec touch -t 198001010000 '{}' ';'" % dir,
+-        "(cd %s && zip -Xqr ../%s *)" % (dir, ctx.outputs.zip.basename),
++        '(cd %s && "$jar" %s --file ../%s *)' % (dir, JAR_FLAGS, ctx.outputs.zip.basename),
+     ]
+     ctx.actions.run_shell(
+-        inputs = transitive_jars.to_list() + source_jars.to_list() + ctx.files._jdk,
++        inputs = transitive_jars.to_list() + source_jars.to_list() + java_runtime.files.to_list(),
+         outputs = [zip_output],
+         command = " && ".join(cmd),
+     )
+@@ -69,13 +75,9 @@ java_doc = rule(
+         "libs": attr.label_list(allow_files = False),
+         "pkgs": attr.string_list(),
+         "title": attr.string(),
+-        "_jdk": attr.label(
+-            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+-            allow_files = True,
+-            providers = [java_common.JavaRuntimeInfo],
+-        ),
+     },
+     outputs = {"zip": "%{name}.zip"},
+     implementation = _impl,
+     fragments = ["java"],
++    toolchains = [_JAVA_TOOLCHAIN_TYPE],
+ )
+diff --git a/a/tools/pkg_war.bzl b/b/tools/pkg_war.bzl
+index 0691ec2..6eb66de 100644
+--- a/a/tools/pkg_war.bzl
++++ b/b/tools/pkg_war.bzl
+@@ -15,6 +15,9 @@
+ # War packaging.
+ 
+ load("@rules_java//java:defs.bzl", "JavaInfo")
++load("//tools:jar.bzl", "JAR_FLAGS")
++
++_JAVA_TOOLCHAIN_TYPE = "@bazel_tools//tools/jdk:toolchain_type"
+ 
+ jar_filetype = [".jar"]
+ 
+@@ -73,7 +76,7 @@ def is_third_party_jar_id(ctx, jar_id):
+ 
+ def _add_context(in_file, output):
+     return [
+-        "unzip -qd %s %s" % (output, in_file.path),
++        '(cd %s && "$jar" xf "$root/%s")' % (output, in_file.path),
+     ]
+ 
+ def _add_jar_file(in_file, output):
+@@ -92,14 +95,18 @@ def _add_file(in_file, output):
+ 
+ def _make_war(input_dir, output):
+     return "(%s)" % " && ".join([
+-        "root=$(pwd)",
+         "cd %s" % input_dir,
+         "find . -exec touch -t 198001010000 '{}' ';' 2> /dev/null",
+-        "zip -X -9qr ${root}/%s ." % (output.path),
++        # jar recurses into listed directories in filesystem order: list the
++        # files (sorted) first and the directories last.
++        "find . ! -type d -print | LC_ALL=C sort > ${root}/%s.list" % output.path,
++        "find . -mindepth 1 -type d -print | LC_ALL=C sort >> ${root}/%s.list" % output.path,
++        "\"$jar\" %s --file ${root}/%s @${root}/%s.list" % (JAR_FLAGS, output.path, output.path),
+     ])
+ 
+ def _war_impl(ctx):
+     war = ctx.outputs.war
++    java_runtime = ctx.toolchains[_JAVA_TOOLCHAIN_TYPE].java.java_runtime
+     build_output = war.path + ".build_output"
+     inputs = []
+ 
+@@ -109,7 +116,10 @@ def _war_impl(ctx):
+ 
+     # Create war layout
+     cmd = [
+-        "set -e;rm -rf " + build_output,
++        "set -e",
++        "root=$(pwd)",
++        'jar=$(cd %s && pwd)/bin/jar' % java_runtime.java_home,
++        "rm -rf " + build_output,
+         "mkdir -p " + build_output,
+         "mkdir -p %s/WEB-INF/lib" % build_output,
+         "mkdir -p %s/WEB-INF/pgm-lib" % build_output,
+@@ -194,7 +204,7 @@ def _war_impl(ctx):
+     cmd.append(_make_war(build_output, war))
+ 
+     ctx.actions.run_shell(
+-        inputs = inputs,
++        inputs = depset(inputs, transitive = [java_runtime.files]),
+         outputs = [war],
+         mnemonic = "WAR",
+         command = "\n".join(cmd),
+@@ -219,6 +229,7 @@ _pkg_war = rule(
+         "exclude_third_party_jar": attr.string_list(),
+         "exclude_third_party_jar_prefix": attr.string_list(),
+     },
++    toolchains = [_JAVA_TOOLCHAIN_TYPE],
+     outputs = {
+         "war": "%{name}.war",
+         "jars": "%{name}.war.jars.txt",
+diff --git a/a/tools/servlet_transform.bzl b/b/tools/servlet_transform.bzl
+index ab3d05a..fc371d7 100644
+--- a/a/tools/servlet_transform.bzl
++++ b/b/tools/servlet_transform.bzl
+@@ -28,6 +28,10 @@
+ # external dependency and is self-contained. Consumers carry no renames data.
+ 
+ # Ordered (more specific prefix first) so a longer rename wins before its prefix.
++load("//tools:jar.bzl", "JAR_FLAGS")
++
++_JAVA_TOOLCHAIN_TYPE = "@bazel_tools//tools/jdk:toolchain_type"
++
+ _RENAMES = {
+     "to_javax": [
+         ("jakarta.servlet", "javax.servlet"),
+@@ -51,6 +55,7 @@ _RENAMES = {
+ def _transform_srcjar_impl(ctx):
+     output_srcjar = ctx.actions.declare_file(ctx.label.name + ".srcjar")
+     src_prefix = ctx.attr.src_prefix
++    java_runtime = ctx.toolchains[_JAVA_TOOLCHAIN_TYPE].java.java_runtime
+ 
+     # Escape regex-significant dots in the source prefix; sed replacement text
+     # takes dots literally.
+@@ -65,10 +70,11 @@ def _transform_srcjar_impl(ctx):
+     args.add(output_srcjar)
+     args.add(src_prefix)
+     args.add(sed_script)
++    args.add(java_runtime.java_home)
+     args.add_all(ctx.files.sources)
+ 
+     ctx.actions.run_shell(
+-        inputs = ctx.files.sources + [sed_script],
++        inputs = depset(ctx.files.sources + [sed_script], transitive = [java_runtime.files]),
+         outputs = [output_srcjar],
+         arguments = [args],
+         command = """
+@@ -77,7 +83,8 @@ set -euo pipefail
+ out="$1"
+ src_prefix="$2"
+ sed_script="$3"
+-shift 3
++jar="$(cd "$4" && pwd)/bin/jar"
++shift 4
+ out="${PWD}/${out}"
+ 
+ work="$(mktemp -d "${TMPDIR:-/tmp}/servlet-transform.XXXXXX")"
+@@ -99,8 +106,9 @@ done
+ 
+ cd "${work}"
+ find . -type f -exec touch -t 200001010000.00 {} +
+-LC_ALL=C find . -type f | sort | zip -qDX@ "${out}"
+-""",
++LC_ALL=C find . -type f | sort > "${out}.list"
++"${jar}" %s --file "${out}" @"${out}.list"
++""" % JAR_FLAGS,
+         mnemonic = "TransformServletSrcJar",
+         progress_message = "Rewriting servlet imports for %s" % ctx.label,
+     )
+@@ -109,6 +117,7 @@ LC_ALL=C find . -type f | sort | zip -qDX@ "${out}"
+ 
+ transform_srcjar = rule(
+     implementation = _transform_srcjar_impl,
++    toolchains = [_JAVA_TOOLCHAIN_TYPE],
+     doc = "Rewrite servlet package prefixes (per direction) into a srcjar.",
+     attrs = {
+         "direction": attr.string(

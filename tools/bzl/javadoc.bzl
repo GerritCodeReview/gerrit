@@ -14,10 +14,14 @@
 
 # Javadoc rule.
 
-load("@rules_java//java:defs.bzl", "JavaInfo", "java_common")
+load("@rules_java//java:defs.bzl", "JavaInfo")
+load("//tools/bzl:jar.bzl", "JAR_FLAGS")
+
+_JAVA_TOOLCHAIN_TYPE = "@bazel_tools//tools/jdk:toolchain_type"
 
 def _impl(ctx):
     zip_output = ctx.outputs.zip
+    java_runtime = ctx.toolchains[_JAVA_TOOLCHAIN_TYPE].java.java_runtime
 
     transitive_jars = depset(transitive = [j[JavaInfo].transitive_compile_time_jars for j in ctx.attr.libs])
 
@@ -32,13 +36,15 @@ def _impl(ctx):
     cmd = [
         "TZ=UTC",
         "export TZ",
+        "root=$(pwd)",
+        "jar=$(cd %s && pwd)/bin/jar" % java_runtime.java_home,
         "rm -rf %s" % source,
         "mkdir %s" % source,
-        " && ".join(["unzip -qoud %s %s" % (source, j.path) for j in source_jars.to_list()]),
+        " && ".join(['(cd %s && "$jar" xf "$root/%s")' % (source, j.path) for j in source_jars.to_list()]),
         "rm -rf %s" % dir,
         "mkdir %s" % dir,
         " ".join([
-            "%s/bin/javadoc" % ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home,
+            "%s/bin/javadoc" % java_runtime.java_home,
             " ".join(["-J%s" % opt for opt in ctx.fragments.java.default_jvm_opts]),
             "-Xdoclint:-missing",
             "-protected",
@@ -56,10 +62,10 @@ def _impl(ctx):
             "-d %s" % dir,
         ]),
         "find %s -exec touch -t 198001010000 '{}' ';'" % dir,
-        "(cd %s && zip -Xqr ../%s *)" % (dir, ctx.outputs.zip.basename),
+        '(cd %s && "$jar" %s --file ../%s *)' % (dir, JAR_FLAGS, ctx.outputs.zip.basename),
     ]
     ctx.actions.run_shell(
-        inputs = transitive_jars.to_list() + source_jars.to_list() + ctx.files._jdk,
+        inputs = transitive_jars.to_list() + source_jars.to_list() + java_runtime.files.to_list(),
         outputs = [zip_output],
         command = " && ".join(cmd),
     )
@@ -70,11 +76,6 @@ java_doc = rule(
         "libs": attr.label_list(allow_files = False),
         "pkgs": attr.string_list(),
         "title": attr.string(),
-        "_jdk": attr.label(
-            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
-            allow_files = True,
-            providers = [java_common.JavaRuntimeInfo],
-        ),
     },
     # Emit a .jar directly (a javadoc jar is a zip). This lets the artifact be
     # consumed as a Maven `javadoc` classifier without a rename step, and matches
@@ -82,4 +83,5 @@ java_doc = rule(
     outputs = {"zip": "%{name}.jar"},
     implementation = _impl,
     fragments = ["java"],
+    toolchains = [_JAVA_TOOLCHAIN_TYPE],
 )

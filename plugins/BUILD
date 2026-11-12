@@ -3,6 +3,7 @@ load("@bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@plugins_npm//:defs.bzl", "npm_link_all_packages")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+load("//tools/bzl:jar.bzl", "JAR_CREATE", "JAR_SETUP", "JAR_TOOLCHAINS")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 load(
     "//tools/bzl:plugins.bzl",
@@ -28,11 +29,13 @@ genrule2(
     name = "core",
     srcs = ["//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n)) for n in CORE_PLUGINS + CUSTOM_PLUGINS],
     outs = ["core.zip"],
-    cmd = "mkdir -p $$TMP/WEB-INF/plugins;" +
+    cmd = JAR_SETUP + ";" +
+          "mkdir -p $$TMP/WEB-INF/plugins;" +
           "for s in $(SRCS) ; do " +
           "ln -s $$ROOT/$$s $$TMP/WEB-INF/plugins;done;" +
           "cd $$TMP;" +
-          "zip -qr $$ROOT/$@ .",
+          JAR_CREATE + " --file $$ROOT/$@ .",
+    toolchains = JAR_TOOLCHAINS,
 )
 
 PLUGIN_API = [

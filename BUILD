@@ -1,5 +1,6 @@
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@npm//:defs.bzl", "npm_link_all_packages")
+load("//tools/bzl:jar.bzl", "JAR_CREATE", "JAR_SETUP", "JAR_TOOLCHAINS")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 npm_link_all_packages(name = "node_modules")
@@ -75,10 +76,12 @@ genrule2(
     srcs = API_DEPS + API_JAVADOC_DEPS,
     outs = ["api.zip"],
     cmd = " && ".join([
+        JAR_SETUP,
         "cp $(SRCS) $$TMP",
         "cd $$TMP",
-        "zip -qr $$ROOT/$@ .",
+        JAR_CREATE + " --file $$ROOT/$@ .",
     ]),
+    toolchains = JAR_TOOLCHAINS,
 )
 
 genrule2(
@@ -87,8 +90,10 @@ genrule2(
     srcs = API_DEPS,
     outs = ["api-skip-javadoc.zip"],
     cmd = " && ".join([
+        JAR_SETUP,
         "cp $(SRCS) $$TMP",
         "cd $$TMP",
-        "zip -qr $$ROOT/$@ .",
+        JAR_CREATE + " --file $$ROOT/$@ .",
     ]),
+    toolchains = JAR_TOOLCHAINS,
 )

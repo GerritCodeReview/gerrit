@@ -7,6 +7,9 @@ bazel_dep(name = "com_googlesource_gerrit_bazlets")
 git_override(
     module_name = "com_googlesource_gerrit_bazlets",
     commit = "a149563c735184151b2122c59019b2941af1cb60",
+    # Replace zip/unzip, missing on minimal remote executors, with the JDK's jar.
+    patch_strip = 2,
+    patches = ["//tools:bazlets-jar.patch"],
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 

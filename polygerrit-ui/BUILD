@@ -1,6 +1,7 @@
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@ui_dev_npm//:defs.bzl", "npm_link_all_packages")
 load("@ui_dev_npm//polygerrit-ui:@web/test-runner/package_json.bzl", web_test_runner_npm_bin = "bin")
+load("//tools/bzl:jar.bzl", "JAR_CREATE", "JAR_SETUP", "JAR_TOOLCHAINS")
 load("//tools/bzl:js.bzl", "web_test_runner")
 
 npm_link_all_packages(name = "node_modules")
@@ -15,12 +16,14 @@ genrule2(
     ],
     outs = ["fonts.zip"],
     cmd = " && ".join([
+        JAR_SETUP,
         "mkdir -p $$TMP/fonts",
         "cp $(SRCS) $$TMP/fonts/",
         "cd $$TMP",
         "find fonts/ -exec touch -t 198001010000 '{}' ';'",
-        "zip -qr $$ROOT/$@ fonts",
+        JAR_CREATE + " --file $$ROOT/$@ fonts",
     ]),
+    toolchains = JAR_TOOLCHAINS,
     output_to_bindir = 1,
 )
 

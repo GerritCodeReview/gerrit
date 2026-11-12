@@ -34,6 +34,23 @@
       "parentUuid": "a85b91c6_b1c1f689",
       "revId": "b1de22b70ff42c337ac634d48f13322f6fc85ee2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05325395_ba0c7e9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-12T18:52:47Z",
+      "side": 1,
+      "message": "Thank you Cristina for adding it.\n\nIt\u0027s interesting that it was probably accidently dropped in https://gerrit-review.git.corp.google.com/c/gerrit/+/46600 and then redesigns to polygerrit and my redesign of change metadata never return it back. \n\nI think it\u0027s good decision that it is shown only when show all is clicked",
+      "revId": "b1de22b70ff42c337ac634d48f13322f6fc85ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

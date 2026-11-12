@@ -38,6 +38,10 @@ public class ExperimentFeaturesConstants {
   public static final String CONSIDER_VOTES_OF_DELETED_ACCOUNTS =
       "GerritBackendFeature__consider_votes_of_deleted_accounts";
 
+  /** Whether to optimize commit visibility checks when creating tags. */
+  public static final String GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY =
+      "GerritBackendFeature__optimize_create_tag_visibility";
+
   /** Whether we restrict the creation of branch permissions. */
   public static final String GERRIT_BACKEND_FEATURE_RESTRICT_BRANCH_PERMISSIONS =
       "GerritBackendFeature__restrict_branch_permissions";

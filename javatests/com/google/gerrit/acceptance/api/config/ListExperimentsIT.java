@@ -48,11 +48,18 @@ public class ListExperimentsIT extends AbstractDaemonTest {
     assertThat(experiments.keySet())
         .containsAtLeast(
             ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS,
+            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY,
             ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS)
         .inOrder();
 
     assertThat(
             experiments.get(ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS).enabled)
+        .isFalse();
+    assertThat(
+            experiments.get(
+                    ExperimentFeaturesConstants
+                        .GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY)
+                .enabled)
         .isFalse();
     assertThat(
             experiments.get(

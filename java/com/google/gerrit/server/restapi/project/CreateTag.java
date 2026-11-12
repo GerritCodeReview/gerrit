@@ -129,7 +129,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         try (RevWalk rw = RefUtil.verifyConnected(repo, revid)) {
           RevObject object = rw.parseAny(revid);
           createRefControl.checkCreateTagCommit(
-              identifiedUser, repo, object, resource.getNameKey());
+              identifiedUser, repo, rw, object, resource.getNameKey());
           rw.reset();
           boolean isAnnotated = Strings.emptyToNull(input.message) != null;
 

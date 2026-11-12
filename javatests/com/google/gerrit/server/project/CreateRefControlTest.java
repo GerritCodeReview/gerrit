@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -30,6 +31,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.DelegateRefDatabase;
 import com.google.gerrit.server.git.DelegateRepository;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryableIndexQueryAction;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -52,6 +55,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,11 +71,13 @@ public class CreateRefControlTest {
   private Repository repo;
   private List<ImmutableList<String>> recordedPrefixCalls;
   private List<ImmutableSet<String>> recordedExclusionCalls;
+  private Set<Project.NameKey> optimizeCreateTagEnabledProjects;
   private CurrentUser currentUser;
   private PermissionBackend permissionBackend;
   private PermissionBackend.ForRef forRef;
   private ProjectCache projectCache;
   private RetryHelper retryHelper;
+  private ExperimentFeatures experimentFeatures;
   private RetryableIndexQueryAction<InternalChangeQuery, List<ChangeData>> indexQueryAction;
   private CreateRefControl createRefControl;
   private RevCommit mainCommit;
@@ -134,12 +140,39 @@ public class CreateRefControlTest {
     when(indexQueryAction.call()).thenReturn(ImmutableList.of());
     when(retryHelper.<List<ChangeData>>changeIndexQuery(any(), any())).thenReturn(indexQueryAction);
 
+    optimizeCreateTagEnabledProjects = new HashSet<>();
+    experimentFeatures =
+        new ExperimentFeatures() {
+          @Override
+          public boolean isFeatureEnabled(String featureFlag) {
+            return false;
+          }
+
+          @Override
+          public boolean isFeatureEnabled(String featureFlag, Project.NameKey project) {
+            if (GERRIT_BACKEND_FEATURE_OPTIMIZE_CREATE_TAG_VISIBILITY.equals(featureFlag)) {
+              return optimizeCreateTagEnabledProjects.contains(project);
+            }
+            return false;
+          }
+
+          @Override
+          public ImmutableSet<String> getEnabledExperimentFeatures() {
+            return ImmutableSet.of();
+          }
+        };
+
     createRefControl = newCreateRefControl(new Config());
   }
 
   private CreateRefControl newCreateRefControl(Config cfg) {
     return new CreateRefControl(
-        permissionBackend, projectCache, new Reachable(permissionBackend), retryHelper, cfg);
+        permissionBackend,
+        projectCache,
+        new Reachable(permissionBackend),
+        retryHelper,
+        experimentFeatures,
+        cfg);
   }
 
   @After
@@ -250,8 +283,10 @@ public class CreateRefControlTest {
 
   @Test
   public void checkCreateTagCommit_whenRestrictionDisabled_skipsVisibilityCheck() throws Exception {
-    createRefControl.checkCreateTagCommit(
-        () -> currentUser, repo, branchHeadCommit, PROJECT_DISABLED);
+    try (RevWalk rw = new RevWalk(repo)) {
+      createRefControl.checkCreateTagCommit(
+          () -> currentUser, repo, rw, branchHeadCommit, PROJECT_DISABLED);
+    }
 
     assertThat(recordedPrefixCalls).isEmpty();
     assertThat(recordedExclusionCalls).isEmpty();
@@ -259,15 +294,56 @@ public class CreateRefControlTest {
   }
 
   @Test
-  public void checkCreateTagCommit_whenRestricted_excludesRefsChanges() throws Exception {
+  public void checkCreateTagCommit_whenRestrictedAndUnoptimized_excludesRefsChanges()
+      throws Exception {
     Config cfg = new Config();
     cfg.setBoolean("receive", null, "restrictCreateRefToConfiguredRefs", true);
     CreateRefControl control = newCreateRefControl(cfg);
 
-    control.checkCreateTagCommit(() -> currentUser, repo, mainCommit, PROJECT_DISABLED);
+    try (RevWalk rw = new RevWalk(repo)) {
+      control.checkCreateTagCommit(() -> currentUser, repo, rw, mainCommit, PROJECT_DISABLED);
+    }
 
     assertThat(recordedExclusionCalls).containsExactly(ImmutableSet.of(RefNames.REFS_CHANGES));
     assertThat(recordedPrefixCalls).isEmpty();
     verifyNoInteractions(retryHelper);
+  }
+
+  @Test
+  public void checkCreateTagCommit_whenRestrictedAndOptimizedWithDefaultAllowedRefs_usesRefsHeads()
+      throws Exception {
+    optimizeCreateTagEnabledProjects.add(PROJECT_ENABLED);
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "restrictCreateRefToConfiguredRefs", true);
+    CreateRefControl control = newCreateRefControl(cfg);
+
+    try (RevWalk rw = new RevWalk(repo)) {
+      control.checkCreateTagCommit(() -> currentUser, repo, rw, mainCommit, PROJECT_ENABLED);
+      assertThat(recordedPrefixCalls).containsExactly(ImmutableList.of(Constants.R_HEADS));
+      assertThat(recordedExclusionCalls).isEmpty();
+    }
+  }
+
+  @Test
+  public void
+      checkCreateTagCommit_whenRestrictedAndOptimizedWithCustomAllowedRefs_usesConfiguredPrefixes()
+          throws Exception {
+    optimizeCreateTagEnabledProjects.add(PROJECT_ENABLED);
+    Config cfg = new Config();
+    cfg.setBoolean("receive", null, "restrictCreateRefToConfiguredRefs", true);
+    cfg.setStringList(
+        "receive",
+        null,
+        "createTagAllowedRefs",
+        ImmutableList.of(Constants.R_HEADS, RefNames.REFS_CONFIG, REFS_BRANCH_HEADS));
+    CreateRefControl control = newCreateRefControl(cfg);
+
+    try (RevWalk rw = new RevWalk(repo)) {
+      control.checkCreateTagCommit(() -> currentUser, repo, rw, branchHeadCommit, PROJECT_ENABLED);
+      assertThat(recordedPrefixCalls)
+          .containsExactly(
+              ImmutableList.of(Constants.R_HEADS, RefNames.REFS_CONFIG, REFS_BRANCH_HEADS));
+      assertThat(recordedExclusionCalls).isEmpty();
+    }
   }
 }

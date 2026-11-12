@@ -43,6 +43,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
@@ -102,6 +103,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.restapi.testing.AttentionSetUpdateSubject;
 import com.google.gerrit.git.ObjectIds;
@@ -135,7 +137,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -1911,6 +1919,150 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         pushHead(testRepo, "refs/for/master", false),
         "refs/for/master",
         "commit(s) already exists (as current patchset)");
+  }
+
+  @Test
+  // The test server processes the pushes on a single thread by default.
+  @GerritConfig(name = "receive.threadPoolSize", value = "2")
+  @GerritConfig(name = "sshd.threads", value = "2")
+  @GerritConfig(name = "sshd.batchThreads", value = "0")
+  public void concurrentPushesOfSameCommitCreateOneChange() throws Exception {
+    RevCommit c = testRepo.branch("HEAD").commit().message("Concurrent").insertChangeId().create();
+    testRepo.reset(c);
+
+    // Without serializing the pushes, both pushes look up the change of the commit before either
+    // of them created it, and both create a change. The validator holds each push until the other
+    // one validates too, or until it times out, when the other push is waiting for this one.
+    CountDownLatch bothValidating = new CountDownLatch(2);
+    CommitValidationListener waitForOtherPush =
+        new CommitValidationListener() {
+          @Override
+          public ImmutableList<CommitValidationMessage> onCommitReceived(
+              CommitReceivedEvent receiveEvent) {
+            bothValidating.countDown();
+            try {
+              bothValidating.await(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+              Thread.currentThread().interrupt();
+            }
+            return ImmutableList.of();
+          }
+        };
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    List<RemoteRefUpdate.Status> statuses = new ArrayList<>();
+    try (Registration registration = extensionRegistry.newRegistration().add(waitForOtherPush)) {
+      List<Future<PushResult>> pushes = new ArrayList<>();
+      for (int i = 0; i < 2; i++) {
+        pushes.add(executor.submit(() -> pushHead(testRepo, "refs/for/master", false)));
+      }
+      for (Future<PushResult> push : pushes) {
+        statuses.add(push.get(60, TimeUnit.SECONDS).getRemoteUpdate("refs/for/master").getStatus());
+      }
+    } finally {
+      executor.shutdownNow();
+    }
+
+    // The second push finds the change of the first push.
+    assertThat(statuses)
+        .containsExactly(RemoteRefUpdate.Status.OK, RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(query(c.name())).hasSize(1);
+  }
+
+  @Test
+  // The test server processes the pushes on a single thread by default.
+  @GerritConfig(name = "receive.threadPoolSize", value = "2")
+  @GerritConfig(name = "sshd.threads", value = "2")
+  @GerritConfig(name = "sshd.batchThreads", value = "0")
+  public void pushOfChangeWaitsUntilChangeCreatedByConcurrentPushIsIndexed() throws Exception {
+    RevCommit c1 = testRepo.branch("HEAD").commit().message("Slow index").insertChangeId().create();
+    RevCommit c2 = testRepo.amend(c1).add("a.txt", "amended").create();
+
+    // Holds the indexing of the change that the first push creates, after it is created in the
+    // repository.
+    CountDownLatch indexingScheduled = new CountDownLatch(1);
+    CountDownLatch continueIndexing = new CountDownLatch(1);
+    AtomicBoolean first = new AtomicBoolean(true);
+    ChangeIndexedListener holdIndexing =
+        new ChangeIndexedListener() {
+          @Override
+          public void onChangeScheduledForIndexing(String projectName, int id) {
+            if (first.getAndSet(false)) {
+              indexingScheduled.countDown();
+              try {
+                continueIndexing.await(30, TimeUnit.SECONDS);
+              } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+              }
+            }
+          }
+
+          @Override
+          public void onChangeIndexed(String projectName, int id) {}
+
+          @Override
+          public void onChangeDeleted(int id) {}
+        };
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    try (Registration registration = extensionRegistry.newRegistration().add(holdIndexing)) {
+      Future<PushResult> push1 =
+          executor.submit(
+              () -> pushOne(testRepo, c1.name(), "refs/for/master", false, false, null));
+      assertThat(indexingScheduled.await(30, TimeUnit.SECONDS)).isTrue();
+
+      Future<PushResult> push2 =
+          executor.submit(
+              () -> pushOne(testRepo, c2.name(), "refs/for/master", false, false, null));
+      // The second push waits for the first one. Without waiting, it doesn't find the change in the
+      // index, and creates another one.
+      assertThrows(TimeoutException.class, () -> push2.get(3, TimeUnit.SECONDS));
+
+      continueIndexing.countDown();
+      assertPushOk(push1.get(60, TimeUnit.SECONDS), "refs/for/master");
+      assertPushOk(push2.get(60, TimeUnit.SECONDS), "refs/for/master");
+    } finally {
+      continueIndexing.countDown();
+      executor.shutdownNow();
+    }
+
+    List<ChangeInfo> changes = query("change:" + GitUtil.getChangeId(testRepo, c1).get());
+    assertThat(changes).hasSize(1);
+    assertThat(get(changes.get(0).id, ALL_REVISIONS).revisions.keySet())
+        .containsExactly(c1.name(), c2.name());
+  }
+
+  @Test
+  public void pushOfChangeFindsChangeCreatedByPreviousPushThatWasNotIndexed() throws Exception {
+    RevCommit c1 = testRepo.branch("HEAD").commit().message("Lost index").insertChangeId().create();
+    RevCommit c2 = testRepo.amend(c1).add("a.txt", "amended").create();
+
+    // Removes the change that the first push creates from the index, as if its indexing was skipped
+    // because the push was cancelled after the change was created in the repository.
+    AtomicBoolean first = new AtomicBoolean(true);
+    ChangeIndexedListener loseIndex =
+        new ChangeIndexedListener() {
+          @Override
+          public void onChangeIndexed(String projectName, int id) {
+            if (first.getAndSet(false)) {
+              indexer.delete(Change.id(id));
+            }
+          }
+
+          @Override
+          public void onChangeDeleted(int id) {}
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(loseIndex)) {
+      assertPushOk(
+          pushOne(testRepo, c1.name(), "refs/for/master", false, false, null), "refs/for/master");
+    }
+    assertThat(first.get()).isFalse();
+
+    assertPushOk(
+        pushOne(testRepo, c2.name(), "refs/for/master", false, false, null), "refs/for/master");
+
+    List<ChangeInfo> changes = query("change:" + GitUtil.getChangeId(testRepo, c1).get());
+    assertThat(changes).hasSize(1);
+    assertThat(get(changes.get(0).id, ALL_REVISIONS).revisions.keySet())
+        .containsExactly(c1.name(), c2.name());
   }
 
   private void assertTwoChangesWithSameRevision(PushOneCommit.Result result) throws Exception {

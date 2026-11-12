@@ -126,6 +126,7 @@ import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
+import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -235,6 +236,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -398,6 +400,7 @@ class ReceiveCommits {
   private final PluginSetContext<ExceptionHook> exceptionHooks;
   private final ChangeIndexer indexer;
   private final ChangeInserter.Factory changeInserterFactory;
+  private final ChangeLookupLocks changeLookupLocks;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeReportFormatter changeFormatter;
   private final ChangeUtil changeUtil;
@@ -449,6 +452,10 @@ class ReceiveCommits {
 
   // Immutable fields derived from constructor arguments.
   private final boolean allowProjectOwnersToChangeParent;
+
+  /** How long a push waits for a concurrent push of the same change, in milliseconds. */
+  private final long changeLookupLockTimeoutMillis;
+
   private final LabelTypes labelTypes;
   private final NoteMap rejectCommits;
   private final PermissionBackend.ForProject permissions;
@@ -466,6 +473,11 @@ class ReceiveCommits {
   private final ListMultimap<String, String> errors;
 
   private final LinkedHashMap<ReceiveCommand, RejectionReason> rejectionReasons;
+
+  /**
+   * Locks of the change lookups of this push by their key, held until its new changes are indexed.
+   */
+  private final Map<String, ChangeLookupLocks.Handle> heldChangeLookupLocks;
 
   private final ListMultimap<String, String> pushOptions;
   private final ReceivePackRefCache receivePackRefCache;
@@ -501,6 +513,7 @@ class ReceiveCommits {
       PluginSetContext<ExceptionHook> exceptionHooks,
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
+      ChangeLookupLocks changeLookupLocks,
       ChangeNotes.Factory notesFactory,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       ChangeUtil changeUtil,
@@ -560,6 +573,7 @@ class ReceiveCommits {
     this.changeFormatter = changeFormatterProvider.get();
     this.changeUtil = changeUtil;
     this.changeInserterFactory = changeInserterFactory;
+    this.changeLookupLocks = changeLookupLocks;
     this.draftCommentsReader = draftCommentsReader;
     this.commentValidators = commentValidators;
     this.commitValidatorFactory = commitValidatorFactory;
@@ -624,12 +638,20 @@ class ReceiveCommits {
 
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
     rejectionReasons = new LinkedHashMap<>();
+    heldChangeLookupLocks = new LinkedHashMap<>();
     messages = new ConcurrentLinkedQueue<>();
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
 
     used = false;
 
+    this.changeLookupLockTimeoutMillis =
+        config.getTimeUnit(
+            "receive",
+            null,
+            "changeLookupLockTimeout",
+            TimeUnit.SECONDS.toMillis(60),
+            TimeUnit.MILLISECONDS);
     this.allowProjectOwnersToChangeParent =
         config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
 
@@ -948,6 +970,9 @@ class ReceiveCommits {
         preparePatchSetsForReplace(globalRevWalk, newChanges);
         insertChangesAndPatchSets(globalRevWalk, ins, newChanges, replaceProgress);
       } finally {
+        // Another push of the same changes, that waits for the locks, looks them up in the index.
+        indexNewChanges(newChanges);
+        releaseChangeLookupLocks();
         newProgress.end();
         replaceProgress.end();
       }
@@ -2725,8 +2750,19 @@ class ReceiveCommits {
           }
 
           List<String> idList = changeUtil.getChangeIdsFromFooter(c);
-          if (!idList.isEmpty()) {
-            pending.put(c, lookupByChangeKey(c, Change.key(idList.get(idList.size() - 1).trim())));
+          Change.Key changeKey =
+              idList.isEmpty() ? null : Change.key(idList.get(idList.size() - 1).trim());
+          if (!lockChangeLookup(changeKey != null ? changeKey.get() : c.name())) {
+            reject(
+                magicBranch.cmd,
+                RejectionReason.create(
+                    MetricBucket.CONCURRENT_PUSH,
+                    String.format(
+                        "commit %s is being pushed concurrently, try again", abbreviateName(c))));
+            return ImmutableList.of();
+          }
+          if (changeKey != null) {
+            pending.put(c, lookupByChangeKey(c, changeKey));
           } else {
             pending.put(c, lookupByCommit(c));
           }
@@ -3077,6 +3113,94 @@ class ReceiveCommits {
       this.commit = c;
       this.changeKey = key;
       this.destChanges = destChanges;
+    }
+  }
+
+  /**
+   * Locks the lookup of a change by its Change-Id, or by its commit, on the destination branch, so
+   * that a push of the same change waits until this push has created its changes and they are
+   * indexed, and then finds them, instead of creating a duplicate change. The lock is held until
+   * {@link #releaseChangeLookupLocks()}.
+   *
+   * @return whether the lock was acquired. {@code false} if another push held it for too long.
+   */
+  private boolean lockChangeLookup(String key) {
+    if (heldChangeLookupLocks.containsKey(key)) {
+      return true;
+    }
+    ChangeLookupLocks.Handle lock;
+    try (TraceTimer traceTimer = newTimer("lockChangeLookup")) {
+      // A timeout instead of waiting forever, since the locks are taken in the order of the
+      // commits, so two pushes of the same changes in a different order can wait for each other.
+      lock =
+          changeLookupLocks.tryLock(
+              magicBranch.dest, key, changeLookupLockTimeoutMillis, TimeUnit.MILLISECONDS);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      return false;
+    }
+    if (lock == null) {
+      logger.atWarning().log(
+          "Timed out waiting for a concurrent push of %s to %s", key, magicBranch.dest);
+      return false;
+    }
+    heldChangeLookupLocks.put(key, lock);
+    return true;
+  }
+
+  private void releaseChangeLookupLocks() {
+    heldChangeLookupLocks.values().forEach(ChangeLookupLocks.Handle::release);
+    heldChangeLookupLocks.clear();
+  }
+
+  /**
+   * Makes sure that the new changes of this push that were created are in the index.
+   *
+   * <p>The changes are indexed when they are created, but if the push is cancelled (e.g. because
+   * the client disconnected or a deadline was exceeded), interrupted or fails after the changes are
+   * created, the indexing may be skipped, or still be in progress. A push of the same changes that
+   * looks them up in the index wouldn't find them, and would create duplicate changes.
+   *
+   * <p>Runs even if the push was cancelled or interrupted, so that the change lookup locks are not
+   * released before the changes are in the index.
+   */
+  private void indexNewChanges(List<CreateRequest> newChanges) {
+    if (newChanges.isEmpty()) {
+      return;
+    }
+    // An interrupt would fail the index write.
+    boolean interrupted = Thread.interrupted();
+    try (NonCancellableOperationContext nonCancellable =
+        RequestStateContext.startNonCancellableOperation()) {
+      for (CreateRequest create : newChanges) {
+        Change.Id id = create.changeId;
+        if (id == null) {
+          continue;
+        }
+        try {
+          if (repo.exactRef(RefNames.changeMetaRef(id)) == null
+              || !retryHelper
+                  .changeIndexQuery("indexNewChanges", q -> q.byLegacyChangeId(id))
+                  .call()
+                  .isEmpty()) {
+            // Not created, or indexed.
+            continue;
+          }
+          logger.atWarning().log("Change %s was created, but isn't indexed, indexing it", id);
+          indexer.index(project.getNameKey(), id);
+        } catch (IOException | RuntimeException e) {
+          logger.atSevere().withCause(e).log("Failed to index new change %s", id);
+        }
+      }
+    } catch (RequestCancelledException e) {
+      // Thrown when the non-cancellable operation ends, if the push was cancelled meanwhile. The
+      // changes are already processed, and the cancellation is reported by the caller if it
+      // happened earlier.
+      logger.atFine().log("Push was cancelled while indexing new changes: %s", e.getMessage());
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
     }
   }
 

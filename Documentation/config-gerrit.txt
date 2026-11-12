@@ -5209,6 +5209,25 @@ the client.
 +
 Default is 5 minutes.
 
+[[receive.changeLookupLockTimeout]]receive.changeLookupLockTimeout::
++
+How long a push for review waits for a concurrent push of the same
+change to the same branch on this server.
++
+A push looks up the existing change of each commit by its Change-Id in
+the change index, and creates a new change if there is none. To prevent
+concurrent pushes of the same change from creating duplicate changes, a
+push locks each Change-Id (or commit, if it has no Change-Id) on the
+destination branch until the changes that it created are indexed. A push
+of the same change waits for the lock, and then finds the change of the
+other push. If the lock isn't released within this timeout, the push is
+rejected and can be retried.
++
+Values can be specified using standard time unit abbreviations ('ms',
+'sec', 'min', etc.).
++
+Default is 60 seconds. If no unit is specified, milliseconds is assumed.
+
 [[receive.checkMagicRefs]]receive.checkMagicRefs::
 +
 If `true`, Gerrit will verify the destination repository has

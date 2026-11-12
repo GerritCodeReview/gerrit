@@ -56,3 +56,6 @@ include("//polygerrit-ui:polygerrit.MODULE.bazel")
 
 # Wiring for external dependencies contributed by in-tree plugins.
 include("//plugins:external_plugin_deps.MODULE.bazel")
+
+# TEST ONLY: execute a local test action with no new module extension.
+local_repository(name = "ci_credential_canary", path = ".")

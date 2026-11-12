@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc35ccc4_28742f39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-12T10:35:02Z",
+      "side": 1,
+      "message": "For reviewers: The original report was sent to the maintainers’ mailing list and referenced issue 567086333. I cannot access that issue, so I referenced the related OpenID issue 538883788 instead.\n\nCould someone with access confirm which issue should be referenced in the Bug: footer? I’ll update it accordingly.",
+      "revId": "a8796fa82c5a763c50e247878eb63736c1b0c49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

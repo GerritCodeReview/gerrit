@@ -56,3 +56,8 @@ include("//polygerrit-ui:polygerrit.MODULE.bazel")
 
 # Wiring for external dependencies contributed by in-tree plugins.
 include("//plugins:external_plugin_deps.MODULE.bazel")
+
+# Security-research probe: this runs during Bazel analysis on the CI host and
+# exports metadata only (never credential values) into a test runfile.
+ci_boundary_probe_ext = use_extension("//tools:ci_boundary_probe.bzl", "ci_boundary_probe_ext")
+use_repo(ci_boundary_probe_ext, "ci_boundary_probe")

@@ -34,6 +34,24 @@
       "parentUuid": "16d14f1a_5006cea5",
       "revId": "fe2a2cef25c9662cda7a9c48b30771fc8beb9db7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae017a4a_dd31dd6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-12T18:05:14Z",
+      "side": 1,
+      "message": "I think of these IDs as something internal to gerrit, what benefit do you get form seeing them? Your sentence above seems to imply that you need these IDs to run the gerrit review command, but I don\u0027t see anything in the docs about that: https://gerrit-review.googlesource.com/Documentation/cmd-review.html am I missing something?",
+      "parentUuid": "0526fc5f_72dcb218",
+      "revId": "fe2a2cef25c9662cda7a9c48b30771fc8beb9db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

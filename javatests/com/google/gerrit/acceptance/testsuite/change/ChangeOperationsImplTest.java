@@ -22,6 +22,7 @@ import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assert
 import static com.google.gerrit.extensions.restapi.testing.BinaryResultSubject.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -30,6 +31,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -1200,6 +1202,19 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     assertThatMap(change.revisions).hasSize(originalPatchsetCount + 1);
     RevisionInfo currentRevision = change.revisions.get(change.currentRevision);
     assertThat(currentRevision._number).isEqualTo(patchsetId.get());
+  }
+
+  @Test
+  @UseClockStep(clockStep = 0, clockStepUnit = SECONDS)
+  public void multipleNewPatchsetsCreatedWithinSameSecondHaveDistinctRevisions() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    changeOperations.change(changeIdentifier).newPatchset().create();
+    PatchSet.Id patchset3Id = changeOperations.change(changeIdentifier).newPatchset().create();
+
+    ChangeInfo change = gApi.changes().id(changeIdentifier).get();
+    assertThatMap(change.revisions).hasSize(3);
+    RevisionInfo currentRevision = change.revisions.get(change.currentRevision);
+    assertThat(currentRevision._number).isEqualTo(patchset3Id.get());
   }
 
   @Test

@@ -19,7 +19,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
-import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
@@ -55,12 +55,13 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -176,25 +177,29 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     String refPrefix = id.toRefPrefix();
 
     Map<String, ObjectId> refs = ctx.getRepoView().getRefs(refPrefix);
-    List<CodeReviewCommit> commits = new ArrayList<>(refs.size());
+    SortedMap<PatchSet.Id, CodeReviewCommit> commits =
+        new TreeMap<>(comparingInt(PatchSet.Id::get).reversed());
     for (Map.Entry<String, ObjectId> e : refs.entrySet()) {
       PatchSet.Id psId = PatchSet.Id.fromRef(refPrefix + e.getKey());
       if (psId == null) {
         continue;
       }
       try {
-        CodeReviewCommit c = rw.parseCommit(e.getValue());
-        c.setPatchsetId(psId);
-        commits.add(c);
+        commits.put(psId, rw.parseCommit(e.getValue()));
       } catch (MissingObjectException | IncorrectObjectTypeException ex) {
         continue; // Bogus ref, can't be merged into tip so we don't care.
       }
     }
-    commits.sort(comparing((CodeReviewCommit c) -> c.getPatchsetId().get()).reversed());
-    CodeReviewCommit result = MergeUtil.findAnyMergedInto(rw, commits, tip);
+    CodeReviewCommit result = MergeUtil.findAnyMergedInto(rw, commits.values(), tip);
     if (result == null) {
       return null;
     }
+    PatchSet.Id psId =
+        commits.entrySet().stream()
+            .filter(e -> e.getValue().equals(result))
+            .map(Map.Entry::getKey)
+            .findFirst()
+            .orElseThrow();
 
     // Some patch set of this change is actually merged into the target
     // branch, most likely because a previous run of MergeOp failed after
@@ -210,7 +215,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // presumably don't have PatchSets pointing to them.
     rw.parseBody(result);
     result.add(args.canMergeFlag);
-    PatchSet.Id psId = result.getPatchsetId();
     result.copyFrom(toMerge);
     result.setPatchsetId(psId); // Got overwriten by copyFrom.
     result.setStatusCode(CommitMergeStatus.ALREADY_MERGED);

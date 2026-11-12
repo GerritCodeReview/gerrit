@@ -269,6 +269,19 @@
   },
   "selectedYankedVersions": {},
   "moduleExtensions": {
+    "//tools:credential_canary.bzl%ci_credential_canary_ext": {
+      "general": {
+        "bzlTransitiveDigest": "aQXToUZS6ylbIhyHXHsxRn6BKnOOLTn26O7cn19aT+w=",
+        "usagesDigest": "g9VKSCXTuhaARx9oDTGKnNx9ds1RWiCXdxJHbiarWyE=",
+        "recordedInputs": [],
+        "generatedRepoSpecs": {
+          "ci_credential_canary": {
+            "repoRuleId": "@@//tools:credential_canary.bzl%ci_credential_canary",
+            "attributes": {}
+          }
+        }
+      }
+    },
     "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
       "general": {
         "bzlTransitiveDigest": "ihzLOoAnQP6Y5iSYOhEjvb6uxEbA6ZgH8Qikau2lGRU=",

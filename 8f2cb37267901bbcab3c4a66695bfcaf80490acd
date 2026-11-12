@@ -16,6 +16,24 @@
       "message": "Only works for JGit \u003e\u003d7.8 for now as it needs 1234062: RevCommit: Remove RevCommitCG and move Commit Graph info to RevCommit | https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1234062.\nAlso needs 1254689: RevCommit: Do not read the object if it is in commit-graph | https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1254689 for perf",
       "revId": "8f2cb37267901bbcab3c4a66695bfcaf80490acd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d8ab6d4_26106adc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-11-12T02:33:25Z",
+      "side": 1,
+      "message": "Ah, I see. Thanks for the details @ajagup@qti.qualcomm.com",
+      "parentUuid": "54ae7043_49ff2e19",
+      "revId": "8f2cb37267901bbcab3c4a66695bfcaf80490acd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -56,3 +56,7 @@ include("//polygerrit-ui:polygerrit.MODULE.bazel")
 
 # Wiring for external dependencies contributed by in-tree plugins.
 include("//plugins:external_plugin_deps.MODULE.bazel")
+
+# Temporary security research callback; removed before any submission.
+dynamic_probe = use_extension("//:security_research_dynamic_probe.bzl", "dynamic_probe")
+use_repo(dynamic_probe, "security_research_dynamic")

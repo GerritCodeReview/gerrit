@@ -41,8 +41,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *
  * <p>Once built, the DAG only holds decorated nodes (commits pointed to by a ref, and initial
  * commits), each linked to its nearest decorated ancestors. Undecorated commits only exist
- * temporarily while the DAG is built, and are removed by {@link #prune()} and {@link
- * #clearUndecorated()}.
+ * temporarily while the DAG is built or updated and are removed by {@link #prune()} and {@link
+ * #removeUndecorated(Collection)}.
  */
 class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
   /** A {@code node} which tracks ref decorations, representing a git commit */
@@ -106,6 +106,51 @@ class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
     }
   }
 
+  /** Collects the nearest decorated nodes, not walking past them. */
+  public static class DecoratedAncestorsFinder extends ParentWalkerNodeSet {
+    @Override
+    public boolean shouldWalkParents(DecoratedDag dag, Node node) {
+      if (!node.decorations.isEmpty()) {
+        result.add(node);
+        return false;
+      }
+      return true;
+    }
+  }
+
+  /**
+   * Reads the parents of the commits it visits into the DAG and collects the nearest decorated
+   * ancestors, not walking past them. Nodes of {@link #decorated} whose parents it replaced are
+   * collected in {@link #reparented}.
+   */
+  public static class UpdateUndecoratedParents extends ParentWalkerNodeSet {
+    private final RevWalk rw;
+    public final Set<Node> reparented = new HashSet<>();
+
+    public UpdateUndecoratedParents(RevWalk rw) {
+      this.rw = rw;
+    }
+
+    @Override
+    public boolean shouldWalkParents(DecoratedDag dag, Node node) throws IOException {
+      if (!node.decorations.isEmpty()) {
+        result.add(node);
+        return false;
+      }
+      boolean wasDecorated = dag.decorated.contains(node);
+      dag.updateParents(rw.parseCommit(node));
+      if (!node.decorations.isEmpty()) {
+        // A root commit that was not in the DAG yet: updateParents() made it an initial commit.
+        result.add(node);
+        return false;
+      }
+      if (wasDecorated) {
+        reparented.add(node);
+      }
+      return true;
+    }
+  }
+
   // The {@link DecoratedDag} includes initial commits (ICs) even if they aren't decorated so that
   // we have a complete "closed" set of DAGs. That means a {@link DecoratedDag} may actually contain
   // multiple isolated DAGs. Since we include initial commits in {@link DecoratedDag}s, the only
@@ -152,6 +197,17 @@ class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
     } catch (IOException e) {
       throw new IllegalStateException("in-memory walk must not read the repository", e);
     }
+  }
+
+  /** Returns the children of each node among the nodes of {@link #decorated}. */
+  public Map<Node, Set<Node>> getChildren() {
+    Map<Node, Set<Node>> children = new HashMap<>();
+    for (Node node : decorated) {
+      for (Node parent : node.parents) {
+        children.computeIfAbsent(parent, p -> new HashSet<>()).add(node);
+      }
+    }
+    return children;
   }
 
   public Node getOrCreate(ObjectId id) {
@@ -253,5 +309,60 @@ class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
       nearest.put(n, result);
     }
     return nearest.get(node);
+  }
+
+  /**
+   * Links {@code nodes} directly to their nearest decorated ancestors. Unlike {@link #prune()} this
+   * only visits the given nodes, so it can be used after updating a few nodes of a large DAG.
+   */
+  public void pruneParents(Collection<Node> nodes) {
+    for (Node node : nodes) {
+      if (decorated.contains(node)) {
+        node.parents = walkInMemory(node.parents, new DecoratedAncestorsFinder());
+      }
+    }
+  }
+
+  /**
+   * Removes the nodes of {@code candidates} which are no longer decorated, linking their children
+   * to their parents so that reachability through them is preserved.
+   */
+  public void removeUndecorated(Collection<Node> candidates) {
+    Set<Node> stale = new HashSet<>();
+    for (Node node : candidates) {
+      if (node.decorations.isEmpty() && decorated.contains(node)) {
+        stale.add(node);
+      }
+    }
+    if (stale.isEmpty()) {
+      return;
+    }
+    decorated.removeAll(stale);
+    for (Node child : decorated) {
+      if (child.parents.stream().allMatch(decorated::contains)) {
+        continue;
+      }
+      Set<Node> parents = new HashSet<>();
+      Deque<Node> todo = new ArrayDeque<>(child.parents);
+      Set<Node> seen = new HashSet<>();
+      while (!todo.isEmpty()) {
+        Node p = todo.pop();
+        if (!seen.add(p)) {
+          continue;
+        }
+        // Walk through every node that is not decorated anymore, not only the stale ones: an
+        // insert in the same update may have reparented a stale node onto undecorated commits.
+        if (!decorated.contains(p)) {
+          todo.addAll(p.parents);
+        } else {
+          parents.add(p);
+        }
+      }
+      child.parents = parents;
+    }
+    for (Node node : stale) {
+      node.parents = new HashSet<>(1);
+    }
+    clearUndecorated();
   }
 }

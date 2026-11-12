@@ -232,7 +232,9 @@ public class DagTagSetTest {
                 "nonCommits",
                 new TypeLiteral<Set<ObjectId>>() {}.getType(),
                 "unreadable",
-                new TypeLiteral<Set<ObjectId>>() {}.getType()));
+                new TypeLiteral<Set<ObjectId>>() {}.getType(),
+                "incomplete",
+                boolean.class));
   }
 
   @Test
@@ -267,6 +269,360 @@ public class DagTagSetTest {
                 .put("w4", int.class)
                 .put("w5", int.class)
                 .build());
+  }
+
+  @Test
+  public void refreshRemovesUndecoratedNodesFromDecoratedSet() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit c0 = tr.commit().create();
+    RevCommit c1 = tr.commit().parent(c0).create();
+    RevCommit c2 = tr.commit().parent(c1).create();
+    tr.update(MASTER, c1);
+
+    DagTagSet tagSet = build(repo);
+
+    tr.update(MASTER, c2);
+    tagSet.refresh(repo, ImmutableMap.of(MASTER, c2.copy()));
+
+    Node newNode = tagSet.dag.get(c2);
+    assertThat(tagSet.dag.decorated).contains(newNode);
+    assertThat(tagSet.dag.get(c1)).isNull();
+    assertThat(newNode.parents).containsExactly(tagSet.dag.get(c0));
+  }
+
+  @Test
+  public void dagSizeStaysBoundedWhenARefMovesRepeatedly() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update("refs/tags/v1", tr.tag("v1", root));
+    RevCommit tip = tr.commit().parent(root).create();
+    tr.update(MASTER, tip);
+    DagTagSet tagSet = build(repo);
+    int initial = tagSet.dag.decorated.size();
+
+    for (int i = 0; i < 50; i++) {
+      tip = tr.commit().parent(tip).create();
+      tr.update(MASTER, tip);
+      tagSet = refreshCopy(repo, tagSet, MASTER, tip);
+    }
+
+    assertThat(tagSet.dag.decorated).hasSize(initial);
+    assertThat(tagSet.dag.size()).isEqualTo(initial);
+    assertThat(reachableTags(repo, tagSet, MASTER)).containsExactly(root.copy());
+  }
+
+  @Test
+  public void removingAnUndecoratedNodeKeepsReachabilityThroughIt() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update("refs/tags/v1", tr.tag("v1", root));
+    RevCommit mid = tr.commit().parent(root).create();
+    tr.update("refs/heads/mid", mid);
+    RevCommit top = tr.commit().parent(mid).create();
+    tr.update(MASTER, top);
+    DagTagSet tagSet = build(repo);
+    assertThat(tagSet.dag.get(top).parents).containsExactly(tagSet.dag.get(mid));
+
+    // Deleting refs/heads/mid leaves the mid node undecorated; master must still reach v1.
+    tr.delete("refs/heads/mid");
+    DagTagSet updated = new DagTagSet(tagSet.getProjectName());
+    assertThat(updated.build(repo, tagSet, ImmutableMap.of())).isTrue();
+    assertThat(updated.removeDeletedRefs(refNames(repo))).isTrue();
+
+    assertThat(updated.dag.get(mid)).isNull();
+    assertThat(updated.dag.get(top).parents).containsExactly(updated.dag.get(root));
+    assertThat(reachableTags(repo, updated, MASTER)).containsExactly(root.copy());
+  }
+
+  @Test
+  public void newTagIsAddedWithoutWalkingTheWholeHistory() throws Exception {
+    AtomicInteger reads = new AtomicInteger();
+    InMemoryRepository repo = countingRepo(reads);
+    RevCommit tip;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      tip = tr.commit().create();
+      tr.update("refs/tags/v0", tr.tag("v0", tip));
+      for (int i = 0; i < 200; i++) {
+        tip = tr.commit().parent(tip).create();
+      }
+      tr.update(MASTER, tip);
+    }
+    DagTagSet tagSet = build(repo);
+
+    RevCommit tagged;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      tagged = tr.commit().parent(tip).create();
+      tr.update("refs/tags/v1", tr.tag("v1", tagged));
+      tr.update(MASTER, tr.commit().parent(tagged).create());
+    }
+
+    reads.set(0);
+    DagTagSet updated =
+        refreshCopy(
+            repo,
+            tagSet,
+            ImmutableMap.of(
+                "refs/tags/v1", tagged.copy(), MASTER, repo.exactRef(MASTER).getObjectId()));
+
+    // Only the new commits are read, not the 200 commits of history below master's old tip.
+    assertThat(reads.get()).isLessThan(20);
+    assertThat(reachableTags(repo, updated, MASTER))
+        .containsExactly(tagged.copy(), updated.dag.get(tagSetRoot(updated)).copy());
+  }
+
+  @Test
+  public void refsInsertedByOneRefreshAreLinkedToEachOther() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update("refs/tags/v0", tr.tag("v0", root));
+    RevCommit a = tr.commit().parent(root).create();
+    RevCommit b = tr.commit().parent(a).create();
+    RevCommit tip = tr.commit().parent(b).create();
+    tr.update(MASTER, tip);
+    // Each insert must see the edges the previous one added, in either order. refresh() applies
+    // the refs in the order of the (ordered) map.
+    for (ImmutableMap<String, ObjectId> idByRef :
+        ImmutableList.of(
+            ImmutableMap.<String, ObjectId>of("refs/tags/a", a.copy(), "refs/tags/b", b.copy()),
+            ImmutableMap.<String, ObjectId>of("refs/tags/b", b.copy(), "refs/tags/a", a.copy()))) {
+      tr.delete("refs/tags/a");
+      tr.delete("refs/tags/b");
+      DagTagSet updated = build(repo);
+      tr.update("refs/tags/a", tr.tag("a", a));
+      tr.update("refs/tags/b", tr.tag("b", b));
+      updated.refresh(repo, idByRef);
+      assertThat(updated.dag.get(tip).parents).containsExactly(updated.dag.get(b));
+      assertThat(updated.dag.get(b).parents).containsExactly(updated.dag.get(a));
+      assertThat(updated.dag.get(a).parents).containsExactly(updated.dag.get(root));
+      assertThat(reachableTags(repo, updated, MASTER))
+          .containsExactly(root.copy(), a.copy(), b.copy());
+    }
+  }
+
+  /**
+   * One refresh fast-forwards master from x to tip and adds a tag on n, between them. Applying
+   * master first leaves x without refs while n is inserted; tip must still be linked to n, in
+   * either order.
+   */
+  @Test
+  public void tagBetweenTheOldAndNewTipOfAMovedRefIsReachableInEitherOrder() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update("refs/tags/v0", tr.tag("v0", root));
+    RevCommit x = tr.commit().parent(root).create();
+    RevCommit n = tr.commit().parent(x).create();
+    RevCommit tip = tr.commit().parent(n).create();
+    for (ImmutableMap<String, ObjectId> idByRef :
+        ImmutableList.of(
+            ImmutableMap.<String, ObjectId>of(MASTER, tip.copy(), "refs/tags/t", n.copy()),
+            ImmutableMap.<String, ObjectId>of("refs/tags/t", n.copy(), MASTER, tip.copy()))) {
+      tr.delete("refs/tags/t");
+      tr.update(MASTER, x);
+      DagTagSet updated = build(repo);
+      tr.update(MASTER, tip);
+      tr.update("refs/tags/t", tr.tag("t", n));
+      updated.refresh(repo, idByRef);
+      assertWithMessage("order %s", idByRef.keySet())
+          .that(reachableTags(repo, updated, MASTER))
+          .containsExactly(root.copy(), n.copy());
+      assertThat(updated.dag.get(tip).parents).containsExactly(updated.dag.get(n));
+    }
+  }
+
+  /**
+   * Master is a merge of x and y, both children of a. A tag on x must not take the place of a as a
+   * parent of master, since master also reaches a through y: a tag on y, added by a later or the
+   * same refresh, must still be reachable from master.
+   */
+  @Test
+  public void tagsOnBothSidesOfAMergeAreReachable() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit a = tr.commit().create();
+    tr.update("refs/tags/v0", tr.tag("v0", a));
+    RevCommit x = tr.commit().parent(a).create();
+    RevCommit y = tr.commit().parent(a).create();
+    RevCommit merge = tr.commit().parent(x).parent(y).create();
+    tr.update(MASTER, merge);
+    DagTagSet tagSet = build(repo);
+
+    tr.update("refs/tags/x", tr.tag("x", x));
+    DagTagSet afterX = refreshCopy(repo, tagSet, "refs/tags/x", x);
+    assertThat(afterX.dag.get(merge).parents).containsExactly(afterX.dag.get(x), afterX.dag.get(a));
+    tr.update("refs/tags/y", tr.tag("y", y));
+    DagTagSet afterY = refreshCopy(repo, afterX, "refs/tags/y", y);
+    assertThat(reachableTags(repo, afterY, MASTER)).containsExactly(a.copy(), x.copy(), y.copy());
+    assertThat(afterY.dag.get(merge).parents).containsExactly(afterY.dag.get(x), afterY.dag.get(y));
+
+    for (ImmutableMap<String, ObjectId> idByRef :
+        ImmutableList.of(
+            ImmutableMap.<String, ObjectId>of("refs/tags/x", x.copy(), "refs/tags/y", y.copy()),
+            ImmutableMap.<String, ObjectId>of("refs/tags/y", y.copy(), "refs/tags/x", x.copy()))) {
+      DagTagSet updated = refreshCopy(repo, tagSet, idByRef);
+      assertWithMessage("order %s", idByRef.keySet())
+          .that(reachableTags(repo, updated, MASTER))
+          .containsExactly(a.copy(), x.copy(), y.copy());
+    }
+  }
+
+  /**
+   * After a ref was moved away from n, n has no refs left until the refresh ends. A later insert in
+   * the same refresh that walks through n must keep n's links to decorated nodes, so that the DAG
+   * can be serialized.
+   */
+  @Test
+  public void insertWalkingThroughANodeThatLostItsRefsKeepsTheDagClosed() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update("refs/tags/v0", tr.tag("v0", root));
+    RevCommit between = tr.commit().parent(root).create();
+    RevCommit n = tr.commit().parent(between).create();
+    tr.update("refs/heads/side", tr.commit().parent(n).create());
+    tr.update(MASTER, n);
+    RevCommit above = tr.commit().parent(n).create();
+    DagTagSet tagSet = build(repo);
+
+    tr.update(MASTER, tr.commit().parent(root).create());
+    tr.update("refs/tags/t", tr.tag("t", above));
+    // refresh() applies the refs in the order of the (ordered) map: master first.
+    DagTagSet updated = tagSet;
+    updated.refresh(
+        repo,
+        ImmutableMap.of(MASTER, repo.exactRef(MASTER).getObjectId(), "refs/tags/t", above.copy()));
+
+    for (Node node : updated.dag.decorated) {
+      assertWithMessage("parents of %s", node)
+          .that(updated.dag.decorated)
+          .containsAtLeastElementsIn(node.parents);
+    }
+    var unused = DagTagSet.Serializer.toProto(updated);
+    assertThat(reachableTags(repo, updated, "refs/heads/side")).containsExactly(root.copy());
+  }
+
+  /**
+   * A new branch with unrelated history must be linked to the root commit of that history, so that
+   * tags added there later, by the same or a later refresh, are reachable from it.
+   */
+  @Test
+  public void tagsInTheHistoryOfANewOrphanBranchAreReachable() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update(MASTER, root);
+    DagTagSet tagSet = build(repo);
+    RevCommit orphanRoot = tr.commit().create();
+    RevCommit middle = tr.commit().parent(orphanRoot).create();
+    RevCommit tip = tr.commit().parent(middle).create();
+    String orphan = "refs/heads/orphan";
+    tr.update(orphan, tip);
+
+    DagTagSet withBranch = refreshCopy(repo, tagSet, orphan, tip);
+    assertThat(withBranch.dag.get(tip).parents).containsExactly(withBranch.dag.get(orphanRoot));
+    tr.update("refs/tags/root", tr.tag("root", orphanRoot));
+    tr.update("refs/tags/middle", tr.tag("middle", middle));
+    DagTagSet withTags =
+        refreshCopy(
+            repo,
+            withBranch,
+            ImmutableMap.of(
+                "refs/tags/root", orphanRoot.copy(), "refs/tags/middle", middle.copy()));
+    assertThat(reachableTags(repo, withTags, orphan))
+        .containsExactly(orphanRoot.copy(), middle.copy());
+
+    for (ImmutableMap<String, ObjectId> idByRef :
+        ImmutableList.of(
+            ImmutableMap.<String, ObjectId>of(
+                orphan, tip.copy(), "refs/tags/middle", middle.copy()),
+            ImmutableMap.<String, ObjectId>of(
+                "refs/tags/middle", middle.copy(), orphan, tip.copy()))) {
+      tr.delete("refs/tags/root");
+      tr.delete("refs/tags/middle");
+      tr.delete(orphan);
+      DagTagSet updated = build(repo);
+      tr.update(orphan, tip);
+      tr.update("refs/tags/middle", tr.tag("middle", middle));
+      updated.refresh(repo, idByRef);
+      assertWithMessage("order %s", idByRef.keySet())
+          .that(reachableTags(repo, updated, orphan))
+          .containsExactly(middle.copy());
+    }
+  }
+
+  @Test
+  public void refToANewRootCommitIsNotItsOwnParent() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    tr.update(MASTER, tr.commit().create());
+    DagTagSet tagSet = build(repo);
+    RevCommit orphanRoot = tr.commit().create();
+    tr.update("refs/tags/root", tr.tag("root", orphanRoot));
+
+    DagTagSet updated = refreshCopy(repo, tagSet, "refs/tags/root", orphanRoot);
+    assertThat(updated.dag.get(orphanRoot).parents).isEmpty();
+    assertThat(updated.dag.get(orphanRoot).decorations).contains("refs/tags/root");
+    var unused = DagTagSet.Serializer.toProto(updated);
+  }
+
+  @Test
+  public void refreshMovingARefAndInsertingBelowItsOldCommitKeepsTheDagClosed() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update("refs/tags/v0", tr.tag("v0", root));
+    RevCommit mid = tr.commit().parent(root).create();
+    RevCommit x = tr.commit().parent(mid).create();
+    tr.update("refs/heads/a", x);
+    tr.update(MASTER, tr.commit().parent(x).create());
+    DagTagSet tagSet = build(repo);
+
+    // Moving refs/heads/a leaves x undecorated, then inserting refs/heads/b below x walks through
+    // x and replaces its parents with commits that are not in the DAG.
+    RevCommit y = tr.commit().parent(root).create();
+    RevCommit z = tr.commit().parent(x).create();
+    tr.update("refs/heads/a", y);
+    tr.update("refs/heads/b", z);
+    tagSet.refresh(
+        repo,
+        ImmutableMap.<String, ObjectId>of("refs/heads/a", y.copy(), "refs/heads/b", z.copy()));
+
+    for (Node node : tagSet.dag.decorated) {
+      for (Node parent : node.parents) {
+        assertWithMessage("parent of %s", node.name()).that(tagSet.dag.decorated).contains(parent);
+      }
+    }
+    assertEqual(tagSet, DagTagSet.Serializer.fromProto(DagTagSet.Serializer.toProto(tagSet)));
+    assertThat(reachableTags(repo, tagSet, MASTER)).containsExactly(root.copy());
+    assertThat(reachableTags(repo, refreshCopy(repo, tagSet, ImmutableMap.of()), "refs/heads/b"))
+        .containsExactly(root.copy());
+  }
+
+  @Test
+  public void insertedNodeKeepsItsParentsWhenItWasAlreadyInTheDag() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    RevCommit mid = tr.commit().parent(root).create();
+    tr.update("refs/tags/v0", tr.tag("v0", root));
+    tr.update("refs/heads/a", mid);
+    tr.update(MASTER, tr.commit().parent(mid).create());
+    DagTagSet tagSet = build(repo);
+
+    // Move refs/heads/a away (mid becomes undecorated), then tag mid: it is inserted again.
+    RevCommit other = tr.commit().parent(root).create();
+    tr.update("refs/heads/a", other);
+    tagSet = refreshCopy(repo, tagSet, "refs/heads/a", other);
+    tr.update("refs/tags/v1", tr.tag("v1", mid));
+    tagSet = refreshCopy(repo, tagSet, "refs/tags/v1", mid);
+
+    assertThat(tagSet.dag.get(mid).parents).containsExactly(tagSet.dag.get(root));
+    assertThat(reachableTags(repo, tagSet, MASTER)).containsExactly(root.copy(), mid.copy());
+    assertThat(reachableTags(repo, tagSet, "refs/heads/a")).containsExactly(root.copy());
   }
 
   @Test
@@ -360,7 +716,7 @@ public class DagTagSetTest {
 
     Thread.currentThread().interrupt();
     try {
-      assertThat(new DagTagSet(Project.nameKey("project")).build(repo)).isFalse();
+      assertThat(new DagTagSet(Project.nameKey("project")).build(repo, null, null)).isFalse();
     } finally {
       Thread.interrupted();
     }
@@ -439,6 +795,82 @@ public class DagTagSetTest {
                 .get(project)
                 .matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags));
     assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isSameInstanceAs(cached);
+  }
+
+  /**
+   * Two lookups see the same DAG and find different refs out of date. The first refresh must update
+   * both, and the second one then has nothing left to do.
+   */
+  @Test
+  public void concurrentLookupsApplyTheirUpdatesOnTopOfEachOther() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update(MASTER, root);
+    tr.update("refs/tags/v1", tr.tag("v1", root));
+    Cache<String, DagTagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    DagTagCache tagCache = new DagTagCache(guavaCache);
+    DagTagSetHolder holder = tagCache.get(Project.nameKey("project"));
+    ImmutableList<Ref> tags = ImmutableList.of(repo.exactRef("refs/tags/v1"));
+    var unused = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
+    DagTagSet seenByBoth = holder.getTagSet();
+
+    tr.update("refs/heads/a", tr.commit().parent(root).create());
+    tr.update("refs/heads/b", tr.commit().parent(root).create());
+    DagTagMatcher first =
+        new DagTagMatcher(
+            holder,
+            tagCache,
+            repo,
+            ImmutableList.of(repo.exactRef("refs/heads/a")),
+            seenByBoth,
+            tags);
+    DagTagMatcher second =
+        new DagTagMatcher(
+            holder,
+            tagCache,
+            repo,
+            ImmutableList.of(repo.exactRef("refs/heads/b")),
+            seenByBoth,
+            tags);
+    assertThat(first.toUpdate.keySet()).containsExactly("refs/heads/a");
+    assertThat(second.toUpdate.keySet()).containsExactly("refs/heads/b");
+
+    DagTagSet afterFirst = holder.refreshForTesting(tagCache, repo);
+    assertThat(afterFirst).isSameInstanceAs(holder.getTagSet());
+    DagTagSet afterSecond = holder.refreshForTesting(tagCache, repo);
+    assertThat(afterSecond).isSameInstanceAs(afterFirst);
+
+    assertThat(decorations(holder.getTagSet()))
+        .containsAtLeast("refs/heads/a", "refs/heads/b", MASTER, "refs/tags/v1");
+  }
+
+  /**
+   * Two lookups see the same DAG and find the same ref out of date. The second one refreshes after
+   * the first published a DAG that already has the ref, and must reuse it instead of copying it.
+   */
+  @Test
+  public void lookupWhoseUpdatesWereAppliedMeanwhileReusesThePublishedDag() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update(MASTER, root);
+    tr.update("refs/tags/v1", tr.tag("v1", root));
+    Cache<String, DagTagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    DagTagCache tagCache = new DagTagCache(guavaCache);
+    DagTagSetHolder holder = tagCache.get(Project.nameKey("project"));
+    ImmutableList<Ref> tags = ImmutableList.of(repo.exactRef("refs/tags/v1"));
+    var unused = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
+    DagTagSet seenByBoth = holder.getTagSet();
+
+    tr.update(MASTER, tr.commit().parent(root).create());
+    ImmutableList<Ref> include = ImmutableList.of(repo.exactRef(MASTER));
+    DagTagMatcher second = new DagTagMatcher(holder, tagCache, repo, include, seenByBoth, tags);
+    assertThat(second.toUpdate.keySet()).containsExactly(MASTER);
+
+    DagTagSet afterFirst = holder.refreshForTesting(tagCache, repo);
+    assertThat(afterFirst).isNotSameInstanceAs(seenByBoth);
+    assertThat(holder.refreshForTesting(tagCache, repo)).isSameInstanceAs(afterFirst);
   }
 
   @Test
@@ -551,6 +983,88 @@ public class DagTagSetTest {
   }
 
   /**
+   * A commit in the history could not be read while the DAG was built, which hides the tag behind
+   * it. Once the commit can be read again, the next refresh must rebuild the DAG instead of keeping
+   * the missing links for good.
+   */
+  @Test
+  public void dagBuiltWithAReadErrorIsRebuiltByTheNextRefresh() throws Exception {
+    AtomicReference<ObjectId> missing = new AtomicReference<>();
+    InMemoryRepository repo = missingObjectRepo(missing);
+    RevCommit root;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      root = tr.commit().create();
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+      RevCommit mid = tr.commit().parent(root).create();
+      tr.update(MASTER, tr.commit().parent(mid).create());
+      missing.set(mid.copy());
+    }
+    Cache<String, DagTagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    DagTagCache tagCache = new DagTagCache(guavaCache);
+    DagTagSetHolder holder = tagCache.get(Project.nameKey("project"));
+    Ref tagRef = repo.exactRef("refs/tags/v1");
+    ImmutableList<Ref> tags = ImmutableList.of(tagRef);
+    assertThat(
+            holder
+                .matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags)
+                .isReachable(tagRef))
+        .isFalse();
+    // Also after the persisted cache was read back, e.g. after a restart.
+    assertThat(
+            DagTagSet.Serializer.fromProto(DagTagSet.Serializer.toProto(holder.getTagSet()))
+                .isIncomplete())
+        .isTrue();
+
+    missing.set(null);
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      tr.update("refs/heads/other", root);
+    }
+    // A lookup that refreshes the DAG for the new branch.
+    var unused =
+        holder.matcher(
+            tagCache,
+            repo,
+            ImmutableList.of(repo.exactRef(MASTER), repo.exactRef("refs/heads/other")),
+            tags);
+    DagTagMatcher m = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
+    assertThat(m.isReachable(tagRef)).isTrue();
+  }
+
+  /**
+   * A refresh moves x, the only ref on a, away and inserts y, a child of a. The insert walks
+   * through a and fails below it. a's other child k must not be left without ancestors: the DAG has
+   * to be marked incomplete so that the next refresh rebuilds it.
+   */
+  @Test
+  public void readErrorBelowANodeThatLostItsRefsMarksTheDagIncomplete() throws Exception {
+    AtomicReference<ObjectId> missing = new AtomicReference<>();
+    InMemoryRepository repo = missingObjectRepo(missing);
+    RevCommit root;
+    RevCommit below;
+    RevCommit a;
+    RevCommit y;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      root = tr.commit().create();
+      tr.update("refs/tags/v0", tr.tag("v0", root));
+      below = tr.commit().parent(root).create();
+      a = tr.commit().parent(below).create();
+      tr.update("refs/heads/x", a);
+      tr.update("refs/heads/k", tr.commit().parent(a).create());
+    }
+    DagTagSet tagSet = build(repo);
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      tr.update("refs/heads/x", root);
+      y = tr.commit().parent(a).create();
+      tr.update("refs/heads/y", y);
+    }
+
+    missing.set(below.copy());
+    // refresh() applies the refs in the order of the (ordered) map: x first.
+    tagSet.refresh(repo, ImmutableMap.of("refs/heads/x", root.copy(), "refs/heads/y", y.copy()));
+    assertThat(tagSet.isIncomplete()).isTrue();
+  }
+
+  /**
    * A lookup read master before a push, and another lookup already published the DAG with master
    * after the push. The tags reachable from the commit the first lookup read must still be found.
    */
@@ -579,6 +1093,72 @@ public class DagTagSetTest {
   }
 
   /**
+   * A deleted ref's commit was removed by a gc. A refresh that inserts a tag below it must not read
+   * that commit, which would mark the DAG incomplete.
+   */
+  @Test
+  public void refreshDoesNotReadTheCommitsOfDeletedRefs() throws Exception {
+    AtomicReference<ObjectId> missing = new AtomicReference<>();
+    InMemoryRepository repo = missingObjectRepo(missing);
+    RevCommit root;
+    RevCommit x;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      root = tr.commit().create();
+      tr.update(MASTER, root);
+      tr.update("refs/tags/v0", tr.tag("v0", root));
+      x = tr.commit().parent(root).create();
+      tr.update("refs/heads/deleted", tr.commit().parent(x).create());
+    }
+    Cache<String, DagTagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    DagTagCache tagCache = new DagTagCache(guavaCache);
+    DagTagSetHolder holder = tagCache.get(Project.nameKey("project"));
+    ImmutableList<Ref> include = ImmutableList.of(repo.exactRef(MASTER));
+    var unused =
+        holder.matcher(tagCache, repo, include, ImmutableList.of(repo.exactRef("refs/tags/v0")));
+
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      missing.set(repo.exactRef("refs/heads/deleted").getObjectId().copy());
+      tr.delete("refs/heads/deleted");
+      tr.update("refs/tags/t", tr.tag("t", x));
+    }
+    var unused2 =
+        holder.matcher(tagCache, repo, include, ImmutableList.of(repo.exactRef("refs/tags/t")));
+    assertThat(holder.getTagSet().isIncomplete()).isFalse();
+  }
+
+  /**
+   * master was moved away from a commit that a gc then removed. The refresh inserting master's new
+   * commit must not read the old one, which would mark the DAG incomplete.
+   */
+  @Test
+  public void refreshDoesNotReadTheOldCommitsOfMovedRefs() throws Exception {
+    AtomicReference<ObjectId> missing = new AtomicReference<>();
+    InMemoryRepository repo = missingObjectRepo(missing);
+    RevCommit root;
+    RevCommit old;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      root = tr.commit().create();
+      tr.update("refs/tags/v0", tr.tag("v0", root));
+      old = tr.commit().parent(root).create();
+      tr.update(MASTER, old);
+    }
+    Cache<String, DagTagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    DagTagCache tagCache = new DagTagCache(guavaCache);
+    DagTagSetHolder holder = tagCache.get(Project.nameKey("project"));
+    Ref tagRef = repo.exactRef("refs/tags/v0");
+    ImmutableList<Ref> tags = ImmutableList.of(tagRef);
+    var unused = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
+
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      tr.update(MASTER, tr.commit().message("new").parent(root).create());
+      missing.set(old.copy());
+    }
+    DagTagMatcher m = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
+    assertThat(m.isReachable(tagRef)).isTrue();
+    assertThat(holder.getTagSet().isIncomplete()).isFalse();
+  }
+
+  /**
    * A ref that no lookup includes moved. A refresh for another ref must update it too, so that its
    * decoration does not stay on a commit that may be gone after a gc.
    */
@@ -602,6 +1182,32 @@ public class DagTagSetTest {
     var unused2 = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
 
     assertThat(holder.getTagSet().dag.get(moved).decorations).contains("refs/heads/hidden");
+  }
+
+  /**
+   * A commit in the history cannot be read for good, so every build leaves the DAG incomplete. A
+   * refresh must not rebuild it again as long as no ref changed.
+   */
+  @Test
+  public void incompleteDagIsNotRebuiltWhenNoRefChanged() throws Exception {
+    AtomicReference<ObjectId> missing = new AtomicReference<>();
+    InMemoryRepository repo = missingObjectRepo(missing);
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit root = tr.commit().create();
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+      RevCommit mid = tr.commit().parent(root).create();
+      tr.update(MASTER, tr.commit().parent(mid).create());
+      missing.set(mid.copy());
+    }
+    Cache<String, DagTagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    DagTagCache tagCache = new DagTagCache(guavaCache);
+    DagTagSetHolder holder = tagCache.get(Project.nameKey("project"));
+    ImmutableList<Ref> tags = ImmutableList.of(repo.exactRef("refs/tags/v1"));
+    var unused = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
+    DagTagSet incomplete = holder.getTagSet();
+    assertThat(incomplete.isIncomplete()).isTrue();
+
+    assertThat(holder.refreshForTesting(tagCache, repo)).isSameInstanceAs(incomplete);
   }
 
   /**
@@ -680,6 +1286,78 @@ public class DagTagSetTest {
     assertThat(m.toUpdate).isEmpty();
   }
 
+  /**
+   * A commit in the history cannot be read for good. After one full rebuild that came back
+   * incomplete again, refs that change are applied as updates instead of further full rebuilds,
+   * which would read the whole history under the lock on every push.
+   */
+  @Test
+  public void dagThatStaysIncompleteAfterARebuildIsUpdatedIncrementally() throws Exception {
+    AtomicReference<ObjectId> missing = new AtomicReference<>();
+    AtomicInteger missingReads = new AtomicInteger();
+    InMemoryRepository repo = missingObjectRepo(missing, missingReads);
+    RevCommit root;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      root = tr.commit().create();
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+      RevCommit mid = tr.commit().parent(root).create();
+      tr.update(MASTER, tr.commit().parent(mid).create());
+      missing.set(mid.copy());
+    }
+    Cache<String, DagTagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    DagTagCache tagCache = new DagTagCache(guavaCache);
+    DagTagSetHolder holder = tagCache.get(Project.nameKey("project"));
+    Ref tagRef = repo.exactRef("refs/tags/v1");
+    ImmutableList<Ref> tags = ImmutableList.of(tagRef);
+    var unused = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
+    assertThat(holder.getTagSet().isIncomplete()).isTrue();
+
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      tr.update("refs/heads/a", tr.commit().parent(root).create());
+    }
+    unused = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef("refs/heads/a")), tags);
+    assertThat(holder.getTagSet().isIncomplete()).isTrue();
+
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      tr.update("refs/heads/b", tr.commit().message("b").parent(root).create());
+    }
+    missingReads.set(0);
+    DagTagMatcher m =
+        holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef("refs/heads/b")), tags);
+    assertThat(m.isReachable(tagRef)).isTrue();
+    assertThat(missingReads.get()).isEqualTo(0);
+    assertThat(holder.getTagSet().isIncomplete()).isTrue();
+  }
+
+  /**
+   * A lookup found master out of date and waited for the lock while another lookup published master
+   * at a newer commit. The waiting lookup must not move master back.
+   */
+  @Test
+  public void refreshDoesNotMoveARefBackToTheValueALookupSawBeforeWaiting() throws Exception {
+    TestRepository<Repo> tr = newRepo();
+    Repository repo = tr.getRepository();
+    RevCommit root = tr.commit().create();
+    tr.update(MASTER, root);
+    tr.update("refs/tags/v1", tr.tag("v1", root));
+    Cache<String, DagTagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    DagTagCache tagCache = new DagTagCache(guavaCache);
+    DagTagSetHolder holder = tagCache.get(Project.nameKey("project"));
+    ImmutableList<Ref> tags = ImmutableList.of(repo.exactRef("refs/tags/v1"));
+    var unused = holder.matcher(tagCache, repo, ImmutableList.of(repo.exactRef(MASTER)), tags);
+
+    // The waiting lookup saw master at y; master is at z when it gets the lock.
+    RevCommit y = tr.commit().parent(root).create();
+    tr.update(MASTER, y);
+    RevCommit z = tr.commit().parent(y).create();
+    tr.update(MASTER, z);
+    var unused2 = holder.refreshForTesting(tagCache, repo);
+    DagTagSet afterStale = holder.refreshForTesting(tagCache, repo);
+
+    assertThat(afterStale.dag.get(z).decorations).contains(MASTER);
+    assertThat(afterStale.dag.get(y)).isNull();
+  }
+
   @Test
   public void lookupAfterARefIsDeletedHidesTagsOnlyItReached() throws Exception {
     TestRepository<Repo> tr = newRepo();
@@ -727,8 +1405,21 @@ public class DagTagSetTest {
 
   private static DagTagSet build(Repository repo) throws Exception {
     DagTagSet tagSet = new DagTagSet(Project.nameKey("project"));
-    assertThat(tagSet.build(repo)).isTrue();
+    assertThat(tagSet.build(repo, null, null)).isTrue();
     return tagSet;
+  }
+
+  private static DagTagSet refreshCopy(Repository repo, DagTagSet old, String ref, ObjectId id)
+      throws Exception {
+    return refreshCopy(repo, old, ImmutableMap.of(ref, id.copy()));
+  }
+
+  private static DagTagSet refreshCopy(
+      Repository repo, DagTagSet old, Map<String, ObjectId> idByRef) throws Exception {
+    DagTagSet updated = new DagTagSet(old.getProjectName());
+    assertThat(updated.build(repo, old, idByRef)).isTrue();
+    var unused = updated.removeDeletedRefs(refNames(repo));
+    return updated;
   }
 
   private static DagTagMatcher matcherWith(Map<String, ObjectId> idByRef) throws Exception {
@@ -744,6 +1435,14 @@ public class DagTagSetTest {
     return m;
   }
 
+  private static Set<String> refNames(Repository repo) throws Exception {
+    Set<String> names = new HashSet<>();
+    for (Ref r : repo.getRefDatabase().getRefs()) {
+      names.add(r.getName());
+    }
+    return names;
+  }
+
   private static Set<? extends ObjectId> reachableTags(
       Repository repo, DagTagSet tagSet, String ref) throws Exception {
     DagTagMatcher m = matcherWith(ImmutableMap.of());
@@ -755,6 +1454,13 @@ public class DagTagSetTest {
             repo.getRefDatabase().getRefsByPrefix("refs/tags/"));
     assertWithMessage("out of date: %s", m.toUpdate).that(tags).isNotNull();
     return tags;
+  }
+
+  private static ObjectId tagSetRoot(DagTagSet tagSet) {
+    return tagSet.dag.decorated.stream()
+        .filter(n -> n.decorations.contains("refs/tags/v0"))
+        .findFirst()
+        .orElseThrow();
   }
 
   private static Set<String> decorations(DagTagSet tagSet) {

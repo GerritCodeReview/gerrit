@@ -1426,7 +1426,9 @@ is `bitmap`.
 cache `"git_tags_dag"`::
 +
 Like `"git_tags"`, but stores a graph of the commits that refs point
-to and walks it on each lookup.
+to and walks it on each lookup. A push of new tags or branches only
+adds the new history to it, instead of making the next lookup walk the
+full history again.
 +
 Only used if <<cache.git_tags.implementation,cache.git_tags.implementation>>
 is `dag`. Settings for `"git_tags"`, such as its `memoryLimit`, do not
@@ -1684,9 +1686,10 @@ a commit that is not a known ref tip makes the next lookup walk the
 full history again.
 * `dag`: keep a graph of the commits that refs point to, in the
 link:#cache_names[`"git_tags_dag"`] cache, and walk it from the
-visible branches on each lookup. Experimental: the graph is built
-again from the full history whenever refs changed, which is slower
-than with `bitmap`, and it uses more memory.
+visible branches on each lookup. A push only adds the new history to
+the graph, so lookups after pushes are much faster on repositories with
+many refs. Building the graph from scratch and lookups with no pushes in
+between are somewhat slower, and the graph uses more memory.
 +
 Each implementation persists to its own cache and never reads entries
 the other one wrote. The first time an implementation is used, the

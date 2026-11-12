@@ -21,6 +21,7 @@ import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatS
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.proto.Cache.DagTagSetHolderProto;
+import java.time.Instant;
 import org.junit.Test;
 
 public class DagTagSetHolderTest {
@@ -64,6 +65,7 @@ public class DagTagSetHolderTest {
             ImmutableMap.of(
                 "buildLock", Object.class,
                 "projectName", Project.NameKey.class,
-                "tagSet", DagTagSet.class));
+                "tagSet", DagTagSet.class,
+                "incompleteRebuild", Instant.class));
   }
 }

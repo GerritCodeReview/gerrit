@@ -41,7 +41,7 @@ public class DagTagCache implements TagCache {
       @Override
       protected void configure() {
         persist(CACHE_NAME, String.class, DagTagSetHolder.class)
-            .version(1)
+            .version(2)
             .keySerializer(StringCacheSerializer.INSTANCE)
             .valueSerializer(DagTagSetHolder.Serializer.INSTANCE);
         bind(TagCache.class).to(DagTagCache.class);

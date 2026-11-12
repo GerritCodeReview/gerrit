@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,10 +53,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /**
  * A DagTagSet keeps track of tag reachability from other refs to make reachability lookups fast.
  *
- * <p>Use a cacheable {@link DecoratedDag} to determine reachability on the fly. The DAG is built by
- * calling build(). Confirm that all the interesting refs are in the DAG when checking for
- * reachability and use the DagTagMatcher to signal that the DAG is out of date. When the DAG is out
- * of date the DagTagSetHolder builds a new one.
+ * <p>Use a cacheable {@link DecoratedDag} to determine reachability on the fly. The DAG is built
+ * the first time by calling build(). Confirm that all the interesting refs are in the DAG when
+ * checking for reachability and use the DagTagMatcher to signal that the DAG is out of date. When
+ * the DAG is out of date the DagTagMatcher will call refresh() which copies the Dag to a new {@link
+ * DagTagSet} and then updates the new DAG with the new updates.
  *
  * <p>This set is used to determine which tags should be advertised when only a subset of refs is
  * visible to a user.
@@ -82,11 +85,19 @@ class DagTagSet {
   private final Set<ObjectId> nonCommits = ConcurrentHashMap.newKeySet();
 
   /**
-   * Ids of refs whose commits the build of this TagSet could not read. They are treated as reaching
-   * no tag instead of rebuilding the DAG on every lookup, and are tried again by the next build.
-   * Only written before the TagSet is published.
+   * Ids of refs whose history the refresh that built this TagSet could not read. They are treated
+   * as reaching no tag instead of refreshing the DAG again on every lookup. Unlike {@link
+   * #nonCommits} they are not copied into the next refresh, so that they are tried again once the
+   * DAG changes. Only written before the TagSet is published.
    */
   private final Set<ObjectId> unreadable = new HashSet<>();
+
+  /**
+   * Whether a read error left links out of the DAG, which hides the tags behind them. Unlike the
+   * bitmaps, the DAG is never rebuilt on its own, so the next refresh rebuilds it from the full
+   * history instead of updating it. Only written before the TagSet is published.
+   */
+  private boolean incomplete;
 
   DagTagSet(Project.NameKey projectName) {
     this(projectName, new DecoratedDag());
@@ -95,6 +106,10 @@ class DagTagSet {
   DagTagSet(Project.NameKey projectName, DecoratedDag dag) {
     this.projectName = projectName;
     this.dag = dag;
+  }
+
+  boolean isIncomplete() {
+    return incomplete;
   }
 
   Project.NameKey getProjectName() {
@@ -227,7 +242,7 @@ class DagTagSet {
     } catch (InterruptedIOException e) {
       throw e;
     } catch (IOException e) {
-      // The next build tries it once, logs the error and records the id in unreadable.
+      // The refresh tries it once, logs the error and records the id in unreadable.
       toUpdate.put(refName, id.copy());
     }
     return null;
@@ -274,13 +289,41 @@ class DagTagSet {
   }
 
   /**
-   * Populates this set from {@code git} by walking the full history.
+   * Populates this set from {@code git}: by copying {@code old} and applying the refs in {@code
+   * idByRef} if both are given, by walking the full history otherwise.
    *
    * @return {@code false} if the build was aborted because the thread was interrupted, in which
    *     case the tag set is incomplete and must not be cached.
    */
-  boolean build(Repository git) throws IOException {
+  boolean build(Repository git, @Nullable DagTagSet old, @Nullable Map<String, ObjectId> idByRef)
+      throws IOException {
+    return build(git, old, idByRef, null);
+  }
+
+  /**
+   * Like {@link #build(Repository, DagTagSet, Map)}, and first drops the refs of {@code old} that
+   * are not in {@code existingRefs}, if given, and the old ids of the refs in {@code idByRef}, so
+   * that the update does not read their commits, which a gc may have removed.
+   */
+  boolean build(
+      Repository git,
+      @Nullable DagTagSet old,
+      @Nullable Map<String, ObjectId> idByRef,
+      @Nullable Set<String> existingRefs)
+      throws IOException {
     try {
+      if (old != null && idByRef != null) {
+        // Updating the {@link DecoratedDag} is not thread safe, copy it to update it.
+        copy(old, this);
+        if (existingRefs != null) {
+          Set<String> unchanged = new HashSet<>(existingRefs);
+          unchanged.removeAll(idByRef.keySet());
+          var unused = removeDeletedRefs(unchanged);
+        }
+        refresh(git, idByRef);
+        return true;
+      }
+
       try (RevWalk rw = new RevWalk(git)) {
         rw.setRetainBody(false);
         for (Ref ref :
@@ -307,7 +350,8 @@ class DagTagSet {
       } catch (InterruptedIOException e) {
         throw e;
       } catch (IOException e) {
-        // A broken object only hides the tags behind it.
+        // A broken object only hides the tags behind it, until the next refresh rebuilds the DAG.
+        incomplete = true;
         logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
       }
       dag.prune();
@@ -347,7 +391,9 @@ class DagTagSet {
 
       ObjectIdConverter idConverter = ObjectIdConverter.create();
       DagTagSetProto.Builder b =
-          DagTagSetProto.newBuilder().setProjectName(tagSet.projectName.get());
+          DagTagSetProto.newBuilder()
+              .setProjectName(tagSet.projectName.get())
+              .setIncomplete(tagSet.incomplete);
       for (Node node : nodes) {
         NodeProto.Builder nb =
             NodeProto.newBuilder()
@@ -382,11 +428,136 @@ class DagTagSet {
           nodes.get(n).parents.add(nodes.get(parentNumber));
         }
       }
-      return new DagTagSet(Project.nameKey(proto.getProjectName()), dag);
+      DagTagSet tagSet = new DagTagSet(Project.nameKey(proto.getProjectName()), dag);
+      tagSet.incomplete = proto.getIncomplete();
+      return tagSet;
     }
   }
 
+  /**
+   * Applies ref updates to the DAG. Only use on a copy of a {@link DagTagSet} that is not in use by
+   * other threads.
+   *
+   * <p>Since the {@link DecoratedDag.Node}s are based on {@link ObjectId}s, and not refs, treat all
+   * ref updates similarly in that they can only add and remove decorations to commits. In other
+   * words, don't see updates from the point of view of the ref, i.e. don't care if the updates are
+   * deletes, fast forwards, rewinds...
+   *
+   * @param idByRef new value of each updated ref
+   * @return whether the DAG changed
+   */
+  @CanIgnoreReturnValue
+  boolean refresh(Repository repo, Map<String, ObjectId> idByRef) throws IOException {
+    boolean updated = false;
+    Map<String, Node> nodeByDecoration = new HashMap<>(dag.decorated.size());
+    for (Node node : dag.decorated) {
+      for (String ref : node.decorations) {
+        nodeByDecoration.put(ref, node);
+      }
+    }
+
+    Set<Node> undecorated = new HashSet<>();
+    Set<Node> inserted = new HashSet<>();
+    // Built on the first insert, so that each insert does not scan the whole DAG for children.
+    Map<Node, Set<Node>> children = null;
+    try (RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(false);
+      for (Map.Entry<String, ObjectId> e : idByRef.entrySet()) {
+        ObjectId id = e.getValue();
+        String refName = e.getKey();
+        Node node = getDecorated(id);
+        if (node != null) {
+          if (node.decorations.add(refName)) {
+            updated = true; // a new decoration was added to an already decorated {@link Node}
+          }
+        } else {
+          try {
+            if (children == null) {
+              children = dag.getChildren();
+            }
+            node = insertDecorated(rw, id, refName, children); // a previously undecorated commit
+            inserted.add(node);
+            updated = true;
+          } catch (IncorrectObjectTypeException notCommit) {
+            nonCommits.add(id.copy());
+          } catch (InterruptedIOException ex) {
+            throw ex;
+          } catch (IOException ex) {
+            if (getDecorated(id) != null) {
+              // Inserted, but not linked to all of its children.
+              incomplete = true;
+            } else {
+              unreadable.add(id.copy());
+            }
+            logger.atWarning().withCause(ex).log(
+                "Error refreshing tags for repository %s", projectName);
+          }
+        }
+
+        Node old = nodeByDecoration.get(refName);
+        if (old != null && !old.equals(node)) {
+          old.decorations.remove(refName);
+          undecorated.add(old);
+          updated = true;
+        }
+        if (node != null) {
+          nodeByDecoration.put(refName, node);
+        } else {
+          nodeByDecoration.remove(refName);
+        }
+      }
+    }
+
+    // Inserting may have added undecorated commits between the inserted nodes and their nearest
+    // decorated ancestors. Only those inserted nodes need their parents pruned. This has to happen
+    // before undecorated nodes are dropped, which also drops these intermediate commits.
+    dag.pruneParents(inserted);
+    // A ref update may leave the commit the ref pointed to before without decorations. Drop it, so
+    // that the DAG does not grow with every update, and link its children to its parents.
+    dag.removeUndecorated(undecorated);
+    dag.clearUndecorated();
+    return updated;
+  }
+
+  /**
+   * Removes the decorations of refs that no longer exist. Only use on a copy of a {@link DagTagSet}
+   * that is not in use by other threads.
+   *
+   * @return whether the DAG changed
+   */
+  @CanIgnoreReturnValue
+  boolean removeDeletedRefs(Set<String> existingRefs) {
+    Set<Node> undecorated = new HashSet<>();
+    for (Node node : dag.decorated) {
+      if (node.decorations.removeIf(
+          r -> !r.equals(DecoratedDag.IC_DECORATION) && !existingRefs.contains(r))) {
+        undecorated.add(node);
+      }
+    }
+    dag.removeUndecorated(undecorated);
+    return !undecorated.isEmpty();
+  }
+
   /** Copies the decorated nodes of {@code src} into the empty {@code dst}. */
+  private static void copy(DagTagSet src, DagTagSet dst) {
+    for (Node oldNode : src.dag.decorated) {
+      Node newNode = new Node(oldNode, new HashSet<>(oldNode.decorations));
+      newNode.parents = new HashSet<>(oldNode.parents.size());
+
+      dst.dag.add(newNode);
+      dst.dag.decorated.add(newNode);
+    }
+
+    for (Node oldNode : src.dag.decorated) {
+      Node newNode = dst.dag.get(oldNode);
+      for (Node parent : oldNode.parents) {
+        newNode.parents.add(dst.dag.get(parent));
+      }
+    }
+    dst.nonCommits.addAll(src.nonCommits);
+    dst.incomplete = src.incomplete;
+  }
+
   /** If a commit, decorate {@link Node} while building {@link DecoratedDag} */
   private void decorate(RevWalk rw, ObjectId id, String name) throws InterruptedIOException {
     try {
@@ -426,5 +597,107 @@ class DagTagSet {
         .add("projectName", projectName)
         .add("decorated", dag.decorated)
         .toString();
+  }
+
+  /**
+   * Insert a new decorated {@link ObjectId} to an already built {@link DecoratedDag}.
+   *
+   * <p>before: A <- B after: A <- commitToInsert <- B
+   *
+   * @param children children by parent, for the nodes of {@code dag.decorated}. May list children
+   *     that no longer have that parent, but must list every child that has; this method adds the
+   *     edges it creates.
+   */
+  private Node insertDecorated(
+      RevWalk rw, ObjectId id, String refName, Map<Node, Set<Node>> children) throws IOException {
+    // Fails for refs to non-commits before the DAG is changed.
+    var unused = rw.parseCommit(id);
+    Node nodeToInsert = dag.getOrCreate(id);
+
+    // Find "A"(s) pointed to by the commit to insert
+    DecoratedDag.UpdateUndecoratedParents walker = new DecoratedDag.UpdateUndecoratedParents(rw);
+    Set<Node> decoratedAncestors;
+    try {
+      decoratedAncestors = dag.walk(Collections.singleton(nodeToInsert), walker);
+    } catch (IOException e) {
+      if (!walker.reparented.isEmpty()) {
+        // Nodes that lost their refs may now point at commits whose parents were never read, which
+        // would cut their children off from their ancestors.
+        incomplete = true;
+      }
+      throw e;
+    }
+    // A ref to a root commit that was not in the DAG yet finds that commit itself.
+    decoratedAncestors.remove(nodeToInsert);
+    dag.decorate(id, refName); // Has to be done after walk to prevent short stop
+    nodeToInsert.parents = new HashSet<>(decoratedAncestors);
+    for (Node node : walker.reparented) {
+      addChild(children, node);
+    }
+    addChild(children, nodeToInsert);
+
+    // Find "B"(s):  A <- B, and link the ones that contain the inserted commit to it. The walk may
+    // also have passed nodes that lost their last ref earlier in this refresh; they are ancestors
+    // of the inserted commit too, and their children have to be checked the same way. A B that
+    // reaches A
+    // through another path as well, e.g. the other parent of a merge, must keep A, so B's nearest
+    // decorated ancestors are read again from its commits instead of replacing A.
+    Set<Node> ancestors = new HashSet<>(decoratedAncestors);
+    ancestors.addAll(walker.reparented);
+    Set<Node> checked = new HashSet<>();
+    // Shared by the children, which often have much of their history in common.
+    Set<Node> loaded = new HashSet<>();
+    Map<Node, Set<Node>> nearestByNode = new HashMap<>();
+    for (Node ancestor : ancestors) {
+      for (Node child : List.copyOf(children.getOrDefault(ancestor, Set.of()))) {
+        if (child.equals(nodeToInsert)
+            || !child.parents.contains(ancestor)
+            || !dag.decorated.contains(child)
+            || !checked.add(child)) {
+          continue;
+        }
+        Set<Node> nearest = nearestDecoratedAncestors(rw, child, loaded, nearestByNode);
+        if (nearest.contains(nodeToInsert)) {
+          child.parents = nearest;
+          addChild(children, child);
+        }
+      }
+    }
+
+    return nodeToInsert;
+  }
+
+  /**
+   * Reads the nearest decorated ancestors of {@code node} from the commits below it. Commits in
+   * {@code loaded} are not read again, and {@code nearestByNode} memoizes the result for
+   * undecorated commits.
+   */
+  private Set<Node> nearestDecoratedAncestors(
+      RevWalk rw, Node node, Set<Node> loaded, Map<Node, Set<Node>> nearestByNode)
+      throws IOException {
+    RevCommit commit = rw.parseCommit(node);
+    List<Node> parents = new ArrayList<>(commit.getParentCount());
+    for (RevCommit parent : commit.getParents()) {
+      parents.add(dag.getOrCreate(parent));
+    }
+    Deque<Node> todo = new ArrayDeque<>(parents);
+    while (!todo.isEmpty()) {
+      Node n = todo.pop();
+      if (n.decorations.isEmpty() && loaded.add(n)) {
+        dag.updateParents(rw.parseCommit(n)); // Makes a root commit an initial commit.
+        todo.addAll(n.parents);
+      }
+    }
+    Set<Node> nearest = new HashSet<>();
+    for (Node parent : parents) {
+      nearest.addAll(DecoratedDag.nearestDecorated(parent, nearestByNode));
+    }
+    return nearest;
+  }
+
+  private static void addChild(Map<Node, Set<Node>> children, Node child) {
+    for (Node parent : child.parents) {
+      children.computeIfAbsent(parent, p -> new HashSet<>()).add(child);
+    }
   }
 }

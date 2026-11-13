@@ -17,5 +17,11 @@ package com.google.gerrit.server.cache;
 import com.google.common.cache.RemovalNotification;
 
 public interface CacheRemovalListener<K, V> {
+  /**
+   * Receives cache removal notifications.
+   *
+   * <p>Explicit keyed invalidations from the default memory cache implementation also notify when
+   * the key is absent. In that case the cause is {@code EXPLICIT} and the value is {@code null}.
+   */
   void onRemoval(String pluginName, String cacheName, RemovalNotification<K, V> notification);
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b980a4d_4e80ca05",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-13T19:08:32Z",
+      "side": 1,
+      "message": "What about also adding `-1` to explicitly block the CI execution?\n\nThis would express the fact I have checked a patch and I am sure it doesn\u0027t have to be executed.",
+      "revId": "fdcde6b5865e8ab0187d3263c01df2c68862949a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fb08169_f97996ff",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-13T19:08:32Z",
+      "side": 1,
+      "message": "What about also adding `OR uploaderin:gerrit-trusted-contributors OR uploaderin:google/gerritcodereview-maintainers@googlegroups.com\u0027.",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 14
+      },
+      "revId": "fdcde6b5865e8ab0187d3263c01df2c68862949a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

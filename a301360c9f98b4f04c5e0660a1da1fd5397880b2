@@ -52,6 +52,24 @@
       "parentUuid": "2249f681_2242799a",
       "revId": "a301360c9f98b4f04c5e0660a1da1fd5397880b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de4e6693_f4e34ff3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-13T09:27:42Z",
+      "side": 1,
+      "message": "The hybrid sounds good, and it addresses Nasser\u0027s concern about cached lookups. Keep the DAG as the layer we update after a push, and recompute the per-tag bitmaps from it. That\u0027s the same propagation the bitmap build does today, but over the decorated nodes only and without reading any objects, so it should be cheap. It could also run lazily on the first lookup after an update. Lookups would then stay as fast as the bitmap version. I\u0027d like to do it as a follow-up behind the config (e.g. `hybrid`), so this change stays reviewable.\n\n+1 on looking at visibility at the ACL level too. On a large repo the tag check isn\u0027t the only per-request cost: listing all refs and checking READ for every branch is a few seconds per request (~16k branches) even when the TagSet is current. A cache keyed by group set would remove that. Some things to work out:\n- not all ref visibility comes from group ACLs: change refs depend on change visibility, and refs/users/${username} depends on the user,\n- with external groups the group set is often unique per user, so it may end up being close to a bitmap per active user,\n- it has to be invalidated when a parent project\u0027s ACLs change too.\n\nTags would still go through the TagSet, with the cached branch set as the mask. I think that one deserves its own design discussion rather than being part of this change.",
+      "parentUuid": "2c4dee11_0aea9752",
+      "revId": "a301360c9f98b4f04c5e0660a1da1fd5397880b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

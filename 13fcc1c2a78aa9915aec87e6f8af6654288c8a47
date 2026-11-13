@@ -16,6 +16,24 @@
       "message": "I think you wanted to do this on the [parent repo](https://gerrit-review.googlesource.com/admin/repos/Public-Projects,access) since that\u0027s where gerrit-ci gets the perms to create.",
       "revId": "13fcc1c2a78aa9915aec87e6f8af6654288c8a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfed4973_779cf557",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-13T19:23:36Z",
+      "side": 1,
+      "message": "Good point, let me do it now.",
+      "parentUuid": "cc839949_a86aaea4",
+      "revId": "13fcc1c2a78aa9915aec87e6f8af6654288c8a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9876c9cc_d5ef56b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-13T19:23:46Z",
+      "side": 1,
+      "message": "This can be moved to `Public-Projects`",
+      "revId": "84de41edc5fcf515359cd88ca5222fb7b8312732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

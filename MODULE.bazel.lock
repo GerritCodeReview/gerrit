@@ -269,6 +269,19 @@
   },
   "selectedYankedVersions": {},
   "moduleExtensions": {
+    "//:setup.bzl%setup": {
+      "general": {
+        "bzlTransitiveDigest": "ls4WNKuBZ7D64LMoJi2vjiXwUOd6fUUJE2voEQP8pWY=",
+        "usagesDigest": "qiYLpvU8JDJCVP6/AK/WhBES/gwhP7y9wNnkM+WUrqg=",
+        "recordedInputs": [],
+        "generatedRepoSpecs": {
+          "setup_data": {
+            "repoRuleId": "@@//:setup.bzl%_repo",
+            "attributes": {}
+          }
+        }
+      }
+    },
     "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
       "general": {
         "bzlTransitiveDigest": "ihzLOoAnQP6Y5iSYOhEjvb6uxEbA6ZgH8Qikau2lGRU=",

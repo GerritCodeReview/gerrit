@@ -24,6 +24,7 @@ public final class Main {
   // to jump into the real main code.
   //
 
+
   public static void main(String[] argv) throws Exception {
     if (onSupportedJavaVersion()) {
       configureFloggerBackend();

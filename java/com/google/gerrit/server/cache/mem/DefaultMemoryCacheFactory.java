@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import java.time.Duration;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
 import org.eclipse.jgit.lib.Config;
 
 class DefaultMemoryCacheFactory implements MemoryCacheFactory {
@@ -62,20 +63,23 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
     } else if (executorThreads > DEFAULT_CACHE_EXECUTOR_THREADS) {
       executor = workQueue.createQueue(executorThreads, CACHE_EXECUTOR_PREFIX);
     } else {
-      executor = null;
+      executor = ForkJoinPool.commonPool();
     }
   }
 
   @Override
   public <K, V> Cache<K, V> build(CacheDef<K, V> def) {
-    return CaffeinatedGuava.build(create(def));
+    return new InvalidationTrackingCache<>(
+        CaffeinatedGuava.build(create(def)), newRemovalListener(def.name()), executor);
   }
 
   @Override
   public <K, V> LoadingCache<K, V> build(CacheDef<K, V> def, CacheLoader<K, V> loader) {
-    return cacheMaximumWeight(def) == 0
-        ? new PassthroughLoadingCache<>(loader)
-        : CaffeinatedGuava.build(create(def), loader);
+    LoadingCache<K, V> cache =
+        cacheMaximumWeight(def) == 0
+            ? new PassthroughLoadingCache<>(loader)
+            : CaffeinatedGuava.build(create(def), loader);
+    return new InvalidationTrackingCache.Loading<>(cache, newRemovalListener(def.name()), executor);
   }
 
   private <K, V> Caffeine<K, V> create(CacheDef<K, V> def) {
@@ -84,9 +88,7 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
     builder.maximumWeight(cacheMaximumWeight(def));
     builder = builder.removalListener(newRemovalListener(def.name()));
 
-    if (executor != null) {
-      builder.executor(executor);
-    }
+    builder.executor(executor);
     builder.weigher(newWeigher(def.weigher()));
 
     Duration expireAfterWrite = def.expireAfterWrite();

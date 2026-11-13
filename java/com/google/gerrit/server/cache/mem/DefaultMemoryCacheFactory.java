@@ -68,14 +68,21 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
 
   @Override
   public <K, V> Cache<K, V> build(CacheDef<K, V> def) {
-    return CaffeinatedGuava.build(create(def));
+    return new InvalidationTrackingCache<>(
+        CaffeinatedGuava.build(create(def)),
+        def.keyType().getRawType(),
+        newRemovalListener(def.name()),
+        executor);
   }
 
   @Override
   public <K, V> LoadingCache<K, V> build(CacheDef<K, V> def, CacheLoader<K, V> loader) {
-    return cacheMaximumWeight(def) == 0
-        ? new PassthroughLoadingCache<>(loader)
-        : CaffeinatedGuava.build(create(def), loader);
+    LoadingCache<K, V> cache =
+        cacheMaximumWeight(def) == 0
+            ? new PassthroughLoadingCache<>(loader)
+            : CaffeinatedGuava.build(create(def), loader);
+    return new InvalidationTrackingCache.Loading<>(
+        cache, def.keyType().getRawType(), newRemovalListener(def.name()), executor);
   }
 
   private <K, V> Caffeine<K, V> create(CacheDef<K, V> def) {

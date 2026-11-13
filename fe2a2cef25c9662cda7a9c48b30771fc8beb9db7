@@ -70,6 +70,24 @@
       "parentUuid": "ae017a4a_dd31dd6e",
       "revId": "fe2a2cef25c9662cda7a9c48b30771fc8beb9db7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "941f221c_3d4aea42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-13T20:37:35Z",
+      "side": 1,
+      "message": "Thank, makes total sense. Can you improve the commit message to highlight that gap? It need not be as complete as this response, just something along the lines that the id is needed in do be able to respond to a specific comment.",
+      "parentUuid": "7b01d54b_8b52efce",
+      "revId": "fe2a2cef25c9662cda7a9c48b30771fc8beb9db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

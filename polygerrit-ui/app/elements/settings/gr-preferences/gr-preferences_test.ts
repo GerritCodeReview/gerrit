@@ -6,12 +6,17 @@
 import '../../../test/common-test-setup';
 import './gr-preferences';
 import {
+  query,
   queryAll,
   queryAndAssert,
   stubFlags,
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {ResponseCode} from '../../../api/suggestions';
+import {testResolver} from '../../../test/common-test-setup';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrPreferences} from './gr-preferences';
 import {PreferencesInfo, TopMenuItemInfo} from '../../../types/common';
 import {
@@ -582,5 +587,76 @@ suite('gr-preferences tests', () => {
     // Save the change.
     await element.save();
     assert.isFalse(element.hasUnsavedChanges());
+  });
+
+  test('shows suggest-while-commenting preference only when provider implements suggestFix', async () => {
+    stubFlags('isEnabled').callsFake(
+      flag => flag === KnownExperimentId.ML_SUGGESTED_EDIT_V2
+    );
+    const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+
+    pluginsModel.updateState({
+      suggestionsPlugins: [
+        {
+          pluginName: 'chat-only-plugin',
+          provider: {
+            requestAiFix: async () => {
+              return {responseCode: ResponseCode.OK, fix_suggestions: []};
+            },
+          },
+        },
+      ],
+    });
+    await element.updateComplete;
+    assert.isNotOk(query(element, '#allowSuggestCodeWhileCommentingSection'));
+
+    pluginsModel.updateState({
+      suggestionsPlugins: [
+        {
+          pluginName: 'inline-fix-plugin',
+          provider: {
+            suggestFix: async () => {
+              return {responseCode: ResponseCode.OK, fix_suggestions: []};
+            },
+          },
+        },
+      ],
+    });
+    await element.updateComplete;
+    queryAndAssert(element, '#allowSuggestCodeWhileCommentingSection');
+  });
+
+  test('shows comment-autocompletion preference only when provider implements autocompleteComment', async () => {
+    const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+
+    pluginsModel.updateState({
+      suggestionsPlugins: [
+        {
+          pluginName: 'chat-only-plugin',
+          provider: {
+            requestAiFix: async () => {
+              return {responseCode: ResponseCode.OK, fix_suggestions: []};
+            },
+          },
+        },
+      ],
+    });
+    await element.updateComplete;
+    assert.isNotOk(query(element, '#allowAiCommentAutocompletionSection'));
+
+    pluginsModel.updateState({
+      suggestionsPlugins: [
+        {
+          pluginName: 'autocomplete-plugin',
+          provider: {
+            autocompleteComment: async () => {
+              return {responseCode: ResponseCode.OK};
+            },
+          },
+        },
+      ],
+    });
+    await element.updateComplete;
+    queryAndAssert(element, '#allowAiCommentAutocompletionSection');
   });
 });

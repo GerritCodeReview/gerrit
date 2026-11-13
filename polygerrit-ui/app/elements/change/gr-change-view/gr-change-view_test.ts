@@ -1677,6 +1677,22 @@ suite('gr-change-view tests', () => {
     queryAndAssert(decorator, 'chat-panel');
   });
 
+  test('open-chat-panel on document opens sidebar without calling processChatRequest', async () => {
+    const chatModel = testResolver(chatModelToken);
+    const processChatRequestStub = sinon.stub(chatModel, 'processChatRequest');
+    const contentWithSidebar = queryAndAssert<GrContentWithSidebar>(
+      element,
+      'gr-content-with-sidebar'
+    );
+    assert.isTrue(contentWithSidebar.hideSide);
+
+    document.dispatchEvent(new CustomEvent('open-chat-panel'));
+    await element.updateComplete;
+
+    assert.isFalse(contentWithSidebar.hideSide);
+    assert.isFalse(processChatRequestStub.called);
+  });
+
   test('chat-panel endpoint can be replaced by a plugin', async () => {
     element.change = {...createChangeViewChange(), labels: {}};
     element.revision = createRevision();

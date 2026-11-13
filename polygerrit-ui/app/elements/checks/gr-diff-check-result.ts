@@ -36,7 +36,6 @@ import {
 } from '../../services/suggestions/suggestions-service';
 import {FixSuggestionInfo, RevisionPatchSetNum} from '../../api/rest-api';
 import {when} from 'lit/directives/when.js';
-import {fireAlert} from '../../utils/event-util';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -329,7 +328,7 @@ export class GrDiffCheckResult extends LitElement {
       return false;
     }
     if (
-      !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
+      !this.getSuggestionsService()?.isRequestAiFixEnabled(
         this.result?.codePointers?.[0].path
       )
     ) {
@@ -433,7 +432,7 @@ export class GrDiffCheckResult extends LitElement {
     reportAiAgentGetAIFix(this.reporting, this.result);
     let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestion = await this.getSuggestionsService().generateSuggestedFix({
+      suggestion = await this.getSuggestionsService().requestAiFix({
         prompt: this.result.message,
         patchsetNumber: this.result.patchset as RevisionPatchSetNum,
         filePath: codePointer.path,
@@ -443,10 +442,7 @@ export class GrDiffCheckResult extends LitElement {
     } finally {
       this.suggestionLoading = false;
     }
-    if (!suggestion) {
-      fireAlert(this, 'No suitable AI fix could be found');
-      return;
-    }
+    if (!suggestion) return;
     suggestion.description =
       ReportSource.GET_AI_FIX_FOR_CHECK + ' ' + suggestion.description;
     this.suggestion = suggestion;

@@ -481,6 +481,31 @@ Each queue provides the following metrics:
 * `git/upload-pack/pack_bytes`: Distribution of sizes of packs sent to clients.
 ** `operation`:
    The name of the operation (CLONE, FETCH).
+* `git/upload-pack/output_cache/enabled`: Whether generated fetch pack caching is enabled (0 or 1).
+* `git/upload-pack/output_cache/hits`: Requests joining an in-flight or completed pack.
+* `git/upload-pack/output_cache/misses`: Requests starting a cached pack producer.
+* `git/upload-pack/output_cache/bypasses`: Requests bypassing admission or cache capacity limits.
+* `git/upload-pack/output_cache/generation_failures`: Failed cached pack generations.
+* `git/upload-pack/output_cache/generated_bytes`: Raw pack bytes generated for cache lookups,
+  including admission and capacity bypasses.
+* `git/upload-pack/output_cache/served_bytes`: Raw pack bytes served for cache lookups, including
+  the producer's client and uncached bypasses.
+* `git/upload-pack/output_cache/active_producers`: Currently running cache producers.
+* `git/upload-pack/output_cache/entries`: Cache files, including evicted files with active readers.
+* `git/upload-pack/output_cache/disk_bytes`: Logical bytes in all instance cache files, including
+  active spools and evicted files that remain open.
+* `git/upload-pack/output_cache/retained_bytes`: Completed pack bytes retained for reuse. Active
+  files may cause `disk_bytes` to exceed the configured retention budget.
+* `git/upload-pack/output_cache/removed_files`: Data files removed by expiration, eviction, or
+  abandoned-instance cleanup.
+
+The output-cache counters and gauges are registered when caching is enabled.
+Only `output_cache/enabled` is registered when caching is disabled. A cache-hit
+ratio can be calculated as `hits / (hits + misses + bypasses)`. The ratio of
+`served_bytes` to `generated_bytes` measures reuse of generated pack data,
+including admission and capacity bypasses. Requests ineligible for caching
+are outside these counters.
+
 * `git/auto-merge/num_operations`: Number of auto merge operations and context.
 ** `operation`:
    The type of the operation (CACHE_LOAD, IN_MEMORY_WRITE, ON_DISK_WRITE).

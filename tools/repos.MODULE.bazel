@@ -4,6 +4,14 @@ local_path_override(
     path = "./modules/jgit",
 )
 
+# JGit's non-LTS JDK toolchains are not in the registry. Overrides in
+# dependency modules are ignored, so keep its source pin at the root too.
+git_override(
+    module_name = "java_toolchains",
+    commit = "5ba7b4f08019bccab1f560f29d1734ed55e3e985",
+    remote = "https://github.com/davido/java_toolchains.git",
+)
+
 bazel_dep(name = "gitiles")
 local_path_override(
     module_name = "gitiles",

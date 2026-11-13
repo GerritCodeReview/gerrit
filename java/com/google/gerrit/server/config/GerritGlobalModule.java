@@ -151,6 +151,7 @@ import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackOutputCache;
 import com.google.gerrit.server.git.receive.PushOptionsValidator;
 import com.google.gerrit.server.git.receive.ReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
@@ -302,6 +303,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new CmdLineParserModule());
     install(new ExternalIdModule());
     install(new GitModule());
+    install(new UploadPackOutputCache.Module());
     install(new GroupDbModule());
     install(new GroupModule());
     install(new NoteDbModule());

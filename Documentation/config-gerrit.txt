@@ -5419,6 +5419,79 @@ auto-detected and one thread per CPU is used, per client request.
 +
 By default, 1.
 
+[[pack.outputCacheDirectory]]pack.outputCacheDirectory::
++
+Directory for a process-local cache of generated fetch packs. Relative
+paths are resolved against the site directory. Unset by default, disabling
+caching. With many concurrent CI workers fetching the same objects, the
+cache shares pack generation to avoid repeating CPU work for every worker.
++
+Matching requests read independent streams from the same growing file,
+including while generation is running. Producer backpressure follows the
+furthest reader progress; a slow or disconnected reader does not hold up other
+readers. Generation stops when all readers leave. Every request still
+performs authorization, negotiation, and upload validation before lookup.
+Authorized users may share an entry when the repository and finalized
+pack inputs match, including permission-filtered included tags.
++
+Full, incremental, shallow and filtered client fetches are eligible.
+When an extension supplies packfile URIs, the cache can reuse the generated
+inline remainder while URI metadata is refreshed for each request. These
+requests repeat object selection; reuse saves compression and serialization.
+Requested thin packs remain eligible. Repositories whose own history is
+shallow and uploads that expose their revision walk to callers use the
+uncached path. Protocol framing and progress messages remain request-local.
+The cache does not add support for Git operations that the underlying JGit
+server does not implement.
++
+Data is held in a private instance directory. Expiration and shutdown
+remove unused files. A lock-protected janitor also removes data left by
+terminated instances, without reusing it or deleting live instances' data.
+Leave enough disk space and write bandwidth for active streams as well as
+retained packs.
+
+[[pack.outputCacheMaxBytes]]pack.outputCacheMaxBytes::
++
+Maximum completed pack data retained for reuse by this process. Active
+spools and files still read after eviction can temporarily exceed this
+budget. A pack larger than the budget is streamed normally but is not
+retained after its current readers finish. Supports `k`, `m`, and `g` size
+suffixes.
++
+Default is 1 GiB.
+
+[[pack.outputCacheMaxEntries]]pack.outputCacheMaxEntries::
++
+Maximum number of cache files, including generating packs and evicted
+files with active readers. New requests use the uncached path when full.
++
+Default is 128.
+
+[[pack.outputCacheMaxAge]]pack.outputCacheMaxAge::
++
+Maximum cache-entry age from creation. Expiration removes the entry from
+lookup while existing readers and generators may finish. Supports standard
+time units such as `s`, `min`, and `h`. Must be positive.
++
+Default is 5 minutes.
+
+[[pack.outputCacheMinOccurrences]]pack.outputCacheMinOccurrences::
++
+Number of prior matching requests required before a new entry is created.
+With the default of 1, the first request bypasses caching, the second
+creates an entry, and subsequent requests can reuse it. This avoids disk
+writes for unique requests. Set to 0 to cache the first eligible request.
++
+Default is 1.
+
+[[pack.outputCacheMaxConcurrentProducers]]pack.outputCacheMaxConcurrentProducers::
++
+Maximum number of background cache producers. Matching requests share one
+producer. If all producer slots are busy, new unique requests use the
+uncached path; this setting does not limit total fetch concurrency.
++
+Default is 8.
+
 
 [[plugins]]
 === Section plugins

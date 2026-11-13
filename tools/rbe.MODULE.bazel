@@ -29,3 +29,37 @@ libatomic(
 rbe_node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
 
 use_repo(rbe_node, "nodejs_linux_amd64")
+
+# Native tools (git, ssh, ssh-keygen) needed by tests, sourced from a pinned
+# Ubuntu 24.04 snapshot so that they do not have to be installed in the
+# executor image. See //tools/remote/native.
+bazel_dep(name = "rules_distroless", version = "0.9.4")
+
+apt = use_extension("@rules_distroless//apt:extensions.bzl", "apt")
+
+apt.sources_list(
+    architectures = ["amd64"],
+    components = ["main"],
+    suites = [
+        "noble",
+        "noble-security",
+        "noble-updates",
+    ],
+    types = ["deb"],
+    uris = ["https://snapshot.ubuntu.com/ubuntu/20261101T000000Z"],
+)
+
+apt.install(
+    dependency_set = "rbe_native_tools",
+    packages = [
+        "git",
+        "openssh-client",
+    ],
+    suites = [
+        "noble",
+        "noble-security",
+        "noble-updates",
+    ],
+)
+
+use_repo(apt, "rbe_native_tools")

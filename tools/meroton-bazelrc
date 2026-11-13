@@ -21,3 +21,6 @@ common:bes --bes_instance_name=gerrit
 common:bes --bes_upload_mode=fully_async
 
 common:meroton --config=rbe --config=bes
+
+# git, ssh and ssh-keygen are not part of the executor image.
+test:rbe --run_under=//tools/remote/native:with_native_tools

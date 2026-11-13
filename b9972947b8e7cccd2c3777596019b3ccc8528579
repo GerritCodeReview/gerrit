@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c82ceb11_63360b6a",
+        "filename": "java/com/google/gerrit/extensions/events/NewProjectCreatedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-13T17:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47969cb1_0c980e2c",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "b9972947b8e7cccd2c3777596019b3ccc8528579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12b6ec62_4aa88fd1",
@@ -84,6 +108,30 @@
       "writtenOn": "2026-11-12T23:21:05Z",
       "side": 1,
       "message": "We can wait until at least one event has arrived rather than explicitly asserting exactly once:\n\n```suggestion\n          return !projectCreatedEvents.isEmpty();\n```",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 50
+      },
+      "revId": "b9972947b8e7cccd2c3777596019b3ccc8528579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "991066c6_79dc5dad",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-13T17:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12b6ec62_4aa88fd1",
       "range": {
         "startLine": 229,
         "startChar": 0,

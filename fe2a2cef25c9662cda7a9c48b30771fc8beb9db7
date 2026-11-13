@@ -52,6 +52,24 @@
       "parentUuid": "0526fc5f_72dcb218",
       "revId": "fe2a2cef25c9662cda7a9c48b30771fc8beb9db7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b01d54b_8b52efce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2026-11-13T19:53:51Z",
+      "side": 1,
+      "message": "You can use the `--json` argument to the `review` command to do this.  Something like:\n```\nssh -p 29418 gerrit \\\n  gerrit review --json \u003cchange-number\u003e,\u003cpatchset-number\u003e \u003c\u003c\u0027JSON\u0027\n{\n  \"comments\": {\n    \"path/to/file.py\": [\n      {\n        \"in_reply_to\": \"ORIGINAL_COMMENT_UUID\",\n        \"message\": \"Reply text here.\",\n        \"unresolved\": false\n      }\n    ]\n  }\n}\nJSON\n```",
+      "parentUuid": "ae017a4a_dd31dd6e",
+      "revId": "fe2a2cef25c9662cda7a9c48b30771fc8beb9db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

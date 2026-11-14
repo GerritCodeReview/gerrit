@@ -9,7 +9,7 @@ import {CommentThread, PatchRange} from '../../../types/common';
 import {isInBaseOfPatchRange} from '../../../utils/comment-util';
 import {getDiffLines} from '../../../utils/diff-util';
 import {html, TemplateResult} from 'lit';
-import {Lexer, Marked, Token, Tokens} from 'marked';
+import {getDefaults, Lexer, Marked, Token, Tokens} from 'marked';
 
 export type DiffBlockStatus = 'unchanged' | 'added' | 'deleted' | 'modified';
 
@@ -148,6 +148,10 @@ function tokenizeInlineAstTokens(tokens: Token[], result: string[]) {
   }
 }
 
+function lexInlineIsolated(text: string): Token[] {
+  return Lexer.lexInline(text, getDefaults());
+}
+
 /**
  * Tokenize text using Marked's inline AST lexer (`Lexer.lexInline`) so
  * markdown links and inline code spans remain atomic AST units (including when
@@ -157,35 +161,85 @@ function tokenizeInlineAstTokens(tokens: Token[], result: string[]) {
  */
 export function tokenizeWords(text: string): string[] {
   if (!text) return [];
-  const inlineTokens = Lexer.lexInline(text);
+  const inlineTokens = lexInlineIsolated(text);
   const result: string[] = [];
   tokenizeInlineAstTokens(inlineTokens, result);
   return result;
 }
 
 const SAFE_URL_SCHEMES = new Set(['http:', 'https:']);
+const INVALID_URL = 'about:invalid#zClosurez';
+const RELATIVE_URL_BASE = 'https://relative.invalid/';
+
+/**
+ * Sanitize a fenced code block language info string into a single safe
+ * `language-*` CSS class name. Prevents whitespace-delimited class injection
+ * (e.g., ```` ```lean selection-action-box diff-cell ````) from hijacking
+ * viewer styles or Shadow DOM queries.
+ */
+export function sanitizeCodeLanguage(lang?: string): string | undefined {
+  if (!lang) return undefined;
+  const firstToken = lang.trim().split(/\s+/)[0] ?? '';
+  const safe = firstToken.replace(/[^A-Za-z0-9_+#.-]/g, '').slice(0, 40);
+  return safe ? `language-${safe}` : undefined;
+}
 
 /**
  * Sanitize a markdown link href so dangerous schemes (such as `javascript:`,
- * `data:`, or `vbscript:`) cannot execute when rendered in an `<a>` tag.
+ * `data:`, `vbscript:`, `file:`), protocol-relative/backslash host redirects
+ * (`//evil.com`, `/\evil.com`, `\/evil.com`, `\\evil.com`), control-character
+ * obfuscation (`ht\ttps://`, `\u0000//`), and HTML entity-obfuscated schemes
+ * cannot execute or hijack navigation when rendered in an `<a>` tag.
+ * Fails closed to `about:invalid#zClosurez` on malformed inputs.
  */
 export function sanitizeMarkdownUrl(url: string): string {
   const trimmed = url.trim();
   if (!trimmed) return '';
-  try {
-    const parsed = new URL(trimmed);
-    if (SAFE_URL_SCHEMES.has(parsed.protocol.toLowerCase())) {
-      return trimmed;
+  // Reject any ASCII C0/C1 control characters or DEL anywhere in the URL.
+  // eslint-disable-next-line no-control-regex
+  if (/[\u0000-\u001f\u007f-\u009f]/.test(trimmed)) {
+    return INVALID_URL;
+  }
+  // Reject protocol-relative (`//host`), backslash-prefixed (`/\host`, `\/host`, `\\host`, `\host`).
+  if (/^(?:[/\\]{2}|[/\\]\s*[/\\]|\\)/.test(trimmed)) {
+    return INVALID_URL;
+  }
+  // Reject HTML entity references before any path/query/fragment delimiter
+  // (e.g. `&#106;avascript:`, `javascript&colon;`).
+  if (/^[^/?#]*&(?:#x?[0-9a-f]+|[a-z]+);/i.test(trimmed)) {
+    return INVALID_URL;
+  }
+
+  // Explicit scheme check (anything with `:` before `/`, `?`, or `#`).
+  if (/^[^/?#]*:/.test(trimmed)) {
+    if (!/^https?:\/\//i.test(trimmed)) {
+      return INVALID_URL;
     }
-    return 'about:invalid#zClosurez';
-  } catch {
-    // Relative URL (no explicit scheme); reject control-character-obfuscated schemes.
-    // eslint-disable-next-line no-control-regex
-    const normalized = trimmed.replace(/[\u0000-\u0020]+/g, '');
-    if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(normalized)) {
-      return 'about:invalid#zClosurez';
+    try {
+      const parsed = new URL(trimmed);
+      if (!SAFE_URL_SCHEMES.has(parsed.protocol.toLowerCase())) {
+        return INVALID_URL;
+      }
+      // Canonicalize if the raw URL contains whitespace or backslashes.
+      if (/[\s\\]/.test(trimmed)) {
+        return parsed.href;
+      }
+      return trimmed;
+    } catch {
+      return INVALID_URL;
+    }
+  }
+
+  // Relative URL or same-page fragment: verify WHATWG URL parsing cannot
+  // escape the synthetic origin (catches host-redirect edge cases).
+  try {
+    const parsed = new URL(trimmed, RELATIVE_URL_BASE);
+    if (parsed.origin !== 'https://relative.invalid') {
+      return INVALID_URL;
     }
     return trimmed;
+  } catch {
+    return INVALID_URL;
   }
 }
 
@@ -258,7 +312,16 @@ function renderInlineAstTokens(
             })
           : token.text || token.href;
       const safeHref = sanitizeMarkdownUrl(token.href);
-      parts.push(html`<a href=${safeHref}>${labelContent}</a>`);
+      const isExternal = /^https?:\/\//i.test(safeHref);
+      parts.push(
+        isExternal
+          ? html`<a href=${safeHref} target="_blank" rel="noopener noreferrer"
+              >${labelContent}</a
+            >`
+          : html`<a href=${safeHref} rel="noopener noreferrer"
+              >${labelContent}</a
+            >`
+      );
     } else if (isInlineContainerToken(token)) {
       parts.push(
         renderInlineContainerTag(
@@ -290,7 +353,7 @@ function renderInlineAstTokens(
  */
 export function renderInlineCodeSpans(text: string): TemplateResult {
   if (!text) return html``;
-  return renderInlineAstTokens(Lexer.lexInline(text), {includeLinks: false});
+  return renderInlineAstTokens(lexInlineIsolated(text), {includeLinks: false});
 }
 
 /**
@@ -300,8 +363,12 @@ export function renderInlineCodeSpans(text: string): TemplateResult {
  */
 export function renderInlineMarkdown(text: string): TemplateResult {
   if (!text) return html``;
-  return renderInlineAstTokens(Lexer.lexInline(text), {includeLinks: true});
+  return renderInlineAstTokens(lexInlineIsolated(text), {includeLinks: true});
 }
+
+const MAX_SEQUENCE_DIFF_CELLS = 250_000;
+const MAX_EDIT_DISTANCE_CELLS = 40_000;
+const MAX_ALIGN_ITEMS_CELLS = 10_000;
 
 /** Compute LCS-based diff between two arrays of strings (e.g. words or lines). */
 export function computeSequenceDiff(
@@ -310,38 +377,99 @@ export function computeSequenceDiff(
 ): InlineDiffSegment[] {
   const m = seqA.length;
   const n = seqB.length;
-  // DP table for LCS lengths
-  const dp: number[][] = Array.from({length: m + 1}, () =>
-    new Array(n + 1).fill(0)
-  );
+  if (m === 0 && n === 0) return [];
 
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      if (seqA[i] === seqB[j]) {
-        dp[i + 1][j + 1] = dp[i][j] + 1;
-      } else {
-        dp[i + 1][j + 1] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+  // Trim exact common prefix and suffix to keep near-identical large inputs O(N).
+  let prefixLen = 0;
+  while (
+    prefixLen < m &&
+    prefixLen < n &&
+    seqA[prefixLen] === seqB[prefixLen]
+  ) {
+    prefixLen++;
+  }
+  let suffixLen = 0;
+  while (
+    suffixLen < m - prefixLen &&
+    suffixLen < n - prefixLen &&
+    seqA[m - 1 - suffixLen] === seqB[n - 1 - suffixLen]
+  ) {
+    suffixLen++;
+  }
+
+  const segments: InlineDiffSegment[] = [];
+  for (let p = 0; p < prefixLen; p++) {
+    segments.push({text: seqA[p], type: 'common'});
+  }
+
+  const midLenA = m - prefixLen - suffixLen;
+  const midLenB = n - prefixLen - suffixLen;
+
+  if (midLenA === 0) {
+    for (let j = 0; j < midLenB; j++) {
+      segments.push({text: seqB[prefixLen + j], type: 'added'});
+    }
+  } else if (midLenB === 0) {
+    for (let i = 0; i < midLenA; i++) {
+      segments.push({text: seqA[prefixLen + i], type: 'deleted'});
+    }
+  } else if (midLenA * midLenB > MAX_SEQUENCE_DIFF_CELLS) {
+    // Bounded linear fallback for adversarial/huge unaligned sequences.
+    for (let i = 0; i < midLenA; i++) {
+      segments.push({text: seqA[prefixLen + i], type: 'deleted'});
+    }
+    for (let j = 0; j < midLenB; j++) {
+      segments.push({text: seqB[prefixLen + j], type: 'added'});
+    }
+  } else {
+    const cols = midLenB + 1;
+    const dp = new Int32Array((midLenA + 1) * cols);
+
+    for (let i = 0; i < midLenA; i++) {
+      const aVal = seqA[prefixLen + i];
+      const rowOffset = i * cols;
+      const nextRowOffset = (i + 1) * cols;
+      for (let j = 0; j < midLenB; j++) {
+        if (aVal === seqB[prefixLen + j]) {
+          dp[nextRowOffset + j + 1] = dp[rowOffset + j] + 1;
+        } else {
+          const left = dp[nextRowOffset + j];
+          const up = dp[rowOffset + j + 1];
+          dp[nextRowOffset + j + 1] = left >= up ? left : up;
+        }
       }
+    }
+
+    const midSegments: InlineDiffSegment[] = [];
+    let i = midLenA;
+    let j = midLenB;
+    while (i > 0 || j > 0) {
+      if (
+        i > 0 &&
+        j > 0 &&
+        seqA[prefixLen + i - 1] === seqB[prefixLen + j - 1]
+      ) {
+        midSegments.push({text: seqA[prefixLen + i - 1], type: 'common'});
+        i--;
+        j--;
+      } else if (
+        j > 0 &&
+        (i === 0 || dp[i * cols + (j - 1)] >= dp[(i - 1) * cols + j])
+      ) {
+        midSegments.push({text: seqB[prefixLen + j - 1], type: 'added'});
+        j--;
+      } else {
+        midSegments.push({text: seqA[prefixLen + i - 1], type: 'deleted'});
+        i--;
+      }
+    }
+    for (let k = midSegments.length - 1; k >= 0; k--) {
+      segments.push(midSegments[k]);
     }
   }
 
-  // Backtrack to build diff segments
-  const segments: InlineDiffSegment[] = [];
-  let i = m;
-  let j = n;
-
-  while (i > 0 || j > 0) {
-    if (i > 0 && j > 0 && seqA[i - 1] === seqB[j - 1]) {
-      segments.unshift({text: seqA[i - 1], type: 'common'});
-      i--;
-      j--;
-    } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
-      segments.unshift({text: seqB[j - 1], type: 'added'});
-      j--;
-    } else if (i > 0 && (j === 0 || dp[i][j - 1] < dp[i - 1][j])) {
-      segments.unshift({text: seqA[i - 1], type: 'deleted'});
-      i--;
-    }
+  for (let s = 0; s < suffixLen; s++) {
+    segments.push({text: seqA[m - suffixLen + s], type: 'common'});
   }
 
   return segments;
@@ -357,6 +485,12 @@ export function tokenizeCodeWords(line: string): string[] {
   return line.match(codeTokenRegex) || [];
 }
 
+const DEFAULT_CONTENT_TOKEN_RE = /[\p{L}\p{N}_]/u;
+
+function defaultIsContentToken(tok: string): boolean {
+  return DEFAULT_CONTENT_TOKEN_RE.test(tok);
+}
+
 /**
  * Compute the normalized token edit distance in [0.0, 1.0] between two token
  * sequences, ignoring pure-whitespace and pure-punctuation tokens so spaces and
@@ -365,24 +499,40 @@ export function tokenizeCodeWords(line: string): string[] {
  */
 export function computeNormalizedEditDistance(
   seqA: string[],
-  seqB: string[]
+  seqB: string[],
+  isContentToken: (tok: string) => boolean = defaultIsContentToken
 ): number {
   const nonWsA = seqA.filter(t => !/^\s+$/.test(t));
   const nonWsB = seqB.filter(t => !/^\s+$/.test(t));
   if (nonWsA.length === 0 && nonWsB.length === 0) return 0;
   if (nonWsA.length === 0 || nonWsB.length === 0) return 1;
 
-  const wordsA = nonWsA.filter(t => /\w/.test(t));
-  const wordsB = nonWsB.filter(t => /\w/.test(t));
+  const wordsA = nonWsA.filter(isContentToken);
+  const wordsB = nonWsB.filter(isContentToken);
   const contentA = wordsA.length > 0 || wordsB.length > 0 ? wordsA : nonWsA;
   const contentB = wordsA.length > 0 || wordsB.length > 0 ? wordsB : nonWsB;
   if (contentA.length === 0 || contentB.length === 0) return 1;
 
-  const diff = computeSequenceDiff(contentA, contentB);
   let commonCount = 0;
-  for (const seg of diff) {
-    if (seg.type === 'common') {
-      commonCount++;
+  if (contentA.length * contentB.length > MAX_EDIT_DISTANCE_CELLS) {
+    // Linear O(m + n) multiset overlap approximation for very large token lists.
+    const countsA = new Map<string, number>();
+    for (const tok of contentA) {
+      countsA.set(tok, (countsA.get(tok) ?? 0) + 1);
+    }
+    for (const tok of contentB) {
+      const rem = countsA.get(tok) ?? 0;
+      if (rem > 0) {
+        commonCount++;
+        countsA.set(tok, rem - 1);
+      }
+    }
+  } else {
+    const diff = computeSequenceDiff(contentA, contentB);
+    for (const seg of diff) {
+      if (seg.type === 'common') {
+        commonCount++;
+      }
     }
   }
   const minLen = Math.min(contentA.length, contentB.length);
@@ -459,49 +609,47 @@ export function coalesceInlineDiffSegments(
   const runs = buildRuns(segments);
 
   // Coalesce pure-whitespace common runs sandwiched between two edit runs
-  // when both edits have deleted text or both edits have added text.
-  let changed = true;
-  while (changed) {
-    changed = false;
-    for (let i = 1; i < runs.length - 1; i++) {
-      const prev = runs[i - 1];
-      const curr = runs[i];
-      const next = runs[i + 1];
+  // in a single linear O(R) stack pass when both edits have deleted text or
+  // both edits have added text.
+  const coalescedRuns: Run[] = [];
+  for (const run of runs) {
+    if (coalescedRuns.length >= 2 && run.kind === 'edit') {
+      const curr = coalescedRuns[coalescedRuns.length - 1];
+      const prev = coalescedRuns[coalescedRuns.length - 2];
       if (
         curr.kind === 'common' &&
         /^\s+$/.test(curr.text) &&
-        prev.kind === 'edit' &&
-        next.kind === 'edit'
+        prev.kind === 'edit'
       ) {
-        const bothHaveDel = prev.delText.length > 0 && next.delText.length > 0;
-        const bothHaveAdd = prev.addText.length > 0 && next.addText.length > 0;
+        const bothHaveDel = prev.delText.length > 0 && run.delText.length > 0;
+        const bothHaveAdd = prev.addText.length > 0 && run.addText.length > 0;
         const prevIsPair = prev.delText.length > 0 && prev.addText.length > 0;
-        const nextIsPair = next.delText.length > 0 && next.addText.length > 0;
+        const nextIsPair = run.delText.length > 0 && run.addText.length > 0;
         if (
-          (bothHaveDel && !prev.addText && !next.addText) ||
-          (bothHaveAdd && !prev.delText && !next.delText) ||
+          (bothHaveDel && !prev.addText && !run.addText) ||
+          (bothHaveAdd && !prev.delText && !run.delText) ||
           (prevIsPair && nextIsPair)
         ) {
-          if (prev.delText || next.delText) {
-            prev.delText += curr.text + next.delText;
+          if (prev.delText || run.delText) {
+            prev.delText += curr.text + run.delText;
           }
-          if (prev.addText || next.addText) {
-            prev.addText += curr.text + next.addText;
+          if (prev.addText || run.addText) {
+            prev.addText += curr.text + run.addText;
           }
-          runs.splice(i, 2);
-          changed = true;
-          break;
+          coalescedRuns.pop();
+          continue;
         }
       }
     }
+    coalescedRuns.push(run);
   }
 
   // Absorb a trailing punctuation-only common run (e.g. a lone '.') when it
   // immediately follows a multi-word replacement edit that itself contains
   // sentence punctuation or whitespace.
-  if (runs.length >= 2) {
-    const last = runs[runs.length - 1];
-    const prev = runs[runs.length - 2];
+  if (coalescedRuns.length >= 2) {
+    const last = coalescedRuns[coalescedRuns.length - 1];
+    const prev = coalescedRuns[coalescedRuns.length - 2];
     if (
       last.kind === 'common' &&
       /^[.,;!?]+$/.test(last.text) &&
@@ -513,12 +661,12 @@ export function coalesceInlineDiffSegments(
     ) {
       prev.delText += last.text;
       prev.addText += last.text;
-      runs.pop();
+      coalescedRuns.pop();
     }
   }
 
   const out: InlineDiffSegment[] = [];
-  for (const r of runs) {
+  for (const r of coalescedRuns) {
     if (r.kind === 'common') {
       out.push({text: r.text, type: 'common'});
     } else {
@@ -530,6 +678,248 @@ export function coalesceInlineDiffSegments(
 }
 
 /**
+ * Patience-style exact-match anchor finder for large sequences where O(m * n)
+ * DP exceeds the cell budget.
+ *
+ * 1. Peels matching prefixes and suffixes in each interval.
+ * 2. Anchors on keys unique within the interval using Patience LIS
+ *    (O(u log u)), preventing a deleted repeated line (e.g. `""`, `end`,
+ *    `simp`) from greedily jumping the cursor to the bottom of the file.
+ * 3. For residual sub-intervals with zero unique keys, runs small exact LCS DP
+ *    within budget or falls back to a monotonic per-key index cursor
+ *    (amortized O(gapA + gapB)) with no O(m * n) rescans.
+ */
+export function computeLinearExactAnchors(
+  keysA: string[],
+  keysB: string[]
+): Array<{aIdx: number; bIdx: number}> {
+  const m = keysA.length;
+  const n = keysB.length;
+  if (m === 0 || n === 0) return [];
+
+  const anchors: Array<{aIdx: number; bIdx: number}> = [];
+
+  const findUniqueLIS = (
+    aStart: number,
+    aEnd: number,
+    bStart: number,
+    bEnd: number
+  ): Array<{aIdx: number; bIdx: number}> => {
+    const countA = new Map<string, number>();
+    for (let i = aStart; i < aEnd; i++) {
+      const k = keysA[i];
+      countA.set(k, (countA.get(k) ?? 0) + 1);
+    }
+    const posB = new Map<string, number>();
+    for (let j = bStart; j < bEnd; j++) {
+      const k = keysB[j];
+      if (countA.get(k) !== 1) continue;
+      if (posB.has(k)) {
+        posB.set(k, -1);
+      } else {
+        posB.set(k, j);
+      }
+    }
+    const pairs: Array<{aIdx: number; bIdx: number}> = [];
+    for (let i = aStart; i < aEnd; i++) {
+      const bIdx = posB.get(keysA[i]);
+      if (bIdx !== undefined && bIdx >= 0) {
+        pairs.push({aIdx: i, bIdx});
+      }
+    }
+    if (pairs.length <= 1) return pairs;
+
+    const tailPairIdx: number[] = [];
+    const prevPairIdx = new Int32Array(pairs.length).fill(-1);
+    for (let idx = 0; idx < pairs.length; idx++) {
+      const bVal = pairs[idx].bIdx;
+      let lo = 0;
+      let hi = tailPairIdx.length;
+      while (lo < hi) {
+        const mid = (lo + hi) >>> 1;
+        if (pairs[tailPairIdx[mid]].bIdx < bVal) {
+          lo = mid + 1;
+        } else {
+          hi = mid;
+        }
+      }
+      if (lo > 0) prevPairIdx[idx] = tailPairIdx[lo - 1];
+      tailPairIdx[lo] = idx;
+    }
+
+    const lis: Array<{aIdx: number; bIdx: number}> = [];
+    let cur = tailPairIdx[tailPairIdx.length - 1];
+    while (cur >= 0) {
+      lis.push(pairs[cur]);
+      cur = prevPairIdx[cur];
+    }
+    lis.reverse();
+    return lis;
+  };
+
+  type StackEntry =
+    | {kind: 'emit'; pairs: Array<{aIdx: number; bIdx: number}>}
+    | {
+        kind: 'gap';
+        aStart: number;
+        aEnd: number;
+        bStart: number;
+        bEnd: number;
+        depth: number;
+      };
+
+  const stack: StackEntry[] = [
+    {kind: 'gap', aStart: 0, aEnd: m, bStart: 0, bEnd: n, depth: 0},
+  ];
+  const MAX_PATIENCE_DEPTH = 32;
+
+  while (stack.length > 0) {
+    const entry = stack.pop()!;
+    if (entry.kind === 'emit') {
+      for (const p of entry.pairs) anchors.push(p);
+      continue;
+    }
+
+    let {aStart, aEnd, bStart, bEnd} = entry;
+    const {depth} = entry;
+
+    while (aStart < aEnd && bStart < bEnd && keysA[aStart] === keysB[bStart]) {
+      anchors.push({aIdx: aStart, bIdx: bStart});
+      aStart++;
+      bStart++;
+    }
+
+    const suffixPairs: Array<{aIdx: number; bIdx: number}> = [];
+    while (
+      aEnd > aStart &&
+      bEnd > bStart &&
+      keysA[aEnd - 1] === keysB[bEnd - 1]
+    ) {
+      aEnd--;
+      bEnd--;
+      suffixPairs.push({aIdx: aEnd, bIdx: bEnd});
+    }
+    if (suffixPairs.length > 0) {
+      suffixPairs.reverse();
+      stack.push({kind: 'emit', pairs: suffixPairs});
+    }
+
+    const gapA = aEnd - aStart;
+    const gapB = bEnd - bStart;
+    if (gapA <= 0 || gapB <= 0) continue;
+
+    const uniqueLis =
+      depth < MAX_PATIENCE_DEPTH
+        ? findUniqueLIS(aStart, aEnd, bStart, bEnd)
+        : [];
+    if (uniqueLis.length > 0) {
+      const subEntries: StackEntry[] = [];
+      let curA = aStart;
+      let curB = bStart;
+      for (const u of uniqueLis) {
+        if (curA < u.aIdx && curB < u.bIdx) {
+          subEntries.push({
+            kind: 'gap',
+            aStart: curA,
+            aEnd: u.aIdx,
+            bStart: curB,
+            bEnd: u.bIdx,
+            depth: depth + 1,
+          });
+        }
+        subEntries.push({kind: 'emit', pairs: [u]});
+        curA = u.aIdx + 1;
+        curB = u.bIdx + 1;
+      }
+      if (curA < aEnd && curB < bEnd) {
+        subEntries.push({
+          kind: 'gap',
+          aStart: curA,
+          aEnd,
+          bStart: curB,
+          bEnd,
+          depth: depth + 1,
+        });
+      }
+      for (let idx = subEntries.length - 1; idx >= 0; idx--) {
+        stack.push(subEntries[idx]);
+      }
+      continue;
+    }
+
+    if (gapA * gapB <= MAX_ALIGN_ITEMS_CELLS) {
+      const cols = gapB + 1;
+      const dp = new Int32Array((gapA + 1) * cols);
+      for (let i = 0; i < gapA; i++) {
+        const keyA = keysA[aStart + i];
+        const rowOff = i * cols;
+        const nextRowOff = (i + 1) * cols;
+        for (let j = 0; j < gapB; j++) {
+          if (keyA === keysB[bStart + j]) {
+            dp[nextRowOff + j + 1] = dp[rowOff + j] + 1;
+          } else {
+            const left = dp[nextRowOff + j];
+            const up = dp[rowOff + j + 1];
+            dp[nextRowOff + j + 1] = left >= up ? left : up;
+          }
+        }
+      }
+      const gapAnchors: Array<{aIdx: number; bIdx: number}> = [];
+      let i = gapA;
+      let j = gapB;
+      while (i > 0 && j > 0) {
+        if (keysA[aStart + i - 1] === keysB[bStart + j - 1]) {
+          gapAnchors.push({aIdx: aStart + i - 1, bIdx: bStart + j - 1});
+          i--;
+          j--;
+        } else if (dp[i * cols + (j - 1)] >= dp[(i - 1) * cols + j]) {
+          j--;
+        } else {
+          i--;
+        }
+      }
+      gapAnchors.reverse();
+      for (const p of gapAnchors) anchors.push(p);
+      continue;
+    }
+
+    // Monotonic per-key index cursor fallback for huge residual gaps with zero
+    // unique keys (strictly O(gapA + gapB) amortized).
+    const positionsByKey = new Map<string, number[]>();
+    for (let j = bStart; j < bEnd; j++) {
+      const k = keysB[j];
+      let list = positionsByKey.get(k);
+      if (!list) {
+        list = [];
+        positionsByKey.set(k, list);
+      }
+      list.push(j);
+    }
+    const cursorByKey = new Map<string, number>();
+    let bCursor = bStart;
+    for (let i = aStart; i < aEnd; i++) {
+      const k = keysA[i];
+      const list = positionsByKey.get(k);
+      if (!list) continue;
+      let posIdx = cursorByKey.get(k) ?? 0;
+      while (posIdx < list.length && list[posIdx] < bCursor) {
+        posIdx++;
+      }
+      if (posIdx < list.length) {
+        const matchB = list[posIdx];
+        anchors.push({aIdx: i, bIdx: matchB});
+        bCursor = matchB + 1;
+        cursorByKey.set(k, posIdx + 1);
+      } else {
+        cursorByKey.set(k, posIdx);
+      }
+    }
+  }
+
+  return anchors;
+}
+
+/**
  * Align two lists of items using dynamic programming over normalized edit
  * distance, pairing items only when their distance is <= maxDistance.
  */
@@ -537,7 +927,8 @@ export function alignHomologousItems(
   itemsA: string[],
   itemsB: string[],
   tokenizer: (text: string) => string[] = tokenizeWords,
-  maxDistance = DEFAULT_MAX_HOMOLOGOUS_DISTANCE
+  maxDistance = DEFAULT_MAX_HOMOLOGOUS_DISTANCE,
+  isContentToken: (tok: string) => boolean = defaultIsContentToken
 ): Array<
   | {
       type: 'unchanged';
@@ -550,39 +941,7 @@ export function alignHomologousItems(
   | {type: 'deleted'; textA: string; aIdx: number}
   | {type: 'added'; textB: string; bIdx: number}
 > {
-  const m = itemsA.length;
-  const n = itemsB.length;
-  const tokensCacheA = itemsA.map(tokenizer);
-  const tokensCacheB = itemsB.map(tokenizer);
-
-  // Score matrix: pairing (i, j) yields a positive score of (1 - distance)
-  // when distance <= maxDistance.
-  const pairScore: number[][] = Array.from({length: m}, (_, i) =>
-    Array.from({length: n}, (__, j) => {
-      if (itemsA[i] === itemsB[j]) return 2; // Strongly prefer exact matches
-      const dist = computeNormalizedEditDistance(
-        tokensCacheA[i],
-        tokensCacheB[j]
-      );
-      return dist <= maxDistance ? 1 - dist : -1;
-    })
-  );
-
-  const dp: number[][] = Array.from({length: m + 1}, () =>
-    new Array(n + 1).fill(0)
-  );
-
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      let best = Math.max(dp[i][j + 1], dp[i + 1][j]);
-      if (pairScore[i][j] >= 0) {
-        best = Math.max(best, dp[i][j] + pairScore[i][j]);
-      }
-      dp[i + 1][j + 1] = best;
-    }
-  }
-
-  const result: Array<
+  type AlignedItem =
     | {
         type: 'unchanged';
         textA: string;
@@ -598,36 +957,191 @@ export function alignHomologousItems(
         bIdx: number;
       }
     | {type: 'deleted'; textA: string; aIdx: number}
-    | {type: 'added'; textB: string; bIdx: number}
-  > = [];
+    | {type: 'added'; textB: string; bIdx: number};
 
-  let i = m;
-  let j = n;
-  while (i > 0 || j > 0) {
-    if (
-      i > 0 &&
-      j > 0 &&
-      pairScore[i - 1][j - 1] >= 0 &&
-      Math.abs(dp[i][j] - (dp[i - 1][j - 1] + pairScore[i - 1][j - 1])) < 1e-9
-    ) {
-      const aIdx = i - 1;
-      const bIdx = j - 1;
-      result.unshift({
-        type: itemsA[aIdx] === itemsB[bIdx] ? 'unchanged' : 'modified',
-        textA: itemsA[aIdx],
-        textB: itemsB[bIdx],
-        aIdx,
-        bIdx,
+  const m = itemsA.length;
+  const n = itemsB.length;
+  if (m === 0 && n === 0) return [];
+
+  // Trim exact common prefix and suffix first.
+  let prefixLen = 0;
+  while (
+    prefixLen < m &&
+    prefixLen < n &&
+    itemsA[prefixLen] === itemsB[prefixLen]
+  ) {
+    prefixLen++;
+  }
+  let suffixLen = 0;
+  while (
+    suffixLen < m - prefixLen &&
+    suffixLen < n - prefixLen &&
+    itemsA[m - 1 - suffixLen] === itemsB[n - 1 - suffixLen]
+  ) {
+    suffixLen++;
+  }
+
+  const result: AlignedItem[] = [];
+  for (let p = 0; p < prefixLen; p++) {
+    result.push({
+      type: 'unchanged',
+      textA: itemsA[p],
+      textB: itemsB[p],
+      aIdx: p,
+      bIdx: p,
+    });
+  }
+
+  const mm = m - prefixLen - suffixLen;
+  const nn = n - prefixLen - suffixLen;
+
+  if (mm === 0) {
+    for (let j = 0; j < nn; j++) {
+      result.push({
+        type: 'added',
+        textB: itemsB[prefixLen + j],
+        bIdx: prefixLen + j,
       });
-      i--;
-      j--;
-    } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
-      result.unshift({type: 'added', textB: itemsB[j - 1], bIdx: j - 1});
-      j--;
-    } else {
-      result.unshift({type: 'deleted', textA: itemsA[i - 1], aIdx: i - 1});
-      i--;
     }
+  } else if (nn === 0) {
+    for (let i = 0; i < mm; i++) {
+      result.push({
+        type: 'deleted',
+        textA: itemsA[prefixLen + i],
+        aIdx: prefixLen + i,
+      });
+    }
+  } else if (mm * nn > MAX_ALIGN_ITEMS_CELLS) {
+    // Patience-style exact-anchor fallback to avoid O(m * n) DoS on huge blocks
+    // while preventing deleted repeated lines from jumping bCursor to EOF.
+    const midA = itemsA.slice(prefixLen, m - suffixLen);
+    const midB = itemsB.slice(prefixLen, n - suffixLen);
+    const anchors = computeLinearExactAnchors(midA, midB);
+    let aCursor = 0;
+    let bCursor = 0;
+    for (const anchor of anchors) {
+      while (aCursor < anchor.aIdx) {
+        result.push({
+          type: 'deleted',
+          textA: itemsA[prefixLen + aCursor],
+          aIdx: prefixLen + aCursor,
+        });
+        aCursor++;
+      }
+      while (bCursor < anchor.bIdx) {
+        result.push({
+          type: 'added',
+          textB: itemsB[prefixLen + bCursor],
+          bIdx: prefixLen + bCursor,
+        });
+        bCursor++;
+      }
+      result.push({
+        type: 'unchanged',
+        textA: itemsA[prefixLen + anchor.aIdx],
+        textB: itemsB[prefixLen + anchor.bIdx],
+        aIdx: prefixLen + anchor.aIdx,
+        bIdx: prefixLen + anchor.bIdx,
+      });
+      aCursor = anchor.aIdx + 1;
+      bCursor = anchor.bIdx + 1;
+    }
+    while (aCursor < mm) {
+      result.push({
+        type: 'deleted',
+        textA: itemsA[prefixLen + aCursor],
+        aIdx: prefixLen + aCursor,
+      });
+      aCursor++;
+    }
+    while (bCursor < nn) {
+      result.push({
+        type: 'added',
+        textB: itemsB[prefixLen + bCursor],
+        bIdx: prefixLen + bCursor,
+      });
+      bCursor++;
+    }
+  } else {
+    const midA = itemsA.slice(prefixLen, m - suffixLen);
+    const midB = itemsB.slice(prefixLen, n - suffixLen);
+    const tokensCacheA = midA.map(tokenizer);
+    const tokensCacheB = midB.map(tokenizer);
+
+    // Score matrix: pairing (i, j) yields a positive score of (1 - distance)
+    // when distance <= maxDistance.
+    const pairScore: number[][] = Array.from({length: mm}, (_, i) =>
+      Array.from({length: nn}, (__, j) => {
+        if (midA[i] === midB[j]) return 2; // Strongly prefer exact matches
+        const dist = computeNormalizedEditDistance(
+          tokensCacheA[i],
+          tokensCacheB[j],
+          isContentToken
+        );
+        return dist <= maxDistance ? 1 - dist : -1;
+      })
+    );
+
+    const dp: number[][] = Array.from({length: mm + 1}, () =>
+      new Array(nn + 1).fill(0)
+    );
+
+    for (let i = 0; i < mm; i++) {
+      for (let j = 0; j < nn; j++) {
+        let best = Math.max(dp[i][j + 1], dp[i + 1][j]);
+        if (pairScore[i][j] >= 0) {
+          best = Math.max(best, dp[i][j] + pairScore[i][j]);
+        }
+        dp[i + 1][j + 1] = best;
+      }
+    }
+
+    const midResult: AlignedItem[] = [];
+    let i = mm;
+    let j = nn;
+    while (i > 0 || j > 0) {
+      if (
+        i > 0 &&
+        j > 0 &&
+        pairScore[i - 1][j - 1] >= 0 &&
+        Math.abs(dp[i][j] - (dp[i - 1][j - 1] + pairScore[i - 1][j - 1])) < 1e-9
+      ) {
+        const aIdx = prefixLen + i - 1;
+        const bIdx = prefixLen + j - 1;
+        midResult.push({
+          type: itemsA[aIdx] === itemsB[bIdx] ? 'unchanged' : 'modified',
+          textA: itemsA[aIdx],
+          textB: itemsB[bIdx],
+          aIdx,
+          bIdx,
+        });
+        i--;
+        j--;
+      } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+        const bIdx = prefixLen + j - 1;
+        midResult.push({type: 'added', textB: itemsB[bIdx], bIdx});
+        j--;
+      } else {
+        const aIdx = prefixLen + i - 1;
+        midResult.push({type: 'deleted', textA: itemsA[aIdx], aIdx});
+        i--;
+      }
+    }
+    for (let k = midResult.length - 1; k >= 0; k--) {
+      result.push(midResult[k]);
+    }
+  }
+
+  for (let s = 0; s < suffixLen; s++) {
+    const aIdx = m - suffixLen + s;
+    const bIdx = n - suffixLen + s;
+    result.push({
+      type: 'unchanged',
+      textA: itemsA[aIdx],
+      textB: itemsB[bIdx],
+      aIdx,
+      bIdx,
+    });
   }
 
   return result;
@@ -679,7 +1193,7 @@ export function renderTokenToHtml(token?: Token): TemplateResult {
     }
     case 'code': {
       const codeTok = token as Tokens.Code;
-      const langClass = codeTok.lang ? `language-${codeTok.lang}` : undefined;
+      const langClass = sanitizeCodeLanguage(codeTok.lang);
       return langClass
         ? html`<pre><code class=${langClass}>${codeTok.text}</code></pre>`
         : html`<pre><code>${codeTok.text}</code></pre>`;
@@ -867,7 +1381,7 @@ function renderSideInlineDiff(
     }
   }
   return renderTokensWithDiffRanges(
-    Lexer.lexInline(fullText),
+    lexInlineIsolated(fullText),
     0,
     isEditedAt,
     highlightTag,
@@ -1016,8 +1530,8 @@ export function renderCodeBlockDiff(
 
   const leftCodeContent = joinLinesWithNewline(leftLineEntries);
   const rightCodeContent = joinLinesWithNewline(rightLineEntries);
-  const langA = tokenA.lang ? `language-${tokenA.lang}` : undefined;
-  const langB = tokenB.lang ? `language-${tokenB.lang}` : undefined;
+  const langA = sanitizeCodeLanguage(tokenA.lang);
+  const langB = sanitizeCodeLanguage(tokenB.lang);
 
   return {
     leftHtml: langA
@@ -1535,35 +2049,48 @@ export function alignMarkdownTokens(
   const m = blocksA.length;
   const n = blocksB.length;
 
-  // DP table to find LCS of exact matches
-  const dp: number[][] = Array.from({length: m + 1}, () =>
-    new Array(n + 1).fill(0)
-  );
+  // Extract exact match anchor pairs (bounded to prevent O(m * n) DoS).
+  const anchorPairs: {aIdx: number; bIdx: number}[] = [];
+  if (m * n <= MAX_SEQUENCE_DIFF_CELLS) {
+    const cols = n + 1;
+    const dp = new Int32Array((m + 1) * cols);
 
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      if (blocksA[i].raw === blocksB[j].raw) {
-        dp[i + 1][j + 1] = dp[i][j] + 1;
-      } else {
-        dp[i + 1][j + 1] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+    for (let i = 0; i < m; i++) {
+      const rawA = blocksA[i].raw;
+      const rowOffset = i * cols;
+      const nextRowOffset = (i + 1) * cols;
+      for (let j = 0; j < n; j++) {
+        if (rawA === blocksB[j].raw) {
+          dp[nextRowOffset + j + 1] = dp[rowOffset + j] + 1;
+        } else {
+          const left = dp[nextRowOffset + j];
+          const up = dp[rowOffset + j + 1];
+          dp[nextRowOffset + j + 1] = left >= up ? left : up;
+        }
       }
     }
-  }
 
-  // Backtrack to extract exact match pairs
-  const anchorPairs: {aIdx: number; bIdx: number}[] = [];
-  let i = m;
-  let j = n;
-  while (i > 0 && j > 0) {
-    if (blocksA[i - 1].raw === blocksB[j - 1].raw) {
-      anchorPairs.unshift({aIdx: i - 1, bIdx: j - 1});
-      i--;
-      j--;
-    } else if (dp[i][j - 1] >= dp[i - 1][j]) {
-      j--;
-    } else {
-      i--;
+    let i = m;
+    let j = n;
+    while (i > 0 && j > 0) {
+      if (blocksA[i - 1].raw === blocksB[j - 1].raw) {
+        anchorPairs.push({aIdx: i - 1, bIdx: j - 1});
+        i--;
+        j--;
+      } else if (dp[i * cols + (j - 1)] >= dp[(i - 1) * cols + j]) {
+        j--;
+      } else {
+        i--;
+      }
     }
+    anchorPairs.reverse();
+  } else {
+    anchorPairs.push(
+      ...computeLinearExactAnchors(
+        blocksA.map(b => b.raw),
+        blocksB.map(b => b.raw)
+      )
+    );
   }
 
   const rows: AlignedDiffRow[] = [];
@@ -1614,6 +2141,28 @@ export function alignMarkdownTokens(
     const uA = unalignedA.length;
     const uB = unalignedB.length;
     if (uA === 0 && uB === 0) return;
+
+    if (uA * uB > MAX_ALIGN_ITEMS_CELLS) {
+      for (const tokA of unalignedA) {
+        rows.push({
+          status: 'deleted',
+          leftToken: tokA,
+          leftHtml: renderTokenToHtml(tokA),
+          leftStartLine: tokA.startLine,
+          leftEndLine: tokA.endLine,
+        });
+      }
+      for (const tokB of unalignedB) {
+        rows.push({
+          status: 'added',
+          rightToken: tokB,
+          rightHtml: renderTokenToHtml(tokB),
+          rightStartLine: tokB.startLine,
+          rightEndLine: tokB.endLine,
+        });
+      }
+      return;
+    }
 
     const tokenizeBlock = (t: MarkdownToken): string[] =>
       t.type === 'code'

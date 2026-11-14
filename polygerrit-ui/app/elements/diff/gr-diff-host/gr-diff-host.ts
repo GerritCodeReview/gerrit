@@ -335,6 +335,14 @@ export class GrDiffHost extends LitElement {
   // further ones that were requested within a animation-frame).
   private reloadPromise?: DelayedPromise<void>;
 
+  /**
+   * Monotonically incremented whenever a new reload is scheduled, navigation
+   * inputs (`path`, `changeNum`, `patchRange`) change, or the element
+   * disconnects. Prevents in-flight `reloadInternal()` calls from emitting
+   * stale `diff-changed` events after being superseded.
+   */
+  private reloadGeneration = 0;
+
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
@@ -492,6 +500,7 @@ export class GrDiffHost extends LitElement {
   }
 
   override disconnectedCallback() {
+    this.reloadGeneration++;
     if (this.reloadPromise) {
       this.reloadPromise.cancel();
       this.reloadPromise = undefined;
@@ -507,6 +516,22 @@ export class GrDiffHost extends LitElement {
   protected override willUpdate(changedProperties: PropertyValues) {
     // Important to call as this will call render, see LitElement.
     super.willUpdate(changedProperties);
+    const prevPatchRange = changedProperties.get('patchRange') as
+      | PatchRange
+      | undefined;
+    const patchRangeChanged =
+      prevPatchRange !== undefined &&
+      (prevPatchRange.basePatchNum !== this.patchRange?.basePatchNum ||
+        prevPatchRange.patchNum !== this.patchRange?.patchNum);
+    if (
+      (changedProperties.has('path') &&
+        changedProperties.get('path') !== undefined) ||
+      (changedProperties.has('changeNum') &&
+        changedProperties.get('changeNum') !== undefined) ||
+      patchRangeChanged
+    ) {
+      this.reloadGeneration++;
+    }
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('patchRange') ||
@@ -682,9 +707,10 @@ export class GrDiffHost extends LitElement {
     this.layersComputedWithPlugins = true;
   }
 
-  async initLayers() {
+  async initLayers(reloadId = this.reloadGeneration) {
     const preferencesPromise = this.restApiService.getPreferences();
     const prefs = await preferencesPromise;
+    if (reloadId !== this.reloadGeneration) return;
     this.enableTokenHighlight = this.calculateEnableTokenHighlight(prefs);
 
     assertIsDefined(this.path, 'path');
@@ -696,7 +722,7 @@ export class GrDiffHost extends LitElement {
     // We kick off fetching the data here, but we don't return the promise,
     // so awaiting initLayers() will not wait for coverage data to be
     // completely loaded.
-    noAwait(this.getCoverageData());
+    noAwait(this.getCoverageData(reloadId));
   }
 
   /**
@@ -704,7 +730,8 @@ export class GrDiffHost extends LitElement {
    * signal to report metrics event that started on location change.
    */
   reload(shouldReportMetric?: boolean): Promise<void> {
-    this.reloadPromise = debounceP(
+    this.reloadGeneration++;
+    const reloadPromise = debounceP(
       this.reloadPromise,
       async () => {
         try {
@@ -721,15 +748,19 @@ export class GrDiffHost extends LitElement {
             );
           }
         } finally {
-          this.reloadPromise = undefined;
+          if (this.reloadPromise === reloadPromise) {
+            this.reloadPromise = undefined;
+          }
         }
       },
       0
     );
-    return this.reloadPromise;
+    this.reloadPromise = reloadPromise;
+    return reloadPromise;
   }
 
   async reloadInternal(shouldReportMetric?: boolean) {
+    const reloadId = ++this.reloadGeneration;
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
     this.grDiffKey++;
@@ -748,15 +779,21 @@ export class GrDiffHost extends LitElement {
       // so we have to wait on plugins being loaded before we can initialize
       // layers and proceed to rendering. OTOH we want to fetch diffs and diff
       // assets in parallel.
-      const layerPromise = this.initLayers();
+      const layerPromise = this.initLayers(reloadId);
+      // Avoid unhandled rejections if a superseded reload exits early before
+      // awaiting `layerPromise` (e.g. if `path` is cleared during teardown).
+      layerPromise.catch(() => {});
       const diff = await this.getDiff();
+      if (reloadId !== this.reloadGeneration) return;
       this.loadedWhitespaceLevel = whitespaceLevel;
       this.reportDiff(diff);
 
-      await this.loadDiffAssets(diff);
+      await this.loadDiffAssets(diff, reloadId);
+      if (reloadId !== this.reloadGeneration) return;
       // Only now we are awaiting layers (and plugin loading), which was kicked
       // off above.
       await layerPromise;
+      if (reloadId !== this.reloadGeneration) return;
 
       // Not waiting for coverage ranges intentionally as
       // plugin loading should not block the content rendering
@@ -771,6 +808,7 @@ export class GrDiffHost extends LitElement {
       const syntaxLayerPromise = this.syntaxLayer.process(diff);
       syntaxLayerPromise.catch(() => {});
       await waitForEventOnce(this, 'render');
+      if (reloadId !== this.reloadGeneration) return;
       this.subscribeToChecks();
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
 
@@ -782,8 +820,10 @@ export class GrDiffHost extends LitElement {
 
       this.reporting.time(Timing.DIFF_SYNTAX);
       await syntaxLayerPromise;
+      if (reloadId !== this.reloadGeneration) return;
       this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
     } catch (e: unknown) {
+      if (reloadId !== this.reloadGeneration) return;
       if (e instanceof Response) {
         this.handleGetDiffError(e);
       } else if (e instanceof Error) {
@@ -796,7 +836,9 @@ export class GrDiffHost extends LitElement {
         );
       }
     } finally {
-      this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
+      if (reloadId === this.reloadGeneration) {
+        this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
+      }
     }
   }
 
@@ -957,7 +999,7 @@ export class GrDiffHost extends LitElement {
     `;
   }
 
-  private async getCoverageData() {
+  private async getCoverageData(reloadId = this.reloadGeneration) {
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.path, 'path');
@@ -977,6 +1019,7 @@ export class GrDiffHost extends LitElement {
     // startup, and coordinating incoming coverage providers with the reloading
     // process seems to be complex enough to avoid it for the time being.
     await this.getPluginLoader().awaitPluginsLoaded();
+    if (reloadId !== this.reloadGeneration) return;
     const plugins =
       this.getPluginLoader().pluginsModel.getState().coveragePlugins;
     const providers = plugins.map(p => p.provider);
@@ -989,6 +1032,7 @@ export class GrDiffHost extends LitElement {
           patchNum,
           change
         );
+        if (reloadId !== this.reloadGeneration) return;
         assertIsDefined(this.patchRange, 'patchRange');
         if (
           !coverageRanges ||
@@ -1196,14 +1240,16 @@ export class GrDiffHost extends LitElement {
     }
   }
 
-  private loadDiffAssets(diff?: DiffInfo) {
+  private loadDiffAssets(diff?: DiffInfo, reloadId = this.reloadGeneration) {
     if (isImageDiff(diff)) {
       // diff! is justified, because isImageDiff() returns false otherwise
       return this.getImages(diff!).then(images => {
+        if (reloadId !== this.reloadGeneration) return;
         this.baseImage = images.baseImage ?? undefined;
         this.revisionImage = images.revisionImage ?? undefined;
       });
     } else {
+      if (reloadId !== this.reloadGeneration) return Promise.resolve();
       this.baseImage = undefined;
       this.revisionImage = undefined;
       return Promise.resolve();

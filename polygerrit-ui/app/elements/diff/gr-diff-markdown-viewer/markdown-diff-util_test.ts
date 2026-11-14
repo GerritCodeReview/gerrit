@@ -5,6 +5,7 @@
  */
 import {assert} from '@open-wc/testing';
 import {render, TemplateResult} from 'lit';
+import {marked, Tokens} from 'marked';
 import '../../../test/common-test-setup';
 import {DiffInfo} from '../../../types/diff';
 import {CommentSide, Side} from '../../../constants/constants';
@@ -19,6 +20,7 @@ import {
   alignMarkdownTokens,
   attachThreadsToRows,
   coalesceInlineDiffSegments,
+  computeLinearExactAnchors,
   computeNormalizedEditDistance,
   computeSequenceDiff,
   parseMarkdownBlocks,
@@ -30,6 +32,8 @@ import {
   renderInlineTextDiff,
   renderListDiff,
   renderTableDiff,
+  renderTokenToHtml,
+  sanitizeCodeLanguage,
   sanitizeMarkdownUrl,
   tokenizeCodeWords,
   tokenizeWords,
@@ -133,19 +137,19 @@ suite('markdown-diff-util tests', () => {
     );
     assert.include(
       renderToHtmlString(leftHtml),
-      '<strong><del class="diff-highlight-del">old</del> <code>flag</code> and <a href="https://example.com">Docs</a></strong>'
+      '<strong><del class="diff-highlight-del">old</del> <code>flag</code> and <a target="_blank" rel="noopener noreferrer" href="https://example.com">Docs</a></strong>'
     );
     assert.include(
       renderToHtmlString(rightHtml),
-      '<strong><ins class="diff-highlight-add">new</ins> <code>flag</code> and <a href="https://example.com">Docs</a></strong>'
+      '<strong><ins class="diff-highlight-add">new</ins> <code>flag</code> and <a target="_blank" rel="noopener noreferrer" href="https://example.com">Docs</a></strong>'
     );
     assert.include(
       renderToHtmlString(leftHtml),
-      '<del class="diff-highlight-del"><a href="https://auto.example.com/v1">https://auto.example.com/v1</a></del>'
+      '<del class="diff-highlight-del"><a target="_blank" rel="noopener noreferrer" href="https://auto.example.com/v1">https://auto.example.com/v1</a></del>'
     );
     assert.include(
       renderToHtmlString(rightHtml),
-      '<ins class="diff-highlight-add"><a href="https://auto.example.com/v2">https://auto.example.com/v2</a></ins>'
+      '<ins class="diff-highlight-add"><a target="_blank" rel="noopener noreferrer" href="https://auto.example.com/v2">https://auto.example.com/v2</a></ins>'
     );
   });
 
@@ -157,7 +161,7 @@ suite('markdown-diff-util tests', () => {
     );
     assert.equal(
       rendered,
-      'Located at <a href="scripts/run_experiment.py"><code>scripts/run_experiment.py</code></a> and <a href="https://example.com/docs">Docs</a> (relative to <code>SKILL.md</code>).'
+      'Located at <a rel="noopener noreferrer" href="scripts/run_experiment.py"><code>scripts/run_experiment.py</code></a> and <a target="_blank" rel="noopener noreferrer" href="https://example.com/docs">Docs</a> (relative to <code>SKILL.md</code>).'
     );
   });
 
@@ -169,7 +173,7 @@ suite('markdown-diff-util tests', () => {
     );
     assert.equal(
       rendered,
-      'See <a href="https://en.wikipedia.org/wiki/Fn_(math)">Wiki</a>, <a href="https://example.com/path">Angle</a>, <a href="https://example.com/arr"><code>arr[0]</code></a>, and ![alt](https://example.com/img.png).'
+      'See <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Fn_(math)">Wiki</a>, <a target="_blank" rel="noopener noreferrer" href="https://example.com/path">Angle</a>, <a target="_blank" rel="noopener noreferrer" href="https://example.com/arr"><code>arr[0]</code></a>, and ![alt](https://example.com/img.png).'
     );
   });
 
@@ -208,7 +212,10 @@ suite('markdown-diff-util tests', () => {
         'Click [evil](javascript:alert(1)) or <img src=x onerror=alert(1)>'
       )
     );
-    assert.include(rendered, '<a href="about:invalid#zClosurez">evil</a>');
+    assert.include(
+      rendered,
+      '<a rel="noopener noreferrer" href="about:invalid#zClosurez">evil</a>'
+    );
     assert.include(rendered, '&lt;img src=x onerror=alert(1)&gt;');
   });
 
@@ -223,11 +230,11 @@ suite('markdown-diff-util tests', () => {
     const rightStr = renderToHtmlString(rightHtml);
     assert.include(
       leftStr,
-      '<a href="https://example.com/tools/build_experimentation/scripts/run_experiment.py">run_experiment.py</a>'
+      '<a target="_blank" rel="noopener noreferrer" href="https://example.com/tools/build_experimentation/scripts/run_experiment.py">run_experiment.py</a>'
     );
     assert.include(
       rightStr,
-      '<a href="scripts/run_experiment.py"><code>scripts/run_experiment.py</code></a>'
+      '<a rel="noopener noreferrer" href="scripts/run_experiment.py"><code>scripts/run_experiment.py</code></a>'
     );
     assert.include(rightStr, '<code>SKILL.md</code>');
     assert.include(rightStr, '<code>&lt;SKILL_DIR&gt;</code>');
@@ -652,6 +659,193 @@ suite('markdown-diff-util tests', () => {
 
       assert.equal(result.rowsWithThreads[1].leftThreads.length, 1);
       assert.equal(result.rowsWithThreads[1].leftThreads[0].rootId, 'left-1');
+    });
+  });
+
+  suite('adversarial security and DoS hardening', () => {
+    test('sanitizeCodeLanguage blocks CSS class injection and Shadow DOM selector hijacking', () => {
+      assert.equal(
+        sanitizeCodeLanguage('lean selection-action-box diff-cell'),
+        'language-lean'
+      );
+      assert.equal(sanitizeCodeLanguage('c++'), 'language-c++');
+      assert.equal(sanitizeCodeLanguage('ts_2.0-beta'), 'language-ts_2.0-beta');
+      assert.isUndefined(sanitizeCodeLanguage('   '));
+      assert.equal(sanitizeCodeLanguage('"><script>'), 'language-script');
+      assert.isUndefined(sanitizeCodeLanguage('"><!@$%^'));
+      assert.equal(sanitizeCodeLanguage('a'.repeat(100))?.length, 9 + 40);
+
+      const tokens = parseMarkdownBlocks(
+        '```lean selection-action-box diff-cell hygiene-pill verified\n#eval 1\n```'
+      );
+      const rendered = renderToHtmlString(renderTokenToHtml(tokens[0]));
+      assert.include(rendered, '<code class="language-lean">');
+      assert.notInclude(rendered, 'selection-action-box');
+      assert.notInclude(rendered, 'diff-cell');
+      assert.notInclude(rendered, 'hygiene-pill');
+
+      const codeTokenA = parseMarkdownBlocks(
+        '```lean selection-action-box\na\n```'
+      )[0] as Tokens.Code;
+      const codeTokenB = parseMarkdownBlocks(
+        '```lean diff-cell\nb\n```'
+      )[0] as Tokens.Code;
+      const {leftHtml, rightHtml} = renderCodeBlockDiff(codeTokenA, codeTokenB);
+      assert.include(
+        renderToHtmlString(leftHtml),
+        '<code class="language-lean">'
+      );
+      assert.notInclude(renderToHtmlString(leftHtml), 'selection-action-box');
+      assert.include(
+        renderToHtmlString(rightHtml),
+        '<code class="language-lean">'
+      );
+      assert.notInclude(renderToHtmlString(rightHtml), 'diff-cell');
+    });
+
+    test('sanitizeMarkdownUrl blocks protocol-relative, backslash, control-char, entity-encoded, and exotic schemes', () => {
+      const blockedUrls = [
+        '//evil.com/phish',
+        '///evil.com/phish',
+        '/\\evil.com/phish',
+        '\\/evil.com/phish',
+        '\\\\evil.com/phish',
+        '\\evil.com/phish',
+        'java\tscript:alert(1)',
+        'java\nscript:alert(1)',
+        'java\rscript:alert(1)',
+        'javascript\u0000:alert(1)',
+        '\u0000//evil.com',
+        'ht\ttps://evil.com',
+        '&#106;avascript:alert(1)',
+        '&#x6a;avascript:alert(1)',
+        'javascript&colon;alert(1)',
+        'http:evil.com',
+        'https:evil.com',
+        'vbscript:msgbox(1)',
+        'blob:https://example.com/123',
+        'javascript :alert(1)',
+        'mailto:user@example.com',
+        'ftp://example.com/file',
+      ];
+      for (const bad of blockedUrls) {
+        assert.equal(
+          sanitizeMarkdownUrl(bad),
+          'about:invalid#zClosurez',
+          `Expected URL to be blocked: ${JSON.stringify(bad)}`
+        );
+      }
+      assert.equal(sanitizeMarkdownUrl(''), '');
+      assert.equal(sanitizeMarkdownUrl('   '), '');
+
+      // Safe absolute and relative URLs still pass
+      assert.equal(
+        sanitizeMarkdownUrl('https://lean-lang.org/doc/reference/latest/'),
+        'https://lean-lang.org/doc/reference/latest/'
+      );
+      assert.equal(
+        sanitizeMarkdownUrl('https://example.com/?a=1&amp;b=2'),
+        'https://example.com/?a=1&amp;b=2'
+      );
+      assert.equal(sanitizeMarkdownUrl('./Spec.lean#L42'), './Spec.lean#L42');
+      assert.equal(sanitizeMarkdownUrl('#section-1'), '#section-1');
+    });
+
+    test('inline markdown lexing is isolated from global marked.setOptions mutations', () => {
+      const prevDefaults = marked.defaults;
+      try {
+        marked.setOptions({pedantic: true, gfm: false});
+        const rendered = renderToHtmlString(
+          renderInlineMarkdown('~~old~~ and [Safe](https://example.com)')
+        );
+        assert.include(rendered, '<del>old</del>');
+        assert.include(
+          rendered,
+          '<a target="_blank" rel="noopener noreferrer" href="https://example.com">Safe</a>'
+        );
+      } finally {
+        marked.setOptions(prevDefaults);
+      }
+    });
+
+    test('diff and alignment utilities stay bounded on large adversarial inputs', () => {
+      const start = performance.now();
+
+      const bigA = Array.from({length: 1000}, (_, i) => `a_${i}`);
+      const bigB = Array.from({length: 1000}, (_, i) => `b_${i}`);
+      const seqOps = computeSequenceDiff(bigA, bigB);
+      assert.equal(seqOps.length, 2000);
+
+      const dist = computeNormalizedEditDistance(
+        bigA.slice(0, 400),
+        bigB.slice(0, 400)
+      );
+      assert.equal(dist, 1);
+
+      const alternating = Array.from({length: 2000}, (_, i) => {
+        return {
+          text: i % 2 === 0 ? 'x' : ' ',
+          type: i % 2 === 0 ? ('deleted' as const) : ('common' as const),
+        };
+      });
+      const coalesced = coalesceInlineDiffSegments(alternating);
+      assert.isAtLeast(coalesced.length, 1);
+
+      const itemsA = Array.from({length: 200}, (_, i) => `item_a_${i}`);
+      const itemsB = Array.from({length: 200}, (_, i) => `item_b_${i}`);
+      const aligned = alignHomologousItems(itemsA, itemsB, s => [s]);
+      assert.equal(aligned.length, 400);
+
+      const elapsedMs = performance.now() - start;
+      assert.isBelow(
+        elapsedMs,
+        1000,
+        `Bounded diff utilities took too long: ${elapsedMs}ms`
+      );
+    });
+
+    test('computeLinearExactAnchors and alignHomologousItems use Patience anchoring on >100-line proofs with repeated lines', () => {
+      // Deleting a leading repeated line (`simp`) that also occurs at EOF must
+      // not jump the cursor to the bottom and mark all middle lines changed.
+      const middle = Array.from({length: 120}, (_, i) => `  have h${i} := rfl`);
+      const base = ['  simp', ...middle, '  simp'];
+      const rev = [...middle, '  simp'];
+
+      const aligned = alignHomologousItems(base, rev, s => s.split(/\s+/));
+      const unchangedCount = aligned.filter(a => a.type === 'unchanged').length;
+      const deletedCount = aligned.filter(a => a.type === 'deleted').length;
+      const addedCount = aligned.filter(a => a.type === 'added').length;
+
+      assert.equal(unchangedCount, 121);
+      assert.equal(deletedCount, 1);
+      assert.equal(addedCount, 0);
+
+      // Large input with 5,000 repeated lines must run in linear time.
+      const start = performance.now();
+      const repA = Array.from({length: 5000}, (_, i) =>
+        i % 3 === 0 ? '' : i % 3 === 1 ? 'end' : 'simp'
+      );
+      const repB = ['extra', ...repA.slice(1)];
+      const anchors = computeLinearExactAnchors(repA, repB);
+      assert.isAbove(anchors.length, 4900);
+      assert.isBelow(performance.now() - start, 500);
+    });
+
+    test('computeNormalizedEditDistance preserves Unicode identifiers and supports custom content filters', () => {
+      assert.equal(
+        computeNormalizedEditDistance(['α', '=', 'β'], ['α', '=', 'β']),
+        0
+      );
+      assert.isAbove(
+        computeNormalizedEditDistance(['have', 'α', 'β'], ['have', 'γ', 'δ']),
+        0.5
+      );
+      const withMath = computeNormalizedEditDistance(
+        ['∀', 'α', '≤', 'β'],
+        ['∃', 'α', '≥', 'β'],
+        t => /[\p{L}\p{N}_]/u.test(t) || '∀∃≤≥'.includes(t)
+      );
+      assert.equal(withMath, 0.5);
     });
   });
 });

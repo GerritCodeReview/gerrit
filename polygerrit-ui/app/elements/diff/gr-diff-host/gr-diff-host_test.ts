@@ -2250,5 +2250,210 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(timeEndStub.calledBefore(reloadStub));
       assert.isTrue(reloadStub.calledBefore(onCompleteSpy));
     });
+
+    test('superseded reloadInternal ignores late getDiff resolution and emits no stale diff-changed', async () => {
+      const diffAPromise = mockPromise<DiffInfo>();
+      const diffBPromise = mockPromise<DiffInfo>();
+      const diffA: DiffInfo = {
+        ...createDiff(),
+        meta_b: {name: 'A.lean', content_type: 'text/x-lean', lines: 1},
+        content: [{ab: ['theorem from_a : True := trivial']}],
+      };
+      const diffB: DiffInfo = {
+        ...createDiff(),
+        meta_b: {name: 'B.lean', content_type: 'text/x-lean', lines: 1},
+        content: [{ab: ['theorem from_b : True := trivial']}],
+      };
+      getDiffRestApiStub.callsFake((_c, _base, _patch, path) => {
+        if (path === 'A.lean') return diffAPromise;
+        if (path === 'B.lean') return diffBPromise;
+        return Promise.resolve(createDiff());
+      });
+
+      const diffChangedEvents: Array<DiffInfo | undefined> = [];
+      element.addEventListener('diff-changed', (e: Event) => {
+        diffChangedEvents.push(
+          (e as CustomEvent<{value: DiffInfo | undefined}>).detail.value
+        );
+      });
+
+      element.changeNum = 42 as NumericChangeId;
+      element.change = createChange();
+      element.patchRange = createPatchRange();
+      element.path = 'A.lean';
+      await element.updateComplete;
+
+      const reloadA = element.reloadInternal();
+
+      // Navigate to B.lean and start a new reload while A.lean's getDiff is in flight.
+      element.path = 'B.lean';
+      await element.updateComplete;
+      const reloadB = element.reloadInternal();
+
+      // A.lean resolves late: must be ignored.
+      diffAPromise.resolve(diffA);
+      await reloadA;
+      assert.isUndefined(element.diff);
+      assert.isFalse(diffChangedEvents.includes(diffA));
+
+      // B.lean resolves: must populate element.diff.
+      diffBPromise.resolve(diffB);
+      await reloadB;
+      assert.equal(element.diff, diffB);
+    });
+
+    test('superseded reload does not clear newer reloadPromise so waitForReloadToRender waits for active reload', async () => {
+      const diffAPromise = mockPromise<DiffInfo>();
+      const diffBPromise = mockPromise<DiffInfo>();
+      const diffA: DiffInfo = {
+        ...createDiff(),
+        meta_b: {name: 'A.lean', content_type: 'text/x-lean', lines: 1},
+        content: [{ab: ['theorem from_a : True := trivial']}],
+      };
+      const diffB: DiffInfo = {
+        ...createDiff(),
+        meta_b: {name: 'B.lean', content_type: 'text/x-lean', lines: 1},
+        content: [{ab: ['theorem from_b : True := trivial']}],
+      };
+      getDiffRestApiStub.callsFake((_c, _base, _patch, path) => {
+        if (path === 'A.lean') return diffAPromise;
+        if (path === 'B.lean') return diffBPromise;
+        return Promise.resolve(createDiff());
+      });
+
+      element.changeNum = 42 as NumericChangeId;
+      element.change = createChange();
+      element.patchRange = createPatchRange();
+      element.prefs = createDefaultDiffPrefs();
+      element.path = 'A.lean';
+      await element.updateComplete;
+
+      // Flush reload A's debounce timer without awaiting completion so
+      // reloadInternal('A.lean') is actively in-flight awaiting diffAPromise.
+      const reloadAPromise = element.reload();
+      // @ts-expect-error flushing private reloadPromise without awaiting completion
+      void element.reloadPromise?.flush();
+      await Promise.resolve();
+
+      // Start reload B while reload A is still blocked on diffAPromise.
+      element.path = 'B.lean';
+      const reloadBPromise = element.reload();
+      // @ts-expect-error flushing private reloadPromise without awaiting completion
+      void element.reloadPromise?.flush();
+      await Promise.resolve();
+
+      // Superseded reload A resolves first; its finally block must NOT wipe out
+      // reload B's active reloadPromise.
+      diffAPromise.resolve(diffA);
+      await reloadAPromise;
+
+      let waitResolved = false;
+      const waitPromise = element.waitForReloadToRender().then(() => {
+        waitResolved = true;
+      });
+      await Promise.resolve();
+      await element.updateComplete;
+      assert.isFalse(waitResolved);
+
+      diffBPromise.resolve(diffB);
+      await waitPromise;
+      await reloadBPromise;
+      assert.isTrue(waitResolved);
+      assert.equal(element.diff, diffB);
+    });
+
+    test('superseded initLayers and loadDiffAssets ignore stale writes and avoid unhandled rejection when path clears', async () => {
+      const prefsAPromise = mockPromise<undefined>();
+      const diffAPromise = mockPromise<DiffInfo>();
+      const diffBPromise = mockPromise<DiffInfo>();
+      const imagesAPromise = mockPromise<{
+        baseImage: Base64ImageFile;
+        revisionImage: Base64ImageFile;
+      }>();
+      const imageA: DiffInfo = {
+        ...createDiff(),
+        meta_a: {name: 'a.png', content_type: 'image/png', lines: 0},
+        meta_b: {name: 'a.png', content_type: 'image/png', lines: 0},
+        content: [],
+      };
+      const textB: DiffInfo = {
+        ...createDiff(),
+        meta_b: {name: 'b.ts', content_type: 'text/typescript', lines: 1},
+        content: [{ab: ['export const b = 1;']}],
+      };
+
+      const prefsStub = stubRestApi('getPreferences');
+      let prefsCalls = 0;
+      prefsStub.callsFake(() => {
+        prefsCalls++;
+        return prefsCalls === 1 ? prefsAPromise : Promise.resolve(undefined);
+      });
+      getDiffRestApiStub.callsFake((_c, _base, _patch, path) => {
+        if (path === 'a.png') return diffAPromise;
+        if (path === 'b.ts') return diffBPromise;
+        return Promise.resolve(createDiff());
+      });
+      stubRestApi('getImagesForDiff').returns(imagesAPromise);
+
+      element.changeNum = 42 as NumericChangeId;
+      element.change = createChange();
+      element.patchRange = createPatchRange();
+      element.path = 'a.png';
+      await element.updateComplete;
+
+      // Case 1: Slow loadDiffAssets on reload A resolves after reload B takes over.
+      const reloadA = element.reloadInternal();
+      diffAPromise.resolve(imageA);
+      prefsAPromise.resolve(undefined);
+      await Promise.resolve();
+
+      element.path = 'b.ts';
+      await element.updateComplete;
+      const reloadB = element.reloadInternal();
+      diffBPromise.resolve(textB);
+      await reloadB;
+      // @ts-expect-error reading private baseImage
+      assert.isUndefined(element.baseImage);
+      // @ts-expect-error reading private revisionImage
+      assert.isUndefined(element.revisionImage);
+
+      const staleImg = {
+        type: 'image/png',
+        body: 'abc',
+        _expectedType: 'image/png',
+      } as unknown as Base64ImageFile;
+      imagesAPromise.resolve({baseImage: staleImg, revisionImage: staleImg});
+      await reloadA;
+      // @ts-expect-error reading private baseImage
+      assert.isUndefined(element.baseImage);
+      // @ts-expect-error reading private revisionImage
+      assert.isUndefined(element.revisionImage);
+
+      // Case 2: initLayers in-flight when reload is superseded and path becomes undefined.
+      const slowPrefsPromise = mockPromise<undefined>();
+      const diffCPromise = mockPromise<DiffInfo>();
+      getDiffRestApiStub.callsFake(() => diffCPromise);
+      prefsStub.returns(slowPrefsPromise);
+      element.path = 'a.png';
+      const reloadC = element.reloadInternal();
+      // Clear path and supersede reloadC before resolving slowPrefsPromise/diffCPromise.
+      element.path = undefined;
+      // @ts-expect-error setting private coverageRanges and reloadGeneration
+      element.coverageRanges = [
+        {
+          type: CoverageType.COVERED,
+          side: Side.RIGHT,
+          code_range: {start_line: 1, end_line: 1},
+        },
+      ];
+      // @ts-expect-error bumping private reloadGeneration
+      element.reloadGeneration++;
+      diffCPromise.resolve(textB);
+      slowPrefsPromise.resolve(undefined);
+      await reloadC;
+      // Stale initLayers must neither throw assertIsDefined(this.path) nor clobber coverageRanges.
+      // @ts-expect-error reading private coverageRanges
+      assert.equal(element.coverageRanges.length, 1);
+    });
   });
 });

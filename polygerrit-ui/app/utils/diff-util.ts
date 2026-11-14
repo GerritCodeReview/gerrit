@@ -59,18 +59,27 @@ export function isLineUnchanged(
 /**
  * Get the lines of the diff for a given side.
  */
-export function getDiffLines(diff: DiffInfo, side: Side): string[] {
-  let lines: string[] = [];
+export function getDiffLines(diff: DiffInfo | undefined, side: Side): string[] {
+  if (!diff?.content) return [];
+  const lines: string[] = [];
   for (const chunk of diff.content) {
     if (chunk.skip) {
       const skip = normalizeSkipInfo(chunk.skip);
-      lines = lines.concat(Array(skip[side]).fill(''));
+      for (let i = 0; i < skip[side]; i++) {
+        lines.push('');
+      }
     } else if (chunk.ab) {
-      lines = lines.concat(chunk.ab);
+      for (const line of chunk.ab) {
+        lines.push(line);
+      }
     } else if (side === Side.LEFT && chunk.a) {
-      lines = lines.concat(chunk.a);
+      for (const line of chunk.a) {
+        lines.push(line);
+      }
     } else if (side === Side.RIGHT && chunk.b) {
-      lines = lines.concat(chunk.b);
+      for (const line of chunk.b) {
+        lines.push(line);
+      }
     }
   }
   return lines;
@@ -133,6 +142,22 @@ export function isMarkdownDiff(path?: string, diff?: DiffInfo): boolean {
     !!contentTypeB?.startsWith('text/x-markdown') ||
     !!contentTypeA?.startsWith('text/markdown') ||
     !!contentTypeB?.startsWith('text/markdown')
+  );
+}
+
+const LEAN_FILE_EXTENSIONS = /\.lean$/i;
+
+export function isLeanDiff(path?: string, diff?: DiffInfo): boolean {
+  if (path && LEAN_FILE_EXTENSIONS.test(path)) {
+    return true;
+  }
+  const contentTypeA = diff?.meta_a?.content_type;
+  const contentTypeB = diff?.meta_b?.content_type;
+  return (
+    !!contentTypeA?.startsWith('text/x-lean') ||
+    !!contentTypeB?.startsWith('text/x-lean') ||
+    !!contentTypeA?.startsWith('text/lean') ||
+    !!contentTypeB?.startsWith('text/lean')
   );
 }
 

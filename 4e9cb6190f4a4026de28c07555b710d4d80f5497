@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10182d30_d0f63322",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-14T18:59:58Z",
+      "side": 1,
+      "message": "This change did not trigger any RCE on CI and has to be considered malicious.",
+      "revId": "4e9cb6190f4a4026de28c07555b710d4d80f5497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

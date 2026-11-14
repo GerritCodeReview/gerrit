@@ -19,6 +19,25 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a037c6_a173be43",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-14T16:27:08Z",
+      "side": 1,
+      "message": "Done. Captured `reloadPromise` locally in `reload()` and only cleared `this.reloadPromise` inside `finally` when `this.reloadPromise \u003d\u003d\u003d reloadPromise`. Added a unit test in `gr-diff-host_test.ts` verifying `waitForReloadToRender()` still waits for the active replacement reload.",
+      "parentUuid": "e55ba56f_a3a95e32",
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8e06ba5_7f674158",
@@ -32,6 +51,31 @@
       "writtenOn": "2026-11-14T15:44:08Z",
       "side": 1,
       "message": "Returning early at lines 780 or 785 leaves `layerPromise` (`this.initLayers()` at line 778) un-awaited without `.catch(() \u003d\u003e {})`: if `this.path` becomes `undefined` on navigation/disconnect while `getPreferences()` is in flight, `assertIsDefined(this.path, \u0027path\u0027)` at line 715 rejects unhandled, and a slow `initLayers()` can still overwrite `this.layers` and clear `this.coverageRanges \u003d []` for the newer reload. Similarly, `loadDiffAssets(diff)` mutates `this.baseImage`/`this.revisionImage` inside `.then(...)` (lines 1237–1240) before line 785\u0027s `reloadId` check runs. Consider attaching `layerPromise.catch(() \u003d\u003e {})` and guarding state writes in `initLayers` and `loadDiffAssets` with `reloadId \u003d\u003d\u003d this.reloadGeneration`.",
+      "range": {
+        "startLine": 778,
+        "startChar": 0,
+        "endLine": 789,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22f530e_6f16f190",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-14T16:27:08Z",
+      "side": 1,
+      "message": "Done. Attached `layerPromise.catch(() \u003d\u003e {})` in `reloadInternal()` and guarded state writes in `initLayers`, `getCoverageData`, and `loadDiffAssets` with `reloadId \u003d\u003d\u003d this.reloadGeneration`. Added unit tests in `gr-diff-host_test.ts` covering late `loadDiffAssets` / `initLayers` resolution and clearing `path` mid-flight without unhandled rejections.",
+      "parentUuid": "e8e06ba5_7f674158",
       "range": {
         "startLine": 778,
         "startChar": 0,
@@ -67,6 +111,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "262bd9c2_b9bcad66",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-14T16:27:08Z",
+      "side": 1,
+      "message": "Done. Added `diffHasLines(Side.RIGHT)` using `meta_b?.lines` and `countLines(this.diff, Side.RIGHT)`, so `createComment` and `createCommentFromSelectionOrHover` only fall back to `line: 1` when `Side.RIGHT` actually has lines in `this.diff` and create a file-level (`line: undefined`) draft otherwise. Added unit tests in `gr-diff-lean-viewer_test.ts` for `undefined` diff, 0-byte added files, and blank-line-only files.",
+      "parentUuid": "e018a0dc_b4baf67e",
+      "range": {
+        "startLine": 1265,
+        "startChar": 0,
+        "endLine": 1275,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a484bf6_b8c346e5",
@@ -80,6 +149,31 @@
       "writtenOn": "2026-11-14T15:44:08Z",
       "side": 1,
       "message": "When `range.endContainer` is an ancestor container (such as `.lean-decl-card`, `.lean-body-section`, or `\u003ctable\u003e`) with `range.endOffset \u003e 0`, `prevChild` can be `.lean-body-section`, `.lean-code-lines`, or `\u003ctbody\u003e`. Because `TreeWalker.previousNode()` traverses in pre-order, starting `findPreviousInnerLineHost` at `prevChild` steps before `prevChild` without visiting its `[data-line]` descendants and falls back to `startEl`/`endCell`. Descending `prevChild` to its deepest `lastChild` first will resolve the last selected line in that subtree.",
+      "range": {
+        "startLine": 1457,
+        "startChar": 0,
+        "endLine": 1470,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39c70682_955bbc9b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-14T16:27:08Z",
+      "side": 1,
+      "message": "Done. Descended `prevChild` to its deepest `lastChild` in `resolveRangeTarget` before falling back to `findPreviousInnerLineHost`, so ancestor containers like `.lean-decl-card` / `.lean-body-section` / `\u003ctable\u003e` with `endOffset \u003e 0` resolve to the last selected `[data-line]` inside `prevChild`. Added a unit test in `gr-diff-lean-viewer_test.ts`.",
+      "parentUuid": "9a484bf6_b8c346e5",
       "range": {
         "startLine": 1457,
         "startChar": 0,
@@ -115,6 +209,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea76d787_dfc0a806",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2354,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-14T16:27:08Z",
+      "side": 1,
+      "message": "Done. Updated `startsNewTopLevelCommandInDeclBody` (and same-indent continuation/deriving checks) to treat declaration prefixes (`@[...]`, standalone modifiers, `/-!`, and `/--` when `!isTypeDecl`) as top-level boundaries, allow non-`instance` `deriving` clauses on any declaration while keeping `deriving instance` top-level, and preserve parameterized `where` members (`syntax (n : Nat) : String`, `prefix x :\u003d ...`) via `inWhereBlock` + `hasMemberSignatureAfterKeyword`. Added unit tests in `lean-diff-util_test.ts`.",
+      "parentUuid": "dd230f0a_ddd85f77",
+      "range": {
+        "startLine": 2329,
+        "startChar": 0,
+        "endLine": 2354,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0204b640_96078025",
@@ -128,6 +247,31 @@
       "writtenOn": "2026-11-14T15:44:08Z",
       "side": 1,
       "message": "When a declaration follows buffered `pendingComments` (from lines 2652–2658), `codeLines` only prepends `pendingModifiers` and line 3001 discards `pendingComments \u003d []`. As a result, intervening `--` lines (such as lines 2 and 4 in `lean-diff-util_test.ts:1496–1502`) vanish from the rendered card with no clickable line numbers, and editing such a comment marks the row `modified` with zero visible diff lines. Consider merging `pendingComments.flatMap(c \u003d\u003e c.lines)` with `pendingModifiers` sorted by `lineNum` into `codeLines`.",
+      "range": {
+        "startLine": 2803,
+        "startChar": 0,
+        "endLine": 2808,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e607794_205679c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2808,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-14T16:27:08Z",
+      "side": 1,
+      "message": "Done. Merged `pendingComments.flatMap(c \u003d\u003e c.lines)` with `pendingModifiers` sorted by `lineNum` into `codeLines` when building declaration blocks so intervening `--` comments stay visible in `signatureLines` with clickable line numbers and diff highlights. Extended tests in `lean-diff-util_test.ts`.",
+      "parentUuid": "0204b640_96078025",
       "range": {
         "startLine": 2803,
         "startChar": 0,

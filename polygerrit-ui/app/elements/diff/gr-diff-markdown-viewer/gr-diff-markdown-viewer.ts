@@ -67,7 +67,7 @@ export class GrDiffMarkdownViewer extends LitElement {
 
   @property({type: Boolean}) loggedIn = false;
 
-  @query('.selection-action-box')
+  @query('#selection-action-box')
   private selectionActionBox?: HTMLElement;
 
   private selectionActionBoxVisible = false;
@@ -699,6 +699,10 @@ export class GrDiffMarkdownViewer extends LitElement {
     this.selectedLine = undefined;
   }
 
+  hasHoverTarget(): boolean {
+    return this.hoveredSide !== undefined;
+  }
+
   hasActiveSelection(): boolean {
     const selection = this.getActiveSelection();
     if (!selection || selection.isCollapsed || !selection.rangeCount) {
@@ -713,7 +717,7 @@ export class GrDiffMarkdownViewer extends LitElement {
     return !!(
       elementNode &&
       this.renderRoot.contains(elementNode) &&
-      elementNode.closest('.diff-cell, .unified-block')
+      elementNode.closest('.diff-cell[data-side], .unified-block[data-side]')
     );
   }
 
@@ -763,7 +767,9 @@ export class GrDiffMarkdownViewer extends LitElement {
       }
       return;
     }
-    const cell = elementNode.closest('.diff-cell, .unified-block');
+    const cell = elementNode.closest(
+      '.diff-cell[data-side], .unified-block[data-side]'
+    );
     if (!cell) {
       if (this.selectionActionBoxVisible) {
         this.selectionActionBoxVisible = false;
@@ -816,22 +822,26 @@ export class GrDiffMarkdownViewer extends LitElement {
   }
 
   private handleKeyDown = (e: KeyboardEvent) => {
+    if (e.defaultPrevented || e.repeat) return;
     if (e.key === 'c' || e.key === 'C') {
       if (e.ctrlKey || e.metaKey || e.altKey) {
         return;
       }
-      const target = e.composedPath()[0] as HTMLElement;
+      const path = e.composedPath();
+      const target = path[0] as HTMLElement | undefined;
       if (
         target?.tagName === 'INPUT' ||
         target?.tagName === 'TEXTAREA' ||
         target?.tagName === 'GR-TEXTAREA' ||
-        target?.isContentEditable
+        target?.isContentEditable ||
+        path.some(n => (n as Element)?.tagName === 'DIALOG')
       ) {
         return;
       }
       if (this.hasActiveSelection() || this.hoveredSide !== undefined) {
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         this.createCommentFromSelectionOrHover();
       }
     }
@@ -847,7 +857,9 @@ export class GrDiffMarkdownViewer extends LitElement {
           ? (container as Element)
           : container.parentElement;
       if (elementNode && this.renderRoot.contains(elementNode)) {
-        const cell = elementNode.closest('.diff-cell, .unified-block');
+        const cell = elementNode.closest(
+          '.diff-cell[data-side], .unified-block[data-side]'
+        );
         if (cell) {
           const sideStr = cell.getAttribute('data-side');
           const side = sideStr === 'left' ? Side.LEFT : Side.RIGHT;
@@ -939,6 +951,7 @@ export class GrDiffMarkdownViewer extends LitElement {
   private renderSelectionActionBox() {
     return html`
       <div
+        id="selection-action-box"
         class="selection-action-box ${this.selectionBoxPositionBelow
           ? 'below'
           : ''}"

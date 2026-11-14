@@ -11,7 +11,9 @@ import {FileInfoStatus, SpecialFilePath} from '../constants/constants';
 import {
   canBlameFile,
   getContentFromDiff,
+  getDiffLines,
   isFileUnchanged,
+  isLeanDiff,
   isLineUnchanged,
   isMarkdownDiff,
 } from './diff-util';
@@ -262,6 +264,81 @@ suite('diff-util tests', () => {
         },
       };
       assert.isFalse(isMarkdownDiff('code', diffOther));
+    });
+  });
+
+  suite('isLeanDiff()', () => {
+    test('detects lean extensions', () => {
+      assert.isTrue(isLeanDiff('formal/BoundedLattice.lean'));
+      assert.isTrue(isLeanDiff('Main.LEAN'));
+      assert.isFalse(isLeanDiff('README.md'));
+      assert.isFalse(isLeanDiff('code.ts'));
+      assert.isFalse(isLeanDiff('leanfile'));
+      assert.isFalse(isLeanDiff(undefined));
+    });
+
+    test('detects lean content types', () => {
+      const diffA: DiffInfo = {
+        ...createDiff(),
+        meta_a: {
+          name: 'proof',
+          content_type: 'text/x-lean',
+          lines: 10,
+        },
+      };
+      assert.isTrue(isLeanDiff('proof', diffA));
+
+      const diffB: DiffInfo = {
+        ...createDiff(),
+        meta_b: {
+          name: 'proof',
+          content_type: 'text/lean; charset=utf-8',
+          lines: 10,
+        },
+      };
+      assert.isTrue(isLeanDiff('proof', diffB));
+
+      const diffOther: DiffInfo = {
+        ...createDiff(),
+        meta_a: {
+          name: 'code',
+          content_type: 'text/plain',
+          lines: 10,
+        },
+      };
+      assert.isFalse(isLeanDiff('code', diffOther));
+    });
+  });
+
+  suite('getDiffLines()', () => {
+    test('returns empty array when diff or diff.content is undefined', () => {
+      assert.deepEqual(getDiffLines(undefined, Side.LEFT), []);
+      assert.deepEqual(getDiffLines(undefined, Side.RIGHT), []);
+      const malformed = {} as DiffInfo;
+      assert.deepEqual(getDiffLines(malformed, Side.LEFT), []);
+      assert.deepEqual(getDiffLines(malformed, Side.RIGHT), []);
+    });
+
+    test('collects left and right lines across chunks without losing order', () => {
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [
+          {ab: ['shared1']},
+          {a: ['left1', 'left2'], b: ['right1']},
+          {ab: ['shared2']},
+        ],
+      };
+      assert.deepEqual(getDiffLines(diff, Side.LEFT), [
+        'shared1',
+        'left1',
+        'left2',
+        'shared2',
+      ]);
+      assert.deepEqual(getDiffLines(diff, Side.RIGHT), [
+        'shared1',
+        'right1',
+        'shared2',
+      ]);
     });
   });
 

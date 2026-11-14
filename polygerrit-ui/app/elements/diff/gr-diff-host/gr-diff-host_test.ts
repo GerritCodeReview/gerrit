@@ -2250,5 +2250,56 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(timeEndStub.calledBefore(reloadStub));
       assert.isTrue(reloadStub.calledBefore(onCompleteSpy));
     });
+
+    test('superseded reloadInternal ignores late getDiff resolution and emits no stale diff-changed', async () => {
+      const diffAPromise = mockPromise<DiffInfo>();
+      const diffBPromise = mockPromise<DiffInfo>();
+      const diffA: DiffInfo = {
+        ...createDiff(),
+        meta_b: {name: 'A.lean', content_type: 'text/x-lean', lines: 1},
+        content: [{ab: ['theorem from_a : True := trivial']}],
+      };
+      const diffB: DiffInfo = {
+        ...createDiff(),
+        meta_b: {name: 'B.lean', content_type: 'text/x-lean', lines: 1},
+        content: [{ab: ['theorem from_b : True := trivial']}],
+      };
+      getDiffRestApiStub.callsFake((_c, _base, _patch, path) => {
+        if (path === 'A.lean') return diffAPromise;
+        if (path === 'B.lean') return diffBPromise;
+        return Promise.resolve(createDiff());
+      });
+
+      const diffChangedEvents: Array<DiffInfo | undefined> = [];
+      element.addEventListener('diff-changed', (e: Event) => {
+        diffChangedEvents.push(
+          (e as CustomEvent<{value: DiffInfo | undefined}>).detail.value
+        );
+      });
+
+      element.changeNum = 42 as NumericChangeId;
+      element.change = createChange();
+      element.patchRange = createPatchRange();
+      element.path = 'A.lean';
+      await element.updateComplete;
+
+      const reloadA = element.reloadInternal();
+
+      // Navigate to B.lean and start a new reload while A.lean's getDiff is in flight.
+      element.path = 'B.lean';
+      await element.updateComplete;
+      const reloadB = element.reloadInternal();
+
+      // A.lean resolves late: must be ignored.
+      diffAPromise.resolve(diffA);
+      await reloadA;
+      assert.isUndefined(element.diff);
+      assert.isFalse(diffChangedEvents.includes(diffA));
+
+      // B.lean resolves: must populate element.diff.
+      diffBPromise.resolve(diffB);
+      await reloadB;
+      assert.equal(element.diff, diffB);
+    });
   });
 });

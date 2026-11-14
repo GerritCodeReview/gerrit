@@ -335,6 +335,14 @@ export class GrDiffHost extends LitElement {
   // further ones that were requested within a animation-frame).
   private reloadPromise?: DelayedPromise<void>;
 
+  /**
+   * Monotonically incremented whenever a new reload is scheduled, navigation
+   * inputs (`path`, `changeNum`, `patchRange`) change, or the element
+   * disconnects. Prevents in-flight `reloadInternal()` calls from emitting
+   * stale `diff-changed` events after being superseded.
+   */
+  private reloadGeneration = 0;
+
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
@@ -492,6 +500,7 @@ export class GrDiffHost extends LitElement {
   }
 
   override disconnectedCallback() {
+    this.reloadGeneration++;
     if (this.reloadPromise) {
       this.reloadPromise.cancel();
       this.reloadPromise = undefined;
@@ -507,6 +516,22 @@ export class GrDiffHost extends LitElement {
   protected override willUpdate(changedProperties: PropertyValues) {
     // Important to call as this will call render, see LitElement.
     super.willUpdate(changedProperties);
+    const prevPatchRange = changedProperties.get('patchRange') as
+      | PatchRange
+      | undefined;
+    const patchRangeChanged =
+      prevPatchRange !== undefined &&
+      (prevPatchRange.basePatchNum !== this.patchRange?.basePatchNum ||
+        prevPatchRange.patchNum !== this.patchRange?.patchNum);
+    if (
+      (changedProperties.has('path') &&
+        changedProperties.get('path') !== undefined) ||
+      (changedProperties.has('changeNum') &&
+        changedProperties.get('changeNum') !== undefined) ||
+      patchRangeChanged
+    ) {
+      this.reloadGeneration++;
+    }
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('patchRange') ||
@@ -704,6 +729,7 @@ export class GrDiffHost extends LitElement {
    * signal to report metrics event that started on location change.
    */
   reload(shouldReportMetric?: boolean): Promise<void> {
+    this.reloadGeneration++;
     this.reloadPromise = debounceP(
       this.reloadPromise,
       async () => {
@@ -730,6 +756,7 @@ export class GrDiffHost extends LitElement {
   }
 
   async reloadInternal(shouldReportMetric?: boolean) {
+    const reloadId = ++this.reloadGeneration;
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
     this.grDiffKey++;
@@ -750,13 +777,16 @@ export class GrDiffHost extends LitElement {
       // assets in parallel.
       const layerPromise = this.initLayers();
       const diff = await this.getDiff();
+      if (reloadId !== this.reloadGeneration) return;
       this.loadedWhitespaceLevel = whitespaceLevel;
       this.reportDiff(diff);
 
       await this.loadDiffAssets(diff);
+      if (reloadId !== this.reloadGeneration) return;
       // Only now we are awaiting layers (and plugin loading), which was kicked
       // off above.
       await layerPromise;
+      if (reloadId !== this.reloadGeneration) return;
 
       // Not waiting for coverage ranges intentionally as
       // plugin loading should not block the content rendering
@@ -771,6 +801,7 @@ export class GrDiffHost extends LitElement {
       const syntaxLayerPromise = this.syntaxLayer.process(diff);
       syntaxLayerPromise.catch(() => {});
       await waitForEventOnce(this, 'render');
+      if (reloadId !== this.reloadGeneration) return;
       this.subscribeToChecks();
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
 
@@ -782,8 +813,10 @@ export class GrDiffHost extends LitElement {
 
       this.reporting.time(Timing.DIFF_SYNTAX);
       await syntaxLayerPromise;
+      if (reloadId !== this.reloadGeneration) return;
       this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
     } catch (e: unknown) {
+      if (reloadId !== this.reloadGeneration) return;
       if (e instanceof Response) {
         this.handleGetDiffError(e);
       } else if (e instanceof Error) {
@@ -796,7 +829,9 @@ export class GrDiffHost extends LitElement {
         );
       }
     } finally {
-      this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
+      if (reloadId === this.reloadGeneration) {
+        this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
+      }
     }
   }
 

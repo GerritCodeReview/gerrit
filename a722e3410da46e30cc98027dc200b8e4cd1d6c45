@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "191105de_df8fd188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-11-14T20:41:57Z",
+      "side": 1,
+      "message": "Your repro does have two pushes overlapping on the server: Ctrl+C doesn\u0027t stop the server side, so the first push is still in ChangeIndexer (the sleep) when the second one looks up the Change-Id. PS3 holds the lookup lock until the new change is indexed; pushOfChangeWaitsUntilChangeCreatedByConcurrentPushIsIndexed reproduces your scenario. For the case without any overlap, where the indexing was skipped because the push was cancelled or failed, the push now checks the index before releasing its locks and indexes any new change that is missing (pushOfChangeFindsChangeCreatedByPreviousPushThatWasNotIndexed). In the incident that prompted this, both pushes reached ReceiveCommits 64ms apart.",
+      "parentUuid": "956572db_92db3928",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "a722e3410da46e30cc98027dc200b8e4cd1d6c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a63e7be_29dcb8e8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2026-11-12T23:37:27Z",
       "side": 1,
       "message": "```suggestion\nBug: Issue 313935024\n```",
+      "revId": "a722e3410da46e30cc98027dc200b8e4cd1d6c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9faecfaa_db5b85a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-11-14T20:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a63e7be_29dcb8e8",
       "revId": "a722e3410da46e30cc98027dc200b8e4cd1d6c45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -83,6 +125,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "868588b7_8940656e",
+        "filename": "java/com/google/gerrit/server/git/receive/ChangeLookupLocks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-11-14T20:41:57Z",
+      "side": 1,
+      "message": "Agreed that a missed indexing is one cause; PS3 handles it (indexNewChanges). The lock is still needed for the window while indexing is in progress: indexing reliably doesn\u0027t help a push that looks up the change before the first one has finished.",
+      "parentUuid": "01d914b8_f712140d",
+      "range": {
+        "startLine": 26,
+        "startChar": 80,
+        "endLine": 29,
+        "endChar": 82
+      },
+      "revId": "a722e3410da46e30cc98027dc200b8e4cd1d6c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78e5fa8b_18c29711",
         "filename": "java/com/google/gerrit/server/git/receive/ChangeLookupLocks.java",
         "patchSetId": 2
@@ -94,6 +160,30 @@
       "writtenOn": "2026-11-12T23:37:27Z",
       "side": 1,
       "message": "`1024` hardcoded? What if you have more than 1024 changes?\nAlso, the striped locks do not guarantee that two concurrent, different change IDs will not end up in the same lock.",
+      "range": {
+        "startLine": 39,
+        "startChar": 51,
+        "endLine": 39,
+        "endChar": 55
+      },
+      "revId": "a722e3410da46e30cc98027dc200b8e4cd1d6c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "849c3b05_39f97d12",
+        "filename": "java/com/google/gerrit/server/git/receive/ChangeLookupLocks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-11-14T20:41:57Z",
+      "side": 1,
+      "message": "Replaced with a lock per project, branch and Change-Id, created on demand and removed when unused. There is no size limit, and different Change-Ids never share a lock.",
+      "parentUuid": "78e5fa8b_18c29711",
       "range": {
         "startLine": 39,
         "startChar": 51,

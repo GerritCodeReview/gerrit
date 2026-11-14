@@ -1,0 +1,388 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb8818de_3b28f7ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1786,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "`isShowingRichLean` calls `isLeanDiff(path)` without the cached `diff` and omits the `binary` / `diffs_too_expensive_to_compute` checks used in `renderRichLeanToggle` (lines 1903–1909). As a result, files matching only via `diff` content type render a `.toggleRichLean` button that never mounts `\u003cgr-diff-lean-viewer\u003e`, while a collapsed `.lean` row whose `@diff-changed` payload later reports `diff.binary \u003d true` hides the toggle button while leaving `isShowingRichLean` stuck `true`. Consider sharing an `isEligibleForRichLean(file)` helper across both methods (similar to `gr-diff-view`).",
+      "range": {
+        "startLine": 1783,
+        "startChar": 0,
+        "endLine": 1786,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43fa9fa5_b9f49145",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "Toggling `collapseProofs`, `proofCollapseOverrides`, or `viewMode` does not clear `selectionActionBoxVisible`, `selectedSide`/`selectedLine`, or `hoveredLine`. Collapsing a proof while its lines are selected leaves `#selection-action-box` visible at stale coordinates and causes `createCommentFromSelectionOrHover()` (via `this.selectedSide !\u003d\u003d undefined` at line 1457, or sticky `hoveredLine` after clicking `.lean-proof-bar`) to create drafts on hidden proof lines (masked in `gr-diff-lean-viewer_test.ts:863` because `hasActiveSelection()` only checks live DOM range containment). Consider calling `this.hideSelectionActionBox(true)` and clearing `hoveredLine` when proof-collapse state or `viewMode` changes.",
+      "range": {
+        "startLine": 1109,
+        "startChar": 0,
+        "endLine": 1121,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf455e5c_96662810",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "Two selection edge cases in `resolveRangeTarget` can anchor drafts to the wrong line: (1) because `endCell` itself carries `data-line`, `endEl.closest(\u0027[data-line]\u0027)` matches `endCell` whenever a drag ends on a `.line-placeholder` or other child without `data-line`, making `startEl.closest(\u0027[data-line]\u0027)` unreachable and jumping back to the block\u0027s `startLine`; and (2) triple-clicking line `N` sets `range.endContainer` on line `N + 1` with `endOffset \u003d\u003d\u003d 0`, anchoring the comment to line `N + 1`. Consider excluding `endCell` when checking inner `[data-line]` ancestors before falling back to `startEl`, and adjusting when `range.endOffset \u003d\u003d\u003d 0` and `startContainer !\u003d\u003d endContainer`.",
+      "range": {
+        "startLine": 1328,
+        "startChar": 0,
+        "endLine": 1332,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13462862_97f98744",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "`reconstructFileContent` turns `{skip}` chunks in partial diffs (such as files exceeding Gerrit\u0027s whole-file diff context threshold) into empty lines via `getDiffLines`, so `isClean` can render a green `0 sorry` verified pill even when `sorry`, `axiom`, or `unsafe` exists in a skipped region. Consider suppressing `isClean` (or surfacing a partial-diff indicator / disabling rich Lean mode) when `this.diff?.content?.some(c \u003d\u003e Boolean(c.skip))` is true.",
+      "range": {
+        "startLine": 1532,
+        "startChar": 0,
+        "endLine": 1539,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95381561_e94f4603",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "Because all inline threads for a multi-line declaration card are stacked in `.threads-container` below the card (including threads on proof lines hidden when `collapseProofs` is enabled), leaving `showFilePath` as `false` on `\u003cgr-comment-thread\u003e` hides the `#\u003cline\u003e` label and makes proof comments indistinguishable from signature comments. Consider setting `.showFilePath\u003d${thread.line !\u003d\u003d undefined \u0026\u0026 thread.line !\u003d\u003d \u0027FILE\u0027}` (with `.showFileName\u003d${false}`) so `\u003cgr-comment-thread\u003e` renders the line number.",
+      "range": {
+        "startLine": 1717,
+        "startChar": 0,
+        "endLine": 1731,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "072cd1e1_ad2c706c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2442,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "While `this.diff` is `undefined` (for example while `freshRichDiff` is `undefined` during navigation in `gr-diff-view` or before `gr-file-list` resolves the diff), `this.alignedRows` is empty, causing `attachThreadsToLeanRows` to temporarily mount all line-numbered threads under `File Comments` and then destroy and remount them once `diff` arrives (and `updateInternalThreads` at line 183 also leaves stale `internalThreads` if `filePath`/`patchRange` becomes `undefined`). When `!this.diff`, consider rendering only true file-level threads (`line \u003d\u003d\u003d undefined || line \u003d\u003d\u003d \u0027FILE\u0027`).",
+      "range": {
+        "startLine": 2425,
+        "startChar": 0,
+        "endLine": 2442,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "652e0cda_b00a49ed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "Treating every `\u003cident\u003e!\"...\"` as an interpolated string here and in `advanceLeanLexState` (line 2094) flips quote parity when a `!`-suffixed macro or function such as `panic!` takes an ordinary string containing `{`. For example, `def msg :\u003d panic!\"{\"\\ntheorem bad : False :\u003d by sorry\\ndef endMsg :\u003d \"}\"` enters `interpBraceDepths` at `{` and opens `inString \u003d true` on the closing `\"`, blanking out `sorry` and producing a false `0 sorry` verified badge. Should this match only Lean\u0027s string interpolators (`s!`, `m!`, `f!`), consistent with `tokenizeLeanLine` at line 2933?",
+      "range": {
+        "startLine": 972,
+        "startChar": 0,
+        "endLine": 978,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ed0a32d_d82f420b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2495,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "Appending one line at a time (`combined +\u003d \u0027\\n\u0027 + lines[endRow]`) and re-running `findMatchingBracket(combined, 1)` from index 1 on each iteration is `O(N^2)` for a single unclosed `@[` attribute at the top of a file, and `O(N^3)` when multiple unclosed `@[` lines each rescan to EOF. Consider tracking bracket, string, and comment state incrementally in a single forward pass (and avoiding repeated scans to EOF when no closing `]` exists).",
+      "range": {
+        "startLine": 2481,
+        "startChar": 0,
+        "endLine": 2495,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da6f06a_2da146f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2626,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "`parseLeanBlocks` absorbs any subsequent line with `curIndent \u003e declIndent` (including across blank lines at line 2599) into the current declaration, while `analyzeDeclarationHygiene` (lines 1579–1581) checks only the outer header\u0027s `kind` and `modifiers` for `axiom`, `partial`, and `unsafe`. Valid Lean 4 such as `theorem clean : 1 + 1 \u003d 2 :\u003d rfl\\n\\n  axiom bad : False` (or same-line `theorem clean : True :\u003d (trivial) axiom bad : False`) merges `bad` into `clean`\u0027s collapsible proof body and renders a green `0 sorry` verified badge. Consider breaking out of the continuation loop when a new declaration/directive starts with balanced delimiters, and checking `ids.has(\u0027axiom\u0027 | \u0027partial\u0027 | \u0027unsafe\u0027)` in `analyzeDeclarationHygiene`.",
+      "range": {
+        "startLine": 2619,
+        "startChar": 0,
+        "endLine": 2626,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "731b7ff5_75a34acc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2712,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "`blockStartLine` uses nullish coalescing instead of `Math.min(...)` across non-empty pending items, so when a standalone modifier precedes `@[...]` (e.g. adding `unsafe` on line 1 above `@[simp]\\ndef foo : Nat :\u003d 1`), `blockStartLine` evaluates to `2` and `lines.slice(blockStartLine - 1, blockEndLine)` omits line 1 from `block.raw`—causing `alignLeanBlocks` to mark the block `unchanged` and breaking line-1 thread attachment. Also note that `--` comments at line 2385 call `flushPendingAsStandalone()`, detaching preceding modifiers or docstrings from the declaration. Consider taking `Math.min(...)` across present pending start lines and preserving pending docs/attributes/modifiers across intervening `--` comments.",
+      "range": {
+        "startLine": 2694,
+        "startChar": 0,
+        "endLine": 2712,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "513ef332_4720c1b2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2912,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "Because `tokenizeLeanLine` is stateless across lines, lines 2..N of multi-line `/- ... -/` comment blocks (both standalone `comment` blocks at line 3540 and multi-line comments inside declaration bodies) are highlighted as executable Lean code. Prose such as `/-\\nAll proofs below use zero sorry or admit.\\n-/` renders red `.lean-tok-sorry` error pills inside a comment. Consider styling `comment` block lines directly as `comment` tokens and propagating block-comment depth across `signatureLines` and `bodyLines`.",
+      "range": {
+        "startLine": 2856,
+        "startChar": 0,
+        "endLine": 2912,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2833c0a2_77b06483",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3167,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "`renderLeanLineWithInlineDiff` assumes `common` + `editType` segments sum to `fullLine.length`, but `coalesceInlineDiffSegments` drops `common` whitespace from the opposite side when merging two pure `added` or pure `deleted` runs (for example, diffing `def f ( ) : 𝔸 :\u003d oldVal` vs `def f (a b) : 𝔸 :\u003d newVal`). Each dropped space shifts `pos` left for the rest of the line, misaligning `\u003cdel\u003e`/`\u003cins\u003e` highlights and potentially slicing astral Unicode math symbols (`𝔸`) mid-surrogate-pair at line 3196. Consider building the per-side edit mask directly from `rawDiff` (and coalescing whitespace runs on that per-side mask) so `pos` stays 1:1 with `fullLine`.",
+      "range": {
+        "startLine": 3156,
+        "startChar": 0,
+        "endLine": 3167,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f95e27a7_2399ce21",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3228,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "`alignLeanCodeLines` (along with `alignStructureFields` at line 3319 and `blockPairScore` at line 3623) scores similarity via `computeNormalizedEditDistance`, whose `/\\w/` token filter drops non-ASCII Lean identifiers (`α`, `β`, `γ`) and math operators (`∀`, `≤`, `→`, `⟨`, `⟩`). As a result, `| ⟨α, β, γ⟩ \u003d\u003e ⟨α, β, γ⟩` vs `| ⟨α, β, γ⟩ \u003d\u003e ⟨α, β, γ + 1⟩` gets distance `1.0` and fails to pair, while unrelated lines `have : α \u003d β` and `have : ∀ γ δ, γ ⊆ δ` both filter to `[\u0027have\u0027]` with distance `0.0`. Should Lean alignment use a Unicode-aware content token check (e.g. `/[\\p{L}\\p{N}_]/u` plus math operators)?",
+      "range": {
+        "startLine": 3223,
+        "startChar": 0,
+        "endLine": 3228,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0210c2e0_81fa9ada",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3634,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "In `blockPairScore`, `isSingletonInterval` returns a positive score (`\u003e\u003d 0.01`) for any two `\u0027declaration\u0027` blocks in a 1-vs-1 gap even when their kinds, names, and tokens are unrelated (`dist \u003e DEFAULT_MAX_HOMOLOGOUS_DISTANCE`). Deleting `structure Point` and adding an unrelated `theorem main_soundness` in the same slot pairs them side-by-side as `modified` (dropping `Point`\u0027s structured fields table) and reports `~1` instead of `-1` and `+1` in the summary bar. Should `isSingletonInterval` skip `\u0027declaration\u0027` blocks when their names/kinds differ and `dist \u003e DEFAULT_MAX_HOMOLOGOUS_DISTANCE`?",
+      "range": {
+        "startLine": 3632,
+        "startChar": 0,
+        "endLine": 3634,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d847989a_aaf124da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "In both `alignHomologousItems` (line 777) and `alignMarkdownTokens` (line 1843), `candidates?.find(pos \u003d\u003e pos \u003e\u003d bCursor)` scans from index 0 on every iteration, remaining `O(m * n)` when inputs contain repeated lines or blocks. Furthermore, because `MAX_ALIGN_ITEMS_CELLS` is 10,000 (~100x100 lines), any \u003e100-line Lean proof or code block where a deleted top line (such as `\"\"`, `end`, or `simp`) also occurs near the bottom of `midB` jumps `bCursor` to the bottom and marks all intervening unchanged lines as added and deleted. Consider advancing a per-key index cursor and anchoring only on unique lines (Patience-style) in the fallback.",
+      "range": {
+        "startLine": 764,
+        "startChar": 0,
+        "endLine": 785,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "436fdee1_ee0f6cb7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T01:12:37Z",
+      "side": 1,
+      "message": "`gr-diff-host.reload()` cannot cancel `reloadInternal()` once its 0ms timer has fired, so navigating from `A.lean` to `B.lean` while `A.lean`\u0027s `getDiff()` is still in flight can emit a late `diff-changed` event that clears `staleRichDiff` in `onDiffChanged` (line 1777) and renders `A.lean` under `B.lean`\u0027s path. In addition, `if (changedProperties.has(\u0027diff\u0027))` here takes precedence over `else if (changedProperties.has(\u0027path\u0027) || ...)` if both update in the same Lit cycle. Consider clearing `this.diff \u003d undefined` when navigation properties change and ignoring `onDiffChanged` events from superseded reloads.",
+      "range": {
+        "startLine": 979,
+        "startChar": 0,
+        "endLine": 992,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "f0dadd472f55eafc83de8fbda2f2d962b98ff4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

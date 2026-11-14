@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e55ba56f_a3a95e32",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T15:44:08Z",
+      "side": 1,
+      "message": "When a superseded `reloadInternal()` exits early at line 780 while a newer `reload()` is already in flight, the first call\u0027s `finally` block (line 750) unconditionally sets `this.reloadPromise \u003d undefined`, clearing the active `DelayedPromise` of the replacement reload and causing `waitForReloadToRender()` to resolve prematurely. Consider capturing the promise locally and only clearing `this.reloadPromise` when it still matches.",
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e06ba5_7f674158",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T15:44:08Z",
+      "side": 1,
+      "message": "Returning early at lines 780 or 785 leaves `layerPromise` (`this.initLayers()` at line 778) un-awaited without `.catch(() \u003d\u003e {})`: if `this.path` becomes `undefined` on navigation/disconnect while `getPreferences()` is in flight, `assertIsDefined(this.path, \u0027path\u0027)` at line 715 rejects unhandled, and a slow `initLayers()` can still overwrite `this.layers` and clear `this.coverageRanges \u003d []` for the newer reload. Similarly, `loadDiffAssets(diff)` mutates `this.baseImage`/`this.revisionImage` inside `.then(...)` (lines 1237–1240) before line 785\u0027s `reloadId` check runs. Consider attaching `layerPromise.catch(() \u003d\u003e {})` and guarding state writes in `initLayers` and `loadDiffAssets` with `reloadId \u003d\u003d\u003d this.reloadGeneration`.",
+      "range": {
+        "startLine": 778,
+        "startChar": 0,
+        "endLine": 789,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e018a0dc_b4baf67e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T15:44:08Z",
+      "side": 1,
+      "message": "On a 0-byte added `.lean` file (or if `c` is pressed while `this.diff` is still `undefined`), `fallbackRow?.rightStartLine ?? 1` here and `this.createComment(Side.RIGHT, 1)` at line 1633 create a `line: 1` draft that Gerrit\u0027s REST API rejects on save for 0-line files (`line number 1 is larger than file size 0`) and that stays hidden under `getAttachedThreads()` while `!this.diff`. Consider falling back to `1` only when `Side.RIGHT` actually has lines in `this.diff`, and `undefined` (file-level comment) otherwise.",
+      "range": {
+        "startLine": 1265,
+        "startChar": 0,
+        "endLine": 1275,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a484bf6_b8c346e5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/gr-diff-lean-viewer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T15:44:08Z",
+      "side": 1,
+      "message": "When `range.endContainer` is an ancestor container (such as `.lean-decl-card`, `.lean-body-section`, or `\u003ctable\u003e`) with `range.endOffset \u003e 0`, `prevChild` can be `.lean-body-section`, `.lean-code-lines`, or `\u003ctbody\u003e`. Because `TreeWalker.previousNode()` traverses in pre-order, starting `findPreviousInnerLineHost` at `prevChild` steps before `prevChild` without visiting its `[data-line]` descendants and falls back to `startEl`/`endCell`. Descending `prevChild` to its deepest `lastChild` first will resolve the last selected line in that subtree.",
+      "range": {
+        "startLine": 1457,
+        "startChar": 0,
+        "endLine": 1470,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd230f0a_ddd85f77",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2354,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T15:44:08Z",
+      "side": 1,
+      "message": "Two boundary cases in `startsNewTopLevelCommandInDeclBody`: (1) it returns `false` on `/-!`, `@[`, `parseStandaloneModifiersLine` (`unsafe`, `partial`, etc.), and (when `!isTypeDecl`) `/--`, so in `theorem clean : 1 + 1 \u003d 2 :\u003d rfl\\n\\n  unsafe\\n  def bad : Nat :\u003d 0`, `clean` absorbs `unsafe` into its proof body while `bad` loses `hygiene.isUnsafe`; and (2) `dirKw \u003d\u003d\u003d \u0027deriving\u0027` is only exempted when `isTypeDecl` (splitting valid `def`/`abbrev ...\\n  deriving BEq, Repr`, whereas only `deriving instance` is top-level) and `afterKw.startsWith(\u0027:\u0027)` splits parameterized `where` members like `prefix x :\u003d ...` or `syntax (n : Nat) : String`. Consider treating declaration prefixes as command boundaries, allowing non-`instance` `deriving` on any declaration, and exempting parameterized member definitions inside `where` blocks.",
+      "range": {
+        "startLine": 2329,
+        "startChar": 0,
+        "endLine": 2354,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0204b640_96078025",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-lean-viewer/lean-diff-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2808,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-14T15:44:08Z",
+      "side": 1,
+      "message": "When a declaration follows buffered `pendingComments` (from lines 2652–2658), `codeLines` only prepends `pendingModifiers` and line 3001 discards `pendingComments \u003d []`. As a result, intervening `--` lines (such as lines 2 and 4 in `lean-diff-util_test.ts:1496–1502`) vanish from the rendered card with no clickable line numbers, and editing such a comment marks the row `modified` with zero visible diff lines. Consider merging `pendingComments.flatMap(c \u003d\u003e c.lines)` with `pendingModifiers` sorted by `lineNum` into `codeLines`.",
+      "range": {
+        "startLine": 2803,
+        "startChar": 0,
+        "endLine": 2808,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "1a2879f2d44374c34072fe6c0b79a496b7aa71cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

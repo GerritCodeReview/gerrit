@@ -18,6 +18,7 @@ import {
   waitEventLoop,
   waitUntil,
 } from '../../../test/test-utils';
+import type {GrDiffLeanViewer} from '../../diff/gr-diff-lean-viewer/gr-diff-lean-viewer';
 import type {GrDiffMarkdownViewer} from '../../diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import {
   BasePatchSetNum,
@@ -2580,6 +2581,192 @@ suite('gr-file-list tests', () => {
       element.style.width = '700px';
       await element.updateComplete;
       assert.equal(getComputedStyle(label).display, 'none');
+    });
+  });
+
+  suite('rich lean diff', () => {
+    setup(async () => {
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
+      stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
+      element.numFilesShown = 5;
+      element.files = [
+        normalize({}, 'BoundedLattice.lean'),
+        normalize({}, 'file.ts'),
+      ];
+      await element.updateComplete;
+    });
+
+    test('toggle button rendered only for lean files', () => {
+      const rows = queryAll(element, '.file-row');
+      assert.equal(rows.length, 2);
+
+      const leanToggle = rows[0].querySelector('.toggleRichLean');
+      assert.isOk(leanToggle);
+
+      const nonLeanToggle = rows[1].querySelector('.toggleRichLean');
+      assert.isNotOk(nonLeanToggle);
+    });
+
+    test('clicking toggleRichLean expands file and enables rich mode', async () => {
+      assert.isFalse(element.isFileExpanded('BoundedLattice.lean'));
+      assert.isFalse(element.isShowingRichLean('BoundedLattice.lean'));
+
+      await element.toggleRichLean('BoundedLattice.lean');
+      await element.updateComplete;
+
+      assert.isTrue(element.isFileExpanded('BoundedLattice.lean'));
+      assert.isTrue(element.isShowingRichLean('BoundedLattice.lean'));
+
+      const viewer = query(element, 'gr-diff-lean-viewer');
+      assert.isOk(viewer);
+
+      // Toggle off
+      await element.toggleRichLean('BoundedLattice.lean');
+      await element.updateComplete;
+
+      assert.isFalse(element.isShowingRichLean('BoundedLattice.lean'));
+      const viewerAfter = query(element, 'gr-diff-lean-viewer');
+      assert.isNotOk(viewerAfter);
+    });
+
+    test('handleNewComment delegates to lean viewer when viewer has active selection', async () => {
+      element.loggedIn = true;
+      await element.toggleRichLean('BoundedLattice.lean');
+      await element.updateComplete;
+
+      const viewer = queryAndAssert<GrDiffLeanViewer>(
+        element,
+        'gr-diff-lean-viewer'
+      );
+      assert.isTrue(viewer.loggedIn);
+
+      sinon.stub(viewer, 'hasActiveSelection').returns(true);
+      const commentSpy = sinon.spy(viewer, 'createCommentFromSelectionOrHover');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).handleNewComment();
+
+      assert.isTrue(commentSpy.calledOnce);
+    });
+
+    test('c and C shortcuts delegate to lean viewer when cursor is on rich lean file', async () => {
+      element.loggedIn = true;
+      await element.toggleRichLean('BoundedLattice.lean');
+      await element.updateComplete;
+
+      const viewer = queryAndAssert<GrDiffLeanViewer>(
+        element,
+        'gr-diff-lean-viewer'
+      );
+      const commentSpy = sinon.spy(viewer, 'createCommentFromSelectionOrHover');
+
+      element.fileCursor.setCursorAtIndex(0);
+      assert.equal(
+        element.files[element.fileCursor.index].__path,
+        'BoundedLattice.lean'
+      );
+
+      pressKey(element, 'c');
+      assert.isTrue(commentSpy.calledOnce);
+
+      pressKey(element, 'C');
+      assert.isTrue(commentSpy.calledTwice);
+    });
+
+    test('toggling rich to source flushes drafts for matching lean viewer', async () => {
+      element.files = [
+        normalize({}, 'BoundedLattice.lean'),
+        normalize({}, 'Proofs.lean'),
+      ];
+      await element.updateComplete;
+
+      await element.toggleRichLean('BoundedLattice.lean');
+      await element.toggleRichLean('Proofs.lean');
+      await element.updateComplete;
+
+      const viewers = Array.from(
+        queryAll<GrDiffLeanViewer>(element, 'gr-diff-lean-viewer')
+      );
+      assert.equal(viewers.length, 2);
+
+      const soundnessViewer = viewers.find(
+        v => v.path === 'BoundedLattice.lean'
+      )!;
+      const proofsViewer = viewers.find(v => v.path === 'Proofs.lean')!;
+
+      const soundnessSaveSpy = sinon.spy(soundnessViewer, 'autoSaveDrafts');
+      const proofsSaveSpy = sinon.spy(proofsViewer, 'autoSaveDrafts');
+
+      await element.toggleRichLean('Proofs.lean');
+      await element.updateComplete;
+
+      assert.isFalse(soundnessSaveSpy.called);
+      assert.isTrue(proofsSaveSpy.calledOnce);
+    });
+
+    test('hides toggleRichLean for binary or diffs_too_expensive_to_compute lean files', async () => {
+      element.files = [
+        normalize({}, 'Normal.lean'),
+        normalize({binary: true}, 'Binary.lean'),
+        normalize({diffs_too_expensive_to_compute: true}, 'Huge.lean'),
+      ];
+      await element.updateComplete;
+
+      const rows = queryAll(element, '.file-row');
+      assert.equal(rows.length, 3);
+      assert.isOk(rows[0].querySelector('.toggleRichLean'));
+      assert.isNotOk(rows[1].querySelector('.toggleRichLean'));
+      assert.isNotOk(rows[2].querySelector('.toggleRichLean'));
+    });
+
+    test('clears richLeanFiles and diffsByPath when patchNum changes', async () => {
+      element.patchNum = 1 as RevisionPatchSetNum;
+      await element.updateComplete;
+
+      await element.toggleRichLean('BoundedLattice.lean');
+      await element.updateComplete;
+      assert.isTrue(element.isShowingRichLean('BoundedLattice.lean'));
+
+      element.patchNum = 2 as RevisionPatchSetNum;
+      await element.updateComplete;
+
+      assert.isFalse(element.isShowingRichLean('BoundedLattice.lean'));
+      assert.isNotOk(query(element, 'gr-diff-lean-viewer'));
+    });
+
+    test('handleNewComment routes to hovered lean viewer when no selection is active', async () => {
+      element.loggedIn = true;
+      element.files = [normalize({}, 'A.lean'), normalize({}, 'B.lean')];
+      await element.updateComplete;
+
+      await element.toggleRichLean('A.lean');
+      await element.toggleRichLean('B.lean');
+      await element.updateComplete;
+
+      const viewers = Array.from(
+        queryAll<GrDiffLeanViewer>(element, 'gr-diff-lean-viewer')
+      );
+      const viewerA = viewers.find(v => v.path === 'A.lean')!;
+      const viewerB = viewers.find(v => v.path === 'B.lean')!;
+
+      sinon.stub(viewerA, 'hasActiveSelection').returns(false);
+      sinon.stub(viewerB, 'hasActiveSelection').returns(false);
+      sinon.stub(viewerA, 'hasHoverTarget').returns(false);
+      sinon.stub(viewerB, 'hasHoverTarget').returns(true);
+
+      const spyA = sinon.spy(viewerA, 'createCommentFromSelectionOrHover');
+      const spyB = sinon.spy(viewerB, 'createCommentFromSelectionOrHover');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).handleNewComment();
+
+      assert.isFalse(spyA.called);
+      assert.isTrue(spyB.calledOnce);
     });
   });
 

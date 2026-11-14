@@ -116,8 +116,11 @@ import {
   canBlameFile,
   computeBlameToggleLabel,
   isImageDiff,
+  isLeanDiff,
   isMarkdownDiff,
 } from '../../../utils/diff-util';
+import '../gr-diff-lean-viewer/gr-diff-lean-viewer';
+import type {GrDiffLeanViewer} from '../gr-diff-lean-viewer/gr-diff-lean-viewer';
 import '../gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import type {GrDiffMarkdownViewer} from '../gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import {formStyles} from '../../../styles/form-styles';
@@ -163,11 +166,20 @@ export class GrDiffView extends LitElement {
   @query('#markdownViewer')
   markdownViewer?: GrDiffMarkdownViewer;
 
+  @query('#leanViewer')
+  leanViewer?: GrDiffLeanViewer;
+
   @state()
   reviewed = false;
 
   @state()
   showRichMarkdown = false;
+
+  @state()
+  showRichLean = false;
+
+  @state()
+  private staleRichDiff = false;
 
   @query('#downloadModal')
   downloadModal?: HTMLDialogElement;
@@ -964,6 +976,20 @@ export class GrDiffView extends LitElement {
 
   protected override willUpdate(changedProperties: PropertyValues): void {
     super.willUpdate(changedProperties);
+    if (changedProperties.has('diff')) {
+      this.staleRichDiff = false;
+    } else if (
+      (changedProperties.has('change') &&
+        changedProperties.get('change') !== undefined) ||
+      (changedProperties.has('path') &&
+        changedProperties.get('path') !== undefined) ||
+      (changedProperties.has('patchNum') &&
+        changedProperties.get('patchNum') !== undefined) ||
+      (changedProperties.has('basePatchNum') &&
+        changedProperties.get('basePatchNum') !== undefined)
+    ) {
+      this.staleRichDiff = true;
+    }
     if (
       changedProperties.has('changeNum') ||
       changedProperties.has('latestPatchNum') ||
@@ -1013,7 +1039,10 @@ export class GrDiffView extends LitElement {
     ) {
       this.initCursor();
     }
-    if (changedProperties.has('showRichMarkdown') && !this.showRichMarkdown) {
+    if (
+      (changedProperties.has('showRichMarkdown') && !this.showRichMarkdown) ||
+      (changedProperties.has('showRichLean') && !this.showRichLean)
+    ) {
       this.reInitCursor();
     }
     if (
@@ -1023,12 +1052,14 @@ export class GrDiffView extends LitElement {
       changedProperties.has('patchNum') ||
       changedProperties.has('basePatchNum') ||
       changedProperties.has('files') ||
-      changedProperties.has('showRichMarkdown')
+      changedProperties.has('diff') ||
+      changedProperties.has('showRichMarkdown') ||
+      changedProperties.has('showRichLean')
     ) {
       if (this.change && this.changeComments && this.path && this.patchRange) {
         assertIsDefined(this.diffHost, 'diffHost');
         const file = this.files?.changeFilesByPath?.[this.path];
-        if (!this.isShowingRichMarkdown()) {
+        if (!this.isShowingRichDiff()) {
           this.diffHost.disabledThreads = false;
           this.diffHost.updateComplete.then(() => {
             assertIsDefined(this.path);
@@ -1100,7 +1131,7 @@ export class GrDiffView extends LitElement {
             () => html`
               <gr-diff-markdown-viewer
                 id="markdownViewer"
-                .diff=${this.diff}
+                .diff=${this.freshRichDiff}
                 .path=${this.path}
                 .patchRange=${this.patchRange}
                 .threads=${this.threadsForFile}
@@ -1108,14 +1139,27 @@ export class GrDiffView extends LitElement {
               ></gr-diff-markdown-viewer>
             `
           )}
+          ${when(
+            this.isShowingRichLean(),
+            () => html`
+              <gr-diff-lean-viewer
+                id="leanViewer"
+                .diff=${this.freshRichDiff}
+                .path=${this.path}
+                .patchRange=${this.patchRange}
+                .threads=${this.threadsForFile}
+                .loggedIn=${this.loggedIn}
+              ></gr-diff-lean-viewer>
+            `
+          )}
           <gr-endpoint-decorator
             name="diff-content"
-            ?hidden=${this.isShowingRichMarkdown()}
+            ?hidden=${this.isShowingRichDiff()}
           >
             <gr-diff-host
               id="diffHost"
-              ?hidden=${this.isShowingRichMarkdown()}
-              ?disabledThreads=${this.isShowingRichMarkdown()}
+              ?hidden=${this.isShowingRichDiff()}
+              ?disabledThreads=${this.isShowingRichDiff()}
               .changeNum=${this.changeNum}
               .change=${this.change}
               .patchRange=${this.patchRange}
@@ -1419,7 +1463,7 @@ export class GrDiffView extends LitElement {
       ></gr-endpoint-decorator>
       ${this.renderSidebarTriggers()} ${this.renderChatButton()}
       ${this.renderShowEntireFileButton()} ${this.renderBlameButton()}
-      ${this.renderRichMarkdownToggle()}
+      ${this.renderRichMarkdownToggle()} ${this.renderRichLeanToggle()}
       ${when(
         this.computeCanEdit(),
         () => html`
@@ -1550,8 +1594,12 @@ export class GrDiffView extends LitElement {
       </span>`;
   }
 
+  private get freshRichDiff(): DiffInfo | undefined {
+    return this.staleRichDiff ? undefined : this.diff;
+  }
+
   private renderRichMarkdownToggle() {
-    if (!isMarkdownDiff(this.path, this.diff)) return nothing;
+    if (!isMarkdownDiff(this.path, this.freshRichDiff)) return nothing;
     return html`<span class="separator"></span
       ><span class="richMarkdownToggle">
         <gr-tooltip-content
@@ -1586,7 +1634,58 @@ export class GrDiffView extends LitElement {
   }
 
   private isShowingRichMarkdown(): boolean {
-    return this.showRichMarkdown && isMarkdownDiff(this.path, this.diff);
+    return (
+      this.showRichMarkdown && isMarkdownDiff(this.path, this.freshRichDiff)
+    );
+  }
+
+  private isEligibleForRichLean(): boolean {
+    const diff = this.freshRichDiff;
+    return (
+      isLeanDiff(this.path, diff) &&
+      !diff?.binary &&
+      !this.file?.binary &&
+      !this.file?.diffs_too_expensive_to_compute
+    );
+  }
+
+  private renderRichLeanToggle() {
+    if (!this.isEligibleForRichLean()) return nothing;
+    return html`<span class="separator"></span
+      ><span class="richLeanToggle">
+        <gr-tooltip-content
+          has-tooltip=""
+          position-below=""
+          title=${this.showRichLean
+            ? 'Switch to source diff'
+            : 'Switch to rich rendered Lean diff'}
+        >
+          <gr-button link="" id="toggleRichLean" @click=${this.toggleRichLean}>
+            <gr-icon
+              icon=${this.showRichLean ? 'code' : 'preview'}
+              filled=""
+            ></gr-icon>
+            ${this.showRichLean ? 'Source diff' : 'Rich diff'}
+          </gr-button>
+        </gr-tooltip-content>
+      </span>`;
+  }
+
+  async toggleRichLean() {
+    if (this.isShowingRichLean()) {
+      await this.leanViewer?.autoSaveDrafts();
+    } else {
+      await this.diffHost?.autoSaveDrafts();
+    }
+    this.showRichLean = !this.showRichLean;
+  }
+
+  private isShowingRichLean(): boolean {
+    return this.showRichLean && this.isEligibleForRichLean();
+  }
+
+  private isShowingRichDiff(): boolean {
+    return this.isShowingRichMarkdown() || this.isShowingRichLean();
   }
 
   private renderDialogs() {
@@ -1675,6 +1774,7 @@ export class GrDiffView extends LitElement {
   }
 
   private onDiffChanged(e: ValueChangedEvent<DiffInfo>) {
+    this.staleRichDiff = false;
     this.diff = e.detail.value;
   }
 
@@ -1710,6 +1810,10 @@ export class GrDiffView extends LitElement {
     this.classList.remove('hideCheckCodePointers');
     if (this.isShowingRichMarkdown()) {
       this.markdownViewer?.createCommentFromSelectionOrHover();
+      return;
+    }
+    if (this.isShowingRichLean()) {
+      this.leanViewer?.createCommentFromSelectionOrHover();
       return;
     }
     this.cursor?.createCommentInPlace();

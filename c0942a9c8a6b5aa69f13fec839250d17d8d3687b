@@ -16,6 +16,24 @@
       "message": "Can you add a null check to ds so it isn\u0027t missed while upmerged. future branches have the ability to disable the ds and open and close connections individually.",
       "revId": "c0942a9c8a6b5aa69f13fec839250d17d8d3687b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34982635_cf2f72f8",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-14T15:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a37e583_6a70843c",
+      "revId": "c0942a9c8a6b5aa69f13fec839250d17d8d3687b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

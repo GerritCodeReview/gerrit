@@ -245,6 +245,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b08931b_bf6f0467",
+        "filename": "java/com/google/gerrit/server/git/receive/ChangeLookupLocks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-14T21:39:30Z",
+      "side": 1,
+      "message": "\u003e Fair points, an in-memory lock can\u0027t cover HA. How about making the uniqueness check in the repository instead, with a reservation ref:\n\u003e \n\u003e 1. ChangeInserter adds a ref keyed by (branch, Change-Id), e.g. refs/change-keys/\u003csha1 of branch\u003e/\u003cChange-Id\u003e (exact naming TBD), pointing to the first patch set commit, with expected old value zero. It goes into the same BatchRefUpdate as the patch set ref and the meta ref, so the change and its reservation are created atomically.\n\u003e 2. A concurrent creation of the same Change-Id on the same branch fails with LOCK_FAILURE on that ref. In multi-site the global-refdb enforces the same compare-and-swap across nodes.\n\u003e 3. When the index doesn\u0027t find the Change-Id, ReceiveCommits reads the reservation ref, and if it exists, loads the change from the repository (patch set ref of that commit -\u003e ChangeNotes) and adds a new patch set, instead of creating a new change. No dependency on index freshness, and no long-held locks.\n\u003e 4. DeleteChangeOp removes the reservation ref; Move removes it and creates one for the new branch.\n\u003e \n\u003e Since ChangeInserter is used by all creation paths (push, REST create, cherry-pick, revert), they are all covered. Existing changes don\u0027t need a backfill, they are already indexed; the reservation only closes the window for new changes.\n\u003e \n\u003e Costs: one extra ref per change (in addition to the patch set refs and meta), hidden from the advertisement like other internal namespaces, and replicated like the change refs.\n\u003e \n\u003e Would you accept this direction before I rework the change?\n\nExactly the point: the ref space needs to change.\n\nAt the moment we use `refs/changes/\u003cshard\u003e/\u003cchange-num\u003e/\u003cpatch-set\u003e`, and we should use instead `refs/changes/\u003cbranch\u003e/\u003cshard\u003e/\u003cchange-id\u003e/\u003cpatch-set\u003e`\n\nThe change number won\u0027t work for multiple reasons:\n- The discovery of the number by `\u003cchange-id\u003e` requires a Lucene index lookup, which isn\u0027t guaranteed to be transactional\n- The change number could come from different Gerrit servers; therefore, it isn\u0027t guaranteed to be unique\n\nAdding an additional ref could create a very significant overload: repos with millions of refs would suddenly see their repos doubled in terms of refs space.\n\nAdding a ref and deleting it would create an enormous slowdown: deleting a ref is one of the most expensive operations for a `ref-db` in `files` format.\n\nI am open to changing how we store changes in the repository in the future.",
+      "parentUuid": "19202a2f_ca0eb636",
+      "range": {
+        "startLine": 26,
+        "startChar": 80,
+        "endLine": 29,
+        "endChar": 82
+      },
+      "revId": "a722e3410da46e30cc98027dc200b8e4cd1d6c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78e5fa8b_18c29711",
         "filename": "java/com/google/gerrit/server/git/receive/ChangeLookupLocks.java",
         "patchSetId": 2

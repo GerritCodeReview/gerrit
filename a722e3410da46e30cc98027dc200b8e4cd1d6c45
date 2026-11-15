@@ -315,6 +315,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "deb9bd11_5c905aa7",
+        "filename": "java/com/google/gerrit/server/git/receive/ChangeLookupLocks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-11-15T08:33:36Z",
+      "side": 1,
+      "message": "Thanks for the detailed review. I only bumped into this once, and I don\u0027t feel I have the knowledge of NoteDb and multi-site needed to drive a redesign of how changes are stored, so I\u0027d rather leave it to you. I\u0027m abandoning this change; the issue stays open for the proper fix on master.",
+      "parentUuid": "188cfe3e_5a812cb0",
+      "range": {
+        "startLine": 26,
+        "startChar": 80,
+        "endLine": 29,
+        "endChar": 82
+      },
+      "revId": "a722e3410da46e30cc98027dc200b8e4cd1d6c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78e5fa8b_18c29711",

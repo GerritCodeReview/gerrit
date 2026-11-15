@@ -293,6 +293,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "188cfe3e_5a812cb0",
+        "filename": "java/com/google/gerrit/server/git/receive/ChangeLookupLocks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-15T08:26:47Z",
+      "side": 1,
+      "message": "\u003e Agreed that keying refs by Change-Id is the proper long-term fix, but it\u0027s a NoteDb schema redesign (URLs, REST, events, download commands, Move renaming all refs, branch-name D/F conflicts like `a` vs `a/b`), which needs a design doc and can\u0027t go to stable branches.\n\nYes, I am looking for a proper fix to the problem. Would you be able to drive this initiative?\n\n\u003e On the cost of a reservation ref: it isn\u0027t doubling. Each change already has a meta ref plus one per patch set. On our largest repo there are 438k refs for 80k changes (4.2 refs per change under refs/changes, plus 100k tags), so one more ref per change is +18%. And it\u0027s only deleted on change deletion or Move, both rare; a regular push never deletes it.\n\u003e \n\u003e If that\u0027s still not acceptable, I\u0027ll abandon this change and leave the issue open for the schema redesign.\n\nI don\u0027t believe this can be fixed in a stable branch: it\u0027s a design issue and requires a redesign of the solution to be fixed.\n\nAre you happy to drive a proper fix on master?",
+      "parentUuid": "4e31cca5_cf83cd90",
+      "range": {
+        "startLine": 26,
+        "startChar": 80,
+        "endLine": 29,
+        "endChar": 82
+      },
+      "revId": "a722e3410da46e30cc98027dc200b8e4cd1d6c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78e5fa8b_18c29711",
         "filename": "java/com/google/gerrit/server/git/receive/ChangeLookupLocks.java",
         "patchSetId": 2

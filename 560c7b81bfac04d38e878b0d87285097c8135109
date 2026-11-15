@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f252ccf3_33b1f446",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-15T03:32:29Z",
+      "side": 1,
+      "message": "I do support the idea of finer granularity than 30s, but 0.1s feels excessive.",
+      "revId": "560c7b81bfac04d38e878b0d87285097c8135109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

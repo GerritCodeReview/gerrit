@@ -23,6 +23,31 @@
       "isAi": true,
       "revId": "e0103f3a2bba8bc4bfc98b5816cbc400875c6104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4253b4d9_f82ec681",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/markdown-diff-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-16T15:08:27Z",
+      "side": 1,
+      "message": "Done. Extracted `alignHomologousGapWithFuzzyDp` and updated `alignHomologousItems` to run the fuzzy `pairScore` DP per unanchored gap between `computeLinearExactAnchors` anchors while tracking a shared `remainingCells \u003d MAX_ALIGN_ITEMS_CELLS` budget (falling back to `deleted` + `added` only for individual gaps exceeding the remaining budget, without starving subsequent small gaps). Added regression tests in `markdown-diff-util_test.ts` and `lean-diff-util_test.ts` covering \u003e100-line blocks with top/bottom edits and budget exhaustion.",
+      "parentUuid": "556eefc3_355bd4f2",
+      "range": {
+        "startLine": 1014,
+        "startChar": 0,
+        "endLine": 1065,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "e0103f3a2bba8bc4bfc98b5816cbc400875c6104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

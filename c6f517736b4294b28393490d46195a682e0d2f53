@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2230925_668cc8e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-16T17:26:05Z",
+      "side": 1,
+      "message": "The introduction of a new ACL seems to conflict with the discussion document [1]:\n\n```...gates change writes behind the existing Write Change permission, leaving the ACL evaluation model unchanged...```\n\nMaybe I am missing something.\n\n[1]: https://docs.google.com/document/d/1GCioZymU01gacga2PKk3olM4KHvSVpeZyHVQ2b7NwUQ",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "c6f517736b4294b28393490d46195a682e0d2f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

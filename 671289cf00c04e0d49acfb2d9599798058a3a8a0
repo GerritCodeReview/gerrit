@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83d9ee84_ed1bb899",
+        "filename": "Documentation/cmd-flush-caches.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-16T20:32:11Z",
+      "side": 1,
+      "message": "This could also be used if the cache has other issues, not performing well, too large...",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "100daf06_fec595df",
+        "filename": "Documentation/cmd-flush-caches.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-16T20:32:11Z",
+      "side": 1,
+      "message": "Since this command could be used by anyone for any reason, I don\u0027t think \".corrupted\" is an appropriate extension.",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a43151c_613a25d5",
+        "filename": "java/com/google/gerrit/server/restapi/config/PostCaches.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-16T20:32:11Z",
+      "side": 1,
+      "message": "Seems like this should make more use of the method below?",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

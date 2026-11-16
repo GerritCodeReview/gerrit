@@ -133,13 +133,14 @@ public final class SitePaths {
   }
 
   private static Path resolveIndexDir(Path sitePath, Path gerritConfig) throws IOException {
+    if (!Files.exists(gerritConfig)) {
+      return sitePath.resolve("index");
+    }
     FileBasedConfig cfg = new FileBasedConfig(gerritConfig.toFile(), FS.DETECTED);
-    if (cfg.getFile().exists()) {
-      try {
-        cfg.load();
-      } catch (ConfigInvalidException e) {
-        throw new IOException("Invalid config file " + gerritConfig, e);
-      }
+    try {
+      cfg.load();
+    } catch (ConfigInvalidException e) {
+      throw new IOException("Invalid config file " + gerritConfig, e);
     }
     String configured = cfg.getString("index", null, "directory");
     if (!Strings.isNullOrEmpty(configured)) {

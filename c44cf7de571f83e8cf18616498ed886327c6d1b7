@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eba536be_2461e6e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-16T18:47:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fef03b3d_55eedda0",
+      "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b4ad03e_6ffe40d0",
@@ -67,6 +85,30 @@
       "writtenOn": "2026-11-11T23:20:23Z",
       "side": 1,
       "message": "Worth saying here that the old file is kept as `\u003cname\u003e.mv.db.corrupt-\u003ctimestamp\u003e` and has to be deleted by hand. With `--reinit --all` that\u0027s a full second copy of every cache, and diff alone can be tens of GB.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 64
+      },
+      "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8e4ac15_c7dfab0f",
+        "filename": "Documentation/cmd-flush-caches.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-16T18:47:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b4ad03e_6ffe40d0",
       "range": {
         "startLine": 58,
         "startChar": 0,

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33e5721c_2caeed0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-16T16:45:24Z",
+      "side": 1,
+      "message": "Can you explain what the change is for? What is the final purpose?\nIf we have an issue, can we link it?",
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9750802b_bcb6cdfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-16T16:45:24Z",
+      "side": 1,
+      "message": "I think this should be included in the release notes. It is a new value exposed in the API. WDYT?",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8deb619f_fe76e241",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-16T16:45:24Z",
+      "side": 1,
+      "message": "Can we make these clearer, as in:\n- branch owner: does it mean Owner on the destination ref?\n- project owners: I guess inheritance applies here, right?\n\nThis will not allow any write operation (git over HTTP or SSH, REST API and SSH  commands), correct?",
+      "range": {
+        "startLine": 471,
+        "startChar": 74,
+        "endLine": 474,
+        "endChar": 28
+      },
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3af55ae0_61d1aa6d",
+        "filename": "java/com/google/gerrit/entities/BooleanProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-16T16:45:24Z",
+      "side": 1,
+      "message": "Worth adding some tests, for example, in `ProjectConfigIT`. Other flags are tested there.",
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

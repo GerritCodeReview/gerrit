@@ -53,7 +53,7 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CursorMoveResult} from '../../../api/core';
-import {Side} from '../../../api/diff';
+import {DiffInfo, Side} from '../../../api/diff';
 import {PluginApi} from '../../../api/plugin';
 import {CHAT_PANEL_SIDEBAR, Files, GrDiffView} from './gr-diff-view';
 import {GrContentWithSidebar} from '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
@@ -2241,6 +2241,274 @@ suite('gr-diff-view tests', () => {
         await commentEl.updateComplete;
 
         assert.isFalse(commentEl.editing);
+      });
+    });
+
+    suite('rich lean diff', () => {
+      test('toggle rich lean diff', async () => {
+        element.path = 'BoundedLattice.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [
+            {ab: ['theorem id_eq (n : Nat) : n = n := by']},
+            {a: ['  sorry'], b: ['  rfl']},
+          ],
+        };
+        await element.updateComplete;
+
+        const toggleBtn =
+          element.shadowRoot!.querySelector<GrButton>('#toggleRichLean');
+        assert.isNotNull(toggleBtn);
+        assert.isFalse(element.showRichLean);
+
+        await element.toggleRichLean();
+        await element.updateComplete;
+
+        assert.isTrue(element.showRichLean);
+        const leanViewer = element.shadowRoot!.querySelector('#leanViewer');
+        assert.isNotNull(leanViewer);
+
+        await element.toggleRichLean();
+        await element.updateComplete;
+
+        assert.isFalse(element.showRichLean);
+      });
+
+      test('toggle is hidden for non-lean files', async () => {
+        element.path = 'foo.txt';
+        element.diff = createDiff();
+        await element.updateComplete;
+
+        const toggleBtn = element.shadowRoot!.querySelector('#toggleRichLean');
+        assert.isNull(toggleBtn);
+      });
+
+      test('handleNewComment delegates to leanViewer when rich lean is active', async () => {
+        element.path = 'BoundedLattice.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem t : True := by trivial']}],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+
+        assert.isDefined(element.leanViewer);
+        const createCommentSpy = sinon.spy(
+          element.leanViewer,
+          'createCommentFromSelectionOrHover'
+        );
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (element as any).handleNewComment();
+
+        assert.isTrue(createCommentSpy.calledOnce);
+      });
+
+      test('c and C shortcuts delegate to leanViewer when rich lean is active', async () => {
+        element.path = 'BoundedLattice.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem t : True := by trivial']}],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+
+        assert.isDefined(element.leanViewer);
+        const createCommentSpy = sinon.spy(
+          element.leanViewer,
+          'createCommentFromSelectionOrHover'
+        );
+
+        pressKey(element, 'c');
+        assert.isTrue(createCommentSpy.calledOnce);
+
+        pressKey(element, 'C');
+        assert.isTrue(createCommentSpy.calledTwice);
+      });
+
+      test('toggleRichLean flushes diffHost drafts before switching to rich mode', async () => {
+        element.path = 'BoundedLattice.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem t : True := by trivial']}],
+        };
+        element.showRichLean = false;
+        await element.updateComplete;
+
+        assert.isDefined(element.diffHost);
+        const autoSaveSpy = sinon.spy(element.diffHost, 'autoSaveDrafts');
+
+        await element.toggleRichLean();
+        await element.updateComplete;
+
+        assert.isTrue(autoSaveSpy.calledOnce);
+        assert.isTrue(element.showRichLean);
+      });
+
+      test('toggleRichLean flushes leanViewer drafts before switching to source mode', async () => {
+        element.path = 'BoundedLattice.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem t : True := by trivial']}],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+
+        assert.isDefined(element.leanViewer);
+        const autoSaveSpy = sinon.spy(element.leanViewer, 'autoSaveDrafts');
+
+        await element.toggleRichLean();
+        await element.updateComplete;
+
+        assert.isTrue(autoSaveSpy.calledOnce);
+        assert.isFalse(element.showRichLean);
+      });
+
+      test('toggling from rich lean back to source diff updates diffHost threads', async () => {
+        element.path = 'BoundedLattice.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem t : True := by trivial']}],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+
+        commentsModel.setState({
+          comments: {},
+          drafts: {
+            'BoundedLattice.lean': [
+              createDraft({
+                id: 'draft_lean_1' as UrlEncodedCommentId,
+                line: 1,
+                message: 'Draft from rich lean mode',
+                patch_set: 1 as RevisionPatchSetNum,
+              }),
+            ],
+          },
+          portedComments: {},
+          portedDrafts: {},
+          discardedDrafts: [],
+        });
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        assert.isDefined(element.diffHost);
+        assert.isTrue(element.diffHost.hidden);
+        assert.equal(element.diffHost.threads.length, 0);
+
+        // Toggle back to source diff
+        element.showRichLean = false;
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        assert.isFalse(element.diffHost.hidden);
+        assert.equal(element.diffHost.threads.length, 1);
+        assert.equal(element.diffHost.threads[0].line, 1);
+      });
+
+      test('hides toggle and viewer for binary or too-expensive lean files', async () => {
+        element.path = 'Huge.lean';
+        element.diff = {
+          ...createDiff(),
+          binary: true,
+          content: [],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+
+        assert.isNull(element.shadowRoot!.querySelector('#toggleRichLean'));
+        assert.isNull(element.shadowRoot!.querySelector('#leanViewer'));
+
+        element.diff = {
+          ...createDiff(),
+          binary: false,
+          content: [{ab: ['theorem t : True := trivial']}],
+        };
+        element.file = {
+          __path: 'Huge.lean',
+          diffs_too_expensive_to_compute: true,
+        };
+        await element.updateComplete;
+
+        assert.isNull(element.shadowRoot!.querySelector('#toggleRichLean'));
+        assert.isNull(element.shadowRoot!.querySelector('#leanViewer'));
+      });
+
+      test('does not leak stale diff into leanViewer when navigating across files', async () => {
+        element.path = 'A.lean';
+        element.diff = {
+          ...createDiff(),
+          meta_b: {name: 'A.lean', content_type: 'text/x-lean', lines: 1},
+          content: [{ab: ['theorem t : True := by trivial']}],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+
+        assert.isNotNull(element.shadowRoot!.querySelector('#leanViewer'));
+        assert.isTrue(element.diffHost!.hidden);
+
+        // Navigate to another Lean file before its diff arrives: leanViewer
+        // must receive `undefined`, never A.lean's stale diff.
+        element.path = 'B.lean';
+        await element.updateComplete;
+        assert.isUndefined(element.leanViewer?.diff);
+
+        // Navigate to a non-Lean file without immediately supplying a new diff:
+        // stale `content_type: 'text/x-lean'` must not keep Lean viewer active.
+        element.path = 'B.ts';
+        await element.updateComplete;
+
+        assert.isNull(element.shadowRoot!.querySelector('#leanViewer'));
+        assert.isFalse(element.diffHost!.hidden);
+      });
+
+      test('ignores superseded in-flight reload and same-cycle late diff-changed when navigating between Lean files', async () => {
+        const diffA: DiffInfo = {
+          ...createDiff(),
+          meta_b: {name: 'A.lean', content_type: 'text/x-lean', lines: 1},
+          content: [{ab: ['theorem only_in_a : True := trivial']}],
+        };
+        const diffB: DiffInfo = {
+          ...createDiff(),
+          meta_b: {name: 'B.lean', content_type: 'text/x-lean', lines: 1},
+          content: [{ab: ['theorem only_in_b : True := trivial']}],
+        };
+        const diffAPromise = mockPromise<DiffInfo>();
+        const diffBPromise = mockPromise<DiffInfo>();
+        const requestedPaths: string[] = [];
+        getDiffRestApiStub.callsFake((_c, _base, _patch, path) => {
+          requestedPaths.push(path);
+          if (path === 'A.lean') return diffAPromise;
+          if (path === 'B.lean') return diffBPromise;
+          return Promise.resolve(element.diff);
+        });
+
+        element.showRichLean = true;
+        element.path = 'A.lean';
+        await element.updateComplete;
+        await waitUntil(() => requestedPaths.includes('A.lean'));
+
+        // Navigate to B.lean before A.lean finishes loading.
+        element.path = 'B.lean';
+        // Simulate a late host `diff-changed` arriving in the same Lit cycle as `path`.
+        element.diffHost!.dispatchEvent(
+          new CustomEvent('diff-changed', {detail: {value: diffA}})
+        );
+        await element.updateComplete;
+        assert.isUndefined(element.leanViewer?.diff);
+
+        // Wait until B.lean's reload is also in flight, then resolve A.lean late:
+        // must NOT leak A.lean into B.lean!
+        await waitUntil(() => requestedPaths.includes('B.lean'));
+        diffAPromise.resolve(diffA);
+        await element.updateComplete;
+        await element.diffHost!.updateComplete;
+        assert.isUndefined(element.leanViewer?.diff);
+
+        // Once B.lean resolves, leanViewer receives B.lean's diff.
+        diffBPromise.resolve(diffB);
+        await waitUntil(() => element.leanViewer?.diff === diffB);
+        assert.equal(element.leanViewer?.diff, diffB);
       });
     });
 

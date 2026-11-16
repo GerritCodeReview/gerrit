@@ -6,6 +6,8 @@
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../diff/gr-diff-host/gr-diff-host';
+import '../../diff/gr-diff-lean-viewer/gr-diff-lean-viewer';
+import type {GrDiffLeanViewer} from '../../diff/gr-diff-lean-viewer/gr-diff-lean-viewer';
 import '../../diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import type {GrDiffMarkdownViewer} from '../../diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
@@ -47,6 +49,7 @@ import {
 import {
   canBlameFile,
   computeBlameToggleLabel,
+  isLeanDiff,
   isMarkdownDiff,
 } from '../../../utils/diff-util';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -283,6 +286,10 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   @state()
   richMarkdownFiles: Set<string> = new Set();
+
+  // Private but used in tests.
+  @state()
+  richLeanFiles: Set<string> = new Set();
 
   /** Paths of expanded files that currently show blame for the left side. */
   // Private but used in tests.
@@ -548,6 +555,7 @@ export class GrFileList extends LitElement {
           width: 1.9em;
         }
         .richMarkdownToggle,
+        .richLeanToggle,
         .blameToggle {
           align-items: center;
           display: inline-flex;
@@ -555,19 +563,25 @@ export class GrFileList extends LitElement {
           vertical-align: middle;
           white-space: nowrap;
         }
-        .richMarkdownToggle {
+        .richMarkdownToggle,
+        .richLeanToggle {
           opacity: 0;
         }
         .row:hover .richMarkdownToggle,
         .row:focus-within .richMarkdownToggle,
-        .row.expanded .richMarkdownToggle {
+        .row.expanded .richMarkdownToggle,
+        .row:hover .richLeanToggle,
+        .row:focus-within .richLeanToggle,
+        .row.expanded .richLeanToggle {
           opacity: 100;
         }
         .richMarkdownToggle gr-button,
+        .richLeanToggle gr-button,
         .blameToggle gr-button {
           --gr-button-padding: 0 var(--spacing-s);
         }
         .richMarkdownToggle gr-icon,
+        .richLeanToggle gr-icon,
         .blameToggle gr-icon {
           font-size: 16px;
           margin-right: var(--spacing-xs);
@@ -742,10 +756,12 @@ export class GrFileList extends LitElement {
             display: none;
           }
           .richMarkdownToggle .richToggleLabel,
+          .richLeanToggle .richToggleLabel,
           .blameToggle .blameToggleLabel {
             display: none;
           }
           .richMarkdownToggle gr-icon,
+          .richLeanToggle gr-icon,
           .blameToggle gr-icon {
             margin-right: 0;
           }
@@ -1008,10 +1024,25 @@ export class GrFileList extends LitElement {
   override willUpdate(changedProperties: PropertyValues): void {
     if (
       changedProperties.has('patchNum') ||
-      changedProperties.has('basePatchNum')
+      changedProperties.has('basePatchNum') ||
+      changedProperties.has('changeNum')
     ) {
-      this.resetFileState();
-      this.collapseAllDiffs();
+      if (
+        changedProperties.get('patchNum') !== undefined ||
+        changedProperties.get('basePatchNum') !== undefined ||
+        changedProperties.get('changeNum') !== undefined
+      ) {
+        this.diffsByPath.clear();
+        this.richLeanFiles = new Set();
+        this.richMarkdownFiles = new Set();
+      }
+      if (
+        changedProperties.has('patchNum') ||
+        changedProperties.has('basePatchNum')
+      ) {
+        this.resetFileState();
+        this.collapseAllDiffs();
+      }
     }
     if (
       changedProperties.has('diffPrefs') ||
@@ -1294,10 +1325,21 @@ export class GrFileList extends LitElement {
               ></gr-diff-markdown-viewer>
             `
           )}
-          <div ?hidden=${this.isShowingRichMarkdown(file.__path)}>
+          ${when(
+            this.isShowingRichLean(file.__path),
+            () => html`
+              <gr-diff-lean-viewer
+                .diff=${this.getDiffForPath(file.__path)}
+                .path=${file.__path}
+                .patchRange=${this.patchRange}
+                .loggedIn=${this.loggedIn}
+              ></gr-diff-lean-viewer>
+            `
+          )}
+          <div ?hidden=${this.isShowingRichDiff(file.__path)}>
             <gr-diff-host
-              ?hidden=${this.isShowingRichMarkdown(file.__path)}
-              ?disabledThreads=${this.isShowingRichMarkdown(file.__path)}
+              ?hidden=${this.isShowingRichDiff(file.__path)}
+              ?disabledThreads=${this.isShowingRichDiff(file.__path)}
               ?noAutoRender=${true}
               ?showLoadFailure=${true}
               .changeNum=${this.changeNum}
@@ -1315,8 +1357,10 @@ export class GrFileList extends LitElement {
               @diff-changed=${(e: CustomEvent<{value?: DiffInfo}>) => {
                 if (e.detail.value) {
                   this.diffsByPath.set(file.__path, e.detail.value);
-                  this.requestUpdate();
+                } else {
+                  this.diffsByPath.delete(file.__path);
                 }
+                this.requestUpdate();
               }}
             ></gr-diff-host>
           </div>
@@ -1466,7 +1510,8 @@ export class GrFileList extends LitElement {
             copyTargetName="File path"
           ></gr-copy-clipboard>
         </a>
-        ${this.renderRichMarkdownToggle(file)} ${this.renderBlameToggle(file)}
+        ${this.renderRichMarkdownToggle(file)}
+        ${this.renderRichLeanToggle(file)} ${this.renderBlameToggle(file)}
         ${when(
           file.diffs_too_expensive_to_compute,
           () => html`
@@ -1735,6 +1780,30 @@ export class GrFileList extends LitElement {
     return this.richMarkdownFiles.has(path);
   }
 
+  private isEligibleForRichLean(
+    path?: string,
+    file?: NormalizedFileInfo
+  ): boolean {
+    if (!path) return false;
+    const diff = this.diffsByPath.get(path);
+    const resolvedFile = file ?? this.files.find(f => f.__path === path);
+    return (
+      isLeanDiff(path, diff) &&
+      !resolvedFile?.binary &&
+      !resolvedFile?.diffs_too_expensive_to_compute &&
+      !diff?.binary
+    );
+  }
+
+  isShowingRichLean(path?: string): boolean {
+    if (!path || !this.isEligibleForRichLean(path)) return false;
+    return this.richLeanFiles.has(path);
+  }
+
+  private isShowingRichDiff(path?: string): boolean {
+    return this.isShowingRichMarkdown(path) || this.isShowingRichLean(path);
+  }
+
   async toggleRichMarkdown(path: string, e?: Event) {
     if (e) {
       e.stopPropagation();
@@ -1810,6 +1879,68 @@ export class GrFileList extends LitElement {
     `;
   }
 
+  async toggleRichLean(path: string, e?: Event) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    const isRich = this.richLeanFiles.has(path);
+    if (isRich) {
+      const viewers = Array.from(
+        this.shadowRoot?.querySelectorAll<GrDiffLeanViewer>(
+          'gr-diff-lean-viewer'
+        ) ?? []
+      );
+      const viewer = viewers.find(v => v.path === path);
+      await viewer?.autoSaveDrafts();
+    } else {
+      const diffHosts = Array.from(
+        this.shadowRoot?.querySelectorAll<GrDiffHost>('gr-diff-host') ?? []
+      );
+      const diffHost = this.findDiffByPath(path, diffHosts);
+      await diffHost?.autoSaveDrafts();
+    }
+    const newSet = new Set(this.richLeanFiles);
+    if (newSet.has(path)) {
+      newSet.delete(path);
+    } else {
+      if (!this.isEligibleForRichLean(path)) return;
+      newSet.add(path);
+      if (!this.isFileExpanded(path)) {
+        const newExpanded = new Set(this.expandedFiles);
+        newExpanded.add(path);
+        this.expandedFiles = newExpanded;
+      }
+    }
+    this.richLeanFiles = newSet;
+  }
+
+  private renderRichLeanToggle(file: NormalizedFileInfo) {
+    if (!this.isEligibleForRichLean(file.__path, file)) {
+      return nothing;
+    }
+    const isRich = this.isShowingRichLean(file.__path);
+    return html`
+      <div class="richLeanToggle">
+        <gr-tooltip-content
+          has-tooltip
+          title=${isRich ? 'View source diff' : 'View rich rendered Lean diff'}
+        >
+          <gr-button
+            link
+            class="toggleRichLean"
+            @click=${(e: MouseEvent) => this.toggleRichLean(file.__path, e)}
+          >
+            <gr-icon icon=${isRich ? 'code' : 'preview'} filled></gr-icon>
+            <span class="richToggleLabel"
+              >${isRich ? 'Source diff' : 'Rich diff'}</span
+            >
+          </gr-button>
+        </gr-tooltip-content>
+      </div>
+    `;
+  }
+
   /** Only expanded files have a diff host that can load the blame. */
   private canBlame(file: NormalizedFileInfo) {
     return (
@@ -1820,7 +1951,7 @@ export class GrFileList extends LitElement {
         this.diffsByPath.get(file.__path)
       ) &&
       this.isFileExpanded(file.__path) &&
-      !this.isShowingRichMarkdown(file.__path)
+      !this.isShowingRichDiff(file.__path)
     );
   }
 
@@ -2492,17 +2623,19 @@ export class GrFileList extends LitElement {
   private handleNewComment() {
     this.classList.remove('hideComments');
     const viewers = Array.from(
-      this.shadowRoot?.querySelectorAll<GrDiffMarkdownViewer>(
-        'gr-diff-markdown-viewer'
-      ) ?? []
+      this.shadowRoot?.querySelectorAll<
+        GrDiffMarkdownViewer | GrDiffLeanViewer
+      >('gr-diff-markdown-viewer, gr-diff-lean-viewer') ?? []
     );
-    const viewerWithSelection = viewers.find(v => v.hasActiveSelection());
-    if (viewerWithSelection) {
-      viewerWithSelection.createCommentFromSelectionOrHover();
+    const targetViewer =
+      viewers.find(v => v.hasActiveSelection()) ??
+      viewers.find(v => v.hasHoverTarget());
+    if (targetViewer) {
+      targetViewer.createCommentFromSelectionOrHover();
       return;
     }
     const currentPath = this.files[this.fileCursor.index]?.__path;
-    if (currentPath && this.isShowingRichMarkdown(currentPath)) {
+    if (currentPath && this.isShowingRichDiff(currentPath)) {
       const currentViewer = viewers.find(v => v.path === currentPath);
       if (currentViewer) {
         currentViewer.createCommentFromSelectionOrHover();

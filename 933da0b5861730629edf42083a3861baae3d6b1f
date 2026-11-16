@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab315e31_08812f4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-16T15:35:58Z",
+      "side": 1,
+      "message": "Looks like both CI jobs failed before running the build or style checks because of a merge conflict in `AbstractChangeControl.java`.\n\nCould you rebase the stack onto master and resolve the conflict?",
+      "revId": "933da0b5861730629edf42083a3861baae3d6b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

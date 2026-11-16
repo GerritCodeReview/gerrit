@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab22c4ff_61dd2bf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-16T16:51:06Z",
+      "side": 1,
+      "message": "Can we link the change?",
+      "range": {
+        "startLine": 15,
+        "startChar": 56,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9750802b_bcb6cdfa",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

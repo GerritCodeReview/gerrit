@@ -681,15 +681,17 @@ public class ChangeOperationsImpl implements ChangeOperations {
     private PersonIdent getCommitter(RevCommit oldPatchsetCommit, Instant now) {
       PersonIdent oldPatchsetCommitter =
           Optional.ofNullable(oldPatchsetCommit.getCommitterIdent()).orElse(serverIdent);
-      if (asSeconds(now) == asSeconds(oldPatchsetCommitter.getWhenAsInstant())) {
-        /* We need to ensure that the resulting commit SHA-1 is different from the old patchset.
-         * In real situations, this automatically happens as two patchsets won't have exactly the
-         * same commit timestamp even when the tree and commit message are the same. In tests,
-         * we can easily end up with the same timestamp as Git uses second precision for timestamps.
-         * We could of course require that tests must use TestTimeUtil#setClockStep but
-         * that would be an unnecessary nuisance for test writers. Hence, go with a simple solution
-         * here and simply add a second. */
-        now = now.plusSeconds(1);
+      Instant oldPatchsetTimestamp = oldPatchsetCommitter.getWhenAsInstant();
+      if (asSeconds(now) <= asSeconds(oldPatchsetTimestamp)) {
+        /* We need to ensure that the resulting commit SHA-1 is different from all previous
+         * patchsets. In real situations, this automatically happens as two patchsets won't have
+         * exactly the same commit timestamp even when the tree and commit message are the same. In
+         * tests, we can easily end up with the same timestamp as Git uses second precision for
+         * timestamps, and a previous patchset may already have been bumped ahead of wall-clock
+         * time. We could of course require that tests must use TestTimeUtil#setClockStep but that
+         * would be an unnecessary nuisance for test writers. Hence, go with a simple solution here
+         * and advance one second past the previous patchset's timestamp. */
+        now = oldPatchsetTimestamp.plusSeconds(1);
       }
       return new PersonIdent(oldPatchsetCommitter, now);
     }

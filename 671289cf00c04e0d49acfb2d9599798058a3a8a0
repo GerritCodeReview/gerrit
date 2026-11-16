@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18c74c56_67a996b3",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-16T20:38:03Z",
+      "side": 1,
+      "message": "I\u0027m not convinced that this is the correct layer to do this? It seems like it would be better to have the H2CacheImpl layer above this replace the SqlStore with a new one?",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a43151c_613a25d5",
         "filename": "java/com/google/gerrit/server/restapi/config/PostCaches.java",
         "patchSetId": 4

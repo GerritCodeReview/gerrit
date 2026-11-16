@@ -22,6 +22,30 @@
       },
       "revId": "33d9235c706179cc2b3568e691ad6a84176ae96e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6637b657_5db2ad48",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-16T16:56:27Z",
+      "side": 1,
+      "message": "oh I can see you have done this in the following change.\nResolving this comment.",
+      "parentUuid": "d365db62_eb8b3505",
+      "range": {
+        "startLine": 1055,
+        "startChar": 0,
+        "endLine": 1061,
+        "endChar": 11
+      },
+      "revId": "33d9235c706179cc2b3568e691ad6a84176ae96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

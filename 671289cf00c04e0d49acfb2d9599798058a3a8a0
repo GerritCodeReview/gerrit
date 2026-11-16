@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19763403_83f7b4ad",
+        "filename": "Documentation/cmd-flush-caches.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-16T20:40:23Z",
+      "side": 1,
+      "message": "Actually .corrupted-timestamp is what the code is doing. Do you have any other suggestions ?",
+      "parentUuid": "100daf06_fec595df",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "18c74c56_67a996b3",
         "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
         "patchSetId": 4

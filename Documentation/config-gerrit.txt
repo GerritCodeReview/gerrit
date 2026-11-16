@@ -946,6 +946,32 @@ Default is 25 (percent of the estimatedSize).
 Valid values are 0, and positive integers. Setting this to 0 will
 cause the filter to never be rebuilt.
 +
+[[cache.startupThreads]]cache.startupThreads::
++
+Number of threads used to open persistent caches in parallel during startup.
+Each persistent cache is backed by its own H2 database file and builds a
+BloomFilter by reading all keys from disk when it is opened. With the default
+of 1, caches are opened sequentially. Increasing this value allows the
+BloomFilter build phase to run concurrently across caches.
++
+Setting this value greater than 1 creates threads in a dedicated pool, separate
+from the H2 thread pool (`DiskCache-Store`) that handles cache updates.
++
+Default is 1.
+
+[[cache.preWarmForBloomFilter]]cache.preWarmForBloomFilter::
++
+When enabled, each persistent cache reads its H2 database file into the OS
+page cache before building its BloomFilter. The BloomFilter build requires
+a full table scan of all keys which involves reading close to the entire file
+in a scattered fashion. Doing such a read tends to not perform well I/O wise as
+it generally cannot take advantage of operating system level file system
+readahead. Reading the file sequentially up front tends to take advantage of
+readahead to fully populate the file system caches which then can make scattered
+reads much faster.
++
+Default is true.
+
 [[cache.openFiles]]cache.openFiles::
 +
 The number of file descriptors to add to the limit set by the Gerrit daemon.

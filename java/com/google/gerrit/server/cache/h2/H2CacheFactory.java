@@ -88,6 +88,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   private final boolean pruneOnStartup;
   private final Schedule schedule;
   private final AtomicBoolean isDiskCacheReadOnly;
+  @Nullable private final ExecutorService startupExecutor;
+  private final boolean preWarmForBloomFilter;
 
   @Inject
   H2CacheFactory(
@@ -96,6 +98,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       DynamicMap<Cache<?, ?>> cacheMap,
       @Nullable @CacheCleanupExecutor ScheduledExecutorService cleanupExecutor,
       @Nullable @CacheStoreExecutor ExecutorService storeExecutor,
+      @Nullable @CacheStoreStartupExecutor ExecutorService startupExecutor,
       @Nullable @CacheDir Path cacheDir,
       Set<CacheOptions> options,
       @Named("DiskCacheReadOnly") AtomicBoolean isDiskCacheReadOnly) {
@@ -103,6 +106,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
     pruneOnStartup = cfg.getBoolean("cachePruning", null, "pruneOnStartup", true);
+    preWarmForBloomFilter = cfg.getBoolean("cache", null, "preWarmForBloomFilter", true);
     caches = new ArrayList<>();
     schedule =
         ScheduleConfig.createSchedule(cfg, "cachePruning")
@@ -113,13 +117,15 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     this.cleanup = cleanupExecutor;
     this.options = options;
     this.isDiskCacheReadOnly = isDiskCacheReadOnly;
+    this.startupExecutor = startupExecutor;
   }
 
   @Override
   public void start() {
     if (executor != null) {
+      ExecutorService se = startupExecutor != null ? startupExecutor : executor;
       for (H2CacheImpl<?, ?> cache : caches) {
-        executor.execute(cache::start);
+        se.execute(cache::start);
         if (cleanup != null) {
           if (pruneOnStartup) {
             @SuppressWarnings("unused")
@@ -136,6 +142,9 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
                   TimeUnit.MILLISECONDS);
         }
       }
+      if (se != executor) {
+        se.shutdown();
+      }
     }
   }
 
@@ -143,6 +152,10 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   public void stop() {
     if (executor != null) {
       try {
+        if (startupExecutor != null) {
+          startupExecutor.shutdownNow();
+        }
+
         if (cleanup != null) {
           cleanup.shutdownNow();
         }
@@ -214,14 +227,10 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   }
 
   private <V, K> SqlStore<K, V> newSqlStore(PersistentCacheDef<K, V> def, long maxSize) {
+    String cacheName = def.name() + "-v" + COMPATIBILITY_VERSION;
     StringBuilder url = new StringBuilder();
     url.append(H2Url.ASYNC_PREFIX)
-        .append(
-            cacheDir
-                .resolve(def.name() + "-v" + COMPATIBILITY_VERSION)
-                .toAbsolutePath()
-                .toString()
-                .replace(";", "\\;"));
+        .append(cacheDir.resolve(cacheName).toAbsolutePath().toString().replace(";", "\\;"));
     if (h2CacheSize >= 0) {
       url.append(";CACHE_SIZE=");
       // H2 CACHE_SIZE is always given in KB
@@ -259,7 +268,9 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         refreshAfterWrite,
         options.contains(CacheOptions.BUILD_BLOOM_FILTER),
         options.contains(CacheOptions.TRACK_LAST_ACCESS),
-        isDiskCacheReadOnly);
+        isDiskCacheReadOnly,
+        preWarmForBloomFilter,
+        cacheDir.resolve(cacheName + ".mv.db"));
   }
 
   private boolean has(String name, String var) {

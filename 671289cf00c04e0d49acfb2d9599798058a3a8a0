@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4cde7b79_1d2cb185",
+        "filename": "Documentation/cmd-flush-caches.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-16T20:48:54Z",
+      "side": 1,
+      "message": "Use \"old\" instead?",
+      "parentUuid": "19763403_83f7b4ad",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "18c74c56_67a996b3",
         "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
         "patchSetId": 4

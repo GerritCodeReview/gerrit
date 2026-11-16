@@ -23,6 +23,7 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
@@ -36,10 +37,8 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeIndexPostFilterPredicate;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -108,12 +107,18 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
         opts.fields());
   }
 
-  private final Map<ChangeData, DataSource<ChangeData>> fromSource;
+  /**
+   * Changes read from {@link #fromSourceOwner}, so that {@link #match(ChangeData)} can skip the
+   * index predicates for them. Only the changes of the latest source are kept: a paginated scan
+   * replaces the source for every page, and changes of older sources never take the shortcut.
+   */
+  private final Set<ChangeData> fromSource = Sets.newIdentityHashSet();
+
+  private DataSource<ChangeData> fromSourceOwner;
 
   public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred, QueryOptions opts)
       throws QueryParseException {
     super(index, pred, convertOptions(opts));
-    this.fromSource = new HashMap<>();
   }
 
   @Override
@@ -127,7 +132,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
         return Iterables.transform(
                 rs,
                 cd -> {
-                  fromSource.put(cd, currSource);
+                  markFromSource(cd, currSource);
                   return cd;
                 })
             .iterator();
@@ -137,7 +142,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       public ImmutableList<ChangeData> toList() {
         ImmutableList<ChangeData> r = rs.toList();
         for (ChangeData cd : r) {
-          fromSource.put(cd, currSource);
+          markFromSource(cd, currSource);
         }
         return r;
       }
@@ -152,6 +157,19 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
         return rs.searchAfter();
       }
     };
+  }
+
+  private void markFromSource(ChangeData cd, DataSource<ChangeData> s) {
+    if (!identity().equivalent(fromSourceOwner, s)) {
+      fromSource.clear();
+      fromSourceOwner = s;
+    }
+    fromSource.add(cd);
+  }
+
+  @VisibleForTesting
+  int fromSourceSize() {
+    return fromSource.size();
   }
 
   public boolean postIndexMatch(Predicate<ChangeData> pred, ChangeData cd) {
@@ -181,7 +199,8 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     }
     Predicate<ChangeData> pred = getChild(0);
     if (source != null
-        && identity().equivalent(fromSource.get(cd), source)
+        && identity().equivalent(fromSourceOwner, source)
+        && fromSource.contains(cd)
         && postIndexMatch(pred, cd)) {
       return true;
     }

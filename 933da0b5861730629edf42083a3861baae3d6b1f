@@ -16,6 +16,29 @@
       "message": "Looks like both CI jobs failed before running the build or style checks because of a merge conflict in `AbstractChangeControl.java`.\n\nCould you rebase the stack onto master and resolve the conflict?",
       "revId": "933da0b5861730629edf42083a3861baae3d6b1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3abc565d_f5789422",
+        "filename": "polygerrit-ui/app/utils/access-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-16T15:43:45Z",
+      "side": 1,
+      "message": "The project access screen builds its list of permissions from this file, but I don\u0027t see `Delete Comment` being added here. Should we not do that for the permission to be visible?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "933da0b5861730629edf42083a3861baae3d6b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

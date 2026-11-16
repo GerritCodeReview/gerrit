@@ -51,3 +51,126 @@ li.L3,
 li.L5,
 li.L7,
 li.L9 { background: #eee }
+
+/*
+ * Dark color scheme for the documentation.
+ *
+ * asciidoctor.css is the stock Asciidoctor stylesheet and only has a
+ * light theme. This file is linked from every documentation page after
+ * asciidoctor.css, so the rules below (which reuse its selectors) take
+ * precedence when the browser asks for a dark color scheme. The light
+ * theme is unchanged.
+ */
+@media screen and (prefers-color-scheme: dark) {
+  :root { color-scheme: dark }
+
+  /* Page and text */
+  body { background: #18181b; color: #d4d4d8 }
+  .subheader, .admonitionblock td.content > .title, .audioblock > .title,
+  .exampleblock > .title, .imageblock > .title, .listingblock > .title,
+  .literalblock > .title, .stemblock > .title, .openblock > .title,
+  .paragraph > .title, .quoteblock > .title, table.tableblock > .title,
+  .verseblock > .title, .videoblock > .title, .dlist > .title,
+  .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title,
+  #header > h1:first-child, #content > h1:first-child:not([class]),
+  .paragraph.lead > p,
+  #preamble > .sectionbody > [class=paragraph]:first-of-type p,
+  blockquote, blockquote p, .quoteblock blockquote, .quoteblock p,
+  .verseblock pre { color: #d4d4d8 }
+  #header .details, .quoteblock .attribution cite,
+  .verseblock .attribution cite { color: #a1a1aa }
+
+  /* Links */
+  a { color: #8ab4f8 }
+  a:hover, a:focus { color: #aecbfa }
+  #searchBox { color: #8ab4f8 !important }
+  #docSearch {
+    background: #27272a;
+    color: #d4d4d8;
+    border: 1px solid #71717a;
+  }
+
+  /* Headings */
+  h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6,
+  #content h1 > a.link, h2 > a.link, h3 > a.link, #toctitle > a.link,
+  .sidebarblock > .content > .title > a.link, h4 > a.link, h5 > a.link,
+  h6 > a.link { color: #ec8d78 }
+  #content h1 > a.link:hover, h2 > a.link:hover, h3 > a.link:hover,
+  h4 > a.link:hover, h5 > a.link:hover, h6 > a.link:hover {
+    color: #f6a998;
+  }
+  #toctitle, .sidebarblock > .content > .title { color: #e99b8f }
+  .quoteblock blockquote::before { color: #e99b8f; text-shadow: none }
+
+  /* Rules and borders */
+  hr, #header > h1:only-child, #header .details,
+  #header > h1:first-child + #toc,
+  body.toc2 #header > h1:nth-last-child(2),
+  #content > h1:first-child:not([class]), #toc, .sect1 + .sect1,
+  abbr[title] { border-color: #3f3f46 }
+
+  /* Table of contents */
+  #toc.toc2, #content #toc { background: #1f1f23; border-color: #3f3f46 }
+
+  /* Inline code, listings and keyboard keys */
+  code, pre, p a > code:hover { color: #e4e4e7 }
+  :not(pre):not([class^=L]) > code { background: #27272a }
+  .literalblock pre, .listingblock > .content > pre:not(.highlight),
+  .listingblock > .content > pre[class=highlight],
+  .listingblock > .content > pre[class^="highlight "],
+  .prettyprint { background: #27272a }
+  pre.prettyprint { border-color: #52525b }
+  .literalblock.output pre { color: #18181b; background: #e4e4e7 }
+  kbd {
+    color: #e4e4e7;
+    background: #27272a;
+    border-color: #52525b;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .5), inset 0 0 0 .1em #3f3f46;
+  }
+  .keyseq, .menuseq, .menuref { color: #d4d4d8 }
+
+  /* Tables */
+  table, table.tableblock, th.tableblock, td.tableblock {
+    background: #18181b;
+    border-color: #3f3f46;
+  }
+  table thead, table tfoot, tbody tr th { background: #2a2a2e }
+  table tr.even, table tr.alt, table.stripes-all > * > tr,
+  table.stripes-odd > * > tr:nth-of-type(odd),
+  table.stripes-even > * > tr:nth-of-type(even),
+  table.stripes-hover > * > tr:hover { background: #1f1f23 }
+  table thead tr th, table thead tr td, table tfoot tr th,
+  table tfoot tr td, table tr th, table tr td, tbody tr th,
+  tbody tr th p, tfoot tr th, tfoot tr th p { color: #d4d4d8 }
+  .admonitionblock > table, .hdlist > table, .colist > table,
+  table.linenotable, p.tableblock > code:only-child { background: none }
+
+  /* Admonitions, examples and sidebars */
+  .admonitionblock > table td.content {
+    color: #b4b4bb;
+    border-left-color: #52525b;
+  }
+  .exampleblock > .content { background: #18181b; border-color: #3f3f46 }
+  .sidebarblock { background: #1f1f23; border-color: #3f3f46 }
+  .conum[data-value] { background: #d4d4d8; color: #18181b !important }
+  .conum[data-value] * { color: #18181b !important }
+
+  /* Footer */
+  #footer { background: #0f0f11 }
+  #footer-text { color: #a1a1aa }
+
+  /* Syntax highlighting, same hues as the light theme */
+  .pln { color: #e4e4e7 }
+  .str { color: #9ece6a }
+  .kwd { color: #82aaff }
+  .com { color: #d98b8b }
+  .typ { color: #d7a6f5 }
+  .lit { color: #5ed3cc }
+  .pun, .opn, .clo { color: #b5ad72 }
+  .tag { color: #82aaff }
+  .atn { color: #d7a6f5 }
+  .atv { color: #9ece6a }
+  .dec, .var { color: #d7a6f5 }
+  .fun { color: #ff8080 }
+  li.L1, li.L3, li.L5, li.L7, li.L9 { background: #232326 }
+}

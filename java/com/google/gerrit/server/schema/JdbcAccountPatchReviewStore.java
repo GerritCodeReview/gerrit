@@ -46,7 +46,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.Optional;
-import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
@@ -99,7 +98,7 @@ public abstract class JdbcAccountPatchReviewStore
     }
   }
 
-  private DataSource ds;
+  private final BasicDataSource ds;
 
   public static JdbcAccountPatchReviewStore createAccountPatchReviewStore(
       Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
@@ -145,7 +144,7 @@ public abstract class JdbcAccountPatchReviewStore
     return url;
   }
 
-  private static DataSource createDataSource(
+  private static BasicDataSource createDataSource(
       Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
     BasicDataSource datasource = new BasicDataSource();
     String url = getUrl(cfg, sitePaths);
@@ -231,7 +230,19 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   @Override
-  public void stop() {}
+  public void stop() {
+    if (ds == null) {
+      return;
+    }
+    // Close the pooled connections so that the database is shut down cleanly. Leaving them open
+    // makes H2's own shutdown hook wait on the unclosed sessions, delaying JVM exit by several
+    // seconds.
+    try {
+      ds.close();
+    } catch (SQLException e) {
+      logger.atWarning().withCause(e).log("Failed to close account patch review data source");
+    }
+  }
 
   @Override
   public boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path) {

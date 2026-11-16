@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4e30bb3_03943e8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-16T16:38:36Z",
+      "side": 1,
+      "message": "In 2024, Edwin explicitly disallowed removing votes from merged changes [1] [2]. This change seems to relax that restriction.\n\nCould we explain why this is useful, perhaps with an example of a scenario where an administrator would need to remove a vote after submission?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/420064\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/420065",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "88f3a299d902485318cb14c9d7ba9e5183af35df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56dd239f_d06dffd4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 4577,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-16T16:38:36Z",
+      "side": 1,
+      "message": "```suggestion\n * \u0027409 Conflict\u0027 when the change is merged and the caller is not permitted to\n   delete votes from merged changes.\n * \u0027409 Conflict\u0027 when the change is merged and the caller does not have the\n   Administrate Server capability.\n```",
+      "range": {
+        "startLine": 4576,
+        "startChar": 0,
+        "endLine": 4577,
+        "endChar": 36
+      },
+      "revId": "88f3a299d902485318cb14c9d7ba9e5183af35df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

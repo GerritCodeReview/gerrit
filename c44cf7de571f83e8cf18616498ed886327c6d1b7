@@ -140,6 +140,30 @@
       },
       "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3d3714a_e76e6241",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReinitCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-16T18:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16fc54de_f8fba79a",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 5
+      },
+      "revId": "c44cf7de571f83e8cf18616498ed886327c6d1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

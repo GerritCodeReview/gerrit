@@ -89,6 +89,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "989e1182_51e565c6",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-11-17T08:24:45Z",
+      "side": 1,
+      "message": "I know see this is added in the follow-up change, this feels quite counter intuitive, should the order of these 2 changes be swapped?",
+      "parentUuid": "72879e3e_99324a1f",
+      "range": {
+        "startLine": 470,
+        "startChar": 9,
+        "endLine": 470,
+        "endChar": 71
+      },
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8deb619f_fe76e241",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4

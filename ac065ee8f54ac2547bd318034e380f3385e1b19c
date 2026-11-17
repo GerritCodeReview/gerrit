@@ -52,6 +52,24 @@
       "parentUuid": "ec50787a_1cf97552",
       "revId": "ac065ee8f54ac2547bd318034e380f3385e1b19c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c2a7049_80b75c95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T01:54:06Z",
+      "side": 1,
+      "message": "To clarify, this change doesn’t add any UI fields. Users can paste an `authorized_keys` entry containing the `expiry-time` option into the existing SSH key field, and Gerrit will honor it:\n\n```text\nexpiry-time\u003d\"20300102Z\" ssh-rsa AAAA... comment\n```\n\nThis series also implements a maximum key lifetime and rejects an expiry that exceeds it when the key is added. Would you prefer dropping this change from the series \n\nHowever, your comment also raises a case I hadn’t considered: the server policy could change afterward. Should we instead record an `add-time` or `create-time` option in Gerrit’s stored `authorized_keys` entries rather than `expiry-time` which is a standardized option ?",
+      "parentUuid": "254c2166_a2b68da5",
+      "revId": "ac065ee8f54ac2547bd318034e380f3385e1b19c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

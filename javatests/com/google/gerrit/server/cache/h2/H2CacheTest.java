@@ -34,6 +34,8 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.TypeLiteral;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -41,8 +43,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class H2CacheTest {
   private static final TypeLiteral<String> KEY_TYPE = new TypeLiteral<>() {};
@@ -56,6 +61,33 @@ public class H2CacheTest {
   private static H2CacheImpl<String, String> newH2CacheImpl(
       SqlStore<String, String> store, Cache<String, ValueHolder<String>> mem) {
     return new H2CacheImpl<>(MoreExecutors.directExecutor(), store, KEY_TYPE, mem);
+  }
+
+  private static H2CacheImpl<String, String> newFileH2CacheImpl(
+      Path dir, String name, Cache<String, ValueHolder<String>> mem) {
+    return new H2CacheImpl<>(
+        MoreExecutors.directExecutor(),
+        new ReinitableStore<>(() -> newFileStore(dir, name)),
+        KEY_TYPE,
+        mem);
+  }
+
+  private static SqlStore<String, String> newFileStore(Path dir, String name) {
+    return new SqlStore<>(
+        "jdbc:h2:" + dir.resolve(name).toUri().getPath(),
+        KEY_TYPE,
+        StringCacheSerializer.INSTANCE,
+        StringCacheSerializer.INSTANCE,
+        DEFAULT_VERSION,
+        1 << 20,
+        25,
+        null,
+        null,
+        true,
+        true,
+        new AtomicBoolean(false),
+        false,
+        dir.resolve(name + ".mv.db"));
   }
 
   private static SqlStore<String, String> newStore(
@@ -78,6 +110,78 @@ public class H2CacheTest {
         new AtomicBoolean(false),
         false,
         null);
+  }
+
+  @Rule public TemporaryFolder tmp = new TemporaryFolder();
+
+  @Test
+  public void reinitMovesFileAsideAndRecreatesEmptyCache() throws Exception {
+    Path dir = tmp.getRoot().toPath();
+    H2CacheImpl<String, String> impl = newFileH2CacheImpl(dir, "c", disableMemCache());
+    impl.put("foo", "bar");
+    assertThat(impl.getIfPresent("foo")).isEqualTo("bar");
+    assertThat(impl.getIfPresent("missing")).isNull();
+    assertThat(impl.diskStats().requestCount()).isGreaterThan(0);
+
+    impl.reinit();
+
+    assertThat(impl.diskStats().requestCount()).isEqualTo(0);
+    try (Stream<Path> files = Files.list(dir)) {
+      assertThat(
+              files.map(f -> f.getFileName().toString()).filter(n -> n.startsWith("c.mv.db.old-")))
+          .hasSize(1);
+    }
+    assertThat(impl.diskStats().size()).isEqualTo(0);
+    assertThat(impl.getIfPresent("foo")).isNull();
+    assertThat(Files.exists(dir.resolve("c.mv.db"))).isTrue();
+
+    impl.put("foo", "baz");
+    assertThat(impl.getIfPresent("foo")).isEqualTo("baz");
+  }
+
+  @Test
+  public void reinitKeepsEntriesHeldInMemory() throws Exception {
+    Path dir = tmp.getRoot().toPath();
+    Cache<String, ValueHolder<String>> mem = CacheBuilder.newBuilder().build();
+    H2CacheImpl<String, String> impl = newFileH2CacheImpl(dir, "c", mem);
+    impl.put("foo", "bar");
+
+    impl.reinit();
+
+    assertThat(impl.diskStats().size()).isEqualTo(0);
+    assertThat(impl.getIfPresent("foo")).isEqualTo("bar");
+  }
+
+  @Test
+  public void reinitWhileCacheIsInUseKeepsUsingNewFile() throws Exception {
+    Path dir = tmp.getRoot().toPath();
+    H2CacheImpl<String, String> impl = newFileH2CacheImpl(dir, "c", disableMemCache());
+    AtomicBoolean stop = new AtomicBoolean();
+    AtomicBoolean failed = new AtomicBoolean();
+    Thread user =
+        new Thread(
+            () -> {
+              try {
+                for (int i = 0; !stop.get(); i++) {
+                  impl.put("k" + i, "v");
+                  @SuppressWarnings("unused")
+                  var unused = impl.getIfPresent("k" + i);
+                }
+              } catch (RuntimeException e) {
+                failed.set(true);
+              }
+            });
+    user.start();
+    for (int i = 0; i < 5; i++) {
+      impl.reinit();
+    }
+    stop.set(true);
+    user.join();
+    assertThat(failed.get()).isFalse();
+
+    impl.put("final", "v");
+    H2CacheImpl<String, String> other = newFileH2CacheImpl(dir, "c", disableMemCache());
+    assertThat(other.getIfPresent("final")).isEqualTo("v");
   }
 
   @Test

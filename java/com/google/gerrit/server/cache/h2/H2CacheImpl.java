@@ -90,21 +90,18 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       ImmutableSet.of("com.google.gerrit.server.change.ChangeKind");
 
   private final Executor executor;
-  private final SqlStore<K, V> store;
+  private final Store<K, V> store;
   private final TypeLiteral<K> keyType;
   private final Cache<K, ValueHolder<V>> mem;
   private final String cacheName;
 
   H2CacheImpl(
-      Executor executor,
-      SqlStore<K, V> store,
-      TypeLiteral<K> keyType,
-      Cache<K, ValueHolder<V>> mem) {
+      Executor executor, Store<K, V> store, TypeLiteral<K> keyType, Cache<K, ValueHolder<V>> mem) {
     this.executor = executor;
     this.store = store;
     this.keyType = keyType;
     this.mem = mem;
-    this.cacheName = store.url.substring(store.url.lastIndexOf('/') + 1);
+    this.cacheName = store.url().substring(store.url().lastIndexOf('/') + 1);
   }
 
   @Nullable
@@ -211,6 +208,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     return store.diskStats();
   }
 
+  @Override
+  public void reinit() throws IOException {
+    store.reinit();
+  }
+
   void start() {
     logger.atFine().log("Opening disk cache %s...", cacheName);
     store.open();
@@ -250,10 +252,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   static class Loader<K, V> extends CacheLoader<K, ValueHolder<V>> {
     private final Executor executor;
-    private final SqlStore<K, V> store;
+    private final Store<K, V> store;
     private final CacheLoader<K, V> loader;
 
-    Loader(Executor executor, SqlStore<K, V> store, CacheLoader<K, V> loader) {
+    Loader(Executor executor, Store<K, V> store, CacheLoader<K, V> loader) {
       this.executor = executor;
       this.store = store;
       this.loader = loader;
@@ -336,7 +338,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
   }
 
-  static class SqlStore<K, V> {
+  static class SqlStore<K, V> implements Store<K, V> {
     private final String url;
     private final KeyType<K> keyType;
     private final CacheSerializer<V> valueSerializer;
@@ -352,8 +354,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private boolean trackLastAccess;
     private final AtomicBoolean isDiskCacheReadOnly;
     private volatile boolean ensuredSchemaCreation;
-    private final Path cacheFilePath;
+    final Path cacheFilePath;
     private final boolean preWarmForBloomFilter;
+    private final AtomicBoolean closed = new AtomicBoolean();
 
     SqlStore(
         String jdbcUrl,
@@ -452,11 +455,23 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           "Finished warming OS page cache for %s after %s", cacheFilePath.getFileName(), sw);
     }
 
-    void open() {
+    @Override
+    public String url() {
+      return url;
+    }
+
+    @Override
+    public void open() {
       bloomFilter.initIfNeeded();
     }
 
-    void close() {
+    /**
+     * Closes this store for good, afterwards no new connections are opened and reads fall back to
+     * the loader.
+     */
+    @Override
+    public void close() {
+      closed.set(true);
       SqlHandle h;
       while ((h = handles.poll()) != null) {
         h.close();
@@ -474,7 +489,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    boolean mightContain(K key) {
+    @Override
+    public boolean mightContain(K key) {
       ConcurrentBloomFilter<K> b = bloomFilter;
       if (buildBloomFilter && b == null) {
         synchronized (this) {
@@ -539,7 +555,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     @Nullable
-    ValueHolder<V> getIfPresent(K key) {
+    @Override
+    public ValueHolder<V> getIfPresent(K key) {
       if (!mightContain(key)) {
         return null;
       }
@@ -608,7 +625,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       return age.compareTo(expireAfterWrite) > 0;
     }
 
-    private boolean needsRefresh(Instant created) {
+    @Override
+    public boolean needsRefresh(Instant created) {
       if (refreshAfterWrite == null) {
         return false;
       }
@@ -633,7 +651,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    void put(K key, ValueHolder<V> holder) {
+    @Override
+    public void put(K key, ValueHolder<V> holder) {
       if (isDiskCacheReadOnly.get() || holder.clean) {
         return;
       }
@@ -667,7 +686,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    void invalidate(K key) {
+    @Override
+    public void invalidate(K key) {
       if (isDiskCacheReadOnly.get()) {
         return;
       }
@@ -697,7 +717,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       bloomFilter.invalidate(key);
     }
 
-    void invalidateAll() {
+    @Override
+    public void invalidateAll() {
       if (isDiskCacheReadOnly.get()) {
         return;
       }
@@ -716,7 +737,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    synchronized void prune(Cache<K, ?> mem) {
+    @Override
+    public synchronized void prune(Cache<K, ?> mem) {
       if (isDiskCacheReadOnly.get()) {
         return;
       }
@@ -780,7 +802,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    DiskStats diskStats() {
+    @Override
+    public DiskStats diskStats() {
       warmupOsPageCache();
       long size = 0;
       long space = 0;
@@ -806,13 +829,16 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private SqlHandle acquire() throws SQLException {
+      if (closed.get()) {
+        throw new SQLException("cache is closed");
+      }
       createSchema();
       SqlHandle h = handles.poll();
       return h != null ? h : new SqlHandle(url);
     }
 
     private void release(SqlHandle h) {
-      if (h != null && !handles.offer(h)) {
+      if (h != null && (closed.get() || !handles.offer(h))) {
         h.close();
       }
     }

@@ -52,6 +52,24 @@
       "parentUuid": "7f4f4096_9cbbf584",
       "revId": "4a3caaa7c6527dd1f52ff601a7b7e2b6fa7349c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b4051e3_fb26c475",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T16:33:46Z",
+      "side": 1,
+      "message": "Makes sense to remove it. Done.",
+      "parentUuid": "4105d6fc_5f868a60",
+      "revId": "4a3caaa7c6527dd1f52ff601a7b7e2b6fa7349c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

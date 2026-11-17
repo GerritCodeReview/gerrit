@@ -54,6 +54,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.SectionMatcher;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -86,6 +87,7 @@ public class ProjectControl {
   private final RefControl.Factory refControlFactory;
   private final ChangeControl.Factory changeControlFactory;
 
+  private Boolean hasUniformRefsHeadsRead;
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
@@ -349,6 +351,44 @@ public class ProjectControl {
       }
     }
     return all;
+  }
+
+  /**
+   * Returns {@code true} if every branch under {@code refs/heads/*} resolves to the exact same
+   * {@link Permission#READ} decision as {@link AccessSection#HEADS}.
+   */
+  boolean hasUniformRefsHeadsRead() {
+    if (hasUniformRefsHeadsRead == null) {
+      hasUniformRefsHeadsRead = computeHasUniformRefsHeadsRead();
+    }
+    return hasUniformRefsHeadsRead;
+  }
+
+  private boolean computeHasUniformRefsHeadsRead() {
+    for (SectionMatcher matcher : access()) {
+      AccessSection section = matcher.getSection();
+      if (section.getPermission(Permission.READ) == null) {
+        continue;
+      }
+      String pattern = section.getName();
+      if (RefPattern.isRE(pattern)) {
+        return false;
+      }
+      if (RefPattern.containsParameters(pattern)) {
+        String prefix = pattern.substring(0, pattern.indexOf("${"));
+        if (prefix.startsWith(RefNames.REFS_HEADS) || RefNames.REFS_HEADS.startsWith(prefix)) {
+          return false;
+        }
+        continue;
+      }
+      if (pattern.equals(ALL) || pattern.equals(AccessSection.HEADS)) {
+        continue;
+      }
+      if (pattern.startsWith(RefNames.REFS_HEADS)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private List<SectionMatcher> access() {

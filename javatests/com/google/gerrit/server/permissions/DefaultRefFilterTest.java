@@ -17,17 +17,25 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.entities.Permission.READ;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Project;
@@ -70,6 +78,7 @@ import org.junit.Test;
 
 public class DefaultRefFilterTest {
   private static final AccountGroup.UUID DEVS = AccountGroup.uuid("test.devs");
+  private static final AccountGroup.UUID OTHER = AccountGroup.uuid("test.other");
 
   private final Project.NameKey localKey = Project.nameKey("local");
   private final Project.NameKey parentKey = Project.nameKey("parent");
@@ -200,6 +209,143 @@ public class DefaultRefFilterTest {
       assertThat(visible.stream().map(Ref::getName).collect(toImmutableList()))
           .containsExactly(
               "refs/heads/main", REFS_CONFIG, "refs/meta/config-archive", "refs/tags/v-archive");
+    }
+  }
+
+  @Test
+  public void uniformRefsHeadsRead_preservesParentBlockAndExclusiveOverride() throws Exception {
+    try (Repository repo = repoManager.openRepository(localKey);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      RevCommit mainCommit = tr.commit().message("main").create();
+      RevCommit releaseCommit = tr.commit().message("release").create();
+      RevCommit featureCommit = tr.commit().message("feature").create();
+      tr.update("refs/heads/main", mainCommit);
+      tr.update("refs/heads/release", releaseCommit);
+      tr.update("refs/heads/feature", featureCommit);
+      tr.update("refs/tags/v1.0", tr.tag("v1.0", mainCommit));
+
+      // Case 1: Child EXCLUSIVE ALLOW on refs/heads/* overrides parent ALLOW on refs/heads/* and
+      // evaluates AccessSection.HEADS once across both initial filtering and deferred-tag pass.
+      projectOperations
+          .project(parentKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(allow(READ).ref("refs/heads/*").group(REGISTERED_USERS))
+          .update();
+      projectOperations
+          .project(localKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(allow(READ).ref("refs/heads/*").group(DEVS))
+          .setExclusiveGroup(permissionKey(READ).ref("refs/heads/*"), true)
+          .update();
+
+      List<Ref> allRefs = repo.getRefDatabase().getRefs();
+
+      ProjectControl uDev = spy(user(localKey, DEVS));
+      assertThat(uDev.hasUniformRefsHeadsRead()).isTrue();
+      Collection<Ref> devVisible =
+          uDev.asForProject().filter(allRefs, repo, RefFilterOptions.defaults());
+      assertThat(devVisible.stream().map(Ref::getName).collect(toImmutableList()))
+          .containsExactly(
+              "refs/heads/main", "refs/heads/release", "refs/heads/feature", "refs/tags/v1.0");
+      verify(uDev).controlForRef(AccessSection.HEADS);
+      verify(uDev, never()).controlForRef("refs/heads/main");
+      verify(uDev, never()).controlForRef("refs/heads/release");
+      verify(uDev, never()).controlForRef("refs/heads/feature");
+
+      ProjectControl uOther = spy(user(localKey, OTHER));
+      assertThat(uOther.hasUniformRefsHeadsRead()).isTrue();
+      Collection<Ref> otherVisible =
+          uOther.asForProject().filter(allRefs, repo, RefFilterOptions.defaults());
+      assertThat(otherVisible).isEmpty();
+      verify(uOther).controlForRef(AccessSection.HEADS);
+      verify(uOther, never()).controlForRef("refs/heads/main");
+
+      // Case 2: Parent BLOCK on refs/heads/* cannot be overridden by child EXCLUSIVE ALLOW on
+      // refs/heads/*, while non-branch refs (refs/meta/config) are still evaluated independently.
+      projectOperations
+          .project(parentKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(block(READ).ref("refs/heads/*").group(REGISTERED_USERS))
+          .update();
+      projectOperations
+          .project(localKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(allow(READ).ref("refs/heads/*").group(DEVS))
+          .setExclusiveGroup(permissionKey(READ).ref("refs/heads/*"), true)
+          .add(allow(READ).ref(REFS_CONFIG).group(DEVS))
+          .update();
+
+      allRefs = repo.getRefDatabase().getRefs();
+      ProjectControl uBlockedDev = spy(user(localKey, DEVS));
+      assertThat(uBlockedDev.hasUniformRefsHeadsRead()).isTrue();
+      Collection<Ref> blockedDevVisible =
+          uBlockedDev.asForProject().filter(allRefs, repo, RefFilterOptions.defaults());
+      assertThat(blockedDevVisible.stream().map(Ref::getName).collect(toImmutableList()))
+          .containsExactly(REFS_CONFIG);
+      verify(uBlockedDev).controlForRef(AccessSection.HEADS);
+      verify(uBlockedDev).controlForRef(REFS_CONFIG);
+      verify(uBlockedDev, never()).controlForRef("refs/heads/main");
+
+      // Case 3: Same-project EXCLUSIVE ALLOW on refs/heads/* overrides BLOCK on refs/* in parent.
+      projectOperations
+          .project(parentKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(block(READ).ref("refs/*").group(REGISTERED_USERS))
+          .add(allow(READ).ref("refs/heads/*").group(DEVS))
+          .setExclusiveGroup(permissionKey(READ).ref("refs/heads/*"), true)
+          .update();
+      projectOperations
+          .project(localKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(allow(READ).ref(REFS_CONFIG).group(DEVS))
+          .update();
+
+      allRefs = repo.getRefDatabase().getRefs();
+      ProjectControl uSameProjectOverride = spy(user(localKey, DEVS));
+      assertThat(uSameProjectOverride.hasUniformRefsHeadsRead()).isTrue();
+      Collection<Ref> sameProjectOverrideVisible =
+          uSameProjectOverride.asForProject().filter(allRefs, repo, RefFilterOptions.defaults());
+      assertThat(sameProjectOverrideVisible.stream().map(Ref::getName).collect(toImmutableList()))
+          .containsExactly(
+              "refs/heads/main", "refs/heads/release", "refs/heads/feature", "refs/tags/v1.0");
+      verify(uSameProjectOverride, atLeastOnce()).controlForRef(AccessSection.HEADS);
+      verify(uSameProjectOverride, never()).controlForRef("refs/heads/main");
+      verify(uSameProjectOverride, never()).controlForRef("refs/heads/release");
+      verify(uSameProjectOverride, never()).controlForRef("refs/heads/feature");
+
+      // Case 4: Adding a branch-specific BLOCK rule disables the uniform short-circuit and hides
+      // only that branch instead of leaking it via AccessSection.HEADS.
+      tr.update("refs/heads/secret", tr.commit().message("secret").create());
+      projectOperations
+          .project(parentKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(allow(READ).ref("refs/heads/*").group(DEVS))
+          .update();
+      projectOperations
+          .project(localKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(block(READ).ref("refs/heads/secret").group(DEVS))
+          .update();
+
+      allRefs = repo.getRefDatabase().getRefs();
+      ProjectControl uNonUniform = spy(user(localKey, DEVS));
+      assertThat(uNonUniform.hasUniformRefsHeadsRead()).isFalse();
+      Collection<Ref> nonUniformVisible =
+          uNonUniform.asForProject().filter(allRefs, repo, RefFilterOptions.defaults());
+      assertThat(nonUniformVisible.stream().map(Ref::getName).collect(toImmutableList()))
+          .containsExactly(
+              "refs/heads/main", "refs/heads/release", "refs/heads/feature", "refs/tags/v1.0");
+      verify(uNonUniform, never()).controlForRef(AccessSection.HEADS);
+      verify(uNonUniform, times(2)).controlForRef("refs/heads/main");
+      verify(uNonUniform, times(2)).controlForRef("refs/heads/secret");
     }
   }
 

@@ -317,6 +317,129 @@ public class RefControlTest {
   }
 
   @Test
+  public void hasUniformRefsHeadsRead_trueForStandardAllProjectsAcls() throws Exception {
+    projectOperations
+        .project(allProjectsName)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(ANONYMOUS_USERS))
+        .add(allow(READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(READ).ref(REFS_CONFIG).group(ADMIN))
+        .add(allow(READ).ref("refs/tags/*").group(REGISTERED_USERS))
+        .add(allow(READ).ref("refs/meta/dashboards/*").group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allow(PUSH).ref("refs/heads/release/*").group(DEVS))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/release/*").group(DEVS).range(-2, 2))
+        .add(allow(SUBMIT).ref("^refs/heads/hotfix/.*").group(DEVS))
+        .add(allow(PUSH).ref("refs/heads/users/${username}/*").group(DEVS))
+        .update();
+
+    ProjectControl u = user(localKey, "user1", DEVS);
+    assertThat(u.hasUniformRefsHeadsRead()).isTrue();
+    assertThat(u.hasUniformRefsHeadsRead()).isTrue();
+  }
+
+  @Test
+  public void hasUniformRefsHeadsRead_falseForExactOrSubprefixBranchRead() throws Exception {
+    for (Project.NameKey target : new Project.NameKey[] {localKey, parentKey}) {
+      for (String refPattern : new String[] {"refs/heads/secret", "refs/heads/release/*"}) {
+        projectOperations
+            .project(parentKey)
+            .forUpdate()
+            .removeAllAccessSections()
+            .add(allow(READ).ref("refs/heads/*").group(REGISTERED_USERS))
+            .update();
+        projectOperations.project(localKey).forUpdate().removeAllAccessSections().update();
+
+        projectOperations
+            .project(target)
+            .forUpdate()
+            .add(allow(READ).ref(refPattern).group(DEVS))
+            .update();
+        assertWithMessage("ALLOW on %s in %s", refPattern, target)
+            .that(user(localKey, "user1", DEVS).hasUniformRefsHeadsRead())
+            .isFalse();
+
+        projectOperations
+            .project(target)
+            .forUpdate()
+            .removeAllAccessSections()
+            .add(deny(READ).ref(refPattern).group(DEVS))
+            .update();
+        assertWithMessage("DENY on %s in %s", refPattern, target)
+            .that(user(localKey, "user1", DEVS).hasUniformRefsHeadsRead())
+            .isFalse();
+
+        projectOperations
+            .project(target)
+            .forUpdate()
+            .removeAllAccessSections()
+            .add(block(READ).ref(refPattern).group(DEVS))
+            .update();
+        assertWithMessage("BLOCK on %s in %s", refPattern, target)
+            .that(user(localKey, "user1", DEVS).hasUniformRefsHeadsRead())
+            .isFalse();
+
+        projectOperations
+            .project(target)
+            .forUpdate()
+            .removeAllAccessSections()
+            .setExclusiveGroup(permissionKey(READ).ref(refPattern), true)
+            .update();
+        assertWithMessage("empty exclusiveGroupPermissions=read on %s in %s", refPattern, target)
+            .that(user(localKey, "user1", DEVS).hasUniformRefsHeadsRead())
+            .isFalse();
+      }
+    }
+  }
+
+  @Test
+  public void hasUniformRefsHeadsRead_falseForRegexReadPatterns() throws Exception {
+    for (String regexPattern :
+        new String[] {"^refs/heads/.*", "^refs/heads/secret.*", "^refs/.*/secret"}) {
+      projectOperations
+          .project(localKey)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(allow(READ).ref(regexPattern).group(DEVS))
+          .update();
+      assertWithMessage("regex READ on %s", regexPattern)
+          .that(user(localKey, "user1", DEVS).hasUniformRefsHeadsRead())
+          .isFalse();
+    }
+  }
+
+  @Test
+  public void hasUniformRefsHeadsRead_falseForOverlappingParameterizedReadPatterns()
+      throws Exception {
+    projectOperations
+        .project(allProjectsName)
+        .forUpdate()
+        .add(allow(READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(READ).ref("refs/users/${shardeduserid}").group(REGISTERED_USERS))
+        .update();
+    assertThat(user(localKey, "user1", DEVS).hasUniformRefsHeadsRead()).isTrue();
+
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .removeAllAccessSections()
+        .add(allow(READ).ref("refs/heads/users/${username}/*").group(DEVS))
+        .update();
+    assertThat(user(localKey, "user1", DEVS).hasUniformRefsHeadsRead()).isFalse();
+
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .removeAllAccessSections()
+        .add(allow(READ).ref("refs/${username}/*").group(DEVS))
+        .update();
+    assertThat(user(localKey, "user1", DEVS).hasUniformRefsHeadsRead()).isFalse();
+  }
+
+  @Test
   public void userRefIsVisibleForInternalUser() throws Exception {
     internalUser(localKey).controlForRef("refs/users/default").asForRef().check(RefPermission.READ);
   }

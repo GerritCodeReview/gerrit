@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
@@ -99,6 +100,8 @@ public class DefaultRefFilter {
   private final ChangeData.Factory changeDataFactory;
   private final Metrics metrics;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
+
+  private Boolean canReadRefsHeads;
 
   @Inject
   DefaultRefFilter(
@@ -277,7 +280,7 @@ public class DefaultRefFilter {
           // Change is visible
           resultRefs.add(ref);
         }
-      } else if (refVisibilityControl.isVisible(projectControl, ref.getLeaf().getName())) {
+      } else if (isVisibleNonTagNonChangeRef(ref)) {
         resultRefs.add(ref);
       }
     }
@@ -365,6 +368,17 @@ public class DefaultRefFilter {
 
   private static boolean isTag(Ref ref) {
     return ref.getLeaf().getName().startsWith(Constants.R_TAGS);
+  }
+
+  private boolean isVisibleNonTagNonChangeRef(Ref ref) throws PermissionBackendException {
+    String leafRefName = ref.getLeaf().getName();
+    if (leafRefName.startsWith(Constants.R_HEADS) && projectControl.hasUniformRefsHeadsRead()) {
+      if (canReadRefsHeads == null) {
+        canReadRefsHeads = refVisibilityControl.isVisible(projectControl, AccessSection.HEADS);
+      }
+      return canReadRefsHeads;
+    }
+    return refVisibilityControl.isVisible(projectControl, leafRefName);
   }
 
   private boolean canReadRef(String ref) throws PermissionBackendException {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee822c9_ef4f2cf8",
+        "filename": "Documentation/cmd-flush-caches.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T03:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83d9ee84_ed1bb899",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "100daf06_fec595df",
@@ -71,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cac33c2_c5e3b3c3",
+        "filename": "Documentation/cmd-flush-caches.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T03:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cde7b79_1d2cb185",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18c74c56_67a996b3",
@@ -88,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdaa0db4_60e12e54",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T03:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18c74c56_67a996b3",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a43151c_613a25d5",
@@ -101,6 +155,24 @@
       "writtenOn": "2026-11-16T20:32:11Z",
       "side": 1,
       "message": "Seems like this should make more use of the method below?",
+      "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc2a29cd_f88a0331",
+        "filename": "java/com/google/gerrit/server/restapi/config/PostCaches.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T03:17:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a43151c_613a25d5",
       "revId": "671289cf00c04e0d49acfb2d9599798058a3a8a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

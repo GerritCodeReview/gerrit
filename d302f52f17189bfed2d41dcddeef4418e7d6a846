@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "335686dc_c2f8dd22",
+        "filename": "java/com/google/gerrit/server/account/AuthorizedKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-17T01:52:18Z",
+      "side": 1,
+      "message": "\u0027false\u0027 is less clear than createInvalid()",
+      "revId": "d302f52f17189bfed2d41dcddeef4418e7d6a846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

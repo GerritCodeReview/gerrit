@@ -104,6 +104,24 @@
       "parentUuid": "e039f5c5_9206b9cc",
       "revId": "f40b36d348131514772847ac87d2a774e07dd885",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5e2c379_e7b31332",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-17T00:22:32Z",
+      "side": 1,
+      "message": "Marked as unresolved. Seems like it\u0027s still a separate method in PS6? (but `currentUnmergedRevisionParents()` now looks like it will do the right thing when called)",
+      "parentUuid": "c892d72c_2349bcbb",
+      "revId": "f40b36d348131514772847ac87d2a774e07dd885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

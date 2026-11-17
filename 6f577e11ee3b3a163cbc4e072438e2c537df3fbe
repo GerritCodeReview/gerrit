@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "620f8b01_6a39675f",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-17T02:02:41Z",
+      "side": 1,
+      "message": "This feels too magical to tie this directly to its storage format.",
+      "revId": "6f577e11ee3b3a163cbc4e072438e2c537df3fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

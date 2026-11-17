@@ -34,6 +34,24 @@
       "parentUuid": "bb4b0b0f_07e48608",
       "revId": "e5e493e77e34db153eaf8836e8ee271c8a111e94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bc2e689_646a455c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2026-11-17T10:21:07Z",
+      "side": 1,
+      "message": "Sorry I keep forgetting about `Release-Notes: skip`. Thx for the fix",
+      "parentUuid": "69e73235_23e96186",
+      "revId": "e5e493e77e34db153eaf8836e8ee271c8a111e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

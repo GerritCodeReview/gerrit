@@ -16,6 +16,24 @@
       "message": "This concerns me a bit that we have to pass in the loader to this class now, I am worried that we are impacting too many layers. Would it make more sense to have a SqlStore interface which then handles the SqlStore \"exchange\" internally so that other layers don\u0027t see the swapping? I think such an approach might be more amenable to any future improvements in this area that we want to make, for example sharding, or if we just want to duplicate stores to ensure we had two copies?",
       "revId": "335ff8321d2616288f49de326575c6492a6d4231",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61441815_33b061b7",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T19:03:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04a77819_45cc889b",
+      "revId": "335ff8321d2616288f49de326575c6492a6d4231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -55,10 +55,13 @@ import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 public class DefaultRefFilter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final ImmutableSet<String> NON_TAGGABLE_REF_PREFIXES =
+      ImmutableSet.<String>builder().addAll(RefNames.GERRIT_REFS).add(RefNames.REFS_TAGS).build();
 
   public interface Factory {
     DefaultRefFilter create(ProjectControl projectControl);
@@ -292,14 +295,11 @@ public class DefaultRefFilter {
    */
   private static List<Ref> getTaggableRefs(Repository repo) throws PermissionBackendException {
     try {
-      List<Ref> allRefs = repo.getRefDatabase().getRefs();
-      return allRefs.stream()
-          .filter(
-              r ->
-                  !RefNames.isGerritRef(r.getName())
-                      && !r.getName().startsWith(RefNames.REFS_TAGS)
-                      && !r.isSymbolic()
-                      && !r.getName().equals(RefNames.REFS_CONFIG))
+      return repo
+          .getRefDatabase()
+          .getRefsByPrefixWithExclusions(RefDatabase.ALL, NON_TAGGABLE_REF_PREFIXES)
+          .stream()
+          .filter(r -> !r.isSymbolic() && !r.getName().equals(RefNames.REFS_CONFIG))
           .collect(Collectors.toList());
     } catch (IOException e) {
       throw new PermissionBackendException(e);

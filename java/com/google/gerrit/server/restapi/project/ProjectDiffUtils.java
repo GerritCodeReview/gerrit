@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.RefNames;
@@ -31,6 +32,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
@@ -38,8 +40,11 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 /** Utility class for common diff operations in the project REST API. */
 @Singleton
@@ -93,27 +98,19 @@ public class ProjectDiffUtils {
     }
   }
 
-  public void validateAncestorRelationship(RevWalk rw, RevCommit oldCommit, RevCommit newCommit)
-      throws BadRequestException, IOException {
-    boolean oldIsAncestorOfNew = rw.isMergedInto(oldCommit, newCommit);
-    boolean newIsAncestorOfOld = rw.isMergedInto(newCommit, oldCommit);
-
-    if (!oldIsAncestorOfNew && !newIsAncestorOfOld) {
-      throw new BadRequestException(
-          String.format(
-              "Commits %s and %s are not in ancestor/descendant relationship",
-              oldCommit.name(), newCommit.name()));
-    }
-  }
-
-  public void verifyPathVisibility(
+  /**
+   * Validates that both commits are visible to the caller, are in an ancestor/descendant
+   * relationship, and that every intermediate commit on the path between them is visible.
+   */
+  public void validateAndVerifyPath(
       ProjectState projectState,
       Repository repo,
       RevWalk rw,
       RevCommit oldCommit,
       RevCommit newCommit)
-      throws ResourceNotFoundException, IOException {
-    // Check visibility of both endpoints
+      throws BadRequestException, ResourceNotFoundException, IOException {
+    // Check visibility of both endpoints first so unauthorized callers cannot probe ancestry
+    // or trigger reachability checks on invisible commits.
     if (!commitsCollection.canRead(projectState, repo, oldCommit)
         || !commitsCollection.canRead(projectState, repo, newCommit)) {
       throw new ResourceNotFoundException("Commit not visible");
@@ -123,23 +120,21 @@ public class ProjectDiffUtils {
       return;
     }
 
-    // Determine topological order to walk from descendant to ancestor
-    rw.reset();
-    boolean oldIsAncestorOfNew = rw.isMergedInto(oldCommit, newCommit);
-    boolean newIsAncestorOfOld = rw.isMergedInto(newCommit, oldCommit);
-
+    // Determine topological order using ReachabilityChecker (which leverages pack bitmaps and
+    // commit-graph when available) and short-circuit on the common base -> descendant case.
     RevCommit descendant;
     RevCommit ancestor;
-    if (oldIsAncestorOfNew) {
-      descendant = newCommit;
+    if (isAncestor(rw, oldCommit, newCommit)) {
       ancestor = oldCommit;
-    } else if (newIsAncestorOfOld) {
-      descendant = oldCommit;
+      descendant = newCommit;
+    } else if (isAncestor(rw, newCommit, oldCommit)) {
       ancestor = newCommit;
+      descendant = oldCommit;
     } else {
-      // Commits are not related, visibility check covers endpoints but no path exists.
-      // This is usually caught by validateAncestorRelationship.
-      return;
+      throw new BadRequestException(
+          String.format(
+              "Commits %s and %s are not in ancestor/descendant relationship",
+              oldCommit.name(), newCommit.name()));
     }
 
     // Fast path: if descendant is a direct single-parent child of ancestor, there are no
@@ -167,6 +162,28 @@ public class ProjectDiffUtils {
       if (!commitsCollection.canRead(projectState, repo, commit)) {
         throw new ResourceNotFoundException("Commit not visible");
       }
+    }
+  }
+
+  private boolean isAncestor(RevWalk rw, RevCommit ancestor, RevCommit descendant)
+      throws IOException {
+    if (ancestor.equals(descendant)) {
+      return true;
+    }
+    for (RevCommit parent : descendant.getParents()) {
+      if (parent.equals(ancestor)) {
+        return true;
+      }
+    }
+    try {
+      ReachabilityChecker checker = rw.getObjectReader().createReachabilityChecker(rw);
+      return checker.areAllReachable(ImmutableList.of(ancestor), Stream.of(descendant)).isEmpty();
+    } finally {
+      // BitmappedReachabilityChecker mutates sort/filter on the shared RevWalk; restore defaults
+      // so subsequent walks on rw are unaffected.
+      rw.reset();
+      rw.sort(RevSort.NONE);
+      rw.setRevFilter(RevFilter.ALL);
     }
   }
 

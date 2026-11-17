@@ -830,4 +830,41 @@ public class DiffCommitsIT extends AbstractDaemonTest {
                     .diffFiles(initialCommit.name(), mergeChange.getCommit().name(), true));
     assertThat(thrown).hasMessageThat().contains("not visible");
   }
+
+  @Test
+  public void listDiffFiles_unrelatedHiddenCommitReturnsNotFound() throws Exception {
+    createBranch(BranchNameKey.create(project, "secret"));
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/secret").group(REGISTERED_USERS))
+        .update();
+
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result secretCommit =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Secret commit", "secret.txt", "secret")
+            .to("refs/heads/secret");
+    secretCommit.assertOkStatus();
+
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result publicCommit =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Public commit", "public.txt", "public")
+            .to("refs/heads/master");
+    publicCommit.assertOkStatus();
+
+    // Unrelated hidden commit should return 404 (not 400) so callers cannot probe ancestry
+    requestScopeOperations.setApiUser(user.id());
+
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () ->
+                gApi.projects()
+                    .name(project.get())
+                    .diffFiles(
+                        secretCommit.getCommit().name(), publicCommit.getCommit().name(), true));
+    assertThat(thrown).hasMessageThat().contains("not visible");
+  }
 }

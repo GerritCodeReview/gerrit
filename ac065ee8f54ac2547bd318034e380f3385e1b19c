@@ -70,6 +70,24 @@
       "parentUuid": "254c2166_a2b68da5",
       "revId": "ac065ee8f54ac2547bd318034e380f3385e1b19c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5386f53_0cfc844b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-17T02:07:13Z",
+      "side": 1,
+      "message": "\u003e To clarify, this change doesn’t add any UI fields. Users can paste an `authorized_keys` entry containing the `expiry-time` option into the existing SSH key field, and Gerrit will honor it:\n\u003e \n\u003e ```text\n\u003e expiry-time\u003d\"20300102Z\" ssh-rsa AAAA... comment\n\u003e ```\n\nThis feels too magical to me, and is not documented. I don\u0027t think we want users having to know the format of that field, and I think we want to control the user interface and not expose the openssh storage format to the user.\n \n\u003e However, your comment also raises a case I hadn’t considered: the server policy could change afterward. Should we instead record an `add-time` or `create-time` option in Gerrit’s stored `authorized_keys` entries rather than `expiry-time` which is a standardized option ?\n\nSounds like the expiry policy on changing the server will match the http token policy, so let\u0027s stick with it.",
+      "parentUuid": "8c2a7049_80b75c95",
+      "revId": "ac065ee8f54ac2547bd318034e380f3385e1b19c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

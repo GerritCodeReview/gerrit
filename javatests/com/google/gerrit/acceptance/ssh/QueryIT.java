@@ -244,7 +244,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void commentOptionInPatchSetsJSON() throws Exception {
+  public void commentOptionInPatchSetsJSONAndText() throws Exception {
     String changeId = createChange().getChangeId();
 
     ReviewInput review = new ReviewInput();
@@ -255,6 +255,7 @@ public class QueryIT extends AbstractDaemonTest {
     review.comments = new HashMap<>();
     review.comments.put(comment.path, Lists.newArrayList(comment));
     gApi.changes().id(changeId).current().review(review);
+    String commentId = gApi.changes().id(changeId).commentsAsList().get(0).id;
 
     List<ChangeAttribute> changes = executeSuccessfulQuery("--patch-sets " + changeId);
     assertThat(changes).hasSize(1);
@@ -264,6 +265,12 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes).hasSize(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNotNull();
     assertThat(changes.get(0).patchSets.get(0).comments).hasSize(1);
+    assertThat(changes.get(0).patchSets.get(0).comments.get(0).id).isEqualTo(commentId);
+
+    String textOutput =
+        adminSshSession.exec("gerrit query --format=TEXT --patch-sets --comments " + changeId);
+    adminSshSession.assertSuccess();
+    assertThat(textOutput).contains("id: " + commentId);
 
     changes = executeSuccessfulQuery("--patch-sets --comments --files " + changeId);
     assertThat(changes).hasSize(1);

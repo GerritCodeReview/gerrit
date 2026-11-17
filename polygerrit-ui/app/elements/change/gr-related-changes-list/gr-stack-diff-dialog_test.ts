@@ -27,17 +27,19 @@ import {
   createRelatedChangeAndCommitInfo,
   createRevision,
 } from '../../../test/test-data-generators';
+import {Interaction, Timing} from '../../../constants/reporting';
+import {Timer} from '../../../services/gr-reporting/gr-reporting';
 import * as sinon from 'sinon';
 
-function relatedChange(sha: string, parentSha: string) {
+function relatedChange(sha: string, ...parentShas: string[]) {
   return {
     ...createRelatedChangeAndCommitInfo(),
     commit: {
       ...createCommitInfoWithRequiredCommit(sha),
       subject: `Change ${sha}`,
-      parents: [
-        {commit: parentSha as CommitId, subject: `Parent ${parentSha}`},
-      ],
+      parents: parentShas.map(parentSha => {
+        return {commit: parentSha as CommitId, subject: `Parent ${parentSha}`};
+      }),
     },
   };
 }
@@ -45,6 +47,7 @@ function relatedChange(sha: string, parentSha: string) {
 suite('gr-stack-diff-dialog tests', () => {
   let element: GrStackDiffDialog;
   let getProjectCommitDiffStub: sinon.SinonStub;
+  let getProjectCommitFileDiffStub: sinon.SinonStub;
 
   setup(async () => {
     getProjectCommitDiffStub = stubRestApi('getProjectCommitDiff').resolves({
@@ -57,7 +60,9 @@ suite('gr-stack-diff-dialog tests', () => {
       },
     });
 
-    stubRestApi('getProjectCommitFileDiff').resolves({
+    getProjectCommitFileDiffStub = stubRestApi(
+      'getProjectCommitFileDiff'
+    ).resolves({
       meta_a: {
         name: 'foo/bar.ts',
         content_type: 'text/typescript',
@@ -313,6 +318,231 @@ suite('gr-stack-diff-dialog tests', () => {
       assert.equal(element.getConnectedRevisions().size, 0);
       // Without a connected chain nothing is marked as indirect.
       assert.isFalse(element.isIndirectRelation(element.relatedChanges[0]));
+    });
+
+    test('handles cascading merge commits where chain link is second parent', async () => {
+      // Simulates cascading branch merges (e.g. stable-3.13 -> stable-3.14 ->
+      // stable-3.15 -> master) where parents[0] is the target branch tip and
+      // parents[1] is the parent change in the relation chain.
+      await setChain([
+        relatedChange('merge-into-master', 'master-tip', 'current-sha'),
+        relatedChange('current-sha', 'stable-3.15-tip', 'merge-into-3.14'),
+        relatedChange('merge-into-3.14', 'stable-3.14-tip', 'stable-3.13-tip'),
+      ]);
+
+      assert.deepEqual([...element.getConnectedRevisions()].sort(), [
+        'current-sha',
+        'merge-into-3.14',
+        'merge-into-master',
+      ]);
+
+      // Only the root of the chain (merge-into-3.14's first parent) should be
+      // listed as a base parent, not the first parents of intermediate merges.
+      assert.deepEqual(element.getBaseParents(), [
+        'stable-3.14-tip' as CommitId,
+      ]);
+
+      // Walking down from the top merge commit follows the in-chain second
+      // parents down to the root parent of the chain.
+      assert.equal(
+        element.findValidBaseForTarget('merge-into-master' as CommitId),
+        'stable-3.14-tip' as CommitId
+      );
+    });
+  });
+
+  suite('reporting', () => {
+    let reportInteractionStub: sinon.SinonStub;
+    let getTimerStub: sinon.SinonStub;
+    let loadTimerEndStub: sinon.SinonStub;
+    let fileLoadTimerEndStub: sinon.SinonStub;
+
+    setup(async () => {
+      reportInteractionStub = sinon.stub(
+        element.reporting,
+        'reportInteraction'
+      );
+      loadTimerEndStub = sinon.stub();
+      fileLoadTimerEndStub = sinon.stub();
+      getTimerStub = sinon
+        .stub(element.reporting, 'getTimer')
+        .callsFake((name: string) => {
+          const endStub =
+            name === Timing.STACK_DIFF_LOAD
+              ? loadTimerEndStub
+              : fileLoadTimerEndStub;
+          const timer: Timer = {
+            reset: () => timer,
+            end: details => {
+              endStub(details);
+              return timer;
+            },
+            withMaximum: () => timer,
+          };
+          return timer;
+        });
+
+      element.change = {
+        ...createParsedChange(),
+        revisions: {
+          'current-sha': {...createRevision(), _number: 1 as PatchSetNumber},
+        },
+        current_revision: 'current-sha' as CommitId,
+      };
+      element.patchNum = 1 as PatchSetNumber;
+      element.relatedChanges = [
+        relatedChange('indirect-sha', 'indirect-base-sha'),
+        relatedChange('child-sha', 'current-sha'),
+        relatedChange('current-sha', 'connected-base-sha'),
+      ];
+      await element.updateComplete;
+    });
+
+    test('open reports dialog opened interaction and load timings', async () => {
+      await element.open();
+      await element.updateComplete;
+
+      assert.isTrue(
+        reportInteractionStub.calledOnceWithExactly(
+          Interaction.STACK_DIFF_DIALOG_OPENED,
+          {
+            relatedChangesCount: 3,
+            connectedChangesCount: 2,
+            hasIndirectRelations: true,
+          }
+        )
+      );
+      assert.isTrue(getTimerStub.calledWithExactly(Timing.STACK_DIFF_LOAD));
+      assert.isTrue(
+        getTimerStub.calledWithExactly(Timing.STACK_DIFF_FILE_LOAD)
+      );
+      assert.isTrue(
+        loadTimerEndStub.calledWithExactly({
+          success: true,
+          fileCount: 1,
+        })
+      );
+      assert.isTrue(
+        fileLoadTimerEndStub.calledWithExactly({
+          success: true,
+        })
+      );
+    });
+
+    test('initial file diff failure reports STACK_DIFF_LOAD success false', async () => {
+      getProjectCommitFileDiffStub.rejects(new Error('File diff failed'));
+
+      await element.open();
+      await element.updateComplete;
+
+      assert.isTrue(
+        fileLoadTimerEndStub.calledWithExactly({
+          success: false,
+        })
+      );
+      assert.isTrue(
+        loadTimerEndStub.calledWithExactly({
+          success: false,
+          fileCount: 1,
+        })
+      );
+    });
+
+    test('undefined REST response sets error and reports failure timing', async () => {
+      getProjectCommitDiffStub.resolves(undefined);
+
+      await element.open();
+      await element.updateComplete;
+
+      assert.isTrue(
+        loadTimerEndStub.calledWithExactly({
+          success: false,
+        })
+      );
+      assert.isDefined(query(element, '.error-message'));
+    });
+
+    test('changing range reports interaction with autoAdjusted flag', async () => {
+      await element.open();
+      await element.updateComplete;
+      reportInteractionStub.resetHistory();
+      loadTimerEndStub.resetHistory();
+
+      const targetSelect = queryAndAssert<HTMLElement & {value: string}>(
+        element,
+        '#targetSelect'
+      );
+      targetSelect.value = 'indirect-sha';
+      targetSelect.dispatchEvent(new CustomEvent('change'));
+      await waitUntil(() => loadTimerEndStub.called);
+      await element.updateComplete;
+
+      assert.isTrue(
+        reportInteractionStub.calledOnceWithExactly(
+          Interaction.STACK_DIFF_RANGE_CHANGED,
+          {
+            changed: 'target',
+            autoAdjusted: true,
+          }
+        )
+      );
+    });
+
+    test('clicking file row reports file selected interaction', async () => {
+      await element.open();
+      await element.updateComplete;
+      reportInteractionStub.resetHistory();
+      fileLoadTimerEndStub.resetHistory();
+
+      const fileRow = queryAndAssert<HTMLElement>(element, '.file-row');
+      fileRow.click();
+      await waitUntil(() => fileLoadTimerEndStub.called);
+      await element.updateComplete;
+
+      assert.isTrue(
+        reportInteractionStub.calledOnceWithExactly(
+          Interaction.STACK_DIFF_FILE_SELECTED,
+          {
+            status: FileInfoStatus.ADDED,
+          }
+        )
+      );
+    });
+
+    test('error and reset chain report failure timing and reset interaction', async () => {
+      await element.open();
+      await element.updateComplete;
+      reportInteractionStub.resetHistory();
+      loadTimerEndStub.resetHistory();
+
+      getProjectCommitDiffStub.rejects(new Error('Backend failure'));
+      const targetSelect = queryAndAssert<HTMLElement & {value: string}>(
+        element,
+        '#targetSelect'
+      );
+      targetSelect.value = 'indirect-sha';
+      targetSelect.dispatchEvent(new CustomEvent('change'));
+      await waitUntil(() => !!query(element, '#resetChainButton'));
+
+      assert.isTrue(
+        loadTimerEndStub.calledWithExactly({
+          success: false,
+        })
+      );
+
+      reportInteractionStub.resetHistory();
+      loadTimerEndStub.resetHistory();
+      getProjectCommitDiffStub.resolves({'foo/bar.ts': {lines_inserted: 1}});
+      queryAndAssert<HTMLElement>(element, '#resetChainButton').click();
+      await waitUntil(
+        () => element.targetCommitId === 'child-sha' && loadTimerEndStub.called
+      );
+
+      assert.isTrue(
+        reportInteractionStub.calledWithExactly(
+          Interaction.STACK_DIFF_RESET_CHAIN
+        )
+      );
     });
   });
 });

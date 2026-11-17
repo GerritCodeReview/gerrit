@@ -17,6 +17,7 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
@@ -39,6 +40,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
@@ -1296,6 +1298,62 @@ public class RefControlTest {
     RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}");
   }
 
+  @Test
+  public void isAdmin_cachedForNonAdminAcrossRepeatedChecks() throws Exception {
+    projectOperations
+        .project(allProjectsName)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ADMINISTRATE_SERVER).group(ADMIN))
+        .update();
+
+    CountingMockUser user = new CountingMockUser("user1", DEVS);
+    ProjectControl u = projectControlFactory.create(user, getProjectState(localKey));
+    assertThat(user.effectiveGroupsCalls()).isEqualTo(0);
+
+    assertThat(u.isAdmin()).isFalse();
+    assertThat(u.isAdmin()).isFalse();
+    assertThat(u.asForProject().ref("refs/heads/main").testOrFalse(RefPermission.READ)).isFalse();
+    assertThat(u.asForProject().ref("refs/heads/feature").testOrFalse(RefPermission.READ))
+        .isFalse();
+    assertThat(user.effectiveGroupsCalls()).isEqualTo(1);
+  }
+
+  @Test
+  public void isAdmin_cachedForAdminAcrossRepeatedChecks() throws Exception {
+    projectOperations
+        .project(allProjectsName)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.ADMINISTRATE_SERVER).group(ADMIN))
+        .update();
+
+    CountingMockUser adminUser = new CountingMockUser("user1", ADMIN);
+    ProjectControl uAdmin = projectControlFactory.create(adminUser, getProjectState(localKey));
+    assertThat(adminUser.effectiveGroupsCalls()).isEqualTo(0);
+
+    assertThat(uAdmin.isAdmin()).isTrue();
+    assertThat(uAdmin.isAdmin()).isTrue();
+    assertThat(uAdmin.asForProject().testOrFalse(ProjectPermission.ACCESS)).isTrue();
+    assertThat(uAdmin.asForProject().ref("refs/heads/main").testOrFalse(RefPermission.READ))
+        .isTrue();
+    assertThat(uAdmin.asForProject().ref("refs/heads/secret").testOrFalse(RefPermission.READ))
+        .isTrue();
+    assertThat(uAdmin.asForProject().ref("refs/meta/config").testOrFalse(RefPermission.READ))
+        .isTrue();
+    assertThat(uAdmin.asForProject().ref("refs/tags/v1.0").testOrFalse(RefPermission.READ))
+        .isTrue();
+    assertThat(
+            uAdmin
+                .asForProject()
+                .ref("refs/heads/main")
+                .testOrFalse(RefPermission.READ_PRIVATE_CHANGES))
+        .isTrue();
+    assertThat(adminUser.effectiveGroupsCalls()).isEqualTo(1);
+
+    assertThat(uAdmin.isOwner()).isTrue();
+    assertThat(uAdmin.isOwner()).isTrue();
+    assertThat(adminUser.effectiveGroupsCalls()).isEqualTo(2);
+  }
+
   private ProjectState getProjectState(Project.NameKey nameKey) throws Exception {
     return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
   }
@@ -1340,6 +1398,24 @@ public class RefControlTest {
     @Override
     public Optional<String> getUserName() {
       return Optional.ofNullable(username);
+    }
+  }
+
+  private static class CountingMockUser extends MockUser {
+    private int effectiveGroupsCalls;
+
+    CountingMockUser(@Nullable String name, AccountGroup.UUID... groupId) {
+      super(name, groupId);
+    }
+
+    @Override
+    public GroupMembership getEffectiveGroups() {
+      effectiveGroupsCalls++;
+      return super.getEffectiveGroups();
+    }
+
+    int effectiveGroupsCalls() {
+      return effectiveGroupsCalls;
     }
   }
 }

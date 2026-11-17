@@ -89,6 +89,7 @@ public class ProjectControl {
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
+  private Boolean isAdmin;
   private Config cfg;
 
   @Inject
@@ -175,11 +176,10 @@ public class ProjectControl {
   }
 
   boolean isAdmin() {
-    try {
-      return permissionBackend.exactUser(user).test(GlobalPermission.ADMINISTRATE_SERVER);
-    } catch (PermissionBackendException e) {
-      return false;
+    if (isAdmin == null) {
+      isAdmin = permissionBackend.exactUser(user).testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
     }
+    return isAdmin;
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)

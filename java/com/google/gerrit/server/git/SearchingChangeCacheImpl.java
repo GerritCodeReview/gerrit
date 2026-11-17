@@ -20,6 +20,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -76,7 +77,7 @@ public class SearchingChangeCacheImpl
 
   @AutoValue
   @UsedAt(UsedAt.Project.GOOGLE)
-  public abstract static class CachedChange {
+  public abstract static class CachedChange implements ChangesByProjectCache.ProjectChange {
     // Subset of fields in ChangeData, specifically fields needed to serve
     // VisibleRefFilter without touching the database. More can be added as
     // necessary.
@@ -84,6 +85,30 @@ public class SearchingChangeCacheImpl
 
     @Nullable
     abstract ReviewerSet reviewers();
+
+    @Override
+    @Nullable
+    public Change.Id id() {
+      return change().getId();
+    }
+
+    @Override
+    @Nullable
+    public BranchNameKey dest() {
+      return change().getDest();
+    }
+
+    @Override
+    public boolean isPrivate() {
+      return change().isPrivate();
+    }
+
+    @Override
+    public ChangeData toChangeData(ChangeData.Factory changeDataFactory) {
+      ChangeData cd = changeDataFactory.create(change());
+      cd.setReviewers(reviewers());
+      return cd;
+    }
   }
 
   private final LoadingCache<Project.NameKey, List<CachedChange>> cache;
@@ -95,6 +120,16 @@ public class SearchingChangeCacheImpl
       ChangeData.Factory changeDataFactory) {
     this.cache = cache;
     this.changeDataFactory = changeDataFactory;
+  }
+
+  @Override
+  public Stream<CachedChange> streamProjectChanges(Project.NameKey project, Repository unusedRepo) {
+    try {
+      return cache.get(project).stream();
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log("Cannot fetch changes for %s", project);
+      return Stream.empty();
+    }
   }
 
   /**
@@ -109,20 +144,7 @@ public class SearchingChangeCacheImpl
    */
   @Override
   public Stream<ChangeData> streamChangeDatas(Project.NameKey project, Repository unusedrepo) {
-    List<CachedChange> cached;
-    try {
-      cached = cache.get(project);
-    } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Cannot fetch changes for %s", project);
-      return Stream.empty();
-    }
-    return cached.stream()
-        .map(
-            cc -> {
-              ChangeData cd = changeDataFactory.create(cc.change());
-              cd.setReviewers(cc.reviewers());
-              return cd;
-            });
+    return streamProjectChanges(project, unusedrepo).map(cc -> cc.toChangeData(changeDataFactory));
   }
 
   @Override

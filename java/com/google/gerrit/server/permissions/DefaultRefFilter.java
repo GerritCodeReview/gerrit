@@ -140,7 +140,7 @@ public class DefaultRefFilter {
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
-    Supplier<ImmutableMap<Change.Id, ChangeData>> visibleChanges =
+    Supplier<ImmutableMap<Change.Id, BranchNameKey>> visibleChanges =
         Suppliers.memoize(
             () ->
                 GitVisibleChangeFilter.getVisibleChanges(
@@ -193,7 +193,7 @@ public class DefaultRefFilter {
   Result filterRefs(
       List<Ref> refs,
       RefFilterOptions opts,
-      Supplier<ImmutableMap<Change.Id, ChangeData>> visibleChanges)
+      Supplier<ImmutableMap<Change.Id, BranchNameKey>> visibleChanges)
       throws PermissionBackendException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
     if (!projectState.statePermitsRead()) {
@@ -328,7 +328,7 @@ public class DefaultRefFilter {
     return refs;
   }
 
-  private boolean visibleEdit(String name, ImmutableMap<Change.Id, ChangeData> visibleChanges)
+  private boolean visibleEdit(String name, ImmutableMap<Change.Id, BranchNameKey> visibleChanges)
       throws PermissionBackendException {
     Change.Id id = Change.Id.fromEditRefPart(name);
     if (id == null) {
@@ -345,7 +345,7 @@ public class DefaultRefFilter {
 
     if (visibleChanges.containsKey(id)) {
       // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
-      BranchNameKey dest = visibleChanges.get(id).change().getDest();
+      BranchNameKey dest = visibleChanges.get(id);
       boolean canRead =
           permissionBackendForProject.ref(dest.branch()).test(RefPermission.READ_PRIVATE_CHANGES);
       logger.atFinest().log(

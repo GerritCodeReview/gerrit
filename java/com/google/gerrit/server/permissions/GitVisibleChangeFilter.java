@@ -14,15 +14,21 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.git.ChangesByProjectCache;
+import com.google.gerrit.server.git.ChangesByProjectCache.ProjectChange;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -52,49 +58,92 @@ public class GitVisibleChangeFilter {
 
   private GitVisibleChangeFilter() {}
 
-  /** Returns a map of all visible changes. Might pretend old changes are invisible. */
-  static ImmutableMap<Change.Id, ChangeData> getVisibleChanges(
+  /**
+   * Returns a map of visible change IDs to their destination branches. Might pretend old changes
+   * are invisible.
+   */
+  static ImmutableMap<Change.Id, BranchNameKey> getVisibleChanges(
       ChangesByProjectCache changesByProjectCache,
       ChangeData.Factory changeDataFactory,
       Project.NameKey projectName,
       PermissionBackend.ForProject forProject,
       Repository repository,
       ImmutableSet<Change.Id> changes) {
-    Stream<ChangeData> changeDatas = Stream.empty();
+    Stream<? extends ProjectChange> projectChanges = Stream.empty();
     if (changes.size() < CHANGE_LIMIT_FOR_DIRECT_FILTERING) {
       logger.atFine().log("Loading changes one by one for project %s", projectName);
-      changeDatas = loadChangeDatasOneByOne(changes, changeDataFactory, projectName);
+      projectChanges =
+          loadChangeDatasOneByOne(changes, changeDataFactory, projectName)
+              .map(ProjectChange::ofChangeData);
     } else {
       logger.atFine().log("Loading changes from ChangesByProjectCache for project %s", projectName);
       try {
-        changeDatas = changesByProjectCache.streamChangeDatas(projectName, repository);
+        projectChanges = changesByProjectCache.streamProjectChanges(projectName, repository);
       } catch (IOException e) {
-        logger.atWarning().withCause(e).log("Unable to streamChangeDatas for %s", projectName);
+        logger.atWarning().withCause(e).log("Unable to streamProjectChanges for %s", projectName);
       }
     }
-    HashMap<Change.Id, ChangeData> result = new HashMap<>();
-    changeDatas
-        .filter(cd -> changes.contains(cd.getId()))
-        .filter(
-            cd -> {
-              try {
-                return forProject.change(cd).test(ChangePermission.READ);
-              } catch (PermissionBackendException e) {
-                // This is almost the same as the message .testOrFalse() would log, but with the
-                // added context of the change and coming from this class
-                logger.atWarning().withCause(e).log(
-                    "Cannot test read permission for %s; assuming not visible", cd);
-                return false;
-              }
-            })
+    Map<BranchNameKey, Boolean> branchVisibility = new HashMap<>();
+    Map<Change.Id, BranchNameKey> result = new HashMap<>();
+    projectChanges
+        .filter(pc -> pc.id() != null && changes.contains(pc.id()))
         .forEach(
-            cd -> {
-              if (result.containsKey(cd.getId())) {
+            pc -> {
+              Change.Id id = pc.id();
+              BranchNameKey dest;
+              boolean isPrivate;
+              try {
+                dest = pc.dest();
+                if (dest == null) {
+                  logger.atWarning().log(
+                      "Change %s in %s has no destination branch; assuming not visible",
+                      id, projectName);
+                  return;
+                }
+                checkArgument(
+                    projectName.equals(dest.project()),
+                    "expected change in project %s, not %s",
+                    projectName,
+                    dest.project());
+                isPrivate = pc.isPrivate();
+              } catch (StorageException e) {
+                logger.atWarning().withCause(e).log(
+                    "Cannot read metadata for change %s in %s; assuming not visible",
+                    id, projectName);
+                return;
+              }
+              if (!branchVisibility.computeIfAbsent(
+                  dest, b -> forProject.ref(b.branch()).testOrFalse(RefPermission.READ))) {
+                return;
+              }
+              if (isPrivate) {
+                ChangeData cd;
+                try {
+                  cd = pc.toChangeData(changeDataFactory);
+                } catch (StorageException e) {
+                  logger.atWarning().withCause(e).log(
+                      "Cannot load ChangeData for change %s in %s; assuming not visible",
+                      id, projectName);
+                  return;
+                }
+                try {
+                  if (!forProject.change(cd).test(ChangePermission.READ)) {
+                    return;
+                  }
+                } catch (PermissionBackendException e) {
+                  // This is almost the same as the message .testOrFalse() would log, but with the
+                  // added context of the change and coming from this class
+                  logger.atWarning().withCause(e).log(
+                      "Cannot test read permission for %s; assuming not visible", cd);
+                  return;
+                }
+              }
+              if (result.containsKey(id)) {
                 logger.atWarning().log(
                     "Duplicate change datas for the repo %s: [%s, %s]",
-                    projectName, cd, result.get(cd.getId()));
+                    projectName, id, result.get(id));
               }
-              result.put(cd.getId(), cd);
+              result.put(id, dest);
             });
     return ImmutableMap.copyOf(result);
   }

@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.git;
 
+import static java.util.Objects.requireNonNull;
+
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -24,6 +29,46 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 public interface ChangesByProjectCache {
+  /** Minimal view of a change needed to evaluate change ref visibility. */
+  interface ProjectChange {
+    @Nullable
+    Change.Id id();
+
+    @Nullable
+    BranchNameKey dest();
+
+    boolean isPrivate();
+
+    ChangeData toChangeData(ChangeData.Factory changeDataFactory);
+
+    static ProjectChange ofChangeData(ChangeData cd) {
+      requireNonNull(cd);
+      return new ProjectChange() {
+        @Override
+        @Nullable
+        public Change.Id id() {
+          return cd.getId();
+        }
+
+        @Override
+        @Nullable
+        public BranchNameKey dest() {
+          return cd.branchOrThrow();
+        }
+
+        @Override
+        public boolean isPrivate() {
+          return cd.isPrivateOrThrow();
+        }
+
+        @Override
+        public ChangeData toChangeData(ChangeData.Factory changeDataFactory) {
+          return cd;
+        }
+      };
+    }
+  }
+
   public enum UseIndex {
     TRUE,
     FALSE;
@@ -60,4 +105,14 @@ public interface ChangesByProjectCache {
    */
   Stream<ChangeData> streamChangeDatas(Project.NameKey project, Repository repository)
       throws IOException;
+
+  /**
+   * Stream lightweight {@link ProjectChange} views for the project without eagerly allocating
+   * {@link ChangeData} instances when the backing cache already stores the destination branch and
+   * privacy flag.
+   */
+  default Stream<? extends ProjectChange> streamProjectChanges(
+      Project.NameKey project, Repository repository) throws IOException {
+    return streamChangeDatas(project, repository).map(ProjectChange::ofChangeData);
+  }
 }

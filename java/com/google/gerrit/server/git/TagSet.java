@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -211,8 +212,9 @@ class TagSet {
    * Populates this set from {@code git}, by copying and extending {@code old} if possible and by
    * walking the full history otherwise.
    *
-   * @return {@code false} if the build was aborted because the thread was interrupted, in which
-   *     case the tag set is incomplete and must not be cached.
+   * @return {@code false} if the build was aborted because the thread was interrupted or a storage
+   *     {@link IOException} occurred, in which case the tag set is incomplete and must not be
+   *     cached.
    */
   boolean build(Repository git, @Nullable TagSet old, @Nullable TagMatcher m) {
     if (old != null && m != null && refresh(old, m)) {
@@ -232,9 +234,7 @@ class TagSet {
           // For a tag, remember where it points to.
           try {
             addTag(rw, git.getRefDatabase().peel(ref), isTag);
-          } catch (InterruptedIOException e) {
-            throw e;
-          } catch (IOException e) {
+          } catch (IncorrectObjectTypeException | MissingObjectException e) {
             addTag(rw, ref, isTag);
           }
 
@@ -256,6 +256,7 @@ class TagSet {
       return false;
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
+      return false;
     }
     return true;
   }
@@ -381,7 +382,7 @@ class TagSet {
     }
   }
 
-  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) throws InterruptedIOException {
+  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) throws IOException {
     ObjectId id = ref.getPeeledObjectId();
     if (id == null) {
       id = ref.getObjectId();
@@ -398,9 +399,7 @@ class TagSet {
         flags = commit.refFlags;
       } catch (IncorrectObjectTypeException notCommit) {
         flags = new RoaringBitmap();
-      } catch (InterruptedIOException e) {
-        throw e;
-      } catch (IOException e) {
+      } catch (MissingObjectException e) {
         logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
         flags = new RoaringBitmap();
       }
@@ -408,7 +407,7 @@ class TagSet {
     }
   }
 
-  private void addRef(TagWalk rw, Ref ref) throws InterruptedIOException {
+  private void addRef(TagWalk rw, Ref ref) throws IOException {
     try {
       TagCommit commit = (TagCommit) rw.parseCommit(ref.getObjectId());
       rw.markStart(commit);
@@ -424,9 +423,7 @@ class TagSet {
       // Quite many refs will point to non-commits.
       // For instance, refs from refs/cache-automerge
       // will often end up here.
-    } catch (InterruptedIOException e) {
-      throw e;
-    } catch (IOException e) {
+    } catch (MissingObjectException e) {
       logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
     }
   }

@@ -43,6 +43,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
@@ -55,9 +57,12 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Rule;
@@ -301,6 +306,289 @@ public class TagSetTest {
     TagMatcher m = tagCache.get(project).matcher(tagCache, repo, include);
     assertThat(m.isReachable(tagRef)).isTrue();
     assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNotNull();
+  }
+
+  @Test
+  public void buildAbortsAndDoesNotCacheOnStorageIoExceptionDuringRefSeeding() throws Exception {
+    AtomicInteger failedReads = new AtomicInteger();
+    AtomicBoolean failAllReads = new AtomicBoolean();
+    AtomicReference<ObjectId> failOn = new AtomicReference<>();
+    InMemoryRepository repo =
+        new InMemoryRepository(new DfsRepositoryDescription("project")) {
+          @Override
+          public ObjectReader newObjectReader() {
+            ObjectReader delegate = super.newObjectReader();
+            return new ObjectReader.Filter() {
+              @Override
+              protected ObjectReader delegate() {
+                return delegate;
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId) throws IOException {
+                return open(objectId, OBJ_ANY);
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId, int typeHint) throws IOException {
+                if (failAllReads.get() || objectId.equals(failOn.get())) {
+                  failedReads.incrementAndGet();
+                  throw new IOException("simulated storage error");
+                }
+                return super.open(objectId, typeHint);
+              }
+            };
+          }
+        };
+    RevCommit root;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      root = tr.commit().create();
+      for (int i = 0; i < 10; i++) {
+        tr.update("refs/heads/branch" + i, tr.commit().parent(root).create());
+      }
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+    }
+    Project.NameKey project = Project.nameKey("project");
+    ImmutableList<Ref> include = ImmutableList.of(repo.exactRef("refs/heads/branch0"));
+    Ref tagRef = repo.exactRef("refs/tags/v1");
+    Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    TagCache tagCache = new TagCache(guavaCache);
+
+    failAllReads.set(true);
+    assertThat(new TagSet(project).build(repo, null, null)).isFalse();
+    assertThat(failedReads.get()).isEqualTo(1);
+
+    // Cold build failure leaves TagSetHolder.tags null while m.newRefs is non-empty; matcher()
+    // must not throw NullPointerException and must not cache the incomplete TagSet.
+    failedReads.set(0);
+    TagMatcher failedMatcher = tagCache.get(project).matcher(tagCache, repo, include);
+    assertThat(failedMatcher).isNotNull();
+    assertThat(failedReads.get()).isEqualTo(1);
+    assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNull();
+
+    // Storage IOException in addTag() during ref seeding must also abort build().
+    failAllReads.set(false);
+    failOn.set(root.copy());
+    assertThat(new TagSet(project).build(repo, null, null)).isFalse();
+
+    failOn.set(null);
+    TagMatcher recoveredMatcher = tagCache.get(project).matcher(tagCache, repo, include);
+    assertThat(recoveredMatcher.isReachable(tagRef)).isTrue();
+    assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNotNull();
+  }
+
+  @Test
+  public void tagSetIoExceptionDuringHistoryWalkIsNotCachedAndPreservesOldTagSetOnRebuild()
+      throws Exception {
+    AtomicReference<ObjectId> failOn = new AtomicReference<>();
+    InMemoryRepository repo =
+        new InMemoryRepository(new DfsRepositoryDescription("project")) {
+          @Override
+          public ObjectReader newObjectReader() {
+            ObjectReader delegate = super.newObjectReader();
+            return new ObjectReader.Filter() {
+              @Override
+              protected ObjectReader delegate() {
+                return delegate;
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId) throws IOException {
+                return open(objectId, OBJ_ANY);
+              }
+
+              @Override
+              public ObjectLoader open(AnyObjectId objectId, int typeHint) throws IOException {
+                if (objectId.equals(failOn.get())) {
+                  throw new IOException("simulated storage error");
+                }
+                return super.open(objectId, typeHint);
+              }
+            };
+          }
+        };
+    Ref tagV1;
+    RevCommit middle;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit root = tr.commit().create();
+      middle = tr.commit().parent(root).create();
+      tr.update("refs/heads/main", tr.commit().parent(middle).create());
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+      tagV1 = repo.exactRef("refs/tags/v1");
+    }
+    ImmutableList<Ref> initialInclude = ImmutableList.of(repo.exactRef("refs/heads/main"));
+    Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+    TagCache tagCache = new TagCache(guavaCache);
+    Project.NameKey project = Project.nameKey("project");
+
+    // Cold build failing during the history walk must not cache a truncated TagSet.
+    failOn.set(middle.copy());
+    TagMatcher coldFailed = tagCache.get(project).matcher(tagCache, repo, initialInclude);
+    assertThat(coldFailed.isReachable(tagV1)).isFalse();
+    assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNull();
+
+    // Populate the cached TagSet with reachable v1.
+    failOn.set(null);
+    TagMatcher initialMatcher = tagCache.get(project).matcher(tagCache, repo, initialInclude);
+    assertThat(initialMatcher.isReachable(tagV1)).isTrue();
+    TagSet oldTagSet = guavaCache.getIfPresent(project.get()).getTagSet();
+    assertThat(oldTagSet).isNotNull();
+
+    // Add a branch at a new commit (forcing a full rebuild rather than fast refresh) and trigger
+    // a transient IOException on middle during the rebuild's history walk.
+    Ref tagV2;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repo)) {
+      RevCommit featureTip = tr.commit().parent(middle).create();
+      tr.update("refs/heads/feature", featureTip);
+      tr.update("refs/tags/v2", tr.tag("v2", featureTip));
+      tagV2 = repo.exactRef("refs/tags/v2");
+    }
+    ImmutableList<Ref> rebuildInclude =
+        ImmutableList.of(repo.exactRef("refs/heads/main"), repo.exactRef("refs/heads/feature"));
+
+    failOn.set(middle.copy());
+    TagMatcher failedRebuildMatcher = tagCache.get(project).matcher(tagCache, repo, rebuildInclude);
+    assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isSameInstanceAs(oldTagSet);
+    assertThat(failedRebuildMatcher.isReachable(tagV1)).isTrue();
+
+    // Once the transient IOException clears, rebuild succeeds and caches the updated TagSet.
+    failOn.set(null);
+    TagMatcher recoveredMatcher = tagCache.get(project).matcher(tagCache, repo, rebuildInclude);
+    TagSet rebuiltTagSet = guavaCache.getIfPresent(project.get()).getTagSet();
+    assertThat(rebuiltTagSet).isNotNull();
+    assertThat(rebuiltTagSet).isNotSameInstanceAs(oldTagSet);
+    assertThat(recoveredMatcher.isReachable(tagV1)).isTrue();
+    assertThat(recoveredMatcher.isReachable(tagV2)).isTrue();
+  }
+
+  @Test
+  public void buildSkipsSingleDanglingRefWithMissingObjectException() throws Exception {
+    try (FileRepository bareRepo =
+        new FileRepository(temporaryFolder.newFolder("dangling-refs.git"))) {
+      bareRepo.create(true);
+      try (TestRepository<FileRepository> tr = new TestRepository<>(bareRepo)) {
+        RevCommit root = tr.commit().create();
+        tr.update("refs/heads/main", tr.commit().parent(root).create());
+        tr.update("refs/tags/v1", tr.tag("v1", root));
+      }
+
+      Ref danglingBranch =
+          new ObjectIdRef.Unpeeled(
+              Ref.Storage.LOOSE,
+              "refs/heads/dangling",
+              ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+      Ref danglingTag =
+          new ObjectIdRef.Unpeeled(
+              Ref.Storage.LOOSE,
+              "refs/tags/dangling-tag",
+              ObjectId.fromString("cafebabecafebabecafebabecafebabecafebabe"));
+      Repository repoWithDanglingRefs =
+          new DelegateRepository(bareRepo) {
+            @Override
+            public RefDatabase getRefDatabase() {
+              return new DelegateRefDatabase(bareRepo) {
+                @Override
+                public ImmutableList<Ref> getRefsByPrefixWithExclusions(
+                    String include, Set<String> excludes) throws IOException {
+                  return ImmutableList.<Ref>builder()
+                      .addAll(super.getRefsByPrefixWithExclusions(include, excludes))
+                      .add(danglingBranch)
+                      .add(danglingTag)
+                      .build();
+                }
+              };
+            }
+          };
+
+      Project.NameKey project = Project.nameKey("project");
+      TagSet tagSet = new TagSet(project);
+      assertThat(tagSet.build(repoWithDanglingRefs, null, null)).isTrue();
+      assertThat(tagSet.getRefsForTesting()).containsKey("refs/heads/main");
+      assertThat(tagSet.getRefsForTesting()).doesNotContainKey("refs/heads/dangling");
+
+      Cache<String, TagSetHolder> guavaCache = CacheBuilder.newBuilder().build();
+      TagCache tagCache = new TagCache(guavaCache);
+      ImmutableList<Ref> include = ImmutableList.of(bareRepo.exactRef("refs/heads/main"));
+      TagMatcher m = tagCache.get(project).matcher(tagCache, repoWithDanglingRefs, include);
+      assertThat(m.isReachable(bareRepo.exactRef("refs/tags/v1"))).isTrue();
+      assertThat(guavaCache.getIfPresent(project.get()).getTagSet()).isNotNull();
+    }
+  }
+
+  @Test
+  public void rebuildForNewTagsDiscoversNewTagOnUntaggedAncestorCommit() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+
+    // Case 1: m.newRefs is empty (existing branch unchanged while a new tag is created on a
+    // previously untagged ancestor commit).
+    InMemoryRepository repoEmptyNewRefs =
+        new InMemoryRepository(new DfsRepositoryDescription("project"));
+    RevCommit c1;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repoEmptyNewRefs)) {
+      RevCommit root = tr.commit().create();
+      c1 = tr.commit().parent(root).create();
+      RevCommit tip = tr.commit().parent(c1).create();
+      tr.update("refs/heads/main", tip);
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+    }
+    TagCache cacheEmptyNewRefs = new TagCache(CacheBuilder.newBuilder().build());
+    TagMatcher initial1 =
+        cacheEmptyNewRefs
+            .get(project)
+            .matcher(
+                cacheEmptyNewRefs,
+                repoEmptyNewRefs,
+                ImmutableList.of(repoEmptyNewRefs.exactRef("refs/heads/main")));
+    assertThat(initial1.isReachable(repoEmptyNewRefs.exactRef("refs/tags/v1"))).isTrue();
+
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repoEmptyNewRefs)) {
+      tr.update("refs/tags/v2", tr.tag("v2", c1));
+    }
+    TagMatcher m1 =
+        cacheEmptyNewRefs
+            .get(project)
+            .matcher(
+                cacheEmptyNewRefs,
+                repoEmptyNewRefs,
+                ImmutableList.of(repoEmptyNewRefs.exactRef("refs/heads/main")));
+    assertThat(m1.newRefs).isEmpty();
+    assertThat(m1.isReachable(repoEmptyNewRefs.exactRef("refs/tags/v2"))).isTrue();
+
+    // Case 2: a new refs/heads/release shares tip with refs/heads/main (so TagSet.refresh copies
+    // old.tags without scanning RefDatabase), and a new tag v2 points to untagged ancestor c1.
+    InMemoryRepository repoSharedTip =
+        new InMemoryRepository(new DfsRepositoryDescription("project"));
+    RevCommit sharedC1;
+    RevCommit sharedTip;
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repoSharedTip)) {
+      RevCommit root = tr.commit().create();
+      sharedC1 = tr.commit().parent(root).create();
+      sharedTip = tr.commit().parent(sharedC1).create();
+      tr.update("refs/heads/main", sharedTip);
+      tr.update("refs/tags/v1", tr.tag("v1", root));
+    }
+    TagCache cacheSharedTip = new TagCache(CacheBuilder.newBuilder().build());
+    TagMatcher initial2 =
+        cacheSharedTip
+            .get(project)
+            .matcher(
+                cacheSharedTip,
+                repoSharedTip,
+                ImmutableList.of(repoSharedTip.exactRef("refs/heads/main")));
+    assertThat(initial2.isReachable(repoSharedTip.exactRef("refs/tags/v1"))).isTrue();
+
+    try (TestRepository<InMemoryRepository> tr = new TestRepository<>(repoSharedTip)) {
+      tr.update("refs/heads/release", sharedTip);
+      tr.update("refs/tags/v2", tr.tag("v2", sharedC1));
+    }
+    TagMatcher m2 =
+        cacheSharedTip
+            .get(project)
+            .matcher(
+                cacheSharedTip,
+                repoSharedTip,
+                ImmutableList.of(repoSharedTip.exactRef("refs/heads/release")));
+    assertThat(m2.isReachable(repoSharedTip.exactRef("refs/tags/v2"))).isTrue();
   }
 
   @Test

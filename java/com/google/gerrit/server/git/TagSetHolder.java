@@ -68,6 +68,9 @@ public class TagSetHolder {
   }
 
   void rebuildForNewTags(TagCache cache, TagMatcher m) {
+    // Pass null rather than m to force a full RefDatabase scan and history walk:
+    // TagSet.refresh(old, m) copies old.tags without scanning RefDatabase for newly created
+    // refs/tags/*.
     m.tags = rebuild(cache, m.db, m.tags, null);
     m.mask.clear();
     m.newRefs.clear();
@@ -89,17 +92,18 @@ public class TagSetHolder {
     }
   }
 
-  private TagSet rebuild(TagCache cache, Repository db, TagSet old, TagMatcher m) {
+  private TagSet rebuild(TagCache cache, Repository db, TagSet old, @Nullable TagMatcher m) {
     synchronized (buildLock) {
       TagSet cur = this.tags;
       if (identity().equivalent(cur, old)) {
-        cur = new TagSet(projectName);
-        if (cur.build(db, old, m)) {
-          this.tags = cur;
+        TagSet next = new TagSet(projectName);
+        if (next.build(db, old, m)) {
+          this.tags = next;
           cache.put(projectName, this);
+          return next;
         }
       }
-      return cur;
+      return cur != null ? cur : old;
     }
   }
 

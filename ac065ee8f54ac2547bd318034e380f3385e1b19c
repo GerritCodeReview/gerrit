@@ -88,6 +88,24 @@
       "parentUuid": "8c2a7049_80b75c95",
       "revId": "ac065ee8f54ac2547bd318034e380f3385e1b19c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dc10cce_5d7133a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T02:14:34Z",
+      "side": 1,
+      "message": "\u003e This feels too magical to me, and is not documented. I don\u0027t think we want users having to know the format of that field, and I think we want to control the user interface and not expose the openssh storage format to the user.\n\nI agree its magical but its the OpenSSH that changed the key format and not Gerrit. I will pull this out of the series as it is not strictly required for now.",
+      "parentUuid": "b5386f53_0cfc844b",
+      "revId": "ac065ee8f54ac2547bd318034e380f3385e1b19c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

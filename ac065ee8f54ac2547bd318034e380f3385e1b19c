@@ -16,6 +16,24 @@
       "message": "This approach doesn\u0027t seem like it will be able to evolves to allow Gerrit to enforce expiry times.",
       "revId": "ac065ee8f54ac2547bd318034e380f3385e1b19c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec50787a_1cf97552",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-17T01:32:50Z",
+      "side": 1,
+      "message": "This uses the standard OpenSSH expiry-time option to specify when a key expires. Are you concerned about how this would interact with a future Gerrit-controlled expiry policy, such as a maximum key lifetime? Could you clarify which limitations you see in extending this approach?",
+      "parentUuid": "63a0b6f6_b7f28752",
+      "revId": "ac065ee8f54ac2547bd318034e380f3385e1b19c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

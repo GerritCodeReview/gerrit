@@ -34,6 +34,24 @@
       "parentUuid": "620f8b01_6a39675f",
       "revId": "6f577e11ee3b3a163cbc4e072438e2c537df3fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "269958dc_e88618ff",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-17T02:23:09Z",
+      "side": 1,
+      "message": "Previously it was tied to the plain string representation of the public key itself, not the authorized_keys file storage format. The fact that authorized_keys happened to look like the same format was luck.",
+      "parentUuid": "b29a1b8e_5f0e392c",
+      "revId": "6f577e11ee3b3a163cbc4e072438e2c537df3fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

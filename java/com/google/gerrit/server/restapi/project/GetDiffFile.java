@@ -117,11 +117,9 @@ public class GetDiffFile implements RestReadView<FileResource> {
       RevCommit baseCommit = diffUtils.parseCommit(rw, baseCommitId, "base");
       RevCommit newCommit = rw.parseCommit(newCommitId);
 
-      // Validate that commits are in ancestor/descendant relationship
-      diffUtils.validateAncestorRelationship(rw, baseCommit, newCommit);
-
-      // Verify visibility of all commits in the path
-      diffUtils.verifyPathVisibility(projectState, repo, rw, baseCommit, newCommit);
+      // Validate visibility and ancestor/descendant relationship for endpoints and intermediate
+      // commits
+      diffUtils.validateAndVerifyPath(projectState, repo, rw, baseCommit, newCommit);
 
       if (!Patch.isMagic(filePath)) {
         try (TreeWalk tw =

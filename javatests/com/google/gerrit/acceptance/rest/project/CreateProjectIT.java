@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -107,6 +108,40 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertThat(projectState).isPresent();
     assertProjectInfo(projectState.get().getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
+  }
+
+  @Test
+  @UseLocalDisk
+  public void createProjectHttpWithCompleteGitConfig() throws Exception {
+    Project.NameKey projectName = Project.nameKey(name("project-with-git-config"));
+    ProjectInput input = new ProjectInput();
+    input.gitConfig =
+        "[core]\n\trepositoryFormatVersion = 1\n\tbare = true\n"
+            + "[extensions]\n\trefStorage = reftable\n"
+            + "[extraParam]\n\ttestKey = testValue\n";
+
+    adminRestSession.put("/projects/" + projectName.get(), input).assertCreated();
+
+    try (Repository repo = repoManager.openRepository(projectName)) {
+      assertThat(repo.getConfig().getString("extensions", null, "refStorage"))
+          .isEqualTo("reftable");
+      assertThat(repo.getConfig().getString("extraParam", null, "testKey")).isEqualTo("testValue");
+    }
+  }
+
+  @Test
+  @UseLocalDisk
+  public void createProjectHttpFailsWhenRefStorageConflicts() throws Exception {
+    Project.NameKey projectName = Project.nameKey(name("project-with-git-config"));
+    ProjectInput input = new ProjectInput();
+    input.gitConfig =
+        "[core]\n\trepositoryFormatVersion = 1\n\tbare = true\n"
+            + "[extensions]\n\trefStorage = reftable\n";
+    input.refStorage = RefStorage.FILES;
+
+    assertWithMessage("Expected status code for " + projectName + " to be 500.")
+        .that(adminRestSession.put("/projects/" + projectName.get(), input).getStatusCode())
+        .isEqualTo(HttpStatus.SC_INTERNAL_SERVER_ERROR);
   }
 
   @Test

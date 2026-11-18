@@ -27,6 +27,7 @@ public class ProjectInput {
   public boolean permissionsOnly;
   public boolean createEmptyCommit;
   public RefStorage refStorage;
+  public String gitConfig;
   public SubmitType submitType;
   public List<String> branches;
   public List<String> owners;

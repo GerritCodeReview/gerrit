@@ -44,6 +44,7 @@ public class CreateProjectArgs {
   public String maxObjectSizeLimit;
   public boolean initOnly;
   public RefStorage refStorage;
+  public String gitConfig;
 
   public CreateProjectArgs() {
     contributorAgreements = InheritableBoolean.INHERIT;

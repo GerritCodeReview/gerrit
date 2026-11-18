@@ -36,6 +36,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -62,10 +63,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -133,6 +137,7 @@ public class ProjectCreator {
   @CanIgnoreReturnValue
   public ProjectState createProject(CreateProjectArgs args)
       throws RestApiException, IOException, ConfigInvalidException {
+    prepareGitConfig(args);
     try {
       return retryHelper
           .action(
@@ -158,6 +163,7 @@ public class ProjectCreator {
                       throw new RepositoryExistsException(nameKey, "Repository status: " + status);
                     }
                     try (Repository repo = repoManager.createRepository(nameKey, args.refStorage)) {
+                      applyGitConfig(repo, args.gitConfig);
                       initProject(nameKey, repo, args);
                       return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
                     }
@@ -199,6 +205,41 @@ public class ProjectCreator {
       Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
       Throwables.throwIfInstanceOf(e, RestApiException.class);
       throw new IllegalStateException(e);
+    }
+  }
+
+  private static void prepareGitConfig(CreateProjectArgs args) throws ConfigInvalidException {
+    if (Strings.isNullOrEmpty(args.gitConfig)) {
+      return;
+    }
+    Config config = new Config();
+    config.fromText(args.gitConfig);
+    String refStorage =
+        config.getString(
+            ConfigConstants.CONFIG_EXTENSIONS_SECTION,
+            null,
+            ConfigConstants.CONFIG_KEY_REF_STORAGE);
+    if (refStorage == null || args.refStorage == null) {
+      return;
+    }
+    try {
+      RefStorage configuredRefStorage = RefStorage.valueOf(refStorage.toUpperCase(Locale.US));
+      if (args.refStorage != configuredRefStorage) {
+        throw new ConfigInvalidException(
+            String.format(
+                "ref storage %s conflicts with Git config value %s",
+                args.refStorage, configuredRefStorage));
+      }
+    } catch (IllegalArgumentException e) {
+      throw new ConfigInvalidException("invalid ref storage format: " + refStorage, e);
+    }
+  }
+
+  private static void applyGitConfig(Repository repo, @Nullable String gitConfig)
+      throws IOException, ConfigInvalidException {
+    if (!Strings.isNullOrEmpty(gitConfig)) {
+      repo.getConfig().fromText(gitConfig);
+      repo.getConfig().save();
     }
   }
 

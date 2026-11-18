@@ -5610,6 +5610,10 @@ The ref storage format for the project's repository (`FILES`,
 `REFTABLE`). +
 If not set, the repository manager selects the format. Local disk storage
 uses JGit's init defaults, falling back to `FILES`.
+|`git_config`                |optional|
+Complete Git configuration to install in the new repository. Creation-time
+settings such as `extensions.refStorage` are applied before the repository is
+created. If `ref_storage` is also supplied, both values must agree.
 |=========================================
 
 [[ref-storage-input]]

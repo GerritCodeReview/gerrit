@@ -56,8 +56,10 @@ common:remote25_bb --config=build_java25_shared
 
 common --announce_rc
 
+# On `common` (not `test`): --jvmopt is part of the analysis cache key, so a
+# test-only value discards the cache on every `build`<->`test` switch.
 # TODO(davido): Remove after upgrade to JDK 27 (on by default).
-test --jvmopt=-XX:+UseCompactObjectHeaders
+common --jvmopt=-XX:+UseCompactObjectHeaders
 test --build_tests_only
 test --test_output=errors
 

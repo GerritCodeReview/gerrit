@@ -15,14 +15,29 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
 import java.util.List;
 
-/** An SSH key approved for use by an {@link Account}. */
-public record AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
+/**
+ * An SSH key approved for use by an {@link Account}.
+ *
+ * @param options login options of {@code authorized_keys}, kept so that they are not lost when
+ *     written back
+ */
+public record AccountSshKey(
+    Account.Id accountId,
+    int seq,
+    String sshPublicKey,
+    boolean valid,
+    ImmutableMap<String, String> options) {
   public AccountSshKey {
     sshPublicKey = stripOffNewLines(sshPublicKey);
     valid = valid && seq > 0;
+  }
+
+  public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
+    this(accountId, seq, sshPublicKey, valid, ImmutableMap.of());
   }
 
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey) {
@@ -31,7 +46,7 @@ public record AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, 
 
   /** Returns a copy of this key that is flagged as invalid. */
   public AccountSshKey asInvalid() {
-    return new AccountSshKey(accountId, seq, sshPublicKey, false);
+    return new AccountSshKey(accountId, seq, sshPublicKey, false, options);
   }
 
   private static String stripOffNewLines(String s) {

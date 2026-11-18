@@ -144,6 +144,54 @@ public class AuthorizedKeysTest {
     assertThat(key.comment()).isEqualTo(keyParts.get(2));
   }
 
+  @Test
+  public void optionsSurviveSerialization() {
+    AccountSshKey key =
+        AuthorizedKeys.parseKey(
+            accountId,
+            1,
+            "no-pty,!agent-forwarding,expiry-time=\"20300102Z\",command=\"echo a b\" " + KEY1);
+    assertThat(key.sshPublicKey()).isEqualTo(KEY1);
+    assertThat(key.options())
+        .containsExactly(
+            "no-pty", "true",
+            "!agent-forwarding", "false",
+            "expiry-time", "20300102Z",
+            "command", "echo a b");
+
+    String line = AuthorizedKeys.format(key);
+    assertThat(AuthorizedKeys.parseKey(accountId, 1, line)).isEqualTo(key);
+    assertThat(AuthorizedKeys.format(AuthorizedKeys.parseKey(accountId, 1, line))).isEqualTo(line);
+  }
+
+  @Test
+  public void optionsOfInvalidKeySurviveSerialization() {
+    String content =
+        AuthorizedKeys.INVALID_KEY_COMMENT_PREFIX
+            + "expiry-time=\"20300102Z\",no-pty "
+            + KEY1
+            + "\n";
+    List<Optional<AccountSshKey>> keys = AuthorizedKeys.parse(accountId, content);
+    assertThat(keys.get(0).get().valid()).isFalse();
+    assertThat(keys.get(0).get().options())
+        .containsExactly("expiry-time", "20300102Z", "no-pty", "true");
+    assertThat(AuthorizedKeys.serialize(keys)).isEqualTo(content);
+  }
+
+  @Test
+  public void keyWithoutOptionsIsSerializedAsIs() {
+    assertThat(AuthorizedKeys.format(AuthorizedKeys.parseKey(accountId, 1, KEY1))).isEqualTo(KEY1);
+  }
+
+  @Test
+  public void unparsableKeyIsKeptAsIs() {
+    String unparsable = "ssh-rsa not-base64!! john.doe@example.com";
+    AccountSshKey key = AuthorizedKeys.parseKey(accountId, 1, unparsable);
+    assertThat(key.options()).isEmpty();
+    assertThat(AuthorizedKeys.format(key)).isEqualTo(unparsable);
+    assertThat(AuthorizedKeys.format(key.asInvalid())).isEqualTo(unparsable);
+  }
+
   private static String toWindowsLineEndings(String s) {
     return s.replace("\n", "\r\n");
   }

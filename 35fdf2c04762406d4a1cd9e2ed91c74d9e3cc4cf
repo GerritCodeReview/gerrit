@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5b44f4_813a4bb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-18T05:27:40Z",
+      "side": 1,
+      "message": "Could you re-use the existing `sshSession.requiresGracefulStop()` instead of adding this new method? Though maybe the intent there is too different. We probably want to wait for a user query to finish during a graceful shutdown, but we can cancel it immediately if the client disconnects.",
+      "revId": "35fdf2c04762406d4a1cd9e2ed91c74d9e3cc4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5bc0208_0dc70ac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-18T05:27:40Z",
+      "side": 1,
+      "message": "Which behavior is the current one? If `receive-pack` is being aborted, don\u0027t we want to fix that?",
+      "range": {
+        "startLine": 35,
+        "startChar": 20,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "35fdf2c04762406d4a1cd9e2ed91c74d9e3cc4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e001b8_5fe3e85f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-18T05:27:40Z",
+      "side": 1,
+      "message": "Needs to be rebased and conflicts fixed",
+      "revId": "35fdf2c04762406d4a1cd9e2ed91c74d9e3cc4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8e71e92_0da1a5c4",
+        "filename": "Documentation/user-request-cancellation-and-deadlines.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-18T05:27:40Z",
+      "side": 1,
+      "message": "strange line wrap?\n```suggestion\n`sshd_log`. SSH commands of plugins also run to completion, unless they override\n```",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 44
+      },
+      "revId": "35fdf2c04762406d4a1cd9e2ed91c74d9e3cc4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

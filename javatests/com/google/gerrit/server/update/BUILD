@@ -14,6 +14,7 @@ junit_tests(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/testing:test-ref-update-context",

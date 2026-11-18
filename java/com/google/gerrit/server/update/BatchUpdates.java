@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -31,6 +32,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.cancellation.RequestStateContext;
+import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.index.change.PendingIndexUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -120,47 +123,63 @@ public class BatchUpdates {
             h.writeIndexIntents(pendingIndexUpdate, threadId);
           }
         }
-        for (ChangesHandle h : changesHandles) {
-          h.execute();
-          if (h.requiresReindex()) {
-            indexFutures.addAll(h.startIndexFutures());
-          }
-        }
-        notifyAfterUpdateRefs(listeners);
-        notifyAfterUpdateChanges(listeners);
-      } finally {
-        for (ChangesHandle h : changesHandles) {
-          h.close();
-        }
+      } catch (Throwable t) {
+        closeChangesHandles(changesHandles);
+        throw t;
       }
 
-      Map<Change.Id, ChangeData> changeDatas =
-          Futures.allAsList(indexFutures).get().stream()
-              // filter out null values that were returned for change deletions
-              .filter(Objects::nonNull)
-              .collect(toMap(cd -> cd.change().getId(), Function.identity()));
-
-      // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
-      // some changes were closed.
-      updates.forEach(BatchUpdate::fireRefChangeEvents);
-
-      if (!dryrun) {
-        if (pendingIndexUpdate.isEnabled()) {
+      // Once the updates are committed, reindexing, events and post-update ops must run even if
+      // the request gets cancelled meanwhile, as otherwise the index is stale and listeners miss
+      // the update. A cancellation that is detected during this time aborts the request when the
+      // non-cancellable operation is closed, i.e. after the batch update is complete.
+      try (NonCancellableOperationContext _ = RequestStateContext.startNonCancellableOperation()) {
+        try {
           for (ChangesHandle h : changesHandles) {
-            h.deleteIndexIntents(pendingIndexUpdate, threadId);
+            h.execute();
+            if (h.requiresReindex()) {
+              indexFutures.addAll(h.startIndexFutures());
+            }
+          }
+          notifyAfterUpdateRefs(listeners);
+          notifyAfterUpdateChanges(listeners);
+        } finally {
+          closeChangesHandles(changesHandles);
+        }
+
+        Map<Change.Id, ChangeData> changeDatas =
+            Uninterruptibles.getUninterruptibly(Futures.allAsList(indexFutures)).stream()
+                // filter out null values that were returned for change deletions
+                .filter(Objects::nonNull)
+                .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+
+        // Fire ref update events only after all mutations are finished, since callers may assume
+        // a patch set ref being created means the change was created, or a branch advancing
+        // meaning some changes were closed.
+        updates.forEach(BatchUpdate::fireRefChangeEvents);
+
+        if (!dryrun) {
+          if (pendingIndexUpdate.isEnabled()) {
+            for (ChangesHandle h : changesHandles) {
+              h.deleteIndexIntents(pendingIndexUpdate, threadId);
+            }
+          }
+
+          for (BatchUpdate u : updates) {
+            u.executePostOps(changeDatas);
           }
         }
 
-        for (BatchUpdate u : updates) {
-          u.executePostOps(changeDatas);
-        }
+        return new Result(changeDatas);
       }
-
-      return new Result(changeDatas);
     } catch (Exception e) {
       wrapAndThrowException(e);
       return new Result();
+    }
+  }
+
+  private static void closeChangesHandles(List<ChangesHandle> changesHandles) {
+    for (ChangesHandle h : changesHandles) {
+      h.close();
     }
   }
 

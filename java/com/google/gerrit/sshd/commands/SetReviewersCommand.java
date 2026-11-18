@@ -105,6 +105,7 @@ public class SetReviewersCommand extends SshCommand {
       try {
         ok &= modifyOne(rsrc);
       } catch (Exception err) {
+        rethrowIfCancelled(err);
         ok = false;
         logger.atSevere().withCause(err).log("Error updating reviewers on change %s", rsrc.getId());
         writeError("fatal", "internal error while updating " + rsrc.getId());
@@ -138,6 +139,7 @@ public class SetReviewersCommand extends SshCommand {
       } catch (ResourceNotFoundException e) {
         error = String.format("could not remove %s: not found", reviewer);
       } catch (Exception e) {
+        rethrowIfCancelled(e);
         error = String.format("could not remove %s: %s", reviewer, e.getMessage());
       }
       if (error != null) {
@@ -168,6 +170,7 @@ public class SetReviewersCommand extends SshCommand {
                     })
                 .call();
       } catch (Exception e) {
+        rethrowIfCancelled(e);
         error.value = String.format("could not add %s: %s", reviewer, e.getMessage());
       }
       if (error.value != null) {

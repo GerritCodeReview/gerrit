@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.base.Throwables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CancellationMetrics;
@@ -43,6 +44,8 @@ import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 public abstract class SshCommand extends BaseCommand {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
   @Inject private PluginSetContext<RequestListener> requestListeners;
   @Inject @GerritServerConfig private Config config;
@@ -142,6 +145,25 @@ public abstract class SshCommand extends BaseCommand {
   }
 
   protected abstract void run() throws UnloggedFailure, Failure, Exception;
+
+  /**
+   * Rethrows the given exception if it was caused by the cancellation of the request, so that the
+   * request is reported as cancelled instead of failed. For commands that catch exceptions to
+   * report them as errors.
+   */
+  protected static void rethrowIfCancelled(Exception e) {
+    Optional<RequestCancelledException> requestCancelledException =
+        RequestCancelledException.getFromCausalChain(e);
+    if (requestCancelledException.isPresent()) {
+      if (Throwables.getCausalChain(e).stream()
+          .noneMatch(RequestCancelledException.class::isInstance)) {
+        // The request was cancelled, but it failed for another reason, which would be lost.
+        logger.atWarning().withCause(e).log("Cancelled request failed");
+      }
+      Throwables.throwIfUnchecked(e);
+      throw requestCancelledException.get();
+    }
+  }
 
   private TraceContext enableTracing() throws UnloggedFailure {
     if (!trace && traceId != null) {

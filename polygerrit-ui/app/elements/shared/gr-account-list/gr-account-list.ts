@@ -13,9 +13,13 @@ import {
   GroupInfo,
   isAccount,
   isGroup,
+  isReviewerAccountSuggestion,
+  isReviewerGroupSuggestion,
+  SuggestedReviewerAccountInfo,
   SuggestedReviewerGroupInfo,
   SuggestedReviewerInfo,
   Suggestion,
+  UserId,
 } from '../../../types/common';
 import {ReviewerSuggestionsProvider} from '../../../services/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
@@ -246,6 +250,10 @@ export class GrAccountList extends LitElement {
     if (!provider) return Promise.resolve([]);
     return provider.getSuggestions(input).then(suggestions => {
       if (!suggestions) return [];
+      suggestions = [
+        ...suggestions,
+        ...this.getRemovedAccountSuggestions(suggestions, input),
+      ];
       if (this.filter) {
         suggestions = suggestions.filter(this.filter);
       }
@@ -253,6 +261,30 @@ export class GrAccountList extends LitElement {
         provider.makeSuggestionItem(suggestion)
       );
     });
+  }
+
+  private getRemovedAccountSuggestions(
+    existingSuggestions: Suggestion[],
+    input: string
+  ): SuggestedReviewerAccountInfo[] {
+    const existingKeys = new Set(
+      existingSuggestions
+        .map(suggestion => getSuggestionKey(suggestion))
+        .filter((key): key is UserId => key !== undefined)
+    );
+    return this.removals()
+      .filter(
+        account =>
+          isAccount(account) &&
+          (!this.change?.owner ||
+            !isAccount(this.change.owner) ||
+            getUserId(account) !== getUserId(this.change.owner)) &&
+          !existingKeys.has(getUserId(account)) &&
+          accountMatchesInput(account, input)
+      )
+      .map(account => {
+        return {account, count: 1};
+      });
   }
 
   // private but used in test
@@ -583,4 +615,39 @@ export class GrAccountList extends LitElement {
       (a, b) => getUserId(a) === getUserId(b)
     );
   }
+}
+
+function getSuggestionKey(suggestion: Suggestion): UserId | undefined {
+  if (isReviewerAccountSuggestion(suggestion)) {
+    return isAccount(suggestion.account)
+      ? getUserId(suggestion.account)
+      : undefined;
+  }
+  if (isReviewerGroupSuggestion(suggestion)) {
+    return suggestion.group.id;
+  }
+  if (isAccount(suggestion)) {
+    return getUserId(suggestion);
+  }
+  return undefined;
+}
+
+function accountMatchesInput(account: AccountInfo, input: string): boolean {
+  const query = input.trim().toLowerCase();
+  if (!query) return true;
+  const searchableFields = [
+    account.name,
+    account.display_name,
+    account.email,
+    account.username,
+    ...(account.secondary_emails ?? []),
+    account.name && account.email
+      ? `${account.name} <${account.email}>`
+      : undefined,
+    account.display_name && account.email
+      ? `${account.display_name} <${account.email}>`
+      : undefined,
+    account._account_id !== undefined ? String(account._account_id) : undefined,
+  ];
+  return searchableFields.some(field => field?.toLowerCase().includes(query));
 }

@@ -137,10 +137,12 @@ public class CreateProject
     args.projectDescription = Strings.emptyToNull(input.description);
     args.submitType = input.submitType;
     args.branch = normalizeBranchNames(input.branches);
-    if (input.initOnly && input.refStorage != null) {
-      throw new BadRequestException("ref storage format cannot be set for an init-only project");
+    if (input.initOnly && (input.refStorage != null || input.gitConfig != null)) {
+      throw new BadRequestException(
+          "ref storage format and Git config cannot be set for an init-only project");
     }
     args.refStorage = input.refStorage;
+    args.gitConfig = input.gitConfig;
     if (input.owners == null || input.owners.isEmpty()) {
       args.ownerIds = new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
     } else {

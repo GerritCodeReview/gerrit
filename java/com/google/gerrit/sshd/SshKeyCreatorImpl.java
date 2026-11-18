@@ -30,7 +30,7 @@ public class SshKeyCreatorImpl implements SshKeyCreator {
   public AccountSshKey create(Account.Id accountId, int seq, String encoded)
       throws InvalidSshKeyException {
     try {
-      AccountSshKey key = AccountSshKey.create(accountId, seq, SshUtil.toOpenSshPublicKey(encoded));
+      AccountSshKey key = new AccountSshKey(accountId, seq, SshUtil.toOpenSshPublicKey(encoded));
       SshUtil.parse(key);
       return key;
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

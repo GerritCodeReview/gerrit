@@ -144,7 +144,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   public static class SimpleSshKeyCreator implements SshKeyCreator {
     @Override
     public AccountSshKey create(Account.Id accountId, int seq, String encoded) {
-      return AccountSshKey.create(accountId, seq, encoded);
+      return new AccountSshKey(accountId, seq, encoded);
     }
   }
 
@@ -206,7 +206,8 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   /**
    * Adds a new public SSH key.
    *
-   * <p>If the specified public key exists already, the existing key is returned.
+   * <p>If the specified public key exists already, the existing key is returned, regardless of the
+   * comment of the specified key.
    *
    * @param pub the public SSH key to be added
    * @return the new SSH key
@@ -214,14 +215,17 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   private AccountSshKey addKey(String pub) throws InvalidSshKeyException {
     checkLoaded();
 
-    for (Optional<AccountSshKey> key : keys) {
-      if (key.isPresent() && key.get().sshPublicKey().trim().equals(pub.trim())) {
-        return key.get();
+    int seq = keys.size() + 1;
+    AccountSshKey key = sshKeyCreator.create(accountId, seq, pub);
+    for (Optional<AccountSshKey> existing : keys) {
+      if (existing.isPresent()
+          && key.encodedKey() != null
+          && existing.get().algorithm().equals(key.algorithm())
+          && key.encodedKey().equals(existing.get().encodedKey())) {
+        return existing.get();
       }
     }
 
-    int seq = keys.size() + 1;
-    AccountSshKey key = sshKeyCreator.create(accountId, seq, pub);
     keys.add(Optional.of(key));
     return key;
   }
@@ -255,7 +259,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
 
     Optional<AccountSshKey> key = keys.get(seq - 1);
     if (key.isPresent() && key.get().valid()) {
-      keys.set(seq - 1, Optional.of(AccountSshKey.createInvalid(key.get())));
+      keys.set(seq - 1, Optional.of(key.get().asInvalid()));
       return true;
     }
     return false;

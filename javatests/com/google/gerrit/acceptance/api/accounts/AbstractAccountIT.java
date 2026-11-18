@@ -1843,6 +1843,17 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
 
   @Test
   @UseSsh
+  public void addExistingSshKeyWithDifferentCommentDoesNotAddKeyAgain() throws Exception {
+    String initial = TestSshKeys.publicKey(sshKeys.getKeyPair(admin), admin.email());
+    gApi.accounts().self().addSshKey(TestSshKeys.publicKey(sshKeys.getKeyPair(admin), "other"));
+
+    List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(1);
+    assertThat(info.get(0).sshPublicKey).isEqualTo(initial);
+  }
+
+  @Test
+  @UseSsh
   public void adminCanAddOrRemoveSshKeyOnOtherAccount() throws Exception {
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =

@@ -114,17 +114,17 @@ public class AuthorizedKeysTest {
 
   @Test
   public void validity() throws Exception {
-    AccountSshKey key = AccountSshKey.create(accountId, -1, KEY1);
+    AccountSshKey key = new AccountSshKey(accountId, -1, KEY1);
     assertThat(key.valid()).isFalse();
-    key = AccountSshKey.create(accountId, 0, KEY1);
+    key = new AccountSshKey(accountId, 0, KEY1);
     assertThat(key.valid()).isFalse();
-    key = AccountSshKey.create(accountId, 1, KEY1);
+    key = new AccountSshKey(accountId, 1, KEY1);
     assertThat(key.valid()).isTrue();
   }
 
   @Test
   public void getters() throws Exception {
-    AccountSshKey key = AccountSshKey.create(accountId, 1, KEY1);
+    AccountSshKey key = new AccountSshKey(accountId, 1, KEY1);
     assertThat(key.sshPublicKey()).isEqualTo(KEY1);
 
     List<String> keyParts = Splitter.on(" ").splitToList(KEY1);
@@ -135,7 +135,7 @@ public class AuthorizedKeysTest {
 
   @Test
   public void keyWithNewLines() throws Exception {
-    AccountSshKey key = AccountSshKey.create(accountId, 1, KEY1_WITH_NEWLINES);
+    AccountSshKey key = new AccountSshKey(accountId, 1, KEY1_WITH_NEWLINES);
     assertThat(key.sshPublicKey()).isEqualTo(KEY1);
 
     List<String> keyParts = Splitter.on(" ").splitToList(KEY1);
@@ -175,7 +175,7 @@ public class AuthorizedKeysTest {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addKey(List<Optional<AccountSshKey>> keys, String pub) {
-    AccountSshKey key = AccountSshKey.create(Account.id(1), keys.size() + 1, pub);
+    AccountSshKey key = new AccountSshKey(Account.id(1), keys.size() + 1, pub);
     keys.add(Optional.of(key));
     return key.sshPublicKey() + "\n";
   }
@@ -186,7 +186,7 @@ public class AuthorizedKeysTest {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addInvalidKey(List<Optional<AccountSshKey>> keys, String pub) {
-    AccountSshKey key = AccountSshKey.createInvalid(Account.id(1), keys.size() + 1, pub);
+    AccountSshKey key = new AccountSshKey(Account.id(1), keys.size() + 1, pub, false);
     keys.add(Optional.of(key));
     return AuthorizedKeys.INVALID_KEY_COMMENT_PREFIX + key.sshPublicKey() + "\n";
   }

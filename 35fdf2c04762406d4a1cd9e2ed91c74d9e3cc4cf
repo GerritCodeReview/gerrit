@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb6aa2e3_a9663d51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-18T11:52:46Z",
+      "side": 1,
+      "message": "I looked at it, but it doesn\u0027t fit, for the reason you mention. Graceful stop answers \u0027should shutdown wait for this?\u0027, and it is enabled by read and write commands alike: query, ls-projects, show-queue and version as well as review, create-project, create-branch and git upload/receive-pack. So it can\u0027t tell which commands are safe to drop. It is also a sticky flag on the SshSession, set from inside run(), while destroy() has to decide per command and possibly before run() has started. A query should be waited for on shutdown but cancelled on disconnect, so the two need separate flags. That\u0027s why I kept cancelOnClientDisconnect().",
+      "parentUuid": "3f5b44f4_813a4bb6",
+      "revId": "35fdf2c04762406d4a1cd9e2ed91c74d9e3cc4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5bc0208_0dc70ac3",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-11-18T05:27:40Z",
       "side": 1,
       "message": "Which behavior is the current one? If `receive-pack` is being aborted, don\u0027t we want to fix that?",
+      "range": {
+        "startLine": 35,
+        "startChar": 20,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "35fdf2c04762406d4a1cd9e2ed91c74d9e3cc4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "092a8cb1_4f8c9941",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-18T11:52:46Z",
+      "side": 1,
+      "message": "Good question, I\u0027ve made the message explicit. Neither this change nor I8155a9e56f touches git upload/receive-pack or stream-events. They aren\u0027t SshCommands, so on disconnect BaseCommand#destroy still interrupts their thread as it always did. For pushes there is a second, older mechanism: ReceiveCommits uses the MultiProgressMonitor as a RequestStateProvider, which reports CLIENT_CLOSED_REQUEST once sending progress to the client fails, and the remaining commands are then rejected. So yes, a push can be cut short too. But that logic lives in ReceiveCommits, is shared with HTTP pushes, and needs a different fix than the SSH opt-in.",
+      "parentUuid": "e5bc0208_0dc70ac3",
       "range": {
         "startLine": 35,
         "startChar": 20,
@@ -71,6 +113,30 @@
       "writtenOn": "2026-11-18T05:27:40Z",
       "side": 1,
       "message": "strange line wrap?\n```suggestion\n`sshd_log`. SSH commands of plugins also run to completion, unless they override\n```",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 44
+      },
+      "revId": "35fdf2c04762406d4a1cd9e2ed91c74d9e3cc4cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbd8cd1a_82c02d28",
+        "filename": "Documentation/user-request-cancellation-and-deadlines.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-18T11:52:46Z",
+      "side": 1,
+      "message": "Done, thanks",
+      "parentUuid": "a8e71e92_0da1a5c4",
       "range": {
         "startLine": 27,
         "startChar": 0,

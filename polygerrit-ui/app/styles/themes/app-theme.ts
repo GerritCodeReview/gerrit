@@ -584,7 +584,10 @@ export function applyTheme() {
   const styleEl = document.createElement('style');
   styleEl.setAttribute('id', 'light-theme');
   setStyleTextContent(styleEl, appThemeCss);
-  document.head.appendChild(styleEl);
+  const darkOrPluginStyleEl = document.head.querySelector(
+    'style#dark-theme, style#plugin-style'
+  );
+  document.head.insertBefore(styleEl, darkOrPluginStyleEl);
 }
 
 applyTheme();

@@ -38,7 +38,7 @@ suite('gr-plugin-style-api tests', () => {
     assert.equal(styleSheet?.cssRules.length, 1);
   });
 
-  test('insertCSSRule re-uses the <style> element', async () => {
+  test('insertCSSRule re-uses the <style> element and appends in order', async () => {
     styleApi.insertCSSRule('html{color:green;}');
     styleApi.insertCSSRule('html{margin:0px;}');
     const styleEl = queryAndAssert<HTMLStyleElement>(
@@ -47,5 +47,7 @@ suite('gr-plugin-style-api tests', () => {
     );
     const styleSheet = styleEl.sheet;
     assert.equal(styleSheet?.cssRules.length, 2);
+    assert.include(styleSheet?.cssRules[0].cssText, 'color: green');
+    assert.include(styleSheet?.cssRules[1].cssText, 'margin: 0px');
   });
 });

@@ -418,4 +418,64 @@ suite('gr-plugin-loader tests', () => {
     assert.isTrue(installed);
     await pluginLoader.awaitPluginsLoaded();
   });
+
+  suite('awaitInitialTheme', () => {
+    test('resolves when defaultTheme settles even while another plugin is pending', async () => {
+      let installSlowPlugin!: () => void;
+      sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(pluginPath => {
+        if (pluginPath.includes('gerrit-theme.js')) {
+          pluginLoader.install(
+            () => {},
+            '0.1',
+            `${url}/static/gerrit-theme.js`
+          );
+        } else {
+          installSlowPlugin = () =>
+            pluginLoader.install(
+              () => {},
+              '0.1',
+              `${url}/plugins/slow/static/slow.js`
+            );
+        }
+      });
+
+      const themeReady = pluginLoader.awaitInitialTheme();
+      pluginLoader.loadPlugins(
+        ['/static/gerrit-theme.js', 'plugins/slow/static/slow.js'],
+        undefined,
+        '/static/gerrit-theme.js'
+      );
+
+      assert.isFalse(pluginLoader.arePluginsLoaded());
+      await themeReady;
+
+      installSlowPlugin();
+      await pluginLoader.awaitPluginsLoaded();
+      assert.isTrue(pluginLoader.arePluginsLoaded());
+    });
+
+    test('waits for JS plugins when defaultTheme is unset', async () => {
+      let resolved = false;
+      let finishPlugin!: () => void;
+      sinon.stub(pluginLoader, 'loadJsPlugin').callsFake(() => {
+        finishPlugin = () =>
+          pluginLoader.install(
+            () => {},
+            '0.1',
+            `${url}/plugins/gerrithub/static/gerrithub.js`
+          );
+      });
+
+      const themeReady = pluginLoader.awaitInitialTheme().then(() => {
+        resolved = true;
+      });
+      pluginLoader.loadPlugins(['plugins/gerrithub/static/gerrithub.js']);
+      await waitEventLoop();
+      assert.isFalse(resolved);
+
+      finishPlugin();
+      await themeReady;
+      assert.isTrue(resolved);
+    });
+  });
 });

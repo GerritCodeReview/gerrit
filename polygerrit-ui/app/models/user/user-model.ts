@@ -145,7 +145,7 @@ export class UserModel extends Model<UserState> {
 
   readonly preferenceTheme$: Observable<AppTheme> = select(
     this.preferences$,
-    preference => preference.theme
+    preference => preference.theme ?? AppTheme.AUTO
   );
 
   readonly myMenuItems$: Observable<TopMenuItemInfo[]> = select(

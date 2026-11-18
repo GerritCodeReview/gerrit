@@ -990,7 +990,6 @@ export class GrMainHeader extends LitElement {
     return Promise.all([
       this.restApiService.getAccount(),
       this.restApiService.getTopMenus(),
-      this.getPluginLoader().awaitPluginsLoaded(),
     ]).then(result => {
       const account = result[0];
       this.account = account;
@@ -998,19 +997,26 @@ export class GrMainHeader extends LitElement {
       this.loading = false;
       this.topMenus = result[1];
 
-      return getAdminLinks(
-        account,
-        () =>
-          this.restApiService.getAccountCapabilities().then(capabilities => {
-            if (!capabilities) {
-              throw new Error('getAccountCapabilities returns undefined');
-            }
-            return capabilities;
-          }),
-        () => this.getPluginLoader().jsApiService.getAdminMenuLinks()
-      ).then(res => {
-        this.adminLinks = res.links;
-      });
+      return this.getPluginLoader()
+        .awaitPluginsLoaded()
+        .catch(() => {})
+        .then(() =>
+          getAdminLinks(
+            account,
+            () =>
+              this.restApiService
+                .getAccountCapabilities()
+                .then(capabilities => {
+                  if (!capabilities) {
+                    throw new Error('getAccountCapabilities returns undefined');
+                  }
+                  return capabilities;
+                }),
+            () => this.getPluginLoader().jsApiService.getAdminMenuLinks()
+          ).then(res => {
+            this.adminLinks = res.links;
+          })
+        );
     });
   }
 

@@ -14,6 +14,8 @@ import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {GrEndpointParam} from '../gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
+import {testResolver} from '../../../test/common-test-setup';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 interface TestModule extends PluginElement {
   'first-param'?: string;
@@ -515,5 +517,53 @@ suite('gr-endpoint-decorator', () => {
         .length,
       1
     );
+  });
+
+  test('attaches gerrit-theme replacement immediately and blocks later decorations', async () => {
+    const loader = testResolver(pluginLoaderToken);
+    sinon.stub(loader, 'awaitPluginsLoaded').returns(new Promise(() => {}));
+    (
+      loader.pluginEndPoints as unknown as {pluginLoaded: boolean}
+    ).pluginLoaded = false;
+
+    try {
+      let themePlugin!: PluginApi;
+      window.Gerrit.install(
+        p => {
+          themePlugin = p;
+        },
+        '0.1',
+        `${window.location.origin}/static/gerrit-theme.js`
+      );
+      const replaceHook = themePlugin.registerCustomComponent(
+        'header-title',
+        'custom-theme-header',
+        {replace: true}
+      );
+      const attached = mockPromise();
+      replaceHook.onAttached(() => attached.resolve());
+
+      const headerDecorator = await fixture<GrEndpointDecorator>(html`
+        <gr-endpoint-decorator name="header-title">
+          <div class="titleText"></div>
+        </gr-endpoint-decorator>
+      `);
+      await attached;
+
+      assert.deepEqual(
+        Array.from(headerDecorator.children).map(c => c.nodeName),
+        ['CUSTOM-THEME-HEADER']
+      );
+
+      loader.pluginEndPoints.setPluginsReady();
+      plugin.registerCustomComponent('header-title', 'extra-decoration');
+      await headerDecorator.updateComplete;
+      assert.deepEqual(
+        Array.from(headerDecorator.children).map(c => c.nodeName),
+        ['CUSTOM-THEME-HEADER']
+      );
+    } finally {
+      loader.pluginEndPoints.setPluginsReady();
+    }
   });
 });

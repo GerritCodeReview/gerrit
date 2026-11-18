@@ -36,6 +36,25 @@ body {
   height: 100%;
   transition: none;
 }
+:where(html.darkTheme) {
+  background-color: var(--background-color-secondary, #2f3034);
+  color: var(--primary-text-color, #e8eaed);
+}
+:where(html.lightTheme) {
+  background-color: var(--background-color-secondary, #f8f9fa);
+  color: var(--primary-text-color, #202124);
+}
+html.darkTheme:has(> body[unresolved]) {
+  background-color: var(--background-color-secondary, #2f3034);
+}
+html.lightTheme:has(> body[unresolved]) {
+  background-color: var(--background-color-secondary, #f8f9fa);
+}
+html.darkTheme body[unresolved],
+html.lightTheme body[unresolved] {
+  opacity: 0;
+  pointer-events: none;
+}
 body {
   /*
    * IE has shoddy support for the font shorthand property.

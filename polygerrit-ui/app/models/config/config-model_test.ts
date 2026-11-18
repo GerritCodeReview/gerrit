@@ -68,6 +68,19 @@ suite('getDocsBaseUrl tests', () => {
     assert.equal(docsBaseUrl, 'foobar');
   });
 
+  test('has doc_search config', async () => {
+    const probePathMock = sinon
+      .stub(model.restApiService, 'probePath')
+      .resolves(true);
+    const config: ServerInfo = {
+      ...createServerInfo(),
+      gerrit: {...createGerritInfo(), doc_search: true},
+    };
+    const docsBaseUrl = await model.getDocsBaseUrl(config);
+    assert.isFalse(probePathMock.called);
+    assert.equal(docsBaseUrl, `${getBaseUrl()}/Documentation`);
+  });
+
   test('no probe', async () => {
     const probePathMock = sinon
       .stub(model.restApiService, 'probePath')

@@ -16,6 +16,24 @@
       "message": "Is this comment user visible after adding it? If so, does this update the comment? Would we want it to?",
       "revId": "ccec0d7617e7e41c1b433e76ca03ac3831e14b55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24528cf2_e717d8a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-18T22:01:55Z",
+      "side": 1,
+      "message": "Before this change, we added it as a new key and the comment is visible in the UI. With this change, we skip adding the new key. I don\u0027t think it makes sense to update the comment because we would be indirectly editing the existing entry. That is also what the existing logic want but there was a bug with it.",
+      "parentUuid": "3c817d38_2a69dcdf",
+      "revId": "ccec0d7617e7e41c1b433e76ca03ac3831e14b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

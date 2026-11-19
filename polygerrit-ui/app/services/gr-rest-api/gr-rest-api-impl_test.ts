@@ -1517,7 +1517,7 @@ suite('gr-rest-api-service-impl tests', () => {
       test('signed pushes disabled', async () => {
         getConfigStub.resolves({
           ...createServerInfo(),
-          receive: {enable_signed_push: undefined},
+          receive: {enable_signed_push: false},
         });
         const change = await element.getChangeDetail(123 as NumericChangeId);
         assert.strictEqual(123, change!._number);
@@ -1533,7 +1533,7 @@ suite('gr-rest-api-service-impl tests', () => {
       test('signed pushes enabled', async () => {
         getConfigStub.resolves({
           ...createServerInfo(),
-          receive: {enable_signed_push: 'true'},
+          receive: {enable_signed_push: true},
         });
         const change = await element.getChangeDetail(123 as NumericChangeId);
         assert.strictEqual(123, change!._number);

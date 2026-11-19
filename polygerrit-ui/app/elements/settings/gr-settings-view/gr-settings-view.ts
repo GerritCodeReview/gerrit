@@ -212,7 +212,7 @@ export class GrSettingsView extends LitElement {
           );
         }
 
-        if (this.serverConfig?.receive?.enable_signed_push) {
+        if (this.serverConfig?.gerrit?.edit_gpg_keys) {
           configPromises.push(
             this.gpgEditorPromise.then(gpgEditor => gpgEditor.loadData())
           );
@@ -319,7 +319,7 @@ export class GrSettingsView extends LitElement {
               () => html`<li><a href="#SSHKeys"> SSH Keys </a></li>`
             )}
             ${when(
-              this.serverConfig?.receive?.enable_signed_push,
+              this.serverConfig?.gerrit?.edit_gpg_keys,
               () => html`<li><a href="#GPGKeys"> GPG Keys </a></li>`
             )}
             <li><a href="#Groups">Groups</a></li>
@@ -576,7 +576,7 @@ export class GrSettingsView extends LitElement {
               ></gr-ssh-editor>`
           )}
           ${when(
-            this.serverConfig?.receive?.enable_signed_push,
+            this.serverConfig?.gerrit?.edit_gpg_keys,
             () => html`<div>
               <h2
                 id="GPGKeys"

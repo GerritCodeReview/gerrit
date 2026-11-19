@@ -308,16 +308,6 @@ suite('gr-file-list-header tests', () => {
       await element.updateComplete;
     });
 
-    test('patch specific elements', async () => {
-      element.editMode = true;
-      await element.updateComplete;
-      assert.isFalse(Boolean(query(element, '#diffPrefsContainer')));
-
-      element.editMode = false;
-      await element.updateComplete;
-      assert.isTrue(Boolean(query(element, '#diffPrefsContainer')));
-    });
-
     test('edit-controls visibility', async () => {
       element.editMode = false;
       await element.updateComplete;

@@ -140,6 +140,11 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       return false;
     }
 
+    if (key.isExpired()) {
+      sd.authenticationError(username, "key-expired");
+      return false;
+    }
+
     // Double check that all of the keys are for the same user account.
     // This should have been true when the cache factory method loaded
     // the list into memory, but we want to be extra paranoid about our

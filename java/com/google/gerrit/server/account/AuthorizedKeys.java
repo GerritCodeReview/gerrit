@@ -22,8 +22,17 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.entities.Account;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,7 +46,20 @@ public class AuthorizedKeys {
 
   @VisibleForTesting public static final String DELETED_KEY_COMMENT = "# DELETED";
 
+  private static final String EXPIRY_TIME_OPTION = "expiry-time";
+
+  private static final DateTimeFormatter DATE_TIME_MINUTES = formatter("uuuuMMddHHmm");
+
+  private static final DateTimeFormatter DATE_TIME_SECONDS = formatter("uuuuMMddHHmmss");
+
+  private static final DateTimeFormatter EXPIRY_TIME_FORMAT =
+      DateTimeFormatter.ofPattern("yyyyMMddHHmmss'Z'").withZone(ZoneOffset.UTC);
+
   private static final Pattern LINE_SPLIT_PATTERN = Pattern.compile("\\r?\\n");
+
+  private static DateTimeFormatter formatter(String pattern) {
+    return DateTimeFormatter.ofPattern(pattern).withResolverStyle(ResolverStyle.STRICT);
+  }
 
   public static List<Optional<AccountSshKey>> parse(Account.Id accountId, String s) {
     List<Optional<AccountSshKey>> keys = new ArrayList<>();
@@ -97,13 +119,43 @@ public class AuthorizedKeys {
     if (!Strings.isNullOrEmpty(entry.getComment())) {
       pub.append(' ').append(entry.getComment());
     }
+    Map<String, String> otherOptions = new LinkedHashMap<>(entry.getLoginOptions());
+    Optional<Instant> expiryTime =
+        Optional.ofNullable(otherOptions.get(EXPIRY_TIME_OPTION))
+            .flatMap(AuthorizedKeys::parseExpiryTime);
+    expiryTime.ifPresent(t -> otherOptions.remove(EXPIRY_TIME_OPTION));
     return new AccountSshKey(
-        accountId, seq, pub.toString(), true, ImmutableMap.copyOf(entry.getLoginOptions()));
+        accountId, seq, pub.toString(), true, expiryTime, ImmutableMap.copyOf(otherOptions));
+  }
+
+  /**
+   * Parses the value of the {@code expiry-time} option, which is {@code YYYYMMDD[Z]}, {@code
+   * YYYYMMDDHHMM[Z]} or {@code YYYYMMDDHHMMSS[Z]}. Without the {@code Z} it is in the local time
+   * zone.
+   */
+  private static Optional<Instant> parseExpiryTime(String value) {
+    boolean utc = value.endsWith("Z");
+    String s = utc ? value.substring(0, value.length() - 1) : value;
+    try {
+      LocalDateTime t =
+          switch (s.length()) {
+            case 8 -> LocalDate.parse(s, DateTimeFormatter.BASIC_ISO_DATE).atStartOfDay();
+            case 12 -> LocalDateTime.parse(s, DATE_TIME_MINUTES);
+            case 14 -> LocalDateTime.parse(s, DATE_TIME_SECONDS);
+            default -> throw new DateTimeParseException("Invalid length", s, 0);
+          };
+      return Optional.of(t.atZone(utc ? ZoneOffset.UTC : ZoneId.systemDefault()).toInstant());
+    } catch (DateTimeParseException e) {
+      return Optional.empty();
+    }
   }
 
   public static String format(AccountSshKey key) {
+    Map<String, String> options = new LinkedHashMap<>();
+    key.expiryTime().ifPresent(t -> options.put(EXPIRY_TIME_OPTION, EXPIRY_TIME_FORMAT.format(t)));
+    options.putAll(key.otherOptions());
     String optionsLine =
-        key.options().entrySet().stream().map(AuthorizedKeys::formatOption).collect(joining(","));
+        options.entrySet().stream().map(AuthorizedKeys::formatOption).collect(joining(","));
     String pub = key.sshPublicKey().trim();
     return optionsLine.isEmpty() ? pub : optionsLine + " " + pub;
   }

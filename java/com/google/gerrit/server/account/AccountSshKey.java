@@ -17,27 +17,31 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.util.time.TimeUtil;
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * An SSH key approved for use by an {@link Account}.
  *
- * @param options login options of {@code authorized_keys}, kept so that they are not lost when
- *     written back
+ * @param otherOptions login options of {@code authorized_keys} that are not interpreted, kept so
+ *     that they are not lost when written back
  */
 public record AccountSshKey(
     Account.Id accountId,
     int seq,
     String sshPublicKey,
     boolean valid,
-    ImmutableMap<String, String> options) {
+    Optional<Instant> expiryTime,
+    ImmutableMap<String, String> otherOptions) {
   public AccountSshKey {
     sshPublicKey = stripOffNewLines(sshPublicKey);
     valid = valid && seq > 0;
   }
 
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
-    this(accountId, seq, sshPublicKey, valid, ImmutableMap.of());
+    this(accountId, seq, sshPublicKey, valid, Optional.empty(), ImmutableMap.of());
   }
 
   public AccountSshKey(Account.Id accountId, int seq, String sshPublicKey) {
@@ -46,7 +50,16 @@ public record AccountSshKey(
 
   /** Returns a copy of this key that is flagged as invalid. */
   public AccountSshKey asInvalid() {
-    return new AccountSshKey(accountId, seq, sshPublicKey, false, options);
+    return new AccountSshKey(accountId, seq, sshPublicKey, false, expiryTime, otherOptions);
+  }
+
+  public boolean isExpired() {
+    return expiryTime.map(t -> TimeUtil.now().isAfter(t)).orElse(false);
+  }
+
+  /** Returns a copy of this key with the given expiry time. */
+  public AccountSshKey withExpiryTime(Optional<Instant> expiryTime) {
+    return new AccountSshKey(accountId, seq, sshPublicKey, valid, expiryTime, otherOptions);
   }
 
   private static String stripOffNewLines(String s) {

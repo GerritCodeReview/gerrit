@@ -23,6 +23,7 @@ import {
   ChangeInfo,
   CommentInfo,
   CommitInfo,
+  CommitSignatureInfo,
   ConfigInfo,
   ContributorAgreementInfo,
   DashboardInfo,
@@ -268,6 +269,9 @@ export const grRestApiMock: RestApiService = {
   },
   getChangeRevisionActions(): Promise<ActionNameToActionInfoMap | undefined> {
     return Promise.resolve({});
+  },
+  getCommitSignature(): Promise<CommitSignatureInfo | undefined> {
+    return Promise.resolve(undefined);
   },
   getChangeSuggestedCCs(): Promise<SuggestedReviewerInfo[] | undefined> {
     return Promise.resolve([]);

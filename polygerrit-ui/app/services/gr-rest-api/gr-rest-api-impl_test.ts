@@ -49,6 +49,7 @@ import {
   PARENT,
   ParsedJSON,
   PatchSetNum,
+  PatchSetNumber,
   RepoName,
   RevisionPatchSetNum,
   Timestamp,
@@ -1826,6 +1827,49 @@ suite('gr-rest-api-service-impl tests', () => {
       JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string).add,
       ['foo-bar']
     );
+  });
+
+  test('commit signature uses the stored revision and is not cached', async () => {
+    element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
+    const fetchStub = sinon.stub(authService, 'fetch');
+    fetchStub
+      .onFirstCall()
+      .resolves(new Response(makePrefixedJSON({status: 'UNSIGNED'})));
+    fetchStub
+      .onSecondCall()
+      .resolves(new Response(makePrefixedJSON({status: 'VERIFIED'})));
+
+    const first = await element.getCommitSignature(
+      123 as NumericChangeId,
+      7 as PatchSetNumber
+    );
+    const second = await element.getCommitSignature(
+      123 as NumericChangeId,
+      7 as PatchSetNumber
+    );
+
+    assert.equal(first?.status, 'UNSIGNED');
+    assert.equal(second?.status, 'VERIFIED');
+    assert.isTrue(fetchStub.calledTwice);
+    assert.equal(
+      fetchStub.firstCall.args[0],
+      `${window.CANONICAL_PATH}/changes/test-project~123/revisions/7/signature`
+    );
+    assert.equal(fetchStub.firstCall.args[1]?.cache, 'no-store');
+  });
+
+  test('commit signature rejects a verification service error', async () => {
+    element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
+    sinon
+      .stub(authService, 'fetch')
+      .resolves(new Response('Verification failed', {status: 500}));
+
+    await element
+      .getCommitSignature(123 as NumericChangeId, 7 as PatchSetNumber)
+      .then(
+        () => assert.fail('A failed verification request must reject'),
+        error => assert.match(error.message, /Error 500/)
+      );
   });
 
   test('generateAccountAuthToken', async () => {

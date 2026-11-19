@@ -3019,8 +3019,10 @@ time.
 
 [[gerrit.editGpgKeys]]gerrit.editGpgKeys::
 +
-If enabled and server-side signed push validation is also
-link:#receive.enableSignedPush[enabled], enable the
+If enabled and either server-side
+link:#receive.enableSignedPush[signed push validation] or
+link:#gpg.enableCommitSignatureVerification[commit signature verification]
+is enabled and Bouncy Castle OpenPGP support is available, enable the
 link:rest-api-accounts.html#list-gpg-keys[REST API endpoints] and web UI
 for editing GPG keys. If disabled, GPG keys can only be added by
 administrators with direct git access to All-Users.
@@ -3323,6 +3325,51 @@ If this value doesn't match the serverId used when creating an already existing
 NoteDb, Gerrit will not be able to use that instance of NoteDb. The serverId
 used to create the NoteDb will show in the resulting exception message in case
 the value differs.
+
+[[gpg]]
+=== Section gpg
+
+[[gpg.enableCommitSignatureVerification]]gpg.enableCommitSignatureVerification::
++
+Enable on-demand verification of OpenPGP signatures in stored patch set
+commits through the
+link:rest-api-changes.html#get-commit-signature[revision signature API].
+Bouncy Castle OpenPGP support must be installed. If verification is disabled
+or unavailable, the endpoint returns `501 Not Implemented`. Effective
+availability is advertised as
+link:rest-api-config.html#gerrit-info[`gerrit.commit_signature_verification`].
++
+Verification checks the exact unsigned commit bytes. The signing key must
+belong to a unique registered Gerrit account, and the committer email must
+match both an email of that account and a valid self-certified key identity.
+The author and uploader need not be the signer. Signing subkeys must have a
+valid binding, signing capability, and a valid back-signature. Key creation,
+expiration, and revocation are checked at the authenticated signature time,
+using the existing key rules; a compromise revocation also invalidates older
+signatures. The existing optional
+link:#receive.trustedKey[trust roots] and
+link:#receive.maxTrustDepth[trust depth] apply to commit verification too.
+Later trust certifications can establish trust for older commit signatures.
+Certifiers are checked at their authenticated certification time, and
+designated revokers at their revocation time.
++
+Users can register public keys with the
+link:rest-api-accounts.html#add-delete-gpg-keys[GPG key API] or account settings when
+link:#gerrit.editGpgKeys[`gerrit.editGpgKeys`] allows it. Verification uses the
+current registered keys and configuration on every request; results are not
+stored or indexed, and deleting a key can change an earlier result.
++
+Any reader of a revision can see the standard signing account information,
+even when link:#accounts.visibility[`accounts.visibility`] restricts account
+discovery. Standard account serialization restrictions still apply. No
+additional email addresses, external IDs, or arbitrary key user IDs are
+disclosed by this API.
++
+This setting does not enable signed-push validation or enforce signatures
+on uploads, and does not sign commits on the server. Commit signatures are
+distinct from signed push certificates and from `Signed-off-by` trailers.
++
+Defaults to `false`.
 
 [[gitweb]]
 === Section gitweb
@@ -5700,7 +5747,9 @@ Default is `false`, the value is not inherited.
 
 [[receive.maxTrustDepth]]receive.maxTrustDepth::
 +
-If signed push validation is link:#receive.enableSignedPush[enabled],
+If link:#receive.enableSignedPush[signed push validation] or
+link:#gpg.enableCommitSignatureVerification[commit signature verification]
+is enabled,
 set to the maximum depth to search when checking if a key is
 link:#receive.trustedKey[trusted].
 +
@@ -5747,8 +5796,9 @@ Default is 5 seconds. If no unit is specified, milliseconds is assumed.
 [[receive.trustedKey]]receive.trustedKey::
 +
 List of GPG key fingerprints that should be considered trust roots by
-the server when signed push validation is
-link:#receive.enableSignedPush[enabled]. A key is trusted by the server
+the server when link:#receive.enableSignedPush[signed push validation] or
+link:#gpg.enableCommitSignatureVerification[commit signature verification]
+is enabled. A key is trusted by the server
 if it is either in this list, or a path of trust signatures leads from
 the key to a configured trust root. The maximum length of the path is
 determined by link:#receive.maxTrustDepth[`receive.maxTrustDepth`].

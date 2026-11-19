@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_NOT_IMPLEMENTED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -161,6 +162,10 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/changes/%s/revisions/%s/reviewers"),
           RestCall.builder(GET, "/changes/%s/revisions/%s/robotcomments")
               .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
+          // Commit signature verification is disabled by default.
+          RestCall.builder(GET, "/changes/%s/revisions/%s/signature")
+              .expectedResponseCode(SC_NOT_IMPLEMENTED)
               .build(),
           RestCall.post("/changes/%s/revisions/%s/submit"),
           RestCall.get("/changes/%s/revisions/%s/submit_type"),

@@ -21,6 +21,7 @@ public class GerritInfo {
   public Boolean docSearch;
   public String docUrl;
   public Boolean editGpgKeys;
+  public Boolean commitSignatureVerification;
   public String reportBugUrl;
   public String primaryWeblinkName;
   public String instanceId;

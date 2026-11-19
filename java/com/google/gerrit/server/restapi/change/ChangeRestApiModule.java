@@ -142,6 +142,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(COMMENT_KIND, "delete").to(DeleteComment.class);
 
     get(REVISION_KIND, "commit").to(GetCommit.class);
+    get(REVISION_KIND, "signature").to(GetCommitSignature.class);
     get(REVISION_KIND, "description").to(GetDescription.class);
     put(REVISION_KIND, "description").to(PutDescription.class);
 

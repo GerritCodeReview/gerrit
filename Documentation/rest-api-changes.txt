@@ -4784,6 +4784,83 @@ describes the revision.
 Adding query parameter `links` (for example `/changes/.../commit?links`)
 returns a link:#commit-info[CommitInfo] with the additional field `web_links`.
 
+[[get-commit-signature]]
+=== Get Commit Signature
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/signature'
+--
+
+Verifies the OpenPGP signature of a stored patch set commit on demand.
+Requires ordinary revision read access. Unpublished change edits do not
+have signature results and return `404 Not Found`. If
+link:config-gerrit.html#gpg.enableCommitSignatureVerification[verification]
+is disabled or OpenPGP support is unavailable, returns `501 Not Implemented`.
+
+The result is a link:#commit-signature-info[CommitSignatureInfo]. Verification
+uses the exact unsigned commit bytes and the current registered public keys
+and server configuration; results are not persisted, indexed, or cached.
+Key deletion or updated key certifications can change a later result.
+Infrastructure failures are REST errors, not `UNVERIFIED` results.
+
+A verified user signature requires a unique registered signing account,
+a committer email belonging to that account and a valid self-certified key
+identity, and an eligible key at the authenticated signature time. The author
+and uploader need not be the signer. Register the public key with the
+link:rest-api-accounts.html#add-delete-gpg-keys[GPG key API] or account settings when
+link:config-gerrit.html#gerrit.editGpgKeys[key editing] is enabled.
+
+Revision readers receive normal link:rest-api-accounts.html#account-info[
+AccountInfo] for the signer even when
+link:config-gerrit.html#accounts.visibility[account discovery is restricted].
+Standard sensitive-field restrictions still apply: the response does not add
+secondary emails, external IDs, or arbitrary key user IDs. The account's
+displayed email is its normal account email, not necessarily the committer
+email used to sign this commit.
+
+Commit signatures are not signed push certificates and are not
+`Signed-off-by` trailers. This endpoint neither enforces signatures nor signs
+commits on the server.
+
+.Request
+----
+  GET /changes/myProject~123/revisions/2/signature HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "status": "VERIFIED",
+    "signing_key_fingerprint": "C378369ACBCD34CC138D90B145311A6F378A0AED",
+    "primary_key_fingerprint": "04AEA7ED2F821133E5B128D1ED0625DC46328A8C",
+    "signer": {
+      "_account_id": 1001,
+      "name": "Test Signer",
+      "email": "signer@example.com"
+    }
+  }
+----
+
+An unsigned commit returns:
+
+----
+  {"status": "UNSIGNED"}
+----
+
+A signed commit whose key is not registered returns:
+
+----
+  {
+    "status": "UNVERIFIED",
+    "reason": "UNKNOWN_KEY",
+    "message": "The signing key is not registered on this server."
+  }
+----
+
 [[get-description]]
 === Get Description
 --
@@ -8629,6 +8706,44 @@ If not set, the default is `OWNER` for WIP changes and `ALL` otherwise.
 Additional information about whom to notify about the update as a map
 of link:user-notify.html#recipient-types[recipient type] to
 link:#notify-info[NotifyInfo] entity.
+|=============================
+
+[[commit-signature-info]]
+=== CommitSignatureInfo
+The `CommitSignatureInfo` entity describes request-time verification of a
+stored commit signature.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name                 ||Description
+|`status`                   ||
+`VERIFIED`, `UNSIGNED` (no signature header), or `UNVERIFIED` (a signature is
+present but does not satisfy verification).
+|`signing_key_fingerprint`  |optional|
+Full uppercase hexadecimal fingerprint of the actual key that
+cryptographically verified the signature, including a signing subkey if used.
+|`primary_key_fingerprint`  |optional|
+Full uppercase hexadecimal fingerprint of that key's primary key.
+|`signer`                   |optional|
+Normal link:rest-api-accounts.html#account-info[AccountInfo] for the registered
+signing account. Present only for `VERIFIED`.
+|`reason`                   |optional|
+Machine-readable reason for `UNVERIFIED`; see the table below.
+|`message`                  |optional|
+Readable, safe explanation for `UNVERIFIED`. Does not include arbitrary key
+user IDs or private account identities. Clients should use `reason`, not
+parse this text.
+|=============================
+
+[options="header",cols="1,5"]
+|=============================
+|Reason                 |Description
+|`UNSUPPORTED_FORMAT`   |The signature format or signature header is not supported.
+|`MALFORMED_SIGNATURE`  |The signature or its headers cannot be parsed unambiguously.
+|`UNKNOWN_KEY`          |No signing key is registered on this server.
+|`INVALID_SIGNATURE`    |The signature does not verify against the exact commit bytes.
+|`INVALID_KEY`          |The actual signing key is ineligible, expired, revoked, or fails the server's key validity and trust policy.
+|`IDENTITY_MISMATCH`    |The key has no unique registered signing account, or the committer email does not match the account and certified key identity.
 |=============================
 
 [[conflicts-info]]

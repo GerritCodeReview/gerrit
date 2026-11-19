@@ -22,24 +22,18 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.EnableSignedPush;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.util.crypto.SecureRandomUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-import com.google.inject.multibindings.OptionalBinder;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -53,12 +47,6 @@ class SignedPushModule extends AbstractModule {
     if (!BouncyCastleUtil.havePGP()) {
       throw new ProvisionException("Bouncy Castle PGP not installed");
     }
-    // This binding is optional as some modules might bind
-    // {@code UnimplementedPublicKeyStoreProvider} as default binding.
-    OptionalBinder.newOptionalBinder(binder(), PublicKeyStore.class)
-        .setBinding()
-        .toProvider(StoreProvider.class);
-
     DynamicSet.bind(binder(), ReceivePackInitializer.class).to(Initializer.class);
   }
 
@@ -116,38 +104,6 @@ class SignedPushModule extends AbstractModule {
       hooks.add(hook);
       hooks.add(rp.getPreReceiveHook());
       rp.setPreReceiveHook(PreReceiveHookChain.newChain(hooks));
-    }
-  }
-
-  @Singleton
-  private static class StoreProvider implements Provider<PublicKeyStore> {
-    private final GitRepositoryManager repoManager;
-    private final AllUsersName allUsers;
-
-    @Inject
-    StoreProvider(GitRepositoryManager repoManager, AllUsersName allUsers) {
-      this.repoManager = repoManager;
-      this.allUsers = allUsers;
-    }
-
-    @Override
-    public PublicKeyStore get() {
-      final Repository repo;
-      try {
-        repo = repoManager.openRepository(allUsers);
-      } catch (IOException e) {
-        throw new ProvisionException("Cannot open " + allUsers, e);
-      }
-      return new PublicKeyStore(repo) {
-        @Override
-        public void close() {
-          try {
-            super.close();
-          } finally {
-            repo.close();
-          }
-        }
-      };
     }
   }
 }

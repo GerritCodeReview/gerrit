@@ -62,6 +62,7 @@ import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
+import com.google.gerrit.server.git.CommitSignatureVerifier;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
@@ -95,6 +96,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final String anonymousCowardName;
   private final PluginItemContext<AvatarProvider> avatar;
   private final boolean enableSignedPush;
+  private final CommitSignatureVerifier commitSignatureVerifier;
   private final QueryDocumentationExecutor docSearcher;
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
@@ -119,6 +121,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       @AnonymousCowardName String anonymousCowardName,
       PluginItemContext<AvatarProvider> avatar,
       @EnableSignedPush boolean enableSignedPush,
+      CommitSignatureVerifier commitSignatureVerifier,
       QueryDocumentationExecutor docSearcher,
       ProjectCache projectCache,
       AgreementJson agreementJson,
@@ -140,6 +143,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.anonymousCowardName = anonymousCowardName;
     this.avatar = avatar;
     this.enableSignedPush = enableSignedPush;
+    this.commitSignatureVerifier = commitSignatureVerifier;
     this.docSearcher = docSearcher;
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
@@ -299,7 +303,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.docUrl = getDocUrl();
     info.docSearch = docSearcher.isAvailable();
     info.editGpgKeys =
-        toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
+        toBoolean(
+            (enableSignedPush || commitSignatureVerifier.isEnabled())
+                && config.getBoolean("gerrit", null, "editGpgKeys", true));
+    info.commitSignatureVerification = toBoolean(commitSignatureVerifier.isEnabled());
     info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
     info.instanceId = instanceId;
     info.defaultBranch = config.getString("gerrit", null, "defaultBranch");

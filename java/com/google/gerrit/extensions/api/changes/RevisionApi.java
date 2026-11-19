@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.CommitSignatureInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.EnumSet;
 import java.util.List;
@@ -95,6 +97,11 @@ public interface RevisionApi {
   FileApi file(String path);
 
   CommitInfo commit(boolean addLinks) throws RestApiException;
+
+  /** Returns request-time verification of the stored revision's commit signature. */
+  default CommitSignatureInfo signature() throws RestApiException {
+    throw new NotImplementedException();
+  }
 
   MergeableInfo mergeable() throws RestApiException;
 

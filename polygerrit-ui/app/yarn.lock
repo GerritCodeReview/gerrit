@@ -129,12 +129,7 @@ github-from-package@0.0.0:
   resolved "https://registry.yarnpkg.com/github-from-package/-/github-from-package-0.0.0.tgz#97fb5d96bfde8973313f20e8288ef9a167fa64ce"
   integrity sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==
 
-highlight.js@^10.4.1:
-  version "10.7.3"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
-  integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
-
-highlight.js@^11.12.0, highlight.js@^11.9.0, "highlight.js@^11.9.0 || ^10.4.1":
+highlight.js@^11.11.0, highlight.js@^11.12.0, highlight.js@^11.9.0, "highlight.js@^11.9.0 || ^10.4.1":
   version "11.12.0"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.12.0.tgz#470d918fd556a76debc40fe5e4b540b6b9cb9890"
   integrity sha512-nbfWpyRMcMrPMmDwJB+dhX/eiaPKtc2RB+0QZskqJ3WjRA/FDS0e9hZrx8EC/lbEv8gXy98FcDbNa/dspAaJMg==
@@ -151,11 +146,11 @@ highlight.js@^11.12.0, highlight.js@^11.9.0, "highlight.js@^11.9.0 || ^10.4.1":
   dependencies:
     highlight.js "^11.9.0"
 
-"highlightjs-structured-text@https://github.com/highlightjs/highlightjs-structured-text#e68dd7aa829529fb6c40d6287585f43273605a9e":
-  version "1.4.9"
-  resolved "https://github.com/highlightjs/highlightjs-structured-text#e68dd7aa829529fb6c40d6287585f43273605a9e"
+"highlightjs-structured-text@https://github.com/highlightjs/highlightjs-structured-text#57840b0a43d930c03706e7291e3aeef9e620694d":
+  version "1.7.11"
+  resolved "https://github.com/highlightjs/highlightjs-structured-text#57840b0a43d930c03706e7291e3aeef9e620694d"
   dependencies:
-    highlight.js "^10.4.1"
+    highlight.js "^11.11.0"
 
 "highlightjs-ttcn3@https://gitea.osmocom.org/ttcn3/highlightjs-ttcn3.git#6daccff309fca1e7561a43984d42fa4f829ce06d":
   version "0.0.1"

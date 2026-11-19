@@ -16,6 +16,24 @@
       "message": "Are cache files created with the old format going to be readable after this change?",
       "revId": "fbefde5aeed698c3f8ddf757c636b049019a207d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3c671f2_ff440938",
+        "filename": "java/com/google/gerrit/sshd/SshKeyCacheEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-19T01:30:56Z",
+      "side": 1,
+      "message": "This is not a persistent cache.",
+      "parentUuid": "802fcdba_18d34121",
+      "revId": "fbefde5aeed698c3f8ddf757c636b049019a207d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

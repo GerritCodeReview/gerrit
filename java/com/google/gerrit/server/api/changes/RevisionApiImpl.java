@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.CommitSignatureInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -75,6 +76,7 @@ import com.google.gerrit.server.restapi.change.Files;
 import com.google.gerrit.server.restapi.change.Fixes;
 import com.google.gerrit.server.restapi.change.GetArchive;
 import com.google.gerrit.server.restapi.change.GetCommit;
+import com.google.gerrit.server.restapi.change.GetCommitSignature;
 import com.google.gerrit.server.restapi.change.GetDescription;
 import com.google.gerrit.server.restapi.change.GetMergeList;
 import com.google.gerrit.server.restapi.change.GetPatch;
@@ -126,6 +128,7 @@ class RevisionApiImpl implements RevisionApi {
   private final Files files;
   private final Files.ListFiles listFiles;
   private final GetCommit getCommit;
+  private final GetCommitSignature getCommitSignature;
   private final GetPatch getPatch;
   private final PostReview review;
   private final Mergeable mergeable;
@@ -172,6 +175,7 @@ class RevisionApiImpl implements RevisionApi {
       Files files,
       Files.ListFiles listFiles,
       GetCommit getCommit,
+      GetCommitSignature getCommitSignature,
       GetPatch getPatch,
       PostReview review,
       Mergeable mergeable,
@@ -217,6 +221,7 @@ class RevisionApiImpl implements RevisionApi {
     this.deleteReviewed = deleteReviewed;
     this.listFiles = listFiles;
     this.getCommit = getCommit;
+    this.getCommitSignature = getCommitSignature;
     this.getPatch = getPatch;
     this.mergeable = mergeable;
     this.fileApi = fileApi;
@@ -419,6 +424,15 @@ class RevisionApiImpl implements RevisionApi {
       return getCommit.setAddLinks(addLinks).apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve commit", e);
+    }
+  }
+
+  @Override
+  public CommitSignatureInfo signature() throws RestApiException {
+    try {
+      return getCommitSignature.apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot verify commit signature", e);
     }
   }
 

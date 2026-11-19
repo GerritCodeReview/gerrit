@@ -144,6 +144,9 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
       }
       return checkIdsForArbitraryUser(key);
     } catch (PGPException | RuntimeException e) {
+      if (isFailOnError() && e instanceof RuntimeException runtime) {
+        throw runtime;
+      }
       String msg = "Error checking user IDs for key";
       logger.atWarning().withCause(e).log("%s %s", msg, keyIdToString(key.getKeyID()));
       return CheckResult.bad(msg);
@@ -224,7 +227,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
         || allowedUserIds.contains(PushCertificateIdent.parse(userId).getEmailAddress());
   }
 
-  private static boolean isValidCertification(PGPPublicKey key, PGPSignature sig, String userId)
+  static boolean isValidCertification(PGPPublicKey key, PGPSignature sig, String userId)
       throws PGPException {
     if (sig.getSignatureType() != PGPSignature.DEFAULT_CERTIFICATION
         && sig.getSignatureType() != PGPSignature.POSITIVE_CERTIFICATION) {

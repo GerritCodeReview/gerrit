@@ -2610,7 +2610,14 @@ Custom base URL where Gerrit server documentation is located.
 (Documentation may still be available at /Documentation relative to the
 Gerrit base path even if this value is unset.)
 |`edit_gpg_keys`     |not set if `false`|
-Whether to enable the web UI for editing GPG keys.
+Whether GPG key editing is enabled for signed pushes or commit signature
+verification, respecting
+link:config-gerrit.html#gerrit.editGpgKeys[`gerrit.editGpgKeys`].
+|`commit_signature_verification` |not set if `false`|
+Whether link:rest-api-changes.html#get-commit-signature[commit signature
+verification] is effectively available. Requires
+link:config-gerrit.html#gpg.enableCommitSignatureVerification[the configuration
+switch] and installed Bouncy Castle OpenPGP support.
 |`project_state_predicate_enabled` ||
 link:config-gerrit.html#gerrit.projectStatePredicateEnabled[Whether the instance supports filtering projects by state].
 |`report_bug_url`    |optional|

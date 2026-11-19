@@ -33,6 +33,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,6 +65,8 @@ public class PublicKeyChecker {
   private Map<Long, Fingerprint> trusted;
   private int maxTrustDepth;
   private Instant effectiveTime = Instant.now();
+  private boolean failOnError;
+  private boolean commitSignatureChecks;
 
   /**
    * Enable web-of-trust checks.
@@ -125,6 +128,29 @@ public class PublicKeyChecker {
     return effectiveTime;
   }
 
+  /** Propagate storage failures rather than reporting them as problems with an untrusted key. */
+  @CanIgnoreReturnValue
+  public PublicKeyChecker setFailOnError() {
+    failOnError = true;
+    return this;
+  }
+
+  protected boolean isFailOnError() {
+    return failOnError;
+  }
+
+  /**
+   * Authenticate primary-key policy at the effective time for commit verification.
+   *
+   * <p>Recursive web-of-trust certifiers are checked at their certification time, and designated
+   * revokers at the revocation time. The default retains legacy push-certificate behavior.
+   */
+  @CanIgnoreReturnValue
+  PublicKeyChecker enableCommitSignatureChecks() {
+    commitSignatureChecks = true;
+    return this;
+  }
+
   /**
    * Check a public key.
    *
@@ -135,7 +161,7 @@ public class PublicKeyChecker {
     if (store == null) {
       throw new IllegalStateException("PublicKeyStore is required");
     }
-    return check(key, 0, true, trusted != null ? new HashSet<>() : null);
+    return check(key, effectiveTime, 0, true, trusted != null ? new HashSet<>() : null);
   }
 
   /**
@@ -152,8 +178,9 @@ public class PublicKeyChecker {
     return CheckResult.ok();
   }
 
-  private CheckResult check(PGPPublicKey key, int depth, boolean expand, Set<Fingerprint> seen) {
-    CheckResult basicResult = checkBasic(key, effectiveTime);
+  private CheckResult check(
+      PGPPublicKey key, Instant time, int depth, boolean expand, Set<Fingerprint> seen) {
+    CheckResult basicResult = checkBasic(key, time);
     CheckResult customResult = checkCustom(key, depth);
     CheckResult trustResult = checkWebOfTrust(key, store, depth, seen);
     if (!expand && !trustResult.isTrusted()) {
@@ -192,11 +219,17 @@ public class PublicKeyChecker {
     List<String> problems = new ArrayList<>(2);
     gatherRevocationProblems(key, now, problems);
 
-    long validMs = key.getValidSeconds() * 1000;
-    if (validMs != 0) {
-      long msSinceCreation = now.toEpochMilli() - getCreationTime(key).toEpochMilli();
-      if (msSinceCreation > validMs) {
-        problems.add("Key is expired");
+    if (commitSignatureChecks) {
+      if (!CommitSigningKeyChecker.isPrimaryKeyValid(key, now)) {
+        problems.add("Key is not valid at the signature time");
+      }
+    } else {
+      long validMs = key.getValidSeconds() * 1000;
+      if (validMs != 0) {
+        long msSinceCreation = now.toEpochMilli() - getCreationTime(key).toEpochMilli();
+        if (msSinceCreation > validMs) {
+          problems.add("Key is expired");
+        }
       }
     }
     return CheckResult.create(problems);
@@ -209,19 +242,24 @@ public class PublicKeyChecker {
       PGPSignature selfRevocation = scanRevocations(key, now, revocations, revokers);
       if (selfRevocation != null) {
         RevocationReason reason = getRevocationReason(selfRevocation);
-        if (isRevocationValid(selfRevocation, reason, now)) {
+        if ((commitSignatureChecks && reason == null)
+            || isRevocationValid(selfRevocation, reason, now)) {
           problems.add(reasonToString(reason));
         }
       } else {
         checkRevocations(key, revocations, revokers, problems);
       }
-    } catch (PGPException | IOException e) {
+    } catch (IOException e) {
+      if (failOnError) {
+        throw new UncheckedIOException(e);
+      }
+      problems.add("Error checking key revocation");
+    } catch (PGPException e) {
       problems.add("Error checking key revocation");
     }
   }
 
-  private static boolean isRevocationValid(
-      PGPSignature revocation, RevocationReason reason, Instant now) {
+  static boolean isRevocationValid(PGPSignature revocation, RevocationReason reason, Instant now) {
     // RFC4880 states:
     // "If a key has been revoked because of a compromise, all signatures
     // created by that key are suspect. However, if it was merely superseded or
@@ -249,7 +287,14 @@ public class PublicKeyChecker {
           if (sig.getKeyID() == key.getKeyID()) {
             sig.init(new BcPGPContentVerifierBuilderProvider(), key);
             if (sig.verifyCertification(key)) {
-              return sig;
+              if (!commitSignatureChecks) {
+                return sig;
+              }
+              // An inapplicable retirement must not hide a later compromise revocation.
+              RevocationReason reason = getRevocationReason(sig);
+              if (reason == null || isRevocationValid(sig, reason, now)) {
+                return sig;
+              }
             }
           } else {
             RevocationReason reason = getRevocationReason(sig);
@@ -298,7 +343,15 @@ public class PublicKeyChecker {
         continue; // Not a designated revoker.
       }
       byte[] rfp = revoker.getFingerprint();
-      PGPPublicKeyRing revokerKeyRing = store.get(rfp);
+      PGPPublicKeyRing revokerKeyRing;
+      try {
+        revokerKeyRing = store.get(rfp);
+      } catch (PGPException e) {
+        if (failOnError) {
+          throw new IOException("Cannot read revocation key", e);
+        }
+        throw e;
+      }
       if (revokerKeyRing == null) {
         // Revoker is authorized and there is a revocation signature by this
         // revoker, but the key is not in the store so we can't verify the
@@ -385,9 +438,8 @@ public class PublicKeyChecker {
     while (userIds.hasNext()) {
       String userId = userIds.next();
 
-      // Don't check the timestamp of these certifications. This allows admins
-      // to correct untrusted keys by signing them with a trusted key, such that
-      // older signatures created by those keys retroactively appear valid.
+      // Allow later certifications so admins can retroactively trust older signatures. For
+      // commits, the certifier must be valid at its certification time, not the old commit time.
       Iterator<PGPSignature> sigs = key.getSignaturesForID(userId);
 
       while (sigs.hasNext()) {
@@ -397,6 +449,11 @@ public class PublicKeyChecker {
             && sig.getSignatureType() != PGPSignature.POSITIVE_CERTIFICATION) {
           continue; // Not a certification.
         }
+        if (commitSignatureChecks
+            && (sig.getHashedSubPackets() == null
+                || sig.getHashedSubPackets().getSignatureCreationTime() == null)) {
+          continue;
+        }
 
         PGPPublicKey signer = getSigner(store, sig, userId, key, signerResults);
         // TODO(dborowitz): Require self certification.
@@ -405,7 +462,12 @@ public class PublicKeyChecker {
         }
         String subpacketProblem = checkTrustSubpacket(sig, depth);
         if (subpacketProblem == null) {
-          CheckResult signerResult = check(signer, depth + 1, false, seen);
+          Instant signerTime =
+              commitSignatureChecks ? PushCertificateChecker.getCreationTime(sig) : effectiveTime;
+          // Certifier validity can differ between certifications; don't let one path suppress
+          // another certification of the same key at a different time.
+          Set<Fingerprint> signerSeen = commitSignatureChecks ? new HashSet<>(seen) : seen;
+          CheckResult signerResult = check(signer, signerTime, depth + 1, false, signerSeen);
           if (signerResult.isTrusted()) {
             return CheckResult.trusted();
           }
@@ -425,14 +487,22 @@ public class PublicKeyChecker {
   }
 
   @Nullable
-  private static PGPPublicKey getSigner(
+  private PGPPublicKey getSigner(
       PublicKeyStore store,
       PGPSignature sig,
       String userId,
       PGPPublicKey key,
       List<CheckResult> results) {
     try {
-      PGPPublicKeyRingCollection signers = store.get(sig.getKeyID());
+      PGPPublicKeyRingCollection signers;
+      try {
+        signers = store.get(sig.getKeyID());
+      } catch (PGPException e) {
+        if (failOnError) {
+          throw new IOException("Cannot read certification key", e);
+        }
+        throw e;
+      }
       if (!signers.getKeyRings().hasNext()) {
         results.add(
             CheckResult.ok(
@@ -448,7 +518,14 @@ public class PublicKeyChecker {
         return null;
       }
       return signer;
-    } catch (PGPException | IOException e) {
+    } catch (IOException e) {
+      if (failOnError) {
+        throw new UncheckedIOException(e);
+      }
+      results.add(
+          CheckResult.ok("Error checking certification by " + keyIdToString(sig.getKeyID())));
+      return null;
+    } catch (PGPException e) {
       results.add(
           CheckResult.ok("Error checking certification by " + keyIdToString(sig.getKeyID())));
       return null;

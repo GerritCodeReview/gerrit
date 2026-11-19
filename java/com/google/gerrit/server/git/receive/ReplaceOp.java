@@ -24,6 +24,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -692,17 +693,23 @@ public class ReplaceOp implements BatchUpdateOp {
     return cmd;
   }
 
+  @VisibleForTesting
   @Nullable
-  private static String findMergedInto(Context ctx, String first, RevCommit commit) {
+  static String findMergedInto(Context ctx, String first, RevCommit commit) {
     try {
       RevWalk rw = ctx.getRevWalk();
+      Set<ObjectId> checkedTips = new HashSet<>();
       Optional<ObjectId> firstId = ctx.getRepoView().getRef(first);
-      if (firstId.isPresent() && rw.isMergedInto(commit, rw.parseCommit(firstId.get()))) {
-        return first;
+      if (firstId.isPresent()) {
+        checkedTips.add(firstId.get());
+        if (rw.isMergedInto(commit, rw.parseCommit(firstId.get()))) {
+          return first;
+        }
       }
 
       for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(R_HEADS).entrySet()) {
-        if (rw.isMergedInto(commit, rw.parseCommit(e.getValue()))) {
+        if (checkedTips.add(e.getValue())
+            && rw.isMergedInto(commit, rw.parseCommit(e.getValue()))) {
           return R_HEADS + e.getKey();
         }
       }

@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4975b67f_df374b2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-19T13:45:53Z",
+      "side": 1,
+      "message": "Typo: \"Gerrit 3.15 and newly releases should continue to use highlightjs version 11.12\".",
+      "parentUuid": "f8c1c904_0597352c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "b714e8c40be9ae61ee4418634d3bddd1b22d7d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "843c420f_2e078c87",

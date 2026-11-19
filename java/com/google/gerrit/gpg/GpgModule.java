@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.gpg.api.GpgApiModule;
 import com.google.gerrit.server.EnableSignedPush;
+import com.google.gerrit.server.git.CommitSignatureVerifier;
 import org.eclipse.jgit.lib.Config;
 
 public class GpgModule extends FactoryModule {
@@ -36,13 +37,27 @@ public class GpgModule extends FactoryModule {
     boolean havePgp = BouncyCastleUtil.havePGP();
     boolean enableSignedPush = configEnableSignedPush && havePgp;
     bindConstant().annotatedWith(EnableSignedPush.class).to(enableSignedPush);
+    boolean verifyCommits = cfg.getBoolean("gpg", null, "enableCommitSignatureVerification", false);
+    boolean enableCommitVerification = verifyCommits && havePgp;
+    bind(CommitSignatureVerifier.class)
+        .to(
+            enableCommitVerification
+                ? GerritCommitSignatureVerifier.class
+                : CommitSignatureVerifier.Disabled.class);
 
     if (configEnableSignedPush && !havePgp) {
       logger.atInfo().log("Bouncy Castle PGP not installed; signed push verification is disabled");
     }
+    if (verifyCommits && !havePgp) {
+      logger.atInfo().log(
+          "Bouncy Castle PGP not installed; commit signature verification is disabled");
+    }
+    if (enableSignedPush || enableCommitVerification) {
+      install(new PublicKeyStoreModule());
+    }
     if (enableSignedPush) {
       install(new SignedPushModule());
     }
-    install(new GpgApiModule(enableSignedPush && configEditGpgKeys));
+    install(new GpgApiModule((enableSignedPush || enableCommitVerification) && configEditGpgKeys));
   }
 }

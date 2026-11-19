@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9b29e69_ddfc8a2b",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-19T22:49:30Z",
+      "side": 1,
+      "message": "Too many booleans, likely should be turned into Enums now, or is there an \"option\" that represents expired or deleted?",
+      "revId": "77cb22de67c5901be254b0d0877220b59c16fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6e43727_13e95755",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-19T22:49:30Z",
+      "side": 1,
+      "message": "Feels a bit like a code smell indicating there should be two different objects?",
+      "revId": "77cb22de67c5901be254b0d0877220b59c16fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

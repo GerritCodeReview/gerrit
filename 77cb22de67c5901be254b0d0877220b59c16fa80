@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50bfbbdc_a5b1cc65",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-19T23:20:51Z",
+      "side": 1,
+      "message": "Ideally `valid` and `deleted` would be encoded as options on the key, in the same format as `expiry-time`. I held off doing it because the options map is written back to `authorized_keys file`, so we would be duplicating the current way of representing them and as in options again. I\u0027d rather do that in a separate change after this series, together with deciding whether to drop the old-style deleted/invalid markers in a schema upgrade and convert everything to the new format. Is this okay for now ?",
+      "parentUuid": "f9b29e69_ddfc8a2b",
+      "revId": "77cb22de67c5901be254b0d0877220b59c16fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6e43727_13e95755",
         "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-19T22:49:30Z",
       "side": 1,
       "message": "Feels a bit like a code smell indicating there should be two different objects?",
+      "revId": "77cb22de67c5901be254b0d0877220b59c16fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99a54abb_cd83a575",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-19T23:20:51Z",
+      "side": 1,
+      "message": "not touching this part for now.",
+      "parentUuid": "e6e43727_13e95755",
       "revId": "77cb22de67c5901be254b0d0877220b59c16fa80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

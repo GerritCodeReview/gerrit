@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "08e03c4f_a50ab74b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-19T13:44:29Z",
+      "side": 1,
+      "message": "Can you add explanation why we don\u0027t backport change 618442?\n\nAlso why 3.14 and not currently still supported 3.13 branch?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "b714e8c40be9ae61ee4418634d3bddd1b22d7d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8c1c904_0597352c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-19T13:44:29Z",
+      "side": 1,
+      "message": "May be just say, Gerrit 3.15 and newly releases should continue to use highlightjs. This commit should be dropped, when merged up to master.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "b714e8c40be9ae61ee4418634d3bddd1b22d7d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "843c420f_2e078c87",

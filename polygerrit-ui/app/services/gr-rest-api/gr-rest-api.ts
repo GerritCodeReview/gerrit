@@ -27,6 +27,7 @@ import {
   CommentInput,
   CommitId,
   CommitInfo,
+  CommitSignatureInfo,
   ConfigInfo,
   ConfigInput,
   ContributorAgreementInfo,
@@ -62,6 +63,7 @@ import {
   NumericChangeId,
   PatchRange,
   PatchSetNum,
+  PatchSetNumber,
   PluginInfo,
   PreferencesInfo,
   PreferencesInput,
@@ -884,6 +886,11 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<ActionNameToActionInfoMap | undefined>;
+
+  getCommitSignature(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNumber
+  ): Promise<CommitSignatureInfo | undefined>;
 
   confirmEmail(token: string): Promise<string | null>;
 

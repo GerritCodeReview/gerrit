@@ -38,6 +38,7 @@ import {
   CommentInput,
   CommitId,
   CommitInfo,
+  CommitSignatureInfo,
   ConfigInfo,
   ConfigInput,
   ContributorAgreementInfo,
@@ -78,6 +79,7 @@ import {
   ParsedJSON,
   PatchRange,
   PatchSetNum,
+  PatchSetNumber,
   PluginInfo,
   PreferencesInfo,
   PreferencesInput,
@@ -1573,6 +1575,20 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `${url}/actions`,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/actions`,
     });
+  }
+
+  async getCommitSignature(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNumber
+  ): Promise<CommitSignatureInfo | undefined> {
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    return this._restApiHelper.fetchJSON({
+      url: `${url}/signature`,
+      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/signature`,
+      // Verification depends on the current registered keys and configuration.
+      fetchOptions: {cache: 'no-store'},
+      errFn: throwingErrorCallback,
+    }) as Promise<CommitSignatureInfo | undefined>;
   }
 
   getChangeSuggestedReviewers(

@@ -15,6 +15,60 @@ by the uploading user.
 Gerrit supports two protocols for uploading changes; SSH and HTTP/HTTPS. These
 may not all be available for you, depending on the server configuration.
 
+[[signed-commits]]
+== Signing commits
+
+Gerrit can optionally verify OpenPGP signatures in uploaded commits and show
+the result in the review UI's
+link:user-review-ui.html#commit-signature[Commit signature] row. An
+administrator must enable
+link:config-gerrit.html#gpg.enableCommitSignatureVerification[commit signature
+verification], which is disabled by default. Enabling verification alone does
+not require signed uploads, sign commits on the server, or enable signed-push
+validation. SSH-format and X.509 commit signatures are not supported.
+
+Use an OpenPGP key with signing capability, for example a key created using
+`gpg --full-generate-key`. Register its ASCII-armored *public* key in the `GPG
+Keys` section of Gerrit's account settings, or with the
+link:rest-api-accounts.html#add-delete-gpg-keys[GPG key REST API]. Export a public
+key using its full primary fingerprint:
+
+----
+  gpg --armor --export PRIMARY_KEY_FINGERPRINT
+----
+
+Do not upload a secret key. Account key editing must be allowed by
+link:config-gerrit.html#gerrit.editGpgKeys[`gerrit.editGpgKeys`]; otherwise ask an
+administrator to register the public key. Key registration is available when
+commit verification or signed-push validation is enabled.
+
+The signing key must belong to a unique registered Gerrit account. The Git
+committer email must be registered on that account and match a valid certified
+identity on the key. The author and the authenticated uploader may be different
+people. Configure the signing identity in the repository and sign a commit:
+
+----
+  git config gpg.format openpgp
+  git config user.signingkey PRIMARY_KEY_FINGERPRINT
+  git config user.email committer@example.com
+  git commit -S
+----
+
+To sign subsequent commits by default in this repository, use
+`git config commit.gpgsign true`. The private signing key stays on your client.
+Upload the resulting commit normally; `git push --signed` signs a push
+certificate rather than the commit, and is not needed for commit verification.
+Likewise, a `Signed-off-by` trailer is not a cryptographic signature.
+
+Gerrit verifies on demand against the current registered keys and server
+configuration, not a saved upload-time verdict. Local verification with
+`git verify-commit HEAD` does not establish that Gerrit can verify the signer.
+Removing or changing a registered key can change earlier verification results.
+Any reader of the revision can see its standard signing account information,
+even when account discovery is restricted. Normal account serialization
+restrictions apply, and no additional emails, external IDs, or arbitrary key
+user IDs are disclosed by the signature API.
+
 [[http]]
 == HTTP/HTTPS
 

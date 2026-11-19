@@ -14,6 +14,7 @@ import {
   createCommit,
   createCommitInfoWithRequiredCommit,
   createConfig,
+  createEditRevision,
   createGerritInfo,
   createGitPerson,
   createParsedChange,
@@ -23,6 +24,8 @@ import {
 } from '../../../test/test-data-generators';
 import {
   ChangeStatus,
+  CommitSignatureReason,
+  CommitSignatureStatus,
   GpgKeyInfoStatus,
   InheritedBooleanInfoConfiguredValue,
   SubmitType,
@@ -31,11 +34,14 @@ import {
   AccountId,
   CommitId,
   CommitInfo,
+  CommitSignatureInfo,
   EmailAddress,
+  GpgKeyFingerprint,
   Hashtag,
   LabelValueToDescriptionMap,
   NumericChangeId,
   ParentCommitInfo,
+  PatchSetNumber,
   RevisionInfo,
   RevisionPatchSetNum,
   ServerInfo,
@@ -45,8 +51,10 @@ import {GrEditableLabel} from '../../shared/gr-editable-label/gr-editable-label'
 import {PluginApi} from '../../../api/plugin';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {
+  mockPromise,
   queryAndAssert,
   stubRestApi,
+  waitEventLoop,
   waitUntilCalled,
 } from '../../../test/test-utils';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -56,6 +64,7 @@ import {nothing} from 'lit';
 import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 
 suite('gr-change-metadata tests', () => {
   let element: GrChangeMetadata;
@@ -210,6 +219,294 @@ suite('gr-change-metadata tests', () => {
       </gr-endpoint-decorator>
     </div>`
     );
+  });
+
+  suite('commit signature', () => {
+    const signingFingerprint =
+      'C378369ACBCD34CC138D90B145311A6F378A0AED' as GpgKeyFingerprint;
+    const primaryFingerprint =
+      'F0D5A7A3A8F10E8E104317849445D26DB96792CA' as GpgKeyFingerprint;
+    const signer = {...createAccountWithId(42), name: 'Commit signer'};
+    const verified: CommitSignatureInfo = {
+      status: CommitSignatureStatus.VERIFIED,
+      signer,
+      signing_key_fingerprint: signingFingerprint,
+      primary_key_fingerprint: primaryFingerprint,
+    };
+    let signatureStub: sinon.SinonStub<
+      [NumericChangeId, PatchSetNumber],
+      Promise<CommitSignatureInfo | undefined>
+    >;
+
+    setup(() => {
+      signatureStub = stubRestApi('getCommitSignature').resolves(verified);
+      element.serverConfig = {
+        ...createServerInfo(),
+        gerrit: {...createGerritInfo(), commit_signature_verification: true},
+      };
+      element.revision =
+        element.change!.revisions[element.change!.current_revision];
+    });
+
+    async function flushSignature() {
+      await element.updateComplete;
+      await waitEventLoop();
+      await element.updateComplete;
+    }
+
+    function signatureRow() {
+      return queryAndAssert<HTMLElement>(element, '.commitSignature');
+    }
+
+    function signatureStatus() {
+      return queryAndAssert<HTMLElement>(
+        signatureRow(),
+        '.signatureStatus'
+      ).textContent?.trim();
+    }
+
+    const statuses: {signature: CommitSignatureInfo; label: string}[] = [
+      {signature: verified, label: 'Verified'},
+      {signature: {status: CommitSignatureStatus.UNSIGNED}, label: 'Unsigned'},
+      {
+        signature: {
+          status: CommitSignatureStatus.UNVERIFIED,
+          reason: CommitSignatureReason.UNKNOWN_KEY,
+          message: 'Signing key is not registered',
+          signing_key_fingerprint: signingFingerprint,
+          primary_key_fingerprint: primaryFingerprint,
+        },
+        label: 'Unverified',
+      },
+    ];
+    for (const {signature, label} of statuses) {
+      test(`renders ${label} without conflating commit and push signatures`, async () => {
+        signatureStub.resolves(signature);
+        await flushSignature();
+
+        assert.equal(signatureStatus(), label);
+        assert.include(signatureRow().textContent, 'Commit signature');
+        const chip =
+          signatureRow().querySelector<GrAccountChip>('gr-account-chip');
+        if (signature.signer) {
+          assert.deepEqual(chip?.account, signer);
+          assert.notDeepEqual(chip?.account, element.change!.owner);
+        } else {
+          assert.isNull(chip);
+        }
+        if (signature.signing_key_fingerprint) {
+          const keys = signatureRow().querySelectorAll('code');
+          assert.deepEqual(
+            Array.from(keys).map(key => key.textContent),
+            [signingFingerprint, primaryFingerprint]
+          );
+        } else {
+          assert.isNull(signatureRow().querySelector('code'));
+          assert.isNull(signatureRow().querySelector('gr-icon'));
+        }
+        if (signature.message) {
+          assert.include(signatureRow().textContent, signature.message);
+        }
+        const explanation = queryAndAssert<HTMLElement>(
+          signatureRow(),
+          '.title gr-tooltip-content'
+        ).title;
+        assert.include(explanation, 'committer');
+        assert.include(explanation, 'author');
+        assert.include(explanation, 'uploader');
+        assert.include(explanation, 'push certificate');
+      });
+    }
+
+    test('verified key remains useful without a disclosed signer account', async () => {
+      signatureStub.resolves({...verified, signer: undefined});
+      await flushSignature();
+      assert.equal(signatureStatus(), 'Verified');
+      assert.isNull(signatureRow().querySelector('gr-account-chip'));
+      assert.include(signatureRow().textContent, 'Signer account unavailable');
+      assert.include(signatureRow().textContent, signingFingerprint);
+    });
+
+    test('unverified explanation is text, not markup', async () => {
+      const message = '<img src=x onerror="alert(1)">';
+      signatureStub.resolves({
+        status: CommitSignatureStatus.UNVERIFIED,
+        reason: CommitSignatureReason.MALFORMED_SIGNATURE,
+        message,
+      });
+      await flushSignature();
+      assert.include(signatureRow().textContent, message);
+      assert.isNull(signatureRow().querySelector('img'));
+    });
+
+    for (const capability of [false, undefined]) {
+      test(`does not fetch when effective capability is ${capability}`, async () => {
+        element.serverConfig = {
+          ...createServerInfo(),
+          gerrit: {
+            ...createGerritInfo(),
+            commit_signature_verification: capability,
+          },
+          receive: {enable_signed_push: true},
+        };
+        await flushSignature();
+        assert.isTrue(signatureStub.notCalled);
+        assert.isNull(element.shadowRoot?.querySelector('.commitSignature'));
+      });
+    }
+
+    test('does not fetch before the selected revision is known', async () => {
+      element.revision = undefined;
+      await flushSignature();
+      assert.isTrue(signatureStub.notCalled);
+      assert.isNull(element.shadowRoot?.querySelector('.commitSignature'));
+    });
+
+    test('does not verify an unpublished edit', async () => {
+      element.revision = createEditRevision();
+      await flushSignature();
+      assert.isTrue(signatureStub.notCalled);
+      assert.isNull(element.shadowRoot?.querySelector('.commitSignature'));
+    });
+
+    test('hides verification while entering edit mode', async () => {
+      element.editMode = true;
+      await flushSignature();
+      assert.isTrue(signatureStub.notCalled);
+      assert.isNull(element.shadowRoot?.querySelector('.commitSignature'));
+    });
+
+    test('fetches the selected stored patch set, not the latest', async () => {
+      element.change = {
+        ...createParsedChange(),
+        current_revision: 'latest' as CommitId,
+        revisions: {older: createRevision(1), latest: createRevision(2)},
+      };
+      element.revision = element.change.revisions.older;
+      await flushSignature();
+      assert.isTrue(
+        signatureStub.calledOnceWithExactly(
+          element.change._number,
+          1 as PatchSetNumber
+        )
+      );
+      assert.equal(signatureStatus(), 'Verified');
+    });
+
+    for (const failure of ['rejected', 'empty']) {
+      test(`${failure} request reports unavailable, not a signature verdict`, async () => {
+        if (failure === 'rejected') {
+          signatureStub.rejects(new Error('Verifier storage failure'));
+        } else {
+          signatureStub.resolves(undefined);
+        }
+        await flushSignature();
+        assert.equal(signatureStatus(), 'Verification unavailable');
+        assert.isNull(signatureRow().querySelector('gr-account-chip'));
+        assert.notInclude(signatureRow().textContent, 'Unsigned');
+        assert.notInclude(signatureRow().textContent, 'Unverified');
+        assert.notInclude(
+          signatureRow().textContent,
+          'Verifier storage failure'
+        );
+      });
+    }
+
+    test('clears the previous verdict while asynchronously loading a selection', async () => {
+      await flushSignature();
+      assert.equal(signatureStatus(), 'Verified');
+      const pending = mockPromise<CommitSignatureInfo>();
+      signatureStub.returns(pending);
+      element.revision = createRevision(2);
+      await element.updateComplete;
+      assert.equal(signatureStatus(), 'Verifying…');
+      assert.isNull(signatureRow().querySelector('gr-account-chip'));
+      assert.isNull(signatureRow().querySelector('code'));
+      assert.ok(element.shadowRoot?.querySelector('gr-reviewer-list'));
+
+      pending.resolve({status: CommitSignatureStatus.UNSIGNED});
+      await flushSignature();
+      assert.equal(signatureStatus(), 'Unsigned');
+    });
+
+    for (const stale of ['resolved', 'rejected']) {
+      test(`ignores a ${stale} request for a previous selection`, async () => {
+        const older = mockPromise<CommitSignatureInfo>();
+        const newer = mockPromise<CommitSignatureInfo>();
+        signatureStub.onFirstCall().returns(older);
+        signatureStub.onSecondCall().returns(newer);
+        await element.updateComplete;
+        element.revision = createRevision(2);
+        await element.updateComplete;
+        assert.isTrue(signatureStub.calledTwice);
+
+        newer.resolve({status: CommitSignatureStatus.UNSIGNED});
+        await flushSignature();
+        if (stale === 'resolved') {
+          older.resolve(verified);
+        } else {
+          older.reject(new Error('Old verification failed'));
+        }
+        await flushSignature();
+        assert.equal(signatureStatus(), 'Unsigned');
+        assert.isNull(signatureRow().querySelector('gr-account-chip'));
+      });
+    }
+
+    test('does not reuse a pending verdict after returning to its patch set', async () => {
+      const original = mockPromise<CommitSignatureInfo>();
+      const other = mockPromise<CommitSignatureInfo>();
+      const current = mockPromise<CommitSignatureInfo>();
+      signatureStub.onFirstCall().returns(original);
+      signatureStub.onSecondCall().returns(other);
+      signatureStub.onThirdCall().returns(current);
+      await element.updateComplete;
+      element.revision = createRevision(2);
+      await element.updateComplete;
+      element.revision = createRevision(1);
+      await element.updateComplete;
+
+      current.resolve({status: CommitSignatureStatus.UNSIGNED});
+      await flushSignature();
+      original.resolve(verified);
+      other.resolve({status: CommitSignatureStatus.UNVERIFIED});
+      await flushSignature();
+      assert.equal(signatureStatus(), 'Unsigned');
+      assert.isNull(signatureRow().querySelector('gr-account-chip'));
+    });
+
+    test('change navigation invalidates requests with the same patch set number', async () => {
+      const previous = mockPromise<CommitSignatureInfo>();
+      signatureStub.onFirstCall().returns(previous);
+      signatureStub
+        .onSecondCall()
+        .resolves({status: CommitSignatureStatus.UNSIGNED});
+      await element.updateComplete;
+      element.change = {...element.change!, _number: 999 as NumericChangeId};
+      await flushSignature();
+      assert.isTrue(
+        signatureStub.calledWithExactly(
+          999 as NumericChangeId,
+          1 as PatchSetNumber
+        )
+      );
+      previous.resolve(verified);
+      await flushSignature();
+      assert.equal(signatureStatus(), 'Unsigned');
+      assert.isNull(signatureRow().querySelector('gr-account-chip'));
+    });
+
+    test('ignores a pending result when verification is disabled', async () => {
+      const pending = mockPromise<CommitSignatureInfo>();
+      signatureStub.returns(pending);
+      await element.updateComplete;
+      element.serverConfig = createServerInfo();
+      await element.updateComplete;
+      pending.resolve(verified);
+      await flushSignature();
+      assert.isNull(element.shadowRoot?.querySelector('.commitSignature'));
+      assert.isTrue(signatureStub.calledOnce);
+    });
   });
 
   test('computeMergedCommitInfo', () => {

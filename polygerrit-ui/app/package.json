@@ -11,7 +11,7 @@
     "highlight.js": "^11.12.0",
     "highlightjs-closure-templates": "https://github.com/highlightjs/highlightjs-closure-templates#02fb0646e0499084f96a99b8c6f4a0d7bd1d33ba",
     "highlightjs-epp": "https://github.com/highlightjs/highlightjs-epp#9f9e1a92f37c217c68899c7d3bdccb4d134681b9",
-    "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text#e68dd7aa829529fb6c40d6287585f43273605a9e",
+    "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text#57840b0a43d930c03706e7291e3aeef9e620694d",
     "highlightjs-ttcn3": "https://gitea.osmocom.org/ttcn3/highlightjs-ttcn3.git#6daccff309fca1e7561a43984d42fa4f829ce06d",
     "highlightjs-vue": "https://github.com/paladox/highlightjs-vue#44eed074ea0110d1ad03d2cbd77d27027cf7bb04",
     "immer": "^9.0.21",

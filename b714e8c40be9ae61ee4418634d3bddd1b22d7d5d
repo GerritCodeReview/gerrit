@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "843c420f_2e078c87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-19T13:37:16Z",
+      "side": 1,
+      "message": "This will fix https://phabricator.wikimedia.org/T395324",
+      "revId": "b714e8c40be9ae61ee4418634d3bddd1b22d7d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

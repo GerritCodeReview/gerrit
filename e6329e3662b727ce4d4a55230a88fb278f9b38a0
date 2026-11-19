@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "072c18eb_02aaf49b",
+        "filename": "java/com/google/gerrit/server/restapi/account/AddSshKey.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-19T01:23:13Z",
+      "side": 1,
+      "message": "Avoid single use variable, inline this on line 124.",
+      "revId": "e6329e3662b727ce4d4a55230a88fb278f9b38a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

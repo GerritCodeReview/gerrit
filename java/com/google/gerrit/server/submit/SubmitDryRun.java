@@ -52,12 +52,22 @@ public class SubmitDryRun {
     final CodeReviewRevWalk rw;
     final MergeUtil mergeUtil;
     final MergeSorter mergeSorter;
+    final BranchNameKey destBranch;
+    final Provider<InternalChangeQuery> queryProvider;
 
-    Arguments(Repository repo, CodeReviewRevWalk rw, MergeUtil mergeUtil, MergeSorter mergeSorter) {
+    Arguments(
+        Repository repo,
+        CodeReviewRevWalk rw,
+        MergeUtil mergeUtil,
+        MergeSorter mergeSorter,
+        BranchNameKey destBranch,
+        Provider<InternalChangeQuery> queryProvider) {
       this.repo = repo;
       this.rw = rw;
       this.mergeUtil = mergeUtil;
       this.mergeSorter = mergeSorter;
+      this.destBranch = destBranch;
+      this.queryProvider = queryProvider;
     }
   }
 
@@ -104,7 +114,9 @@ public class SubmitDryRun {
                 alreadyAccepted,
                 canMerge,
                 queryProvider,
-                ImmutableSet.of(toMergeCommit)));
+                ImmutableSet.of(toMergeCommit)),
+            destBranch,
+            queryProvider);
 
     switch (submitType) {
       case CHERRY_PICK:

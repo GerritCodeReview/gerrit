@@ -34,13 +34,17 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
@@ -229,8 +233,68 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       Repository repo,
       CodeReviewCommit mergeTip,
       CodeReviewCommit toMerge) {
+    Optional<RevCommit> outdatedMergedPatchSet =
+        findOutdatedPatchSetOfMergedChange(args, mergeTip, toMerge);
+    if (outdatedMergedPatchSet.isPresent()) {
+      // Like the actual submit (see RebaseSorter), only rebase the commits after the merged change
+      // onto the tip. The outdated patch set is not part of the tip, but its change is, so it
+      // must not be merged again.
+      return args.mergeUtil.canMergeWithBase(
+          args.mergeSorter, repo, mergeTip, toMerge, outdatedMergedPatchSet.get());
+    }
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
     return args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
+  }
+
+  /**
+   * Returns the closest first-parent ancestor of {@code toMerge} that is an outdated (i.e. not the
+   * current) patch set of a change that has already been merged into the target branch, if only
+   * patch sets of open changes are in between, and none of them are already part of {@code
+   * mergeTip}.
+   *
+   * <p>This happens when a change depends on a patch set of another change that was merged as a
+   * different commit, e.g. because it was rebased on submit or merged at a later patch set.
+   */
+  private static Optional<RevCommit> findOutdatedPatchSetOfMergedChange(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    try {
+      RevCommit commit = toMerge;
+      while (commit.getParentCount() == 1) {
+        RevCommit parent = args.rw.parseCommit(commit.getParent(0));
+        List<ChangeData> changes =
+            args.queryProvider.get().byBranchCommit(args.destBranch, parent.name());
+        Optional<ChangeData> mergedChange =
+            changes.stream().filter(cd -> cd.change().isMerged()).findFirst();
+        if (mergedChange.isPresent()) {
+          if (mergedChange.get().currentPatchSet().commitId().equals(parent)) {
+            // The parent is the commit that was merged into the branch, so the regular merge
+            // (with the computed merge base) is correct.
+            return Optional.empty();
+          }
+          if (isMergedInto(args, commit, mergeTip)) {
+            // The open changes after the parent are already part of mergeTip (e.g. when checking
+            // conflicts against a descendant change), so the merge base is one of them.
+            return Optional.empty();
+          }
+          return Optional.of(parent);
+        }
+        if (changes.stream().noneMatch(cd -> cd.change().isNew())) {
+          return Optional.empty();
+        }
+        commit = parent;
+      }
+      return Optional.empty();
+    } catch (IOException e) {
+      throw new StorageException("Cannot parse ancestors of " + toMerge.name(), e);
+    }
+  }
+
+  private static boolean isMergedInto(
+      SubmitDryRun.Arguments args, RevCommit commit, CodeReviewCommit tip) throws IOException {
+    // Use a separate RevWalk so that the flags of args.rw are left untouched.
+    try (RevWalk rw = new RevWalk(args.rw.getObjectReader())) {
+      return rw.isMergedInto(rw.parseCommit(commit), rw.parseCommit(tip));
+    }
   }
 }

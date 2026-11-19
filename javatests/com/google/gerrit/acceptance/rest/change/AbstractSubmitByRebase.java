@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
@@ -496,5 +497,74 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void dependencyOnOutdatedPatchSetOfSubmittedChangeIsMergeable() throws Throwable {
+    // Change 2 depends on patch set 1 of change 1. Change 1 is then amended to modify the same file
+    // differently and submitted at patch set 2.
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
+    testRepo.reset(change1.getCommit());
+    amendChange(change1.getChangeId(), "Change 1", "a.txt", "amended content").assertOkStatus();
+    submit(change1.getChangeId());
+
+    // Rebasing change 2 onto the branch tip only applies the changes of change 2, which do not
+    // conflict.
+    assertThat(gApi.changes().id(change2.getChangeId()).current().mergeable().mergeable).isTrue();
+    submit(change2.getChangeId());
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void dependencyOnOutdatedPatchSetOfSubmittedChangeWithConflictIsNotMergeable()
+      throws Throwable {
+    // Same as above, but change 2 modifies the file that was modified differently by patch set 2
+    // of change 1.
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "other content");
+    testRepo.reset(change1.getCommit());
+    amendChange(change1.getChangeId(), "Change 1", "a.txt", "amended content").assertOkStatus();
+    submit(change1.getChangeId());
+
+    assertThat(gApi.changes().id(change2.getChangeId()).current().mergeable().mergeable).isFalse();
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void stackOnMergedChangeDoesNotConflictWithItself() throws Throwable {
+    // Base the stack on the branch tip, which is the current patch set of a merged change.
+    submit(createChange("Change 0", "base.txt", "base").getChangeId());
+    fetch(testRepo, "+refs/heads/master:refs/heads/tip");
+    testRepo.reset(projectOperations.project(project).getHead("master"));
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "other content");
+
+    // Change 1 is part of change 2, so they don't conflict.
+    assertNoConflicts(change1);
+    assertNoConflicts(change2);
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void stackOnOutdatedPatchSetOfSubmittedChangeDoesNotConflictWithItself() throws Throwable {
+    // Change 2 and change 3 are stacked on patch set 1 of change 1, which is then submitted at
+    // patch set 2.
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "content");
+    PushOneCommit.Result change3 = createChange("Change 3", "b.txt", "other content");
+    testRepo.reset(change1.getCommit());
+    amendChange(change1.getChangeId(), "Change 1", "a.txt", "amended content").assertOkStatus();
+    submit(change1.getChangeId());
+
+    // Change 2 is part of change 3, so they don't conflict.
+    assertNoConflicts(change2);
+    assertNoConflicts(change3);
+  }
+
+  private void assertNoConflicts(PushOneCommit.Result change) throws Exception {
+    assertThat(gApi.changes().query("conflicts:" + change.getChange().getId().get()).get())
+        .isEmpty();
   }
 }

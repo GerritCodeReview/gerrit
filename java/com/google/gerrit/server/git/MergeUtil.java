@@ -800,7 +800,39 @@ public class MergeUtil {
 
   private boolean canMerge(CodeReviewCommit mergeTip, Repository repo, CodeReviewCommit toMerge) {
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
-      return newThreeWayMerger(ins, repo).merge(mergeTip, toMerge);
+      return merge(newThreeWayMerger(ins, repo), mergeTip, toMerge);
+    }
+  }
+
+  /**
+   * Like {@link #canMerge(MergeSorter, Repository, CodeReviewCommit, CodeReviewCommit)}, but uses
+   * {@code base} as the merge base instead of computing it. This only applies the changes between
+   * {@code base} and {@code toMerge} to {@code mergeTip}.
+   */
+  public boolean canMergeWithBase(
+      MergeSorter mergeSorter,
+      Repository repo,
+      CodeReviewCommit mergeTip,
+      CodeReviewCommit toMerge,
+      RevCommit base) {
+    if (hasMissingDependencies(mergeSorter, toMerge)) {
+      logger.atFine().log("%s cannot be merged due to missing dependencies", toMerge.name());
+      return false;
+    }
+
+    try (ObjectInserter ins = new InMemoryInserter(repo)) {
+      ThreeWayMerger merger = newThreeWayMerger(ins, repo);
+      merger.setBase(base);
+      return merge(merger, mergeTip, toMerge);
+    } catch (IOException e) {
+      throw new StorageException("Cannot read merge base " + base.name(), e);
+    }
+  }
+
+  private static boolean merge(
+      ThreeWayMerger merger, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    try {
+      return merger.merge(mergeTip, toMerge);
     } catch (LargeObjectException e) {
       logger.atWarning().log("%s cannot be merged due to LargeObjectException", toMerge.name());
       return false;

@@ -21,6 +21,7 @@ import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
 import {
   ChangeStatus,
+  CommitSignatureStatus,
   GpgKeyInfoStatus,
   InheritedBooleanInfoConfiguredValue,
   SubmitType,
@@ -34,6 +35,7 @@ import {
   ChangeInfo,
   CommitId,
   CommitInfo,
+  CommitSignatureInfo,
   ConfigInfo,
   GpgKeyInfo,
   Hashtag,
@@ -157,6 +159,10 @@ export class GrChangeMetadata extends LitElement {
 
   @state() pushCertificateValidation?: PushCertificateValidationInfo;
 
+  @state() private commitSignature?: CommitSignatureInfo;
+
+  @state() private commitSignatureUnavailable = false;
+
   @state() settingTopic = false;
 
   @state() currentParents: ParentCommitInfo[] = [];
@@ -170,6 +176,10 @@ export class GrChangeMetadata extends LitElement {
   @state() queryHashtag: AutocompleteQuery;
 
   private restApiService = getAppContext().restApiService;
+
+  private commitSignatureRequestKey?: string;
+
+  private commitSignatureRequestId = 0;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -287,6 +297,20 @@ export class GrChangeMetadata extends LitElement {
         .icon.trusted {
           color: var(--positive-green-text-color);
         }
+        .signatureDetails {
+          max-width: 20em;
+          overflow-wrap: anywhere;
+        }
+        .signatureDetails summary {
+          color: var(--link-color);
+          cursor: pointer;
+        }
+        .signatureDetails div {
+          padding-top: var(--spacing-s);
+        }
+        .signatureDetails code {
+          font-family: var(--monospace-font-family);
+        }
         .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
           --arrow-color: var(--warning-foreground);
           display: inline-block;
@@ -340,7 +364,8 @@ export class GrChangeMetadata extends LitElement {
       ${this.renderSubmitted()} ${this.renderCreated()} ${this.renderUpdated()}
       ${this.renderOwner()} ${this.renderNonOwner(ChangeRole.UPLOADER)}
       ${this.renderNonOwner(ChangeRole.AUTHOR)}
-      ${this.renderNonOwner(ChangeRole.COMMITTER)} ${this.renderReviewers()}
+      ${this.renderNonOwner(ChangeRole.COMMITTER)}
+      ${this.renderCommitSignature()} ${this.renderReviewers()}
       ${this.renderCCs()} ${this.renderProjectBranch()} ${this.renderParent()}
       ${this.renderMergedAs()} ${this.renderShowRevertCreatedAs()}
       ${this.renderTopic()} ${this.renderCherryPickOf()}
@@ -537,6 +562,129 @@ export class GrChangeMetadata extends LitElement {
         ></gr-reviewer-list>
       </span>
     </section>`;
+  }
+
+  private renderCommitSignature() {
+    if (!this.getCommitSignatureRequestKey()) return nothing;
+    const signature = this.commitSignature;
+    const verified = signature?.status === CommitSignatureStatus.VERIFIED;
+    const unverified = signature?.status === CommitSignatureStatus.UNVERIFIED;
+    return html`<section class="commitSignature">
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip
+          title="OpenPGP signature of the selected commit. A verified signature identifies the committer, not necessarily the author or uploader. This is separate from a signed push certificate."
+        >
+          Commit signature
+        </gr-tooltip-content>
+      </span>
+      <span class="value">
+        ${when(
+          verified,
+          () => html`<gr-icon icon="check" class="icon trusted"></gr-icon>`
+        )}
+        ${when(
+          unverified,
+          () =>
+            html`<gr-icon icon="info" class="icon notTrusted filled"></gr-icon>`
+        )}
+        <span class="signatureStatus" role="status">
+          ${this.computeCommitSignatureStatus()}
+        </span>
+        ${when(
+          verified && signature?.signer,
+          () => html`<gr-account-chip
+            .account=${signature!.signer}
+            .change=${this.change}
+          ></gr-account-chip>`
+        )}
+        ${when(
+          verified && !signature?.signer,
+          () => html`<span>Signer account unavailable</span>`
+        )}
+        ${when(
+          verified || unverified,
+          () => html`<details class="signatureDetails">
+            <summary>Details</summary>
+            <div class="signatureMessage">
+              ${signature?.message ??
+              (verified
+                ? "OpenPGP signature verified using Gerrit's current registered keys and configuration."
+                : 'Gerrit could not verify this commit signature.')}
+            </div>
+            ${when(
+              signature?.signing_key_fingerprint,
+              () => html`<div>
+                Signing key fingerprint:
+                <code>${signature!.signing_key_fingerprint}</code>
+              </div>`
+            )}
+            ${when(
+              signature?.primary_key_fingerprint,
+              () => html`<div>
+                Primary key fingerprint:
+                <code>${signature!.primary_key_fingerprint}</code>
+              </div>`
+            )}
+          </details>`
+        )}
+      </span>
+    </section>`;
+  }
+
+  private computeCommitSignatureStatus() {
+    if (this.commitSignatureUnavailable) return 'Verification unavailable';
+    if (!this.commitSignature) return 'Verifying…';
+    switch (this.commitSignature.status) {
+      case CommitSignatureStatus.VERIFIED:
+        return 'Verified';
+      case CommitSignatureStatus.UNSIGNED:
+        return 'Unsigned';
+      case CommitSignatureStatus.UNVERIFIED:
+        return 'Unverified';
+      default:
+        return 'Verification unavailable';
+    }
+  }
+
+  private getCommitSignatureRequestKey() {
+    if (
+      !this.serverConfig?.gerrit.commit_signature_verification ||
+      !this.change ||
+      typeof this.revision?._number !== 'number' ||
+      this.editMode
+    ) {
+      return undefined;
+    }
+    return `${this.change._number}/${this.revision._number}`;
+  }
+
+  private loadCommitSignature() {
+    const requestKey = this.getCommitSignatureRequestKey();
+    if (requestKey === this.commitSignatureRequestKey) return;
+    this.commitSignatureRequestKey = requestKey;
+    // Returning to an earlier patch set must not reuse its in-flight response.
+    const requestId = ++this.commitSignatureRequestId;
+    this.commitSignature = undefined;
+    this.commitSignatureUnavailable = false;
+    const changeNum = this.change?._number;
+    const patchNum = this.revision?._number;
+    if (!requestKey || !changeNum || typeof patchNum !== 'number') return;
+
+    const isCurrentRequest = () =>
+      requestId === this.commitSignatureRequestId &&
+      requestKey === this.getCommitSignatureRequestKey();
+    this.restApiService.getCommitSignature(changeNum, patchNum).then(
+      signature => {
+        if (!isCurrentRequest()) return;
+        this.commitSignature = signature;
+        this.commitSignatureUnavailable = !signature;
+      },
+      () => {
+        if (!isCurrentRequest()) return;
+        this.commitSignatureUnavailable = true;
+      }
+    );
   }
 
   private renderCCs() {
@@ -815,6 +963,14 @@ export class GrChangeMetadata extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('serverConfig') ||
+      changedProperties.has('change') ||
+      changedProperties.has('revision') ||
+      changedProperties.has('editMode')
+    ) {
+      this.loadCommitSignature();
+    }
     if (changedProperties.has('account')) {
       this.mutable = this.computeIsMutable();
     }

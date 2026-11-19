@@ -508,6 +508,34 @@ export declare interface CommitInfo {
   resolve_conflicts_web_links?: WebLinkInfo[];
 }
 
+export enum CommitSignatureStatus {
+  VERIFIED = 'VERIFIED',
+  UNSIGNED = 'UNSIGNED',
+  UNVERIFIED = 'UNVERIFIED',
+}
+
+export enum CommitSignatureReason {
+  UNSUPPORTED_FORMAT = 'UNSUPPORTED_FORMAT',
+  MALFORMED_SIGNATURE = 'MALFORMED_SIGNATURE',
+  UNKNOWN_KEY = 'UNKNOWN_KEY',
+  INVALID_SIGNATURE = 'INVALID_SIGNATURE',
+  INVALID_KEY = 'INVALID_KEY',
+  IDENTITY_MISMATCH = 'IDENTITY_MISMATCH',
+}
+
+/**
+ * Request-time verification of the OpenPGP signature of a stored commit.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#commit-signature-info
+ */
+export declare interface CommitSignatureInfo {
+  status: CommitSignatureStatus;
+  signing_key_fingerprint?: GpgKeyFingerprint;
+  primary_key_fingerprint?: GpgKeyFingerprint;
+  signer?: AccountInfo;
+  reason?: CommitSignatureReason;
+  message?: string;
+}
+
 export declare interface ConfigArrayParameterInfo
   extends ConfigParameterInfoBase {
   type: ConfigParameterInfoType.ARRAY;
@@ -798,6 +826,7 @@ export declare interface GerritInfo {
   doc_search: boolean;
   doc_url?: string;
   edit_gpg_keys?: boolean;
+  commit_signature_verification?: boolean;
   project_state_predicate_enabled: boolean;
   report_bug_url?: string;
   // The following property is missed in doc

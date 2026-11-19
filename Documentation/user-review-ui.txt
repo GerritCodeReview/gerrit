@@ -98,6 +98,44 @@ be merged if the change is submitted)
 Author/Committer are concepts from Git and are retrieved from the commit when
 it's sent for review.
 
+- [[commit-signature]]Commit signature:
++
+If the administrator enables
+link:config-gerrit.html#gpg.enableCommitSignatureVerification[OpenPGP commit
+signature verification], this row shows the signature of the *selected stored
+patch set*, including older patch sets. It is hidden when verification is
+unavailable in the server configuration and for unpublished edits. Verification
+loads asynchronously without blocking the rest of the change information.
++
+`Verified` means the exact commit bytes have a valid signature from a unique
+registered signing account and the committer email matches both that account
+and a certified key identity. The signer account is displayed when available.
+The author and uploader need not be the signer. Expand `Details` to see the
+signing key fingerprint and primary key fingerprint; these can differ when a
+signing subkey was used.
++
+`Unsigned` is a neutral indication that the commit has no signature.
+`Unverified` means a signature is present but Gerrit cannot verify it. Expand
+`Details` for a safe explanation and any available key fingerprints, for
+example when the key is not registered. `Verification unavailable` instead
+means the verification request failed; it does not mean the commit is unsigned
+or that its signature is invalid. `Verifying…` is shown while a request is in
+progress, and the previous patch set's verdict is cleared when switching patch
+sets.
++
+Verification uses the current registered keys and configuration, so the result
+can change after key registration or removal. Any revision reader can see the
+standard signing account information even if account discovery is restricted
+by link:config-gerrit.html#accounts.visibility[`accounts.visibility`]. Normal
+account serialization restrictions still apply; no additional emails, external
+IDs, or arbitrary key user IDs are disclosed.
++
+Commit signatures are distinct from signed-push certificates (shown with the
+owner) and from `Signed-off-by` trailers. This optional display is not a review
+approval and does not require uploads to be signed. See
+link:user-upload.html#signed-commits[Signing commits] for key registration and
+client setup.
+
 - [[reviewers]]Reviewers:
 +
 The reviewers of the change are displayed as chips.

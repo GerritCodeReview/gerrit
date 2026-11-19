@@ -83,6 +83,37 @@ suite('gr-settings-view tests', () => {
     await element.updateComplete;
   });
 
+  for (const {editGpgKeys, enableSignedPush, visible} of [
+    {editGpgKeys: true, enableSignedPush: true, visible: true},
+    {editGpgKeys: undefined, enableSignedPush: false, visible: false},
+    {editGpgKeys: undefined, enableSignedPush: true, visible: false},
+  ]) {
+    test(`GPG keys with edit_gpg_keys=${editGpgKeys} and enable_signed_push=${enableSignedPush}`, async () => {
+      if (editGpgKeys) {
+        config.gerrit.edit_gpg_keys = editGpgKeys;
+      } else {
+        delete config.gerrit.edit_gpg_keys;
+      }
+      config.receive = {enable_signed_push: enableSignedPush};
+      const getKeysStub = stubRestApi('getAccountGPGKeys').resolves({});
+      element.remove();
+      element = await fixture(html`<gr-settings-view></gr-settings-view>`);
+      await element._testOnly_loadingPromise;
+      await element.updateComplete;
+
+      assert.equal(
+        !!element.shadowRoot!.querySelector('a[href="#GPGKeys"]'),
+        visible
+      );
+      assert.equal(!!element.shadowRoot!.querySelector('#GPGKeys'), visible);
+      assert.equal(
+        !!element.shadowRoot!.querySelector('gr-gpg-editor'),
+        visible
+      );
+      assert.equal(getKeysStub.callCount, visible ? 1 : 0);
+    });
+  }
+
   test('renders', async () => {
     await element.updateComplete;
     // this cannot be formatted with /* HTML */, because it breaks test

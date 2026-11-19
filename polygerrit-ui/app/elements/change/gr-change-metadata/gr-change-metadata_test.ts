@@ -474,7 +474,7 @@ suite('gr-change-metadata tests', () => {
       serverConfig = {
         ...createServerInfo(),
         receive: {
-          enable_signed_push: 'true',
+          enable_signed_push: true,
         },
       };
       change = {

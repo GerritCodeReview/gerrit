@@ -87,34 +87,32 @@ suite('gr-change-actions tests', () => {
 
   suite('basic tests', () => {
     setup(async () => {
-      stubRestApi('getChangeRevisionActions').returns(
-        Promise.resolve({
-          cherrypick: {
-            method: HttpMethod.POST,
-            label: 'Cherry Pick',
-            title: 'Cherry pick change to a different branch',
-            enabled: true,
-          },
-          rebase: {
-            method: HttpMethod.POST,
-            label: 'Rebase',
-            title: 'Rebase onto tip of branch or parent change',
-            enabled: true,
-          },
-          submit: {
-            method: HttpMethod.POST,
-            label: 'Submit',
-            title: 'Submit patch set 2 into master',
-            enabled: true,
-          },
-          revert_submission: {
-            method: HttpMethod.POST,
-            label: 'Revert submission',
-            title: 'Revert this submission',
-            enabled: true,
-          },
-        })
-      );
+      const revisionActions: ActionNameToActionInfoMap = {
+        cherrypick: {
+          method: HttpMethod.POST,
+          label: 'Cherry Pick',
+          title: 'Cherry pick change to a different branch',
+          enabled: true,
+        },
+        rebase: {
+          method: HttpMethod.POST,
+          label: 'Rebase',
+          title: 'Rebase onto tip of branch or parent change',
+          enabled: true,
+        },
+        submit: {
+          method: HttpMethod.POST,
+          label: 'Submit',
+          title: 'Submit patch set 2 into master',
+          enabled: true,
+        },
+        revert_submission: {
+          method: HttpMethod.POST,
+          label: 'Revert submission',
+          title: 'Revert this submission',
+          enabled: true,
+        },
+      };
 
       stubRestApi('getValidationOptions').returns(
         Promise.resolve({
@@ -153,9 +151,9 @@ suite('gr-change-actions tests', () => {
         'navigateToChangeResetReload'
       );
       chatModel = testResolver(chatModelToken);
+      element.revisionActions = revisionActions;
 
       await element.updateComplete;
-      await element.reload();
     });
 
     test('render', async () => {
@@ -355,6 +353,14 @@ suite('gr-change-actions tests', () => {
         assert.isFalse(await isLoading());
       });
 
+      test('submittabilityLoading', async () => {
+        element.submittabilityLoading = true;
+        assert.isTrue(await isLoading());
+
+        element.submittabilityLoading = false;
+        assert.isFalse(await isLoading());
+      });
+
       test('pluginsLoaded', async () => {
         element.pluginsLoaded = false;
         assert.isTrue(await isLoading());
@@ -442,11 +448,49 @@ suite('gr-change-actions tests', () => {
       });
     });
 
-    test('show-revision-actions event should fire', async () => {
-      const spy = sinon.spy(element, 'sendShowRevisionActions');
-      element.reload();
+    suite('show-revision-actions event', () => {
+      let sendStub: sinon.SinonStub;
+
+      setup(() => {
+        sendStub = sinon.stub(element, 'sendShowRevisionActions');
+      });
+
+      test('fires once per load of revision actions', async () => {
+        const revisionActions = {rebase: {label: 'Rebase', enabled: true}};
+        element.revisionActions = revisionActions;
+        await element.updateComplete;
+
+        assert.isTrue(sendStub.calledOnce);
+        assert.strictEqual(sendStub.lastCall.args[0].change, element.change);
+        assert.isOk(sendStub.lastCall.args[0].revisionActions.rebase);
+        assert.isUndefined(sendStub.lastCall.args[0].revisionActions.download);
+
+        // Enriching the change does not notify plugins again.
+        element.change = {...element.change!, submittable: true};
+        await element.updateComplete;
+        assert.isTrue(sendStub.calledOnce);
+      });
+
+      test('does not fire while loading', async () => {
+        element.mergeable = undefined;
+        element.revisionActions = {rebase: {label: 'Rebase', enabled: true}};
+        await element.updateComplete;
+        assert.isFalse(sendStub.called);
+
+        element.mergeable = true;
+        await element.updateComplete;
+        assert.isTrue(sendStub.calledOnce);
+      });
+    });
+
+    test('does not mutate the revision actions from the model', async () => {
+      const revisionActions = {rebase: {label: 'Rebase', enabled: true}};
+      element.revisionActions = revisionActions;
       await element.updateComplete;
-      assert.isTrue(spy.called);
+
+      assert.deepEqual(revisionActions, {
+        rebase: {label: 'Rebase', enabled: true},
+      });
     });
 
     test('primary and secondary actions split properly', () => {
@@ -660,7 +704,6 @@ suite('gr-change-actions tests', () => {
       };
 
       await element.updateComplete;
-      await element.reload();
 
       const actions = element.topLevelSecondaryActions!;
       assert.isOk(actions);
@@ -1583,8 +1626,6 @@ suite('gr-change-actions tests', () => {
           },
         };
         await element.updateComplete;
-        // test
-        await element.reload();
       });
 
       test('abandon change with message', async () => {
@@ -1680,8 +1721,6 @@ suite('gr-change-actions tests', () => {
           },
         };
         await element.updateComplete;
-        // test
-        await element.reload();
       });
 
       test('revert change payload', async () => {
@@ -2051,7 +2090,6 @@ suite('gr-change-actions tests', () => {
         element.latestPatchNum = 2 as PatchSetNumber;
 
         await element.updateComplete;
-        await element.reload();
       });
 
       test(
@@ -2105,7 +2143,6 @@ suite('gr-change-actions tests', () => {
         element.latestPatchNum = 2 as PatchSetNumber;
 
         await element.updateComplete;
-        await element.reload();
       });
 
       test(
@@ -2658,12 +2695,12 @@ suite('gr-change-actions tests', () => {
       assert.isTrue(handler.called);
     });
 
-    test('changing changeNum or patchNum does not reload', () => {
-      const reloadStub = sinon.stub(element, 'reload');
+    test('changing changeNum or patchNum does not fetch actions', async () => {
+      const getRevisionActionsStub = stubRestApi('getChangeRevisionActions');
       element.changeNum = 123 as NumericChangeId;
-      assert.isFalse(reloadStub.called);
       element.latestPatchNum = 456 as PatchSetNumber;
-      assert.isFalse(reloadStub.called);
+      await element.updateComplete;
+      assert.isFalse(getRevisionActionsStub.called);
     });
 
     test('toSentenceCase', () => {
@@ -3107,15 +3144,10 @@ suite('gr-change-actions tests', () => {
     });
   });
 
-  suite('getChangeRevisionActions returns only some actions', () => {
+  suite('revision actions contain only some actions', () => {
     let element: GrChangeActions;
 
-    let changeRevisionActions: ActionNameToActionInfoMap = {};
-
     setup(async () => {
-      stubRestApi('getChangeRevisionActions').returns(
-        Promise.resolve(changeRevisionActions)
-      );
       stubRestApi('send').returns(Promise.resolve(new Response()));
 
       sinon
@@ -3125,20 +3157,16 @@ suite('gr-change-actions tests', () => {
       element = await fixture<GrChangeActions>(html`
         <gr-change-actions></gr-change-actions>
       `);
-      // getChangeRevisionActions is not called without
-      // set the following properties
       element.change = createChangeViewChange();
       element.changeNum = 42 as NumericChangeId;
       element.latestPatchNum = 2 as PatchSetNumber;
+      element.revisionActions = {};
 
       stubRestApi('getRepoBranches').returns(Promise.resolve([]));
       await element.updateComplete;
-      await element.reload();
     });
 
     test('confirmSubmitDialog and confirmRebase properties are changed', () => {
-      changeRevisionActions = {};
-      element.reload();
       assert.strictEqual(
         queryAndAssert<GrConfirmSubmitDialog>(element, '#confirmSubmitDialog')
           .action,

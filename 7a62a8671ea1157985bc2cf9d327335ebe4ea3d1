@@ -16,6 +16,24 @@
       "message": "Maybe defualt unit should be days?",
       "revId": "7a62a8671ea1157985bc2cf9d327335ebe4ea3d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d2521a6_487df9fe",
+        "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-11-19T23:18:36Z",
+      "side": 1,
+      "message": "This is the default style of all the duration configuration options on the server and we wouldn\u0027t want this to be an exception.",
+      "parentUuid": "44a42d62_1de16ef2",
+      "revId": "7a62a8671ea1157985bc2cf9d327335ebe4ea3d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

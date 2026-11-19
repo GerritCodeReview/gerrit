@@ -1562,6 +1562,16 @@ export class GrReplyDialog extends LitElement {
           const reloadRequired =
             result.change_info.current_revision_number !==
             this.change?.current_revision_number;
+          // Reload submittability and revision actions (votes can change e.g.
+          // whether submit is enabled) before updating the change: While
+          // submittability is loading, plugins are not notified, so they get
+          // the updated change only once, with up-to-date submittability.
+          // Skipped if the full reload is triggered, to avoid duplicate
+          // requests.
+          if (!reloadRequired) {
+            this.getChangeModel().reloadSubmittability();
+            this.getChangeModel().reloadRevisionActions();
+          }
           // Update the state right away to update comments, even if the full
           // reload is scheduled right after.
           const updatedChange = {
@@ -1577,10 +1587,6 @@ export class GrReplyDialog extends LitElement {
           parseTimer.end();
           if (reloadRequired) {
             fireReload(this);
-          } else {
-            // Only reload submittability if the full reload is not triggered, to
-            // avoid duplicate requests.
-            this.getChangeModel().reloadSubmittability();
           }
 
           this.patchsetLevelDraftMessage = '';

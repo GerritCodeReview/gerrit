@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "802fcdba_18d34121",
+        "filename": "java/com/google/gerrit/sshd/SshKeyCacheEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-19T01:17:15Z",
+      "side": 1,
+      "message": "Are cache files created with the old format going to be readable after this change?",
+      "revId": "fbefde5aeed698c3f8ddf757c636b049019a207d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf49ace3_6ca35ed4",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-19T23:40:41Z",
+      "side": 1,
+      "message": "I think it is OK to convert to the new way in this change, no need to continue to write them the old way (but we still want to support reading them that way).",
+      "parentUuid": "50bfbbdc_a5b1cc65",
+      "revId": "77cb22de67c5901be254b0d0877220b59c16fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6e43727_13e95755",
         "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
         "patchSetId": 5

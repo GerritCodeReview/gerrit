@@ -72,6 +72,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.put("/changes/%s/message"),
           RestCall.post("/changes/%s/move"),
           RestCall.post("/changes/%s/patch:apply"),
+          RestCall.get("/changes/%s/permissions"),
           RestCall.post("/changes/%s/private"),
           RestCall.post("/changes/%s/private.delete"),
           RestCall.delete("/changes/%s/private"),

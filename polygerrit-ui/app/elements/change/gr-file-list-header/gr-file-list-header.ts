@@ -350,7 +350,6 @@ export class GrFileListHeader extends LitElement {
   }
 
   private renderDiffPrefsContainer() {
-    if (this.editMode) return nothing;
     return html`
       <span id="diffPrefsContainer">
         <gr-tooltip-content has-tooltip title="Diff preferences">

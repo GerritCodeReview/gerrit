@@ -581,41 +581,133 @@ export function getApplicableLabels(change?: ParsedChangeInfo | ChangeInfo) {
 /**
  * Returns true if the requirement is unsatisfied because something is present
  * that must be absent, e.g. a veto vote (`-label:Code-Review=MIN`) or a
- * forbidden commit subject (`-subject:WIP`). Such a requirement cannot be
- * satisfied by adding votes.
+ * forbidden commit subject (`-subject:WIP`), and the expression cannot become
+ * satisfied while those blocking atoms remain true.
  */
 export function isBlockingCondition(
   requirement: SubmitRequirementResultInfo
 ): boolean {
   if (requirement.status !== SubmitRequirementStatus.UNSATISFIED) return false;
-
-  const result = requirement.submittability_expression_result;
-  if (
-    result.passing_atoms?.some(atom => atom.match(/^label[0-9]*:[\w-]+=MIN$/))
-  ) {
-    return true;
-  }
-  return hasPassingNegatedAtom(result);
+  return isBlockedByNegatedAtom(requirement.submittability_expression_result);
 }
 
-function hasPassingNegatedAtom(expression: SubmitRequirementExpressionInfo) {
-  if (!expression.passing_atoms?.length) return false;
-  const parts = atomizeExpression(expression);
-  return parts.some((part, i) => {
-    if (!part.isAtom) return false;
-    // atomizeExpression() includes a unary minus in the atom and negates its
-    // status, so a passing atom that is negated is reported as failing.
-    if (part.value.startsWith('-')) {
-      return part.atomStatus === SubmitRequirementExpressionAtomStatus.FAILING;
+type ExprToken =
+  | {type: 'or' | 'and' | 'not' | 'lparen' | 'rparen'}
+  | {type: 'atom'; hasUnaryMinus: boolean; isPassing: boolean};
+
+function tokenizeExpression(
+  expression: SubmitRequirementExpressionInfo
+): ExprToken[] {
+  const tokens: ExprToken[] = [];
+  for (const part of atomizeExpression(expression)) {
+    if (part.isAtom) {
+      tokens.push({
+        type: 'atom',
+        hasUnaryMinus: part.value.startsWith('-'),
+        isPassing:
+          part.atomStatus === SubmitRequirementExpressionAtomStatus.PASSING,
+      });
+      continue;
     }
-    const previous = i > 0 ? parts[i - 1] : undefined;
-    return (
-      part.atomStatus === SubmitRequirementExpressionAtomStatus.PASSING &&
-      !!previous &&
-      !previous.isAtom &&
-      /(^|[\s(])NOT\s+$/.test(previous.value)
-    );
-  });
+    const matches =
+      part.value.match(
+        /[^\s()"]*"(?:\\.|[^"\\])*"|[^\s(){]*\{(?:\\.|[^}\\])*\}|[()]|-(?=\s*\()|[^\s()]+/g
+      ) ?? [];
+    for (const raw of matches) {
+      if (raw === '(') {
+        tokens.push({type: 'lparen'});
+      } else if (raw === ')') {
+        tokens.push({type: 'rparen'});
+      } else if (raw === 'OR' || raw === 'or') {
+        tokens.push({type: 'or'});
+      } else if (raw === 'AND' || raw === 'and') {
+        tokens.push({type: 'and'});
+      } else if (raw === 'NOT' || raw === 'not' || raw === '-') {
+        tokens.push({type: 'not'});
+      } else {
+        // Unevaluated/unmatched atom: treat as non-blocking.
+        tokens.push({type: 'atom', hasUnaryMinus: false, isPassing: false});
+      }
+    }
+  }
+  return tokens;
+}
+
+/**
+ * Evaluates the boolean structure of `expression` (matching Gerrit's Query.g:
+ * OR < explicit/implicit AND < NOT/- < parentheses) while pinning currently
+ * failing negated atoms to false and assuming all other atoms can become true.
+ * Returns true iff the expression still evaluates to false.
+ */
+function isBlockedByNegatedAtom(
+  expression: SubmitRequirementExpressionInfo
+): boolean {
+  if (!expression.passing_atoms?.length) return false;
+  const tokens = tokenizeExpression(expression);
+  if (!tokens.length) return false;
+
+  let pos = 0;
+  let invalid = false;
+
+  const parseOr = (negated: boolean): boolean => {
+    let acc = parseAnd(negated);
+    while (pos < tokens.length && tokens[pos].type === 'or') {
+      pos++;
+      const rhs = parseAnd(negated);
+      acc = negated ? acc && rhs : acc || rhs;
+    }
+    return acc;
+  };
+
+  const parseAnd = (negated: boolean): boolean => {
+    let acc = parseNot(negated);
+    while (
+      pos < tokens.length &&
+      tokens[pos].type !== 'or' &&
+      tokens[pos].type !== 'rparen'
+    ) {
+      if (tokens[pos].type === 'and') pos++;
+      const rhs = parseNot(negated);
+      acc = negated ? acc || rhs : acc && rhs;
+    }
+    return acc;
+  };
+
+  const parseNot = (negated: boolean): boolean => {
+    if (pos < tokens.length && tokens[pos].type === 'not') {
+      pos++;
+      return parseNot(!negated);
+    }
+    return parseBase(negated);
+  };
+
+  const parseBase = (negated: boolean): boolean => {
+    if (pos >= tokens.length) {
+      invalid = true;
+      return true;
+    }
+    const tok = tokens[pos++];
+    if (tok.type === 'lparen') {
+      const val = parseOr(negated);
+      if (pos < tokens.length && tokens[pos].type === 'rparen') {
+        pos++;
+      } else {
+        invalid = true;
+      }
+      return val;
+    }
+    if (tok.type === 'atom') {
+      const isNegatedLeaf = negated !== tok.hasUnaryMinus;
+      const isCurrentlySatisfied = tok.isPassing !== negated;
+      return !(isNegatedLeaf && !isCurrentlySatisfied);
+    }
+    invalid = true;
+    return true;
+  };
+
+  const canBeSatisfied = parseOr(false);
+  if (invalid || pos !== tokens.length) return false;
+  return !canBeSatisfied;
 }
 
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';

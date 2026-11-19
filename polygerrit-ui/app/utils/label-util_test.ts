@@ -992,6 +992,136 @@ suite('label-util', () => {
       };
       assert.isFalse(isBlockingCondition(requirement));
     });
+
+    test('false for negated passing atom inside OR with satisfiable branch', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'BatchSubmit-Verified',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: 'label:Batchsubmit-Verified=1 OR -branch:refs/heads/main',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['branch:refs/heads/main'],
+          failing_atoms: ['label:Batchsubmit-Verified=1'],
+        },
+      };
+      assert.isFalse(isBlockingCondition(requirement));
+    });
+
+    test('false for MIN veto inside OR with satisfiable branch', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Code-Review',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression:
+            '(label:Code-Review=MAX AND -label:Code-Review=MIN) OR label:Exempt=1',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['label:Code-Review=MIN'],
+          failing_atoms: ['label:Code-Review=MAX', 'label:Exempt=1'],
+        },
+      };
+      assert.isFalse(isBlockingCondition(requirement));
+    });
+
+    test('true when all OR branches are blocked by negated passing atoms', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Branch-Or-Subject',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: '-branch:refs/heads/main OR -subject:WIP',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['branch:refs/heads/main', 'subject:WIP'],
+          failing_atoms: [],
+        },
+      };
+      assert.isTrue(isBlockingCondition(requirement));
+    });
+
+    test('true for (A OR B) AND -C when C is passing', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Verified',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression:
+            '(label:Verified=MAX OR label:Override=MAX) AND -subject:WIP',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['subject:WIP'],
+          failing_atoms: ['label:Verified=MAX', 'label:Override=MAX'],
+        },
+      };
+      assert.isTrue(isBlockingCondition(requirement));
+    });
+
+    test('true for implicit AND with negated passing atom', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Verified',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: 'label:Verified=MAX -subject:WIP',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['subject:WIP'],
+          failing_atoms: ['label:Verified=MAX'],
+        },
+      };
+      assert.isTrue(isBlockingCondition(requirement));
+    });
+
+    test('handles negated parenthesized groups via De Morgan', () => {
+      // NOT (has:unresolved AND -hashtag:allow) == -has:unresolved OR hashtag:allow
+      const satisfiableByHashtag: SubmitRequirementResultInfo = {
+        name: 'Comments',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: 'NOT (has:unresolved AND -hashtag:allow)',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['has:unresolved'],
+          failing_atoms: ['hashtag:allow'],
+        },
+      };
+      assert.isFalse(isBlockingCondition(satisfiableByHashtag));
+
+      // -(has:unresolved OR subject:WIP) == -has:unresolved AND -subject:WIP
+      const blockedByOrInsideNot: SubmitRequirementResultInfo = {
+        name: 'Comments',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: '-(has:unresolved OR subject:WIP)',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['has:unresolved'],
+          failing_atoms: ['subject:WIP'],
+        },
+      };
+      assert.isTrue(isBlockingCondition(blockedByOrInsideNot));
+    });
+
+    test('false for malformed expression', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Malformed',
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression: '(-subject:WIP',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['subject:WIP'],
+          failing_atoms: [],
+        },
+      };
+      assert.isFalse(isBlockingCondition(requirement));
+    });
   });
 
   suite('valueString', () => {

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31701b38_5425c220",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-20T17:12:49Z",
+      "side": 1,
+      "message": "Make the stop strategy a required arg so the factory can\u0027t be built unbounded.\n\nNow that withStopStrategy is out of retryerBuilder(), build() falls back to StopStrategies.neverStop() for anyone who forgets it — a future caller silently gets an infinite retry. withStopStrategy is set-once (throws on a 2nd call), so a default-then-override won\u0027t work.\n\nPassing the stop in + a shared constant closes the footgun and single-sources the 30s that\u0027s now written in three places.\n\n```suggestion\n  @VisibleForTesting\n  static final StopStrategy PRODUCTION_STOP \u003d\n      StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS);\n\n  @VisibleForTesting\n  static RetryerBuilder\u003cImmutableList\u003cInteger\u003e\u003e retryerBuilder(StopStrategy stopStrategy) {\n    return RetryerBuilder.\u003cImmutableList\u003cInteger\u003e\u003enewBuilder()\n        .retryIfException(\n            t -\u003e\n                t instanceof StorageException\n                    \u0026\u0026 (t.getCause() instanceof LockFailureException\n                        || t.getCause() instanceof NonIncrementingSequenceException))\n        .withWaitStrategy(\n            WaitStrategies.join(\n                WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),\n                WaitStrategies.randomWait(50, TimeUnit.MILLISECONDS)))\n        .withStopStrategy(stopStrategy);\n  }\n```",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 3
+      },
+      "revId": "11a1efa99dfb19766b428eb554f5f7b2b709a4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bef7f6e_0ddad9d7",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-20T17:12:49Z",
+      "side": 1,
+      "message": "And here use PRODUCTION_STOP:\n\n```suggestion\n  private static final Retryer\u003cImmutableList\u003cInteger\u003e\u003e RETRYER \u003d\n      retryerBuilder(PRODUCTION_STOP).build();\n```",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 19
+      },
+      "revId": "11a1efa99dfb19766b428eb554f5f7b2b709a4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41590bf4_f43e5ed8",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-20T17:12:49Z",
+      "side": 1,
+      "message": "Also here:\n\n```suggestion\n  private static final Retryer\u003cImmutableList\u003cInteger\u003e\u003e RETRYER \u003d\n      RepoSequence.retryerBuilder(RepoSequence.PRODUCTION_STOP)\n          .withBlockStrategy(t -\u003e {})\n          .build();\n```",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 19
+      },
+      "revId": "11a1efa99dfb19766b428eb554f5f7b2b709a4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe32270a_e441e24e",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-20T17:12:49Z",
+      "side": 1,
+      "message": "And here:\n\n```suggestion\n  private static final Retryer\u003cImmutableList\u003cInteger\u003e\u003e BOUNDED_RETRYER \u003d\n      RepoSequence.retryerBuilder(StopStrategies.stopAfterAttempt(3))\n          .withBlockStrategy(t -\u003e {})\n          .build();\n```",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 19
+      },
+      "revId": "11a1efa99dfb19766b428eb554f5f7b2b709a4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "247cc15b_ccad8978",
+        "filename": "javatests/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-20T17:12:49Z",
+      "side": 1,
+      "message": "And here:\n\n```suggestion\n            RepoSequence.retryerBuilder(RepoSequence.PRODUCTION_STOP)\n                .withBlockStrategy(blockStrategy)\n                .build());\n```",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 26
+      },
+      "revId": "11a1efa99dfb19766b428eb554f5f7b2b709a4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

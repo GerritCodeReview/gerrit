@@ -20,12 +20,14 @@ import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
 import {
   createChange,
   createChangeMessage,
+  createChangeViewState,
   createParsedChange,
   createRelatedChangeAndCommitInfo,
   createRelatedChangesInfo,
 } from '../../test/test-data-generators';
 import {ChangeStatus, ReviewInputTag, TopicName} from '../../api/rest-api';
 import {MessageTag} from '../../constants/constants';
+import {changeViewModelToken} from '../views/change';
 
 suite('related-changes-model tests', () => {
   let model: RelatedChangesModel;
@@ -195,6 +197,7 @@ suite('related-changes-model tests', () => {
 
     test('conflictingChanges emits', async () => {
       getChangeConflictsResponse = [createChange()];
+      testResolver(changeViewModelToken).setState(createChangeViewState());
       changeModel.updateStateChange({...createParsedChange(), mergeable: true});
 
       await waitUntilObserved(

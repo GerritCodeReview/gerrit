@@ -38,6 +38,7 @@ public class ProjectInput {
   public InheritableBoolean rejectEmptyCommit;
   public InheritableBoolean enableSignedPush;
   public InheritableBoolean requireSignedPush;
+  public InheritableBoolean requireSignedCommits;
   public String maxObjectSizeLimit;
   public Map<String, Map<String, ConfigValue>> pluginConfigValues;
 

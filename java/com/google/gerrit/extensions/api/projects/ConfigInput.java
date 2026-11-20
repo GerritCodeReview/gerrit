@@ -28,6 +28,7 @@ public class ConfigInput {
   public InheritableBoolean requireChangeId;
   public InheritableBoolean enableSignedPush;
   public InheritableBoolean requireSignedPush;
+  public InheritableBoolean requireSignedCommits;
   public InheritableBoolean rejectImplicitMerges;
   public InheritableBoolean privateByDefault;
   public InheritableBoolean workInProgressByDefault;

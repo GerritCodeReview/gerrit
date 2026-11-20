@@ -29,6 +29,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
@@ -50,9 +51,11 @@ import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.GitRepositoryManager.Status;
 import com.google.gerrit.server.git.RepositoryExistsException;
+import com.google.gerrit.server.git.SignedCommitPolicy;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.RetryHelper;
@@ -99,6 +102,8 @@ public class ProjectCreator {
   private final Provider<IdentifiedUser> identifiedUser;
   private final ProjectConfig.Factory projectConfigFactory;
   private final String gerritInstanceId;
+  private final SignedCommitPolicy signedCommitPolicy;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   ProjectCreator(
@@ -114,7 +119,9 @@ public class ProjectCreator {
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       @Nullable @GerritInstanceId String gerritInstanceId,
       Provider<IdentifiedUser> identifiedUser,
-      ProjectConfig.Factory projectConfigFactory) {
+      ProjectConfig.Factory projectConfigFactory,
+      SignedCommitPolicy signedCommitPolicy,
+      ContentCommitInserter contentCommitInserter) {
     this.repoManager = repoManager;
     this.createdListeners = createdListeners;
     this.exceptionHooks = exceptionHooks;
@@ -128,6 +135,8 @@ public class ProjectCreator {
     this.gerritInstanceId = gerritInstanceId;
     this.identifiedUser = identifiedUser;
     this.projectConfigFactory = projectConfigFactory;
+    this.signedCommitPolicy = signedCommitPolicy;
+    this.contentCommitInserter = contentCommitInserter;
   }
 
   @CanIgnoreReturnValue
@@ -142,9 +151,28 @@ public class ProjectCreator {
                 try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {
                   Project.NameKey nameKey = args.getProject();
 
+                  Project.Builder prospectiveProject = Project.builder(nameKey);
+                  prospectiveProject.setParent(args.newParent);
+                  prospectiveProject.setBooleanConfig(
+                      BooleanProjectConfig.REQUIRE_SIGNED_COMMITS, args.requireSignedCommits);
+                  Project prospective = prospectiveProject.build();
+
                   if (args.initOnly) {
                     try (Repository repo = repoManager.openRepository(nameKey)) {
-                      initProject(nameKey, repo, args);
+                      Project initialProject = prospective;
+                      if (repo.exactRef(RefNames.REFS_CONFIG) != null) {
+                        // initOnly cannot change an existing configuration. Preflight any new
+                        // content against that configuration, without re-enabling its policy.
+                        initialProject =
+                            projectCache
+                                .get(nameKey)
+                                .orElseThrow(illegalState(nameKey))
+                                .getProject();
+                      } else {
+                        signedCommitPolicy.checkNewProject(prospective);
+                      }
+                      byte[] initialCommit = prepareInitialCommit(args, initialProject, repo);
+                      initProject(nameKey, repo, args, initialCommit);
                       return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
                     } catch (RepositoryNotFoundException notFound) {
                       throw new ResourceNotFoundException(
@@ -152,13 +180,15 @@ public class ProjectCreator {
                     }
                   }
 
+                  signedCommitPolicy.checkNewProject(prospective);
+                  byte[] initialCommit = prepareInitialCommit(args, prospective, null);
                   try {
                     Status status = repoManager.getRepositoryStatus(nameKey);
                     if (!status.equals(Status.NON_EXISTENT)) {
                       throw new RepositoryExistsException(nameKey, "Repository status: " + status);
                     }
                     try (Repository repo = repoManager.createRepository(nameKey, args.refStorage)) {
-                      initProject(nameKey, repo, args);
+                      initProject(nameKey, repo, args, initialCommit);
                       return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
                     }
                   } catch (RepositoryExistsException e) {
@@ -178,7 +208,7 @@ public class ProjectCreator {
                       logger.atFine().withCause(e).log(
                           "try initializing project %s after repo creation failure", nameKey);
                       try (Repository repo = repoManager.openRepository(nameKey)) {
-                        initProject(nameKey, repo, args);
+                        initProject(nameKey, repo, args, initialCommit);
                       } catch (
                           @SuppressWarnings("UnusedException")
                           RuntimeException e2) {
@@ -202,14 +232,18 @@ public class ProjectCreator {
     }
   }
 
-  private void initProject(Project.NameKey nameKey, Repository repo, CreateProjectArgs args)
+  private void initProject(
+      Project.NameKey nameKey,
+      Repository repo,
+      CreateProjectArgs args,
+      @Nullable byte[] initialCommit)
       throws IOException, ConfigInvalidException, ResourceConflictException {
     projectCache.evict(nameKey);
     createHead(repo, args);
     createProjectConfig(repo, args);
 
-    if (!args.permissionsOnly && args.createEmptyCommit) {
-      createEmptyCommits(repo, args, nameKey);
+    if (initialCommit != null) {
+      createEmptyCommits(repo, args, nameKey, initialCommit);
     }
   }
 
@@ -269,6 +303,8 @@ public class ProjectCreator {
                 BooleanProjectConfig.ENABLE_SIGNED_PUSH, args.enableSignedPush);
             newProject.setBooleanConfig(
                 BooleanProjectConfig.REQUIRE_SIGNED_PUSH, args.requireSignedPush);
+            newProject.setBooleanConfig(
+                BooleanProjectConfig.REQUIRE_SIGNED_COMMITS, args.requireSignedCommits);
             if (args.newParent != null) {
               newProject.setParent(args.newParent);
             }
@@ -306,9 +342,14 @@ public class ProjectCreator {
     projectCache.onCreateProject(args.getProject());
   }
 
-  private void createEmptyCommits(Repository repo, CreateProjectArgs args, Project.NameKey project)
+  @Nullable
+  private byte[] prepareInitialCommit(
+      CreateProjectArgs args, Project project, @Nullable Repository repo)
       throws IOException, ResourceConflictException {
-    if (args.initOnly) {
+    if (args.permissionsOnly || !args.createEmptyCommit) {
+      return null;
+    }
+    if (repo != null && args.initOnly) {
       List<Ref> existingRefs = repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
       if (!existingRefs.isEmpty()) {
         if (Sets.symmetricDifference(
@@ -316,20 +357,28 @@ public class ProjectCreator {
                 ImmutableSet.copyOf(args.branch))
             .isEmpty()) {
           logger.atFine().log("Skip creation of branches since they already exist");
-          return;
+          return null;
         }
         throw new ResourceConflictException(String.format("conflicting branches already exists"));
       }
     }
 
-    try (ObjectInserter oi = repo.newObjectInserter()) {
-      CommitBuilder cb = new CommitBuilder();
-      cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
-      cb.setAuthor(metaDataUpdateFactory.getUserPersonIdent());
-      cb.setCommitter(serverIdent.get());
-      cb.setMessage("Initial empty repository\n");
+    CommitBuilder commit = new CommitBuilder();
+    commit.setTreeId(Constants.EMPTY_TREE_ID);
+    commit.setAuthor(metaDataUpdateFactory.getUserPersonIdent());
+    commit.setCommitter(serverIdent.get());
+    commit.setMessage("Initial empty repository\n");
+    return contentCommitInserter.prepareInitialCommit(project, args.branch, commit);
+  }
 
-      ObjectId id = oi.insert(cb);
+  private void createEmptyCommits(
+      Repository repo, CreateProjectArgs args, Project.NameKey project, byte[] initialCommit)
+      throws IOException, ResourceConflictException {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
+      oi.insert(Constants.OBJ_TREE, new byte[] {});
+      ObjectId id =
+          contentCommitInserter.insert(
+              BranchNameKey.create(project, args.getHead()), oi, initialCommit);
       oi.flush();
 
       for (String ref : args.branch) {

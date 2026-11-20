@@ -830,6 +830,7 @@ export interface ConfigInput {
   require_change_id?: InheritedBooleanInfoConfiguredValue;
   enable_signed_push?: InheritedBooleanInfoConfiguredValue;
   require_signed_push?: InheritedBooleanInfoConfiguredValue;
+  require_signed_commits?: InheritedBooleanInfoConfiguredValue;
   private_by_default?: InheritedBooleanInfoConfiguredValue;
   work_in_progress_by_default?: InheritedBooleanInfoConfiguredValue;
   enable_reviewer_by_email?: InheritedBooleanInfoConfiguredValue;
@@ -868,6 +869,7 @@ export interface ProjectInput {
   require_change_id?: InheritedBooleanInfoConfiguredValue;
   enable_signed_push?: InheritedBooleanInfoConfiguredValue;
   require_signed_push?: InheritedBooleanInfoConfiguredValue;
+  require_signed_commits?: InheritedBooleanInfoConfiguredValue;
   max_object_size_limit?: string;
   reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
 }

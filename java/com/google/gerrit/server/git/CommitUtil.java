@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -117,6 +118,7 @@ public class CommitUtil {
   private final BatchUpdate.Factory updateFactory;
   private final MessageIdGenerator messageIdGenerator;
   private final AccountCache accountCache;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   CommitUtil(
@@ -132,7 +134,8 @@ public class CommitUtil {
       ChangeReverted changeReverted,
       BatchUpdate.Factory updateFactory,
       MessageIdGenerator messageIdGenerator,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      ContentCommitInserter contentCommitInserter) {
     this.repoManager = repoManager;
     this.serverIdent = serverIdent;
     this.seq = seq;
@@ -146,6 +149,7 @@ public class CommitUtil {
     this.updateFactory = updateFactory;
     this.messageIdGenerator = messageIdGenerator;
     this.accountCache = accountCache;
+    this.contentCommitInserter = contentCommitInserter;
   }
 
   public static CommitInfo toCommitInfo(RevCommit commit) throws IOException {
@@ -263,6 +267,8 @@ public class CommitUtil {
   /**
    * Creates a commit with the specified tree ID.
    *
+   * @param contentCommitInserter mandatory content-policy insertion boundary.
+   * @param destination branch the content is intended for.
    * @param oi ObjectInserter for inserting the newly created commit.
    * @param authorIdent of the new commit
    * @param committerIdent of the new commit
@@ -273,13 +279,15 @@ public class CommitUtil {
    * @throws IOException if fails to insert the commit.
    */
   public static ObjectId createCommitWithTree(
+      ContentCommitInserter contentCommitInserter,
+      BranchNameKey destination,
       ObjectInserter oi,
       PersonIdent authorIdent,
       PersonIdent committerIdent,
       List<RevCommit> parents,
       String commitMessage,
       ObjectId treeId)
-      throws IOException {
+      throws IOException, ResourceConflictException {
     logger.atFine().log("Creating commit with tree: %s", treeId.getName());
     CommitBuilder commit = new CommitBuilder();
     commit.setTreeId(treeId);
@@ -288,7 +296,7 @@ public class CommitUtil {
     commit.setCommitter(committerIdent);
     commit.setMessage(commitMessage);
 
-    ObjectId id = oi.insert(commit);
+    ObjectId id = contentCommitInserter.insert(destination, oi, commit);
     oi.flush();
     return id;
   }
@@ -387,6 +395,8 @@ public class CommitUtil {
     CodeReviewCommit revertCommit =
         revWalk.parseCommit(
             createCommitWithTree(
+                contentCommitInserter,
+                notes.getChange().getDest(),
                 oi,
                 authorIdent,
                 committerIdent,

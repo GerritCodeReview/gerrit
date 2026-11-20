@@ -16,9 +16,11 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.extensions.common.CommitSignatureInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
+import com.google.inject.ImplementedBy;
 import java.io.IOException;
 
 /** Verifies exact commit-object bytes, without depending on the optional GPG implementation. */
+@ImplementedBy(CommitSignatureVerifier.Disabled.class)
 public interface CommitSignatureVerifier {
   boolean isEnabled();
 

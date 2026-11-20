@@ -403,6 +403,7 @@ public class CherryPickChange {
         }
         cherryPickCommit =
             mergeUtil.createCherryPickFromCommit(
+                dest,
                 oi,
                 git.getConfig(),
                 baseCommit,

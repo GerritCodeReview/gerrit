@@ -53,6 +53,9 @@ public class BooleanProjectConfigTransformations {
               BooleanProjectConfig.REQUIRE_SIGNED_PUSH,
               new Mapper(i -> i.requireSignedPush, (i, v) -> i.requireSignedPush = v))
           .put(
+              BooleanProjectConfig.REQUIRE_SIGNED_COMMITS,
+              new Mapper(i -> i.requireSignedCommits, (i, v) -> i.requireSignedCommits = v))
+          .put(
               BooleanProjectConfig.REJECT_IMPLICIT_MERGES,
               new Mapper(i -> i.rejectImplicitMerges, (i, v) -> i.rejectImplicitMerges = v))
           .put(

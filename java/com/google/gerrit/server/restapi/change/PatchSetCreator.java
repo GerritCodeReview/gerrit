@@ -37,6 +37,7 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -67,6 +68,7 @@ public class PatchSetCreator {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeJson.Factory jsonFactory;
   private final ZoneId serverZoneId;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   PatchSetCreator(
@@ -74,12 +76,14 @@ public class PatchSetCreator {
       BatchUpdate.Factory batchUpdateFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       @GerritPersonIdent PersonIdent myIdent,
-      ChangeJson.Factory jsonFactory) {
+      ChangeJson.Factory jsonFactory,
+      ContentCommitInserter contentCommitInserter) {
     this.ident = ident;
     this.batchUpdateFactory = batchUpdateFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.serverZoneId = myIdent.getZoneId();
     this.jsonFactory = jsonFactory;
+    this.contentCommitInserter = contentCommitInserter;
   }
 
   public ChangeInfo createPatchSetWithSuppliedTree(
@@ -119,7 +123,14 @@ public class PatchSetCreator {
 
     ObjectId appliedCommit =
         CommitUtil.createCommitWithTree(
-            oi, authorIdent, committerIdent, parents, commitMessage, commitTree);
+            contentCommitInserter,
+            destChange.change().getDest(),
+            oi,
+            authorIdent,
+            committerIdent,
+            parents,
+            commitMessage,
+            commitTree);
     CodeReviewCommit commit = revWalk.parseCommit(appliedCommit);
     oi.flush();
 

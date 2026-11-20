@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -291,7 +292,8 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
           MergeConflictException,
           IOException,
           InvalidMergeStrategyException,
-          GerritNoMergeBaseException {
+          GerritNoMergeBaseException,
+          ResourceConflictException {
 
     ObjectId parentCommit;
     if (in.inheritParent) {
@@ -323,18 +325,21 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
             Strings.emptyToNull(in.merge.strategy),
             mergeUtilFactory.create(projectState).mergeStrategyName());
 
-    return MergeUtil.createMergeCommit(
-        oi,
-        git.getConfig(),
-        mergeTip,
-        sourceCommit,
-        mergeStrategy,
-        in.merge.allowConflicts,
-        author,
-        committer,
-        commitMsg,
-        rw,
-        this.useDiff3);
+    return mergeUtilFactory
+        .create(projectState)
+        .createMergeCommit(
+            dest,
+            oi,
+            git.getConfig(),
+            mergeTip,
+            sourceCommit,
+            mergeStrategy,
+            in.merge.allowConflicts,
+            author,
+            committer,
+            commitMsg,
+            rw,
+            this.useDiff3);
   }
 
   private static String messageForChange(PatchSet.Id patchSetId, CodeReviewCommit commit) {

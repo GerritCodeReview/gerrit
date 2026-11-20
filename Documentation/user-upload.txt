@@ -69,6 +69,41 @@ even when account discovery is restricted. Normal account serialization
 restrictions apply, and no additional emails, external IDs, or arbitrary key
 user IDs are disclosed by the signature API.
 
+[[required-signed-commits]]
+=== Projects requiring signed commits
+
+A project administrator can enable
+link:config-project-config.html#receive.requireSignedCommits[
+`receive.requireSignedCommits`], also available in the repository settings
+page as `Require verified OpenPGP commit signatures`. It is inherited by
+default and otherwise optional. In required projects, review uploads,
+replacement patch sets, direct branch pushes, REST branch creation, and
+submission must satisfy the policy. Signing a push certificate or adding a
+`Signed-off-by` trailer is not sufficient, and `skip-validation` does not
+disable this check.
+
+Submission verifies against the current registered keys, even if the patch
+set was accepted earlier. Keep the required public keys registered. If
+verification is unavailable, operations requiring it fail instead of
+accepting unsigned content; administrators can still disable the policy.
+
+Only history already reachable from the old destination branch is
+grandfathered. Creating a new branch verifies its entire history. An unsigned
+ancestor on a different branch or patch-set ref can therefore cause rejection
+even when the new tip is signed. Activating the policy does not rewrite
+existing branches, and unchanged post-commit reviews remain possible. Content
+in the same transaction as activation uses the previous project policy; use
+a separate configuration-only update to activate it before adding content.
+
+Gerrit does not sign generated commits. Workflows that create a new merge,
+rebase, cherry-pick, edit, message update, revert, or REST-created commit are
+rejected when they would produce unsigned content. Perform those changes
+locally, sign the finalized commit, and upload it. Fast-forward submission
+can preserve the uploaded signed object; a compatible signed edit uploaded
+through Git can also be published unchanged. Rewriting any signed payload
+requires a new signature. To initialize a required project, create it without
+an initial empty commit, then upload a signed root commit and signed history.
+
 [[http]]
 == HTTP/HTTPS
 

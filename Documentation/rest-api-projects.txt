@@ -966,6 +966,11 @@ ConfigInfo] entity.
       "configured_value": "INHERIT",
       "inherited_value": false
     },
+    "require_signed_commits": {
+      "value": false,
+      "configured_value": "INHERIT",
+      "inherited_value": false
+    },
     "reject_implicit_merges": {
       "value": false,
       "configured_value": "INHERIT",
@@ -4844,6 +4849,13 @@ signed push validation is enabled on the project.
 |`require_signed_push`|optional, not set if signed push is disabled|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 signed push validation is required on the project.
+|`require_signed_commits`||
+link:#inherited-boolean-info[InheritedBooleanInfo] describing the configured,
+inherited, and effective
+link:config-project-config.html#receive.requireSignedCommits[verified OpenPGP
+commit-signature requirement]. Always returned, even when verification is
+unavailable, so the policy can be disabled. Defaults to `INHERIT` with an
+effective root default of `false`.
 |`reject_implicit_merges`|optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 implicit merges should be rejected on changes pushed to or submitted in
@@ -4997,6 +5009,14 @@ If not set, this setting is not updated.
 Whether signed push validation is required on the project. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
+|`require_signed_commits`                  |optional|
+Whether verified OpenPGP commit signatures are
+link:config-project-config.html#receive.requireSignedCommits[required for review
+uploads and new branch history]. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated. Enabling the effective policy requires
+available commit signature verification; otherwise the update returns
+`409 Conflict`. Disabling an existing requirement remains possible.
 |`reject_implicit_merges`                  |optional|
 Whether a check for implicit merges will be performed when changes are
 pushed for review or submitted. +
@@ -5586,6 +5606,13 @@ Whether signed push validation is enabled on the project  (`TRUE`,
 |`require_signed_push`                          |`INHERIT` if not set|
 Whether signed push validation is required on the project  (`TRUE`,
 `FALSE`, `INHERIT`).
+|`require_signed_commits`                       |`INHERIT` if not set|
+Whether verified OpenPGP commit signatures are
+link:config-project-config.html#receive.requireSignedCommits[required]
+(`TRUE`, `FALSE`, `INHERIT`). Effective root default is `false`. Creating an
+effectively required project needs available verification. Such a project
+cannot be created with an unsigned initial empty commit; create it without
+`create_empty_commit` and upload locally signed initial history instead.
 |`max_object_size_limit`     |optional|
 Max allowed Git object size for this project.
 Common unit suffixes of 'k', 'm', or 'g' are supported.

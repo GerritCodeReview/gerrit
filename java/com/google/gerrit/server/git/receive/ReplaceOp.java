@@ -68,6 +68,7 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
+import com.google.gerrit.server.git.SignedCommitPolicy;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
 import com.google.gerrit.server.git.validators.CommitValidationInfo;
@@ -148,6 +149,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeUtil changeUtil;
   private final TopicValidator topicValidator;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
+  private final SignedCommitPolicy signedCommitPolicy;
   private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
 
   private final ProjectState projectState;
@@ -198,6 +200,7 @@ public class ReplaceOp implements BatchUpdateOp {
       TopicValidator topicValidator,
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners,
+      SignedCommitPolicy signedCommitPolicy,
       @Assisted ProjectState projectState,
       @Assisted Change change,
       @Assisted boolean checkMergedInto,
@@ -230,6 +233,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.topicValidator = topicValidator;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.commitValidationInfoListeners = commitValidationInfoListeners;
+    this.signedCommitPolicy = signedCommitPolicy;
 
     this.projectState = projectState;
     this.change = change;
@@ -250,6 +254,7 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx) throws Exception {
+    signedCommitPolicy.checkReviewCommit(change.getDest(), ctx.getRepoView(), commitId);
     commit = ctx.getRevWalk().parseCommit(commitId);
     ctx.getRevWalk().parseBody(commit);
     changeKind =

@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
+import com.google.gerrit.server.git.SignedCommitPolicy;
 import com.google.gerrit.server.index.change.PendingIndexUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -88,11 +89,16 @@ public class BatchUpdates {
 
   private final ChangeData.Factory changeDataFactory;
   private final PendingIndexUpdate pendingIndexUpdate;
+  private final SignedCommitPolicy signedCommitPolicy;
 
   @Inject
-  BatchUpdates(ChangeData.Factory changeDataFactory, PendingIndexUpdate pendingIndexUpdate) {
+  BatchUpdates(
+      ChangeData.Factory changeDataFactory,
+      PendingIndexUpdate pendingIndexUpdate,
+      SignedCommitPolicy signedCommitPolicy) {
     this.changeDataFactory = changeDataFactory;
     this.pendingIndexUpdate = pendingIndexUpdate;
+    this.signedCommitPolicy = signedCommitPolicy;
   }
 
   @CanIgnoreReturnValue
@@ -117,6 +123,14 @@ public class BatchUpdates {
         notifyAfterUpdateRepo(listeners);
         for (BatchUpdate u : updates) {
           changesHandles.add(u.executeChangeOps(listeners, dryrun));
+        }
+        // Prepare ALL projects first, including hooks that may replace the BatchRefUpdate.
+        // Validate those FINAL commands before executing any project to avoid partial updates.
+        for (ChangesHandle h : changesHandles) {
+          h.prepareRefUpdates();
+        }
+        for (ChangesHandle h : changesHandles) {
+          h.validateSignedCommits(signedCommitPolicy);
         }
         if (!dryrun && pendingIndexUpdate.isEnabled()) {
           for (ChangesHandle h : changesHandles) {

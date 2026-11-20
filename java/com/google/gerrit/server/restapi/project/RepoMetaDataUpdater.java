@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.git.SignedCommitPolicy;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.MetaDataUpdate.User;
 import com.google.gerrit.server.git.validators.ProjectConfigRegexValidator;
@@ -79,6 +81,7 @@ public class RepoMetaDataUpdater {
   private final ChangeJson.Factory jsonFactory;
   private final ContributorAgreementsChecker contributorAgreements;
   private final ProjectConfigRegexValidator projectConfigRegexValidator;
+  private final SignedCommitPolicy signedCommitPolicy;
 
   @Inject
   RepoMetaDataUpdater(
@@ -92,7 +95,8 @@ public class RepoMetaDataUpdater {
       PermissionBackend permissionBackend,
       ChangeJson.Factory jsonFactory,
       ContributorAgreementsChecker contributorAgreements,
-      ProjectConfigRegexValidator projectConfigRegexValidator) {
+      ProjectConfigRegexValidator projectConfigRegexValidator,
+      SignedCommitPolicy signedCommitPolicy) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.user = user;
     this.projectConfigFactory = projectConfigFactory;
@@ -104,6 +108,7 @@ public class RepoMetaDataUpdater {
     this.jsonFactory = jsonFactory;
     this.contributorAgreements = contributorAgreements;
     this.projectConfigRegexValidator = projectConfigRegexValidator;
+    this.signedCommitPolicy = signedCommitPolicy;
   }
 
   /**
@@ -263,6 +268,15 @@ public class RepoMetaDataUpdater {
     }
 
     public void commitConfigUpdate() throws IOException, ConfigInvalidException {
+      try {
+        signedCommitPolicy.checkConfigurationChange(
+            projectCache
+                .get(config.getProject().getNameKey())
+                .orElseThrow(ProjectCache.illegalState(config.getProject().getNameKey())),
+            config.getCacheable());
+      } catch (ResourceConflictException e) {
+        throw new ConfigInvalidException(e.getMessage(), e);
+      }
       if (!projectConfigRegexValidator.isAllowed()) {
         ProjectConfig previousConfig = projectConfigFactory.read(md);
 

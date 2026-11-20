@@ -3365,8 +3365,11 @@ discovery. Standard account serialization restrictions still apply. No
 additional email addresses, external IDs, or arbitrary key user IDs are
 disclosed by this API.
 +
-This setting does not enable signed-push validation or enforce signatures
-on uploads, and does not sign commits on the server. Commit signatures are
+This setting alone does not enable signed-push validation or enforce signatures
+on uploads, and does not sign commits on the server. Projects can separately
+require verification with
+link:config-project-config.html#receive.requireSignedCommits[
+`receive.requireSignedCommits`]. Commit signatures are
 distinct from signed push certificates and from `Signed-off-by` trailers.
 +
 Defaults to `false`.

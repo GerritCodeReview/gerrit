@@ -167,6 +167,8 @@ public class CreateProject
         MoreObjects.firstNonNull(input.enableSignedPush, InheritableBoolean.INHERIT);
     args.requireSignedPush =
         MoreObjects.firstNonNull(input.requireSignedPush, InheritableBoolean.INHERIT);
+    args.requireSignedCommits =
+        MoreObjects.firstNonNull(input.requireSignedCommits, InheritableBoolean.INHERIT);
     try {
       args.maxObjectSizeLimit = ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
     } catch (ConfigInvalidException e) {

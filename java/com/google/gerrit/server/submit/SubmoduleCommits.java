@@ -23,10 +23,12 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.SubmoduleSubscription;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.inject.Inject;
@@ -64,26 +66,37 @@ class SubmoduleCommits {
   private final long maxCombinedCommitMessageSize;
   private final long maxCommitMessages;
   private final BranchTips branchTips = new BranchTips();
+  private final ContentCommitInserter contentCommitInserter;
 
   @Singleton
   public static class Factory {
     private final Provider<PersonIdent> serverIdent;
     private final Config cfg;
+    private final ContentCommitInserter contentCommitInserter;
 
     @Inject
-    Factory(@GerritPersonIdent Provider<PersonIdent> serverIdent, @GerritServerConfig Config cfg) {
+    Factory(
+        @GerritPersonIdent Provider<PersonIdent> serverIdent,
+        @GerritServerConfig Config cfg,
+        ContentCommitInserter contentCommitInserter) {
       this.serverIdent = serverIdent;
       this.cfg = cfg;
+      this.contentCommitInserter = contentCommitInserter;
     }
 
     public SubmoduleCommits create(MergeOpRepoManager orm) {
-      return new SubmoduleCommits(orm, serverIdent.get(), cfg);
+      return new SubmoduleCommits(orm, serverIdent.get(), cfg, contentCommitInserter);
     }
   }
 
-  SubmoduleCommits(MergeOpRepoManager orm, PersonIdent myIdent, Config cfg) {
+  SubmoduleCommits(
+      MergeOpRepoManager orm,
+      PersonIdent myIdent,
+      Config cfg,
+      ContentCommitInserter contentCommitInserter) {
     this.orm = orm;
     this.myIdent = myIdent;
+    this.contentCommitInserter = contentCommitInserter;
     this.verboseSuperProject =
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
     this.maxCombinedCommitMessageSize =
@@ -111,7 +124,7 @@ class SubmoduleCommits {
    */
   Optional<CodeReviewCommit> composeGitlinksCommit(
       BranchNameKey subscriber, Collection<SubmoduleSubscription> subscriptions)
-      throws IOException, SubmoduleConflictException {
+      throws IOException, SubmoduleConflictException, ResourceConflictException {
     OpenRepo or;
     try {
       or = orm.getRepo(subscriber.project());
@@ -166,7 +179,7 @@ class SubmoduleCommits {
     commit.setMessage(commitMsg.toString());
     commit.setAuthor(author);
     commit.setCommitter(myIdent);
-    ObjectId id = or.ins.insert(commit);
+    ObjectId id = contentCommitInserter.insert(subscriber, or.ins, commit);
     return Optional.of(or.getCodeReviewRevWalk().parseCommit(id));
   }
 
@@ -175,7 +188,7 @@ class SubmoduleCommits {
       BranchNameKey subscriber,
       CodeReviewCommit currentCommit,
       Collection<SubmoduleSubscription> subscriptions)
-      throws IOException, SubmoduleConflictException {
+      throws IOException, SubmoduleConflictException, ResourceConflictException {
     OpenRepo or;
     try {
       or = orm.getRepo(subscriber.project());
@@ -208,7 +221,7 @@ class SubmoduleCommits {
     }
     commit.setAuthor(currentCommit.getAuthorIdent());
     commit.setCommitter(myIdent);
-    ObjectId id = or.ins.insert(commit);
+    ObjectId id = contentCommitInserter.insert(subscriber, or.ins, commit);
     CodeReviewCommit newCommit = or.getCodeReviewRevWalk().parseCommit(id);
     newCommit.copyFrom(currentCommit);
     return newCommit;

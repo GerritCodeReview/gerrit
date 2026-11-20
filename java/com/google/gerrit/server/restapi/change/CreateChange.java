@@ -70,6 +70,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergeUtilFactory;
@@ -147,6 +148,7 @@ public class CreateChange
   private final ContributorAgreementsChecker contributorAgreements;
   private final boolean disablePrivateChanges;
   private final boolean useDiff3;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   CreateChange(
@@ -167,7 +169,8 @@ public class CreateChange
       @GerritServerConfig Config config,
       MergeUtilFactory mergeUtilFactory,
       NotifyResolver notifyResolver,
-      ContributorAgreementsChecker contributorAgreements) {
+      ContributorAgreementsChecker contributorAgreements,
+      ContentCommitInserter contentCommitInserter) {
     this.updateFactory = updateFactory;
     this.anonymousCowardName = anonymousCowardName;
     this.gitManager = gitManager;
@@ -187,6 +190,7 @@ public class CreateChange
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyResolver = notifyResolver;
     this.contributorAgreements = contributorAgreements;
+    this.contentCommitInserter = contentCommitInserter;
     this.useDiff3 =
         config.getBoolean(
             "change", /* subsection= */ null, "diff3ConflictView", /* defaultValue= */ false);
@@ -426,6 +430,7 @@ public class CreateChange
           ObjectInserter oi = git.newObjectInserter();
           ObjectReader reader = oi.newReader();
           CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(reader)) {
+        BranchNameKey destination = BranchNameKey.create(projectState.getNameKey(), input.branch);
         PatchSet basePatchSet = null;
         List<String> groups = Collections.emptyList();
 
@@ -466,6 +471,7 @@ public class CreateChange
           // create a merge commit
           c =
               newMergeCommit(
+                  destination,
                   git,
                   oi,
                   rw,
@@ -502,6 +508,8 @@ public class CreateChange
           c =
               rw.parseCommit(
                   CommitUtil.createCommitWithTree(
+                      contentCommitInserter,
+                      destination,
                       oi,
                       author,
                       committer,
@@ -512,6 +520,7 @@ public class CreateChange
         } else if (commitTreeSupplier.isPresent()) {
           c =
               createCommitWithSuppliedTree(
+                  destination,
                   git,
                   oi,
                   reader,
@@ -525,7 +534,7 @@ public class CreateChange
 
         } else {
           // create an empty commit.
-          c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
+          c = createEmptyCommit(destination, oi, rw, author, committer, mergeTip, commitMessage);
         }
         // Flush inserter so that commit becomes visible to validators
         logger.atFine().log("flushing inserter %s", oi);
@@ -704,14 +713,15 @@ public class CreateChange
     return commitMessage;
   }
 
-  private static CodeReviewCommit createEmptyCommit(
+  private CodeReviewCommit createEmptyCommit(
+      BranchNameKey destination,
       ObjectInserter oi,
       CodeReviewRevWalk rw,
       PersonIdent authorIdent,
       PersonIdent committerIdent,
       @Nullable RevCommit mergeTip,
       String commitMessage)
-      throws IOException {
+      throws IOException, ResourceConflictException {
     logger.atFine().log("Creating empty commit (mergeTip = %s)", mergeTip);
     ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree().getId();
     logger.atFine().log("Tree ID of empty commit: %s", treeId.name());
@@ -719,12 +729,20 @@ public class CreateChange
     CodeReviewCommit commit =
         rw.parseCommit(
             CommitUtil.createCommitWithTree(
-                oi, authorIdent, committerIdent, parents, commitMessage, treeId));
+                contentCommitInserter,
+                destination,
+                oi,
+                authorIdent,
+                committerIdent,
+                parents,
+                commitMessage,
+                treeId));
     commit.setNoConflictsForNonMergeCommit();
     return commit;
   }
 
-  private static CodeReviewCommit createCommitWithSuppliedTree(
+  private CodeReviewCommit createCommitWithSuppliedTree(
+      BranchNameKey destination,
       Repository repo,
       ObjectInserter oi,
       ObjectReader or,
@@ -742,7 +760,14 @@ public class CreateChange
     ObjectId treeId = commitTreeSupplier.get(repo, oi, or, input, mergeTip);
     return rw.parseCommit(
         CommitUtil.createCommitWithTree(
-            oi, authorIdent, committerIdent, ImmutableList.of(mergeTip), commitMessage, treeId));
+            contentCommitInserter,
+            destination,
+            oi,
+            authorIdent,
+            committerIdent,
+            ImmutableList.of(mergeTip),
+            commitMessage,
+            treeId));
   }
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
@@ -750,6 +775,7 @@ public class CreateChange
   }
 
   private CodeReviewCommit newMergeCommit(
+      BranchNameKey destination,
       Repository repo,
       ObjectInserter oi,
       CodeReviewRevWalk rw,
@@ -786,7 +812,8 @@ public class CreateChange
     logger.atFine().log("merge strategy = %s", mergeStrategy);
 
     CodeReviewCommit mergeCommit =
-        MergeUtil.createMergeCommit(
+        mergeUtil.createMergeCommit(
+            destination,
             oi,
             repo.getConfig(),
             mergeTip,

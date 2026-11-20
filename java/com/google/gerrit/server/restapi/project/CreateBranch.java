@@ -34,6 +34,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -74,6 +75,7 @@ public class CreateBranch
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refCreationValidator;
   private final CreateRefControl createRefControl;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   CreateBranch(
@@ -83,7 +85,8 @@ public class CreateBranch
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
-      CreateRefControl createRefControl) {
+      CreateRefControl createRefControl,
+      ContentCommitInserter contentCommitInserter) {
     this.identifiedUser = identifiedUser;
     this.serverIdent = serverIdent;
     this.permissionBackend = permissionBackend;
@@ -91,6 +94,7 @@ public class CreateBranch
     this.referenceUpdated = referenceUpdated;
     this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
     this.createRefControl = createRefControl;
+    this.contentCommitInserter = contentCommitInserter;
   }
 
   @Override
@@ -158,7 +162,7 @@ public class CreateBranch
       try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
         ObjectId revid;
         if (input.createEmptyCommit) {
-          revid = createEmptyCommit(repo);
+          revid = createEmptyCommit(branchNameKey, repo);
         } else {
           revid = RefUtil.parseBaseRevision(repo, input.revision);
         }
@@ -295,14 +299,15 @@ public class CreateBranch
     }
   }
 
-  private ObjectId createEmptyCommit(Repository repo) throws IOException {
+  private ObjectId createEmptyCommit(BranchNameKey destination, Repository repo)
+      throws IOException, ResourceConflictException {
     try (ObjectInserter oi = repo.newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
       cb.setCommitter(serverIdent.get());
       cb.setAuthor(identifiedUser.get().newCommitterIdent(cb.getCommitter()));
       cb.setMessage("Initial empty branch\n");
-      ObjectId commitId = oi.insert(cb);
+      ObjectId commitId = contentCommitInserter.insert(destination, oi, cb);
       oi.flush();
       return commitId;
     }

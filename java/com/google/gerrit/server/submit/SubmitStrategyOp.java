@@ -36,6 +36,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -561,7 +562,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   /** Amend the commit with gitlink update */
   protected CodeReviewCommit amendGitlink(CodeReviewCommit commit)
-      throws IntegrationConflictException {
+      throws IntegrationConflictException, ResourceConflictException {
     if (!args.subscriptionGraph.hasSubscription(args.destBranch)) {
       return commit;
     }

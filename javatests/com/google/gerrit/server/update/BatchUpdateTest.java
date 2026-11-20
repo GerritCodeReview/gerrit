@@ -62,6 +62,7 @@ import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
@@ -118,6 +119,7 @@ public class BatchUpdateTest {
   @Inject private PatchSetInserter.Factory patchSetInserterFactory;
   @Inject private Provider<CurrentUser> user;
   @Inject private Sequences sequences;
+  @Inject private NoteDbUpdateManager.Factory updateManagerFactory;
   @Inject @GerritServerConfig private Config serverConfig;
   @Inject private AddReviewersOp.Factory addReviewersOpFactory;
   @Inject private DynamicSet<AttentionSetListener> attentionSetListeners;
@@ -178,6 +180,18 @@ public class BatchUpdateTest {
     }
     assertThat(repo.getRepository().exactRef("refs/heads/master").getObjectId())
         .isEqualTo(branchCommit.getId());
+  }
+
+  @Test
+  public void cannotDeleteChangesAfterPreparingRefUpdates() throws Exception {
+    Change.Id id = createChangeWithUpdates(1);
+    ObjectId oldMetaId = getMetaId(id);
+    try (NoteDbUpdateManager manager = updateManagerFactory.create(project, user.get())) {
+      assertThat(manager.prepareRefUpdates(false)).isEmpty();
+      assertThrows(IllegalStateException.class, () -> manager.deleteChange(id));
+      assertThat(manager.execute(false)).isEmpty();
+    }
+    assertThat(getMetaId(id)).isEqualTo(oldMetaId);
   }
 
   @Test

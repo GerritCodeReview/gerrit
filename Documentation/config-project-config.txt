@@ -647,6 +647,70 @@ for details.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[receive.requireSignedCommits]]receive.requireSignedCommits::
++
+Require verified OpenPGP commit signatures for review uploads and newly
+introduced branch history. This is independent of signed push certificates,
+`Signed-off-by` trailers, and optional commit-validation listeners. The
+`skip-validation` push option does not bypass this policy.
++
+Values are `TRUE`, `FALSE`, and `INHERIT`. Default is `INHERIT`; if no ancestor
+enables it, the effective value is `false`. A child project can explicitly
+override an inherited requirement with `FALSE`. The repository settings page
+and the link:rest-api-projects.html#config-input[`require_signed_commits` REST
+setting] expose the configured, inherited, and effective values.
++
+Enabling the effective requirement, including through inheritance or project
+creation, requires available
+link:config-gerrit.html#gpg.enableCommitSignatureVerification[commit signature
+verification]. If verification later becomes unavailable, required projects
+reject content that needs verification; the policy can still be disabled.
+Unsigned metadata updates, including `refs/meta/config` and NoteDb refs, are
+not subject to content-signature enforcement. An unchanged `init_only` project
+initialization does not need verification.
++
+For each `refs/heads/*` update, Gerrit checks every commit newly reachable
+from the new tip relative to the *old tip of that destination branch only*.
+Commits reachable from another branch, tag, patch set, or edit are not
+grandfathered. Creating a branch checks its entire history, even if its
+objects are already in the repository. Deleting a branch or leaving its
+history unchanged introduces no commits to verify.
++
+Existing destination history is grandfathered; enabling the policy does not
+scan or rewrite it. An unchanged post-commit review of a commit already
+reachable from its destination is permitted. A verified fast-forward can
+reuse a signed commit on top of grandfathered unsigned history. Moving that
+unsigned history to a different destination is not exempt.
++
+Review and replacement commits are checked even when ordinary validation is
+disabled or would skip an existing object. Submission rechecks newly
+introduced history, including patch sets uploaded before activation, against
+the current registered keys and configuration. There is no saved upload-time
+verdict. Removing a signing key can therefore prevent submission. Policy
+verification is independent of requester account-discovery permissions.
++
+Content checks use the effective project configuration before the ref-update
+transaction. Disabling a currently required policy in the same transaction
+does not exempt unsigned content in that transaction. Conversely, content in
+a transaction that first enables an optional policy is checked under the old
+optional policy and can become grandfathered. Activate the policy with a
+separate configuration-only update when that distinction matters. Submission
+validates final commands for all participating repositories before any of
+their refs are updated, including commands changed by ref-update listeners.
++
+Gerrit also checks finalized generated content before inserting the commit
+object. Gerrit does not sign generated commits. Operations that need a new
+unsigned merge, cherry-pick, rebase, edit, message update, revert, or REST
+file/patch commit therefore fail in required projects without updating their
+content or change refs. Existing verified signed objects can be reused
+unchanged, for example by fast-forward submission or publication of a
+compatible signed edit uploaded through Git. A signature is never copied onto
+a changed commit payload. Project creation with an initial unsigned empty
+commit is rejected before creating the repository or its metadata; instead,
+create the required project without an initial commit and upload a locally
+signed root commit. See link:user-upload.html#required-signed-commits[required
+signed-commit workflows].
+
 [[receive.rejectImplicitMerges]]receive.rejectImplicitMerges::
 +
 Controls whether a check for implicit merges will be performed when

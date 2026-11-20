@@ -37,6 +37,7 @@ import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -86,6 +87,7 @@ class BranchCommitBuilder {
   private final RefValidationHelper refUpdateValidator;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   BranchCommitBuilder(
@@ -96,7 +98,8 @@ class BranchCommitBuilder {
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refValidationHelperFactory,
       CommitValidators.Factory commitValidatorsFactory,
-      DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory) {
+      DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
+      ContentCommitInserter contentCommitInserter) {
     this.repoManager = repoManager;
     this.identifiedUser = identifiedUser;
     this.serverIdent = serverIdent;
@@ -105,6 +108,7 @@ class BranchCommitBuilder {
     this.refUpdateValidator = refValidationHelperFactory.create(ReceiveCommand.Type.UPDATE);
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
+    this.contentCommitInserter = contentCommitInserter;
   }
 
   /** Commits the file operations directly to the branch. Requires {@link RefPermission#UPDATE}. */
@@ -133,7 +137,7 @@ class BranchCommitBuilder {
       RevCommit base = rw.parseCommit(ref.getObjectId());
       requireSourcePathsExist(reader, base, input);
       ObjectId treeId = buildTree(repo, base, modifications);
-      ObjectId newCommitId = insertCommit(oi, base, treeId, message);
+      ObjectId newCommitId = insertCommit(branch, oi, base, treeId, message);
       validateCommit(rsrc, repo, rw, oi, ref.getObjectId(), newCommitId, validationOptions);
 
       try (RefUpdateContext refCtx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
@@ -181,12 +185,20 @@ class BranchCommitBuilder {
    * time zone, i.e. the server time at which the commit is created; the identities cannot be
    * overridden via {@link CreateCommitInput}.
    */
-  private ObjectId insertCommit(ObjectInserter oi, RevCommit base, ObjectId treeId, String message)
-      throws IOException {
+  private ObjectId insertCommit(
+      BranchNameKey destination, ObjectInserter oi, RevCommit base, ObjectId treeId, String message)
+      throws IOException, ResourceConflictException {
     PersonIdent committer = identifiedUser.get().newCommitterIdent(serverIdent.get());
     ObjectId commitId =
         CommitUtil.createCommitWithTree(
-            oi, committer, committer, ImmutableList.of(base), message, treeId);
+            contentCommitInserter,
+            destination,
+            oi,
+            committer,
+            committer,
+            ImmutableList.of(base),
+            message,
+            treeId);
     oi.flush();
     return commitId;
   }

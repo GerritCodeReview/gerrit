@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -148,6 +149,7 @@ public class MergeUtil {
   private final PluggableCommitMessageGenerator commitMessageGenerator;
   private final ChangeUtil changeUtil;
   private final boolean addChangeReviewFootersToCommitMessage;
+  private final ContentCommitInserter contentCommitInserter;
 
   MergeUtil(
       @Provided @GerritServerConfig Config serverConfig,
@@ -156,6 +158,7 @@ public class MergeUtil {
       @Provided ApprovalsUtil approvalsUtil,
       @Provided PluggableCommitMessageGenerator commitMessageGenerator,
       @Provided ChangeUtil changeUtil,
+      @Provided ContentCommitInserter contentCommitInserter,
       ProjectState project) {
     this(
         serverConfig,
@@ -164,6 +167,7 @@ public class MergeUtil {
         approvalsUtil,
         commitMessageGenerator,
         changeUtil,
+        contentCommitInserter,
         project,
         project.is(BooleanProjectConfig.USE_CONTENT_MERGE));
   }
@@ -175,6 +179,7 @@ public class MergeUtil {
       @Provided ApprovalsUtil approvalsUtil,
       @Provided PluggableCommitMessageGenerator commitMessageGenerator,
       @Provided ChangeUtil changeUtil,
+      @Provided ContentCommitInserter contentCommitInserter,
       ProjectState project,
       boolean useContentMerge) {
     this.identifiedUserFactory = identifiedUserFactory;
@@ -182,6 +187,7 @@ public class MergeUtil {
     this.approvalsUtil = approvalsUtil;
     this.commitMessageGenerator = commitMessageGenerator;
     this.changeUtil = changeUtil;
+    this.contentCommitInserter = contentCommitInserter;
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
@@ -219,6 +225,7 @@ public class MergeUtil {
   }
 
   public CodeReviewCommit createCherryPickFromCommit(
+      BranchNameKey destination,
       ObjectInserter inserter,
       Config repoConfig,
       RevCommit mergeTip,
@@ -235,7 +242,8 @@ public class MergeUtil {
           MergeIdenticalTreeException,
           MergeConflictException,
           MethodNotAllowedException,
-          InvalidMergeStrategyException {
+          InvalidMergeStrategyException,
+          ResourceConflictException {
 
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
     RevCommit baseCommit = originalCommit.getParent(parentIndex);
@@ -334,7 +342,8 @@ public class MergeUtil {
     cherryPickCommit.setCommitter(cherryPickCommitterIdent);
     cherryPickCommit.setMessage(commitMsg);
     matchAuthorToCommitterDate(project, cherryPickCommit);
-    CodeReviewCommit commit = rw.parseCommit(inserter.insert(cherryPickCommit));
+    CodeReviewCommit commit =
+        rw.parseCommit(contentCommitInserter.insert(destination, inserter, cherryPickCommit));
     commit.setConflicts(
         baseCommit, mergeTip, originalCommit, mergeStrategyName(), filesWithGitConflicts);
     logger.atFine().log("CherryPick commitId=%s", commit.name());
@@ -461,7 +470,8 @@ public class MergeUtil {
     return dc.writeTree(ins);
   }
 
-  public static CodeReviewCommit createMergeCommit(
+  public CodeReviewCommit createMergeCommit(
+      BranchNameKey destination,
       ObjectInserter inserter,
       Config repoConfig,
       RevCommit mergeTip,
@@ -477,7 +487,8 @@ public class MergeUtil {
           GerritNoMergeBaseException,
           MergeIdenticalTreeException,
           MergeConflictException,
-          InvalidMergeStrategyException {
+          InvalidMergeStrategyException,
+          ResourceConflictException {
 
     if (!MergeStrategy.THEIRS.getName().equals(mergeStrategy)
         && rw.isMergedInto(originalCommit, mergeTip)) {
@@ -578,7 +589,8 @@ public class MergeUtil {
     mergeCommit.setAuthor(authorIdent);
     mergeCommit.setCommitter(committerIdent);
     mergeCommit.setMessage(commitMsg);
-    CodeReviewCommit commit = rw.parseCommit(inserter.insert(mergeCommit));
+    CodeReviewCommit commit =
+        rw.parseCommit(contentCommitInserter.insert(destination, inserter, mergeCommit));
 
     switch (mergeBase.getKind()) {
       case BASE_COMMIT ->
@@ -912,7 +924,7 @@ public class MergeUtil {
       CodeReviewCommit mergeTip,
       CodeReviewCommit n,
       AttributesNodeProvider attributesNodeProvider)
-      throws InvalidMergeStrategyException {
+      throws InvalidMergeStrategyException, ResourceConflictException {
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
     try {
       if (m.merge(mergeTip, n)) {
@@ -971,7 +983,10 @@ public class MergeUtil {
       CodeReviewCommit mergeTip,
       ObjectId treeId,
       CodeReviewCommit n)
-      throws IOException, MissingObjectException, IncorrectObjectTypeException {
+      throws IOException,
+          MissingObjectException,
+          IncorrectObjectTypeException,
+          ResourceConflictException {
     final List<CodeReviewCommit> merged = new ArrayList<>();
     rw.reset();
     rw.markStart(n);
@@ -1006,7 +1021,8 @@ public class MergeUtil {
     mergeCommit.setCommitter(committer);
     mergeCommit.setMessage(msgbuf.toString());
 
-    CodeReviewCommit mergeResult = rw.parseCommit(inserter.insert(mergeCommit));
+    CodeReviewCommit mergeResult =
+        rw.parseCommit(contentCommitInserter.insert(destBranch, inserter, mergeCommit));
     mergeResult.setNotes(n.getNotes());
     return mergeResult;
   }

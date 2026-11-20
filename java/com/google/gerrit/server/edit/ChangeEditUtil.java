@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -47,6 +49,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -73,6 +76,7 @@ public class ChangeEditUtil {
   private final ChangeKindCache changeKindCache;
   private final PatchSetUtil psUtil;
   private final GitReferenceUpdated gitReferenceUpdated;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   ChangeEditUtil(
@@ -82,7 +86,8 @@ public class ChangeEditUtil {
       Provider<CurrentUser> userProvider,
       ChangeKindCache changeKindCache,
       PatchSetUtil psUtil,
-      GitReferenceUpdated gitReferenceUpdated) {
+      GitReferenceUpdated gitReferenceUpdated,
+      ContentCommitInserter contentCommitInserter) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.indexer = indexer;
@@ -90,6 +95,7 @@ public class ChangeEditUtil {
     this.changeKindCache = changeKindCache;
     this.psUtil = psUtil;
     this.gitReferenceUpdated = gitReferenceUpdated;
+    this.contentCommitInserter = contentCommitInserter;
   }
 
   /**
@@ -170,7 +176,7 @@ public class ChangeEditUtil {
         throw new ResourceConflictException("only edit for current patch set can be published");
       }
 
-      RevCommit squashed = squashEdit(rw, oi, edit.getEditCommit(), basePatchSet);
+      RevCommit squashed = squashEdit(change.getDest(), rw, oi, edit.getEditCommit(), basePatchSet);
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
       PatchSetInserter inserter =
           patchSetInserterFactory
@@ -241,7 +247,11 @@ public class ChangeEditUtil {
   }
 
   private RevCommit squashEdit(
-      RevWalk rw, ObjectInserter inserter, RevCommit edit, PatchSet basePatchSet)
+      BranchNameKey destination,
+      RevWalk rw,
+      ObjectInserter inserter,
+      RevCommit edit,
+      PatchSet basePatchSet)
       throws IOException, ResourceConflictException {
     RevCommit parent = rw.parseCommit(basePatchSet.commitId());
     if (parent.getTree().equals(edit.getTree())
@@ -250,7 +260,12 @@ public class ChangeEditUtil {
         && parent.getCommitterIdent().equals(edit.getCommitterIdent())) {
       throw new ResourceConflictException("identical tree, message, author and committer");
     }
-    return writeSquashedCommit(rw, inserter, parent, edit);
+    // If only the edit ref is changing, reuse the exact object, including its signature and
+    // any other headers. Copying a signature to a reconstructed or reparented payload is unsafe.
+    if (Arrays.equals(parent.getParents(), edit.getParents())) {
+      return edit;
+    }
+    return writeSquashedCommit(destination, rw, inserter, parent, edit);
   }
 
   private void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
@@ -286,8 +301,13 @@ public class ChangeEditUtil {
     }
   }
 
-  private static RevCommit writeSquashedCommit(
-      RevWalk rw, ObjectInserter inserter, RevCommit parent, RevCommit edit) throws IOException {
+  private RevCommit writeSquashedCommit(
+      BranchNameKey destination,
+      RevWalk rw,
+      ObjectInserter inserter,
+      RevCommit parent,
+      RevCommit edit)
+      throws IOException, ResourceConflictException {
     CommitBuilder mergeCommit = new CommitBuilder();
     for (int i = 0; i < parent.getParentCount(); i++) {
       mergeCommit.addParentId(parent.getParent(i));
@@ -297,13 +317,8 @@ public class ChangeEditUtil {
     mergeCommit.setCommitter(edit.getCommitterIdent());
     mergeCommit.setTreeId(edit.getTree());
 
-    return rw.parseCommit(commit(inserter, mergeCommit));
-  }
-
-  private static ObjectId commit(ObjectInserter inserter, CommitBuilder mergeCommit)
-      throws IOException {
-    ObjectId id = inserter.insert(mergeCommit);
+    ObjectId id = contentCommitInserter.insert(destination, inserter, mergeCommit);
     inserter.flush();
-    return id;
+    return rw.parseCommit(id);
   }
 }

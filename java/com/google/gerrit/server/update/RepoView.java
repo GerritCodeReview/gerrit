@@ -121,6 +121,11 @@ public class RepoView implements AutoCloseable {
     return getCommands().get(name);
   }
 
+  /** Returns the original ref value, ignoring ref updates staged in this batch. */
+  public Optional<ObjectId> getOriginalRef(String name) throws IOException {
+    return commands.getRepoRefCache().get(name);
+  }
+
   /**
    * Look up refs by prefix.
    *

@@ -64,6 +64,7 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.GroupCollector;
+import com.google.gerrit.server.git.SignedCommitPolicy;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
@@ -137,6 +138,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final PluginSetContext<ValidationOptionsListener> validationOptionsListeners;
   private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
   private final boolean sendEmailEnabled;
+  private final SignedCommitPolicy signedCommitPolicy;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -197,6 +199,7 @@ public class ChangeInserter implements InsertChangeOp {
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       PluginSetContext<ValidationOptionsListener> validationOptionsListeners,
       PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners,
+      SignedCommitPolicy signedCommitPolicy,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -219,6 +222,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.validationOptionsListeners = validationOptionsListeners;
     this.commitValidationInfoListeners = commitValidationInfoListeners;
+    this.signedCommitPolicy = signedCommitPolicy;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -745,6 +749,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private void validate(RepoContext ctx) throws IOException, ResourceConflictException {
+    signedCommitPolicy.checkReviewCommit(change.getDest(), ctx.getRepoView(), commitId);
     try (CommitReceivedEvent event =
         new CommitReceivedEvent(
             cmd,

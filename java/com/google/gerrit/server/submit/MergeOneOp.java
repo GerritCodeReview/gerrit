@@ -17,6 +17,7 @@ package com.google.gerrit.server.submit;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
@@ -28,7 +29,8 @@ class MergeOneOp extends SubmitStrategyOp {
   }
 
   @Override
-  public void updateRepoImpl(RepoContext ctx) throws IntegrationConflictException, IOException {
+  public void updateRepoImpl(RepoContext ctx)
+      throws IntegrationConflictException, IOException, ResourceConflictException {
     PersonIdent caller = ctx.getIdentifiedUser().newCommitterIdent(args.serverIdent);
     if (args.mergeTip.getCurrentTip() == null) {
       throw new IllegalStateException(

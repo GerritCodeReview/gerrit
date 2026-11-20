@@ -965,7 +965,9 @@ export class ChangeModel extends Model<ChangeState> {
           this.updateState({
             submittabilityLoadingStatus: LoadingStatus.LOADING,
           });
-          return from(this.restApiService.getSubmittabilityInfo(changeNum));
+          return from(
+            this.restApiService.getSubmittabilityInfo(changeNum)
+          ).pipe(catchError(() => of(undefined)));
         })
       )
       .subscribe(submittabilityInfo => {

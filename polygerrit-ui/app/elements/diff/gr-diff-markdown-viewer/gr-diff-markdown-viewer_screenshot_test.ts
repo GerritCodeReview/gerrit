@@ -13,6 +13,7 @@ import {visualDiff} from '@web/test-runner-visual-regression';
 import {visualDiffDarkTheme} from '../../../test/test-utils';
 import {createDiff, createPatchRange} from '../../../test/test-data-generators';
 import {DiffInfo, DiffViewMode} from '../../../api/diff';
+import type {GrIcon} from '../../shared/gr-icon/gr-icon';
 
 suite('gr-diff-markdown-viewer screenshot tests', () => {
   let element: GrDiffMarkdownViewer;
@@ -164,6 +165,94 @@ suite('gr-diff-markdown-viewer screenshot tests', () => {
     await visualDiffDarkTheme(
       element,
       'gr-diff-markdown-viewer-delta-showcase'
+    );
+  });
+
+  test('collapsed unchanged context in large markdown file', async () => {
+    const beforeLines: string[] = [
+      '# repo Manifest Format',
+      '',
+      'A repo manifest describes the structure of a repo client.',
+      '',
+    ];
+    for (let i = 1; i <= 10; i++) {
+      beforeLines.push(
+        `### Attribute \`option-${i}\``,
+        '',
+        `Unchanged documentation paragraph for option ${i}.`,
+        ''
+      );
+    }
+    const middleLines: string[] = [''];
+    for (let i = 1; i <= 10; i++) {
+      middleLines.push(
+        `### Element section-${i}`,
+        '',
+        `Unchanged middle documentation paragraph ${i}.`,
+        ''
+      );
+    }
+    const afterLines: string[] = [''];
+    for (let i = 1; i <= 10; i++) {
+      afterLines.push(
+        `### Appendix item-${i}`,
+        '',
+        `Unchanged trailing documentation paragraph ${i}.`,
+        ''
+      );
+    }
+
+    element.diff = {
+      ...createDiff(),
+      meta_a: {
+        name: 'docs/manifest-format.md',
+        content_type: 'text/markdown',
+        lines:
+          beforeLines.length + 1 + middleLines.length + 1 + afterLines.length,
+      },
+      meta_b: {
+        name: 'docs/manifest-format.md',
+        content_type: 'text/markdown',
+        lines:
+          beforeLines.length + 3 + middleLines.length + 1 + afterLines.length,
+      },
+      content: [
+        {ab: beforeLines},
+        {
+          a: [
+            'Attribute `sync-smartsync`: Set to true to enable smart sync by default.',
+          ],
+          b: [
+            'Attribute `sync-smartsync`: Set to true to enable smart sync by default,',
+            'or set to false to disable default smart sync for the manifest (explicit',
+            '`-s`/`-t` invocations still work when `<manifest-server>` is defined).',
+          ],
+        },
+        {ab: middleLines},
+        {
+          a: [
+            'Element `manifest-server`: At most one manifest-server may be specified.',
+          ],
+          b: [
+            'Element `manifest-server`: At most one manifest-server may be specified per manifest.',
+          ],
+        },
+        {ab: afterLines},
+      ],
+    };
+    element.viewMode = DiffViewMode.SIDE_BY_SIDE;
+    await element.updateComplete;
+    await Promise.all(
+      Array.from(element.shadowRoot!.querySelectorAll<GrIcon>('gr-icon')).map(
+        icon => icon.updateComplete
+      )
+    );
+    await document.fonts?.ready;
+
+    await visualDiff(element, 'gr-diff-markdown-viewer-collapsed-context');
+    await visualDiffDarkTheme(
+      element,
+      'gr-diff-markdown-viewer-collapsed-context'
     );
   });
 });

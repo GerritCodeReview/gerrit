@@ -13,6 +13,10 @@ import {
   DiffViewMode,
 } from '../../../constants/constants';
 import {
+  FULL_CONTEXT,
+  FullContext,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {
   isVisible,
   mockPromise,
   pressKey,
@@ -2509,6 +2513,243 @@ suite('gr-diff-view tests', () => {
         diffBPromise.resolve(diffB);
         await waitUntil(() => element.leanViewer?.diff === diffB);
         assert.equal(element.leanViewer?.diff, diffB);
+      });
+
+      test('shift+x toggles richFullContext on active rich markdown and lean viewers', async () => {
+        sinon.stub(element.diffHost!, 'reload').resolves();
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        assert.isFalse(element.isShowingEntireFile);
+        assert.equal(
+          element.markdownViewer!.showFullContext,
+          FullContext.UNDECIDED
+        );
+        pressKey(element, 'X');
+        await element.updateComplete;
+        assert.isTrue(element.isShowingEntireFile);
+        assert.equal(element.markdownViewer!.showFullContext, FullContext.YES);
+
+        pressKey(element, 'X');
+        await element.updateComplete;
+        assert.isFalse(element.isShowingEntireFile);
+        assert.equal(element.markdownViewer!.showFullContext, FullContext.NO);
+
+        // Switching to Lean viewer resets both isShowingEntireFile and richFullContext
+        element.showRichMarkdown = false;
+        element.path = 'Proof.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem t : True := trivial']}],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+        assert.isFalse(element.isShowingEntireFile);
+        assert.equal(
+          element.leanViewer!.showFullContext,
+          FullContext.UNDECIDED
+        );
+
+        pressKey(element, 'X');
+        await element.updateComplete;
+        assert.isTrue(element.isShowingEntireFile);
+        assert.equal(element.leanViewer!.showFullContext, FullContext.YES);
+      });
+
+      test('navigating between rich files after Shift+X resets isShowingEntireFile and does not lose toggle to in-flight reload', async () => {
+        const reloadAPromise = mockPromise<void>();
+        const reloadBPromise = mockPromise<void>();
+        const reloadStub = sinon.stub(element.diffHost!, 'reload');
+        reloadStub.onFirstCall().returns(reloadAPromise);
+        reloadStub.onSecondCall().returns(reloadBPromise);
+
+        element.path = 'A.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# A']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        // Single Shift+X enables full context while reloadDiff() is still in flight
+        pressKey(element, 'X');
+        await element.updateComplete;
+        assert.isTrue(element.isShowingEntireFile);
+        assert.equal(element.markdownViewer!.showFullContext, FullContext.YES);
+
+        // Resolving the in-flight reload must NOT overwrite the user's Shift+X toggle
+        reloadAPromise.resolve();
+        await waitEventLoop();
+        await element.updateComplete;
+        assert.isTrue(element.isShowingEntireFile);
+        assert.equal(element.markdownViewer!.showFullContext, FullContext.YES);
+
+        // Navigating to B.lean resets both isShowingEntireFile and richFullContext
+        // immediately, and stays reset once the fresh reload completes.
+        const isShowFullStub = sinon
+          .stub(element.diffHost!, 'isShowFullContext')
+          .returns(false);
+        element.showRichMarkdown = false;
+        element.path = 'B.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem b : True := trivial']}],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+
+        assert.isFalse(element.isShowingEntireFile);
+        assert.equal(
+          element.leanViewer!.showFullContext,
+          FullContext.UNDECIDED
+        );
+
+        reloadBPromise.resolve();
+        await waitEventLoop();
+        await element.updateComplete;
+        assert.isFalse(element.isShowingEntireFile);
+        assert.equal(
+          element.leanViewer!.showFullContext,
+          FullContext.UNDECIDED
+        );
+        isShowFullStub.restore();
+      });
+
+      test('initializes isShowingEntireFile from FULL_CONTEXT pref and collapses on single Shift+X', async () => {
+        sinon.stub(element.diffHost!, 'reload').resolves();
+        userModel.setDiffPreferences({
+          ...createDefaultDiffPrefs(),
+          context: FULL_CONTEXT,
+        });
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        assert.isTrue(element.isShowingEntireFile);
+        assert.equal(
+          element.markdownViewer!.showFullContext,
+          FullContext.UNDECIDED
+        );
+        const toggleBtn = queryAndAssert<GrButton>(
+          element,
+          '#toggleEntireFile'
+        );
+        assert.equal(toggleBtn.textContent?.trim(), 'Hide Unchanged Lines');
+
+        // A single Shift+X collapses immediately
+        pressKey(element, 'X');
+        await element.updateComplete;
+        assert.isFalse(element.isShowingEntireFile);
+        assert.equal(element.markdownViewer!.showFullContext, FullContext.NO);
+        assert.equal(toggleBtn.textContent?.trim(), 'Show Entire File');
+      });
+
+      test('clicking #toggleEntireFile expands and collapses rich markdown context bars', async () => {
+        sinon.stub(element.diffHost!, 'reload').resolves();
+        const beforeLines: string[] = [];
+        for (let i = 1; i <= 12; i++) {
+          beforeLines.push(`## Top ${i}`, '', `Top body ${i}.`, '');
+        }
+        const afterLines: string[] = [''];
+        for (let i = 1; i <= 12; i++) {
+          afterLines.push(`## Bottom ${i}`, '', `Bottom body ${i}.`, '');
+        }
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          meta_a: {
+            name: 'README.md',
+            content_type: 'text/markdown',
+            lines: beforeLines.length + 1 + afterLines.length,
+          },
+          meta_b: {
+            name: 'README.md',
+            content_type: 'text/markdown',
+            lines: beforeLines.length + 1 + afterLines.length,
+          },
+          content: [
+            {ab: beforeLines},
+            {a: ['Old line.'], b: ['New line.']},
+            {ab: afterLines},
+          ],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+        await element.markdownViewer!.updateComplete;
+
+        assert.equal(
+          element.markdownViewer!.shadowRoot!.querySelectorAll(
+            '.rich-context-bar'
+          ).length,
+          2
+        );
+
+        const toggleBtn = queryAndAssert<GrButton>(
+          element,
+          '#toggleEntireFile'
+        );
+        toggleBtn.click();
+        await element.updateComplete;
+        await element.markdownViewer!.updateComplete;
+        assert.equal(
+          element.markdownViewer!.shadowRoot!.querySelectorAll(
+            '.rich-context-bar'
+          ).length,
+          0
+        );
+
+        toggleBtn.click();
+        await element.updateComplete;
+        await element.markdownViewer!.updateComplete;
+        assert.equal(
+          element.markdownViewer!.shadowRoot!.querySelectorAll(
+            '.rich-context-bar'
+          ).length,
+          2
+        );
+      });
+
+      test('propagates focusLineNum and leftSide as lineOfInterest to active rich viewers', async () => {
+        sinon.stub(element.diffHost!, 'reload').resolves();
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.focusLineNum = 42;
+        element.leftSide = true;
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        assert.deepEqual(element.markdownViewer!.lineOfInterest, {
+          lineNum: 42,
+          side: Side.LEFT,
+        });
+
+        element.showRichMarkdown = false;
+        element.path = 'Proof.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem t : True := trivial']}],
+        };
+        element.leftSide = false;
+        element.focusLineNum = 17;
+        element.showRichLean = true;
+        await element.updateComplete;
+
+        assert.deepEqual(element.leanViewer!.lineOfInterest, {
+          lineNum: 17,
+          side: Side.RIGHT,
+        });
       });
     });
 

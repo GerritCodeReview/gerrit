@@ -14,13 +14,25 @@ import {
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {repeat} from 'lit/directives/repeat.js';
 import {when} from 'lit/directives/when.js';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import type {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
-import {DiffInfo} from '../../../types/diff';
-import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
+import {DisplayLine} from '../../../api/diff';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
+import {
+  computeContext,
+  FULL_CONTEXT,
+  FullContext,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {
   CommentThread,
   DraftInfo,
@@ -50,6 +62,17 @@ import {
   reconstructFileContent,
   renderInlineMarkdown,
 } from '../gr-diff-markdown-viewer/markdown-diff-util';
+import {
+  CollapsedRichDiffSection,
+  DiffSkipRanges,
+  extractSkipRanges,
+  getPartialExpandIndices,
+  groupRichDiffRows,
+  lineOfInterestHasChanged,
+  renderRichDiffContextBar,
+  richDiffContextBarStyles,
+  RichDiffDisplayItem,
+} from '../gr-diff-markdown-viewer/rich-diff-context-util';
 import {
   AlignedLeanRow,
   AlignedLeanRowWithThreads,
@@ -93,6 +116,14 @@ export class GrDiffLeanViewer extends LitElement {
 
   @property({type: String}) viewMode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
 
+  @property({type: Number}) context?: number;
+
+  @property({type: String}) showFullContext: FullContext =
+    FullContext.UNDECIDED;
+
+  @property({type: Object, hasChanged: lineOfInterestHasChanged})
+  lineOfInterest?: DisplayLine;
+
   @property({type: Boolean}) loggedIn = false;
 
   @property({type: Boolean}) collapseProofs = false;
@@ -101,9 +132,22 @@ export class GrDiffLeanViewer extends LitElement {
 
   @state() summary?: LeanDiffSummary;
 
+  @state() private diffPrefs?: DiffPreferencesInfo;
+
+  @state() private expandedRowIndices: Set<number> = new Set();
+
   @state() private internalThreads: CommentThread[] = [];
 
   @state() private changeComments?: ChangeComments;
+
+  private cachedSkipRanges?: DiffSkipRanges;
+
+  private cachedRowsWithThreads: AlignedLeanRowWithThreads[] = [];
+
+  private cachedFileLevelThreads: CommentThread[] = [];
+
+  private cachedDisplayItems: RichDiffDisplayItem<AlignedLeanRowWithThreads>[] =
+    [];
 
   /**
    * Per-row manual proof collapse overrides keyed by `row.rowKey`.
@@ -160,6 +204,13 @@ export class GrDiffLeanViewer extends LitElement {
         this.loggedIn = loggedIn;
       }
     );
+    subscribe(
+      this,
+      () => this.getUserModel().diffPreferences$,
+      diffPrefs => {
+        this.diffPrefs = diffPrefs;
+      }
+    );
   }
 
   override connectedCallback() {
@@ -199,6 +250,7 @@ export class GrDiffLeanViewer extends LitElement {
 
   static override get styles() {
     return [
+      richDiffContextBarStyles,
       css`
         :host {
           display: block;
@@ -1128,14 +1180,34 @@ export class GrDiffLeanViewer extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    const prevDiffPrefs = changedProperties.get('diffPrefs') as
+      | DiffPreferencesInfo
+      | undefined;
+    const contextPrefChanged =
+      changedProperties.has('diffPrefs') &&
+      prevDiffPrefs?.context !== this.diffPrefs?.context;
+
+    let rowsChanged = false;
     if (changedProperties.has('diff')) {
       this.recomputeAlignedRows();
+      rowsChanged = true;
+    }
+    if (
+      changedProperties.has('showFullContext') ||
+      changedProperties.has('context') ||
+      contextPrefChanged
+    ) {
+      this.expandedRowIndices = new Set();
     }
     if (
       this.hasUpdated &&
       (changedProperties.has('collapseProofs') ||
         changedProperties.has('proofCollapseOverrides') ||
-        changedProperties.has('viewMode'))
+        changedProperties.has('viewMode') ||
+        changedProperties.has('showFullContext') ||
+        changedProperties.has('expandedRowIndices') ||
+        changedProperties.has('context') ||
+        contextPrefChanged)
     ) {
       if (this.hasActiveSelection()) {
         this.clearSelection();
@@ -1144,6 +1216,7 @@ export class GrDiffLeanViewer extends LitElement {
       this.hoveredSide = undefined;
       this.hoveredLine = undefined;
     }
+    let internalThreadsUpdated = false;
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('patchRange') ||
@@ -1151,13 +1224,49 @@ export class GrDiffLeanViewer extends LitElement {
       changedProperties.has('diff')
     ) {
       this.updateInternalThreads();
+      internalThreadsUpdated = true;
+    }
+
+    const threadsInputsChanged =
+      rowsChanged ||
+      internalThreadsUpdated ||
+      changedProperties.has('alignedRows') ||
+      changedProperties.has('threads') ||
+      changedProperties.has('internalThreads') ||
+      changedProperties.has('patchRange');
+    if (threadsInputsChanged) {
+      const attached = this.getAttachedThreads();
+      this.cachedRowsWithThreads = attached.rowsWithThreads;
+      this.cachedFileLevelThreads = attached.fileLevelThreads;
+    }
+
+    if (
+      threadsInputsChanged ||
+      changedProperties.has('context') ||
+      changedProperties.has('showFullContext') ||
+      changedProperties.has('expandedRowIndices') ||
+      changedProperties.has('lineOfInterest') ||
+      contextPrefChanged
+    ) {
+      this.cachedDisplayItems = groupRichDiffRows(this.cachedRowsWithThreads, {
+        context: this.context ?? this.diffPrefs?.context,
+        showFullContext: this.showFullContext,
+        expandedRowIndices: this.expandedRowIndices,
+        lineOfInterest: this.lineOfInterest,
+        skipRanges: this.cachedSkipRanges,
+      });
     }
   }
 
   private recomputeAlignedRows() {
+    if (this.hasActiveSelection()) {
+      this.clearSelection();
+    }
     this.hideSelectionActionBox(true);
     this.hoveredSide = undefined;
     this.hoveredLine = undefined;
+    this.expandedRowIndices = new Set();
+    this.cachedSkipRanges = extractSkipRanges(this.diff);
     if (!this.diff) {
       this.alignedRows = [];
       this.summary = undefined;
@@ -1172,6 +1281,66 @@ export class GrDiffLeanViewer extends LitElement {
     this.summary = computeLeanSummary(blocksA, blocksB, this.alignedRows);
     this.proofCollapseOverrides = new Map();
   }
+
+  toggleAllContext() {
+    const effective = computeContext(
+      this.context ?? this.diffPrefs?.context,
+      this.showFullContext,
+      createDefaultDiffPrefs().context
+    );
+    this.showFullContext =
+      effective === FULL_CONTEXT ? FullContext.NO : FullContext.YES;
+    this.expandedRowIndices = new Set();
+  }
+
+  private focusRevealedRow(rowIndex: number) {
+    const rowEl = this.shadowRoot?.querySelector<HTMLElement>(
+      `[data-row-index="${rowIndex}"]`
+    );
+    rowEl?.focus({preventScroll: true});
+  }
+
+  private expandSectionAll = async (
+    section: CollapsedRichDiffSection<AlignedLeanRowWithThreads>
+  ) => {
+    const next = new Set(this.expandedRowIndices);
+    for (let i = section.startIndex; i <= section.endIndex; i++) {
+      next.add(i);
+    }
+    this.expandedRowIndices = next;
+    await this.updateComplete;
+    this.focusRevealedRow(section.startIndex);
+  };
+
+  private expandSectionPartial = async (
+    section: CollapsedRichDiffSection<AlignedLeanRowWithThreads>,
+    direction: 'from-start' | 'from-end'
+  ) => {
+    const revealedIndices = getPartialExpandIndices(
+      section,
+      direction,
+      undefined,
+      this.cachedSkipRanges
+    );
+    const next = new Set(this.expandedRowIndices);
+    for (const idx of revealedIndices) {
+      next.add(idx);
+    }
+    this.expandedRowIndices = next;
+    await this.updateComplete;
+    const bar = this.shadowRoot?.querySelector<HTMLElement>(
+      `.rich-context-bar[data-gap-id="${section.gapId}"]`
+    );
+    if (bar) {
+      const targetBtn =
+        bar.querySelector<HTMLButtonElement>(
+          direction === 'from-start' ? '.expand-from-start' : '.expand-from-end'
+        ) ?? bar.querySelector<HTMLButtonElement>('.expand-all');
+      targetBtn?.focus({preventScroll: true});
+    } else if (revealedIndices.length > 0) {
+      this.focusRevealedRow(Math.min(...revealedIndices));
+    }
+  };
 
   private hasAnyCollapsibleProof(): boolean {
     return this.alignedRows.some(row => {
@@ -1245,6 +1414,19 @@ export class GrDiffLeanViewer extends LitElement {
     return countLines(this.diff, side) > 0;
   }
 
+  private findFirstRowWithLine(side: Side): AlignedLeanRow | undefined {
+    const predicate = (r: AlignedLeanRow) =>
+      side === Side.LEFT
+        ? r.leftStartLine !== undefined
+        : r.rightStartLine !== undefined;
+    for (const item of this.cachedDisplayItems) {
+      if (item.type === 'row' && predicate(item.row)) {
+        return item.row;
+      }
+    }
+    return this.alignedRows.find(predicate);
+  }
+
   createComment(side: Side, lineNum?: number) {
     if (!this.patchRange) {
       fireAlert(this, 'Cannot create comment. patchRange undefined.');
@@ -1272,11 +1454,7 @@ export class GrDiffLeanViewer extends LitElement {
 
     let effectiveLine = lineNum;
     if (effectiveLine === undefined) {
-      const fallbackRow = this.alignedRows.find(r =>
-        side === Side.LEFT
-          ? r.leftStartLine !== undefined
-          : r.rightStartLine !== undefined
-      );
+      const fallbackRow = this.findFirstRowWithLine(side);
       effectiveLine =
         side === Side.LEFT
           ? fallbackRow?.leftStartLine
@@ -1634,16 +1812,12 @@ export class GrDiffLeanViewer extends LitElement {
       this.createComment(this.hoveredSide, this.hoveredLine);
       return;
     }
-    const firstRightRow = this.alignedRows.find(
-      r => r.rightStartLine !== undefined
-    );
+    const firstRightRow = this.findFirstRowWithLine(Side.RIGHT);
     if (firstRightRow) {
       this.createComment(Side.RIGHT, firstRightRow.rightStartLine);
       return;
     }
-    const firstLeftRow = this.alignedRows.find(
-      r => r.leftStartLine !== undefined
-    );
+    const firstLeftRow = this.findFirstRowWithLine(Side.LEFT);
     if (firstLeftRow) {
       this.createComment(Side.LEFT, firstLeftRow.leftStartLine);
       return;
@@ -2664,7 +2838,8 @@ export class GrDiffLeanViewer extends LitElement {
   }
 
   private renderSideBySideView() {
-    const {rowsWithThreads, fileLevelThreads} = this.getAttachedThreads();
+    const fileLevelThreads = this.cachedFileLevelThreads;
+    const displayItems = this.cachedDisplayItems;
 
     return html`
       ${this.renderSummaryBar()}
@@ -2682,14 +2857,27 @@ export class GrDiffLeanViewer extends LitElement {
         <div class="column-header right">Revision</div>
       </div>
       <div class="diff-grid" role="region" aria-label="Rich Lean Diff">
-        ${rowsWithThreads.map(row => this.renderRow(row))}
+        ${repeat(
+          displayItems,
+          item =>
+            item.type === 'row' ? `row-${item.index}` : item.section.gapId,
+          item =>
+            item.type === 'collapsed'
+              ? renderRichDiffContextBar(
+                  item.section,
+                  this.expandSectionAll,
+                  this.expandSectionPartial
+                )
+              : this.renderRow(item.row, item.index)
+        )}
       </div>
       ${this.renderSelectionActionBox()}
     `;
   }
 
   private renderUnifiedView() {
-    const {rowsWithThreads, fileLevelThreads} = this.getAttachedThreads();
+    const fileLevelThreads = this.cachedFileLevelThreads;
+    const displayItems = this.cachedDisplayItems;
 
     return html`
       ${this.renderSummaryBar()}
@@ -2703,13 +2891,25 @@ export class GrDiffLeanViewer extends LitElement {
         `
       )}
       <div class="unified-container" role="region" aria-label="Rich Lean Diff">
-        ${rowsWithThreads.map(row => this.renderUnifiedRow(row))}
+        ${repeat(
+          displayItems,
+          item =>
+            item.type === 'row' ? `row-${item.index}` : item.section.gapId,
+          item =>
+            item.type === 'collapsed'
+              ? renderRichDiffContextBar(
+                  item.section,
+                  this.expandSectionAll,
+                  this.expandSectionPartial
+                )
+              : this.renderUnifiedRow(item.row, item.index)
+        )}
       </div>
       ${this.renderSelectionActionBox()}
     `;
   }
 
-  private renderUnifiedRow(row: AlignedLeanRowWithThreads) {
+  private renderUnifiedRow(row: AlignedLeanRowWithThreads, rowIndex: number) {
     if (row.status === 'unchanged') {
       const block = row.rightBlock ?? row.leftBlock;
       if (!block) return nothing;
@@ -2717,6 +2917,8 @@ export class GrDiffLeanViewer extends LitElement {
       return html`
         <div
           class="unified-block unchanged"
+          tabindex="-1"
+          data-row-index=${rowIndex}
           data-side="right"
           data-line=${ifDefined(row.rightStartLine)}
           @mouseenter=${() =>
@@ -2743,6 +2945,8 @@ export class GrDiffLeanViewer extends LitElement {
       return html`
         <div
           class="unified-block deleted"
+          tabindex="-1"
+          data-row-index=${rowIndex}
           data-side="left"
           data-line=${ifDefined(row.leftStartLine)}
           @mouseenter=${() =>
@@ -2769,6 +2973,8 @@ export class GrDiffLeanViewer extends LitElement {
       return html`
         <div
           class="unified-block added"
+          tabindex="-1"
+          data-row-index=${rowIndex}
           data-side="right"
           data-line=${ifDefined(row.rightStartLine)}
           @mouseenter=${() =>
@@ -2798,6 +3004,8 @@ export class GrDiffLeanViewer extends LitElement {
         () => html`
           <div
             class="unified-block deleted"
+            tabindex="-1"
+            data-row-index=${rowIndex}
             data-side="left"
             data-line=${ifDefined(row.leftStartLine)}
             @mouseenter=${() =>
@@ -2824,6 +3032,8 @@ export class GrDiffLeanViewer extends LitElement {
         () => html`
           <div
             class="unified-block added"
+            tabindex=${ifDefined(!row.leftBlock ? '-1' : undefined)}
+            data-row-index=${ifDefined(!row.leftBlock ? rowIndex : undefined)}
             data-side="right"
             data-line=${ifDefined(row.rightStartLine)}
             @mouseenter=${() =>
@@ -2848,11 +3058,14 @@ export class GrDiffLeanViewer extends LitElement {
     `;
   }
 
-  private renderRow(row: AlignedLeanRowWithThreads) {
-    return html`${this.renderLeftCell(row)}${this.renderRightCell(row)}`;
+  private renderRow(row: AlignedLeanRowWithThreads, rowIndex: number) {
+    return html`${this.renderLeftCell(row, rowIndex)}${this.renderRightCell(
+      row,
+      rowIndex
+    )}`;
   }
 
-  private renderLeftCell(row: AlignedLeanRowWithThreads) {
+  private renderLeftCell(row: AlignedLeanRowWithThreads, rowIndex: number) {
     const isDeleted = row.status === 'deleted';
     const isModified = row.status === 'modified';
     const isEmpty = row.status === 'added' || !row.leftBlock;
@@ -2868,6 +3081,8 @@ export class GrDiffLeanViewer extends LitElement {
     return html`
       <div
         class=${classMap(classes)}
+        tabindex=${ifDefined(!isEmpty ? '-1' : undefined)}
+        data-row-index=${ifDefined(!isEmpty ? rowIndex : undefined)}
         data-side="left"
         data-line=${ifDefined(row.leftStartLine)}
         @mouseenter=${() =>
@@ -2894,10 +3109,11 @@ export class GrDiffLeanViewer extends LitElement {
     `;
   }
 
-  private renderRightCell(row: AlignedLeanRowWithThreads) {
+  private renderRightCell(row: AlignedLeanRowWithThreads, rowIndex: number) {
     const isAdded = row.status === 'added';
     const isModified = row.status === 'modified';
     const isEmpty = row.status === 'deleted' || !row.rightBlock;
+    const isLeftEmpty = row.status === 'added' || !row.leftBlock;
 
     const classes = {
       'diff-cell': true,
@@ -2910,6 +3126,10 @@ export class GrDiffLeanViewer extends LitElement {
     return html`
       <div
         class=${classMap(classes)}
+        tabindex=${ifDefined(!isEmpty && isLeftEmpty ? '-1' : undefined)}
+        data-row-index=${ifDefined(
+          !isEmpty && isLeftEmpty ? rowIndex : undefined
+        )}
         data-side="right"
         data-line=${ifDefined(row.rightStartLine)}
         @mouseenter=${() =>

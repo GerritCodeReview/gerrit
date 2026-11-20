@@ -1562,6 +1562,12 @@ export class GrReplyDialog extends LitElement {
           const reloadRequired =
             result.change_info.current_revision_number !==
             this.change?.current_revision_number;
+          // Reload before updating the change, so that plugins are notified
+          // only once. Skipped if a full reload follows.
+          if (!reloadRequired) {
+            this.getChangeModel().reloadSubmittability();
+            this.getChangeModel().reloadRevisionActions();
+          }
           // Update the state right away to update comments, even if the full
           // reload is scheduled right after.
           const updatedChange = {
@@ -1577,10 +1583,6 @@ export class GrReplyDialog extends LitElement {
           parseTimer.end();
           if (reloadRequired) {
             fireReload(this);
-          } else {
-            // Only reload submittability if the full reload is not triggered, to
-            // avoid duplicate requests.
-            this.getChangeModel().reloadSubmittability();
           }
 
           this.patchsetLevelDraftMessage = '';

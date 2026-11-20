@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
+  ActionNameToActionInfoMap,
   AUTO_MERGE,
   BasePatchSetNum,
   ChangeInfo,
@@ -37,9 +38,12 @@ import {
 } from 'rxjs';
 import {
   catchError,
+  distinctUntilChanged,
   filter,
   map,
+  startWith,
   switchMap,
+  take,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -87,6 +91,7 @@ import {throttleWrap} from '../../utils/async-util';
 import {RevisionInfo as RevisionInfoClass} from '../../elements/shared/revision-info/revision-info';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
+const ERR_REVISION_ACTIONS = 'Couldn’t load revision actions.';
 
 const ReloadToastMessage = {
   NEWER_REVISION: 'A newer patch set has been uploaded',
@@ -123,6 +128,11 @@ export interface ChangeState {
    * go back to `undefined` after being set for a change.
    */
   mergeable?: boolean;
+  /**
+   * The actions of the current revision. `undefined` while loading or until
+   * the overview is shown.
+   */
+  revisionActions?: ActionNameToActionInfoMap;
 }
 
 export enum RevisionFileUpdateStatus {
@@ -416,6 +426,10 @@ export class ChangeModel extends Model<ChangeState> {
     undefined
   );
 
+  private readonly reloadRevisionActionsTrigger$ = new BehaviorSubject<void>(
+    undefined
+  );
+
   public readonly change$ = select(
     this.state$,
     changeState => changeState.change
@@ -429,6 +443,11 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly submittabilityLoadingStatus$ = select(
     this.state$,
     changeState => changeState.submittabilityLoadingStatus
+  );
+
+  public readonly revisionActions$ = select(
+    this.state$,
+    changeState => changeState.revisionActions
   );
 
   public readonly submittable$ = select(
@@ -675,6 +694,7 @@ export class ChangeModel extends Model<ChangeState> {
       this.loadChange(),
       this.loadSubmittabilityInfo(),
       this.loadMergeable(),
+      this.loadRevisionActions(),
       this.loadReviewedFiles(),
       this.loadRevisionParents(),
       this.setOverviewTitle(),
@@ -720,8 +740,15 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   private fireShowChange() {
+    // Plugins may decide which actions to show based on submittability, so
+    // wait for it.
+    const changeWithSubmittability$ = select(this.state$, state =>
+      state.submittabilityLoadingStatus === LoadingStatus.LOADING
+        ? undefined
+        : state.change
+    );
     return combineLatest([
-      this.change$,
+      changeWithSubmittability$,
       this.basePatchNum$,
       this.patchNum$,
       this.mergeable$,
@@ -924,21 +951,85 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   private loadMergeable() {
-    return this.change$
+    // Request once per change load, not again whenever the change is enriched.
+    const mergeableFromServer$ = this.viewModel.changeNum$.pipe(
+      switchMap(changeNum => {
+        if (!changeNum) return of({changeNum, mergeable: undefined});
+        return this.change$.pipe(
+          filter(
+            (change): change is ParsedChangeInfo =>
+              change?._number === changeNum
+          ),
+          take(1),
+          switchMap(change => {
+            if (change.mergeable !== undefined) return of(undefined);
+            if (change.status === ChangeStatus.MERGED) return of(undefined);
+            if (change.status === ChangeStatus.ABANDONED) return of(undefined);
+            return from(this.restApiService.getMergeable(changeNum)).pipe(
+              map(mergeableInfo => mergeableInfo?.mergeable ?? false),
+              catchError(() => of(false))
+            );
+          }),
+          map(mergeable => {
+            return {changeNum, mergeable};
+          }),
+          startWith({changeNum, mergeable: undefined})
+        );
+      })
+    );
+    return combineLatest([this.change$, mergeableFromServer$])
       .pipe(
-        switchMap(change => {
-          if (change?._number === undefined) return of(undefined);
-          if (change.mergeable !== undefined) return of(change.mergeable);
-          if (change.status === ChangeStatus.MERGED) return of(false);
-          if (change.status === ChangeStatus.ABANDONED) return of(false);
-          return from(
-            this.restApiService
-              .getMergeable(change._number)
-              .then(mergableInfo => mergableInfo?.mergeable ?? false)
+        map(([change, fromServer]) => {
+          if (change?._number === undefined) return undefined;
+          // Ignore results for another change, e.g. while navigating.
+          if (change._number !== fromServer.changeNum) return undefined;
+          if (change.mergeable !== undefined) return change.mergeable;
+          if (change.status === ChangeStatus.MERGED) return false;
+          if (change.status === ChangeStatus.ABANDONED) return false;
+          return fromServer.mergeable;
+        }),
+        distinctUntilChanged()
+      )
+      .subscribe(mergeable => this.updateState({mergeable}));
+  }
+
+  public reloadRevisionActions() {
+    this.reloadRevisionActionsTrigger$.next();
+  }
+
+  private loadRevisionActions() {
+    // Not based on `change$`, so that it loads in parallel with the change
+    // details.
+    return combineLatest([
+      this.viewModel.changeNum$,
+      this.reloadRevisionActionsTrigger$,
+    ])
+      .pipe(
+        map(([changeNum, _]) => changeNum),
+        switchMap(changeNum => {
+          if (!changeNum) return of(undefined);
+          return this.viewModel.childView$.pipe(
+            // Only shown on the overview. Load once, when it is first shown.
+            filter(childView => childView === ChangeChildView.OVERVIEW),
+            take(1),
+            switchMap(() =>
+              from(
+                this.restApiService.getChangeRevisionActions(
+                  changeNum,
+                  'current'
+                )
+              )
+            ),
+            map(revisionActions => revisionActions ?? {}),
+            catchError(() => {
+              fireAlert(document, ERR_REVISION_ACTIONS);
+              return of({});
+            }),
+            startWith(undefined)
           );
         })
       )
-      .subscribe(mergeable => this.updateState({mergeable}));
+      .subscribe(revisionActions => this.updateState({revisionActions}));
   }
 
   public reloadSubmittability() {
@@ -965,7 +1056,9 @@ export class ChangeModel extends Model<ChangeState> {
           this.updateState({
             submittabilityLoadingStatus: LoadingStatus.LOADING,
           });
-          return from(this.restApiService.getSubmittabilityInfo(changeNum));
+          return from(
+            this.restApiService.getSubmittabilityInfo(changeNum)
+          ).pipe(catchError(() => of(undefined)));
         })
       )
       .subscribe(submittabilityInfo => {

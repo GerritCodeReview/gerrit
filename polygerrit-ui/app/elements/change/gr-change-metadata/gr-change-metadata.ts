@@ -128,9 +128,7 @@ interface PushCertificateValidationInfo {
 export class GrChangeMetadata extends LitElement {
   @query('#webLinks') webLinks?: HTMLElement;
 
-  // TODO: Convert to @state. That requires the change model to keep track of
-  // current revision actions. Then we can also get rid of the
-  // `revision-actions-changed` event.
+  // TODO: Convert to @state, computed from `ChangeModel.revisionActions$`.
   @property({type: Boolean}) parentIsCurrent?: boolean;
 
   @state() change?: ParsedChangeInfo;

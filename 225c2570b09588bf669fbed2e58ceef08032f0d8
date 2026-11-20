@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc2bc61_40937044",
+        "filename": "java/com/google/gerrit/server/restapi/account/AddSshKey.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-20T06:19:06Z",
+      "side": 1,
+      "message": "The cap only lives in this REST view. `CreateAccount` (REST `ssh_key` and `gerrit create-account --ssh-key`) calls `authorizedKeys.addKey(accountId, input.sshKey)` directly, so those keys still never expire even with `auth.maxSshKeyLifetime` set. Could this check and the default move into `VersionedAuthorizedKeys.Accessor.addKey`, like `maxAuthTokenLifetime` is enforced in `VersionedAuthTokens`? Otherwise `CreateAccount` needs the same handling.",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 5
+      },
+      "revId": "225c2570b09588bf669fbed2e58ceef08032f0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

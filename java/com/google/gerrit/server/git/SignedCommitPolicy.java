@@ -153,8 +153,7 @@ public class SignedCommitPolicy {
   /** Preflight for initial project content, before the repository or metadata refs are created. */
   public void checkInitialCommit(Project project, String refName, byte[] rawCommit)
       throws IOException, ResourceConflictException {
-    if (isContentBranch(refName)
-        && newProjectState(project).is(BooleanProjectConfig.REQUIRE_SIGNED_COMMITS)) {
+    if (isInitialRequired(project, refName)) {
       try (ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
         requireVerified(
             BranchNameKey.create(project.getNameKey(), refName),
@@ -162,6 +161,11 @@ public class SignedCommitPolicy {
             rawCommit);
       }
     }
+  }
+
+  boolean isInitialRequired(Project project, String refName) {
+    return isContentBranch(refName)
+        && newProjectState(project).is(BooleanProjectConfig.REQUIRE_SIGNED_COMMITS);
   }
 
   private void requireVerified(BranchNameKey branch, ObjectId commit, byte[] rawCommit)

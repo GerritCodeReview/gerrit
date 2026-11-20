@@ -61,7 +61,7 @@ public class PublicKeyChecker {
   // https://tools.ietf.org/html/rfc4880#section-5.2.3.13
   private static final int COMPLETE_TRUST = 120;
 
-  private PublicKeyStore store;
+  private PublicKeyLookup store;
   private Map<Long, Fingerprint> trusted;
   private int maxTrustDepth;
   private Instant effectiveTime = Instant.now();
@@ -103,6 +103,11 @@ public class PublicKeyChecker {
   /** Set the public key store for reading keys referenced in signatures. */
   @CanIgnoreReturnValue
   public PublicKeyChecker setStore(PublicKeyStore store) {
+    return setStore((PublicKeyLookup) store);
+  }
+
+  @CanIgnoreReturnValue
+  PublicKeyChecker setStore(PublicKeyLookup store) {
     if (store == null) {
       throw new IllegalArgumentException("PublicKeyStore is required");
     }
@@ -415,7 +420,7 @@ public class PublicKeyChecker {
   }
 
   private CheckResult checkWebOfTrust(
-      PGPPublicKey key, PublicKeyStore store, int depth, Set<Fingerprint> seen) {
+      PGPPublicKey key, PublicKeyLookup store, int depth, Set<Fingerprint> seen) {
     if (trusted == null) {
       // Trust checking not configured, server trusts all OK keys.
       return CheckResult.trusted();
@@ -488,7 +493,7 @@ public class PublicKeyChecker {
 
   @Nullable
   private PGPPublicKey getSigner(
-      PublicKeyStore store,
+      PublicKeyLookup store,
       PGPSignature sig,
       String userId,
       PGPPublicKey key,

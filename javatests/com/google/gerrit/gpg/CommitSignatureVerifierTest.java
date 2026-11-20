@@ -106,6 +106,7 @@ public class CommitSignatureVerifierTest {
   @Inject private Provider<PublicKeyStore> storeProvider;
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
   @Inject private DynamicItem<UrlFormatter> urlFormatter;
+  @Inject private ServerSigningKeys serverSigningKeys;
 
   private LifecycleManager lifecycle;
   private Account.Id signerId;
@@ -139,6 +140,7 @@ public class CommitSignatureVerifierTest {
     register(key);
     var info = verifier.verify(sign(payload("test1@example.com"), key, SIGNATURE_TIME));
     assertThat(info.status).isEqualTo(VERIFIED);
+    assertThat(info.signerType).isEqualTo(CommitSignatureInfo.SignerType.USER);
     assertThat(info.signer._accountId).isEqualTo(signerId.get());
     assertThat(info.signingKeyFingerprint).isEqualTo("04AEA7ED2F821133E5B128D1ED0625DC46328A8C");
     assertThat(info.primaryKeyFingerprint).isEqualTo(info.signingKeyFingerprint);
@@ -280,7 +282,8 @@ public class CommitSignatureVerifierTest {
             checkerFactory,
             externalIds,
             externalIdKeyFactory,
-            userFactory);
+            userFactory,
+            serverSigningKeys);
     assertThrows(
         IOException.class,
         () -> failing.verify(sign(payload("test6@example.com"), key, SIGNATURE_TIME)));
@@ -789,7 +792,8 @@ public class CommitSignatureVerifierTest {
             cfg, accountQueryProvider, userFactory, urlFormatter, externalIdKeyFactory),
         externalIds,
         externalIdKeyFactory,
-        userFactory);
+        userFactory,
+        serverSigningKeys);
   }
 
   private void register(TestKey key, PGPPublicKeyRing ring) throws Exception {

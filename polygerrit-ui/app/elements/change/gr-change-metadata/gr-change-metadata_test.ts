@@ -25,6 +25,7 @@ import {
 import {
   ChangeStatus,
   CommitSignatureReason,
+  CommitSignatureSignerType,
   CommitSignatureStatus,
   GpgKeyInfoStatus,
   InheritedBooleanInfoConfiguredValue,
@@ -324,6 +325,27 @@ suite('gr-change-metadata tests', () => {
       assert.equal(signatureStatus(), 'Verified');
       assert.isNull(signatureRow().querySelector('gr-account-chip'));
       assert.include(signatureRow().textContent, 'Signer account unavailable');
+      assert.include(signatureRow().textContent, signingFingerprint);
+    });
+
+    test('server attestation is labeled separately and does not invent an account', async () => {
+      signatureStub.resolves({
+        ...verified,
+        signer: undefined,
+        signer_type: CommitSignatureSignerType.SERVER,
+      });
+      await flushSignature();
+      assert.equal(signatureStatus(), 'Verified (server)');
+      assert.isNull(signatureRow().querySelector('gr-account-chip'));
+      assert.notInclude(
+        signatureRow().textContent,
+        'Signer account unavailable'
+      );
+      assert.include(signatureRow().textContent, 'server attestation');
+      assert.include(
+        signatureRow().textContent,
+        'does not identify the committer'
+      );
       assert.include(signatureRow().textContent, signingFingerprint);
     });
 

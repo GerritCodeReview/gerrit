@@ -21,6 +21,7 @@ import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
 import {
   ChangeStatus,
+  CommitSignatureSignerType,
   CommitSignatureStatus,
   GpgKeyInfoStatus,
   InheritedBooleanInfoConfiguredValue,
@@ -568,12 +569,13 @@ export class GrChangeMetadata extends LitElement {
     if (!this.getCommitSignatureRequestKey()) return nothing;
     const signature = this.commitSignature;
     const verified = signature?.status === CommitSignatureStatus.VERIFIED;
+    const server = signature?.signer_type === CommitSignatureSignerType.SERVER;
     const unverified = signature?.status === CommitSignatureStatus.UNVERIFIED;
     return html`<section class="commitSignature">
       <span class="title">
         <gr-tooltip-content
           has-tooltip
-          title="OpenPGP signature of the selected commit. A verified signature identifies the committer, not necessarily the author or uploader. This is separate from a signed push certificate."
+          title="OpenPGP signature of the selected commit. A verified user signature identifies the committer, not necessarily the author or uploader. A verified server signature is a server attestation, not a committer identity. This is separate from a signed push certificate."
         >
           Commit signature
         </gr-tooltip-content>
@@ -592,14 +594,14 @@ export class GrChangeMetadata extends LitElement {
           ${this.computeCommitSignatureStatus()}
         </span>
         ${when(
-          verified && signature?.signer,
+          verified && !server && signature?.signer,
           () => html`<gr-account-chip
             .account=${signature!.signer}
             .change=${this.change}
           ></gr-account-chip>`
         )}
         ${when(
-          verified && !signature?.signer,
+          verified && !server && !signature?.signer,
           () => html`<span>Signer account unavailable</span>`
         )}
         ${when(
@@ -609,7 +611,9 @@ export class GrChangeMetadata extends LitElement {
             <div class="signatureMessage">
               ${signature?.message ??
               (verified
-                ? "OpenPGP signature verified using Gerrit's current registered keys and configuration."
+                ? server
+                  ? 'Verified server attestation using a configured Gerrit key. This signature does not identify the committer as the signer.'
+                  : "OpenPGP signature verified using Gerrit's current registered keys and configuration."
                 : 'Gerrit could not verify this commit signature.')}
             </div>
             ${when(
@@ -637,7 +641,10 @@ export class GrChangeMetadata extends LitElement {
     if (!this.commitSignature) return 'Verifying…';
     switch (this.commitSignature.status) {
       case CommitSignatureStatus.VERIFIED:
-        return 'Verified';
+        return this.commitSignature.signer_type ===
+          CommitSignatureSignerType.SERVER
+          ? 'Verified (server)'
+          : 'Verified';
       case CommitSignatureStatus.UNSIGNED:
         return 'Unsigned';
       case CommitSignatureStatus.UNVERIFIED:

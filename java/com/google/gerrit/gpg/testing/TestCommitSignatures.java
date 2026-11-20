@@ -39,8 +39,12 @@ import org.bouncycastle.openpgp.operator.bc.BcPGPDigestCalculatorProvider;
 /** Signs hand-built commit payloads without reserializing any of their bytes. */
 public class TestCommitSignatures {
   /** Reuses test key material, with a certified signing subkey and unencrypted secret keys. */
-  @SuppressWarnings("JdkObsolete")
   public static TestKey signingSubkey() throws Exception {
+    return signingSubkey(KeyFlags.CERTIFY_OTHER, KeyFlags.SIGN_DATA);
+  }
+
+  @SuppressWarnings("JdkObsolete")
+  public static TestKey signingSubkey(int primaryFlags, int subkeyFlags) throws Exception {
     TestKey primary = TestKeys.validKeyWithoutExpiration();
     TestKey subkey = TestKeys.validKeyWithExpiration();
     var primaryPair = new PGPKeyPair(primary.getPublicKey(), primary.getPrivateKey());
@@ -51,7 +55,7 @@ public class TestCommitSignatures {
     var primaryPackets = new PGPSignatureSubpacketGenerator();
     primaryPackets.setSignatureCreationTime(
         false, Date.from(Instant.parse("2019-01-01T00:00:00Z")));
-    primaryPackets.setKeyFlags(false, KeyFlags.CERTIFY_OTHER);
+    primaryPackets.setKeyFlags(false, primaryFlags);
     var generator =
         new PGPKeyRingGenerator(
             PGPSignature.POSITIVE_CERTIFICATION,
@@ -70,7 +74,7 @@ public class TestCommitSignatures {
     backSignature.setHashedSubpackets(primaryPackets.generate());
     var subkeyPackets = new PGPSignatureSubpacketGenerator();
     subkeyPackets.setSignatureCreationTime(false, Date.from(Instant.parse("2019-01-01T00:00:00Z")));
-    subkeyPackets.setKeyFlags(false, KeyFlags.SIGN_DATA);
+    subkeyPackets.setKeyFlags(false, subkeyFlags);
     subkeyPackets.setKeyExpirationTime(false, 50L * 365 * 24 * 60 * 60);
     subkeyPackets.addEmbeddedSignature(
         false,

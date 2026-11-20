@@ -31,10 +31,12 @@ import org.eclipse.jgit.lib.ObjectInserter;
 @Singleton
 public class ContentCommitInserter {
   private final SignedCommitPolicy signedCommitPolicy;
+  private final ServerCommitSigner signer;
 
   @Inject
-  ContentCommitInserter(SignedCommitPolicy signedCommitPolicy) {
+  ContentCommitInserter(SignedCommitPolicy signedCommitPolicy, ServerCommitSigner signer) {
     this.signedCommitPolicy = signedCommitPolicy;
+    this.signer = signer;
   }
 
   public ObjectId insert(BranchNameKey destination, ObjectInserter inserter, CommitBuilder commit)
@@ -44,6 +46,9 @@ public class ContentCommitInserter {
 
   public ObjectId insert(BranchNameKey destination, ObjectInserter inserter, byte[] rawCommit)
       throws IOException, ResourceConflictException {
+    if (signedCommitPolicy.isRequired(destination)) {
+      rawCommit = signer.signIfUnsigned(rawCommit);
+    }
     signedCommitPolicy.checkGeneratedCommit(destination, rawCommit);
     return inserter.insert(OBJ_COMMIT, rawCommit);
   }
@@ -53,6 +58,12 @@ public class ContentCommitInserter {
       Project project, Collection<String> branches, CommitBuilder commit)
       throws IOException, ResourceConflictException {
     byte[] rawCommit = commit.build();
+    for (String branch : branches) {
+      if (signedCommitPolicy.isInitialRequired(project, branch)) {
+        rawCommit = signer.signIfUnsigned(rawCommit);
+        break;
+      }
+    }
     for (String branch : branches) {
       signedCommitPolicy.checkInitialCommit(project, branch, rawCommit);
     }

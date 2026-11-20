@@ -34,6 +34,24 @@
       ],
       "revId": "ea85c78ef9fa39abc68aa7de2185da3cfeb0d047",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94b18967_f77786df",
+        "filename": "tools/deps.toml",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-11-20T18:08:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1de75c26_0f51010b",
+      "revId": "ea85c78ef9fa39abc68aa7de2185da3cfeb0d047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

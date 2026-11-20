@@ -8,7 +8,16 @@ import '../../../test/common-test-setup';
 import './gr-diff-markdown-viewer';
 import {GrDiffMarkdownViewer} from './gr-diff-markdown-viewer';
 import {DiffInfo} from '../../../types/diff';
-import {CommentSide, DiffViewMode} from '../../../constants/constants';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
+import {
+  FULL_CONTEXT,
+  FullContext,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {
   createAccountDetailWithId,
   createComment,
@@ -665,6 +674,196 @@ suite('gr-diff-markdown-viewer tests', () => {
       assert.equal(draft.path, 'test.md');
       assert.equal(draft.side, CommentSide.REVISION);
       assert.equal(draft.line, 1);
+    });
+  });
+
+  suite('unchanged context collapsing', () => {
+    function createLargeMarkdownDiff(): DiffInfo {
+      const beforeLines: string[] = [];
+      for (let i = 1; i <= 15; i++) {
+        beforeLines.push(
+          `## Top Section ${i}`,
+          '',
+          `Unchanged top paragraph ${i}.`,
+          ''
+        );
+      }
+      const afterLines: string[] = [''];
+      for (let i = 1; i <= 15; i++) {
+        afterLines.push(
+          `## Bottom Section ${i}`,
+          '',
+          `Unchanged bottom paragraph ${i}.`,
+          ''
+        );
+      }
+      return {
+        ...createDiff(),
+        meta_a: {
+          name: 'docs/manifest-format.md',
+          content_type: 'text/markdown',
+          lines: beforeLines.length + 1 + afterLines.length,
+        },
+        meta_b: {
+          name: 'docs/manifest-format.md',
+          content_type: 'text/markdown',
+          lines: beforeLines.length + 2 + afterLines.length,
+        },
+        content: [
+          {ab: beforeLines},
+          {
+            a: [
+              'Attribute `sync-smartsync`: Set to true to enable smart sync.',
+            ],
+            b: [
+              'Attribute `sync-smartsync`: Set to true to enable smart sync by default,',
+              'or set to false to disable default smart sync.',
+            ],
+          },
+          {ab: afterLines},
+        ],
+      };
+    }
+
+    test('collapses distant unchanged blocks by default and expands partially and fully', async () => {
+      element.diff = createLargeMarkdownDiff();
+      await element.updateComplete;
+
+      const contextBars =
+        element.shadowRoot!.querySelectorAll('.rich-context-bar');
+      assert.equal(contextBars.length, 2);
+
+      // Top section 1 should be hidden while the modified block is visible.
+      const gridText =
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '';
+      assert.notInclude(gridText, 'Unchanged top paragraph 1.');
+      assert.notInclude(gridText, 'Unchanged bottom paragraph 15.');
+      assert.include(gridText, 'sync-smartsync');
+
+      // Top collapsed bar has expand-from-end (+10) and expand-all, not expand-from-start
+      const topBar = contextBars[0];
+      assert.isNull(topBar.querySelector('.expand-from-start'));
+      const topPartialBtn =
+        topBar.querySelector<HTMLButtonElement>('.expand-from-end');
+      const topExpandAllBtn =
+        topBar.querySelector<HTMLButtonElement>('.expand-all');
+      assert.isNotNull(topPartialBtn);
+      assert.isNotNull(topExpandAllBtn);
+
+      const initialCellCount =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+
+      // Partial expand reveals more context rows while keeping top bar collapsed
+      topPartialBtn.click();
+      await element.updateComplete;
+      const afterPartialCellCount =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+      assert.isAbove(afterPartialCellCount, initialCellCount);
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // Expand all on top bar removes it and reveals Top Section 1
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+      assert.include(
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '',
+        'Unchanged top paragraph 1.'
+      );
+    });
+
+    test('collapses unchanged blocks in unified mode too', async () => {
+      element.diff = createLargeMarkdownDiff();
+      element.viewMode = DiffViewMode.UNIFIED;
+      await element.updateComplete;
+
+      const contextBars = element.shadowRoot!.querySelectorAll(
+        '.unified-container .rich-context-bar'
+      );
+      assert.equal(contextBars.length, 2);
+
+      contextBars[0].querySelector<HTMLButtonElement>('.expand-all')!.click();
+      await element.updateComplete;
+
+      assert.equal(
+        element.shadowRoot!.querySelectorAll(
+          '.unified-container .rich-context-bar'
+        ).length,
+        1
+      );
+    });
+
+    test('respects diffPreferences.context FULL_CONTEXT and toggleAllContext()', async () => {
+      element.diff = createLargeMarkdownDiff();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // User preference FULL_CONTEXT expands the whole file
+      userModel.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        context: FULL_CONTEXT,
+      });
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        0
+      );
+
+      // toggleAllContext collapses unchanged lines again
+      element.toggleAllContext();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // toggleAllContext again expands entire file
+      element.toggleAllContext();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        0
+      );
+    });
+
+    test('keeps unchanged blocks with comment threads or lineOfInterest visible', async () => {
+      const topCommentThread: CommentThread = createCommentThread([
+        {
+          ...createComment(),
+          line: 1,
+          message: 'Comment on Top Section 1',
+          patch_set: 1 as RevisionPatchSetNum,
+        },
+      ]);
+
+      element.diff = createLargeMarkdownDiff();
+      element.patchRange = createPatchRange();
+      element.path = 'docs/manifest-format.md';
+      element.threads = [topCommentThread];
+      element.lineOfInterest = {side: Side.RIGHT, lineNum: 120};
+      element.showFullContext = FullContext.UNDECIDED;
+      await element.updateComplete;
+
+      const gridText =
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '';
+      assert.include(gridText, 'Unchanged top paragraph 1.');
+      assert.include(gridText, 'Unchanged bottom paragraph 15.');
+      assert.isAtLeast(
+        element.shadowRoot!.querySelectorAll('gr-comment-thread').length,
+        1
+      );
     });
   });
 });

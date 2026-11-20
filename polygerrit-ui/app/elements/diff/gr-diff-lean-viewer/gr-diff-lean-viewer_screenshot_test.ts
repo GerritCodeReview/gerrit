@@ -20,6 +20,7 @@ import {
 } from '../../../test/test-data-generators';
 import {DiffInfo, DiffViewMode} from '../../../api/diff';
 import {CommentSide} from '../../../constants/constants';
+import {FullContext} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {
   CommentThread,
   RevisionPatchSetNum,
@@ -347,10 +348,64 @@ suite('gr-diff-lean-viewer screenshot tests', () => {
     element.threads = [];
     element.viewMode = DiffViewMode.SIDE_BY_SIDE;
     element.collapseProofs = false;
+    element.showFullContext = FullContext.YES;
     await element.updateComplete;
     await document.fonts?.ready;
 
     await visualDiff(element, 'gr-diff-lean-viewer-lean-lang-ref');
     await visualDiffDarkTheme(element, 'gr-diff-lean-viewer-lean-lang-ref');
+  });
+
+  test('collapsed unchanged context in large Lean 4 file', async () => {
+    const beforeLines: string[] = ['import Init', ''];
+    for (let i = 1; i <= 10; i++) {
+      beforeLines.push(
+        `theorem helper_before_${i} (n : Nat) : n = n := by`,
+        '  rfl',
+        ''
+      );
+    }
+    const afterLines: string[] = [''];
+    for (let i = 1; i <= 10; i++) {
+      afterLines.push(
+        `theorem helper_after_${i} (n : Nat) : n = n := by`,
+        '  rfl',
+        ''
+      );
+    }
+
+    element.diff = {
+      ...createDiff(),
+      meta_a: {
+        name: 'formal/LargeProof.lean',
+        content_type: 'text/x-lean',
+        lines: beforeLines.length + 2 + afterLines.length,
+      },
+      meta_b: {
+        name: 'formal/LargeProof.lean',
+        content_type: 'text/x-lean',
+        lines: beforeLines.length + 2 + afterLines.length,
+      },
+      content: [
+        {ab: beforeLines},
+        {
+          a: ['theorem main_soundness (n : Nat) : n + 0 = n := by', '  sorry'],
+          b: [
+            'theorem main_soundness (n : Nat) : n + 0 = n := by',
+            '  exact Nat.add_zero n',
+          ],
+        },
+        {ab: afterLines},
+      ],
+    };
+    element.threads = [];
+    element.viewMode = DiffViewMode.SIDE_BY_SIDE;
+    element.collapseProofs = false;
+    element.showFullContext = FullContext.UNDECIDED;
+    await element.updateComplete;
+    await document.fonts?.ready;
+
+    await visualDiff(element, 'gr-diff-lean-viewer-collapsed-context');
+    await visualDiffDarkTheme(element, 'gr-diff-lean-viewer-collapsed-context');
   });
 });

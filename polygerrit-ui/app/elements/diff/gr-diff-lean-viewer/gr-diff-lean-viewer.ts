@@ -19,8 +19,19 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import type {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
-import {DiffInfo} from '../../../types/diff';
-import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
+import {DisplayLine} from '../../../api/diff';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
+import {
+  computeContext,
+  FULL_CONTEXT,
+  FullContext,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {
   CommentThread,
   DraftInfo,
@@ -50,6 +61,13 @@ import {
   reconstructFileContent,
   renderInlineMarkdown,
 } from '../gr-diff-markdown-viewer/markdown-diff-util';
+import {
+  CollapsedRichDiffSection,
+  getPartialExpandIndices,
+  groupRichDiffRows,
+  renderRichDiffContextBar,
+  richDiffContextBarStyles,
+} from '../gr-diff-markdown-viewer/rich-diff-context-util';
 import {
   AlignedLeanRow,
   AlignedLeanRowWithThreads,
@@ -93,6 +111,13 @@ export class GrDiffLeanViewer extends LitElement {
 
   @property({type: String}) viewMode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
 
+  @property({type: Number}) context?: number;
+
+  @property({type: String}) showFullContext: FullContext =
+    FullContext.UNDECIDED;
+
+  @property({type: Object}) lineOfInterest?: DisplayLine;
+
   @property({type: Boolean}) loggedIn = false;
 
   @property({type: Boolean}) collapseProofs = false;
@@ -100,6 +125,10 @@ export class GrDiffLeanViewer extends LitElement {
   @state() alignedRows: AlignedLeanRow[] = [];
 
   @state() summary?: LeanDiffSummary;
+
+  @state() private diffPrefs?: DiffPreferencesInfo;
+
+  @state() private expandedRowIndices: Set<number> = new Set();
 
   @state() private internalThreads: CommentThread[] = [];
 
@@ -160,6 +189,13 @@ export class GrDiffLeanViewer extends LitElement {
         this.loggedIn = loggedIn;
       }
     );
+    subscribe(
+      this,
+      () => this.getUserModel().diffPreferences$,
+      diffPrefs => {
+        this.diffPrefs = diffPrefs;
+      }
+    );
   }
 
   override connectedCallback() {
@@ -199,6 +235,7 @@ export class GrDiffLeanViewer extends LitElement {
 
   static override get styles() {
     return [
+      richDiffContextBarStyles,
       css`
         :host {
           display: block;
@@ -1132,6 +1169,12 @@ export class GrDiffLeanViewer extends LitElement {
       this.recomputeAlignedRows();
     }
     if (
+      changedProperties.has('showFullContext') &&
+      this.showFullContext === FullContext.NO
+    ) {
+      this.expandedRowIndices = new Set();
+    }
+    if (
       this.hasUpdated &&
       (changedProperties.has('collapseProofs') ||
         changedProperties.has('proofCollapseOverrides') ||
@@ -1158,6 +1201,7 @@ export class GrDiffLeanViewer extends LitElement {
     this.hideSelectionActionBox(true);
     this.hoveredSide = undefined;
     this.hoveredLine = undefined;
+    this.expandedRowIndices = new Set();
     if (!this.diff) {
       this.alignedRows = [];
       this.summary = undefined;
@@ -1172,6 +1216,38 @@ export class GrDiffLeanViewer extends LitElement {
     this.summary = computeLeanSummary(blocksA, blocksB, this.alignedRows);
     this.proofCollapseOverrides = new Map();
   }
+
+  toggleAllContext() {
+    const effective = computeContext(
+      this.context ?? this.diffPrefs?.context,
+      this.showFullContext,
+      createDefaultDiffPrefs().context
+    );
+    this.showFullContext =
+      effective === FULL_CONTEXT ? FullContext.NO : FullContext.YES;
+    this.expandedRowIndices = new Set();
+  }
+
+  private expandSectionAll = (
+    section: CollapsedRichDiffSection<AlignedLeanRowWithThreads>
+  ) => {
+    const next = new Set(this.expandedRowIndices);
+    for (let i = section.startIndex; i <= section.endIndex; i++) {
+      next.add(i);
+    }
+    this.expandedRowIndices = next;
+  };
+
+  private expandSectionPartial = (
+    section: CollapsedRichDiffSection<AlignedLeanRowWithThreads>,
+    direction: 'from-start' | 'from-end'
+  ) => {
+    const next = new Set(this.expandedRowIndices);
+    for (const idx of getPartialExpandIndices(section, direction)) {
+      next.add(idx);
+    }
+    this.expandedRowIndices = next;
+  };
 
   private hasAnyCollapsibleProof(): boolean {
     return this.alignedRows.some(row => {
@@ -2663,8 +2739,18 @@ export class GrDiffLeanViewer extends LitElement {
     );
   }
 
+  private getDisplayItems(rowsWithThreads: AlignedLeanRowWithThreads[]) {
+    return groupRichDiffRows(rowsWithThreads, {
+      context: this.context ?? this.diffPrefs?.context,
+      showFullContext: this.showFullContext,
+      expandedRowIndices: this.expandedRowIndices,
+      lineOfInterest: this.lineOfInterest,
+    });
+  }
+
   private renderSideBySideView() {
     const {rowsWithThreads, fileLevelThreads} = this.getAttachedThreads();
+    const displayItems = this.getDisplayItems(rowsWithThreads);
 
     return html`
       ${this.renderSummaryBar()}
@@ -2682,7 +2768,15 @@ export class GrDiffLeanViewer extends LitElement {
         <div class="column-header right">Revision</div>
       </div>
       <div class="diff-grid" role="region" aria-label="Rich Lean Diff">
-        ${rowsWithThreads.map(row => this.renderRow(row))}
+        ${displayItems.map(item =>
+          item.type === 'collapsed'
+            ? renderRichDiffContextBar(
+                item.section,
+                this.expandSectionAll,
+                this.expandSectionPartial
+              )
+            : this.renderRow(item.row)
+        )}
       </div>
       ${this.renderSelectionActionBox()}
     `;
@@ -2690,6 +2784,7 @@ export class GrDiffLeanViewer extends LitElement {
 
   private renderUnifiedView() {
     const {rowsWithThreads, fileLevelThreads} = this.getAttachedThreads();
+    const displayItems = this.getDisplayItems(rowsWithThreads);
 
     return html`
       ${this.renderSummaryBar()}
@@ -2703,7 +2798,15 @@ export class GrDiffLeanViewer extends LitElement {
         `
       )}
       <div class="unified-container" role="region" aria-label="Rich Lean Diff">
-        ${rowsWithThreads.map(row => this.renderUnifiedRow(row))}
+        ${displayItems.map(item =>
+          item.type === 'collapsed'
+            ? renderRichDiffContextBar(
+                item.section,
+                this.expandSectionAll,
+                this.expandSectionPartial
+              )
+            : this.renderUnifiedRow(item.row)
+        )}
       </div>
       ${this.renderSelectionActionBox()}
     `;

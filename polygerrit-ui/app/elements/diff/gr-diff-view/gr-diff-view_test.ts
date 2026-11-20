@@ -12,6 +12,7 @@ import {
   createDefaultPreferences,
   DiffViewMode,
 } from '../../../constants/constants';
+import {FullContext} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {
   isVisible,
   mockPromise,
@@ -2509,6 +2510,46 @@ suite('gr-diff-view tests', () => {
         diffBPromise.resolve(diffB);
         await waitUntil(() => element.leanViewer?.diff === diffB);
         assert.equal(element.leanViewer?.diff, diffB);
+      });
+
+      test('shift+x toggles richFullContext on active rich markdown and lean viewers', async () => {
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        assert.equal(
+          element.markdownViewer!.showFullContext,
+          FullContext.UNDECIDED
+        );
+        pressKey(element, 'X');
+        await element.updateComplete;
+        assert.equal(element.markdownViewer!.showFullContext, FullContext.YES);
+
+        pressKey(element, 'X');
+        await element.updateComplete;
+        assert.equal(element.markdownViewer!.showFullContext, FullContext.NO);
+
+        // Switching to Lean viewer propagates richFullContext as well
+        element.showRichMarkdown = false;
+        element.path = 'Proof.lean';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['theorem t : True := trivial']}],
+        };
+        element.showRichLean = true;
+        await element.updateComplete;
+        assert.equal(
+          element.leanViewer!.showFullContext,
+          FullContext.UNDECIDED
+        );
+
+        pressKey(element, 'X');
+        await element.updateComplete;
+        assert.equal(element.leanViewer!.showFullContext, FullContext.YES);
       });
     });
 

@@ -166,4 +166,73 @@ suite('gr-diff-markdown-viewer screenshot tests', () => {
       'gr-diff-markdown-viewer-delta-showcase'
     );
   });
+
+  test('collapsed unchanged context in large markdown file', async () => {
+    const beforeLines: string[] = [
+      '# repo Manifest Format',
+      '',
+      'A repo manifest describes the structure of a repo client.',
+      '',
+    ];
+    for (let i = 1; i <= 12; i++) {
+      beforeLines.push(
+        `### Attribute \`option-${i}\``,
+        '',
+        `Unchanged documentation paragraph for option ${i}.`,
+        ''
+      );
+    }
+    const afterLines: string[] = [
+      '',
+      '### Element manifest-server',
+      '',
+      'At most one manifest-server may be specified.',
+      '',
+    ];
+    for (let i = 1; i <= 12; i++) {
+      afterLines.push(
+        `### Element section-${i}`,
+        '',
+        `Unchanged trailing documentation paragraph ${i}.`,
+        ''
+      );
+    }
+
+    element.diff = {
+      ...createDiff(),
+      meta_a: {
+        name: 'docs/manifest-format.md',
+        content_type: 'text/markdown',
+        lines: beforeLines.length + 1 + afterLines.length,
+      },
+      meta_b: {
+        name: 'docs/manifest-format.md',
+        content_type: 'text/markdown',
+        lines: beforeLines.length + 3 + afterLines.length,
+      },
+      content: [
+        {ab: beforeLines},
+        {
+          a: [
+            'Attribute `sync-smartsync`: Set to true to enable smart sync by default.',
+          ],
+          b: [
+            'Attribute `sync-smartsync`: Set to true to enable smart sync by default,',
+            'or set to false to disable default smart sync for the manifest (explicit',
+            '`-s`/`-t` invocations still work when `<manifest-server>` is defined).',
+          ],
+        },
+        {ab: afterLines},
+      ],
+    };
+    element.viewMode = DiffViewMode.SIDE_BY_SIDE;
+    await element.updateComplete;
+    await document.fonts?.ready;
+
+    await visualDiff(element, 'gr-diff-markdown-viewer-collapsed-context');
+    await visualDiffDarkTheme(
+      element,
+      'gr-diff-markdown-viewer-collapsed-context'
+    );
+  });
 });

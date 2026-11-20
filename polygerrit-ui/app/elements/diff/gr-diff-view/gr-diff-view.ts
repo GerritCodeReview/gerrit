@@ -123,6 +123,7 @@ import '../gr-diff-lean-viewer/gr-diff-lean-viewer';
 import type {GrDiffLeanViewer} from '../gr-diff-lean-viewer/gr-diff-lean-viewer';
 import '../gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import type {GrDiffMarkdownViewer} from '../gr-diff-markdown-viewer/gr-diff-markdown-viewer';
+import {FullContext} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {formStyles} from '../../../styles/form-styles';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
@@ -328,6 +329,9 @@ export class GrDiffView extends LitElement {
 
   @state()
   isShowingEntireFile = false;
+
+  @state()
+  richFullContext: FullContext = FullContext.UNDECIDED;
 
   // visible for testing
   reviewedFiles = new Set<string>();
@@ -993,6 +997,7 @@ export class GrDiffView extends LitElement {
         changedProperties.get('basePatchNum') !== undefined);
     if (navChanged) {
       this.navReloadGeneration++;
+      this.richFullContext = FullContext.UNDECIDED;
       // Only treat `diff` as fresh in the same Lit cycle when assigned
       // directly (not via a late `diff-changed` event from `<gr-diff-host>`
       // racing with a navigation update).
@@ -1158,6 +1163,8 @@ export class GrDiffView extends LitElement {
                 .patchRange=${this.patchRange}
                 .threads=${this.threadsForFile}
                 .loggedIn=${this.loggedIn}
+                .showFullContext=${this.richFullContext}
+                .lineOfInterest=${this.getLineOfInterest()}
               ></gr-diff-markdown-viewer>
             `
           )}
@@ -1171,6 +1178,8 @@ export class GrDiffView extends LitElement {
                 .patchRange=${this.patchRange}
                 .threads=${this.threadsForFile}
                 .loggedIn=${this.loggedIn}
+                .showFullContext=${this.richFullContext}
+                .lineOfInterest=${this.getLineOfInterest()}
               ></gr-diff-lean-viewer>
             `
           )}
@@ -2089,6 +2098,7 @@ export class GrDiffView extends LitElement {
     this.reporting.diffViewDisplayed();
     if (this.isBlameLoaded) this.loadBlame();
     this.isShowingEntireFile = this.diffHost?.isShowFullContext() ?? false;
+    this.richFullContext = FullContext.UNDECIDED;
   }
 
   /**
@@ -2501,6 +2511,9 @@ export class GrDiffView extends LitElement {
   private handleToggleAllDiffContext() {
     assertIsDefined(this.diffHost, 'diffHost');
     this.isShowingEntireFile = !this.isShowingEntireFile;
+    this.richFullContext = this.isShowingEntireFile
+      ? FullContext.YES
+      : FullContext.NO;
     this.diffHost.toggleAllContext();
   }
 

@@ -9,7 +9,13 @@ import './gr-diff-lean-viewer';
 import {GrDiffLeanViewer} from './gr-diff-lean-viewer';
 import type {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {DiffInfo} from '../../../types/diff';
-import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
+import {FULL_CONTEXT} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {
   createAccountDetailWithId,
   createComment,
@@ -1338,4 +1344,84 @@ suite('gr-diff-lean-viewer tests', () => {
       });
     }
   );
+
+  suite('unchanged context collapsing', () => {
+    function createLargeLeanDiff(): DiffInfo {
+      const beforeLines: string[] = [];
+      for (let i = 1; i <= 12; i++) {
+        beforeLines.push(`theorem top_${i} : True := by`, '  trivial', '');
+      }
+      const afterLines: string[] = [''];
+      for (let i = 1; i <= 12; i++) {
+        afterLines.push(`theorem bottom_${i} : True := by`, '  trivial', '');
+      }
+      return {
+        ...createDiff(),
+        meta_a: {
+          name: 'BigProof.lean',
+          content_type: 'text/x-lean',
+          lines: beforeLines.length + 2 + afterLines.length,
+        },
+        meta_b: {
+          name: 'BigProof.lean',
+          content_type: 'text/x-lean',
+          lines: beforeLines.length + 2 + afterLines.length,
+        },
+        content: [
+          {ab: beforeLines},
+          {
+            a: ['theorem target_thm : True := by', '  sorry'],
+            b: ['theorem target_thm : True := by', '  trivial'],
+          },
+          {ab: afterLines},
+        ],
+      };
+    }
+
+    test('collapses distant unchanged Lean blocks and expands on click or toggleAllContext()', async () => {
+      element.diff = createLargeLeanDiff();
+      await element.updateComplete;
+
+      const contextBars =
+        element.shadowRoot!.querySelectorAll('.rich-context-bar');
+      assert.equal(contextBars.length, 2);
+
+      const gridText =
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '';
+      assert.notInclude(gridText, 'top_1 ');
+      assert.notInclude(gridText, 'bottom_12');
+      assert.include(gridText, 'target_thm');
+
+      // Expand top bar completely
+      contextBars[0].querySelector<HTMLButtonElement>('.expand-all')!.click();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+      assert.include(
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '',
+        'top_1 '
+      );
+
+      // FULL_CONTEXT user preference shows entire file
+      userModel.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        context: FULL_CONTEXT,
+      });
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        0
+      );
+
+      // toggleAllContext collapses unchanged sections again
+      element.toggleAllContext();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+    });
+  });
 });

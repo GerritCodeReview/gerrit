@@ -20,12 +20,14 @@ import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
 import {
   createChange,
   createChangeMessage,
+  createChangeViewState,
   createParsedChange,
   createRelatedChangeAndCommitInfo,
   createRelatedChangesInfo,
 } from '../../test/test-data-generators';
 import {ChangeStatus, ReviewInputTag, TopicName} from '../../api/rest-api';
 import {MessageTag} from '../../constants/constants';
+import {changeViewModelToken} from '../views/change';
 
 suite('related-changes-model tests', () => {
   let model: RelatedChangesModel;
@@ -180,11 +182,18 @@ suite('related-changes-model tests', () => {
 
     test('conflictingChanges not loaded for merged changes', async () => {
       getChangeConflictsResponse = [createChange()];
-      changeModel.updateStateChange({
+      stubRestApi('getChangeDetail').resolves({
         ...createParsedChange(),
         mergeable: true,
         status: ChangeStatus.MERGED,
       });
+      testResolver(changeViewModelToken).setState(createChangeViewState());
+      await waitUntilObserved(
+        changeModel.status$,
+        status => status === ChangeStatus.MERGED
+      );
+      // So that the status check, not the mergeable check, is tested.
+      await waitUntilObserved(changeModel.mergeable$, m => m === true);
 
       await waitUntilObserved(
         model.conflictingChanges$,
@@ -195,6 +204,7 @@ suite('related-changes-model tests', () => {
 
     test('conflictingChanges emits', async () => {
       getChangeConflictsResponse = [createChange()];
+      testResolver(changeViewModelToken).setState(createChangeViewState());
       changeModel.updateStateChange({...createParsedChange(), mergeable: true});
 
       await waitUntilObserved(

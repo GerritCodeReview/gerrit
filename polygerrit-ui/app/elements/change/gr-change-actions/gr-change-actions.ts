@@ -116,7 +116,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {chatModelToken} from '../../../models/chat/chat-model';
 import {userModelToken} from '../../../models/user/user-model';
-import {ParsedChangeInfo} from '../../../types/types';
+import {LoadingStatus, ParsedChangeInfo} from '../../../types/types';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
@@ -124,7 +124,6 @@ import {ValidationOptionInfo} from '../../../api/rest-api';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
-const ERR_REVISION_ACTIONS = 'Couldn’t load revision actions.';
 
 export enum LabelStatus {
   /**
@@ -410,15 +409,20 @@ export class GrChangeActions
 
   @state() mergeable?: boolean;
 
+  @state() submittabilityLoading = false;
+
   @state() commitNum?: CommitId;
 
   @state() latestPatchNum?: PatchSetNumber;
 
   @state() commitMessage = '';
 
-  // The unfiltered result of calling `restApiService.getChangeRevisionActions()`.
-  // The DOWNLOAD action is also added to it in `actionsChanged()`.
+  // From the change model. `actionsChanged()` replaces it with a copy that
+  // includes the DOWNLOAD action.
   @state() revisionActions?: ActionNameToActionInfoMap;
+
+  // To notify plugins only once per load of the revision actions.
+  private revisionActionsSentToPlugins?: ActionNameToActionInfoMap;
 
   @state() actionLoadingMessage = '';
 
@@ -568,6 +572,16 @@ export class GrChangeActions
       this,
       () => this.getChangeModel().mergeable$,
       x => (this.mergeable = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().submittabilityLoadingStatus$,
+      x => (this.submittabilityLoading = x === LoadingStatus.LOADING)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revisionActions$,
+      x => (this.revisionActions = x)
     );
     subscribe(
       this,
@@ -907,7 +921,6 @@ export class GrChangeActions
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('change')) {
-      this.reload();
       this.actions = this.change?.actions ?? {};
     }
 
@@ -934,6 +947,21 @@ export class GrChangeActions
       action => !action.__primary
     );
     this.menuActions = this.computeMenuActions();
+
+    // Notify plugins once the actions are shown.
+    if (
+      !this.isLoading() &&
+      this.revisionActions !== this.revisionActionsSentToPlugins
+    ) {
+      this.revisionActionsSentToPlugins = this.revisionActions;
+      // Without the DOWNLOAD action added by this element.
+      const revisionActions = {...this.revisionActions!};
+      delete revisionActions.download;
+      this.sendShowRevisionActions({
+        change: this.change as ChangeInfo,
+        revisionActions,
+      });
+    }
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -948,32 +976,12 @@ export class GrChangeActions
     }
   }
 
-  reload() {
-    if (!this.changeNum || !this.latestPatchNum || !this.change) {
-      return Promise.resolve();
-    }
-    const change = this.change;
-    this.revisionActions = undefined;
-    return this.restApiService
-      .getChangeRevisionActions(this.changeNum, this.latestPatchNum)
-      .then(revisionActions => {
-        this.revisionActions = revisionActions ?? {};
-        this.sendShowRevisionActions({
-          change: change as ChangeInfo,
-          revisionActions: this.revisionActions,
-        });
-      })
-      .catch(err => {
-        fireAlert(this, ERR_REVISION_ACTIONS);
-        throw err;
-      });
-  }
-
   private isLoading() {
     return (
       !this.pluginsLoaded ||
       !this.change ||
       this.mergeable === undefined ||
+      this.submittabilityLoading ||
       this.revisionActions === undefined
     );
   }
@@ -1101,13 +1109,16 @@ export class GrChangeActions
     this.disabledMenuActions = [];
 
     if (this.revisionActions && !this.revisionActions.download) {
+      // Copy, since `getActionValues()` annotates the actions in place.
       this.revisionActions = {
-        ...this.revisionActions,
+        ...Object.fromEntries(
+          Object.entries(this.revisionActions).map(([key, action]) => [
+            key,
+            {...action},
+          ])
+        ),
         download: DOWNLOAD_ACTION,
       };
-      fire(this, 'revision-actions-changed', {
-        value: this.revisionActions,
-      });
     }
     if (
       !this.actions.includedIn &&
@@ -2469,7 +2480,6 @@ declare global {
     'download-tap': CustomEvent<{}>;
     'edit-tap': CustomEvent<{}>;
     'included-tap': CustomEvent<{}>;
-    'revision-actions-changed': CustomEvent<{value: ActionNameToActionInfoMap}>;
     'stop-edit-tap': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {

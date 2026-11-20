@@ -16,6 +16,24 @@
       "message": "Unfortunately  we cannot update rxjs because there is older version in Google and I know this change doesn\u0027t use new APIs, but I am afraid that someone other will introduce api from newer version and it will break. Sorry, I don\u0027t know when Google will update",
       "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca00f9ed_f43f9d61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-20T14:34:20Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/658765/1#message-14b2b600829200f2c9bdfb43818d1fcde1735319\n\nWe can use rxjs 7.0.0. \n\n@jome@google.com does this change look ok to you?",
+      "parentUuid": "2cf7c77a_47d00873",
+      "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

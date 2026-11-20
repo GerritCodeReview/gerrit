@@ -360,6 +360,7 @@ export class GrPermission extends LitElement {
     this.permission.value.exclusive = (e.target as MdSwitch).selected;
     // Allows overall access page to know a change has been made.
     fire(this, 'access-modified', {});
+    this.requestUpdate();
   }
 
   handleRemovePermission() {

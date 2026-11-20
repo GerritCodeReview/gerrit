@@ -124,6 +124,24 @@
       "parentUuid": "b55e58b3_08d2e9b3",
       "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efce3914_7def9a87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-20T15:14:16Z",
+      "side": 1,
+      "message": "Stuff like:\n\n```\npolygerrit-ui/app/services/router/router-model.ts(6,26): error TS7016: Could not find a declaration file for module \u0027rxjs\u0027. \u0027/Users/xxx/Library/Caches/bazel/_bazel_xxx/4e4bb427cd475349ab3944ff29048468/sandbox/darwin-sandbox/112/execroot/_main/bazel-out/darwin_arm64-fastbuild/bin/polygerrit-ui/app/node_modules/.aspect_rules_js/rxjs@7.0.0/node_modules/rxjs/dist/esm5/index.js\u0027 implicitly has an \u0027any\u0027 type.\n\npolygerrit-ui/app/models/views/search.ts(213,29): error TS7031: Binding element \u0027offsetNumber\u0027 implicitly has an \u0027any\u0027 type.\n```\n\nAnd so on, you can see on https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/3667/console\n\n\nRXJS 7.6.0 is backwards compatible with 7.0.0.",
+      "parentUuid": "36d17e25_f3894257",
+      "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

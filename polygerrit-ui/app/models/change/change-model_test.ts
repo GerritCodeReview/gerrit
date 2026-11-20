@@ -24,6 +24,7 @@ import {
   TEST_NUMERIC_CHANGE_ID,
 } from '../../test/test-data-generators';
 import {
+  MockPromise,
   mockPromise,
   stubRestApi,
   waitUntil,
@@ -279,90 +280,131 @@ suite('change model tests', () => {
     changeModel.finalize();
   });
 
-  suite('mergeability', async () => {
+  suite('mergeability', () => {
     let getMergeableStub: SinonStub;
-    let mergeableApiResponse = false;
+    let changeDetail: MockPromise<ParsedChangeInfo>;
 
     setup(() => {
-      getMergeableStub = stubRestApi('getMergeable').callsFake(() =>
-        Promise.resolve(createMergeable(mergeableApiResponse))
+      getMergeableStub = stubRestApi('getMergeable').resolves(
+        createMergeable(true)
       );
+      changeDetail = mockPromise<ParsedChangeInfo>();
+      stubRestApi('getChangeDetail').callsFake(() => changeDetail);
     });
 
+    async function loadChange(change: ParsedChangeInfo) {
+      changeViewModel.setState(createChangeViewState());
+      changeDetail.resolve(change);
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+    }
+
     test('mergeability initially undefined', async () => {
-      waitUntilObserved(
+      await waitUntilObserved(
         changeModel.mergeable$,
         mergeable => mergeable === undefined
       );
       assert.isFalse(getMergeableStub.called);
     });
 
-    test('mergeability true from change', async () => {
-      changeModel.updateStateChange({...knownChange, mergeable: true});
-
-      waitUntilObserved(
-        changeModel.mergeable$,
-        mergeable => mergeable === true
-      );
-      assert.isFalse(getMergeableStub.called);
-    });
-
-    test('mergeability false from change', async () => {
-      changeModel.updateStateChange({...knownChange, mergeable: false});
-
-      waitUntilObserved(
-        changeModel.mergeable$,
-        mergeable => mergeable === true
-      );
-      assert.isFalse(getMergeableStub.called);
-    });
-
-    test('mergeability false for MERGED change', async () => {
-      changeModel.updateStateChange({
-        ...knownChange,
-        status: ChangeStatus.MERGED,
-      });
-
-      waitUntilObserved(
-        changeModel.mergeable$,
-        mergeable => mergeable === false
-      );
-      assert.isFalse(getMergeableStub.called);
-    });
-
-    test('mergeability false for ABANDONED change', async () => {
-      changeModel.updateStateChange({
-        ...knownChange,
-        status: ChangeStatus.ABANDONED,
-      });
-
-      waitUntilObserved(
-        changeModel.mergeable$,
-        mergeable => mergeable === false
-      );
-      assert.isFalse(getMergeableStub.called);
-    });
-
     test('mergeability true from API', async () => {
-      mergeableApiResponse = true;
-      changeModel.updateStateChange(knownChange);
+      await loadChange(knownChange);
 
-      waitUntilObserved(
-        changeModel.mergeable$,
-        mergeable => mergeable === true
-      );
+      await waitUntilObserved(changeModel.mergeable$, m => m === true);
       assert.isTrue(getMergeableStub.calledOnce);
     });
 
     test('mergeability false from API', async () => {
-      mergeableApiResponse = false;
-      changeModel.updateStateChange(knownChange);
+      getMergeableStub.resolves(createMergeable(false));
+      await loadChange(knownChange);
 
-      waitUntilObserved(
-        changeModel.mergeable$,
-        mergeable => mergeable === false
-      );
+      await waitUntilObserved(changeModel.mergeable$, m => m === false);
       assert.isTrue(getMergeableStub.calledOnce);
+    });
+
+    test('mergeability from change', async () => {
+      await loadChange({...knownChange, mergeable: false});
+
+      await waitUntilObserved(changeModel.mergeable$, m => m === false);
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability false for MERGED change', async () => {
+      await loadChange({...knownChange, status: ChangeStatus.MERGED});
+
+      await waitUntilObserved(changeModel.mergeable$, m => m === false);
+      assert.isFalse(getMergeableStub.called);
+    });
+
+    test('mergeability false for ABANDONED change', async () => {
+      await loadChange({...knownChange, status: ChangeStatus.ABANDONED});
+
+      await waitUntilObserved(changeModel.mergeable$, m => m === false);
+      assert.isFalse(getMergeableStub.called);
+    });
+  });
+
+  suite('revision actions', () => {
+    let getRevisionActionsStub: SinonStub;
+    let changeDetail: MockPromise<ParsedChangeInfo>;
+
+    setup(() => {
+      getRevisionActionsStub = stubRestApi('getChangeRevisionActions').resolves(
+        {rebase: {label: 'Rebase', enabled: true}}
+      );
+      changeDetail = mockPromise<ParsedChangeInfo>();
+      stubRestApi('getChangeDetail').callsFake(() => changeDetail);
+    });
+
+    test('requested in parallel with change details', async () => {
+      changeViewModel.setState(createChangeViewState());
+
+      await waitUntilObserved(
+        changeModel.revisionActions$,
+        actions => !!actions?.rebase
+      );
+      assert.isUndefined(changeModel.getState().change);
+      assert.isTrue(getRevisionActionsStub.calledOnce);
+      assert.deepEqual(getRevisionActionsStub.lastCall.args, [
+        TEST_NUMERIC_CHANGE_ID,
+        'current',
+      ]);
+    });
+
+    test('only requested once the overview is shown', async () => {
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        childView: ChangeChildView.DIFF,
+        patchNum: 1 as PatchSetNumber,
+      });
+      changeDetail.resolve(knownChange);
+      await waitForLoadingStatus(LoadingStatus.LOADED);
+      assert.isFalse(getRevisionActionsStub.called);
+
+      changeViewModel.updateState({childView: ChangeChildView.OVERVIEW});
+      await waitUntilObserved(changeModel.revisionActions$, a => !!a?.rebase);
+      assert.isTrue(getRevisionActionsStub.calledOnce);
+    });
+
+    test('reloadRevisionActions', async () => {
+      changeViewModel.setState(createChangeViewState());
+      await waitUntilObserved(changeModel.revisionActions$, a => !!a?.rebase);
+
+      getRevisionActionsStub.resolves({submit: {label: 'Submit'}});
+      changeModel.reloadRevisionActions();
+
+      await waitUntilObserved(changeModel.revisionActions$, a => !!a?.submit);
+      assert.isTrue(getRevisionActionsStub.calledTwice);
+    });
+
+    test('empty actions on error', async () => {
+      getRevisionActionsStub.rejects(new Error('error'));
+      changeViewModel.setState(createChangeViewState());
+
+      await waitUntilObserved(
+        changeModel.revisionActions$,
+        actions => actions !== undefined
+      );
+      assert.deepEqual(changeModel.getState().revisionActions, {});
     });
   });
 
@@ -453,6 +495,33 @@ suite('change model tests', () => {
     assert.equal(detail.patchNum, 1 as PatchSetNumber);
     assert.equal(detail.basePatchNum, PARENT);
     assert.equal(detail.info.mergeable, true);
+  });
+
+  test('fireShowChange waits for submittability', async () => {
+    await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
+    const pluginLoader = testResolver(pluginLoaderToken);
+    const jsApiService = pluginLoader.jsApiService;
+    const showChangeStub = sinon.stub(jsApiService, 'handleShowChange');
+
+    changeViewModel.updateState({
+      childView: ChangeChildView.OVERVIEW,
+      patchNum: 1 as PatchSetNumber,
+    });
+    changeModel.updateState({
+      change: createParsedChange(),
+      mergeable: true,
+      submittabilityLoadingStatus: LoadingStatus.LOADING,
+    });
+    assert.isFalse(showChangeStub.called);
+
+    changeModel.updateState({
+      change: {...createParsedChange(), submittable: true},
+      submittabilityLoadingStatus: LoadingStatus.LOADED,
+    });
+
+    assert.isTrue(showChangeStub.calledOnce);
+    const detail: ShowChangeDetail = showChangeStub.lastCall.firstArg;
+    assert.isTrue(detail.change?.submittable);
   });
 
   test('load a change', async () => {

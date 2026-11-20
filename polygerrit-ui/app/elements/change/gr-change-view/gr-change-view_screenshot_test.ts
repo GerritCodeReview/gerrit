@@ -244,6 +244,9 @@ suite('gr-change-view screenshot tests', () => {
 
     const changeModel = testResolver(changeModelToken);
     changeModel.updateStateChange(change);
+    // The view model state is not set in this test, so the change model does
+    // not load mergeability and revision actions. Set them directly.
+    changeModel.updateState({mergeable: true, revisionActions: {}});
 
     // Set comments model to a settled state (not loading)
     const commentsModel = testResolver(commentsModelToken);

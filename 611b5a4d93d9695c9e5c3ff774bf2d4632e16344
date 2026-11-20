@@ -16,6 +16,24 @@
       "message": "Thanks! I had done this in https://gerrit-review.googlesource.com/c/gerrit/+/502727  originally.",
       "revId": "611b5a4d93d9695c9e5c3ff774bf2d4632e16344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "453e4012_e32c0e46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5333911
+      },
+      "writtenOn": "2026-11-20T14:06:57Z",
+      "side": 1,
+      "message": "Ah, thanks for the pointer! We\u0027re currently on version 7.0.0-beta.10 in Google, so it might be worth considering updating to 7.0.0 in https://gerrit-review.googlesource.com/c/gerrit/+/502727. There\u0027s only a small risk of API or behavioral differences and we could patch the version in Google if needed (updating is a lot more costly than applying a dedicated patch). Deferring to milutin@google.com for a decision on that though.",
+      "parentUuid": "32442c9a_484b2b6a",
+      "revId": "611b5a4d93d9695c9e5c3ff774bf2d4632e16344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

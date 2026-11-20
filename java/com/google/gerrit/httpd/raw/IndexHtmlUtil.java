@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -120,9 +121,10 @@ public class IndexHtmlUtil {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
+    ServerInfo serverInfo = serverApi.getInfo();
     initialData.put(
         addCanonicalUrl("/config/server/info", canonicalURL),
-        serializeObject(GSON, serverApi.getInfo()));
+        serializeObject(GSON, serverInfo));
     initialData.put(
         addCanonicalUrl("/config/server/version", canonicalURL),
         serializeObject(GSON, serverApi.getVersion()));
@@ -140,6 +142,9 @@ public class IndexHtmlUtil {
                 basePatchNum > 0
                     ? IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS
                     : IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS);
+        if (Boolean.TRUE.equals(serverInfo.receive.enableSignedPush)) {
+          changeDetailOptions.add(ListChangesOption.PUSH_CERTIFICATES);
+        }
         data.put(
             "submitRequirementsHex",
             ListOption.toHex(

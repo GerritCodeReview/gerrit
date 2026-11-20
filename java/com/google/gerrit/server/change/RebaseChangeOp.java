@@ -43,6 +43,7 @@ import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergeUtil.MergeBase;
@@ -99,6 +100,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtilFactory mergeUtilFactory;
   private final RebaseUtil rebaseUtil;
+  private final ContentCommitInserter contentCommitInserter;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeNotes.Factory notesFactory;
 
@@ -142,6 +144,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
       GenericFactory identifiedUserFactory,
       ProjectCache projectCache,
       @GerritServerConfig Config cfg,
+      ContentCommitInserter contentCommitInserter,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet originalPatchSet,
       @Assisted ObjectId baseCommitId) {
@@ -154,6 +157,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
         identifiedUserFactory,
         projectCache,
         cfg,
+        contentCommitInserter,
         notes,
         originalPatchSet);
     this.baseCommitId = baseCommitId;
@@ -170,6 +174,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
       GenericFactory identifiedUserFactory,
       ProjectCache projectCache,
       @GerritServerConfig Config cfg,
+      ContentCommitInserter contentCommitInserter,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet originalPatchSet,
       @Assisted Change.Id baseChangeId) {
@@ -182,6 +187,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
         identifiedUserFactory,
         projectCache,
         cfg,
+        contentCommitInserter,
         notes,
         originalPatchSet);
     this.baseChangeId = baseChangeId;
@@ -197,11 +203,13 @@ public class RebaseChangeOp implements BatchUpdateOp {
       GenericFactory identifiedUserFactory,
       ProjectCache projectCache,
       @GerritServerConfig Config cfg,
+      ContentCommitInserter contentCommitInserter,
       ChangeNotes notes,
       PatchSet originalPatchSet) {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.rebaseUtil = rebaseUtil;
+    this.contentCommitInserter = contentCommitInserter;
     this.changeResourceFactory = changeResourceFactory;
     this.notesFactory = notesFactory;
     this.identifiedUserFactory = identifiedUserFactory;
@@ -620,7 +628,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
           new PersonIdent(
               cb.getAuthor(), cb.getCommitter().getWhenAsInstant(), cb.getCommitter().getZoneId()));
     }
-    ObjectId objectId = ctx.getInserter().insert(cb);
+    ObjectId objectId =
+        contentCommitInserter.insert(notes.getChange().getDest(), ctx.getInserter(), cb);
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
     commit.setConflicts(parentCommit, original, base, strategy, filesWithGitConflicts);
     logger.atFine().log("rebased commit=%s", commit.name());

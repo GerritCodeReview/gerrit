@@ -148,6 +148,7 @@ import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.ReceivePackInitializer;
+import com.google.gerrit.server.git.SignedCommitPolicy;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
@@ -445,6 +446,7 @@ class ReceiveCommits {
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
   private final AutoMerger autoMerger;
+  private final SignedCommitPolicy signedCommitPolicy;
 
   // Assisted injected fields.
   private final ProjectState projectState;
@@ -546,6 +548,7 @@ class ReceiveCommits {
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
       AutoMerger autoMerger,
+      SignedCommitPolicy signedCommitPolicy,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -608,6 +611,7 @@ class ReceiveCommits {
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.autoMerger = autoMerger;
+    this.signedCommitPolicy = signedCommitPolicy;
 
     // Assisted injected fields.
     this.projectState = projectState;
@@ -1573,7 +1577,13 @@ class ReceiveCommits {
                 return;
               }
             }
+            signedCommitPolicy.checkConfigurationChange(projectState, cfg.getCacheable());
             validatePluginConfig(cmd, cfg);
+          } catch (ResourceConflictException e) {
+            reject(
+                cmd,
+                RejectionReason.create(
+                    MetricBucket.INVALID_PROJECT_CONFIGURATION_UPDATE, e.getMessage()));
           } catch (Exception e) {
             reject(
                 cmd,
@@ -2736,6 +2746,13 @@ class ReceiveCommits {
           }
           total++;
           globalRevWalk.parseBody(c);
+          // Mandatory even for existing objects/patch sets that normal validation skips.
+          try {
+            signedCommitPolicy.checkReviewCommit(magicBranch.dest, repoView, c);
+          } catch (ResourceConflictException e) {
+            magicBranch.cmd.setResult(REJECTED_OTHER_REASON, e.getMessage());
+            return ImmutableList.of();
+          }
           String name = c.name();
           groupCollector.visit(c);
           ImmutableList<PatchSet.Id> existingPatchSets =
@@ -3882,6 +3899,15 @@ class ReceiveCommits {
       throws PermissionBackendException {
     try (TraceTimer traceTimer =
         newTimer("validateRegularPushCommits", Metadata.builder().branchName(branch.branch()))) {
+      try {
+        signedCommitPolicy.checkBranchUpdate(
+            project.getNameKey(), globalRevWalk.getObjectReader(), cmd);
+      } catch (ResourceConflictException e) {
+        cmd.setResult(REJECTED_OTHER_REASON, e.getMessage());
+        return;
+      } catch (IOException e) {
+        throw new StorageException("Cannot verify branch commit signatures", e);
+      }
       boolean skipValidation =
           !RefNames.REFS_CONFIG.equals(cmd.getRefName())
               && !(MagicBranch.isMagicBranch(cmd.getRefName())

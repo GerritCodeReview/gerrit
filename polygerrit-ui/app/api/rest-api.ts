@@ -556,6 +556,7 @@ export declare interface ConfigInfo {
   require_change_id?: InheritedBooleanInfo;
   enable_signed_push?: InheritedBooleanInfo;
   require_signed_push?: InheritedBooleanInfo;
+  require_signed_commits?: InheritedBooleanInfo;
   reject_implicit_merges?: InheritedBooleanInfo;
   private_by_default: InheritedBooleanInfo;
   work_in_progress_by_default: InheritedBooleanInfo;

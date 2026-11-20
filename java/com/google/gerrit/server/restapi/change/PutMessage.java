@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.CommitMessageInput;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -75,6 +77,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
   private final NotifyResolver notifyResolver;
   private final ProjectCache projectCache;
   private final ChangeUtil changeUtil;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   PutMessage(
@@ -87,7 +90,8 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
       PatchSetUtil psUtil,
       NotifyResolver notifyResolver,
       ProjectCache projectCache,
-      ChangeUtil changeUtil) {
+      ChangeUtil changeUtil,
+      ContentCommitInserter contentCommitInserter) {
     this.updateFactory = updateFactory;
     this.repositoryManager = repositoryManager;
     this.userProvider = userProvider;
@@ -98,6 +102,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     this.notifyResolver = notifyResolver;
     this.projectCache = projectCache;
     this.changeUtil = changeUtil;
+    this.contentCommitInserter = contentCommitInserter;
   }
 
   @Override
@@ -146,7 +151,12 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
           PatchSet.Id psId = ChangeUtil.nextPatchSetId(repository, ps.id());
           ObjectId newCommit =
               createCommit(
-                  objectInserter, patchSetCommit, sanitizedCommitMessage, ts, input.committerEmail);
+                  resource.getChange().getDest(),
+                  objectInserter,
+                  patchSetCommit,
+                  sanitizedCommitMessage,
+                  ts,
+                  input.committerEmail);
           PatchSetInserter inserter =
               psInserterFactory.create(resource.getNotes(), psId, newCommit);
           inserter.setMessage(
@@ -177,12 +187,13 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
   }
 
   private ObjectId createCommit(
+      BranchNameKey destination,
       ObjectInserter objectInserter,
       RevCommit basePatchSetCommit,
       String commitMessage,
       Instant timestamp,
       String committerEmail)
-      throws IOException, BadRequestException {
+      throws IOException, BadRequestException, ResourceConflictException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(basePatchSetCommit.getTree());
     builder.setParentIds(basePatchSetCommit.getParents());
@@ -211,7 +222,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
 
     builder.setCommitter(committer);
     builder.setMessage(commitMessage);
-    ObjectId newCommitId = objectInserter.insert(builder);
+    ObjectId newCommitId = contentCommitInserter.insert(destination, objectInserter, builder);
     objectInserter.flush();
     return newCommitId;
   }

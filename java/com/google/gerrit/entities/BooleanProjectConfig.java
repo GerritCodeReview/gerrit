@@ -38,6 +38,7 @@ public enum BooleanProjectConfig {
   CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET("receive", "createNewChangeForAllNotInTarget"),
   ENABLE_SIGNED_PUSH("receive", "enableSignedPush"),
   REQUIRE_SIGNED_PUSH("receive", "requireSignedPush"),
+  REQUIRE_SIGNED_COMMITS("receive", "requireSignedCommits"),
   REJECT_IMPLICIT_MERGES("receive", "rejectImplicitMerges", true),
   PRIVATE_BY_DEFAULT("change", "privateByDefault"),
   ENABLE_REVIEWER_BY_EMAIL("reviewer", "enableByEmail"),

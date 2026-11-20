@@ -1461,6 +1461,70 @@ suite('gr-repo tests', () => {
       );
     });
 
+    test('displays the inherited signed-commit policy', async () => {
+      repoStub.resolves({
+        ...repoConf,
+        require_signed_commits: {
+          value: true,
+          configured_value: InheritedBooleanInfoConfiguredValue.INHERIT,
+          inherited_value: true,
+        },
+      });
+      await element.loadRepo();
+      await element.updateComplete;
+      const select = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#requireSignedCommits'
+      );
+      assert.equal(select.value, 'INHERIT');
+      assert.equal(
+        select.querySelector('md-select-option')!.textContent?.trim(),
+        'Inherit (true)'
+      );
+      assert.include(
+        queryAndAssert(element, '#requireSignedCommitsSettings').textContent,
+        'Require verified OpenPGP commit signatures'
+      );
+    });
+
+    test('allows disabling signed-commit policy when verification is unavailable', async () => {
+      repoStub.resolves({
+        ...repoConf,
+        require_signed_commits: {
+          value: true,
+          configured_value: InheritedBooleanInfoConfiguredValue.TRUE,
+          inherited_value: false,
+        },
+      });
+      await element.loadRepo();
+      element.serverConfig = {
+        ...createServerInfo(),
+        gerrit: {
+          ...createServerInfo().gerrit,
+          commit_signature_verification: false,
+        },
+      };
+      await element.updateComplete;
+      const select = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#requireSignedCommits'
+      );
+      const save = queryAndAssert<GrButton>(element, '#saveBtn');
+      assert.isFalse(select.disabled);
+      assert.isTrue(save.disabled);
+      select.value = 'FALSE';
+      select.dispatchEvent(
+        new Event('change', {bubbles: true, composed: true})
+      );
+      await element.updateComplete;
+      assert.isFalse(save.disabled);
+      assert.propertyVal(
+        element.formatRepoConfigForSave(element.repoConfig),
+        'require_signed_commits',
+        'FALSE'
+      );
+    });
+
     test('max object size limit input accepts unit suffixes', async () => {
       await element.loadRepo();
       await element.updateComplete;

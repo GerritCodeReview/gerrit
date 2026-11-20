@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergeUtil.MergeBase;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -122,6 +124,7 @@ public class ChangeEditModifier {
   private final NoteDbEdits noteDbEdits;
   private final ChangeUtil changeUtil;
   private final boolean useDiff3;
+  private final ContentCommitInserter contentCommitInserter;
 
   @Inject
   ChangeEditModifier(
@@ -134,7 +137,8 @@ public class ChangeEditModifier {
       PatchSetUtil patchSetUtil,
       ProjectCache projectCache,
       GitReferenceUpdated gitReferenceUpdated,
-      ChangeUtil changeUtil) {
+      ChangeUtil changeUtil,
+      ContentCommitInserter contentCommitInserter) {
     this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
     this.zoneId = gerritIdent.getZoneId();
@@ -143,6 +147,7 @@ public class ChangeEditModifier {
     this.projectCache = projectCache;
     noteDbEdits = new NoteDbEdits(gitReferenceUpdated, zoneId, indexer, currentUser);
     this.changeUtil = changeUtil;
+    this.contentCommitInserter = contentCommitInserter;
     this.useDiff3 =
         cfg.getBoolean(
             "change", /* subsection= */ null, "diff3ConflictView", /* defaultValue= */ false);
@@ -221,7 +226,10 @@ public class ChangeEditModifier {
       ChangeEdit changeEdit,
       PatchSet currentPatchSet,
       boolean allowConflicts)
-      throws IOException, MergeConflictException, InvalidChangeOperationException {
+      throws IOException,
+          MergeConflictException,
+          InvalidChangeOperationException,
+          ResourceConflictException {
     RevCommit currentEditCommit = changeEdit.getEditCommit();
     if (currentEditCommit.getParentCount() == 0) {
       throw new InvalidChangeOperationException(
@@ -501,7 +509,13 @@ public class ChangeEditModifier {
 
     ObjectId newEditCommit =
         createCommit(
-            repository, basePatchsetCommit, newTreeId, newCommitMessage, author, committer);
+            notes.getChange().getDest(),
+            repository,
+            basePatchsetCommit,
+            newTreeId,
+            newCommitMessage,
+            author,
+            committer);
 
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       return editBehavior.updateEditInStorage(
@@ -623,7 +637,7 @@ public class ChangeEditModifier {
       RevCommit basePatchSetCommit,
       Instant timestamp,
       boolean allowConflicts)
-      throws IOException, MergeConflictException {
+      throws IOException, MergeConflictException, ResourceConflictException {
     PatchSet basePatchSet = changeEdit.getBasePatchSet();
     ObjectId basePatchSetCommitId = basePatchSet.commitId();
     ObjectId editCommitId = changeEdit.getEditCommit();
@@ -690,6 +704,7 @@ public class ChangeEditModifier {
       RevCommit currentEditCommit = changeEdit.getEditCommit();
       ObjectId newEditCommitId =
           createCommit(
+              changeEdit.getChange().getDest(),
               objectInserter,
               basePatchSetCommit,
               newTreeId,
@@ -748,34 +763,36 @@ public class ChangeEditModifier {
   }
 
   private ObjectId createCommit(
+      BranchNameKey destination,
       Repository repository,
       RevCommit basePatchsetCommit,
       ObjectId tree,
       String commitMessage,
       PersonIdent author,
       PersonIdent committer)
-      throws IOException {
+      throws IOException, ResourceConflictException {
     try (ObjectInserter objectInserter = repository.newObjectInserter()) {
       return createCommit(
-          objectInserter, basePatchsetCommit, tree, commitMessage, author, committer);
+          destination, objectInserter, basePatchsetCommit, tree, commitMessage, author, committer);
     }
   }
 
   private ObjectId createCommit(
+      BranchNameKey destination,
       ObjectInserter objectInserter,
       RevCommit basePatchsetCommit,
       ObjectId tree,
       String commitMessage,
       PersonIdent author,
       PersonIdent committer)
-      throws IOException {
+      throws IOException, ResourceConflictException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(tree);
     builder.setParentIds(basePatchsetCommit.getParents());
     builder.setAuthor(author);
     builder.setCommitter(committer);
     builder.setMessage(commitMessage);
-    ObjectId newCommitId = objectInserter.insert(builder);
+    ObjectId newCommitId = contentCommitInserter.insert(destination, objectInserter, builder);
     objectInserter.flush();
     return newCommitId;
   }

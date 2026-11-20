@@ -16,21 +16,30 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmoduleSubscription;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.CommitSignatureVerifier;
+import com.google.gerrit.server.git.ContentCommitInserter;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.dircache.DirCache;
@@ -91,7 +100,8 @@ public class SubmoduleCommitsTest {
     BranchNameKey superBranch = BranchNameKey.create(superProject, MASTER);
     BranchNameKey subBranch = BranchNameKey.create(subProject, MASTER);
     SubmoduleSubscription ss = new SubmoduleSubscription(superBranch, subBranch, "dir-x");
-    SubmoduleCommits helper = new SubmoduleCommits(mergeOpRepoManager, ident, new Config());
+    SubmoduleCommits helper =
+        new SubmoduleCommits(mergeOpRepoManager, ident, new Config(), contentCommitInserter());
     Optional<CodeReviewCommit> newGitLinksCommit =
         helper.composeGitlinksCommit(
             BranchNameKey.create(superProject, MASTER), ImmutableList.of(ss));
@@ -120,13 +130,76 @@ public class SubmoduleCommitsTest {
     BranchNameKey superBranch = BranchNameKey.create(superProject, MASTER);
     BranchNameKey subBranch = BranchNameKey.create(subProject, MASTER);
     SubmoduleSubscription ss = new SubmoduleSubscription(superBranch, subBranch, "dir-x");
-    SubmoduleCommits helper = new SubmoduleCommits(mergeOpRepoManager, ident, new Config());
+    SubmoduleCommits helper =
+        new SubmoduleCommits(mergeOpRepoManager, ident, new Config(), contentCommitInserter());
     CodeReviewCommit amendedCommit =
         helper.amendGitlinksCommit(
             BranchNameKey.create(superProject, MASTER), superprojectTip, ImmutableList.of(ss));
 
     assertThat(amendedCommit.getParent(0)).isEqualTo(superprojectTip.getParent(0));
     assertThat(readGitLink(superProject, amendedCommit, "dir-x")).isEqualTo(newSubprojectCommit);
+  }
+
+  @Test
+  public void composeRequiredContentFailsClosedWhenVerificationIsUnavailable() throws Exception {
+    SubmoduleSubscription subscription = movedSubprojectWithRequiredSuperproject();
+    SubmoduleCommits helper =
+        new SubmoduleCommits(mergeOpRepoManager, ident, new Config(), contentCommitInserter());
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            helper.composeGitlinksCommit(
+                subscription.getSuperProject(), ImmutableList.of(subscription)));
+  }
+
+  @Test
+  public void amendRequiredContentFailsClosedWhenVerificationIsUnavailable() throws Exception {
+    SubmoduleSubscription subscription = movedSubprojectWithRequiredSuperproject();
+    CodeReviewCommit current =
+        mergeOpRepoManager
+            .getRepo(superProject)
+            .getCodeReviewRevWalk()
+            .parseCommit(getTip(superProject, MASTER));
+    SubmoduleCommits helper =
+        new SubmoduleCommits(mergeOpRepoManager, ident, new Config(), contentCommitInserter());
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            helper.amendGitlinksCommit(
+                subscription.getSuperProject(), current, ImmutableList.of(subscription)));
+  }
+
+  private SubmoduleSubscription movedSubprojectWithRequiredSuperproject() throws Exception {
+    createRepo(subProject, MASTER);
+    createRepo(superProject, MASTER);
+    when(mockProjectCache.get(any())).thenReturn(Optional.of(mockProjectState));
+    when(mockProjectState.is(BooleanProjectConfig.REQUIRE_SIGNED_COMMITS)).thenReturn(true);
+    mergeOpRepoManager = new MergeOpRepoManager(repoManager, mockProjectCache, null, null);
+    var unusedSuperprojectTip =
+        directUpdateSubmodule(
+            superProject, MASTER, Project.nameKey("dir-x"), getTip(subProject, MASTER));
+    var unusedSubprojectTip = addCommit(subProject, MASTER);
+    return new SubmoduleSubscription(
+        BranchNameKey.create(superProject, MASTER),
+        BranchNameKey.create(subProject, MASTER),
+        "dir-x");
+  }
+
+  private ContentCommitInserter contentCommitInserter() {
+    // Keep the policy and insertion behavior real. Only the project configuration lookup is
+    // supplied by these unit tests; the unavailable verifier must never accept required content.
+    return Guice.createInjector(
+            new AbstractModule() {
+              @Override
+              protected void configure() {
+                bind(ProjectCache.class).toInstance(mockProjectCache);
+                bind(ProjectState.Factory.class).toInstance(mock(ProjectState.Factory.class));
+                bind(ProjectConfig.Factory.class).toInstance(mock(ProjectConfig.Factory.class));
+                bind(CommitSignatureVerifier.class)
+                    .toInstance(new CommitSignatureVerifier.Disabled());
+              }
+            })
+        .getInstance(ContentCommitInserter.class);
   }
 
   /** Create repo with a commit on refName */

@@ -49,6 +49,29 @@ class NoteDbUpdateExecutor {
       @Nullable PersonIdent refLogIdent,
       @Nullable String refLogMessage)
       throws IOException {
+    Optional<BatchRefUpdate> bru =
+        prepare(
+            or,
+            dryrun,
+            maybeAllowNonFastForwards,
+            batchUpdateListeners,
+            pushCert,
+            refLogIdent,
+            refLogMessage);
+    executePrepared(or, dryrun, bru);
+    return bru;
+  }
+
+  /** Flushes objects and runs all mutable hooks without updating any refs. */
+  Optional<BatchRefUpdate> prepare(
+      OpenRepo or,
+      boolean dryrun,
+      boolean maybeAllowNonFastForwards,
+      ImmutableList<BatchUpdateListener> batchUpdateListeners,
+      @Nullable PushCertificate pushCert,
+      @Nullable PersonIdent refLogIdent,
+      @Nullable String refLogMessage)
+      throws IOException {
     if (or == null || or.cmds.isEmpty()) {
       return Optional.empty();
     }
@@ -76,10 +99,14 @@ class NoteDbUpdateExecutor {
       bru = listener.beforeUpdateRefs(bru);
     }
 
-    if (!dryrun) {
-      RefUpdateUtil.executeChecked(bru, or.rw);
-    }
     return Optional.of(bru);
+  }
+
+  void executePrepared(OpenRepo or, boolean dryrun, Optional<BatchRefUpdate> bru)
+      throws IOException {
+    if (!dryrun && bru.isPresent()) {
+      RefUpdateUtil.executeChecked(bru.get(), or.rw);
+    }
   }
 
   /**

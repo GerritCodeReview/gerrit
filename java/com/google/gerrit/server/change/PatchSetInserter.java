@@ -44,6 +44,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
+import com.google.gerrit.server.git.SignedCommitPolicy;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
@@ -95,6 +96,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
   private final PluginSetContext<ValidationOptionsListener> validationOptionsListeners;
   private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
+  private final SignedCommitPolicy signedCommitPolicy;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -149,6 +151,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       PluginSetContext<ValidationOptionsListener> validationOptionsListeners,
       PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners,
+      SignedCommitPolicy signedCommitPolicy,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -168,6 +171,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.validationOptionsListeners = validationOptionsListeners;
     this.commitValidationInfoListeners = commitValidationInfoListeners;
+    this.signedCommitPolicy = signedCommitPolicy;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -457,6 +461,9 @@ public class PatchSetInserter implements BatchUpdateOp {
         .get(ctx.getProject())
         .orElseThrow(illegalState(ctx.getProject()))
         .checkStatePermitsWrite();
+
+    signedCommitPolicy.checkReviewCommit(
+        origNotes.getChange().getDest(), ctx.getRepoView(), commitId);
 
     String refName = getPatchSetId().toRefName();
     try (CommitReceivedEvent event =

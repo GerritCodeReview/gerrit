@@ -48,6 +48,7 @@ import com.google.gerrit.entities.ProjectChangeKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
@@ -61,6 +62,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SignedCommitPolicy;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.PendingIndexUpdate;
@@ -599,6 +601,7 @@ public class BatchUpdate implements AutoCloseable {
     private final boolean dryrun;
     private final Map<Change.Id, ChangeResult> results;
     private final boolean indexAsync;
+    private Optional<BatchRefUpdate> preparedRefUpdates = Optional.empty();
 
     ChangesHandle(NoteDbUpdateManager manager, boolean dryrun, boolean indexAsync) {
       this.manager = manager;
@@ -621,6 +624,20 @@ public class BatchUpdate implements AutoCloseable {
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
       BatchUpdate.this.executed = manager.isExecuted();
       BatchUpdate.this.attentionSetUpdates = manager.attentionSetUpdates();
+    }
+
+    void prepareRefUpdates() throws IOException {
+      preparedRefUpdates = manager.prepareRefUpdates(dryrun);
+    }
+
+    void validateSignedCommits(SignedCommitPolicy signedCommitPolicy)
+        throws IOException, ResourceConflictException {
+      if (preparedRefUpdates.isPresent()) {
+        for (ReceiveCommand command : preparedRefUpdates.get().getCommands()) {
+          signedCommitPolicy.checkRefUpdate(
+              project, repoView.getRevWalk().getObjectReader(), command);
+        }
+      }
     }
 
     boolean requiresReindex() {

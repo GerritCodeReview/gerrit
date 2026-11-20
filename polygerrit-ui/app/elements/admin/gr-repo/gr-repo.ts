@@ -61,6 +61,7 @@ import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {formStyles} from '../../../styles/form-styles';
 import '@material/web/select/outlined-select';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 import '@material/web/select/select-option';
 import '@material/web/checkbox/checkbox';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
@@ -432,8 +433,9 @@ export class GrRepo extends LitElement {
         ${this.renderContentMerges()} ${this.renderNewChange()}
         ${this.renderChangeId()} ${this.renderEnableSignedPush()}
         ${this.renderRequireSignedPush()} ${this.renderRejectImplicitMerges()}
-        ${this.renderUnRegisteredCc()} ${this.renderPrivateByDefault()}
-        ${this.renderWorkInProgressByDefault()} ${this.renderMaxGitObjectSize()}
+        ${this.renderRequireSignedCommits()} ${this.renderUnRegisteredCc()}
+        ${this.renderPrivateByDefault()} ${this.renderWorkInProgressByDefault()}
+        ${this.renderMaxGitObjectSize()}
         ${this.renderMatchAuthoredDateWithCommitterDate()}
         ${this.renderRejectEmptyCommit()}
       </fieldset>
@@ -654,6 +656,43 @@ export class GrRepo extends LitElement {
               `
             )}
           </md-outlined-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderRequireSignedCommits() {
+    const policy = this.repoConfig?.require_signed_commits;
+    if (!policy) return nothing;
+    return html`
+      <section id="requireSignedCommitsSettings">
+        <span
+          class="title"
+          title="Requires verified signatures for review commits and new branch content, independently of signed pushes and Signed-off-by tags."
+          >Require verified OpenPGP commit signatures</span
+        >
+        <span class="value">
+          <md-outlined-select
+            id="requireSignedCommits"
+            value=${policy.configured_value ?? ''}
+            ?disabled=${this.readOnly}
+            @change=${this.handleRequireSignedCommitsChange}
+          >
+            ${this.formatBooleanSelect(policy).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
+          ${when(
+            !this.serverConfig?.gerrit.commit_signature_verification,
+            () => html`<p>
+              Commit signature verification is unavailable. The policy can be
+              disabled, but cannot be enabled until verification is available.
+            </p>`
+          )}
         </span>
       </section>
     `;
@@ -1257,6 +1296,14 @@ export class GrRepo extends LitElement {
     }
     if (
       this.isEdited(
+        originalConfig.require_signed_commits,
+        repoConfig.require_signed_commits
+      )
+    ) {
+      return true;
+    }
+    if (
+      this.isEdited(
         originalConfig.reject_implicit_merges,
         repoConfig.reject_implicit_merges
       )
@@ -1467,6 +1514,14 @@ export class GrRepo extends LitElement {
     if (!this.repoConfig?.require_signed_push || this.loading) return;
     const select = e.target as HTMLSelectElement;
     this.repoConfig.require_signed_push.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
+    this.requestUpdate();
+  }
+
+  private handleRequireSignedCommitsChange(e: Event) {
+    if (!this.repoConfig?.require_signed_commits || this.loading) return;
+    const select = e.target as MdOutlinedSelect;
+    this.repoConfig.require_signed_commits.configured_value =
       select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }

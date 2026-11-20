@@ -74,6 +74,9 @@ public class ConfigInfoCreator {
     for (BooleanProjectConfig cfg : BooleanProjectConfig.values()) {
       InheritedBooleanInfo info = new InheritedBooleanInfo();
       info.configuredValue = p.getBooleanConfig(cfg);
+      if (cfg == BooleanProjectConfig.REQUIRE_SIGNED_COMMITS) {
+        info.value = projectState.is(cfg);
+      }
       if (parentState != null) {
         info.inheritedValue = parentState.is(cfg);
       }

@@ -40,6 +40,7 @@ public class CreateProjectArgs {
   public InheritableBoolean rejectEmptyCommit;
   public InheritableBoolean enableSignedPush;
   public InheritableBoolean requireSignedPush;
+  public InheritableBoolean requireSignedCommits;
   public boolean createEmptyCommit;
   public String maxObjectSizeLimit;
   public boolean initOnly;
@@ -53,6 +54,7 @@ public class CreateProjectArgs {
     newChangeForAllNotInTarget = InheritableBoolean.INHERIT;
     enableSignedPush = InheritableBoolean.INHERIT;
     requireSignedPush = InheritableBoolean.INHERIT;
+    requireSignedCommits = InheritableBoolean.INHERIT;
     submitType = SubmitType.INHERIT;
     rejectEmptyCommit = InheritableBoolean.INHERIT;
   }

@@ -105,6 +105,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private PushCertificate pushCert;
   private ImmutableList<BatchUpdateListener> batchUpdateListeners;
   private ChangeDraftUpdateExecutor draftUpdatesExecutor;
+  private boolean prepared;
+  private boolean preparedDryrun;
+  private Optional<BatchRefUpdate> preparedRefUpdates = Optional.empty();
 
   @Inject
   NoteDbUpdateManager(
@@ -144,6 +147,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   @CanIgnoreReturnValue
   public NoteDbUpdateManager setChangeRepo(
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
+    checkMutable();
     checkState(changeRepo == null, "change repo already initialized");
     changeRepo = new OpenRepo(repo, rw, ins, cmds, false);
     return this;
@@ -151,12 +155,14 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   @CanIgnoreReturnValue
   public NoteDbUpdateManager setRefLogMessage(String message) {
+    checkMutable();
     this.refLogMessage = message;
     return this;
   }
 
   @CanIgnoreReturnValue
   public NoteDbUpdateManager setRefLogIdent(PersonIdent ident) {
+    checkMutable();
     this.refLogIdent = ident;
     return this;
   }
@@ -177,6 +183,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
    */
   @CanIgnoreReturnValue
   public NoteDbUpdateManager setPushCertificate(PushCertificate pushCert) {
+    checkMutable();
     this.pushCert = pushCert;
     return this;
   }
@@ -184,6 +191,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   @CanIgnoreReturnValue
   public NoteDbUpdateManager setBatchUpdateListeners(
       ImmutableList<BatchUpdateListener> batchUpdateListeners) {
+    checkMutable();
     checkNotNull(batchUpdateListeners);
     this.batchUpdateListeners = batchUpdateListeners;
     return this;
@@ -221,7 +229,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * @param update the update to add.
    */
   public void add(ChangeUpdate update) {
-    checkNotExecuted();
+    checkMutable();
     checkArgument(
         update.getProjectName().equals(projectName),
         "update for project %s cannot be added to manager for project %s",
@@ -269,12 +277,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   public void add(ChangeDraftUpdate draftUpdate) {
-    checkNotExecuted();
+    checkMutable();
     draftUpdates.put(draftUpdate.getStorageKey(), draftUpdate);
   }
 
   public void deleteChange(Change.Id id) {
-    checkNotExecuted();
+    checkMutable();
     changesToDelete.add(id);
   }
 
@@ -302,20 +310,43 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return execute(false);
   }
 
+  /**
+   * Prepares the final change-repository commands, including mutable beforeUpdateRefs hooks. Keeps
+   * the repository and inserters open so all projects can be validated before any execute.
+   *
+   * <p>No updates or settings may be changed after preparation.
+   */
+  public Optional<BatchRefUpdate> prepareRefUpdates(boolean dryrun) throws IOException {
+    checkNotExecuted();
+    if (prepared) {
+      checkArgument(preparedDryrun == dryrun, "cannot change dryrun after preparing ref updates");
+      return preparedRefUpdates;
+    }
+    stage();
+    preparedRefUpdates =
+        noteDbUpdateExecutor.prepare(
+            changeRepo,
+            dryrun,
+            allowNonFastForwards(),
+            batchUpdateListeners,
+            pushCert,
+            refLogIdent,
+            refLogMessage);
+    preparedDryrun = dryrun;
+    prepared = true;
+    return preparedRefUpdates;
+  }
+
   @CanIgnoreReturnValue
   public ImmutableMultimap<Project.NameKey, BatchRefUpdate> execute(boolean dryrun)
       throws IOException {
     checkNotExecuted();
     ImmutableMultimap.Builder<Project.NameKey, BatchRefUpdate> resultBuilder =
         ImmutableMultimap.builder();
-    if (isEmpty()) {
-      executed = true;
-      return resultBuilder.build();
-    }
     try (Timer0.Context timer = metrics.updateLatency.start();
         NonCancellableOperationContext nonCancellableOperationContext =
             RequestStateContext.startNonCancellableOperation()) {
-      stage();
+      Optional<BatchRefUpdate> refUpdates = prepareRefUpdates(dryrun);
       // ChangeUpdates must execute before ChangeDraftUpdates.
       //
       // ChangeUpdate will automatically delete draft comments for any published
@@ -326,7 +357,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
       try (TraceContext.TraceTimer _ =
           newTimer("NoteDbUpdateManager#updateRepo", Metadata.empty())) {
-        execute(changeRepo, dryrun, pushCert).ifPresent(bru -> resultBuilder.put(projectName, bru));
+        noteDbUpdateExecutor.executePrepared(changeRepo, dryrun, refUpdates);
+        refUpdates.ifPresent(bru -> resultBuilder.put(projectName, bru));
       }
 
       if (draftUpdatesExecutor != null) {
@@ -356,18 +388,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
                 cu -> cu.getAttentionSetUpdates().stream()));
   }
 
-  private Optional<BatchRefUpdate> execute(
-      OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert) throws IOException {
-    return noteDbUpdateExecutor.execute(
-        or,
-        dryrun,
-        allowNonFastForwards(),
-        batchUpdateListeners,
-        pushCert,
-        refLogIdent,
-        refLogMessage);
-  }
-
   private void addCommands() throws IOException {
     changeRepo.addUpdates(changeUpdates, Optional.of(maxUpdates), Optional.of(maxPatchSets));
     if (!draftUpdates.isEmpty()) {
@@ -393,6 +413,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   private void checkNotExecuted() {
     checkState(!executed, "update has already been executed");
+  }
+
+  private void checkMutable() {
+    checkNotExecuted();
+    checkState(!prepared, "update has already been prepared");
   }
 
   private static void addRewrites(ListMultimap<String, NoteDbRewriter> rewriters, OpenRepo openRepo)

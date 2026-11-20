@@ -25,6 +25,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
@@ -93,7 +94,10 @@ public class CherryPick extends SubmitStrategy {
 
     @Override
     protected void updateRepoImpl(RepoContext ctx)
-        throws IntegrationConflictException, IOException, MethodNotAllowedException {
+        throws IntegrationConflictException,
+            IOException,
+            MethodNotAllowedException,
+            ResourceConflictException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.
@@ -112,6 +116,7 @@ public class CherryPick extends SubmitStrategy {
       try {
         newCommit =
             args.mergeUtil.createCherryPickFromCommit(
+                args.destBranch,
                 ctx.getInserter(),
                 ctx.getRepoView().getConfig(),
                 args.mergeTip.getCurrentTip(),
@@ -188,7 +193,8 @@ public class CherryPick extends SubmitStrategy {
     }
 
     @Override
-    public void updateRepoImpl(RepoContext ctx) throws IntegrationConflictException, IOException {
+    public void updateRepoImpl(RepoContext ctx)
+        throws IntegrationConflictException, IOException, ResourceConflictException {
       if (args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)) {
         // One or more dependencies were not met. The status was already marked
         // on the commit so we have nothing further to perform at this time.

@@ -3345,7 +3345,10 @@ suite('gr-diff-view tests', () => {
         });
         await element.updateComplete;
         assert.isTrue(
-          getRevisionActionsStub.calledWith(TEST_NUMERIC_CHANGE_ID, 2)
+          getRevisionActionsStub.calledWith(
+            TEST_NUMERIC_CHANGE_ID,
+            2 as RevisionPatchSetNum
+          )
         );
 
         const parent = element.parentElement!;

@@ -53,6 +53,7 @@ QUERY_TEST = [
     name = f[:f.index(".")],
     size = "large",
     srcs = [f],
+    shard_count = 4,
     visibility = ["//visibility:public"],
     deps = [
         ":abstract_query_tests",

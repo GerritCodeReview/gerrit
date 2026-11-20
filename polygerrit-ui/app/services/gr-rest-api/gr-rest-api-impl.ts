@@ -1578,9 +1578,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getChangeRevisionActions(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    revisionId: RevisionId
   ): Promise<ActionNameToActionInfoMap | undefined> {
-    const url = await this._changeBaseURL(changeNum, patchNum);
+    const url = await this._changeBaseURL(changeNum, revisionId);
     return this._restApiHelper.fetchJSON({
       url: `${url}/actions`,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/actions`,

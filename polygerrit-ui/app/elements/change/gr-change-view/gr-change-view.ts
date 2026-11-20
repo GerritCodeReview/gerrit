@@ -293,7 +293,7 @@ export class GrChangeView extends LitElement {
   @state() revision?: RevisionInfo | EditRevisionInfo;
 
   /**
-   * <gr-change-actions> populates this via two-way data binding.
+   * The actions of the current revision, from the change model.
    * Private but used in tests.
    */
   @state()
@@ -681,6 +681,11 @@ export class GrChangeView extends LitElement {
         // change to undefined.
         if (change) this.change = change;
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revisionActions$,
+      revisionActions => (this.currentRevisionActions = revisionActions)
     );
     subscribe(
       this,
@@ -1440,7 +1445,6 @@ export class GrChangeView extends LitElement {
           @stop-edit-tap=${() => this.handleStopEditTap()}
           @download-tap=${() => this.handleOpenDownloadDialog()}
           @included-tap=${() => this.handleOpenIncludedInDialog()}
-          @revision-actions-changed=${this.handleRevisionActionsChanged}
         ></gr-change-actions>
       </div>
     `;
@@ -2601,12 +2605,6 @@ export class GrChangeView extends LitElement {
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
     return this.getShortcutsService().createTitle(shortcutName, section);
-  }
-
-  private handleRevisionActionsChanged(
-    e: CustomEvent<{value: ActionNameToActionInfoMap}>
-  ) {
-    this.currentRevisionActions = e.detail.value;
   }
 }
 

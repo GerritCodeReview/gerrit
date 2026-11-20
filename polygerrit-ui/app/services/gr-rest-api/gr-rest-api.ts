@@ -882,7 +882,7 @@ export interface RestApiService extends Finalizable {
 
   getChangeRevisionActions(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    revisionId: RevisionId
   ): Promise<ActionNameToActionInfoMap | undefined>;
 
   confirmEmail(token: string): Promise<string | null>;

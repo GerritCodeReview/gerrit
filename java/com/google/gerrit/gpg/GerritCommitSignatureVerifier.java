@@ -63,6 +63,7 @@ public class GerritCommitSignatureVerifier implements CommitSignatureVerifier {
   private final ExternalIds externalIds;
   private final ExternalIdKeyFactory externalIdKeyFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final ServerSigningKeys serverSigningKeys;
 
   @Inject
   GerritCommitSignatureVerifier(
@@ -70,12 +71,14 @@ public class GerritCommitSignatureVerifier implements CommitSignatureVerifier {
       GerritPublicKeyChecker.Factory checkerFactory,
       ExternalIds externalIds,
       ExternalIdKeyFactory externalIdKeyFactory,
-      IdentifiedUser.GenericFactory userFactory) {
+      IdentifiedUser.GenericFactory userFactory,
+      ServerSigningKeys serverSigningKeys) {
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
     this.externalIds = externalIds;
     this.externalIdKeyFactory = externalIdKeyFactory;
     this.userFactory = userFactory;
+    this.serverSigningKeys = serverSigningKeys;
   }
 
   @Override
@@ -116,6 +119,24 @@ public class GerritCommitSignatureVerifier implements CommitSignatureVerifier {
     }
     Instant time = PushCertificateChecker.getCreationTime(signature);
 
+    var serverCandidates = serverSigningKeys.get(signature.getKeyID());
+    PGPPublicKeyRing serverRing = findSigner(serverCandidates, signature, signed.payload());
+    if (serverRing != null) {
+      PGPPublicKey signingKey = serverRing.getPublicKey(signature.getKeyID());
+      info.signingKeyFingerprint = fingerprint(signingKey);
+      info.primaryKeyFingerprint = fingerprint(serverRing.getPublicKey());
+      if (!serverSigningKeys.isValid(serverRing, signingKey, time)) {
+        return unverified(
+            info, INVALID_KEY, "The server attestation key is not valid at the signature time.");
+      }
+      info.status = CommitSignatureInfo.Status.VERIFIED;
+      info.signerType = CommitSignatureInfo.SignerType.SERVER;
+      info.message =
+          "Verified server attestation. This signature does not identify the committer as the"
+              + " signer.";
+      return info;
+    }
+
     try (PublicKeyStore store = storeProvider.get()) {
       PGPPublicKeyRingCollection candidates;
       try {
@@ -124,7 +145,14 @@ public class GerritCommitSignatureVerifier implements CommitSignatureVerifier {
         throw new IOException("Cannot read registered public keys", e);
       }
       if (!candidates.getKeyRings().hasNext()) {
-        return unverified(info, UNKNOWN_KEY, "The signing key is not registered on this server.");
+        if (serverCandidates.getKeyRings().hasNext()) {
+          return unverified(
+              info, INVALID_SIGNATURE, "The signature does not match the commit bytes.");
+        }
+        return unverified(
+            info,
+            UNKNOWN_KEY,
+            "The signing key is neither registered nor configured for server attestation.");
       }
       PGPPublicKeyRing ring = findSigner(candidates, signature, signed.payload());
       if (ring == null) {
@@ -175,6 +203,7 @@ public class GerritCommitSignatureVerifier implements CommitSignatureVerifier {
       }
       info.status = CommitSignatureInfo.Status.VERIFIED;
       info.signer = new AccountInfo(signer.getAccountId().get());
+      info.signerType = CommitSignatureInfo.SignerType.USER;
       return info;
     } catch (UncheckedIOException e) {
       throw e.getCause();
@@ -281,11 +310,10 @@ public class GerritCommitSignatureVerifier implements CommitSignatureVerifier {
     return false;
   }
 
-  private record SignedPayload(
-      byte[] payload, @Nullable byte[] signature, boolean unsupportedHeader) {}
+  record SignedPayload(byte[] payload, @Nullable byte[] signature, boolean unsupportedHeader) {}
 
   /** Removes only the signature header and its continuations, preserving all other bytes. */
-  private static SignedPayload extract(byte[] raw) {
+  static SignedPayload extract(byte[] raw) {
     ByteArrayOutputStream payload = new ByteArrayOutputStream(raw.length);
     ByteArrayOutputStream signature = null;
     boolean signatureHeader = false;

@@ -4809,8 +4809,15 @@ and uploader need not be the signer. Register the public key with the
 link:rest-api-accounts.html#add-delete-gpg-keys[GPG key API] or account settings when
 link:config-gerrit.html#gerrit.editGpgKeys[key editing] is enabled.
 
+Configured link:config-gerrit.html#gpg.serverSigningKey[server attestation keys]
+are a separate trust source. Their verified signatures have `signer_type:
+SERVER` and key fingerprints, not a fabricated account or a matching committer
+identity. Retired configured public keys can verify older attestations without
+their secret material. Configuration/key-file changes require a server
+restart; removing a retired public key removes its attestation trust.
+
 Revision readers receive normal link:rest-api-accounts.html#account-info[
-AccountInfo] for the signer even when
+AccountInfo] for a verified user signer even when
 link:config-gerrit.html#accounts.visibility[account discovery is restricted].
 Standard sensitive-field restrictions still apply: the response does not add
 secondary emails, external IDs, or arbitrary key user IDs. The account's
@@ -4835,6 +4842,7 @@ commits on the server.
   )]}'
   {
     "status": "VERIFIED",
+    "signer_type": "USER",
     "signing_key_fingerprint": "C378369ACBCD34CC138D90B145311A6F378A0AED",
     "primary_key_fingerprint": "04AEA7ED2F821133E5B128D1ED0625DC46328A8C",
     "signer": {
@@ -8724,13 +8732,18 @@ Full uppercase hexadecimal fingerprint of the actual key that
 cryptographically verified the signature, including a signing subkey if used.
 |`primary_key_fingerprint`  |optional|
 Full uppercase hexadecimal fingerprint of that key's primary key.
+|`signer_type`              |optional|
+`USER` for a verified registered-account signature; `SERVER` for a verified
+configured server attestation. Present only for `VERIFIED`.
 |`signer`                   |optional|
 Normal link:rest-api-accounts.html#account-info[AccountInfo] for the registered
-signing account. Present only for `VERIFIED`.
+signing account. Present only for verified `USER` signatures, never for server
+attestations.
 |`reason`                   |optional|
 Machine-readable reason for `UNVERIFIED`; see the table below.
 |`message`                  |optional|
-Readable, safe explanation for `UNVERIFIED`. Does not include arbitrary key
+Readable, safe explanation for `UNVERIFIED` or a verified server attestation.
+Does not include arbitrary key
 user IDs or private account identities. Clients should use `reason`, not
 parse this text.
 |=============================
@@ -8740,7 +8753,7 @@ parse this text.
 |Reason                 |Description
 |`UNSUPPORTED_FORMAT`   |The signature format or signature header is not supported.
 |`MALFORMED_SIGNATURE`  |The signature or its headers cannot be parsed unambiguously.
-|`UNKNOWN_KEY`          |No signing key is registered on this server.
+|`UNKNOWN_KEY`          |The signing key is neither registered to a user nor configured as a server attestation key.
 |`INVALID_SIGNATURE`    |The signature does not verify against the exact commit bytes.
 |`INVALID_KEY`          |The actual signing key is ineligible, expired, revoked, or fails the server's key validity and trust policy.
 |`IDENTITY_MISMATCH`    |The key has no unique registered signing account, or the committer email does not match the account and certified key identity.

@@ -699,16 +699,22 @@ validates final commands for all participating repositories before any of
 their refs are updated, including commands changed by ref-update listeners.
 +
 Gerrit also checks finalized generated content before inserting the commit
-object. Gerrit does not sign generated commits. Operations that need a new
-unsigned merge, cherry-pick, rebase, edit, message update, revert, or REST
-file/patch commit therefore fail in required projects without updating their
-content or change refs. Existing verified signed objects can be reused
+object. With an active
+link:config-gerrit.html#gpg.serverSigningKey[server signing key], Gerrit signs
+new unsigned generated content and independently verifies it before insertion.
+This is a server attestation, not a signature asserting the committer's account
+identity. Without an active usable key, operations that need a new unsigned
+merge, cherry-pick, rebase, edit, message update, revert, or REST file/patch
+commit fail in required projects without updating their content or change
+refs; there is no unsigned failure fallback. Uploaded commits are never
+re-signed. Existing verified signed objects can be reused
 unchanged, for example by fast-forward submission or publication of a
 compatible signed edit uploaded through Git. A signature is never copied onto
-a changed commit payload. Project creation with an initial unsigned empty
-commit is rejected before creating the repository or its metadata; instead,
-create the required project without an initial commit and upload a locally
-signed root commit. See link:user-upload.html#required-signed-commits[required
+a changed commit payload. An active key can sign required initial project
+content. Without one, an initial unsigned empty commit is rejected before
+creating the repository or its metadata; instead, create the required project
+without an initial commit and upload a locally signed root commit. See
+link:user-upload.html#required-signed-commits[required
 signed-commit workflows].
 
 [[receive.rejectImplicitMerges]]receive.rejectImplicitMerges::

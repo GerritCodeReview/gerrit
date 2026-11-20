@@ -16,6 +16,24 @@
       "message": "+Kamil what do you think? Trying to improve the load time of the action buttons.",
       "revId": "73ce50f109259768a373b1ed1b02a3497def2fdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb05d603_f824b442",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-11-20T08:59:10Z",
+      "side": 1,
+      "message": "I no longer work on Gerrit, sorry. You would have to find someone else to take a look",
+      "parentUuid": "c99113c0_2543ecd7",
+      "revId": "73ce50f109259768a373b1ed1b02a3497def2fdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

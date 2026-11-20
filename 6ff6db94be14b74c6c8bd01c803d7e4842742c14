@@ -106,6 +106,24 @@
       "parentUuid": "fc29c19d_62db86aa",
       "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36d17e25_f3894257",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5333911
+      },
+      "writtenOn": "2026-11-20T15:10:45Z",
+      "side": 1,
+      "message": "What is failing with 7.0.0?\n\nAs I mentioned in https://gerrit-review.googlesource.com/c/gerrit/+/658765/1#message-14b2b600829200f2c9bdfb43818d1fcde1735319 we\u0027re on 7.0.0-beta.10 in Google. The further away we move from that version, the higher the risk of API skew Milutin is concerned about.",
+      "parentUuid": "b55e58b3_08d2e9b3",
+      "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

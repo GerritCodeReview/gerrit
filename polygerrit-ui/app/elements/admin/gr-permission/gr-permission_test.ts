@@ -507,16 +507,43 @@ suite('gr-permission tests', () => {
       element.section = 'refs/*' as GitRef;
       await element.updateComplete;
 
+      const exclusiveToggle = queryAndAssert<MdSwitch>(
+        element,
+        '#exclusiveToggle'
+      );
+      const rightContainer = queryAndAssert(element, '.right');
+      const getRightText = () =>
+        rightContainer.textContent?.replace(/\s+/g, ' ').trim();
+
       assert.isFalse(element.originalExclusiveValue);
       assert.isNotOk(element.permission!.value.modified);
-      queryAndAssert<MdSwitch>(element, '#exclusiveToggle').click();
+      assert.isFalse(exclusiveToggle.selected);
+      assert.equal(getRightText(), 'Not Exclusive Remove');
+
+      exclusiveToggle.click();
       await element.updateComplete;
       assert.isTrue(element.permission!.value.exclusive);
       assert.isTrue(element.permission!.value.modified);
       assert.isFalse(element.originalExclusiveValue);
+      assert.isTrue(exclusiveToggle.selected);
+      assert.equal(getRightText(), 'Exclusive Remove');
+
+      exclusiveToggle.click();
+      await element.updateComplete;
+      assert.isFalse(element.permission!.value.exclusive);
+      assert.isFalse(exclusiveToggle.selected);
+      assert.equal(getRightText(), 'Not Exclusive Remove');
+
+      exclusiveToggle.click();
+      await element.updateComplete;
+      assert.isTrue(element.permission!.value.exclusive);
+      assert.equal(getRightText(), 'Exclusive Remove');
+
       element.editing = false;
       await element.updateComplete;
       assert.isFalse(element.permission!.value.exclusive);
+      assert.isFalse(exclusiveToggle.selected);
+      assert.equal(getRightText(), 'Not Exclusive Remove');
     });
 
     test('modifying emits access-modified event', async () => {

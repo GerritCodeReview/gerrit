@@ -34,6 +34,24 @@
       "parentUuid": "2cf7c77a_47d00873",
       "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b9a1c2_78002f4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5333911
+      },
+      "writtenOn": "2026-11-20T14:42:50Z",
+      "side": 1,
+      "message": "Yes, LGTM from my end, but would like Milutin to approve.",
+      "parentUuid": "ca00f9ed_f43f9d61",
+      "revId": "6ff6db94be14b74c6c8bd01c803d7e4842742c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

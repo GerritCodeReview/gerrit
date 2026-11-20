@@ -25,6 +25,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc1daf5_ecd95830",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/rich-diff-context-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-20T17:13:06Z",
+      "side": 1,
+      "message": "Done — refactored `getPartialExpandIndices()` to take an options object (`{linesToExpand?, skipRanges?}`), unified the `from-start`/`from-end` loop, and updated callers and tests.",
+      "parentUuid": "e2f8983c_2340d999",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 356,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "a8bf78ce722707af99ae9ee2fa33392316335d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d276d393_59d67c19",
@@ -38,6 +63,31 @@
       "writtenOn": "2026-11-20T16:22:20Z",
       "side": 1,
       "message": "Resetting `richFullContext` and `isShowingEntireFile` here on a `diffPreferences.context` change does not reset `gr-diff`\u0027s internal `DiffModel.showFullContext` override, since `gr-diff-host` does not reload on context pref changes and `gr-diff.ts` `willUpdate()` never clears `showFullContext`. If a user toggles Shift+X and then changes Lines of Context in Diff Preferences, source diff stays stuck on its previous `FullContext.YES`/`NO` override while the button and rich viewers follow the new preference, inverting them on the next toggle. Clearing `showFullContext` to `FullContext.UNDECIDED` in `gr-diff.ts` when `prefs.context` changes (or propagating `richFullContext` through `gr-diff-host`) will keep them synchronized.",
+      "range": {
+        "startLine": 514,
+        "startChar": 0,
+        "endLine": 519,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "a8bf78ce722707af99ae9ee2fa33392316335d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adbd2c91_ec3c5283",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-20T17:13:06Z",
+      "side": 1,
+      "message": "Done — updated `GrDiff.willUpdate()` in `gr-diff.ts` to reset `DiffModel.showFullContext` to `FullContext.UNDECIDED` whenever `prefs.context` changes, with tests in `gr-diff_test.ts` and `gr-diff-view_test.ts`.",
+      "parentUuid": "d276d393_59d67c19",
       "range": {
         "startLine": 514,
         "startChar": 0,
@@ -73,6 +123,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa6fe306_7a8ddfcf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2551,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-20T17:13:06Z",
+      "side": 1,
+      "message": "Done — updated `GrDiff.toggleAllContext()` to check effective context via `computeContext(...) \u003d\u003d\u003d FULL_CONTEXT` (matching the rich viewers) so `FULL_CONTEXT` users collapse on the first toggle, with tests in `gr-diff_test.ts` and `gr-diff-view_test.ts`.",
+      "parentUuid": "8c4b7ad2_0628fd5e",
+      "range": {
+        "startLine": 2543,
+        "startChar": 0,
+        "endLine": 2551,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "a8bf78ce722707af99ae9ee2fa33392316335d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f97c9c1a_561330fb",
@@ -86,6 +161,31 @@
       "writtenOn": "2026-11-20T16:22:20Z",
       "side": 1,
       "message": "This test currently passes even if `fullContextToggledGeneration` is removed from `gr-diff-view.ts:2117`, because `hostShowingFull` is `false` when `reloadAPromise` resolves and lines 2119-2121 never clear `FullContext.YES`. To actually exercise that guard (and the `hostShowingFull \u003d\u003d\u003d true` branch), please also cover a case where `diffHost.isShowFullContext()` returns `true` and the user presses Shift+X to collapse (`FullContext.NO`) while reload is still in flight.",
+      "range": {
+        "startLine": 2564,
+        "startChar": 0,
+        "endLine": 2621,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "a8bf78ce722707af99ae9ee2fa33392316335d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73036897_7158fb07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2621,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-11-20T17:13:06Z",
+      "side": 1,
+      "message": "Done — updated the test to cover both `diffHost.isShowFullContext() \u003d\u003d\u003d true` with an in-flight `Shift+X` collapse (`FullContext.NO`, exercising the `fullContextToggledGeneration` guard) and an untoggled reload syncing `richFullContext` to `FullContext.YES`.",
+      "parentUuid": "f97c9c1a_561330fb",
       "range": {
         "startLine": 2564,
         "startChar": 0,

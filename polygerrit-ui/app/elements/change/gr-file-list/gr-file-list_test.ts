@@ -65,6 +65,8 @@ import {GrTooltipContent} from '../../shared/gr-tooltip-content/gr-tooltip-conte
 import {assert, fixture, html} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
+import {userModelToken} from '../../../models/user/user-model';
+import {FULL_CONTEXT} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {FileMode} from '../../../utils/file-util';
 import {SinonStubbedMember} from 'sinon';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
@@ -2581,6 +2583,79 @@ suite('gr-file-list tests', () => {
       element.style.width = '700px';
       await element.updateComplete;
       assert.equal(getComputedStyle(label).display, 'none');
+    });
+
+    test('inline rich markdown diff collapses unchanged context, expands on click without collapsing file row, and respects FULL_CONTEXT', async () => {
+      const beforeLines: string[] = [];
+      for (let i = 1; i <= 12; i++) {
+        beforeLines.push(`## Top ${i}`, '', `Top body ${i}.`, '');
+      }
+      const afterLines: string[] = [''];
+      for (let i = 1; i <= 12; i++) {
+        afterLines.push(`## Bottom ${i}`, '', `Bottom body ${i}.`, '');
+      }
+      const largeDiff = {
+        ...createDiff(),
+        meta_a: {
+          name: 'README.md',
+          content_type: 'text/markdown',
+          lines: beforeLines.length + 1 + afterLines.length,
+        },
+        meta_b: {
+          name: 'README.md',
+          content_type: 'text/markdown',
+          lines: beforeLines.length + 1 + afterLines.length,
+        },
+        content: [
+          {ab: beforeLines},
+          {a: ['Old line.'], b: ['New line.']},
+          {ab: afterLines},
+        ],
+      };
+
+      await element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      const diffHost = Array.from(
+        queryAll<GrDiffHost>(element, 'gr-diff-host')
+      ).find(h => h.path === 'README.md')!;
+      assert.isDefined(diffHost);
+      diffHost.dispatchEvent(
+        new CustomEvent('diff-changed', {detail: {value: largeDiff}})
+      );
+      await element.updateComplete;
+
+      const viewer = queryAndAssert<GrDiffMarkdownViewer>(
+        element,
+        'gr-diff-markdown-viewer'
+      );
+      await viewer.updateComplete;
+
+      const bars = viewer.shadowRoot!.querySelectorAll('.rich-context-bar');
+      assert.equal(bars.length, 2);
+
+      // Clicking expand-all expands the bar without collapsing the file row
+      bars[0].querySelector<HTMLButtonElement>('.expand-all')!.click();
+      await viewer.updateComplete;
+      await element.updateComplete;
+      assert.isTrue(element.isFileExpanded('README.md'));
+      assert.isTrue(element.isShowingRichMarkdown('README.md'));
+      assert.equal(
+        viewer.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+
+      // FULL_CONTEXT preference expands all remaining collapsed sections inline
+      const userModel = testResolver(userModelToken);
+      userModel.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        context: FULL_CONTEXT,
+      });
+      await viewer.updateComplete;
+      assert.equal(
+        viewer.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        0
+      );
     });
   });
 

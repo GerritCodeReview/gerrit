@@ -9,7 +9,16 @@ import './gr-diff-lean-viewer';
 import {GrDiffLeanViewer} from './gr-diff-lean-viewer';
 import type {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {DiffInfo} from '../../../types/diff';
-import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
+import {
+  FULL_CONTEXT,
+  FullContext,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {
   createAccountDetailWithId,
   createComment,
@@ -1338,4 +1347,418 @@ suite('gr-diff-lean-viewer tests', () => {
       });
     }
   );
+
+  suite('unchanged context collapsing', () => {
+    function getRenderedDeclNames(): string[] {
+      return Array.from(
+        element.shadowRoot!.querySelectorAll('.lean-decl-name')
+      ).map(el => el.textContent?.trim() ?? '');
+    }
+
+    function createLargeLeanDiff(options?: {
+      withHiddenSorry?: boolean;
+    }): DiffInfo {
+      const beforeLines: string[] = [];
+      for (let i = 1; i <= 15; i++) {
+        const body =
+          options?.withHiddenSorry && i === 1 ? '  sorry' : '  trivial';
+        beforeLines.push(`theorem top_${i} : True := by`, body, '');
+      }
+      const afterLines: string[] = [''];
+      for (let i = 1; i <= 15; i++) {
+        afterLines.push(`theorem bottom_${i} : True := by`, '  trivial', '');
+      }
+      return {
+        ...createDiff(),
+        meta_a: {
+          name: 'BigProof.lean',
+          content_type: 'text/x-lean',
+          lines: beforeLines.length + 2 + afterLines.length,
+        },
+        meta_b: {
+          name: 'BigProof.lean',
+          content_type: 'text/x-lean',
+          lines: beforeLines.length + 2 + afterLines.length,
+        },
+        content: [
+          {ab: beforeLines},
+          {
+            a: ['theorem target_thm : True := by', '  sorry'],
+            b: ['theorem target_thm : True := by', '  trivial'],
+          },
+          {ab: afterLines},
+        ],
+      };
+    }
+
+    function createTwoHunkLeanDiff(): DiffInfo {
+      const topLines: string[] = [];
+      for (let i = 1; i <= 10; i++) {
+        topLines.push(`theorem top_${i} : True := by`, '  trivial', '');
+      }
+      const middleLines: string[] = [''];
+      for (let i = 1; i <= 12; i++) {
+        middleLines.push(`theorem middle_${i} : True := by`, '  trivial', '');
+      }
+      const bottomLines: string[] = [''];
+      for (let i = 1; i <= 10; i++) {
+        bottomLines.push(`theorem bottom_${i} : True := by`, '  trivial', '');
+      }
+      return {
+        ...createDiff(),
+        meta_a: {
+          name: 'TwoHunks.lean',
+          content_type: 'text/x-lean',
+          lines:
+            topLines.length + 2 + middleLines.length + 2 + bottomLines.length,
+        },
+        meta_b: {
+          name: 'TwoHunks.lean',
+          content_type: 'text/x-lean',
+          lines:
+            topLines.length + 2 + middleLines.length + 2 + bottomLines.length,
+        },
+        content: [
+          {ab: topLines},
+          {
+            a: ['theorem hunk_one : True := by', '  sorry'],
+            b: ['theorem hunk_one : True := by', '  trivial'],
+          },
+          {ab: middleLines},
+          {
+            a: ['theorem hunk_two : True := by', '  sorry'],
+            b: ['theorem hunk_two : True := by', '  trivial'],
+          },
+          {ab: bottomLines},
+        ],
+      };
+    }
+
+    test('collapses distant unchanged Lean blocks and expands partially, fully, or via toggleAllContext()', async () => {
+      element.diff = createLargeLeanDiff();
+      await element.updateComplete;
+
+      const contextBars =
+        element.shadowRoot!.querySelectorAll('.rich-context-bar');
+      assert.equal(contextBars.length, 2);
+
+      const declNames = getRenderedDeclNames();
+      assert.notInclude(declNames, 'top_1');
+      assert.notInclude(declNames, 'bottom_15');
+      assert.include(declNames, 'target_thm');
+
+      const initialCellCount =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+
+      // Partial expand from top bar (.expand-from-end) keeps focus on .expand-from-end
+      const topPartialBtn =
+        contextBars[0].querySelector<HTMLButtonElement>('.expand-from-end')!;
+      assert.isNotNull(topPartialBtn);
+      topPartialBtn.focus();
+      topPartialBtn.click();
+      await element.updateComplete;
+      const afterTopPartial =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+      assert.isAbove(afterTopPartial, initialCellCount);
+      assert.isTrue(
+        element.shadowRoot!.activeElement ===
+          element
+            .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+            .querySelector('.expand-from-end')
+      );
+
+      // A second partial expand leaves too few lines for another +10 button,
+      // so focus falls back to .expand-all inside the same bar.
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-from-end')!
+        .click();
+      await element.updateComplete;
+      assert.isNull(
+        element
+          .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+          .querySelector('.expand-from-end')
+      );
+      assert.isTrue(
+        element.shadowRoot!.activeElement ===
+          element
+            .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+            .querySelector('.expand-all')
+      );
+
+      // Partial expand from bottom bar (.expand-from-start) keeps focus on .expand-from-start
+      const afterSecondTopPartial =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+      const bottomPartialBtn = element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[1]
+        .querySelector<HTMLButtonElement>('.expand-from-start')!;
+      assert.isNotNull(bottomPartialBtn);
+      bottomPartialBtn.focus();
+      bottomPartialBtn.click();
+      await element.updateComplete;
+      assert.isAbove(
+        element.shadowRoot!.querySelectorAll('.diff-cell').length,
+        afterSecondTopPartial
+      );
+      assert.isTrue(
+        element.shadowRoot!.activeElement ===
+          element
+            .shadowRoot!.querySelectorAll('.rich-context-bar')[1]
+            .querySelector('.expand-from-start')
+      );
+
+      // Expand top bar completely -> removes top bar, reveals top_1, focuses row 0
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+      assert.include(getRenderedDeclNames(), 'top_1');
+      assert.equal(
+        element.shadowRoot!.activeElement?.getAttribute('data-row-index'),
+        '0'
+      );
+
+      // FULL_CONTEXT user preference shows entire file
+      userModel.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        context: FULL_CONTEXT,
+      });
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        0
+      );
+
+      // toggleAllContext collapses unchanged sections again
+      element.toggleAllContext();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+    });
+
+    test('renders 3-button middle context bar and collapses unchanged blocks in unified mode', async () => {
+      element.diff = createTwoHunkLeanDiff();
+      await element.updateComplete;
+
+      const contextBars =
+        element.shadowRoot!.querySelectorAll('.rich-context-bar');
+      assert.equal(contextBars.length, 3);
+      const middleButtons = Array.from(
+        contextBars[1].querySelectorAll<HTMLButtonElement>('button')
+      );
+      assert.equal(middleButtons.length, 3);
+      assert.isTrue(middleButtons[0].classList.contains('expand-all'));
+      assert.isTrue(middleButtons[1].classList.contains('expand-from-start'));
+      assert.isTrue(middleButtons[2].classList.contains('expand-from-end'));
+
+      // Switch to unified mode and verify context bars work there too
+      element.viewMode = DiffViewMode.UNIFIED;
+      await element.updateComplete;
+      const unifiedBars = element.shadowRoot!.querySelectorAll(
+        '.unified-container .rich-context-bar'
+      );
+      assert.equal(unifiedBars.length, 3);
+
+      unifiedBars[0].querySelector<HTMLButtonElement>('.expand-all')!.click();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll(
+          '.unified-container .rich-context-bar'
+        ).length,
+        2
+      );
+      assert.include(getRenderedDeclNames(), 'top_1');
+    });
+
+    test('still reports soundness hygiene sorry warnings from collapsed unchanged theorems in summary bar', async () => {
+      element.diff = createLargeLeanDiff({withHiddenSorry: true});
+      await element.updateComplete;
+
+      // top_1 (which contains `sorry`) is collapsed out of the diff grid...
+      assert.notInclude(getRenderedDeclNames(), 'top_1');
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // ...but the summary bar MUST still surface the sorry error pill!
+      assert.isNull(
+        element.shadowRoot!.querySelector('.hygiene-pill.verified')
+      );
+      const errorPills = Array.from(
+        element.shadowRoot!.querySelectorAll('.hygiene-pill.error')
+      ).map(el => el.textContent?.trim() ?? '');
+      assert.isTrue(errorPills.some(t => t.includes('1 sorry')));
+    });
+
+    test('keeps comment threads and lineOfInterest visible while collapsing middle declarations and preserves DOM identity', async () => {
+      const topThread: CommentThread = createCommentThread([
+        {
+          ...createComment(),
+          line: 1,
+          message: 'Comment on top_1',
+          patch_set: 1 as RevisionPatchSetNum,
+        },
+      ]);
+      const hunkThread: CommentThread = createCommentThread([
+        {
+          ...createComment(),
+          line: 46,
+          message: 'Comment on target_thm',
+          patch_set: 1 as RevisionPatchSetNum,
+        },
+      ]);
+
+      element.diff = createLargeLeanDiff();
+      element.patchRange = createPatchRange();
+      element.path = 'BigProof.lean';
+      element.threads = [topThread, hunkThread];
+      element.lineOfInterest = {side: Side.RIGHT, lineNum: 91};
+      await element.updateComplete;
+
+      const declNames = getRenderedDeclNames();
+      assert.include(declNames, 'top_1');
+      assert.include(declNames, 'target_thm');
+      assert.include(declNames, 'bottom_15');
+      assert.notInclude(declNames, 'top_7');
+      assert.notInclude(declNames, 'bottom_7');
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // Expanding the bar above target_thm must preserve target_thm's thread DOM node
+      const threadsBefore = Array.from(
+        element.shadowRoot!.querySelectorAll<GrCommentThread>(
+          '.diff-grid gr-comment-thread'
+        )
+      );
+      const hunkThreadElBefore = threadsBefore.find(
+        el => el.getAttribute('line-num') === '46'
+      );
+      assert.isDefined(hunkThreadElBefore);
+
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+
+      const threadsAfter = Array.from(
+        element.shadowRoot!.querySelectorAll<GrCommentThread>(
+          '.diff-grid gr-comment-thread'
+        )
+      );
+      const hunkThreadElAfter = threadsAfter.find(
+        el => el.getAttribute('line-num') === '46'
+      );
+      assert.isTrue(hunkThreadElAfter === hunkThreadElBefore);
+    });
+
+    test('preserves context collapsing when toggling collapseProofs and resets manual expansions on showFullContext or diff change', async () => {
+      element.diff = createLargeLeanDiff();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // Expand top bar manually -> 1 bar remains
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+
+      // Toggling collapseProofs does NOT clobber manual context expansion
+      element.collapseProofs = true;
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+      assert.isNull(
+        element.shadowRoot!.querySelector(
+          '.diff-cell.modified-right .lean-body-section'
+        )
+      );
+
+      // showFullContext = FullContext.NO resets manual expansion -> 2 bars
+      element.showFullContext = FullContext.NO;
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // Expand again then replace diff -> resets manual expansion
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+
+      element.diff = createLargeLeanDiff();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+    });
+
+    test('clears selection popover on collapse and falls back to first visible row when commenting', async () => {
+      const addNewDraftSpy = sinon.spy(commentsModel, 'addNewDraft');
+      element.diff = createLargeLeanDiff();
+      element.patchRange = createPatchRange();
+      element.path = 'BigProof.lean';
+      element.loggedIn = true;
+      element.showFullContext = FullContext.YES;
+      await element.updateComplete;
+
+      // Select text inside top_1 (line 1) while full context is shown
+      const line1Text = element.shadowRoot!.querySelector<HTMLElement>(
+        '.diff-cell[data-side="right"] .lean-code-line[data-line="1"] .lean-code-text'
+      )!;
+      assert.isNotNull(line1Text);
+      const range = document.createRange();
+      range.selectNodeContents(line1Text);
+      const sel = window.getSelection()!;
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.dispatchEvent(new Event('selectionchange'));
+      await element.updateComplete;
+
+      const actionBox = element.shadowRoot!.querySelector<HTMLElement>(
+        '#selection-action-box'
+      )!;
+      assert.notEqual(actionBox.style.display, 'none');
+
+      // Collapse back to default context -> clears selection & hides popover
+      element.showFullContext = FullContext.NO;
+      await element.updateComplete;
+      assert.isFalse(element.hasActiveSelection());
+      assert.equal(actionBox.style.display, 'none');
+
+      // Fallback comment creation must target a visible row near the hunk (line > 20),
+      // not collapsed row 0 (line 1).
+      element.createCommentFromSelectionOrHover();
+      assert.isTrue(addNewDraftSpy.calledOnce);
+      assert.isAbove(Number(addNewDraftSpy.firstCall.args[0].line), 20);
+    });
+  });
 });

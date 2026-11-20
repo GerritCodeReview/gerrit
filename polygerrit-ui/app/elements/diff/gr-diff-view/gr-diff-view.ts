@@ -61,7 +61,12 @@ import {
   PatchRangeChangeEvent,
 } from '../gr-patch-range-select/gr-patch-range-select';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
-import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {
   ExplainCodeRequestedEvent,
@@ -123,6 +128,11 @@ import '../gr-diff-lean-viewer/gr-diff-lean-viewer';
 import type {GrDiffLeanViewer} from '../gr-diff-lean-viewer/gr-diff-lean-viewer';
 import '../gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import type {GrDiffMarkdownViewer} from '../gr-diff-markdown-viewer/gr-diff-markdown-viewer';
+import {
+  computeContext,
+  FULL_CONTEXT,
+  FullContext,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {formStyles} from '../../../styles/form-styles';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
@@ -329,6 +339,11 @@ export class GrDiffView extends LitElement {
   @state()
   isShowingEntireFile = false;
 
+  @state()
+  richFullContext: FullContext = FullContext.UNDECIDED;
+
+  private fullContextToggledGeneration = -1;
+
   // visible for testing
   reviewedFiles = new Set<string>();
 
@@ -496,7 +511,12 @@ export class GrDiffView extends LitElement {
       this,
       () => this.getUserModel().diffPreferences$,
       diffPreferences => {
+        const prevContext = this.prefs?.context;
         this.prefs = diffPreferences;
+        if (prevContext !== diffPreferences?.context) {
+          this.richFullContext = FullContext.UNDECIDED;
+          this.isShowingEntireFile = this.computeIsShowingEntireFile();
+        }
       }
     );
     subscribe(
@@ -993,6 +1013,8 @@ export class GrDiffView extends LitElement {
         changedProperties.get('basePatchNum') !== undefined);
     if (navChanged) {
       this.navReloadGeneration++;
+      this.richFullContext = FullContext.UNDECIDED;
+      this.isShowingEntireFile = this.computeIsShowingEntireFile();
       // Only treat `diff` as fresh in the same Lit cycle when assigned
       // directly (not via a late `diff-changed` event from `<gr-diff-host>`
       // racing with a navigation update).
@@ -1158,6 +1180,8 @@ export class GrDiffView extends LitElement {
                 .patchRange=${this.patchRange}
                 .threads=${this.threadsForFile}
                 .loggedIn=${this.loggedIn}
+                .showFullContext=${this.richFullContext}
+                .lineOfInterest=${this.getLineOfInterest()}
               ></gr-diff-markdown-viewer>
             `
           )}
@@ -1171,6 +1195,8 @@ export class GrDiffView extends LitElement {
                 .patchRange=${this.patchRange}
                 .threads=${this.threadsForFile}
                 .loggedIn=${this.loggedIn}
+                .showFullContext=${this.richFullContext}
+                .lineOfInterest=${this.getLineOfInterest()}
               ></gr-diff-lean-viewer>
             `
           )}
@@ -2088,7 +2114,13 @@ export class GrDiffView extends LitElement {
     if (gen !== this.navReloadGeneration) return;
     this.reporting.diffViewDisplayed();
     if (this.isBlameLoaded) this.loadBlame();
-    this.isShowingEntireFile = this.diffHost?.isShowFullContext() ?? false;
+    if (this.fullContextToggledGeneration !== gen) {
+      const hostShowingFull = this.diffHost?.isShowFullContext() ?? false;
+      if (hostShowingFull) {
+        this.richFullContext = FullContext.YES;
+      }
+      this.isShowingEntireFile = this.computeIsShowingEntireFile();
+    }
   }
 
   /**
@@ -2498,9 +2530,23 @@ export class GrDiffView extends LitElement {
     return '';
   }
 
+  private computeIsShowingEntireFile(): boolean {
+    return (
+      computeContext(
+        this.prefs?.context,
+        this.richFullContext,
+        createDefaultDiffPrefs().context
+      ) === FULL_CONTEXT
+    );
+  }
+
   private handleToggleAllDiffContext() {
     assertIsDefined(this.diffHost, 'diffHost');
+    this.fullContextToggledGeneration = this.navReloadGeneration;
     this.isShowingEntireFile = !this.isShowingEntireFile;
+    this.richFullContext = this.isShowingEntireFile
+      ? FullContext.YES
+      : FullContext.NO;
     this.diffHost.toggleAllContext();
   }
 

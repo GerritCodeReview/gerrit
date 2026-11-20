@@ -8,7 +8,16 @@ import '../../../test/common-test-setup';
 import './gr-diff-markdown-viewer';
 import {GrDiffMarkdownViewer} from './gr-diff-markdown-viewer';
 import {DiffInfo} from '../../../types/diff';
-import {CommentSide, DiffViewMode} from '../../../constants/constants';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
+import {
+  FULL_CONTEXT,
+  FullContext,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {
   createAccountDetailWithId,
   createComment,
@@ -26,6 +35,7 @@ import {
   CommentThread,
   DraftInfo,
   RevisionPatchSetNum,
+  UrlEncodedCommentId,
 } from '../../../types/common';
 import sinon from 'sinon';
 
@@ -665,6 +675,543 @@ suite('gr-diff-markdown-viewer tests', () => {
       assert.equal(draft.path, 'test.md');
       assert.equal(draft.side, CommentSide.REVISION);
       assert.equal(draft.line, 1);
+    });
+  });
+
+  suite('unchanged context collapsing', () => {
+    function createLargeMarkdownDiff(): DiffInfo {
+      const beforeLines: string[] = [];
+      for (let i = 1; i <= 15; i++) {
+        beforeLines.push(
+          `## Top Section ${i}`,
+          '',
+          `Unchanged top paragraph ${i}.`,
+          ''
+        );
+      }
+      const afterLines: string[] = [''];
+      for (let i = 1; i <= 15; i++) {
+        afterLines.push(
+          `## Bottom Section ${i}`,
+          '',
+          `Unchanged bottom paragraph ${i}.`,
+          ''
+        );
+      }
+      return {
+        ...createDiff(),
+        meta_a: {
+          name: 'docs/manifest-format.md',
+          content_type: 'text/markdown',
+          lines: beforeLines.length + 1 + afterLines.length,
+        },
+        meta_b: {
+          name: 'docs/manifest-format.md',
+          content_type: 'text/markdown',
+          lines: beforeLines.length + 2 + afterLines.length,
+        },
+        content: [
+          {ab: beforeLines},
+          {
+            a: [
+              'Attribute `sync-smartsync`: Set to true to enable smart sync.',
+            ],
+            b: [
+              'Attribute `sync-smartsync`: Set to true to enable smart sync by default,',
+              'or set to false to disable default smart sync.',
+            ],
+          },
+          {ab: afterLines},
+        ],
+      };
+    }
+
+    function createTwoHunkMarkdownDiff(): DiffInfo {
+      const topLines: string[] = [];
+      for (let i = 1; i <= 12; i++) {
+        topLines.push(
+          `## Top Section ${i}`,
+          '',
+          `Unchanged top paragraph ${i}.`,
+          ''
+        );
+      }
+      const middleLines: string[] = [''];
+      for (let i = 1; i <= 14; i++) {
+        middleLines.push(
+          `## Middle Section ${i}`,
+          '',
+          `Unchanged middle paragraph ${i}.`,
+          ''
+        );
+      }
+      const bottomLines: string[] = [''];
+      for (let i = 1; i <= 12; i++) {
+        bottomLines.push(
+          `## Bottom Section ${i}`,
+          '',
+          `Unchanged bottom paragraph ${i}.`,
+          ''
+        );
+      }
+      return {
+        ...createDiff(),
+        meta_a: {
+          name: 'docs/manifest-format.md',
+          content_type: 'text/markdown',
+          lines:
+            topLines.length + 1 + middleLines.length + 1 + bottomLines.length,
+        },
+        meta_b: {
+          name: 'docs/manifest-format.md',
+          content_type: 'text/markdown',
+          lines:
+            topLines.length + 1 + middleLines.length + 1 + bottomLines.length,
+        },
+        content: [
+          {ab: topLines},
+          {
+            a: ['First hunk old text.'],
+            b: ['First hunk new text.'],
+          },
+          {ab: middleLines},
+          {
+            a: ['Second hunk old text.'],
+            b: ['Second hunk new text.'],
+          },
+          {ab: bottomLines},
+        ],
+      };
+    }
+
+    test('collapses distant unchanged blocks by default and expands partially and fully with focus management', async () => {
+      element.diff = createLargeMarkdownDiff();
+      await element.updateComplete;
+
+      const contextBars =
+        element.shadowRoot!.querySelectorAll('.rich-context-bar');
+      assert.equal(contextBars.length, 2);
+
+      // Top section 1 should be hidden while the modified block is visible.
+      const gridText =
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '';
+      assert.notInclude(gridText, 'Unchanged top paragraph 1.');
+      assert.notInclude(gridText, 'Unchanged bottom paragraph 15.');
+      assert.include(gridText, 'sync-smartsync');
+
+      // Top collapsed bar has expand-all first, then expand-from-end (+10), no expand-from-start
+      const topBar = contextBars[0];
+      const topButtons = Array.from(
+        topBar.querySelectorAll<HTMLButtonElement>('button')
+      );
+      assert.equal(topButtons.length, 2);
+      assert.isTrue(topButtons[0].classList.contains('expand-all'));
+      assert.isTrue(topButtons[1].classList.contains('expand-from-end'));
+      assert.isNull(topBar.querySelector('.expand-from-start'));
+
+      // Bottom collapsed bar has expand-all first, then expand-from-start (+10), no expand-from-end
+      const bottomBar = contextBars[1];
+      const bottomButtons = Array.from(
+        bottomBar.querySelectorAll<HTMLButtonElement>('button')
+      );
+      assert.equal(bottomButtons.length, 2);
+      assert.isTrue(bottomButtons[0].classList.contains('expand-all'));
+      assert.isTrue(bottomButtons[1].classList.contains('expand-from-start'));
+      assert.isNull(bottomBar.querySelector('.expand-from-end'));
+
+      const initialCellCount =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+
+      // Partial expand on top bar reveals more rows and retains focus on .expand-from-end
+      topButtons[1].focus();
+      topButtons[1].click();
+      await element.updateComplete;
+      const afterTopPartialCount =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+      assert.isAbove(afterTopPartialCount, initialCellCount);
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+      assert.isTrue(
+        element.shadowRoot!.activeElement ===
+          element
+            .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+            .querySelector('.expand-from-end')
+      );
+
+      // Partial expand on bottom bar reveals more rows and retains focus on .expand-from-start
+      const currentBottomStartBtn = element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[1]
+        .querySelector<HTMLButtonElement>('.expand-from-start')!;
+      currentBottomStartBtn.focus();
+      currentBottomStartBtn.click();
+      await element.updateComplete;
+      assert.isAbove(
+        element.shadowRoot!.querySelectorAll('.diff-cell').length,
+        afterTopPartialCount
+      );
+      assert.isTrue(
+        element.shadowRoot!.activeElement ===
+          element
+            .shadowRoot!.querySelectorAll('.rich-context-bar')[1]
+            .querySelector('.expand-from-start')
+      );
+
+      // Expand all on top bar removes it, reveals Top Section 1, and focuses the revealed row
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+      assert.include(
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '',
+        'Unchanged top paragraph 1.'
+      );
+      assert.equal(
+        element.shadowRoot!.activeElement?.getAttribute('data-row-index'),
+        '0'
+      );
+    });
+
+    test('renders 3-button middle context bar between two distant hunks and expands from both ends', async () => {
+      element.diff = createTwoHunkMarkdownDiff();
+      await element.updateComplete;
+
+      const contextBars =
+        element.shadowRoot!.querySelectorAll('.rich-context-bar');
+      assert.equal(contextBars.length, 3);
+
+      const middleBar = contextBars[1];
+      const middleButtons = Array.from(
+        middleBar.querySelectorAll<HTMLButtonElement>('button')
+      );
+      assert.equal(middleButtons.length, 3);
+      assert.isTrue(middleButtons[0].classList.contains('expand-all'));
+      assert.isTrue(middleButtons[1].classList.contains('expand-from-start'));
+      assert.isTrue(middleButtons[2].classList.contains('expand-from-end'));
+
+      const initialCellCount =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+
+      // Expand downward from start of middle bar
+      middleButtons[1].click();
+      await element.updateComplete;
+      const afterStartCount =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+      assert.isAbove(afterStartCount, initialCellCount);
+      assert.isTrue(
+        element.shadowRoot!.activeElement ===
+          element
+            .shadowRoot!.querySelectorAll('.rich-context-bar')[1]
+            .querySelector('.expand-from-start')
+      );
+
+      // Expand upward from end of middle bar
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[1]
+        .querySelector<HTMLButtonElement>('.expand-from-end')!
+        .click();
+      await element.updateComplete;
+      assert.isAbove(
+        element.shadowRoot!.querySelectorAll('.diff-cell').length,
+        afterStartCount
+      );
+    });
+
+    test('preserves existing gr-comment-thread DOM identity via keyed repeat when expanding above it', async () => {
+      const hunkThread: CommentThread = createCommentThread([
+        {
+          ...createComment(),
+          line: 61,
+          message: 'Comment on modified hunk',
+          patch_set: 1 as RevisionPatchSetNum,
+        },
+      ]);
+
+      element.diff = createLargeMarkdownDiff();
+      element.patchRange = createPatchRange();
+      element.path = 'docs/manifest-format.md';
+      element.threads = [hunkThread];
+      await element.updateComplete;
+
+      const threadElBefore =
+        element.shadowRoot!.querySelector('gr-comment-thread');
+      assert.isNotNull(threadElBefore);
+
+      // Expand top collapsed section above the comment thread
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+
+      const threadElAfter =
+        element.shadowRoot!.querySelector('gr-comment-thread');
+      assert.isTrue(threadElAfter === threadElBefore);
+    });
+
+    test('collapses unchanged blocks in unified mode too', async () => {
+      element.diff = createLargeMarkdownDiff();
+      element.viewMode = DiffViewMode.UNIFIED;
+      await element.updateComplete;
+
+      const contextBars = element.shadowRoot!.querySelectorAll(
+        '.unified-container .rich-context-bar'
+      );
+      assert.equal(contextBars.length, 2);
+
+      contextBars[0].querySelector<HTMLButtonElement>('.expand-all')!.click();
+      await element.updateComplete;
+
+      assert.equal(
+        element.shadowRoot!.querySelectorAll(
+          '.unified-container .rich-context-bar'
+        ).length,
+        1
+      );
+    });
+
+    test('respects diffPreferences.context FULL_CONTEXT, explicit context prop, and toggleAllContext()', async () => {
+      element.diff = createLargeMarkdownDiff();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // Explicit context=0 hides even adjacent unchanged blocks
+      element.context = 0;
+      await element.updateComplete;
+      const cellCountAtZero =
+        element.shadowRoot!.querySelectorAll('.diff-cell').length;
+      element.context = undefined;
+      await element.updateComplete;
+      assert.isAbove(
+        element.shadowRoot!.querySelectorAll('.diff-cell').length,
+        cellCountAtZero
+      );
+
+      // User preference FULL_CONTEXT expands the whole file
+      userModel.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        context: FULL_CONTEXT,
+      });
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        0
+      );
+
+      // toggleAllContext collapses unchanged lines again
+      element.toggleAllContext();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // toggleAllContext again expands entire file
+      element.toggleAllContext();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        0
+      );
+    });
+
+    test('clears manual expansions when showFullContext, diff, or diffPreferences.context changes', async () => {
+      element.diff = createLargeMarkdownDiff();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // Manually expand top bar -> 1 bar remains
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+
+      // Setting showFullContext = FullContext.NO resets manual expansions -> 2 bars
+      element.showFullContext = FullContext.NO;
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // Expand again, then replace diff -> resets manual expansions
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+      element.diff = createLargeMarkdownDiff();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+
+      // Expand again, then change diffPreferences.context -> resets manual expansions
+      element
+        .shadowRoot!.querySelectorAll('.rich-context-bar')[0]
+        .querySelector<HTMLButtonElement>('.expand-all')!
+        .click();
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        1
+      );
+      userModel.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        context: 3,
+      });
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+    });
+
+    test('clears selection popover and hover on collapse, and falls back to first visible row when commenting', async () => {
+      const addDraftSpy = sinon.spy(commentsModel, 'addNewDraft');
+      element.diff = createLargeMarkdownDiff();
+      element.patchRange = createPatchRange();
+      element.path = 'docs/manifest-format.md';
+      element.showFullContext = FullContext.YES;
+      await element.updateComplete;
+
+      // Select text in Top Section 1 (row 0) and hover it while full context is shown
+      const firstRightCell = element.shadowRoot!.querySelectorAll(
+        '.diff-cell[data-side="right"]'
+      )[0];
+      firstRightCell.dispatchEvent(new MouseEvent('mouseenter'));
+      const textNode =
+        firstRightCell.querySelector('.cell-content')?.firstChild;
+      assert.isNotNull(textNode);
+      const range = document.createRange();
+      range.selectNodeContents(textNode!);
+      const sel = window.getSelection()!;
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.dispatchEvent(new Event('selectionchange'));
+      await element.updateComplete;
+
+      const actionBox = element.shadowRoot!.querySelector<HTMLElement>(
+        '#selection-action-box'
+      )!;
+      assert.notEqual(actionBox.style.display, 'none');
+
+      // Collapse back to default context: selection and popover must be cleared
+      element.showFullContext = FullContext.NO;
+      await element.updateComplete;
+      assert.isFalse(element.hasActiveSelection());
+      assert.equal(actionBox.style.display, 'none');
+
+      // createCommentFromSelectionOrHover without selection/hover must target the
+      // first VISIBLE row (near the hunk, line > 40), not collapsed row 0 (line 1).
+      element.createCommentFromSelectionOrHover();
+      assert.isTrue(addDraftSpy.calledOnce);
+      const draft: DraftInfo = addDraftSpy.firstCall.firstArg;
+      assert.isAbove(Number(draft.line), 40);
+    });
+
+    test('keeps unchanged blocks with comment threads or lineOfInterest visible while collapsing middle blocks', async () => {
+      const topCommentThread: CommentThread = createCommentThread([
+        {
+          ...createComment(),
+          line: 1,
+          message: 'Comment on Top Section 1',
+          patch_set: 1 as RevisionPatchSetNum,
+        },
+      ]);
+
+      element.diff = createLargeMarkdownDiff();
+      element.patchRange = createPatchRange();
+      element.path = 'docs/manifest-format.md';
+      element.threads = [topCommentThread];
+      element.lineOfInterest = {side: Side.RIGHT, lineNum: 120};
+      element.showFullContext = FullContext.UNDECIDED;
+      await element.updateComplete;
+
+      const gridText =
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '';
+      assert.include(gridText, 'Unchanged top paragraph 1.');
+      assert.include(gridText, 'Unchanged bottom paragraph 15.');
+      assert.notInclude(gridText, 'Unchanged top paragraph 8.');
+      assert.notInclude(gridText, 'Unchanged bottom paragraph 8.');
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('.rich-context-bar').length,
+        2
+      );
+      assert.isAtLeast(
+        element.shadowRoot!.querySelectorAll('gr-comment-thread').length,
+        1
+      );
+    });
+
+    test('loads internal basePath comments for renamed markdown files and keeps them uncollapsed', async () => {
+      const baseDiff = createLargeMarkdownDiff();
+      const renamedDiff: DiffInfo = {
+        ...baseDiff,
+        meta_a: {
+          ...baseDiff.meta_a!,
+          name: 'docs/old-manifest.md',
+        },
+        meta_b: {
+          ...baseDiff.meta_b!,
+          name: 'docs/new-manifest.md',
+        },
+      };
+
+      commentsModel.setState({
+        comments: {
+          'docs/old-manifest.md': [
+            {
+              ...createComment(),
+              id: 'renamed_base_comment' as UrlEncodedCommentId,
+              line: 1,
+              side: CommentSide.PARENT,
+              message: 'Comment on old renamed path',
+              patch_set: 1 as RevisionPatchSetNum,
+            },
+          ],
+        },
+        drafts: {},
+        portedComments: {},
+        portedDrafts: {},
+        discardedDrafts: [],
+      });
+
+      element.patchRange = createPatchRange();
+      element.path = 'docs/new-manifest.md';
+      element.diff = renamedDiff;
+      await element.updateComplete;
+
+      const gridText =
+        element.shadowRoot!.querySelector('.diff-grid')!.textContent ?? '';
+      assert.include(gridText, 'Unchanged top paragraph 1.');
+      assert.equal(
+        element.shadowRoot!.querySelectorAll('gr-comment-thread').length,
+        1
+      );
     });
   });
 });

@@ -17,7 +17,9 @@ import './gr-diff-element';
 import '../gr-diff-builder/gr-diff-row';
 import {
   compareComments,
+  computeContext,
   DiffContextExpandedEventDetail,
+  FULL_CONTEXT,
   FullContext,
   getDataFromCommentThreadEl,
   getLineNumber,
@@ -36,7 +38,11 @@ import {
   GrRangedCommentLayer,
   id,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
-import {DiffViewMode, Side} from '../../../constants/constants';
+import {
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
 import {AbortStop} from '../../../api/core';
@@ -377,6 +383,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.loading = true;
     }
 
+    const prevPrefs = changedProperties.get('prefs');
+    const contextPrefChanged =
+      changedProperties.has('prefs') &&
+      prevPrefs !== undefined &&
+      prevPrefs.context !== this.prefs?.context;
+
     if (
       changedProperties.has('diff') ||
       changedProperties.has('path') ||
@@ -416,7 +428,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
           diffPrefs: this.prefs,
           lineOfInterest: this.lineOfInterest,
           diffRangesToFocus: this.diffRangesToFocus,
+          ...(contextPrefChanged
+            ? {showFullContext: FullContext.UNDECIDED}
+            : {}),
         });
+      } else if (contextPrefChanged) {
+        this.diffModel.updateState({showFullContext: FullContext.UNDECIDED});
       }
     }
     if (changedProperties.has('baseImage')) {
@@ -759,10 +776,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   // TODO: Migrate callers to just update prefs.context.
   toggleAllContext() {
-    const current = this.diffModel.getState().showFullContext;
+    const state = this.diffModel.getState();
+    const effectiveContext = computeContext(
+      this.prefs?.context ?? state.diffPrefs.context,
+      state.showFullContext,
+      createDefaultDiffPrefs().context
+    );
     this.diffModel.updateState({
       showFullContext:
-        current === FullContext.YES ? FullContext.NO : FullContext.YES,
+        effectiveContext === FULL_CONTEXT ? FullContext.NO : FullContext.YES,
     });
   }
 

@@ -39,6 +39,7 @@ import {
   GrAnnotationImpl,
 } from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from './gr-diff-line';
+import {FULL_CONTEXT} from './gr-diff-utils';
 import {testResolver} from '../../../test/common-test-setup';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 
@@ -932,6 +933,77 @@ suite('former gr-diff-builder tests', () => {
       assert.include(diffRows[8].textContent, 'before');
       assert.include(diffRows[8].textContent, 'after');
       assert.include(diffRows[9].textContent, 'unchanged 11');
+    });
+
+    test('toggleAllContext collapses on first toggle when prefs.context is FULL_CONTEXT', async () => {
+      element.diff = {
+        ...createEmptyDiff(),
+        content: [
+          {
+            ab: Array.from({length: 15}, (_, i) => `unchanged top ${i + 1}`),
+          },
+          {a: ['before'], b: ['after']},
+          {
+            ab: Array.from({length: 15}, (_, i) => `unchanged bottom ${i + 1}`),
+          },
+        ],
+      };
+      element.prefs = {
+        ...DEFAULT_PREFS,
+        context: FULL_CONTEXT,
+      };
+      await element.updateComplete;
+      await waitUntil(
+        () => queryAll(element, 'gr-context-controls').length === 0
+      );
+      assert.isFalse(element.isShowFullContext());
+
+      // First toggle must transition UNDECIDED -> NO (collapse), not YES
+      element.toggleAllContext();
+      await element.updateComplete;
+      await waitUntil(
+        () => queryAll(element, 'gr-context-controls').length === 2
+      );
+      assert.isFalse(element.isShowFullContext());
+
+      // Second toggle expands back to full file
+      element.toggleAllContext();
+      await element.updateComplete;
+      await waitUntil(
+        () => queryAll(element, 'gr-context-controls').length === 0
+      );
+      assert.isTrue(element.isShowFullContext());
+    });
+
+    test('changing prefs.context clears showFullContext override', async () => {
+      assert.equal(queryAll(element, 'gr-context-controls').length, 2);
+
+      // Expand all context via Shift+X override
+      element.toggleAllContext();
+      await element.updateComplete;
+      await waitUntil(
+        () => queryAll(element, 'gr-context-controls').length === 0
+      );
+      assert.isTrue(element.isShowFullContext());
+
+      // Updating prefs.context clears showFullContext back to UNDECIDED
+      element.prefs = {
+        ...DEFAULT_PREFS,
+        context: 3,
+      };
+      await element.updateComplete;
+      await waitUntil(
+        () => queryAll(element, 'gr-context-controls').length === 2
+      );
+      assert.isFalse(element.isShowFullContext());
+
+      // Subsequent toggleAllContext expands cleanly again
+      element.toggleAllContext();
+      await element.updateComplete;
+      await waitUntil(
+        () => queryAll(element, 'gr-context-controls').length === 0
+      );
+      assert.isTrue(element.isShowFullContext());
     });
   });
 });

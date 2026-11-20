@@ -514,6 +514,11 @@ export enum CommitSignatureStatus {
   UNVERIFIED = 'UNVERIFIED',
 }
 
+export enum CommitSignatureSignerType {
+  USER = 'USER',
+  SERVER = 'SERVER',
+}
+
 export enum CommitSignatureReason {
   UNSUPPORTED_FORMAT = 'UNSUPPORTED_FORMAT',
   MALFORMED_SIGNATURE = 'MALFORMED_SIGNATURE',
@@ -532,6 +537,7 @@ export declare interface CommitSignatureInfo {
   signing_key_fingerprint?: GpgKeyFingerprint;
   primary_key_fingerprint?: GpgKeyFingerprint;
   signer?: AccountInfo;
+  signer_type?: CommitSignatureSignerType;
   reason?: CommitSignatureReason;
   message?: string;
 }

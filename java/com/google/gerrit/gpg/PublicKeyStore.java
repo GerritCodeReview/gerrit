@@ -79,7 +79,7 @@ import org.eclipse.jgit.util.NB;
  * <p>No additional checks are performed on the key after reading; callers should only trust keys
  * after checking with a {@link PublicKeyChecker}.
  */
-public class PublicKeyStore implements AutoCloseable {
+public class PublicKeyStore implements AutoCloseable, PublicKeyLookup {
   /** Ref where GPG public keys are stored. */
   public static final String REFS_GPG_KEYS = "refs/meta/gpg-keys";
 
@@ -200,6 +200,7 @@ public class PublicKeyStore implements AutoCloseable {
    * @throws PGPException if an error occurred parsing the key data.
    * @throws IOException if an error occurred reading the repository data.
    */
+  @Override
   public PGPPublicKeyRingCollection get(long keyId) throws PGPException, IOException {
     return new PGPPublicKeyRingCollection(get(keyId, null));
   }
@@ -218,6 +219,7 @@ public class PublicKeyStore implements AutoCloseable {
    * @throws IOException if an error occurred reading the repository data.
    */
   @Nullable
+  @Override
   public PGPPublicKeyRing get(byte[] fingerprint) throws PGPException, IOException {
     List<PGPPublicKeyRing> keyRings = get(Fingerprint.getId(fingerprint), fingerprint);
     return !keyRings.isEmpty() ? keyRings.get(0) : null;

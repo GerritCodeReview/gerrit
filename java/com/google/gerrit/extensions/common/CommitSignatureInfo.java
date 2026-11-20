@@ -31,10 +31,16 @@ public class CommitSignatureInfo {
     IDENTITY_MISMATCH
   }
 
+  public enum SignerType {
+    USER,
+    SERVER
+  }
+
   public Status status;
   public String signingKeyFingerprint;
   public String primaryKeyFingerprint;
   public AccountInfo signer;
+  public SignerType signerType;
   public Reason reason;
   public String message;
 }

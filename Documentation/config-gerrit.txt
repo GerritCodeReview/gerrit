@@ -3339,31 +3339,32 @@ or unavailable, the endpoint returns `501 Not Implemented`. Effective
 availability is advertised as
 link:rest-api-config.html#gerrit-info[`gerrit.commit_signature_verification`].
 +
-Verification checks the exact unsigned commit bytes. The signing key must
-belong to a unique registered Gerrit account, and the committer email must
-match both an email of that account and a valid self-certified key identity.
+Verification checks the exact unsigned commit bytes. For a user signature,
+the signing key must belong to a unique registered Gerrit account, and the
+committer email must match both an email of that account and a valid
+self-certified key identity.
 The author and uploader need not be the signer. Signing subkeys must have a
 valid binding, signing capability, and a valid back-signature. Key creation,
 expiration, and revocation are checked at the authenticated signature time,
 using the existing key rules; a compromise revocation also invalidates older
 signatures. The existing optional
 link:#receive.trustedKey[trust roots] and
-link:#receive.maxTrustDepth[trust depth] apply to commit verification too.
+link:#receive.maxTrustDepth[trust depth] apply to user commit verification too.
 Later trust certifications can establish trust for older commit signatures.
 Certifiers are checked at their authenticated certification time, and
 designated revokers at their revocation time.
 +
 Users can register public keys with the
 link:rest-api-accounts.html#add-delete-gpg-keys[GPG key API] or account settings when
-link:#gerrit.editGpgKeys[`gerrit.editGpgKeys`] allows it. Verification uses the
-current registered keys and configuration on every request; results are not
-stored or indexed, and deleting a key can change an earlier result.
+link:#gerrit.editGpgKeys[`gerrit.editGpgKeys`] allows it. User verification uses
+the current registered keys and configuration on every request; results are
+not stored or indexed, and deleting a key can change an earlier result.
 +
-Any reader of a revision can see the standard signing account information,
-even when link:#accounts.visibility[`accounts.visibility`] restricts account
-discovery. Standard account serialization restrictions still apply. No
-additional email addresses, external IDs, or arbitrary key user IDs are
-disclosed by this API.
+Any reader of a revision can see the standard signing account information
+for a verified user signature, even when
+link:#accounts.visibility[`accounts.visibility`] restricts account discovery.
+Standard account serialization restrictions still apply. No additional email
+addresses, external IDs, or arbitrary key user IDs are disclosed by this API.
 +
 This setting alone does not enable signed-push validation or enforce signatures
 on uploads, and does not sign commits on the server. Projects can separately
@@ -3373,6 +3374,115 @@ link:config-project-config.html#receive.requireSignedCommits[
 distinct from signed push certificates and from `Signed-off-by` trailers.
 +
 Defaults to `false`.
+
+[[gpg.serverSigningKey]]gpg.serverSigningKey::
++
+Full primary fingerprint of the active server attestation key. Unset by
+default: Gerrit does not sign generated commits unless this is configured.
+Requires available
+link:#gpg.enableCommitSignatureVerification[commit signature verification].
+Exactly one active value is allowed. The fingerprint must identify a
+configured `gpg "server-key <fingerprint>"` entry with a public key file and
+usable secret material. All server-key settings and key files are loaded at
+startup; changing them requires a restart.
++
+Gerrit signs only finalized, unsigned repository-content commits it generates
+for projects requiring
+link:config-project-config.html#receive.requireSignedCommits[verified commit
+signatures]. This includes merge/cherry-pick/rebase submission, REST-created
+changes and file commits, edits and publication, message updates, reverts,
+and initial project content. The tree, parents, author, committer, encoding,
+timestamps and message are preserved. The generated signature is independently
+verified before the commit is inserted. Metadata, configuration and NoteDb
+commits are excluded. Optional projects retain their unsigned default behavior.
++
+Gerrit never re-signs uploaded client objects, rewrites existing history, or
+copies a signature onto a changed payload. An existing signed object must
+verify as it is. Without an active key, operations needing new unsigned
+content still fail in required projects. Invalid active provisioning prevents
+startup; signing or verification failures, including key expiry or new
+signing-key ambiguity after startup,
+prevent the content update and never fall back to unsigned insertion.
+
+[[gpg.server-key]]gpg "server-key <fingerprint>"::
++
+Configure each server attestation key using its full primary fingerprint in
+the subsection name. Multiple public keys are supported so retired keys can
+remain trusted without their secret material. These keys are explicit server
+attestation trust, separate from registered user keys and the user web of
+trust. Their signatures do not assert a matching Gerrit account or committer
+email. A verified result has `signer_type: SERVER`, key fingerprints, and no
+invented signing account. Ordinary user signatures retain all account,
+committer and certified-identity checks.
++
+`publicKeyFile` names a file containing one complete public key ring, armored
+or binary. Its primary fingerprint must match the subsection. `secretKeyFile`
+names the active key's secret key ring and `passphrase` optionally unlocks it.
+Both secret options must be stored *only* in `secure.config` (or the configured
+secure-store implementation), never in `gerrit.config`, even if a secure value
+would override it. An absent passphrase is suitable only for unencrypted
+secret material. Relative key-file paths are resolved against the site root.
++
+The secret and public primary and subkey fingerprints must agree. The active
+ring must contain exactly one currently eligible secret signing key: a signing
+primary key or a correctly bound signing subkey with a valid back-signature.
+Creation, authenticated expiration, signing capability and revocation are
+checked. Multiple eligible secret signing keys are rejected as ambiguous;
+use a certify-only primary with one signing subkey, or export only the needed
+secret signing material. Eligibility is rechecked before signing; if the
+startup-selected key is no longer uniquely eligible, signing fails until
+valid material is provisioned and the server restarted. Retired public keys
+are checked at each signature's
+authenticated creation time, so expiry does not invalidate historical valid
+signatures; compromise revocations do.
++
+Provision keys offline, for example with a certify-only RSA primary and one
+signing subkey. Replace `PRIMARY_FINGERPRINT` below with the full fingerprint
+reported by GnuPG:
+
+----
+  umask 077
+  gpg --quick-generate-key 'Gerrit server <gerrit@example.com>' rsa3072 cert 2y
+  gpg --quick-add-key PRIMARY_FINGERPRINT rsa3072 sign 1y
+  gpg --output server-public.asc --armor --export PRIMARY_FINGERPRINT
+  gpg --output server-secret.asc --armor --export-secret-keys PRIMARY_FINGERPRINT
+----
++
+Install the files outside Git repositories, owned by the Gerrit service user.
+Restrict the secret file and `secure.config` to that user, for example mode
+`0600`. Do not register the server secret key with any account API or place a
+passphrase in process arguments. The runtime signer uses Bouncy Castle in
+process; it does not invoke GnuPG or a shell. Example configuration (replace
+the illustrative fingerprint and filenames):
+
+----
+  # etc/gerrit.config
+  [gpg]
+    enableCommitSignatureVerification = true
+    serverSigningKey = AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  [gpg "server-key AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"]
+    publicKeyFile = etc/server-A-public.asc
+
+  # etc/secure.config
+  [gpg "server-key AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"]
+    secretKeyFile = etc/server-A-secret.asc
+    passphrase = <stored securely>
+----
++
+To rotate from A to B, add B's public entry and secure secret options, change
+`gpg.serverSigningKey` to B's primary fingerprint, remove A's secret options
+and retire its secret file, but retain A's public entry/file. Restart every
+Gerrit node with the same configuration. New generated commits use B while
+A and B signatures remain verifiable. Removing A's public entry and restarting
+removes its server attestation trust; historical objects are not rewritten,
+and newly introduced history or submissions depending on that trust can fail
+the required-signature policy. This does not remove a separately registered
+user key, whose signatures must still meet the user identity rules.
++
+For a rolling rotation, first deploy B's public entry to all nodes and restart
+them while A remains active. Only then activate B and restart again, retaining
+both public entries. Otherwise a node with only A's trust can reject B's
+attestations while other nodes are already signing with B.
 
 [[gitweb]]
 === Section gitweb

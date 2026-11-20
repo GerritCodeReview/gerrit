@@ -114,6 +114,16 @@ The author and uploader need not be the signer. Expand `Details` to see the
 signing key fingerprint and primary key fingerprint; these can differ when a
 signing subkey was used.
 +
+`Verified (server)` instead means the signature verifies against a configured
+server attestation key. Gerrit uses these keys for finalized generated content
+in required projects when
+link:config-gerrit.html#gpg.serverSigningKey[server signing] is configured.
+This attestation does not identify the committer as the signer or fabricate a
+Gerrit account. `Details` shows the signing and primary key fingerprints and
+explains this distinction. Retired public keys can keep old attestations
+verifiable after rotation; removing their configured trust requires a restart
+and can change later results.
++
 `Unsigned` is a neutral indication that the commit has no signature.
 `Unverified` means a signature is present but Gerrit cannot verify it. Expand
 `Details` for a safe explanation and any available key fingerprints, for

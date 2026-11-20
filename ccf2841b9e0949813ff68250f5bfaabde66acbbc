@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "846d9f05_a19df646",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-11-20T05:39:25Z",
+      "side": 1,
+      "message": "nit: move to the bottom?",
+      "revId": "ccf2841b9e0949813ff68250f5bfaabde66acbbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

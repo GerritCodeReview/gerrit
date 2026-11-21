@@ -287,14 +287,6 @@ export class GrMainHeader extends LitElement {
         .bigTitle:hover {
           text-decoration: underline;
         }
-        .mobileTitleWrapper {
-          position: absolute;
-          left: 100px;
-          right: 100px;
-          overflow: hidden;
-          display: flex;
-          justify-content: center;
-        }
         .titleText {
           display: flex;
           align-items: center;
@@ -521,9 +513,20 @@ export class GrMainHeader extends LitElement {
             z-index: 200;
             box-shadow: var(--header-box-shadow);
           }
-          .nav-header {
+          nav .nav-header {
             display: flex;
             align-items: center;
+            min-height: 54px;
+          }
+          /* shrink-to-fit when short -> centered by wrapper; shrinks -> ellipsis when long */
+          .mobileTitleWrapper {
+            flex: 1 1 0;
+            min-width: 0;
+            max-width: 100%;
+            margin-left: 5px;
+          }
+          .mobileRightItems {
+            flex: 0 0 auto;
           }
           .hamburger {
             display: inline-block;

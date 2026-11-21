@@ -1551,12 +1551,19 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Add a comment thread with branches. Such threads occur if people reply in parallel without
     // having seen/loaded the reply of another person.
     String root =
-        changeOperations.change(changeId).currentPatchset().newComment().author(user1).create();
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .onFileLevelOf(Patch.COMMIT_MSG)
+            .author(user1)
+            .create();
     String sibling1 =
         changeOperations
             .change(changeId)
             .currentPatchset()
             .newComment()
+            .onFileLevelOf(Patch.COMMIT_MSG)
             .author(user2)
             .parentUuid(root)
             .create();
@@ -1565,6 +1572,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
             .change(changeId)
             .currentPatchset()
             .newComment()
+            .onFileLevelOf(Patch.COMMIT_MSG)
             .author(user3)
             .parentUuid(root)
             .create();
@@ -1572,6 +1580,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .change(changeId)
         .currentPatchset()
         .newComment()
+        .onFileLevelOf(Patch.COMMIT_MSG)
         .author(user4)
         .parentUuid(sibling2)
         .create();
@@ -1600,12 +1609,13 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).current().review(reviewWithComment());
 
     requestScopeOperations.setApiUser(admin.id());
-    testCommentHelper.addDraft(
-        r.getChangeId(),
+    DraftInput draft =
         testCommentHelper.newDraft(
             "message",
             Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).current().commentsAsList())
-                .id));
+                .id);
+    draft.path = Patch.COMMIT_MSG;
+    testCommentHelper.addDraft(r.getChangeId(), draft);
 
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = ReviewInput.DraftHandling.PUBLISH;

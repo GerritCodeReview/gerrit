@@ -785,6 +785,82 @@ suite('comment-util', () => {
       assert.equal(threads[0].comments.length, 2);
       assert.isFalse(isUnresolved(threads[0]));
     });
+
+    test('ignores cross-path parent and clears patchset-level line', () => {
+      const comments: Comment[] = [
+        {
+          id: 'file_parent' as UrlEncodedCommentId,
+          message: 'inline file comment',
+          updated: '2026-11-20 15:00:00.000000000' as Timestamp,
+          line: 5,
+          side: CommentSide.PARENT,
+          parent: 1,
+          range: {
+            start_line: 4,
+            start_character: 0,
+            end_line: 5,
+            end_character: 10,
+          },
+          unresolved: true,
+          patch_set: 3 as RevisionPatchSetNum,
+          path: 'src/BUILD.gn',
+        },
+        {
+          id: 'patchset_reply_corrupted' as UrlEncodedCommentId,
+          message: 'cross-path patchset reply persisted with line',
+          updated: '2026-11-20 15:05:00.000000000' as Timestamp,
+          in_reply_to: 'file_parent' as UrlEncodedCommentId,
+          line: 5,
+          unresolved: true,
+          patch_set: 3 as RevisionPatchSetNum,
+          path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        },
+        {
+          id: 'patchset_resolution' as UrlEncodedCommentId,
+          message: 'Done.',
+          updated: '2026-11-20 15:10:00.000000000' as Timestamp,
+          in_reply_to: 'patchset_reply_corrupted' as UrlEncodedCommentId,
+          unresolved: false,
+          patch_set: 3 as RevisionPatchSetNum,
+          path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        },
+        {
+          id: 'other_file_reply' as UrlEncodedCommentId,
+          message: 'cross-file reply',
+          updated: '2026-11-20 15:06:00.000000000' as Timestamp,
+          in_reply_to: 'file_parent' as UrlEncodedCommentId,
+          patch_set: 3 as RevisionPatchSetNum,
+          path: 'other/BUILD.gn',
+        },
+        {
+          id: 'later_file_reply' as UrlEncodedCommentId,
+          message: 'cross-file reply sorting after parent',
+          updated: '2026-11-20 15:07:00.000000000' as Timestamp,
+          in_reply_to: 'file_parent' as UrlEncodedCommentId,
+          patch_set: 3 as RevisionPatchSetNum,
+          path: 'zzz/BUILD.gn',
+        },
+      ];
+
+      const threads = createCommentThreads(comments);
+
+      assert.isUndefined(comments[1].line);
+      assert.isUndefined(comments[1].range);
+      assert.isUndefined(comments[1].side);
+      assert.isUndefined(comments[1].parent);
+      assert.isUndefined(comments[3].line);
+      assert.isUndefined(comments[3].range);
+      assert.isUndefined(comments[3].side);
+      assert.isUndefined(comments[3].parent);
+      assert.isUndefined(comments[4].line);
+
+      assert.equal(threads.length, 4);
+      assert.equal(threads[0].path, SpecialFilePath.PATCHSET_LEVEL_COMMENTS);
+      assert.equal(threads[0].comments.length, 2);
+      assert.isFalse(isUnresolved(threads[0]));
+      assert.equal(threads[3].path, 'zzz/BUILD.gn');
+      assert.equal(threads[3].comments.length, 1);
+    });
   });
   suite('computeDisplayLine', () => {
     test('PatchSetLevel', () => {
@@ -876,6 +952,32 @@ suite('comment-util', () => {
       assert.equal(reply.line, 2); // Should match range.end_line, not replyingTo.line
       assert.deepEqual(reply.range, replyingTo.range);
       assert.equal(reply.in_reply_to, 'parent_id');
+    });
+
+    test('reply to patchset-level comment omits location fields', () => {
+      const replyingTo = {
+        ...createComment(),
+        id: 'corrupted_patchset_id' as UrlEncodedCommentId,
+        path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        line: 5,
+        side: CommentSide.PARENT,
+        parent: 1,
+        range: {
+          start_line: 1,
+          start_character: 0,
+          end_line: 5,
+          end_character: 3,
+        },
+      };
+
+      const reply = createNewReply(replyingTo, 'Done', false);
+
+      assert.equal(reply.path, SpecialFilePath.PATCHSET_LEVEL_COMMENTS);
+      assert.equal(reply.in_reply_to, 'corrupted_patchset_id');
+      assert.isUndefined(reply.line);
+      assert.isUndefined(reply.range);
+      assert.isUndefined(reply.side);
+      assert.isUndefined(reply.parent);
     });
   });
 });

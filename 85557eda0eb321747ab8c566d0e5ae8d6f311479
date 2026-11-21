@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c68952_0f9d5fbd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-21T21:04:57Z",
+      "side": 1,
+      "message": "How do I switch to the `jdbc:h2:file` URL if I want to?\nThe `async` feature is experimental and not guaranteed to solve the problem; see https://www.h2database.com/html/advanced.html.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "85557eda0eb321747ab8c566d0e5ae8d6f311479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

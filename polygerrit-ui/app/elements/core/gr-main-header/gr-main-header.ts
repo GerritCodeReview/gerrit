@@ -731,33 +731,28 @@ export class GrMainHeader extends LitElement {
 
     return html`
       <nav class="hideOnDesktop">
-        ${when(
-          this.mobileSearch,
-          () => html` <div class="nav-header">
-            <md-icon-button
-              touch-target="none"
-              aria-label="Back"
-              @click=${() => {
-                this.mobileSearch = false;
-              }}
-            >
-              <md-icon filled>arrow_back</md-icon>
-            </md-icon-button>
-            <gr-smart-search
-              id="search"
-              .verticalOffset=${40}
-            ></gr-smart-search>
-          </div>`
-        )}
-        ${when(
-          !this.mobileSearch,
-          () => html`
-            <div class="nav-header">
+        <div class="nav-header">
+          ${when(
+            this.mobileSearch,
+            () => html` <md-icon-button
+                touch-target="none"
+                aria-label="Back"
+                @click=${() => {
+                  this.mobileSearch = false;
+                }}
+              >
+                <md-icon filled>arrow_back</md-icon>
+              </md-icon-button>
+              <gr-smart-search
+                id="search"
+                .verticalOffset=${40}
+              ></gr-smart-search>`,
+            () => html`
               <md-icon-button
                 touch-target="none"
-                aria-label="${!this.hamburgerClose
-                  ? 'Open'
-                  : 'Close'} hamburger"
+                aria-label="${
+                  !this.hamburgerClose ? 'Open' : 'Close'
+                } hamburger"
                 @click=${() => {
                   this.handleSidebar();
                 }}
@@ -785,9 +780,9 @@ export class GrMainHeader extends LitElement {
                 <md-icon-button
                   touch-target="none"
                   title="Search"
-                  aria-label=${this.mobileSearch
-                    ? 'Hide Search Bar'
-                    : 'Show Search Bar'}
+                  aria-label=${
+                    this.mobileSearch ? 'Hide Search Bar' : 'Show Search Bar'
+                  }
                   @click=${() => {
                     this.mobileSearch = !this.mobileSearch;
 
@@ -827,15 +822,15 @@ export class GrMainHeader extends LitElement {
                   )
                 )}
               </md-list>
-            </div>
-            ${this.hamburgerClose
-              ? html`<div
-                  class="modelBackground"
-                  @click=${() => this.handleSidebar()}
-                ></div>`
-              : nothing}
-          `
-        )}
+            `
+          )}
+        </div>
+        ${this.hamburgerClose && !this.mobileSearch
+          ? html`<div
+              class="modelBackground"
+              @click=${() => this.handleSidebar()}
+            ></div>`
+          : nothing}
       </nav>
     `;
   }

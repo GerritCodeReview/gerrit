@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39913d2d_416c5937",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:59:07Z",
+      "side": 1,
+      "message": "You\u0027re right that the series introduces a new permission — there\u0027s no existing one to reuse. Every current ChangePermission is per-action (abandon, addPatchSet, editTopicName, etc.).\n\nNone is a coarse \"write the change\" gate. Writing a change\u0027s metadata had no ACL guarding it, unlike a git ref, so this adds the missing one.\n\nIt\u0027s the change-level counterpart to the ref-level ACLs on git refs — same idea, an ACL that must permit the write — but it\u0027s a ChangePermission, resolved through AbstractChangeControl just like canAbandon() (owner, branch/project owner and admin are exempt), and enforced at the NoteDb change-write chokepoint in BatchUpdate rather than as a ref-level check on refs/changes/*/meta.\n\nThat\u0027s deliberate: the chokepoint is the one place every logical change write funnels through, so one guard covers them all.\n\nSo nothing contradicts \"leaving the ACL evaluation model unchanged\": a new permission is added to the set, but the machinery that resolves any permission — and ALLOW/BLOCK precedence — is untouched.",
+      "parentUuid": "f2230925_668cc8e1",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "c6f517736b4294b28393490d46195a682e0d2f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7e22f3f_c8246540",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b167562_1cb69af8",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:59:07Z",
+      "side": 1,
+      "message": "Done. added a WRITE_CHANGE resolution test to PermissionBackendIT.",
+      "parentUuid": "b7e22f3f_c8246540",
+      "revId": "c6f517736b4294b28393490d46195a682e0d2f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2617c76e_2f5ab0e8",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-11-16T18:22:33Z",
       "side": 1,
       "message": "In the documentation we state: `Internal server operations,...are always allowed`.\n\nHow are we enforcing it here? Should we add a check for `getUser().isInternalUser()` ?",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 10
+      },
+      "revId": "c6f517736b4294b28393490d46195a682e0d2f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d54527_07a63c35",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:59:07Z",
+      "side": 1,
+      "message": "Enforced at the chokepoint, not here: BatchUpdate.mayWriteChange() short-circuits on isInternalUser(). canWriteChange() only resolves the ACL (mirrors canAbandon()). Also fixed the doc to attribute the internal bypass to the storage guard, not the permission.",
+      "parentUuid": "2617c76e_2f5ab0e8",
       "range": {
         "startLine": 227,
         "startChar": 4,

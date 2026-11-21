@@ -733,7 +733,7 @@ export class GrMainHeader extends LitElement {
       <nav class="hideOnDesktop">
         ${when(
           this.mobileSearch,
-          () => html` <div class="nav-header">
+          () => html`<div class="nav-header">
             <md-icon-button
               touch-target="none"
               aria-label="Back"
@@ -747,12 +747,8 @@ export class GrMainHeader extends LitElement {
               id="search"
               .verticalOffset=${40}
             ></gr-smart-search>
-          </div>`
-        )}
-        ${when(
-          !this.mobileSearch,
-          () => html`
-            <div class="nav-header">
+          </div>`,
+          () => html`<div class="nav-header">
               <md-icon-button
                 touch-target="none"
                 aria-label="${!this.hamburgerClose
@@ -833,8 +829,7 @@ export class GrMainHeader extends LitElement {
                   class="modelBackground"
                   @click=${() => this.handleSidebar()}
                 ></div>`
-              : nothing}
-          `
+              : nothing}`
         )}
       </nav>
     `;

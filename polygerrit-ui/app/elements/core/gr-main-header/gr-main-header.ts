@@ -525,6 +525,32 @@ export class GrMainHeader extends LitElement {
             display: flex;
             align-items: center;
           }
+          .mobileTitleWrapper {
+            position: static;
+            display: flex;
+            flex: 1 1 0;
+            min-width: 0;
+            overflow: hidden;
+            justify-content: center;
+          }
+          .mobileTitleWrapper .bigTitle {
+            flex: 1 1 0;
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+          }
+          .mobileTitleWrapper gr-endpoint-decorator {
+            display: block;
+            width: 100%;
+            min-width: 0;
+          }
+          .mobileTitleWrapper .titleText {
+            width: 100%;
+            min-width: 0;
+          }
+          .mobileRightItems {
+            flex: 0 0 auto;
+          }
           .hamburger {
             display: inline-block;
             vertical-align: middle;

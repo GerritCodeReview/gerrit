@@ -116,7 +116,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       PluginSetContext<CommentValidator> commentValidators,
       CommentsUtil commentsUtil)
       throws BadRequestException {
-    commentsUtil.ensureValidInReplyTo(rsrc.getNotes(), rsrc.getPatchSet().id(), in.inReplyTo);
+    commentsUtil.ensureValidInReplyTo(
+        rsrc.getNotes(), rsrc.getPatchSet().id(), in.path, in.inReplyTo);
 
     HumanComment comment =
         createDraftComment(

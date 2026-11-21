@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a5ba599_d7d75921",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T07:40:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab315e31_08812f4a",
+      "revId": "933da0b5861730629edf42083a3861baae3d6b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3abc565d_f5789422",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-11-16T15:43:45Z",
       "side": 1,
       "message": "The project access screen builds its list of permissions from this file, but I don\u0027t see `Delete Comment` being added here. Should we not do that for the permission to be visible?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "933da0b5861730629edf42083a3861baae3d6b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39b47e52_3ad238be",
+        "filename": "polygerrit-ui/app/utils/access-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T07:40:42Z",
+      "side": 1,
+      "message": "You\u0027re right that the project-access dropdown is built from AccessPermissions in access-util.ts (gr-access-section.ts), so that entry is what makes it selectable. \n\nIt\u0027s not missing from the series, just from this change: it lands in the follow-up \"Expose deleteComment via /permissions and use it in PolyGerrit\" (change 584843), with the /permissions exposure and UI wiring.\n\nThis change is intentionally backend-only (see the commit message), and since the stack submits together there\u0027s no window where it\u0027s grantable but invisible.",
+      "parentUuid": "3abc565d_f5789422",
       "range": {
         "startLine": 15,
         "startChar": 0,

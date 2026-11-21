@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "763e6bd6_d7ba2305",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T17:00:50Z",
+      "side": 1,
+      "message": "Good point. I captured these in the option doc in the config change 648203, config-project-config.txt.",
+      "parentUuid": "9ac38043_29da7b44",
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b045537_55a6ed9b",
@@ -55,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e133134_7c275381",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T17:00:50Z",
+      "side": 1,
+      "message": "Thanks Nasser. I agree that contributors who are blocked need to understand the restriction and how to request access.\n\nFor this series, though, I\u0027d like to keep the scope focused on the permission and its enforcement.\n\nThe change already settles who and how: Write Change is a ref permission granted by project owners via the Access screen, with the usual change-owner / branch-owner / project-owner / admin exemptions.\n\nI suggest tracking discoverability, access requests, and improved denial messaging together in Issue 391666234. That would let us design an actionable experience rather than address individual pieces in this enforcement change.\n\nCould we keep this series focused on:\n\n- change 648203: configuration\n- change 648204: permission\n- change 648205: enforcement\n\nand take that UI/UX work forward separately?",
+      "parentUuid": "0957682c_98c679e7",
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e05f5f2_8a640d8b",
         "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 5
@@ -66,6 +102,30 @@
       "writtenOn": "2026-11-17T04:08:07Z",
       "side": 1,
       "message": "Should we check for impersonated writes here as well?",
+      "range": {
+        "startLine": 569,
+        "startChar": 12,
+        "endLine": 569,
+        "endChar": 19
+      },
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d8e8170_118854ac",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T17:00:50Z",
+      "side": 1,
+      "message": "Done. assertCanEdit now checks the effective user and, when impersonated, the real user, each evaluated literally via THIS_USER.",
+      "parentUuid": "4e05f5f2_8a640d8b",
       "range": {
         "startLine": 569,
         "startChar": 12,
@@ -99,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ddaf6c9_d2a492ef",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T17:00:50Z",
+      "side": 1,
+      "message": "Both the effective and the real (impersonating) user must hold Write Change on the destination, so the message states the requirement rather than the failing identity — and naming which one failed would leak impersonation internals. It mirrors the existing \"move not permitted\" message just above (the ABANDON/CREATE_CHANGE check).",
+      "parentUuid": "338e0632_2cb2ec9e",
+      "range": {
+        "startLine": 172,
+        "startChar": 11,
+        "endLine": 172,
+        "endChar": 91
+      },
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fd11e93_a438579f",
@@ -112,6 +196,30 @@
       "writtenOn": "2026-11-17T04:08:07Z",
       "side": 1,
       "message": "Isn\u0027t move a `BatchUpdate` as well? Why do we need to treat it differently from the other APIs?",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 180,
+        "endChar": 7
+      },
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6932575d_862677c3",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T17:00:50Z",
+      "side": 1,
+      "message": "It is — the BatchUpdate guard does fire. But that guard resolves Write Change against ctx.getNotes(), i.e. the change\u0027s current (source) ref. A move relocates the change onto a different ref, and the destination is never covered by the guard. This explicit check closes that gap by requiring Write Change on newDest.",
+      "parentUuid": "5fd11e93_a438579f",
       "range": {
         "startLine": 177,
         "startChar": 6,
@@ -145,6 +253,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0cb7f87_ba14f398",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T17:00:50Z",
+      "side": 1,
+      "message": "Done — writeChangeRequired() now uses .orElseThrow(illegalState(project)), so a missing project state fails closed (IllegalStateException) instead of silently returning false.",
+      "parentUuid": "4dfc6e57_1720d6ed",
+      "range": {
+        "startLine": 712,
+        "startChar": 10,
+        "endLine": 715,
+        "endChar": 29
+      },
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e1ee142_34c669d9",
@@ -158,6 +290,30 @@
       "writtenOn": "2026-11-17T04:08:07Z",
       "side": 1,
       "message": "You can `break` here, isn\u0027t it?",
+      "range": {
+        "startLine": 402,
+        "startChar": 8,
+        "endLine": 402,
+        "endChar": 21
+      },
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90bce4fa_e506bebc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RequireWriteChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T17:00:50Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9e1ee142_34c669d9",
       "range": {
         "startLine": 402,
         "startChar": 8,

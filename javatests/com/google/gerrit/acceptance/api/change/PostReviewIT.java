@@ -48,6 +48,7 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -264,6 +265,40 @@ public class PostReviewIT extends AbstractDaemonTest {
         .contains(
             "Invalid comment in_reply_to. Comment replies must be submitted on the same patchset as"
                 + " the parent comment");
+  }
+
+  @Test
+  public void validateCommentsInInput_inReplyToCommentOnDifferentPathRejected() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+
+    CommentInput comment1 = newComment(filePath);
+    comment1.line = 1;
+    comment1.updated = new Timestamp(0);
+    ReviewInput input1 = new ReviewInput();
+    input1.comments = ImmutableMap.of(filePath, ImmutableList.of(comment1));
+    gApi.changes().id(r.getChangeId()).current().review(input1);
+
+    List<CommentInfo> comments = gApi.changes().id(r.getChangeId()).commentsAsList();
+    assertThat(comments).hasSize(1);
+    String parentCommentId = comments.get(0).id;
+
+    CommentInput replyOnPatchsetLevel = new CommentInput();
+    replyOnPatchsetLevel.inReplyTo = parentCommentId;
+    replyOnPatchsetLevel.message = "cross-path reply";
+    replyOnPatchsetLevel.updated = new Timestamp(0);
+    ReviewInput input2 = new ReviewInput();
+    input2.comments = ImmutableMap.of(Patch.PATCHSET_LEVEL, ImmutableList.of(replyOnPatchsetLevel));
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().review(input2));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Invalid comment in_reply_to. Comment replies must be submitted on the same file path"
+                + " as the parent comment");
   }
 
   @Test

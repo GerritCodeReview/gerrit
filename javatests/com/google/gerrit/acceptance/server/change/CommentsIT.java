@@ -998,7 +998,12 @@ public class CommentsIT extends AbstractDaemonTest {
   public void putDraft_humanInReplyTo() throws Exception {
     Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
-        changeOperations.change(changeId).currentPatchset().newComment().create();
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .onFileLevelOf(COMMIT_MSG)
+            .create();
 
     DraftInput draft = CommentsUtil.newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
     draft.inReplyTo = parentCommentUuid;
@@ -1244,7 +1249,12 @@ public class CommentsIT extends AbstractDaemonTest {
   public void putDraft_updateHumanInReplyTo() throws Exception {
     Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
-        changeOperations.change(changeId).currentPatchset().newComment().create();
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .onFileLevelOf(FILE_NAME)
+            .create();
     DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
     CommentInfo originalDraft = addDraft(changeId, originalDraftInput);
 
@@ -1275,12 +1285,18 @@ public class CommentsIT extends AbstractDaemonTest {
     Change.Id changeId = changeOperations.newChange().createV1();
     PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
     String parentCommentUuid =
-        changeOperations.change(changeId).patchset(patchsetId).newComment().create();
+        changeOperations
+            .change(changeId)
+            .patchset(patchsetId)
+            .newComment()
+            .onFileLevelOf(FILE_NAME)
+            .create();
     String draftCommentUuid =
         changeOperations
             .change(changeId)
             .patchset(patchsetId)
             .newDraftComment()
+            .onFileLevelOf(FILE_NAME)
             .parentUuid(parentCommentUuid)
             .author(accountId)
             .create();
@@ -2078,6 +2094,94 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void replyToCommentOnDifferentPathFailsWhenCreatingOrUpdatingDraft() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+
+    ReviewInput input = new ReviewInput();
+    CommentInput parentComment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, 1, "parent comment", true);
+    input.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(parentComment));
+    revision(r).review(input);
+
+    CommentInfo parentInfo =
+        Iterables.getOnlyElement(getPublishedComments(changeId, revId).get(FILE_NAME));
+
+    DraftInput crossPathDraft =
+        CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "reply on patchset level");
+    crossPathDraft.inReplyTo = parentInfo.id;
+
+    BadRequestException createThrown =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, crossPathDraft));
+    assertThat(createThrown)
+        .hasMessageThat()
+        .contains(
+            "Invalid comment in_reply_to. Comment replies must be submitted on the same file path"
+                + " as the parent comment");
+
+    DraftInput validDraftInput =
+        CommentsUtil.newDraftWithOnlyMandatoryFields(FILE_NAME, "valid reply draft");
+    validDraftInput.inReplyTo = parentInfo.id;
+    CommentInfo validDraft = addDraft(changeId, revId, validDraftInput);
+
+    DraftInput movePathUpdate =
+        CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "moved to patchset level");
+    BadRequestException updateThrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> updateDraft(changeId, revId, movePathUpdate, validDraft.id));
+    assertThat(updateThrown)
+        .hasMessageThat()
+        .contains(
+            "Invalid comment in_reply_to. Comment replies must be submitted on the same file path"
+                + " as the parent comment");
+  }
+
+  @Test
+  public void replyToCommentOnUnmodifiedFileSucceedsWhenPublishing() throws Exception {
+    String unmodifiedFile = "unmodified.txt";
+    pushFactory
+        .create(admin.newIdent(), testRepo, "base commit", unmodifiedFile, "line 1\nline 2\n")
+        .to("refs/heads/master");
+
+    PushOneCommit.Result r = createChange("change on modified file", FILE_NAME, "modified\n");
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+
+    // Open a thread on the unmodified file via draft + PUBLISH (the Gerrit UI "Add file" flow).
+    DraftInput rootDraft =
+        CommentsUtil.newDraft(unmodifiedFile, Side.REVISION, 2, "comment on unmodified file");
+    rootDraft.unresolved = true;
+    addDraft(changeId, revId, rootDraft);
+
+    ReviewInput publishDrafts = new ReviewInput();
+    publishDrafts.drafts = DraftHandling.PUBLISH;
+    revision(r).review(publishDrafts);
+
+    CommentInfo parentInfo =
+        Iterables.getOnlyElement(getPublishedComments(changeId, revId).get(unmodifiedFile));
+
+    // Replying via ReviewInput.comments on the unmodified file should succeed and inherit line 2.
+    CommentInput replyComment = new CommentInput();
+    replyComment.inReplyTo = parentInfo.id;
+    replyComment.message = "Done.";
+    replyComment.unresolved = false;
+
+    ReviewInput replyInput = new ReviewInput();
+    replyInput.comments = ImmutableMap.of(unmodifiedFile, ImmutableList.of(replyComment));
+    revision(r).review(replyInput);
+
+    List<CommentInfo> threadComments = getPublishedComments(changeId, revId).get(unmodifiedFile);
+    assertThat(threadComments).hasSize(2);
+    CommentInfo publishedReply =
+        threadComments.stream().filter(c -> c.message.equals("Done.")).findFirst().orElseThrow();
+    assertThat(publishedReply.inReplyTo).isEqualTo(parentInfo.id);
+    assertThat(publishedReply.line).isEqualTo(2);
+    assertThat(publishedReply.unresolved).isFalse();
+  }
+
+  @Test
   public void replyWithOmittedLocationFieldsInheritsFromParentComment() throws Exception {
     String path = "file1";
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master", path);
@@ -2395,7 +2499,12 @@ public class CommentsIT extends AbstractDaemonTest {
   public void canCreateHumanCommentWithHumanCommentAsParent() throws Exception {
     Change.Id changeId = changeOperations.newChange().createV1();
     String parentCommentUuid =
-        changeOperations.change(changeId).currentPatchset().newComment().create();
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .onFileLevelOf(COMMIT_MSG)
+            .create();
 
     CommentInput createdCommentInput = CommentsUtil.newComment(COMMIT_MSG, "comment reply");
     createdCommentInput.inReplyTo = parentCommentUuid;

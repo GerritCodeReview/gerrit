@@ -197,6 +197,14 @@ export function createNewReply(
   message: string,
   unresolved: boolean
 ): DraftInfo {
+  if (replyingTo.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+    return {
+      ...createNew(message, unresolved),
+      path: replyingTo.path,
+      patch_set: replyingTo.patch_set,
+      in_reply_to: replyingTo.id,
+    };
+  }
   return {
     ...createNew(message, unresolved),
     path: replyingTo.path,
@@ -217,7 +225,7 @@ export function createNewReply(
  * without the range, line, side, or parent being set, hence ensure these are
  * properly derived from the parent comment before forming threads.
  */
-export function sanitiseRanges(comments: Comment[]) {
+export function sanitiseRanges(comments: Comment[]): void {
   const idToComment = new Map<string, Comment>();
   for (const comment of comments) {
     if (comment.id) {
@@ -231,6 +239,13 @@ export function sanitiseRanges(comments: Comment[]) {
       return;
     }
     visited.add(comment);
+    if (comment.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+      comment.line = undefined;
+      comment.range = undefined;
+      comment.side = undefined;
+      comment.parent = undefined;
+      return;
+    }
     if (!comment.in_reply_to) {
       return;
     }
@@ -239,6 +254,9 @@ export function sanitiseRanges(comments: Comment[]) {
       return;
     }
     inheritFromParent(parent);
+    if (comment.path !== parent.path) {
+      return;
+    }
     if (parent.line !== undefined && comment.line === undefined) {
       comment.line = parent.line;
     }
@@ -700,14 +718,16 @@ export function convertToCommentInput(comment: Comment): CommentInput {
   if (comment.path) {
     output.path = comment.path;
   }
-  if (comment.side) {
-    output.side = comment.side;
-  }
-  if (comment.line) {
-    output.line = comment.line;
-  }
-  if (comment.range) {
-    output.range = comment.range;
+  if (comment.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+    if (comment.side) {
+      output.side = comment.side;
+    }
+    if (comment.line) {
+      output.line = comment.line;
+    }
+    if (comment.range) {
+      output.range = comment.range;
+    }
   }
   if (comment.in_reply_to) {
     output.in_reply_to = comment.in_reply_to;

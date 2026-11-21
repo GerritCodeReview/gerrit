@@ -68,18 +68,22 @@ public class CommentsValidator {
       RevisionResource revision, Map<String, List<T>> commentsPerPath)
       throws BadRequestException, PatchListNotAvailableException {
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
+    PatchSet.Id patchSetId = revision.getPatchSet().id();
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
-      PatchSet.Id patchSetId = revision.getPatchSet().id();
-      ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
-
       List<T> comments = entry.getValue();
+      if (comments.isEmpty()) {
+        ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
+      }
       for (T comment : comments) {
+        commentsUtil.ensureValidInReplyTo(revision.getNotes(), patchSetId, path, comment.inReplyTo);
+        if (comment.inReplyTo == null) {
+          ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
+        }
         ensureLineIsNonNegative(comment.line, path);
         ensureCommentNotOnMagicFilesOfAutoMerge(path, comment);
         ensureRangeIsValid(path, comment.range);
         ensureValidPatchsetLevelComment(path, comment);
-        commentsUtil.ensureValidInReplyTo(revision.getNotes(), patchSetId, comment.inReplyTo);
         ensureFixSuggestionsAreAddable(comment.fixSuggestions, path);
       }
     }

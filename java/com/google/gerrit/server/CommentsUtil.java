@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
@@ -39,6 +40,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -110,11 +112,12 @@ public class CommentsUtil {
     return tag.substring("mailMessageId=".length());
   }
 
-  public void ensureValidInReplyTo(ChangeNotes changeNotes, PatchSet.Id psId, String inReplyTo)
+  public void ensureValidInReplyTo(
+      ChangeNotes changeNotes, PatchSet.Id psId, String path, @Nullable String inReplyTo)
       throws BadRequestException {
     if (inReplyTo != null) {
       HumanComment parent =
-          getPublishedHumanComment(changeNotes, inReplyTo)
+          getPublishedHumanComment(changeNotes, Url.decode(inReplyTo))
               .orElseThrow(
                   () ->
                       new BadRequestException(
@@ -128,6 +131,17 @@ public class CommentsUtil {
                 + parent.key.patchSetId
                 + ", comment_patchset: "
                 + psId.get()
+                + ")");
+      }
+      if (!parent.key.filename.equals(path)) {
+        throw new BadRequestException(
+            "Invalid comment in_reply_to. Comment replies must be submitted on the same file path"
+                + " as the parent comment. (in_reply_to: "
+                + inReplyTo
+                + ", in_reply_to_path: "
+                + parent.key.filename
+                + ", comment_path: "
+                + path
                 + ")");
       }
     }
@@ -189,14 +203,15 @@ public class CommentsUtil {
 
   /**
    * Sets the comment's line number, range, and side from {@code input}, inheriting omitted location
-   * fields from the parent comment when {@code comment.parentUuid} is set.
+   * fields from the parent comment when {@code comment.parentUuid} is set on the same file and
+   * patchset.
    */
   public void setLocationFromInputAndParent(
       HumanComment comment,
       com.google.gerrit.extensions.client.Comment input,
       ChangeNotes changeNotes) {
     comment.setLineNbrAndRange(input.line, input.range);
-    if (comment.parentUuid == null) {
+    if (comment.parentUuid == null || PATCHSET_LEVEL.equals(comment.key.filename)) {
       return;
     }
     Optional<HumanComment> parentOpt = getPublishedHumanComment(changeNotes, comment.parentUuid);
@@ -204,6 +219,10 @@ public class CommentsUtil {
       return;
     }
     HumanComment parent = parentOpt.get();
+    if (!parent.key.filename.equals(comment.key.filename)
+        || parent.key.patchSetId != comment.key.patchSetId) {
+      return;
+    }
     if (input.side == null && input.parent == null && comment.side != parent.side) {
       comment.side = parent.side;
       comment.setCommitId(null);

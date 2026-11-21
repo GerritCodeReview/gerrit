@@ -94,6 +94,10 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
+    if (in.inReplyTo == null && rsrc.getComment().parentUuid != null) {
+      commentsUtil.ensureValidInReplyTo(
+          rsrc.getNotes(), rsrc.getPatchSet().id(), in.path, rsrc.getComment().parentUuid);
+    }
     CreateDraftComment.validateDraftComment(
         rsrc.getRevisionResource(), in, commentValidators, commentsUtil);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {

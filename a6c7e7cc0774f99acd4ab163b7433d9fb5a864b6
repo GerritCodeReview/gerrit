@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73507029_9742eaa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33e5721c_2caeed0d",
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab22c4ff_61dd2bf7",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e99e495_d9dae757",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab22c4ff_61dd2bf7",
+      "range": {
+        "startLine": 15,
+        "startChar": 56,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9750802b_bcb6cdfa",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-11-16T16:45:24Z",
       "side": 1,
       "message": "I think this should be included in the release notes. It is a new value exposed in the API. WDYT?",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1845675_9b422c37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9750802b_bcb6cdfa",
       "range": {
         "startLine": 27,
         "startChar": 15,
@@ -111,6 +177,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d21f18b7_b4986cbd",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:58:48Z",
+      "side": 1,
+      "message": "Config-first is the correct dependency direction; the only forward reference is a doc anchor that resolves on co-submit. Swapping would instead leave enforcement code referencing a not-yet-registered flag.",
+      "parentUuid": "989e1182_51e565c6",
+      "range": {
+        "startLine": 470,
+        "startChar": 9,
+        "endLine": 470,
+        "endChar": 71
+      },
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8deb619f_fe76e241",
@@ -134,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06356d03_47e8ed17",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:58:48Z",
+      "side": 1,
+      "message": "Done, reworded in the new patchset.",
+      "parentUuid": "8deb619f_fe76e241",
+      "range": {
+        "startLine": 471,
+        "startChar": 74,
+        "endLine": 474,
+        "endChar": 28
+      },
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3af55ae0_61d1aa6d",
@@ -147,6 +261,24 @@
       "writtenOn": "2026-11-16T16:45:24Z",
       "side": 1,
       "message": "Worth adding some tests, for example, in `ProjectConfigIT`. Other flags are tested there.",
+      "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d369a0e_139dd509",
+        "filename": "java/com/google/gerrit/entities/BooleanProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T16:58:48Z",
+      "side": 1,
+      "message": "Done, added to ProjectConfigIT.",
+      "parentUuid": "3af55ae0_61d1aa6d",
       "revId": "a6c7e7cc0774f99acd4ab163b7433d9fb5a864b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

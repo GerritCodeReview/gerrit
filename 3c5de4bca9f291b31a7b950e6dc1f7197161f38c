@@ -16,6 +16,24 @@
       "message": "nit: Should we add a pointer to the AI permission now?\n\n```\nTo check the `aiReview` permission, use\nlink:#get-change-permissions[Get Change Permissions].\n```",
       "revId": "3c5de4bca9f291b31a7b950e6dc1f7197161f38c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "384ad63e_1b87386d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4936,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T07:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3869558a_a6481d75",
+      "revId": "3c5de4bca9f291b31a7b950e6dc1f7197161f38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25ecf115_1635f74e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T07:47:50Z",
+      "side": 1,
+      "message": "Added a paragraph explaining the rationale. Done.",
+      "parentUuid": "b4e30bb3_03943e8c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "88f3a299d902485318cb14c9d7ba9e5183af35df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56dd239f_d06dffd4",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-11-16T16:38:36Z",
       "side": 1,
       "message": "```suggestion\n * \u0027409 Conflict\u0027 when the change is merged and the caller is not permitted to\n   delete votes from merged changes.\n * \u0027409 Conflict\u0027 when the change is merged and the caller does not have the\n   Administrate Server capability.\n```",
+      "range": {
+        "startLine": 4576,
+        "startChar": 0,
+        "endLine": 4577,
+        "endChar": 36
+      },
+      "revId": "88f3a299d902485318cb14c9d7ba9e5183af35df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04b06526_80e03a67",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 4577,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T07:47:50Z",
+      "side": 1,
+      "message": "Good call on naming the capability. Done.",
+      "parentUuid": "56dd239f_d06dffd4",
       "range": {
         "startLine": 4576,
         "startChar": 0,

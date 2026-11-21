@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a8642df_8a24cd93",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T07:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2da7490e_2db6fa59",
+      "range": {
+        "startLine": 1206,
+        "startChar": 34,
+        "endLine": 1206,
+        "endChar": 37
+      },
+      "revId": "a20a35ae4a4192ae776e1c9724b64dddb5167846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac97f3a6_eb5e26f5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1438ada0_a44b85d2",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T07:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac97f3a6_eb5e26f5",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 333,
+        "endChar": 42
+      },
+      "revId": "a20a35ae4a4192ae776e1c9724b64dddb5167846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71f7bfbd_4df3da55",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-11-16T15:27:24Z",
       "side": 1,
       "message": "Gerrit records information about frontend requests for monitoring.\nFor requests tied to a particular change, it can report a generic URL such as:\n\n```\n/changes/*/permissions\n```\n\nHere we ask the reporting system to use the actual URL:\n\n```\n/changes/12345/permissions\n```\n\nThat means requests for different changes are recorded under different URLs.\n\nIt can make monitoring harder to aggregate and exposes change numbers to whoever can access those reports.\n\nCould we use something like this instead?\n\n```anonymizedUrl: \u0027/changes/*/permissions\u0027```",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 335,
+        "endChar": 26
+      },
+      "revId": "a20a35ae4a4192ae776e1c9724b64dddb5167846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01670e4_69f3c042",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-21T07:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71f7bfbd_4df3da55",
       "range": {
         "startLine": 335,
         "startChar": 0,

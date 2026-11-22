@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a4047dc_5461db82",
+        "filename": "MODULE.bazel",
+        "patchSetId": 22
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-22T18:37:03Z",
+      "side": 1,
+      "message": "Is this upgrade intentional?",
+      "revId": "931be1c698981615dcedbb5e7326705b5ab3fefd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aafd432_f2dd4cb1",
+        "filename": "MODULE.bazel",
+        "patchSetId": 22
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-22T18:37:03Z",
+      "side": 1,
+      "message": "We should not depend on GitHub. Why don\u0027t you import the repo on GerritHub.io, and we fetch it from there?",
+      "range": {
+        "startLine": 37,
+        "startChar": 14,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "931be1c698981615dcedbb5e7326705b5ab3fefd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

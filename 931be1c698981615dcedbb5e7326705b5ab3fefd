@@ -81,6 +81,30 @@
       },
       "revId": "931be1c698981615dcedbb5e7326705b5ab3fefd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02c5fd2f_820c29b6",
+        "filename": "MODULE.bazel",
+        "patchSetId": 22
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-22T19:30:44Z",
+      "side": 1,
+      "message": "\u003e The transition to bazel-contrib and BCR publication is already tracked in https://github.com/bazel-contrib/SIG-rules-authors/issues/127, with discussion planned for next Tuesday’s SIG meeting.\n\n😎 Shall we revisit on Wednesday morning?\n\n\u003e I understand the availability concern. Could we keep the commit-pinned GitHub source temporarily and switch directly to BCR once published? That would avoid introducing a GerritHub mirror just for the interim.\n\nGitHub availability has improved, but nobody knows how long it will last.\nLet\u0027s see what the timeline for publishing to BCR is and how long it would take. If it is a matter of a few days, I believe it is fine.",
+      "parentUuid": "12b316fd_9c1d9a05",
+      "range": {
+        "startLine": 37,
+        "startChar": 14,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "931be1c698981615dcedbb5e7326705b5ab3fefd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

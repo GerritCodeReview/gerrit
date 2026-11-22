@@ -132,7 +132,7 @@
     "org.antlr:antlr": -1950345125,
     "org.antlr:antlr-runtime": 2041808304,
     "org.antlr:stringtemplate": 1543798403,
-    "org.apache.ant:ant": 51716534,
+    "org.apache.ant:ant": -1075679559,
     "org.apache.commons:commons-compress": -314451781,
     "org.apache.commons:commons-lang3": 1729335886,
     "org.apache.commons:commons-math3": -1738699872,
@@ -169,7 +169,7 @@
     "org.commonmark:commonmark-ext-gfm-strikethrough": -1869090916,
     "org.commonmark:commonmark-ext-gfm-tables": -1669467072,
     "org.commonmark:commonmark-ext-yaml-front-matter": -1752796379,
-    "org.eclipse.jetty.ee11:jetty-ee11-servlet": -1689444857,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": 798067976,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": 740140505,
     "org.eclipse.jetty.ee8:jetty-ee8-security": -1502309584,
     "org.eclipse.jetty.ee8:jetty-ee8-servlet": -233119159,
@@ -409,10 +409,10 @@
     "org.antlr:antlr:jar:sources": -1910959184,
     "org.antlr:stringtemplate": -1632674608,
     "org.antlr:stringtemplate:jar:sources": -562160043,
-    "org.apache.ant:ant": -431447101,
-    "org.apache.ant:ant-launcher": -333622244,
-    "org.apache.ant:ant-launcher:jar:sources": -77100552,
-    "org.apache.ant:ant:jar:sources": 389240804,
+    "org.apache.ant:ant": -1514418716,
+    "org.apache.ant:ant-launcher": 1003170318,
+    "org.apache.ant:ant-launcher:jar:sources": -501050890,
+    "org.apache.ant:ant:jar:sources": -856838821,
     "org.apache.commons:commons-compress": 151329248,
     "org.apache.commons:commons-compress:jar:sources": -1888643111,
     "org.apache.commons:commons-lang3": 1841935436,
@@ -481,8 +481,8 @@
     "org.commonmark:commonmark:jar:sources": -1511261547,
     "org.crac:crac": 853021667,
     "org.crac:crac:jar:sources": -1045886349,
-    "org.eclipse.jetty.ee11:jetty-ee11-servlet": 724378609,
-    "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources": 565135182,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": 845737272,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources": 542492659,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": 1759154570,
     "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": 1005566104,
     "org.eclipse.jetty.ee8:jetty-ee8-security": 1461787080,
@@ -1282,17 +1282,17 @@
     },
     "org.apache.ant:ant": {
       "shasums": {
-        "jar": "763acda4a69588c9ea8817a952851ff0c2fc4bffa1d081c2565dc407f29d5794",
-        "sources": "817ebf06c0a01d5d59cae996815b154b7b7172d40d75304f39ab107e8133c0d6"
+        "jar": "a12d775f581ad87592b1b1c7ff6fa5bcf6bb784974b94c848b0695ae15765f46",
+        "sources": "52f4b94c0cbb5f64e2edfd9cb1417bdc098b2e64cf720b54cfb097f270add8a1"
       },
-      "version": "1.10.15"
+      "version": "1.10.18"
     },
     "org.apache.ant:ant-launcher": {
       "shasums": {
-        "jar": "5c8551990307a032336d98ddaed549a39a689f07d4d4c6b950601bf22b3d6a1b",
-        "sources": "ab774b88172f80beb0e11e697adbab13e8436b4c959bef51d5dba44f1d192d72"
+        "jar": "b96e61ec45a9cbb2cf8d009c47ca544b451f419df105195a919205af7af47aa2",
+        "sources": "ddf9b51c20faed07ef1585b756cd2fd8f723f4c79aa8b697d250a558f186bffb"
       },
-      "version": "1.10.15"
+      "version": "1.10.18"
     },
     "org.apache.commons:commons-compress": {
       "shasums": {
@@ -1534,10 +1534,10 @@
     },
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": {
       "shasums": {
-        "jar": "a4875bcf0d1a2273f91c1fff7c5acec90b36093c79cf7b4056d838e6b51b3592",
-        "sources": "25ece70cdd255807bc5d10bf836999f5213b09b7d2ecfb64454648b0a03bc852"
+        "jar": "91715c0262fabb8ee95208a2646d5257bad8f211456f062974cad2f60a4b4d19",
+        "sources": "fdb50a8fa7168e9fb75b5030c4a7194089926760df68304be681fdb7483a497c"
       },
-      "version": "12.1.14"
+      "version": "12.1.15"
     },
     "org.eclipse.jetty.ee8:jetty-ee8-nested": {
       "shasums": {

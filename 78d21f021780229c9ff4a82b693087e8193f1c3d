@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f00f49f_413f1e3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-22T18:21:53Z",
+      "side": 1,
+      "message": "The Library-Compliance check was triggered by modifying lib/prolog/prolog.bzl. This change only makes Bazel path expansion explicit. No external dependencies were added or updated.",
+      "revId": "78d21f021780229c9ff4a82b693087e8193f1c3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

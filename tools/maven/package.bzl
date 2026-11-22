@@ -44,7 +44,7 @@ def maven_package(
     api_targets = []
     for type, d in [("jar", jar), ("java-source", src), ("javadoc", doc)]:
         for a, t in sorted(d.items()):
-            api_cmd.append("-s %s:%s:$(location %s)" % (a, type, t))
+            api_cmd.append("-s %s:%s:$(execpath %s)" % (a, type, t))
             api_targets.append(t)
 
     native.genrule(
@@ -77,7 +77,7 @@ def maven_package(
     war_cmd = mvn_cmd[:]
     war_targets = []
     for a, t in sorted(war.items()):
-        war_cmd.append("-s %s:war:$(location %s)" % (a, t))
+        war_cmd.append("-s %s:war:$(execpath %s)" % (a, t))
         war_targets.append(t)
 
     native.genrule(

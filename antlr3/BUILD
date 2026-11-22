@@ -1,12 +1,12 @@
-load("@rules_java//java:defs.bzl", "java_library")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
+load("@rules_java//java:defs.bzl", "java_library")
 
 genrule2(
     name = "query",
     srcs = ["com/google/gerrit/index/query/Query.g"],
     outs = ["query_antlr.srcjar"],
     cmd = " && ".join([
-        "$(location //lib/antlr:antlr-tool) -o $$TMP $<",
+        "$(execpath //lib/antlr:antlr-tool) -o $$TMP $<",
         "cd $$TMP",
         "find . -exec touch -t 198001010000 '{}' ';'",
         "zip -q $$ROOT/$@ $$(find . -type f)",

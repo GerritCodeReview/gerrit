@@ -21,7 +21,7 @@ def prolog_cafe_library(
         **kwargs):
     native.genrule(
         name = name + "__pl2j",
-        cmd = "$(location //lib/prolog:compiler-bin) " +
+        cmd = "$(execpath //lib/prolog:compiler-bin) " +
               "$$(dirname $@) $@ " +
               "$(SRCS)",
         srcs = srcs,

@@ -103,7 +103,7 @@ genrule(
     name = "index",
     srcs = SRCS,
     outs = ["index.jar"],
-    cmd = "$(location //java/com/google/gerrit/asciidoctor:doc_indexer) " +
+    cmd = "$(execpath //java/com/google/gerrit/asciidoctor:doc_indexer) " +
           "-o $(OUTS) " +
           "--prefix \"%s/\" " % DOC_DIR +
           "--in-ext \".txt\" " +

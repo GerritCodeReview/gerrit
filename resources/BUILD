@@ -1,5 +1,5 @@
-load("@rules_java//java:defs.bzl", "java_import")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
+load("@rules_java//java:defs.bzl", "java_import")
 
 java_import(
     name = "log4j-config",
@@ -12,7 +12,7 @@ genrule2(
     srcs = ["log4j.properties"],
     outs = ["log4j-config.jar"],
     cmd = " && ".join([
-        "cp $(location log4j.properties) $$TMP/log4j.properties",
+        "cp $(execpath log4j.properties) $$TMP/log4j.properties",
         "cd $$TMP",
         "TZ=UTC touch -t 198001010000 log4j.properties",
         "TZ=UTC zip -X9q $$ROOT/$@ log4j.properties",

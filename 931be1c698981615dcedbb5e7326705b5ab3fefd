@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83bc03a0_ce272ed5",
+        "filename": "MODULE.bazel",
+        "patchSetId": 22
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-22T19:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a4047dc_5461db82",
+      "revId": "931be1c698981615dcedbb5e7326705b5ab3fefd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1aafd432_f2dd4cb1",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-11-22T18:37:03Z",
       "side": 1,
       "message": "We should not depend on GitHub. Why don\u0027t you import the repo on GerritHub.io, and we fetch it from there?",
+      "range": {
+        "startLine": 37,
+        "startChar": 14,
+        "endLine": 37,
+        "endChar": 55
+      },
+      "revId": "931be1c698981615dcedbb5e7326705b5ab3fefd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12b316fd_9c1d9a05",
+        "filename": "MODULE.bazel",
+        "patchSetId": 22
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-22T19:25:40Z",
+      "side": 1,
+      "message": "The transition to bazel-contrib and BCR publication is already tracked in https://github.com/bazel-contrib/SIG-rules-authors/issues/127, with discussion planned for next Tuesday’s SIG meeting.\n\nI understand the availability concern. Could we keep the commit-pinned GitHub source temporarily and switch directly to BCR once published? That would avoid introducing a GerritHub mirror just for the interim.",
+      "parentUuid": "1aafd432_f2dd4cb1",
       "range": {
         "startLine": 37,
         "startChar": 14,

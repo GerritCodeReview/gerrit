@@ -160,10 +160,10 @@
     "org.apache.sshd:sshd-sftp": 1275502119,
     "org.asciidoctor:asciidoctorj": -2038258635,
     "org.assertj:assertj-core": -1145412507,
-    "org.bouncycastle:bcpg-jdk18on": 219577418,
-    "org.bouncycastle:bcpkix-jdk18on": 254639479,
+    "org.bouncycastle:bcpg-jdk18on": -1587877045,
+    "org.bouncycastle:bcpkix-jdk18on": -1552814984,
     "org.bouncycastle:bcprov-jdk18on": 1844858264,
-    "org.bouncycastle:bcutil-jdk18on": -468935969,
+    "org.bouncycastle:bcutil-jdk18on": 2018576864,
     "org.commonmark:commonmark": 1195706039,
     "org.commonmark:commonmark-ext-autolink": -14213733,
     "org.commonmark:commonmark-ext-gfm-strikethrough": -1869090916,
@@ -457,14 +457,14 @@
     "org.asciidoctor:asciidoctorj:jar:sources": -1209916532,
     "org.assertj:assertj-core": -567793304,
     "org.assertj:assertj-core:jar:sources": -697161745,
-    "org.bouncycastle:bcpg-jdk18on": 1344554762,
-    "org.bouncycastle:bcpg-jdk18on:jar:sources": 1086923059,
-    "org.bouncycastle:bcpkix-jdk18on": -287047843,
-    "org.bouncycastle:bcpkix-jdk18on:jar:sources": -1855368494,
+    "org.bouncycastle:bcpg-jdk18on": 2106078086,
+    "org.bouncycastle:bcpg-jdk18on:jar:sources": 1529809414,
+    "org.bouncycastle:bcpkix-jdk18on": -879571590,
+    "org.bouncycastle:bcpkix-jdk18on:jar:sources": -1109218937,
     "org.bouncycastle:bcprov-jdk18on": -751439126,
     "org.bouncycastle:bcprov-jdk18on:jar:sources": 485448997,
-    "org.bouncycastle:bcutil-jdk18on": -1269559261,
-    "org.bouncycastle:bcutil-jdk18on:jar:sources": 1897597974,
+    "org.bouncycastle:bcutil-jdk18on": -1039044727,
+    "org.bouncycastle:bcutil-jdk18on:jar:sources": -1207626996,
     "org.checkerframework:checker-compat-qual": -1467964223,
     "org.checkerframework:checker-compat-qual:jar:sources": 187825033,
     "org.checkerframework:checker-qual": -739034920,
@@ -1450,17 +1450,17 @@
     },
     "org.bouncycastle:bcpg-jdk18on": {
       "shasums": {
-        "jar": "8a52ea45b2063f6d41b8ca94409f255a1f4604922f7451c18a7cfd3a3c5b85ab",
-        "sources": "02c36d0c102abbae4ce5c81449cf66338f6befcec2844fc07d685c412e20f1d6"
+        "jar": "e947b0a18f4f5fc62c925b65f0eaf5987ed3605c6f8b42147d8ac72f11351234",
+        "sources": "3179bf1b193dbb530aac90d2c04ef65369d1034ba2e3e961ba148f4cdf24c42d"
       },
-      "version": "1.86"
+      "version": "1.87"
     },
     "org.bouncycastle:bcpkix-jdk18on": {
       "shasums": {
-        "jar": "8d8b41a4b149bdae8d331f059a578870954d1e3ff29f8269a9eb3ee19a7e4ef7",
-        "sources": "0bb00b50a80404e40c6465cb8012d3835d2a9100d94d16eaa9efed4587d7e34d"
+        "jar": "a44be2660d72ed88673372b8cc2d53a25a5aaf27122fb803ed93f07147536aa1",
+        "sources": "7fc110673a24b6b43565d723bc42f5b03a31049555493158e8a308b632a69477"
       },
-      "version": "1.86"
+      "version": "1.87"
     },
     "org.bouncycastle:bcprov-jdk18on": {
       "shasums": {
@@ -1471,10 +1471,10 @@
     },
     "org.bouncycastle:bcutil-jdk18on": {
       "shasums": {
-        "jar": "1c268e15f785aafb1e4670d8d6e5f856f69475e96c162dadcd1ff9b350e9139f",
-        "sources": "a79e8cdbc04a24aecf64503eda9a4aa61019132484c64f7ce32a68ac30ef6df7"
+        "jar": "af46dd381553fdc466cd0c18f8bf2144c7dbcb7337eee3e16cab15e96613ddf0",
+        "sources": "764043f9d808b5504abef712b252cd0edb27439a84a1372ffbca5cea6adfb563"
       },
-      "version": "1.86"
+      "version": "1.87"
     },
     "org.checkerframework:checker-compat-qual": {
       "shasums": {

@@ -16,6 +16,6 @@ genquery(
 sh_test(
     name = "classpath_duplicates_test",
     srcs = ["classpath_duplicates_test.sh"],
-    args = ["$(location :original_jgit_servlet_path)"],
+    args = ["$(rootpath :original_jgit_servlet_path)"],
     data = [":original_jgit_servlet_path"],
 )

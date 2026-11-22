@@ -80,6 +80,6 @@ def license_test(name, target):
     sh_test(
         name = name,
         srcs = ["//tools/bzl:test_license.sh"],
-        args = ["$(location :%s)" % txt],
+        args = ["$(rootpath :%s)" % txt],
         data = [txt],
     )

@@ -15,8 +15,8 @@ def war_jars_allowlist_test(name, war_jars_manifest, allowlist, **kwargs):
         name = name,
         srcs = ["//tools/bzl:diff_allowlist.sh"],
         args = [
-            "$(location %s)" % allowlist,
-            "$(location %s)" % war_jars_manifest,
+            "$(rootpath %s)" % allowlist,
+            "$(rootpath %s)" % war_jars_manifest,
         ],
         data = [
             allowlist,

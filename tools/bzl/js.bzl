@@ -35,8 +35,8 @@ def web_test_runner(name, srcs, data, args = []):
         size = "enormous",
         srcs = srcs,
         args = [
-            "$(location //polygerrit-ui:web_test_runner_bin)",
-            "$(location //polygerrit-ui:web-test-runner.config.mjs)",
+            "$(rootpath //polygerrit-ui:web_test_runner_bin)",
+            "$(rootpath //polygerrit-ui:web-test-runner.config.mjs)",
         ] + args,
         data = data + [
             "//polygerrit-ui:resultdb-reporter.mjs",

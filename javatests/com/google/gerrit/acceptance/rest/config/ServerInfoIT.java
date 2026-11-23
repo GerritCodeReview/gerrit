@@ -55,6 +55,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
   // accounts
   @GerritConfig(name = "accounts.visibility", value = "VISIBLE_GROUP")
   @GerritConfig(name = "accounts.defaultDisplayName", value = "FIRST_NAME")
+  @GerritConfig(name = "accounts.enableDelete", value = "false")
 
   // auth
   @GerritConfig(name = "auth.type", value = "HTTP")
@@ -95,6 +96,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // accounts
     assertThat(i.accounts.visibility).isEqualTo(AccountVisibility.VISIBLE_GROUP);
     assertThat(i.accounts.defaultDisplayName).isEqualTo(AccountDefaultDisplayName.FIRST_NAME);
+    assertThat(i.accounts.enableDelete).isFalse();
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.HTTP);
@@ -157,6 +159,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @Test
   public void serverConfigWithDefaults() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
+
+    // accounts
+    assertThat(i.accounts.enableDelete).isTrue();
 
     // auth
     assertThat(i.auth.authType).isEqualTo(AuthType.OPENID);

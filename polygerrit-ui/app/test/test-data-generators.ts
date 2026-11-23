@@ -488,6 +488,7 @@ export function createAccountsConfig(): AccountsConfigInfo {
   return {
     visibility: AccountsVisibility.ALL,
     default_display_name: DefaultDisplayNameConfig.FULL_NAME,
+    enable_delete: true,
   };
 }
 

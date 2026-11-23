@@ -25,4 +25,7 @@ public class AccountsInfo {
 
   /** The value of the {@code accounts.visibility} parameter in {@code gerrit.config}. */
   public AccountDefaultDisplayName defaultDisplayName;
+
+  /** The value of the {@code accounts.enableDelete} parameter in {@code gerrit.config}. */
+  public Boolean enableDelete;
 }

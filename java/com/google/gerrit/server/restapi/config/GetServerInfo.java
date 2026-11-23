@@ -52,6 +52,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
+import com.google.gerrit.server.config.AccountConfig;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -81,6 +82,7 @@ import org.eclipse.jgit.lib.Config;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
   private final Config config;
+  private final AccountConfig accountConfig;
   private final AccountVisibilityProvider accountVisibilityProvider;
   private final AccountDefaultDisplayName accountDefaultDisplayName;
   private final AuthConfig authConfig;
@@ -105,6 +107,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   @Inject
   public GetServerInfo(
       @GerritServerConfig Config config,
+      AccountConfig accountConfig,
       AccountVisibilityProvider accountVisibilityProvider,
       AccountDefaultDisplayName accountDefaultDisplayName,
       AuthConfig authConfig,
@@ -126,6 +129,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       @Nullable @GerritInstanceId String instanceId,
       PluginSetContext<ServerStateProvider> serverStateProviders) {
     this.config = config;
+    this.accountConfig = accountConfig;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.accountDefaultDisplayName = accountDefaultDisplayName;
     this.authConfig = authConfig;
@@ -175,6 +179,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     AccountsInfo info = new AccountsInfo();
     info.visibility = accountVisibilityProvider.get();
     info.defaultDisplayName = accountDefaultDisplayName;
+    info.enableDelete = accountConfig.isDeleteEnabled();
     return info;
   }
 

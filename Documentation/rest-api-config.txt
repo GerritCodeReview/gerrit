@@ -2184,6 +2184,8 @@ accounts].
 |`default_display_name`|The default strategy for choosing the display
 name in the UI, see also
 link:config-gerrit.html#accounts.defaultDisplayName[gerrit.config].
+|`enable_delete`       |Whether deleting accounts is enabled, see
+link:config-gerrit.html#accounts.enableDelete[accounts.enableDelete].
 |=============================
 
 [[auth-info]]

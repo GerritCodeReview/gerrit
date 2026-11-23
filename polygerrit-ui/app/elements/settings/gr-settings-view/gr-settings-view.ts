@@ -358,13 +358,16 @@ export class GrSettingsView extends LitElement {
               ?disabled=${!this.accountInfoChanged}
               >Save Changes</gr-button
             >
-            <gr-button
-              class="account-button"
-              @click=${() => {
-                this.confirmDeleteAccount();
-              }}
-              >Delete Account</gr-button
-            >
+            ${when(
+              this.deleteAccountEnabled(),
+              () => html`<gr-button
+                class="account-button"
+                @click=${() => {
+                  this.confirmDeleteAccount();
+                }}
+                >Delete Account</gr-button
+              >`
+            )}
             <gr-button
               class="account-button"
               @click=${() => {
@@ -372,25 +375,30 @@ export class GrSettingsView extends LitElement {
               }}
               >Dump Account State</gr-button
             >
-            <dialog id="confirm-account-deletion">
-              <gr-dialog
-                @cancel=${() => this.deleteAccountConfirmationDialog?.close()}
-                @confirm=${() => this.deleteAccount()}
-                .loading=${this.isDeletingAccount}
-                .loadingLabel=${'Deleting account'}
-                .confirmLabel=${'Delete account'}
-              >
-                <div class="confirm-account-deletion-header" slot="header">
-                  Are you sure you wish to delete your account?
-                </div>
-                <div class="confirm-account-deletion-main" slot="main">
-                  <ul>
-                    <li>Deleting your account is not reversible.</li>
-                    <li>Deleting your account will not delete your changes.</li>
-                  </ul>
-                </div>
-              </gr-dialog>
-            </dialog>
+            ${when(
+              this.deleteAccountEnabled(),
+              () => html`<dialog id="confirm-account-deletion">
+                <gr-dialog
+                  @cancel=${() => this.deleteAccountConfirmationDialog?.close()}
+                  @confirm=${() => this.deleteAccount()}
+                  .loading=${this.isDeletingAccount}
+                  .loadingLabel=${'Deleting account'}
+                  .confirmLabel=${'Delete account'}
+                >
+                  <div class="confirm-account-deletion-header" slot="header">
+                    Are you sure you wish to delete your account?
+                  </div>
+                  <div class="confirm-account-deletion-main" slot="main">
+                    <ul>
+                      <li>Deleting your account is not reversible.</li>
+                      <li>
+                        Deleting your account will not delete your changes.
+                      </li>
+                    </ul>
+                  </div>
+                </gr-dialog>
+              </dialog>`
+            )}
             <dialog id="dump-account-state">
               <gr-dialog
                 cancel-label=""
@@ -683,6 +691,11 @@ export class GrSettingsView extends LitElement {
 
   private confirmDeleteAccount() {
     this.deleteAccountConfirmationDialog?.showModal();
+  }
+
+  // private but used in test
+  deleteAccountEnabled() {
+    return this.serverConfig?.accounts.enable_delete !== false;
   }
 
   private async deleteAccount() {

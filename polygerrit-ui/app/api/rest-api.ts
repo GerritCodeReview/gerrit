@@ -261,6 +261,7 @@ export declare interface AccountDetailInfo extends AccountInfo {
 export declare interface AccountsConfigInfo {
   visibility: string;
   default_display_name: DefaultDisplayNameConfig;
+  enable_delete?: boolean;
 }
 
 /**

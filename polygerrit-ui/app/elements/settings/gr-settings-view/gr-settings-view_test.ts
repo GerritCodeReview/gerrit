@@ -393,6 +393,33 @@ suite('gr-settings-view tests', () => {
     assert.isFalse(element.showHttpAuth());
   });
 
+  test('delete account action depends on enable_delete', async () => {
+    const deleteAccountButton = () =>
+      [...element.shadowRoot!.querySelectorAll('gr-button')].find(
+        button => button.textContent?.trim() === 'Delete Account'
+      );
+
+    assert.isOk(deleteAccountButton());
+
+    // Servers that don't return the field keep the old behaviour.
+    const serverInfo = createServerInfo();
+    delete serverInfo.accounts.enable_delete;
+    element.serverConfig = serverInfo;
+    await element.updateComplete;
+    assert.isOk(deleteAccountButton());
+
+    element.serverConfig = {
+      ...createServerInfo(),
+      accounts: {...serverInfo.accounts, enable_delete: false},
+    };
+    await element.updateComplete;
+
+    assert.isNotOk(deleteAccountButton());
+    assert.isNotOk(
+      element.shadowRoot!.querySelector('#confirm-account-deletion')
+    );
+  });
+
   suite('when email verification token is provided', () => {
     let resolveConfirm: (
       value: string | PromiseLike<string | null> | null

@@ -285,6 +285,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40f6bb75_09221723",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T11:43:49Z",
+      "side": 1,
+      "message": "I checked Caffeine\u0027s implementation [1], and it catches `Throwable`.\nI wanted this wrapper to keep the same behaviour.\n\nBut I agree that this is not ideal.\n\n\nLet me come up with a better alternative, even if it diverges from the Caffeine implementation.\n\n\n[1] https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/BoundedLocalCache.java#L329-L344",
+      "parentUuid": "4b2ae85d_53ca4186",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 35
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cf2c405_ecff434e",
         "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
         "patchSetId": 3
@@ -296,6 +320,30 @@
       "writtenOn": "2026-11-23T10:30:56Z",
       "side": 1,
       "message": "Why do we need to catch such a generic exception? I don\u0027t see it happening in other parts of the code.\n\nAlso why retrying the notification? For example if we were catching an OOM what is the point of retrying ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 7
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a86e2aa_4faf7595",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T11:43:49Z",
+      "side": 1,
+      "message": "Again, this is what Caffeine\u0027s implementation [1] does.\nBut you\u0027re right that this does not justify attempting it after an OOM, for example.\n\nLet me come up with a better alternative, even if it diverges from the Caffeine implementation.\n\n[1] https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/BoundedLocalCache.java#L329-L344",
+      "parentUuid": "9cf2c405_ecff434e",
       "range": {
         "startLine": 56,
         "startChar": 5,

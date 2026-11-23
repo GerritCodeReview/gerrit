@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e31767b_2aabc469",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T13:03:39Z",
+      "side": 1,
+      "message": "\u003e \u003e Why disabled caches too?\n\u003e \n\u003e A node with `memoryLimit \u003d 0` may not have the entry locally, but a peer may still have it cached.\n\u003e So we still need to send the invalidation so the peer can remove its stale entry.\n\nAh, gotcha. Thanks for specifying `memoryLimit \u003d 0` as the cache is never disabled, therefore I agree with you that the invalidation would still needed.\n\n\u003e \u003e There isn\u0027t such a thing as a disabled cache. Even when setting the max size to zero, entries are created and then immediately expire.\n\u003e \n\u003e You\u0027re right; I rephrased this to \"including caches with memoryLimit \u003d 0\".\n\n👍",
+      "parentUuid": "9b38921a_249dd658",
+      "range": {
+        "startLine": 17,
+        "startChar": 48,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd5f4fcd_eefe32ff",
@@ -309,6 +333,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6b59076_287fa1a5",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T13:03:39Z",
+      "side": 1,
+      "message": "I believe the reason is that it is executed inside a thread of the pooled executor, therefore any throw of runtime exceptions would make the thread die.\n\nI am fine in keeping the consistency withg Caffeine, unless we are aware of any showstoppers?",
+      "parentUuid": "40f6bb75_09221723",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 35
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cf2c405_ecff434e",
         "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
         "patchSetId": 3
@@ -344,6 +392,30 @@
       "side": 1,
       "message": "Again, this is what Caffeine\u0027s implementation [1] does.\nBut you\u0027re right that this does not justify attempting it after an OOM, for example.\n\nLet me come up with a better alternative, even if it diverges from the Caffeine implementation.\n\n[1] https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/BoundedLocalCache.java#L329-L344",
       "parentUuid": "9cf2c405_ecff434e",
+      "range": {
+        "startLine": 56,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 7
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d96e1d0_ac6b2324",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T13:03:39Z",
+      "side": 1,
+      "message": "I agree with consistency with Caffeine 👍",
+      "parentUuid": "3a86e2aa_4faf7595",
       "range": {
         "startLine": 56,
         "startChar": 5,
@@ -443,6 +515,54 @@
         "startChar": 4,
         "endLine": 67,
         "endChar": 8
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df830f45_ddb69c59",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T13:03:39Z",
+      "side": 1,
+      "message": "Let\u0027s stay consistent with Caffeine 👍",
+      "parentUuid": "93a00178_1ea66076",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 8
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bd5abcf_12a24b2a",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T13:03:39Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "9e626eca_97316702",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 16
       },
       "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

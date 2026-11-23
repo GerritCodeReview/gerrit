@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48752d0f_98a0186e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T10:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3c646ee_a0e2a2a1",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8002920d_baad45f1",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "There isn\u0027t such a thing as a disabled cache. Even when setting the max size to zero, entries are created and then immediately expire.",
       "parentUuid": "8002920d_baad45f1",
+      "range": {
+        "startLine": 17,
+        "startChar": 48,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b38921a_249dd658",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T10:25:15Z",
+      "side": 1,
+      "message": "\u003e Why disabled caches too?\n\nA node with `memoryLimit \u003d 0` may not have the entry locally, but a peer may still have it cached.\nSo we still need to send the invalidation so the peer can remove its stale entry.\n\n\u003e There isn\u0027t such a thing as a disabled cache. Even when setting the max size to zero, entries are created and then immediately expire.\n\nYou\u0027re right; I rephrased this to \"including caches with memoryLimit \u003d 0\".",
+      "parentUuid": "7d5d7883_5b757ae1",
       "range": {
         "startLine": 17,
         "startChar": 48,
@@ -141,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3533491_ed28a824",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T10:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f1112c_4a9be126",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "115ecde7_894fa1e2",
@@ -154,6 +226,30 @@
       "writtenOn": "2026-11-22T13:53:50Z",
       "side": 1,
       "message": "It would be best to check and assert `key` isn\u0027t null. The `asMap()` at L47 could remove a null key from a map, which may succeed or fail depending on the implementation.",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 35
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d4ddc3_28bad613",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T10:25:15Z",
+      "side": 1,
+      "message": "Done.\n`invalidate(key)` now checks that the key is not null before accessing the delegate.",
+      "parentUuid": "115ecde7_894fa1e2",
       "range": {
         "startLine": 44,
         "startChar": 25,
@@ -246,6 +342,30 @@
       "writtenOn": "2026-11-23T08:58:18Z",
       "side": 1,
       "message": "This is always called with `null`.",
+      "range": {
+        "startLine": 319,
+        "startChar": 46,
+        "endLine": 319,
+        "endChar": 69
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25393868_44517802",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T10:25:15Z",
+      "side": 1,
+      "message": "Done, removed the extra parameter.",
+      "parentUuid": "bf4b3a98_3d47b5ff",
       "range": {
         "startLine": 319,
         "startChar": 46,

@@ -405,6 +405,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dfedd717_015eca96",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T14:28:35Z",
+      "side": 1,
+      "message": "Would it make sense to add a comment explaining it. So next time we will stumble upon we won\u0027t end up doing the same considerations.",
+      "parentUuid": "0ef31c72_2c1d1a6c",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 35
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cf2c405_ecff434e",
         "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
         "patchSetId": 3

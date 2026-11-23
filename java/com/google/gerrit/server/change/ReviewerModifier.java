@@ -74,6 +74,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -329,6 +330,24 @@ public class ReviewerModifier {
         exactMatchFound = true;
       }
     } catch (UnprocessableEntityException e) {
+      // Accounts may be deleted while their reviewer entries stay on the change. Fall back to the
+      // account id so that such reviewers can still be removed.
+      if (ReviewerState.REMOVED.equals(input.state)) {
+        Optional<Account> deletedReviewer =
+            Account.Id.tryParse(input.reviewer)
+                .map(id -> Account.builder(id, TimeUtil.now()).setActive(false).build())
+                .filter(account -> notes.getReviewers().all().contains(account.id()));
+        if (deletedReviewer.isPresent()) {
+          return new ReviewerModification(
+              input,
+              notes,
+              user,
+              ImmutableSet.of(deletedReviewer.get()),
+              null,
+              /* exactMatchFound= */ true,
+              /* forGroup= */ false);
+        }
+      }
       // Caller might choose to ignore this NOT_FOUND result if they find another result e.g. by
       // group, but if not, the error message will be useful.
       return fail(input, FailureType.NOT_FOUND, e.getMessage());

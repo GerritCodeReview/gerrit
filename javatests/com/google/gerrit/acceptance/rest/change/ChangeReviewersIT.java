@@ -81,10 +81,12 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.Test;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
@@ -688,6 +690,93 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(reviewerUpdateInfo.state).isEqualTo(REMOVED);
     assertThat(reviewerUpdateInfo.reviewer._accountId).isEqualTo(user.id().get());
     assertThat(reviewerUpdateInfo.updatedBy._accountId).isEqualTo(admin.id().get());
+  }
+
+  @Test
+  public void removeReviewerWithDeletedAccount() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount reviewer = accountCreator.createValid(name("deletedReviewer"));
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = reviewer.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    requestScopeOperations.setApiUser(reviewer.id());
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.label(LabelId.CODE_REVIEW, -1);
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    // The reviewer deletes their own account, but remains a reviewer on the change.
+    gApi.accounts().self().delete();
+    accountCreator.evict(reviewer.id());
+    requestScopeOperations.setApiUser(admin.id());
+
+    deleteReviewer(r.getChangeId(), reviewer).assertNoContent();
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    assertThat(c.reviewerUpdates).isNotNull();
+    ReviewerUpdateInfo lastUpdate = Iterables.getLast(c.reviewerUpdates);
+    assertThat(lastUpdate.state).isEqualTo(REMOVED);
+    assertThat(lastUpdate.reviewer._accountId).isEqualTo(reviewer.id().get());
+    // Removing the reviewer also removes their votes.
+    assertThat(Iterables.getLast(c.messages).message).contains("Code-Review-1");
+  }
+
+  @Test
+  public void removeVoteOfDeletedAccount() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount reviewer = accountCreator.createValid(name("deletedReviewer"));
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = reviewer.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    requestScopeOperations.setApiUser(reviewer.id());
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.label(LabelId.CODE_REVIEW, -1);
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    gApi.accounts().self().delete();
+    accountCreator.evict(reviewer.id());
+    requestScopeOperations.setApiUser(admin.id());
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(reviewer.id().toString())
+        .deleteVote(LabelId.CODE_REVIEW);
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get(EnumSet.of(DETAILED_LABELS));
+    Optional<ApprovalInfo> approval =
+        c.labels.get(LabelId.CODE_REVIEW).all.stream()
+            .filter(a -> a._accountId == reviewer.id().get())
+            .findFirst();
+    assertThat(approval).isPresent();
+    assertThat(approval.get().value).isEqualTo(0);
+  }
+
+  @Test
+  public void removeReviewerWithDeletedAccountByPost() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount reviewer = accountCreator.createValid(name("deletedReviewer"));
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = reviewer.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    requestScopeOperations.setApiUser(reviewer.id());
+    gApi.accounts().self().delete();
+    accountCreator.evict(reviewer.id());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Reviewers can also be removed by POSTing the reviewer with state REMOVED.
+    ReviewerInput removeInput = new ReviewerInput();
+    removeInput.reviewer = reviewer.id().toString();
+    removeInput.state = REMOVED;
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(removeInput);
+    assertThat(result.error).isNull();
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    ReviewerUpdateInfo lastUpdate = Iterables.getLast(c.reviewerUpdates);
+    assertThat(lastUpdate.state).isEqualTo(REMOVED);
+    assertThat(lastUpdate.reviewer._accountId).isEqualTo(reviewer.id().get());
+    assertReviewers(c, REVIEWER);
   }
 
   @Test

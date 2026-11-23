@@ -77,6 +77,12 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
       if (e.isSelf()) {
         throw new AuthException(e.getMessage(), e);
       }
+      // Accounts can be deleted while their reviewer entries remain on the change. Fall back to
+      // the account id so that such reviewers can still be removed.
+      Account.Id accountId = Account.Id.tryParse(id.get()).orElse(null);
+      if (accountId != null && fetchAccountIds(rsrc).contains(accountId)) {
+        return resourceFactory.create(rsrc, accountId);
+      }
     }
     Address address = Address.tryParse(id.get());
     if (address != null && rsrc.getNotes().getReviewersByEmail().all().contains(address)) {

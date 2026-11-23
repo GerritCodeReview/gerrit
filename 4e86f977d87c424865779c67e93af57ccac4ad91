@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ee16d9_c06dd201",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T19:47:09Z",
+      "side": 1,
+      "message": "`key` is an `Object` and could be of a data type different from that of the cache key.\nImagine that you have a `Cache\u003cInteger,String\u003e`, and you call `invalidate(\"foo\")`: the invalidation is a no-op because the key type isn\u0027t even match the cache key; however, because the result is `null`, we are invoking the `EXPLICIT` listener, which seems wrong to me.",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec3329b2_7fed784a",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T19:47:09Z",
+      "side": 1,
+      "message": "It would make sense to add a comment here: in theory, this may also return `null` when a key is associated with a `null` value; however, that condition is impossible because the caches cannot hold null values.",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4f72dad_d9da5d81",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T19:47:09Z",
+      "side": 1,
+      "message": "This isn\u0027t enough: we must also test that it *should not* notify when the invalidation is done with the wrong key type.\n\n\n\n```suggestion\n  @Test\n  @SuppressWarnings(\"IncompatibleArgumentType\")\n  public void shouldNotNotifyWhenInvalidatingWithAnIncorrectKeyType() {\n    Cache\u003cInteger, Integer\u003e cache \u003d memoryCacheFactoryDirectExecutor.build(newCacheDef(1));\n\n    cache.invalidate(TEST_CACHE_KEY_INVALID_TYPE);\n\n    assertThat(forwardingRemovalListener.removalEvents).isEmpty();\n  }\n\n  public void shouldNotifyWhenInvalidatingAbsentEntry() {\n```",
+      "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

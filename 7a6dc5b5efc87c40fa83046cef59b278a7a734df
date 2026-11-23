@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "273a2913_14631631",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T20:08:51Z",
+      "side": 1,
+      "message": "I don\u0027t believe an issue was created; can you 🙏 create one and link it to the `Bug: Issue NNN` in the commit footer?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "7a6dc5b5efc87c40fa83046cef59b278a7a734df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46097e16_23f78d7f",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-23T20:08:51Z",
+      "side": 1,
+      "message": "What if a repository name is `tools/hooks`? That would be caught by the regex anyway, and the Git/LFS calls would fail again.",
+      "range": {
+        "startLine": 51,
+        "startChar": 54,
+        "endLine": 51,
+        "endChar": 73
+      },
+      "revId": "7a6dc5b5efc87c40fa83046cef59b278a7a734df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

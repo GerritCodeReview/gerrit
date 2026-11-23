@@ -185,6 +185,29 @@
       },
       "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf4b3a98_3d47b5ff",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T08:58:18Z",
+      "side": 1,
+      "message": "This is always called with `null`.",
+      "range": {
+        "startLine": 319,
+        "startChar": 46,
+        "endLine": 319,
+        "endChar": 69
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

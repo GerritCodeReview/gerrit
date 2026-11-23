@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee817884_a1238f00",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T15:13:35Z",
+      "side": 1,
+      "message": "When this throws `ConfigInvalidException`, wouldn\u0027t this be exposed as `500`?",
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed9d0340_10da0c40",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T15:13:35Z",
+      "side": 1,
+      "message": "The parsed value is never assigned to `args.refStorage`.\nDoes this not mean Gerrit creates the repository **before** applying the supplied config?",
+      "range": {
+        "startLine": 217,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 52
+      },
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

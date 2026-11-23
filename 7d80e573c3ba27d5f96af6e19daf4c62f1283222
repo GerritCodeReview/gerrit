@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16846d0b_9d9add60",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T17:10:00Z",
+      "side": 1,
+      "message": "Correct. I have left that behaviour unchanged. Were you thinking of propagating a different error?",
+      "parentUuid": "ee817884_a1238f00",
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ed9d0340_10da0c40",
         "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "2026-11-23T15:13:35Z",
       "side": 1,
       "message": "The parsed value is never assigned to `args.refStorage`.\nDoes this not mean Gerrit creates the repository **before** applying the supplied config?",
+      "range": {
+        "startLine": 217,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 52
+      },
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d929842e_6423bc25",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T17:10:00Z",
+      "side": 1,
+      "message": "\u003e Does this not mean Gerrit creates the repository before applying the supplied config?\n\nYes, correct. At creation time the important is ensuring the wanted `refStorage`.\n\n`refStorage` has its own input parameter.\nThis check ensures `args.refStorage` is consistent with the data provided by `args.gitConfig`.",
+      "parentUuid": "ed9d0340_10da0c40",
       "range": {
         "startLine": 217,
         "startChar": 4,

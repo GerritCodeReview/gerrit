@@ -427,6 +427,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5f900fc_e4233d0a",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T15:17:14Z",
+      "side": 1,
+      "message": "Done. I’ve added a comment explaining that the failure handling follows Caffeine’s bounded cache implementation.",
+      "parentUuid": "dfedd717_015eca96",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 35
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cf2c405_ecff434e",

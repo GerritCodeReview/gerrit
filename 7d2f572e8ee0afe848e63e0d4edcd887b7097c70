@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12b367d4_783dff32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5291488
+      },
+      "writtenOn": "2026-11-23T16:47:01Z",
+      "side": 1,
+      "message": "410317: Remove the useIndex option in SSH commands change id parsing | https://gerrit-review.googlesource.com/c/gerrit/+/410317",
+      "revId": "7d2f572e8ee0afe848e63e0d4edcd887b7097c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

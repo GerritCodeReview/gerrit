@@ -16,6 +16,24 @@
       "message": "This is unrelated and should be done in its own change. I did it in change 659503. Please, rebase that change.",
       "revId": "a6a4bed6454e15a5d84605d0cf4232c246a84e61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0152c15a_b961a997",
+        "filename": "tools/bzl/license.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5299003
+      },
+      "writtenOn": "2026-11-23T08:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae335c7d_e4bb5af1",
+      "revId": "a6a4bed6454e15a5d84605d0cf4232c246a84e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

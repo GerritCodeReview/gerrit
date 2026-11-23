@@ -331,6 +331,16 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotCreateChangeOnHead() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "Subject";
+    ci.branch = RefNames.HEAD;
+
+    Throwable thrown = assertThrows(RestApiException.class, () -> gApi.changes().create(ci));
+    assertThat(thrown).hasMessageThat().contains("Cannot create a change on ref HEAD");
+  }
+
+  @Test
   public void canCreateChangeOnRefsMetaConfig() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
     projectOperations

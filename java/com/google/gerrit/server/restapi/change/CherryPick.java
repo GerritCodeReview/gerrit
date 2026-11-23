@@ -82,6 +82,9 @@ public class CherryPick
     }
 
     String refName = RefNames.fullName(input.destination);
+    if (refName.equals(RefNames.HEAD)) {
+      throw new BadRequestException("destination cannot be HEAD");
+    }
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
 
     permissionBackend

@@ -79,6 +79,9 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
     }
 
     String refName = RefNames.fullName(destination);
+    if (refName.equals(RefNames.HEAD)) {
+      throw new BadRequestException("destination cannot be HEAD");
+    }
     contributorAgreements.check(projectName, user.get());
     permissionBackend
         .currentUser()

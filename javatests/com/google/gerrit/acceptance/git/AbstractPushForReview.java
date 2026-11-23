@@ -1583,6 +1583,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushForHeadRejected() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/HEAD");
+    r.assertErrorStatus("cannot push for review to HEAD, use a branch name");
+  }
+
+  @Test
   public void pushForNonExistingBranch() throws Exception {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName);

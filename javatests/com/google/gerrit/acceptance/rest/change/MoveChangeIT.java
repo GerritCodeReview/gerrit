@@ -38,6 +38,7 @@ import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -107,6 +108,14 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("Change is already destined for the specified branch");
+  }
+
+  @Test
+  public void moveChangeToHead() throws Exception {
+    PushOneCommit.Result r = createChange();
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> move(r.getChangeId(), RefNames.HEAD));
+    assertThat(thrown).hasMessageThat().contains("destination branch cannot be HEAD");
   }
 
   @Test

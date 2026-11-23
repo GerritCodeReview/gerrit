@@ -284,6 +284,7 @@ export class GrCreateChangeDialog extends LitElement {
         if (!response) return [];
         const branches: Array<{name: BranchName}> = [];
         for (const branchInfo of response) {
+          if (branchInfo.ref === 'HEAD') continue;
           branches.push({name: branchName(branchInfo.ref)});
         }
         return branches;

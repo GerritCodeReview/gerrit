@@ -48,6 +48,8 @@ class UrlModule extends ServletModule {
   private static final String CHANGE_NUMBER_REGEX = "(?:/c)?/([1-9][0-9]*)";
   private static final String PATCH_SET_REGEX = "([1-9][0-9]*(\\.\\.[1-9][0-9]*)?)";
 
+  static final String TOOLS_REGEX = "^/(?:a/)?tools/((?:hooks|bin|scripts)(?:/.*)?)$";
+
   UrlModule(AuthConfig authConfig) {
     this.authConfig = authConfig;
   }
@@ -90,7 +92,7 @@ class UrlModule extends ServletModule {
     // for RunAs capability.
     install(new RunAsFilterModule());
 
-    serveRegex("^/(?:a/)?tools/(.*)$").with(ToolServlet.class);
+    serveRegex(TOOLS_REGEX).with(ToolServlet.class);
 
     // Serve auth check. Mainly used by PolyGerrit for checking if a user is still logged in.
     serveRegex("^/(?:a/)?auth-check(\\.svg)?$").with(AuthorizationCheckServlet.class);

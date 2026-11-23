@@ -1553,6 +1553,20 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickToHead() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "foo bar";
+    input.destination = RefNames.HEAD;
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(result.getChangeId()).current().cherryPick(input));
+    assertThat(thrown).hasMessageThat().isEqualTo("destination cannot be HEAD");
+  }
+
+  @Test
   public void cherryPickToNonExistingBaseCommit() throws Exception {
     createBranch(BranchNameKey.create(project, "foo"));
     PushOneCommit.Result result = createChange();

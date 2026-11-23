@@ -126,6 +126,9 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       throw new BadRequestException("destination branch is required");
     }
     input.destinationBranch = RefNames.fullName(input.destinationBranch);
+    if (input.destinationBranch.equals(RefNames.HEAD)) {
+      throw new BadRequestException("destination branch cannot be HEAD");
+    }
 
     if (!change.isNew()) {
       throw new ResourceConflictException("Change is " + ChangeUtil.status(change));

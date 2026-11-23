@@ -2300,6 +2300,13 @@ class ReceiveCommits {
         logger.atFine().log("Handling %s", RefNames.REFS_USERS_SELF);
         ref = RefNames.refsUsers(user.getAccountId());
       }
+      if (ref.equals(RefNames.HEAD)) {
+        reject(
+            cmd,
+            RejectionReason.create(
+                MetricBucket.INVALID_REF, "cannot push for review to HEAD, use a branch name"));
+        return;
+      }
       // Pushing changes for review usually requires that the target branch exists, but there is an
       // exception for the branch to which HEAD points to and for refs/meta/config. Pushing for
       // review to these branches is allowed even if the branch does not exist yet. This allows to

@@ -24,6 +24,14 @@ suite('gr-confirm-move-dialog tests', () => {
             can_delete: true,
           },
         ]);
+      } else if (input.startsWith('head')) {
+        return Promise.resolve([
+          {ref: 'HEAD' as GitRef, revision: 'master'},
+          {
+            ref: 'refs/heads/head-branch' as GitRef,
+            revision: '67ebf73496383c6777035e374d2d664009e2aa5c',
+          },
+        ]);
       } else {
         return Promise.resolve([]);
       }
@@ -88,6 +96,17 @@ suite('gr-confirm-move-dialog tests', () => {
     const branches = await autoComplete.query!('test-branch');
     assert.equal(branches.length, 1);
     assert.equal(branches[0].name, 'test-branch');
+  });
+
+  test('suggestions exclude HEAD', async () => {
+    const autoComplete = queryAndAssert<GrAutocomplete>(
+      element,
+      'gr-autocomplete'
+    );
+    autoComplete.debounceWait = 10;
+    const branches = await autoComplete.query!('head');
+    assert.equal(branches.length, 1);
+    assert.equal(branches[0].name, 'head-branch');
   });
 
   test('suggestions input empty string', async () => {

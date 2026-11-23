@@ -354,6 +354,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e626eca_97316702",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T11:34:34Z",
+      "side": 1,
+      "message": "Yes, if an invalidation itself fails, processing stops and subsequent keys are not invalidated, but again, this is Caffeine’s existing behavior [1].\n\nThere is no catch or rollback around remove. If it throws, the exception exits the loop.\n\nWDYT?\n\n[1] https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/LocalCache.java#L121",
+      "parentUuid": "0ba1cd82_4f85e9c6",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a00178_1ea66076",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T11:34:34Z",
+      "side": 1,
+      "message": "Caffeine processes the keys in order without deduplicating them [1], so I kept this behaviour in the wrapper.\nI think the idea is that an entry could be repopulated between two occurrences of the same key, so the second invalidation may still be useful.\n\nYes, it would generate another notification, but that\u0027d be the behaviour as we have now with caffeine only.\n\nWDYT?\n\n[1] https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/LocalCache.java#L120",
+      "parentUuid": "fdf16cf2_1693b763",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 8
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba0cd68c_0ebe069b",
         "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
         "patchSetId": 3
@@ -365,6 +413,30 @@
       "writtenOn": "2026-11-20T16:23:53Z",
       "side": 1,
       "message": "What happens to the already deleted items in this case?",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 3
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac8abc6f_3589349f",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-23T11:34:34Z",
+      "side": 1,
+      "message": "Entries invalidated before the null key stay invalidated; there is no rollback.\n\nThe null key causes a NullPointerException, and the remaining keys are not processed, (this preserves Caffeine\u0027s behavior).\n\nI’ve extended the test locally to cover keys before and after the null key.",
+      "parentUuid": "ba0cd68c_0ebe069b",
       "range": {
         "startLine": 210,
         "startChar": 0,

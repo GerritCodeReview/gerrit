@@ -379,6 +379,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ef31c72_2c1d1a6c",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T14:25:59Z",
+      "side": 1,
+      "message": "\u003e I am fine in keeping the consistency withg Caffeine, unless we are aware of any showstoppers?\n\nI cannot think of any showstopper either. Sounds good to me to keep the behaviour consistent with Caffeine.",
+      "parentUuid": "c6b59076_287fa1a5",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 35
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cf2c405_ecff434e",
@@ -440,6 +464,30 @@
       "side": 1,
       "message": "I agree with consistency with Caffeine 👍",
       "parentUuid": "3a86e2aa_4faf7595",
+      "range": {
+        "startLine": 56,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 7
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8278dddb_9ba98a27",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T14:25:59Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "7d96e1d0_ac6b2324",
       "range": {
         "startLine": 56,
         "startChar": 5,
@@ -582,6 +630,54 @@
       "side": 1,
       "message": "👍",
       "parentUuid": "9e626eca_97316702",
+      "range": {
+        "startLine": 67,
+        "startChar": 9,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "900ebf97_3997da9d",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T14:25:59Z",
+      "side": 1,
+      "message": "Makes sense. Thanks for clarifying.",
+      "parentUuid": "df830f45_ddb69c59",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 8
+      },
+      "revId": "14063e31fc83e818dfe13fed7d8125f61667b71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1f64500_dcbbf766",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T14:25:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9bd5abcf_12a24b2a",
       "range": {
         "startLine": 67,
         "startChar": 9,

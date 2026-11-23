@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d85633a5_4af24e4b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-23T23:17:39Z",
+      "side": 1,
+      "message": "This `willUpdate` block (and the identical copy in `gr-diff-lean-viewer.ts:1182-1259`) has grown very hard to follow with manual `changedProperties` diffing, self-mutation flags (`rowsChanged`, `internalThreadsUpdated`, `threadsInputsChanged`), and four `cached*` fields. We can simplify most of it:\n\n1. Subscribe directly to the context pref with `select(this.getUserModel().diffPreferences$, p \u003d\u003e p.context)` (or add `preferenceDiffContext$` on `UserModel`, like `preferenceDiffViewMode$`) instead of storing all of `diffPrefs` and diffing `changedProperties.get(\u0027diffPrefs\u0027)` in multiple branches.\n2. Drop the manual `willUpdate` cache invalidation for `attachThreadsToRows` and `groupRichDiffRows`. Neither hover nor text selection is `@state()`, so `render()` does not fire on mouse moves. If memoization is needed (for example on `collapseProofs` toggles in `gr-diff-lean-viewer`), a small input-reference memoizer or shared Lit `ReactiveController` avoids maintaining an 11-property `changedProperties` checklist and removes the duplication between both viewers.\n3. Clear selection/hover and reset `expandedRowIndices` directly in the action/subscription handlers rather than routing them through a multi-property `changedProperties` matrix and repeating the same reset in `recomputeAlignedRows()`. We can also drop the unused `context` prop and `toggleAllContext()` method on both viewers (neither has production callers outside unit tests).",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 717,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "196a1dfbb511962be25d78177103151edd39c147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ebfbc76_6b4c284f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-23T23:17:39Z",
+      "side": 1,
+      "message": "`tabindex\u003d\"-1\"` and `data-row-index` are wired into the `deleted`, `added`, and `modified` branches here and in `renderRightCell` (plus the same branches in `gr-diff-lean-viewer.ts`). Since any row with `status !\u003d\u003d \u0027unchanged\u0027` is always an anchor, it can never be collapsed or targeted by `focusRevealedRow()`. Putting `tabindex\u003d\"-1\"` on every diff block also makes every cell click-focusable (which is why `richDiffContextBarStyles` had to suppress focus rings on `.diff-cell` / `.unified-block`). Limiting `data-row-index` and `tabindex\u003d\"-1\"` to unchanged rows (or setting `tabindex\u003d\"-1\"` only on the revealed element when focusing) removes this template noise and the `isLeftEmpty` / `!row.leftBlock` guards.",
+      "range": {
+        "startLine": 1293,
+        "startChar": 0,
+        "endLine": 1385,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "196a1dfbb511962be25d78177103151edd39c147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d25ade2_8681141d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/rich-diff-context-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-23T23:17:39Z",
+      "side": 1,
+      "message": "Consider moving this shared rich diff context module out of `gr-diff-markdown-viewer/` (so `gr-diff-lean-viewer` does not deepen cross-viewer imports into markdown) and turning `richDiffContextBarStyles` + `renderRichDiffContextBar` into a small `\u003cgr-rich-diff-context-bar\u003e` component instead of injecting `.rich-context-bar` / `.rich-context-btn` / `[tabindex\u003d\u0027-1\u0027]` styles into both viewers\u0027 shadow roots.",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "196a1dfbb511962be25d78177103151edd39c147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c9ae78f_4021356a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-23T23:17:39Z",
+      "side": 1,
+      "message": "Two issues with tracking `isShowingEntireFile`, `richFullContext`, and `fullContextToggledGeneration` separately here:\n\n1. `isShowingEntireFile` is purely derived from `this.prefs?.context` and `this.richFullContext` (`computeIsShowingEntireFile()`), so making it a getter avoids manually syncing it in four places (`diffPreferences$`, `willUpdate`, `reloadDiff`, `handleToggleAllDiffContext`).\n2. `fullContextToggledGeneration` still races with `gr-diff-host.reload()`: `reload()` defers `reloadInternal()` via `debounceP(..., 0)` and then increments `grDiffKey++`, recreating `\u003cgr-diff\u003e` as `UNDECIDED`. Pressing `Shift+X` in that window toggles the outgoing `\u003cgr-diff\u003e` right before it is replaced, while `fullContextToggledGeneration \u003d\u003d\u003d gen` skips resync, leaving source diff out of sync with the button and rich viewer. Passing `showFullContext` down through `gr-diff-host` as a single source of truth (like `lineOfInterest`) resolves both this race and the `changedProperties.get(\u0027prefs\u0027)` check in `gr-diff.ts`.",
+      "range": {
+        "startLine": 2117,
+        "startChar": 0,
+        "endLine": 2123,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "196a1dfbb511962be25d78177103151edd39c147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb15cc00_2bab0ad6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-11-23T23:17:39Z",
+      "side": 1,
+      "message": "Diffing `changedProperties.get(\u0027prefs\u0027)` here with a conditional spread and an `else if (contextPrefChanged)` fallback is a bit brittle alongside `gr-diff-view`\u0027s separate `prevContext` check. Handling the `showFullContext` reset inside `DiffModel` when `diffPrefs.context` changes (or passing `showFullContext` down through `gr-diff-host` from `gr-diff-view` as a single source of truth, like `lineOfInterest`) would let us drop this `changedProperties` branching altogether.",
+      "range": {
+        "startLine": 386,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "196a1dfbb511962be25d78177103151edd39c147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

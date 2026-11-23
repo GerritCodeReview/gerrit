@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0639ed10_45753cae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-23T15:39:42Z",
+      "side": 1,
+      "message": "\u003e take that UI/UX work forward separately?\n\nI think it makes sense. As long as we have a minimal feedback message we can then iterate on it, as discussed during the maintainers catchup about this issue.",
+      "parentUuid": "0e133134_7c275381",
+      "revId": "4b16f5cf06dc0ac919d7258de5ebd7c7000b75d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e05f5f2_8a640d8b",
         "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 5

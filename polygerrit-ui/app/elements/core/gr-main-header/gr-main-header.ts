@@ -277,19 +277,23 @@ export class GrMainHeader extends LitElement {
           line-height: calc(var(--header-title-font-size) * 1.2);
           text-decoration: none;
           display: block;
-          flex: 1 1 auto;
-          flex-grow: 0;
-          justify-content: center;
-          overflow: hidden;
+          flex: 0 1 auto;
+          width: fit-content;
           max-width: 30%;
-          text-decoration: none;
+          overflow: hidden;
+          cursor: pointer;
         }
         .bigTitle:hover {
+          text-decoration: none;
+        }
+        .bigTitle:hover .titleText::after {
           text-decoration: underline;
         }
         .titleText {
           display: flex;
           align-items: center;
+          width: max-content;
+          max-width: 100%;
           min-width: 0;
           overflow: hidden;
         }
@@ -318,7 +322,7 @@ export class GrMainHeader extends LitElement {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          flex: 1;
+          flex: 0 1 auto;
           min-width: 0;
         }
 
@@ -451,7 +455,7 @@ export class GrMainHeader extends LitElement {
             font-weight: var(--font-weight-h3);
             line-height: var(--line-height-h3);
             min-width: 0;
-            max-width: unset;
+            max-width: 100%;
           }
           .titleText::before {
             --icon-width: var(

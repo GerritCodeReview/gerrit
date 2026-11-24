@@ -1,0 +1,75 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e292560c_c7875dbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-24T13:12:03Z",
+      "side": 1,
+      "message": "Could you add a mobile case to `gr-main-header_screenshot_test.ts`? It currently only runs at `setViewport({width: 1200, height: 100})`. A `width: 400` viewport with a long `--header-title-content` (and ideally a short one, to pin down the centered-vs-left-aligned decision) would lock this fix in. The postimg.cc links won\u0027t survive in history.",
+      "isAi": true,
+      "revId": "a5681005fd7d083b1838babadb3d2b5fa19ae672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "629cc08e_825e8f31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-24T13:12:03Z",
+      "side": 1,
+      "message": "I got some AI comments, but otherwise +2",
+      "revId": "a5681005fd7d083b1838babadb3d2b5fa19ae672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57465dd1_f4141ef0",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-24T13:12:03Z",
+      "side": 1,
+      "message": "This `justify-content: center` has no effect: `.mobileTitleWrapper .bigTitle` below is `flex: 1 1 0; width: 100%`, so the anchor always fills the wrapper and the title ends up left-aligned next to the hamburger. The commit message says that\u0027s intended, but it changes the look for every host with a short title (previously centered between the 100px gutters).\n\nIf you want to keep short titles centered *and* let long titles use all available space, this does both:\n\n```css\n.mobileTitleWrapper .bigTitle {\n  flex: 0 1 auto; /* shrink-to-fit when short -\u003e centered by wrapper; shrinks -\u003e ellipsis when long */\n  min-width: 0;\n  max-width: 100%;\n}\n```\n\nIf left-aligned is the goal, please drop `justify-content: center` here so the intent is unambiguous.",
+      "isAi": true,
+      "revId": "a5681005fd7d083b1838babadb3d2b5fa19ae672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c23513bd_8683477d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-24T13:12:03Z",
+      "side": 1,
+      "message": "nit: a few of these declarations are redundant and can be trimmed:\n\n- `width: 100%` is ignored when `flex-basis` is `0` (`flex: 1 1 0`).\n- `min-width: 0` / `max-width` are already set on `.bigTitle` in this same media query (lines 461-462).\n- `.mobileTitleWrapper .titleText { min-width: 0 }` is already in the base `.titleText` rule (line 301).\n- The base `.mobileTitleWrapper { position: absolute; left: 100px; right: 100px; ... }` (lines 290-297) is now effectively dead, since `renderMobile()` is `display: none` on desktop. Consider deleting it instead of overriding it with `position: static` here.",
+      "isAi": true,
+      "revId": "a5681005fd7d083b1838babadb3d2b5fa19ae672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

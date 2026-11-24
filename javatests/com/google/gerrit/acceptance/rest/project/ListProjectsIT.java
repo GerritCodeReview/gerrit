@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertThat
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Splitter;
@@ -55,6 +56,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.IntStream;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 @NoHttpd
@@ -122,6 +126,27 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertThat(info.branches).isNotNull();
     assertThat(info.branches).hasSize(1);
     assertThat(info.branches.get("master")).isNotNull();
+  }
+
+  @Test
+  public void listProjectsWithFullBranchName() throws Exception {
+    Map<String, ProjectInfo> result =
+        gApi.projects().list().addShowBranch("refs/heads/master").getAsMap();
+    assertThat(result).containsKey(project.get());
+    assertThat(result.get(project.get()).branches).containsKey("refs/heads/master");
+  }
+
+  @Test
+  public void listProjectsWithFullBranchNameMatchesOnlyThatRef() throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      RefUpdate u = repo.updateRef("refs/tags/refs/heads/foo");
+      u.setExpectedOldObjectId(ObjectId.zeroId());
+      u.setNewObjectId(repo.exactRef("refs/heads/master").getObjectId());
+      testRefAction(() -> assertThat(u.update()).isEqualTo(RefUpdate.Result.NEW));
+    }
+
+    assertThat(gApi.projects().list().addShowBranch("refs/heads/foo").getAsMap())
+        .doesNotContainKey(project.get());
   }
 
   @Test

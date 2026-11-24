@@ -58,7 +58,9 @@ by project name.
 
 Branch(b)::
 Limit the results to the projects having the specified branch and
-include the sha1 of the branch in the results.
+include the sha1 of the branch in the results. A name starting with
+`refs/` must match a ref exactly. Other names are resolved like in git,
+e.g. `master` finds `refs/heads/master`.
 +
 Get projects that have a 'master' branch:
 +

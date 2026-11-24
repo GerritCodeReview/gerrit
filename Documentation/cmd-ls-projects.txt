@@ -39,6 +39,8 @@ This command is intended to be used in scripts.
 --show-branch::
 -b::
 	Branch for which the command will display the sha of each project.
+	A name starting with `refs/` must match a ref exactly. Other names are
+	resolved like in git, e.g. `master` finds `refs/heads/master`.
 	The command may have multiple --show-branch parameters, in this case
 	sha will be shown for each of the branches.
 	If the user does not have READ access to some branch or the branch does not

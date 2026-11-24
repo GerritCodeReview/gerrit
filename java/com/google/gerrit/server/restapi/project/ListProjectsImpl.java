@@ -31,6 +31,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -677,7 +678,8 @@ public class ListProjectsImpl extends AbstractListProjects {
     try {
       PermissionBackend.ForProject perm = permissionBackend.user(currentUser).project(projectName);
       for (int i = 0; i < showBranch.size(); i++) {
-        Ref ref = git.findRef(showBranch.get(i));
+        String name = showBranch.get(i);
+        Ref ref = name.startsWith(RefNames.REFS) ? git.exactRef(name) : git.findRef(name);
         if (ref != null
             && ref.getObjectId() != null
             && perm.ref(ref.getLeaf().getName()).test(RefPermission.READ)) {

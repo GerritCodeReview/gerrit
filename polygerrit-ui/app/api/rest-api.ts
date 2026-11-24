@@ -1094,7 +1094,7 @@ export function isQuickLabelInfo(
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#receive-info
  */
 export declare interface ReceiveInfo {
-  enable_signed_push?: string;
+  enable_signed_push?: boolean;
 }
 
 export type RepoName = BrandType<string, '_repoName'>;

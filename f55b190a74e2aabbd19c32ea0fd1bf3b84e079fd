@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e373de8_c15a1b43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-24T12:42:14Z",
+      "side": 1,
+      "message": "This test was already failing:\n\n```\n1) readCommentLinkInvalidPattern(com.google.gerrit.server.project.ProjectConfigTest)\nvalue of:\n    getValidationErrors().onlyElement()\nexpected:\n    …petition near index 4\n    (bugs{+#?)(d+)\n        ^}\nbut was:\n    …petition near index 6\n    (bugs{+#?)(d+)\n          ^}\n\tat com.google.gerrit.server.project.ProjectConfigTest.readCommentLinkInvalidPattern(ProjectConfigTest.java:644)\n```",
+      "revId": "f55b190a74e2aabbd19c32ea0fd1bf3b84e079fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -98,6 +98,24 @@
       "message": "This lets anyone with `Create Project` write any per-repo Git config, which until now only admins with filesystem access could do. Like, `uploadpack.allowAnySHA1InWant \u003d true` makes JGit\u0027s UploadPack accept any want, which gets around Gerrit\u0027s ref visibility filtering for that repo. `include.path` makes JGit read an arbitrary server file on every open. Should `git_config` require `Administrate Server` (or `Maintain Server`), or be limited to an allowlist of keys?",
       "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21400fc3_c4b3da86",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-24T06:06:55Z",
+      "side": 1,
+      "message": "\u003e This lets anyone with `Create Project` write any per-repo Git config, which until now only admins with filesystem access could do. Like, `uploadpack.allowAnySHA1InWant \u003d true` makes JGit\u0027s UploadPack accept any want, which gets around Gerrit\u0027s ref visibility filtering for that repo. `include.path` makes JGit read an arbitrary server file on every open. Should `git_config` require `Administrate Server` (or `Maintain Server`), or be limited to an allowlist of keys?\n\nThat\u0027s a good point: I am not sure about the administrator\u0027s permission, because it would open the door to allow a lot more than a simple git config.\n\nMaybe introducing a new permission like `Maintain Project`?",
+      "parentUuid": "f4e1d357_640a9c10",
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "UI Changes but preferably someone else review the Java changes.",
       "revId": "3064ef6690eca668bdc7213d29b3204a28799dcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a7e76e9_b9452ea4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-24T21:42:51Z",
+      "side": 1,
+      "message": "Sorry I don\u0027t have capacity for review for next 3 weeks.",
+      "revId": "3064ef6690eca668bdc7213d29b3204a28799dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

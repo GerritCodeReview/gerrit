@@ -16,6 +16,7 @@ import {
   sanitizeHtml,
   setElementInnerHtml,
 } from '../../../utils/inner-html-util';
+import {detailsExtension} from './details-extension';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -100,7 +101,7 @@ export class GrMarkedElement extends LitElement {
       this.tokenizer(tokenizer);
     }
 
-    const marked = new Marked();
+    const marked = new Marked({extensions: [detailsExtension]});
     const unsafeHtml =
       marked.parse(this.markdown, {
         async: false,

@@ -12,7 +12,8 @@ run can contain a list of `Results`.
 
 `Results` messages will render as markdown. It follows the
 [CommonMark](https://commonmark.org/help/) spec except inline images and direct
-HTML are not rendered and kept as plaintext.
+HTML are not rendered and kept as plaintext, with the exception of `<details>`
+blocks, which render as a collapsible section with markdown content.
 
 The details of the ChecksApi are documented in the
 link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/checks.ts[source code].

@@ -713,7 +713,10 @@ attach several comments to the same code.
 
 [[comments-markdown]]
 The comments support markdown. It follows the CommonMark spec, except inline
-images and direct HTML are not rendered and kept as plaintext.
+images and direct HTML are not rendered and kept as plaintext. The exception
+are `<details>` blocks: they are rendered as a collapsible section and their
+content is parsed as markdown. Only the `open` attribute is honored on the
+tag, all other attributes are ignored.
 
 [[line-links]]
 The lines of the patch file are linkable: simply append

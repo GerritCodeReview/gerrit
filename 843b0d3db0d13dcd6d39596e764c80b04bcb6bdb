@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b6c36b6_cd09a0b3",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2993,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-11-24T19:20:04Z",
+      "side": 1,
+      "message": "you\u0027ll have to set rw.setRetainBody(false); on the isolated RevWalk (defaults to true, unlike globalRevWalk) to avoid retaining raw commit bodies in heap across reachability walks on the push hot path; line 3013 already calls rw.parseBody(c).",
+      "revId": "843b0d3db0d13dcd6d39596e764c80b04bcb6bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47ad9f85_3cc83757",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 3

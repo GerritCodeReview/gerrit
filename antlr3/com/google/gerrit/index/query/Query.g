@@ -16,6 +16,7 @@ grammar Query;
 options {
   language = Java;
   output = AST;
+  memoize = true;  // defeat exponential synpred backtracking
 }
 
 tokens {

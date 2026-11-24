@@ -63,4 +63,73 @@ suite('gr-main-header screenshot tests', () => {
       customThemeEl.remove();
     }
   });
+
+  test('screenshot with custom title override', async () => {
+    const customThemeEl = document.createElement('style');
+    customThemeEl.textContent =
+      'html { --header-title-content: "Gerrit Testing"; }';
+    document.head.appendChild(customThemeEl);
+    try {
+      await visualDiff(element, 'gr-main-header-custom-title');
+      await visualDiffDarkTheme(element, 'gr-main-header-custom-title');
+    } finally {
+      customThemeEl.remove();
+    }
+  });
+
+  test('screenshot with long custom title override shows elipsis', async () => {
+    const customThemeEl = document.createElement('style');
+    customThemeEl.textContent =
+      'html { --header-title-content: "Gerrit Testing Testing Testing Testing Testing"; }';
+    document.head.appendChild(customThemeEl);
+    try {
+      await visualDiff(element, 'gr-main-header-long-custom-title-elipsis');
+      await visualDiffDarkTheme(
+        element,
+        'gr-main-header-long-custom-title-elipsis'
+      );
+    } finally {
+      customThemeEl.remove();
+    }
+  });
+
+  test('mobile header screenshot', async () => {
+    await setViewport({width: 390, height: 900});
+    await visualDiff(element, 'gr-main-header-mobile');
+    await visualDiffDarkTheme(element, 'gr-main-header-mobile');
+  });
+
+  test('mobile header screenshot with custom title override', async () => {
+    await setViewport({width: 390, height: 900});
+    const customThemeEl = document.createElement('style');
+    customThemeEl.textContent =
+      'html { --header-title-content: "Gerrit Testing"; }';
+    document.head.appendChild(customThemeEl);
+    try {
+      await visualDiff(element, 'gr-main-header-mobile-custom-title');
+      await visualDiffDarkTheme(element, 'gr-main-header-mobile-custom-title');
+    } finally {
+      customThemeEl.remove();
+    }
+  });
+
+  test('mobile header screenshot with long custom title override shows elipsis', async () => {
+    await setViewport({width: 390, height: 900});
+    const customThemeEl = document.createElement('style');
+    customThemeEl.textContent =
+      'html { --header-title-content: "Gerrit Testing Testing Testing Testing Testing"; }';
+    document.head.appendChild(customThemeEl);
+    try {
+      await visualDiff(
+        element,
+        'gr-main-header-mobile-long-custom-title-elipsis'
+      );
+      await visualDiffDarkTheme(
+        element,
+        'gr-main-header-mobile-long-custom-title-elipsis'
+      );
+    } finally {
+      customThemeEl.remove();
+    }
+  });
 });

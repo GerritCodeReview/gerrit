@@ -95,6 +95,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9838ff57_e4dd4a2e",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-24T10:58:29Z",
+      "side": 1,
+      "message": "Good catch, thanks, Luca.\nI\u0027ve added a check against the cache’s declared key type, so an incompatible key will not produce an erroneous notification now.\n\nThe check happens _after_ the removal and _only_ if the value result was `null`. I’ve also added a test for the wrong-type case.",
+      "parentUuid": "620f398c_237c5bb9",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea1acc96_e8766c20",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-24T10:58:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fa11b04_9442f979",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4f72dad_d9da5d81",
@@ -108,6 +156,24 @@
       "writtenOn": "2026-11-23T19:47:09Z",
       "side": 1,
       "message": "This isn\u0027t enough: we must also test that it *should not* notify when the invalidation is done with the wrong key type.\n\n\n\n```suggestion\n  @Test\n  @SuppressWarnings(\"IncompatibleArgumentType\")\n  public void shouldNotNotifyWhenInvalidatingWithAnIncorrectKeyType() {\n    Cache\u003cInteger, Integer\u003e cache \u003d memoryCacheFactoryDirectExecutor.build(newCacheDef(1));\n\n    cache.invalidate(TEST_CACHE_KEY_INVALID_TYPE);\n\n    assertThat(forwardingRemovalListener.removalEvents).isEmpty();\n  }\n\n  public void shouldNotifyWhenInvalidatingAbsentEntry() {\n```",
+      "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6ef1922_df4ff5e3",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-24T10:58:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4f72dad_d9da5d81",
       "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

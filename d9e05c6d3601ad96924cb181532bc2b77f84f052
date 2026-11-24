@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "badc047a_8942c6c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2026-11-24T21:34:33Z",
+      "side": 1,
+      "message": "I have generated the doc and opened it using:\n```\nbazel build Documentation\nxdg-open bazel-bin/Documentation/config-submit-requirements.html \n```\n\n**Screenshot** https://people.wikimedia.org/~hashar/gerrit/SR-doc_659863-1.png\n\nThe 3.13.11 doc is at https://gerrit-documentation.storage.googleapis.com/Documentation/3.13.11/config-submit-requirements.html",
+      "revId": "d9e05c6d3601ad96924cb181532bc2b77f84f052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebaa5367_7557bd9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2026-11-24T13:20:35Z",
+      "side": 1,
+      "message": "Maybe also add this to the project name validation in java/com/google/gerrit/entities/ProjectUtil.java to not allow any fo the reserved names as repository (e.g. projects/xxx would probably also fail)",
+      "revId": "7a6dc5b5efc87c40fa83046cef59b278a7a734df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46097e16_23f78d7f",

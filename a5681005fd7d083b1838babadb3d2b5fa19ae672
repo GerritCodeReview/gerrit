@@ -21,6 +21,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fa70415c_91ec2557",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-24T14:24:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e292560c_c7875dbd",
+      "revId": "a5681005fd7d083b1838babadb3d2b5fa19ae672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "629cc08e_825e8f31",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -56,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "11191eed_03094164",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-24T14:24:52Z",
+      "side": 1,
+      "message": "You\u0027re suggestion didn\u0027t work so i tried out some alternatives that got it working. Less css.\n\nThanks, done.",
+      "parentUuid": "57465dd1_f4141ef0",
+      "revId": "a5681005fd7d083b1838babadb3d2b5fa19ae672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c23513bd_8683477d",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
         "patchSetId": 3
@@ -68,6 +104,24 @@
       "side": 1,
       "message": "nit: a few of these declarations are redundant and can be trimmed:\n\n- `width: 100%` is ignored when `flex-basis` is `0` (`flex: 1 1 0`).\n- `min-width: 0` / `max-width` are already set on `.bigTitle` in this same media query (lines 461-462).\n- `.mobileTitleWrapper .titleText { min-width: 0 }` is already in the base `.titleText` rule (line 301).\n- The base `.mobileTitleWrapper { position: absolute; left: 100px; right: 100px; ... }` (lines 290-297) is now effectively dead, since `renderMobile()` is `display: none` on desktop. Consider deleting it instead of overriding it with `position: static` here.",
       "isAi": true,
+      "revId": "a5681005fd7d083b1838babadb3d2b5fa19ae672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9930e407_55c34742",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-24T14:24:52Z",
+      "side": 1,
+      "message": "I\u0027ve removed this.",
+      "parentUuid": "c23513bd_8683477d",
       "revId": "a5681005fd7d083b1838babadb3d2b5fa19ae672",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

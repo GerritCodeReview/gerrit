@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26c8320f_2f88983f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-24T14:03:53Z",
+      "side": 1,
+      "message": "This seems a bit vague and generic.\nCan you give some more detailed context by mentioning the relevant changes [1][2]\n\n1] https://gerrit-review.googlesource.com/c/gerrit/+/420064\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/420065",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "e75fae7770c317a36dce8a91c3f773169ba2d425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1050a992_9e8261d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-24T14:03:53Z",
+      "side": 1,
+      "message": "This is a user visible change that alters who can remove votes from merged changes.\nA short release note would help administrators and users understand why the action is now available.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "e75fae7770c317a36dce8a91c3f773169ba2d425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05d7160b_9449970c",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVote.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-24T14:03:53Z",
+      "side": 1,
+      "message": "nit: unrelated new line?",
+      "revId": "e75fae7770c317a36dce8a91c3f773169ba2d425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

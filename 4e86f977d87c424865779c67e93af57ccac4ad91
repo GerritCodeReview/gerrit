@@ -49,6 +49,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5fa11b04_9442f979",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-24T08:51:41Z",
+      "side": 1,
+      "message": "yes I will add a comment explaining this.\n\nExpired entries are another reason removal can return null.\n\n- `remove()`: If the entry has expired, Caffeine sets the removal cause to EXPIRED [1](https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/BoundedLocalCache.java#L2176-L2177).\n\n- `remove()`: removes it from the map [2](https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/BoundedLocalCache.java#L2181-L2185).\n\n- `remove()`: notifies the `onRemoval` listeners [3](https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/BoundedLocalCache.java#L2189-L2191).\n\n- `remove()`: returns the old value only when the cause is `EXPLICIT`. For EXPIRED, it returns `null` [4](https://github.com/ben-manes/caffeine/blob/v2.9.2/caffeine/src/main/java/com/github/benmanes/caffeine/cache/BoundedLocalCache.java#L2194)\n\nSo this means that if an entry has expired but is still stored internally when explicitly invalidated, it can produce two notifications:\n\n1. Caffeine sends `EXPIRED`.\n2. Our wrapper sends `EXPLICIT` because Caffeine returns `null`.\n\nThis is correct because the entry expiring locally does not mean it has expired on the other nodes. HA and multi-site ignore the EXPIRED notification, so the EXPLICIT notification is still needed to invalidate their copies.",
+      "parentUuid": "ec3329b2_7fed784a",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 46
+      },
+      "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "620f398c_237c5bb9",
+        "filename": "java/com/google/gerrit/server/cache/mem/InvalidationTrackingCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-24T08:51:41Z",
+      "side": 1,
+      "message": "Good catch! Let me address this in the next patch",
+      "parentUuid": "03ee16d9_c06dd201",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "4e86f977d87c424865779c67e93af57ccac4ad91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4f72dad_d9da5d81",
         "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
         "patchSetId": 7

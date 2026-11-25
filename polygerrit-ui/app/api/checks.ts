@@ -274,6 +274,13 @@ export declare interface Action {
    * the action would normally do.
    */
   disabled?: boolean;
+  /**
+   * If set, the user is asked to confirm in a dialog before the callback is
+   * called, with this text as the question, for example "Abort the build? Its
+   * results will be lost." Use it for actions that are hard to undo. The
+   * confirm button of the dialog is labeled with the name of the action.
+   */
+  confirmation?: string;
   callback: ActionCallback;
 }
 

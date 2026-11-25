@@ -342,6 +342,38 @@ suite('checks-model tests', () => {
     assert.equal(spy.lastCall.args[1], 13);
   });
 
+  test('triggerAction asks for confirmation', async () => {
+    model.changeNum = 314 as NumericChangeId;
+    model.latestPatchNum = 13 as PatchSetNumber;
+    const action: Action = {
+      name: 'Stop',
+      confirmation: 'Stop the build?',
+      callback: () => undefined,
+    };
+    const spy = sinon.spy(action, 'callback');
+    const openDialog = async () => {
+      model.triggerAction(action, undefined, 'none');
+      await waitUntil(
+        () => !!document.querySelector('gr-checks-action-confirm')?.dialog?.open
+      );
+      const confirm = document.querySelector('gr-checks-action-confirm')!;
+      assert.equal(
+        confirm.shadowRoot!.querySelector('.main')!.textContent,
+        'Stop the build?'
+      );
+      return confirm.shadowRoot!.querySelector('gr-dialog')!;
+    };
+
+    (await openDialog()).cancelButton!.click();
+    await waitUntil(() => !document.querySelector('gr-checks-action-confirm'));
+    assert.isFalse(spy.called);
+
+    (await openDialog()).confirmButton!.click();
+    await waitUntil(() => spy.calledOnce);
+    assert.equal(spy.lastCall.args[0], 314);
+    assert.isNull(document.querySelector('gr-checks-action-confirm'));
+  });
+
   test('model.updateStateSetProvider', () => {
     model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
     assert.deepEqual(current, {

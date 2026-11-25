@@ -7,7 +7,12 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-dropdown';
 import {GrDropdown} from './gr-dropdown';
-import {pressKey, queryAll, queryAndAssert} from '../../../test/test-utils';
+import {
+  pressKey,
+  query,
+  queryAll,
+  queryAndAssert,
+} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {assertIsDefined} from '../../../utils/common-util';
 import {assert, fixture, html, waitUntil} from '@open-wc/testing';
@@ -206,6 +211,28 @@ suite('gr-dropdown tests', () => {
     assert.isTrue(tooltipContents[0].hasTooltip);
     assert.equal(tooltipContents[0].getAttribute('title'), 'hello');
     assert.isFalse(tooltipContents[1].hasTooltip);
+  });
+
+  test('only applies link and down-arrow to gr-button', async () => {
+    element.link = true;
+    element.downArrow = true;
+    element.useIconButton = true;
+    await element.updateComplete;
+
+    const iconButton = queryAndAssert<HTMLElement>(
+      element,
+      'md-icon-button#trigger'
+    );
+    assert.isUndefined(query(element, 'gr-button#trigger'));
+    assert.isFalse(iconButton.hasAttribute('link'));
+    assert.isFalse(iconButton.hasAttribute('down-arrow'));
+
+    element.useIconButton = false;
+    await element.updateComplete;
+
+    const button = queryAndAssert<HTMLElement>(element, 'gr-button#trigger');
+    assert.isTrue(button.hasAttribute('link'));
+    assert.isTrue(button.hasAttribute('down-arrow'));
   });
 
   suite('keyboard navigation', () => {

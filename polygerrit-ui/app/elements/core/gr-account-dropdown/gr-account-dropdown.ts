@@ -10,7 +10,7 @@ import {AccountInfo, DropdownLink, ServerInfo} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
 import {DropdownContent} from '../../shared/gr-dropdown/gr-dropdown';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -19,6 +19,20 @@ import '@material/web/icon/icon';
 import {materialStyles} from '../../../styles/gr-material-styles';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
+
+const AVATAR_COLORS = [
+  '#283593', // Indigo 800
+  '#00695c', // Teal 800
+  '#c62828', // Red 800
+  '#6a1b9a', // Purple 800
+  '#1565c0', // Blue 800
+  '#2e7d32', // Green 800
+  '#d84315', // Deep Orange 800
+  '#37474f', // Blue Grey 800
+  '#00838f', // Cyan 800
+  '#4e342e', // Brown 800
+  '#4527a0', // Deep Purple 800
+];
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -107,6 +121,21 @@ export class GrAccountDropdown extends LitElement {
         md-icon[filled] {
           font-variation-settings: 'FILL' 1;
         }
+        .generated-avatar {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 2em;
+          height: 2em;
+          border-radius: 50%;
+          color: #fff;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1;
+          vertical-align: middle;
+          flex-shrink: 0;
+          user-select: none;
+        }
       `,
     ];
   }
@@ -119,12 +148,16 @@ export class GrAccountDropdown extends LitElement {
       @tap-item-shortcuts=${this.handleShortcutsTap}
       .horizontalAlign=${'right'}
       .verticalOffset=${40}
+      ?useIconButton=${true}
     >
-      ${this.showMobile && !this.hasAvatars
-        ? html`<md-icon filled>account_circle</md-icon>`
-        : html`<span ?hidden=${this.hasAvatars}
-            >${this.accountName(this.account)}</span
-          >`}
+      ${!this.hasAvatars
+        ? html`<span
+            class="generated-avatar"
+            style="background-color: ${this.getAvatarColor()}"
+            aria-label=${this.accountName(this.account)}
+            >${this.getAvatarInitial()}</span
+          >`
+        : nothing}
       <gr-avatar
         .account=${this.account}
         ?hidden=${!this.hasAvatars}
@@ -192,6 +225,24 @@ export class GrAccountDropdown extends LitElement {
       INTERPOLATE_URL_PATTERN,
       (_, p1) => replacements[p1] || ''
     );
+  }
+
+  private getAvatarInitial() {
+    const name = this.accountName(this.account).trim();
+    console.log(name);
+    return Array.from(name)[0]?.toLocaleUpperCase() || '?';
+  }
+
+  private getAvatarColor() {
+    const name = this.accountName(this.account).trim().toLowerCase();
+
+    let hash = 0;
+
+    for (let i = 0; i < name.length; i++) {
+      hash = (hash * 31 + name.charCodeAt(i)) | 0;
+    }
+
+    return AVATAR_COLORS[(hash >>> 0) % AVATAR_COLORS.length];
   }
 
   private accountName(account?: AccountInfo) {

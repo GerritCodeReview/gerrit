@@ -23,6 +23,7 @@ import {
   compareByWorstCategory,
   getResultsOf,
   hasCompletedWithoutResults,
+  hasProgress,
   hasResults,
   hasResultsOf,
   isRunningOrScheduled,
@@ -574,12 +575,15 @@ export class GrChangeSummary extends LitElement {
     ) {
       statusOrCategory = RunStatus.SCHEDULED;
     }
+    const progress = statusOrCategory === RunStatus.RUNNING && hasProgress(run);
     const handler = () => this.onChipClick(tabState);
     return html`<gr-checks-chip
       .statusOrCategory=${statusOrCategory}
       .text=${text}
       .links=${links}
       .isAi=${!!run.isAiPowered}
+      .startedTimestamp=${progress ? run.startedTimestamp : undefined}
+      .finishedTimestamp=${progress ? run.finishedTimestamp : undefined}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;

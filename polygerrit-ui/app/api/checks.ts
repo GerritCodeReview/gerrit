@@ -234,7 +234,8 @@ export declare interface CheckRun {
   startedTimestamp?: Date;
   /**
    * For RUNNING runs this is considered to be an estimate of when the run will
-   * be finished.
+   * be finished. If startedTimestamp is also set, the UI shows the progress of
+   * the run as a ring instead of the status icon.
    */
   finishedTimestamp?: Date;
 

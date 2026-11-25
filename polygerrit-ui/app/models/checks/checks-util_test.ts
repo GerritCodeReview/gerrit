@@ -10,6 +10,7 @@ import {
   ALL_ATTEMPTS,
   AttemptChoice,
   computeIsExpandable,
+  hasProgress,
   LATEST_ATTEMPT,
   pleaseFixMessage,
   rectifyFix,
@@ -20,7 +21,7 @@ import {
   toComment,
 } from './checks-util';
 import {Interaction} from '../../constants/reporting';
-import {Category, Fix, Replacement} from '../../api/checks';
+import {Category, Fix, Replacement, RunStatus} from '../../api/checks';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {CommentRange, RevisionPatchSetNum} from '../../api/rest-api';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
@@ -37,6 +38,23 @@ suite('checks-util tests', () => {
   setup(() => {});
 
   teardown(() => {});
+
+  test('hasProgress', () => {
+    const startedTimestamp = new Date('2026-01-01T10:00:00');
+    const finishedTimestamp = new Date('2026-01-01T10:20:00');
+    const run = {
+      checkName: 'test',
+      status: RunStatus.RUNNING,
+      startedTimestamp,
+      finishedTimestamp,
+    };
+    assert.isTrue(hasProgress(run));
+    assert.isFalse(hasProgress({...run, status: RunStatus.COMPLETED}));
+    assert.isFalse(hasProgress({...run, status: RunStatus.SCHEDULED}));
+    assert.isFalse(hasProgress({...run, startedTimestamp: undefined}));
+    assert.isFalse(hasProgress({...run, finishedTimestamp: undefined}));
+    assert.isFalse(hasProgress({...run, finishedTimestamp: startedTimestamp}));
+  });
 
   test('stringToAttemptChoice', () => {
     assert.equal(stringToAttemptChoice('0'), 0);

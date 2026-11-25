@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrChecksChip} from './gr-checks-chip';
-import {Category} from '../../../api/checks';
+import {Category, RunStatus} from '../../../api/checks';
 
 suite('gr-checks-chip test', () => {
   let element: GrChecksChip;
@@ -103,6 +103,28 @@ suite('gr-checks-chip test', () => {
           <gr-icon icon="error" filled></gr-icon>
           <div class="text">AI Check</div>
           <gr-icon icon="ai" class="ai-sparkle"></gr-icon>
+        </div>
+      `
+    );
+  });
+
+  test('renders progress of running check', async () => {
+    element.text = 'Slow Check';
+    element.statusOrCategory = RunStatus.RUNNING;
+    element.startedTimestamp = new Date(Date.now() - 60 * 1000);
+    element.finishedTimestamp = new Date(Date.now() + 60 * 60 * 1000);
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div
+          aria-label="running for check Slow Check"
+          class="checksChip font-small timelapse"
+          role="link"
+          tabindex="0"
+        >
+          <gr-checks-progress></gr-checks-progress>
+          <div class="text">Slow Check</div>
         </div>
       `
     );

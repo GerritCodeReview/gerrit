@@ -11,6 +11,7 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-attempt';
 import './gr-checks-patchset-select';
+import './gr-checks-progress';
 import {Action, Link, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
@@ -18,7 +19,9 @@ import {
   AttemptChoice,
   attemptChoiceLabel,
   AttemptDetail,
+  ChecksIcon,
   compareByWorstCategory,
+  hasProgress,
   headerForStatus,
   iconFor,
   iconForRun,
@@ -275,12 +278,7 @@ export class GrChecksRun extends LitElement {
       >
         <div class="left" tabindex="0">
           <gr-hovercard-run .run=${this.run}></gr-hovercard-run>
-          ${this.renderFilterIcon()}
-          <gr-icon
-            class=${icon.name}
-            icon=${icon.name}
-            ?filled=${!!icon.filled}
-          ></gr-icon>
+          ${this.renderFilterIcon()} ${this.renderStatusIcon(icon)}
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
           ${aiIcon} ${this.renderETA()}
@@ -354,6 +352,21 @@ export class GrChecksRun extends LitElement {
 
   handleAttemptChange(attempt: AttemptChoice) {
     this.getChecksModel().updateStateSetAttempt(attempt);
+  }
+
+  /** The status icon, or a progress ring for a running check with an ETA. */
+  renderStatusIcon(icon: ChecksIcon) {
+    if (hasProgress(this.run)) {
+      return html`<gr-checks-progress
+        .startedTimestamp=${this.run.startedTimestamp}
+        .finishedTimestamp=${this.run.finishedTimestamp}
+      ></gr-checks-progress>`;
+    }
+    return html`<gr-icon
+      class=${icon.name}
+      icon=${icon.name}
+      ?filled=${!!icon.filled}
+    ></gr-icon>`;
   }
 
   renderETA() {

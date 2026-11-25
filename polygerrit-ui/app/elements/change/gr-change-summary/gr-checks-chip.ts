@@ -16,6 +16,7 @@ import {
 } from '../../../models/checks/checks-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {Interaction} from '../../../constants/reporting';
+import '../../checks/gr-checks-progress';
 
 @customElement('gr-checks-chip')
 export class GrChecksChip extends LitElement {
@@ -30,6 +31,16 @@ export class GrChecksChip extends LitElement {
 
   @property({type: Boolean})
   isAi = false;
+
+  /**
+   * Start time and ETA of a running check. When both are set, the chip shows
+   * a progress ring instead of the status icon.
+   */
+  @property({type: Object})
+  startedTimestamp?: Date;
+
+  @property({type: Object})
+  finishedTimestamp?: Date;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -80,7 +91,8 @@ export class GrChecksChip extends LitElement {
           text-overflow: ellipsis;
           vertical-align: top;
         }
-        gr-icon {
+        gr-icon,
+        gr-checks-progress {
           font-size: var(--line-height-small);
           --gr-icon-size: var(--line-height-small);
         }
@@ -211,12 +223,25 @@ export class GrChecksChip extends LitElement {
   ) {
     return html`
       <div class=${clazz} role="link" tabindex="0" aria-label=${ariaLabel}>
-        <gr-icon icon=${icon.name} ?filled=${!!icon.filled}></gr-icon>
-        ${this.renderLinks()}
+        ${this.renderIcon(icon)} ${this.renderLinks()}
         <div class="text">${this.text}</div>
         ${isAi ? html`<gr-icon icon="ai" class="ai-sparkle"></gr-icon>` : ''}
       </div>
     `;
+  }
+
+  private renderIcon(icon: ChecksIcon) {
+    if (
+      this.statusOrCategory === RunStatus.RUNNING &&
+      this.startedTimestamp &&
+      this.finishedTimestamp
+    ) {
+      return html`<gr-checks-progress
+        .startedTimestamp=${this.startedTimestamp}
+        .finishedTimestamp=${this.finishedTimestamp}
+      ></gr-checks-progress>`;
+    }
+    return html`<gr-icon icon=${icon.name} ?filled=${!!icon.filled}></gr-icon>`;
   }
 
   private renderLinks() {

@@ -377,6 +377,19 @@ export function iconForRun(run: CheckRun) {
   }
 }
 
+/**
+ * Returns true if the run is running and has a start time and an ETA after it,
+ * so that its progress can be shown.
+ */
+export function hasProgress(run: CheckRunApi) {
+  return (
+    run.status === RunStatus.RUNNING &&
+    !!run.startedTimestamp &&
+    !!run.finishedTimestamp &&
+    run.finishedTimestamp.getTime() > run.startedTimestamp.getTime()
+  );
+}
+
 export function hasCompleted(run: CheckRun) {
   return run.status === RunStatus.COMPLETED;
 }

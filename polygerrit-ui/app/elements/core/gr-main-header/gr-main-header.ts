@@ -5,6 +5,7 @@
  */
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-icon/gr-icon';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {getBaseUrl, getDocUrl} from '../../../utils/url-util';
@@ -161,6 +162,8 @@ export class GrMainHeader extends LitElement {
 
   @state() mobileSearch? = false;
 
+  @state() private documentationOpen = false;
+
   @query('.nav-sidebar') navSidebar?: HTMLDivElement;
 
   @query('.modelBackground') modelBackground?: HTMLDivElement;
@@ -281,13 +284,11 @@ export class GrMainHeader extends LitElement {
           width: fit-content;
           max-width: 30%;
           overflow: hidden;
+          text-decoration: none;
           cursor: pointer;
         }
         .bigTitle:hover {
           text-decoration: none;
-        }
-        .bigTitle:hover .titleText::after {
-          text-decoration: underline;
         }
         .titleText {
           display: flex;
@@ -324,6 +325,9 @@ export class GrMainHeader extends LitElement {
           text-overflow: ellipsis;
           flex: 0 1 auto;
           min-width: 0;
+        }
+        .bigTitle:hover .titleText::after {
+          text-decoration: underline;
         }
 
         .linksTitle {
@@ -418,9 +422,9 @@ export class GrMainHeader extends LitElement {
           box-shadow: var(--elevation-level-2);
         }
         /*
-          * We are not using :host to do this, because :host has a lowest css priority
-          * compared to others. This means that using :host to do this would break styles.
-          */
+         * We are not using :host to do this, because :host has a lowest css priority
+         * compared to others. This means that using :host to do this would break styles.
+         */
         .linksTitle,
         .bigTitle,
         .loginButton,
@@ -494,12 +498,16 @@ export class GrMainHeader extends LitElement {
             padding: 0 var(--spacing-m);
           }
           .nav-sidebar {
-            background: var(--table-header-background-color);
-            width: 200px;
+            --sidebar-width: min(360px, calc(100% - 48px));
+            background: var(
+              --mobile-nav-sidebar-background,
+              var(--background-color-primary)
+            );
+            width: var(--sidebar-width);
             height: 100%;
             display: block;
             position: absolute;
-            left: -200px;
+            left: calc(-1 * var(--sidebar-width));
             transition: left 0.25s ease;
             overflow-y: auto;
             overflow-x: hidden;
@@ -511,9 +519,8 @@ export class GrMainHeader extends LitElement {
             position: fixed;
           }
           .nav-sidebar.visible {
-            left: 0px;
+            left: 0;
             transition: left 0.25s ease;
-            width: 50%;
             z-index: 200;
             box-shadow: var(--header-box-shadow);
           }
@@ -602,6 +609,64 @@ export class GrMainHeader extends LitElement {
           .itemAction:visited {
             text-decoration: none;
           }
+
+          .documentationShortcut {
+            display: block;
+            margin: 8px 0 16px;
+            width: 100%;
+            --button-background-color: #e8efff;
+            --default-button-background-color: #e8efff;
+            --default-button-text-color: #1b3765;
+            --gr-button-padding: 12px 16px;
+          }
+          .documentationShortcut .documentationShortcutContent {
+            align-items: center;
+            display: flex;
+            gap: 14px;
+            justify-content: flex-start;
+            min-height: 64px;
+            text-align: left;
+            width: 100%;
+          }
+          .documentationShortcut gr-icon {
+            color: #244a83;
+            flex: 0 0 auto;
+            --gr-icon-size: 28px;
+          }
+          .documentationShortcutText {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+          }
+          .documentationTitle {
+            color: #172f55;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+            line-height: 20px;
+          }
+          .documentationDescription {
+            color: #526582;
+            font-size: 13px;
+            font-weight: var(--font-weight-normal);
+            line-height: 18px;
+          }
+          .documentationChevron {
+            color: #526582;
+            flex: 0 0 auto;
+            --gr-icon-size: 20px;
+          }
+          .documentationHeader {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-m);
+            padding: 4px 8px;
+            min-height: 56px;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+          }
+
           @media (forced-colors: active) {
             md-list a md-list-item[selected] {
               border: 4px double CanvasText;
@@ -692,6 +757,7 @@ export class GrMainHeader extends LitElement {
         url: this.loginUrl,
       },
     ];
+
     if (!this.registerURL) {
       moreMenu.shift();
     }
@@ -704,17 +770,24 @@ export class GrMainHeader extends LitElement {
       });
     }
 
-    const linkGroups = this.computeLinks(
+    const allLinkGroups = this.computeLinks(
       this.userLinks,
       this.adminLinks,
       this.topMenus
+    );
+    const documentationGroup = allLinkGroups.find(
+      group => group.title === 'Documentation'
+    );
+    const docLinks = documentationGroup?.links ?? [];
+    const linkGroups = allLinkGroups.filter(
+      group => group.title !== 'Documentation'
     );
 
     return html`
       <nav class="hideOnDesktop">
         ${when(
           this.mobileSearch,
-          () => html`<div class="nav-header">
+          () => html` <div class="nav-header">
             <md-icon-button
               touch-target="none"
               aria-label="Back"
@@ -729,7 +802,8 @@ export class GrMainHeader extends LitElement {
               .verticalOffset=${40}
             ></gr-smart-search>
           </div>`,
-          () => html`<div class="nav-header">
+          () => html`
+            <div class="nav-header">
               <md-icon-button
                 touch-target="none"
                 aria-label="${!this.hamburgerClose
@@ -795,22 +869,77 @@ export class GrMainHeader extends LitElement {
               </div>
             </div>
             <div class="nav-sidebar">
-              <md-list aria-label="menu links">
-                ${linkGroups.map((linkGroup, index) =>
-                  this.renderLinkGroupMobile(
-                    linkGroup,
-                    index,
-                    linkGroups.length
-                  )
-                )}
-              </md-list>
+              ${when(
+                this.documentationOpen,
+                () => html`
+                  <div class="documentationHeader">
+                    <md-icon-button
+                      touch-target="none"
+                      aria-label="Back to navigation"
+                      @click=${() => {
+                        this.documentationOpen = false;
+                      }}
+                    >
+                      <md-icon>arrow_back</md-icon>
+                    </md-icon-button>
+                    <span>Documentation</span>
+                  </div>
+                  <md-divider role="separator"></md-divider>
+                  <md-list aria-label="Documentation links">
+                    ${docLinks.map(link => this.renderLinkMobile(link))}
+                  </md-list>
+                `,
+                () => html`
+                  <md-list aria-label="menu links">
+                    ${docLinks.length
+                      ? html`
+                          <gr-button
+                            class="documentationShortcut"
+                            flatten
+                            @click=${() => {
+                              this.documentationOpen = true;
+                            }}
+                          >
+                            <div class="documentationShortcutContent">
+                              <gr-icon icon="book"></gr-icon>
+                              <span class="documentationShortcutText">
+                                <span class="documentationTitle">
+                                  Documentation
+                                </span>
+                                <span class="documentationDescription">
+                                  Guides, API reference and help
+                                </span>
+                              </span>
+                              <gr-icon
+                                icon="chevron_right"
+                                class="documentationChevron"
+                              ></gr-icon>
+                            </div>
+                          </gr-button>
+                          <md-divider
+                            role="separator"
+                            tabindex="-1"
+                          ></md-divider>
+                        `
+                      : nothing}
+                    ${linkGroups.map((linkGroup, index) =>
+                      this.renderLinkGroupMobile(
+                        linkGroup,
+                        index,
+                        linkGroups.length
+                      )
+                    )}
+                  </md-list>
+                `
+              )}
             </div>
             ${this.hamburgerClose
               ? html`<div
                   class="modelBackground"
                   @click=${() => this.handleSidebar()}
                 ></div>`
-              : nothing}`
+              : nothing}
+          `
         )}
       </nav>
     `;
@@ -859,8 +988,8 @@ export class GrMainHeader extends LitElement {
       >
         <md-list-item type="button" @click=${() => this.handleSidebar()}>
           ${link.name}
-        </md-list-item></a
-      >
+        </md-list-item>
+      </a>
     `;
   }
 
@@ -1119,6 +1248,10 @@ export class GrMainHeader extends LitElement {
     // to fit in the header.
     const navSidebar = this.navSidebar;
     navSidebar?.classList.toggle('visible');
+
+    if (this.hamburgerClose) {
+      this.documentationOpen = false;
+    }
 
     const html = document.documentElement;
 

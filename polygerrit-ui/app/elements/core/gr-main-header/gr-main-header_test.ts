@@ -145,6 +145,26 @@ suite('gr-main-header tests', () => {
           </div>
           <div class="nav-sidebar">
             <md-list aria-label="menu links">
+              <gr-button
+                aria-disabled="false"
+                class="documentationShortcut"
+                flatten=""
+                role="button"
+                tabindex="0"
+              >
+                <div class="documentationShortcutContent">
+                  <gr-icon icon="book"> </gr-icon>
+                  <span class="documentationShortcutText">
+                    <span class="documentationTitle"> Documentation </span>
+                    <span class="documentationDescription">
+                      Guides, API reference and help
+                    </span>
+                  </span>
+                  <gr-icon class="documentationChevron" icon="chevron_right">
+                  </gr-icon>
+                </div>
+              </gr-button>
+              <md-divider role="separator" tabindex="-1"> </md-divider>
               <md-item>
                 <div slot="headline">Changes</div>
               </md-item>
@@ -173,76 +193,6 @@ suite('gr-main-header tests', () => {
               >
                 <md-list-item md-list-item="" type="button">
                   Abandoned
-                </md-list-item>
-              </a>
-              <md-divider role="separator" tabindex="-1"> </md-divider>
-              <md-item>
-                <div slot="headline">Documentation</div>
-              </md-item>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/index.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Table of Contents
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/user-search.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Searching
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/user-upload.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Uploading
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/access-control.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Access Control
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/rest-api.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  REST API
-                </md-list-item>
-              </a>
-              <a
-                class="itemAction"
-                href="https://gerrit-review.googlesource.com/Documentation/intro-project-owner.html"
-                rel="noopener"
-                tabindex="-1"
-                target="_blank"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Project Owner Guide
                 </md-list-item>
               </a>
               <md-divider role="separator" tabindex="-1"> </md-divider>

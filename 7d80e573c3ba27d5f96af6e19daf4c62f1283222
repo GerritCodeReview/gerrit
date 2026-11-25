@@ -170,6 +170,24 @@
       "parentUuid": "8838b236_d0a13504",
       "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1760e9b_bc288926",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-25T19:52:09Z",
+      "side": 1,
+      "message": "\u003e Do you mean \"Start Replication\" capability? As in the same needed to start a replication from an SSH command 1?\n\nNot sure that\u0027s the correct one we want to use, though: you could be enabled to _trigger_ the replication, not be the user that performs the replication.\n\nIn the `pull-replication` plugin, there is a specific bearer account that allows unrestricted access.  Maybe we have to do the same with the `replication` plugin also.",
+      "parentUuid": "7e564ed1_bf246a81",
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

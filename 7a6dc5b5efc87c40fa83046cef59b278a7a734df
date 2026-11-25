@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a209152_aee8c845",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-11-25T07:58:02Z",
+      "side": 1,
+      "message": "But there\u0027s quite a few of these `reserved` endpoints upon closer inspection:\n```\n- tools/ — ToolServlet\n- access/ — AccessRestApiServlet\n- accounts/ — AccountsRestApiServlet\n- changes/ — ChangesRestApiServlet\n- config/ — ConfigRestApiServlet\n- groups/ — GroupsRestApiServlet\n- projects/ — ProjectsRestApiServlet\n- plugins/ — HttpPluginServlet\n- Documentation/ — doc filter\n```\n\nShould we add a blacklist in project name creation for all of these? An additional problem would be trying to get a single source of truth for this will be tricky. It would likely be something hardcoded in ProjectUtil, which again isn\u0027t the cleanest.\n\nFinally, preventing these projects from being created will not resolve any issues with pre-existing projects.\n\nI was initially thinking a filter that matches exact endpoints (e.g. `tools/hooks`) and filter everything else through, but regarding all the affected endpoints this would be tricky.\n\nThe real problem here seems to be the servlet registration order.",
+      "parentUuid": "d934d3fc_fd9b5c2f",
+      "revId": "7a6dc5b5efc87c40fa83046cef59b278a7a734df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46097e16_23f78d7f",
         "filename": "java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 1

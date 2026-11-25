@@ -5,6 +5,7 @@
  */
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-icon/gr-icon';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
 import {getBaseUrl, getDocUrl} from '../../../utils/url-util';
@@ -161,6 +162,8 @@ export class GrMainHeader extends LitElement {
 
   @state() mobileSearch? = false;
 
+  @state() private documentationOpen = false;
+
   @query('.nav-sidebar') navSidebar?: HTMLDivElement;
 
   @query('.modelBackground') modelBackground?: HTMLDivElement;
@@ -281,13 +284,11 @@ export class GrMainHeader extends LitElement {
           width: fit-content;
           max-width: 30%;
           overflow: hidden;
+          text-decoration: none;
           cursor: pointer;
         }
         .bigTitle:hover {
           text-decoration: none;
-        }
-        .bigTitle:hover .titleText::after {
-          text-decoration: underline;
         }
         .titleText {
           display: flex;
@@ -304,11 +305,9 @@ export class GrMainHeader extends LitElement {
           background-size: var(--icon-width) var(--icon-height);
           background-repeat: no-repeat;
           content: '';
-          /* Any direct child of a flex element implicitly has 'display: block', but let's make that explicit here. */
           display: inline-block;
           width: var(--mobile-icon-width, var(--icon-width));
           height: var(--mobile-icon-height, var(--icon-height));
-          /* If size or height are set, then use 'spacing-m', 0px otherwise. */
           margin-right: clamp(
             0px,
             var(--mobile-icon-height, var(--icon-height)),
@@ -317,13 +316,15 @@ export class GrMainHeader extends LitElement {
           flex-shrink: 0;
         }
         .titleText::after {
-          /* The height will be determined by the line-height of the .bigTitle element. */
           content: var(--header-title-content);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           flex: 0 1 auto;
           min-width: 0;
+        }
+        .bigTitle:hover .titleText::after {
+          text-decoration: underline;
         }
 
         .linksTitle {
@@ -374,7 +375,6 @@ export class GrMainHeader extends LitElement {
         }
         .browse {
           color: var(--header-text-color);
-          /* Same as gr-button */
           margin: 5px 4px;
           text-decoration: none;
         }
@@ -417,10 +417,6 @@ export class GrMainHeader extends LitElement {
           background-color: var(--view-background-color);
           box-shadow: var(--elevation-level-2);
         }
-        /*
-          * We are not using :host to do this, because :host has a lowest css priority
-          * compared to others. This means that using :host to do this would break styles.
-          */
         .linksTitle,
         .bigTitle,
         .loginButton,
@@ -476,7 +472,6 @@ export class GrMainHeader extends LitElement {
             height: var(--mobile-icon-height, var(--icon-height));
           }
           .titleText::after {
-            /* The height will be determined by the line-height of the .bigTitle element. */
             content: var(
               --header-mobile-title-content,
               var(--header-title-content)
@@ -494,26 +489,27 @@ export class GrMainHeader extends LitElement {
             padding: 0 var(--spacing-m);
           }
           .nav-sidebar {
-            background: var(--table-header-background-color);
-            width: 200px;
+            --sidebar-width: min(360px, calc(100% - 48px));
+            background: var(
+              --mobile-nav-sidebar-background,
+              var(--background-color-primary)
+            );
+            width: var(--sidebar-width);
             height: 100%;
             display: block;
             position: absolute;
-            left: -200px;
+            left: calc(-1 * var(--sidebar-width));
             transition: left 0.25s ease;
             overflow-y: auto;
             overflow-x: hidden;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
             z-index: 2;
             padding-bottom: 56px;
-            /* This is needed due to position sticky being used for gr-main-header
-               in gr-app-element */
             position: fixed;
           }
           .nav-sidebar.visible {
-            left: 0px;
+            left: 0;
             transition: left 0.25s ease;
-            width: 50%;
             z-index: 200;
             box-shadow: var(--header-box-shadow);
           }
@@ -546,8 +542,6 @@ export class GrMainHeader extends LitElement {
           }
           .modelBackground {
             background: rgba(0, 0, 0, 0.5);
-            /* This is needed due to position sticky being used for gr-main-header
-               in gr-app-element */
             position: fixed;
             height: 100%;
             overflow: none;
@@ -585,7 +579,6 @@ export class GrMainHeader extends LitElement {
             border-radius: 28px;
           }
           md-list md-item [slot='headline'] {
-            /* shadow root slot has overflow:hidden, it's cutting some text off */
             padding-block: 2px;
           }
           md-list md-item:first-of-type {
@@ -602,6 +595,64 @@ export class GrMainHeader extends LitElement {
           .itemAction:visited {
             text-decoration: none;
           }
+
+          .documentationShortcut {
+            display: block;
+            margin: 8px 0 16px;
+            width: 100%;
+            --button-background-color: #e8efff;
+            --default-button-background-color: #e8efff;
+            --default-button-text-color: #1b3765;
+            --gr-button-padding: 12px 16px;
+          }
+          .documentationShortcut .documentationShortcutContent {
+            align-items: center;
+            display: flex;
+            gap: 14px;
+            justify-content: flex-start;
+            min-height: 64px;
+            text-align: left;
+            width: 100%;
+          }
+          .documentationShortcut gr-icon {
+            color: #244a83;
+            flex: 0 0 auto;
+            --gr-icon-size: 28px;
+          }
+          .documentationShortcutText {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+          }
+          .documentationTitle {
+            color: #172f55;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+            line-height: 20px;
+          }
+          .documentationDescription {
+            color: #526582;
+            font-size: 13px;
+            font-weight: var(--font-weight-normal);
+            line-height: 18px;
+          }
+          .documentationChevron {
+            color: #526582;
+            flex: 0 0 auto;
+            --gr-icon-size: 20px;
+          }
+          .documentationHeader {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-m);
+            padding: 4px 8px;
+            min-height: 56px;
+            font-size: 16px;
+            font-weight: var(--font-weight-medium);
+          }
+
           @media (forced-colors: active) {
             md-list a md-list-item[selected] {
               border: 4px double CanvasText;
@@ -645,14 +696,6 @@ export class GrMainHeader extends LitElement {
             class="hideOnMobile"
             name="header-top-right"
           ></gr-endpoint-decorator>
-          <!--
-          Always render the fallback feedback button, but hide it with CSS if feedbackURL is empty.
-          We do this instead of using Lit's conditional rendering (e.g., ?hidden or if) inside
-          <gr-endpoint-decorator>, because the plugin system may replace or remove this content
-          outside of Lit's control. If Lit tries to update a node that was removed by the plugin
-          system, it will throw an error. By always rendering the node and only hiding it, we
-          avoid this issue and ensure plugin compatibility.
-          -->
           <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
             <md-icon-button
               touch-target="none"
@@ -692,6 +735,7 @@ export class GrMainHeader extends LitElement {
         url: this.loginUrl,
       },
     ];
+
     if (!this.registerURL) {
       moreMenu.shift();
     }
@@ -704,17 +748,24 @@ export class GrMainHeader extends LitElement {
       });
     }
 
-    const linkGroups = this.computeLinks(
+    const allLinkGroups = this.computeLinks(
       this.userLinks,
       this.adminLinks,
       this.topMenus
+    );
+    const documentationGroup = allLinkGroups.find(
+      group => group.title === 'Documentation'
+    );
+    const docLinks = documentationGroup?.links ?? [];
+    const linkGroups = allLinkGroups.filter(
+      group => group.title !== 'Documentation'
     );
 
     return html`
       <nav class="hideOnDesktop">
         ${when(
           this.mobileSearch,
-          () => html`<div class="nav-header">
+          () => html` <div class="nav-header">
             <md-icon-button
               touch-target="none"
               aria-label="Back"
@@ -729,7 +780,8 @@ export class GrMainHeader extends LitElement {
               .verticalOffset=${40}
             ></gr-smart-search>
           </div>`,
-          () => html`<div class="nav-header">
+          () => html`
+            <div class="nav-header">
               <md-icon-button
                 touch-target="none"
                 aria-label="${!this.hamburgerClose
@@ -795,22 +847,77 @@ export class GrMainHeader extends LitElement {
               </div>
             </div>
             <div class="nav-sidebar">
-              <md-list aria-label="menu links">
-                ${linkGroups.map((linkGroup, index) =>
-                  this.renderLinkGroupMobile(
-                    linkGroup,
-                    index,
-                    linkGroups.length
-                  )
-                )}
-              </md-list>
+              ${when(
+                this.documentationOpen,
+                () => html`
+                  <div class="documentationHeader">
+                    <md-icon-button
+                      touch-target="none"
+                      aria-label="Back to navigation"
+                      @click=${() => {
+                        this.documentationOpen = false;
+                      }}
+                    >
+                      <md-icon>arrow_back</md-icon>
+                    </md-icon-button>
+                    <span>Documentation</span>
+                  </div>
+                  <md-divider role="separator"></md-divider>
+                  <md-list aria-label="Documentation links">
+                    ${docLinks.map(link => this.renderLinkMobile(link))}
+                  </md-list>
+                `,
+                () => html`
+                  <md-list aria-label="menu links">
+                    ${docLinks.length
+                      ? html`
+                          <gr-button
+                            class="documentationShortcut"
+                            flatten
+                            @click=${() => {
+                              this.documentationOpen = true;
+                            }}
+                          >
+                            <div class="documentationShortcutContent">
+                              <gr-icon icon="book"></gr-icon>
+                              <span class="documentationShortcutText">
+                                <span class="documentationTitle">
+                                  Documentation
+                                </span>
+                                <span class="documentationDescription">
+                                  Guides, API reference and help
+                                </span>
+                              </span>
+                              <gr-icon
+                                icon="chevron_right"
+                                class="documentationChevron"
+                              ></gr-icon>
+                            </div>
+                          </gr-button>
+                          <md-divider
+                            role="separator"
+                            tabindex="-1"
+                          ></md-divider>
+                        `
+                      : nothing}
+                    ${linkGroups.map((linkGroup, index) =>
+                      this.renderLinkGroupMobile(
+                        linkGroup,
+                        index,
+                        linkGroups.length
+                      )
+                    )}
+                  </md-list>
+                `
+              )}
             </div>
             ${this.hamburgerClose
               ? html`<div
                   class="modelBackground"
                   @click=${() => this.handleSidebar()}
                 ></div>`
-              : nothing}`
+              : nothing}
+          `
         )}
       </nav>
     `;
@@ -859,8 +966,8 @@ export class GrMainHeader extends LitElement {
       >
         <md-list-item type="button" @click=${() => this.handleSidebar()}>
           ${link.name}
-        </md-list-item></a
-      >
+        </md-list-item>
+      </a>
     `;
   }
 
@@ -927,7 +1034,6 @@ export class GrMainHeader extends LitElement {
     userLinks?: MainHeaderLink[],
     adminLinks?: NavLink[],
     topMenus?: TopMenuEntryInfo[],
-    // defaultLinks parameter is used in tests only
     defaultLinks = DEFAULT_LINKS
   ) {
     if (
@@ -966,11 +1072,9 @@ export class GrMainHeader extends LitElement {
       topMenuLinks[link.title] = link.links;
     });
     for (const m of topMenus) {
-      const items = m.items.map(this.createHeaderLink).filter(
-        link =>
-          // Ignore GWT project links
-          !link.url.includes('${projectName}')
-      );
+      const items = m.items
+        .map(this.createHeaderLink)
+        .filter(link => !link.url.includes('${projectName}'));
       if (m.name in topMenuLinks) {
         items.forEach(link => {
           topMenuLinks[m.name].push(link);
@@ -1043,7 +1147,6 @@ export class GrMainHeader extends LitElement {
   createHeaderLink(linkObj: TopMenuItemInfo): MainHeaderLink {
     const headerLink = {...linkObj};
 
-    // Normalize all GWT style URLs to PolyGerrit style.
     if (headerLink.url.startsWith('#')) {
       headerLink.url = linkObj.url.slice(1);
     }
@@ -1051,39 +1154,16 @@ export class GrMainHeader extends LitElement {
     return headerLink;
   }
 
-  /**
-   * Build a URL for the given host and path. The base URL will be only added,
-   * if it is not already included in the path.
-   *
-   * TODO: Move to util handler to remove duplication.
-   * @return The scheme-relative URL.
-   */
   private computeURLHelper(host: string, path: string) {
     const base = path.startsWith(getBaseUrl()) ? '' : getBaseUrl();
     return '//' + host + base + path;
   }
 
-  /**
-   * Build a scheme-relative URL for the current host. Will include the base
-   * URL if one is present. Note: the URL will be scheme-relative but absolute
-   * with regard to the host.
-   *
-   * TODO: Move to util handler to remove duplication.
-   * @param path The path for the URL.
-   * @return The scheme-relative URL.
-   */
   private computeRelativeURL(path: string) {
     const host = window.location.host;
     return this.computeURLHelper(host, path);
   }
 
-  /**
-   * Compute the URL for a link object.
-   *
-   * Private but used in tests.
-   *
-   * TODO: Move to util handler to remove duplication.
-   */
   private computeLinkURL(link: DropdownLink) {
     if (typeof link.url === 'undefined') {
       return undefined;
@@ -1094,16 +1174,7 @@ export class GrMainHeader extends LitElement {
     return this.computeRelativeURL(link.url);
   }
 
-  /**
-   * Compute the value for the rel attribute of an anchor for the given link
-   * object. If the link has a target value, then the rel must be "noopener"
-   * for security reasons.
-   * Private but used in tests.
-   *
-   * TODO: Move to util handler to remove duplication.
-   */
   private computeLinkRel(link: DropdownLink) {
-    // Note: noopener takes precedence over external.
     if (link.target) {
       return REL_NOOPENER;
     }
@@ -1114,11 +1185,12 @@ export class GrMainHeader extends LitElement {
   }
 
   private handleSidebar() {
-    // Nav sidebar is only used on mobile.
-    // It's used to display items that would be unable
-    // to fit in the header.
     const navSidebar = this.navSidebar;
     navSidebar?.classList.toggle('visible');
+
+    if (this.hamburgerClose) {
+      this.documentationOpen = false;
+    }
 
     const html = document.documentElement;
 
@@ -1126,18 +1198,9 @@ export class GrMainHeader extends LitElement {
 
     if (isSafari() || isFirefox()) this.fixSidebarForSafariAndFirefox();
 
-    // This adds a modelBackground in order to dim the background and
-    // to show it's not scrollable.
     this.hamburgerClose = !this.hamburgerClose;
   }
 
-  /**
-   * There seems to have been a behaviour change in iOS 26, that breaks using
-   * just overflow hidden on <html>, to block scrolling when sidebar is open.
-   * Although this behaviour seems fixed in iOS 26.1.
-   * But issue now is that when you're half way down the page, and open the sidebar,
-   * it won't show without this fix for both safari and firefox.
-   */
   private fixSidebarForSafariAndFirefox() {
     const isModal = !!this.modelBackground;
 

@@ -52,6 +52,24 @@
       "parentUuid": "97bc7a2a_92bae764",
       "revId": "327621ad82fc9925e6c93a0e8a3d4669b0725aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c196922_9eb76b57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-25T23:50:11Z",
+      "side": 1,
+      "message": "I didn\u0027t implement the Git LFS plugin in Gerrit, so I cannot really say what was on their mind or in their design.\n\nIf you want to serve a URL space that overlaps with Gerrit, you need to filter the requests based on the client user agent rather than the URL alone.\n\nIf I were the Git LFS plugin developer (which I am not, and I\u0027m not willing to work on it; LFS is pretty much dead), I would have developed a filter rather than a Servlet.\n\nGerrit core *should not* rely on the implementation details of the Git LFS plugin.\nThe Git LFS plugin should care about making it work with Gerrit.",
+      "parentUuid": "e32c1a28_f216fb0e",
+      "revId": "327621ad82fc9925e6c93a0e8a3d4669b0725aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -8,6 +8,7 @@ import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-material-styles';
 import '../../../styles/shared-styles';
 import '../../chat-panel/chat-panel';
+import '../../checks/gr-checks-action-confirm';
 import '../../checks/gr-checks-tab';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';

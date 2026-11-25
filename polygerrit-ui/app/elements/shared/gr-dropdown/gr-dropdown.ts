@@ -24,6 +24,8 @@ import '@material/web/menu/menu';
 import '@material/web/menu/menu-item';
 import {MdMenu} from '@material/web/menu/menu';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {when} from 'lit/directives/when.js';
+import '@material/web/iconbutton/icon-button.js';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
@@ -182,6 +184,9 @@ export class GrDropdown extends LitElement {
   @property({type: Array})
   disabledIds: string[] = [];
 
+  @property({type: Boolean})
+  useIconButton = false;
+
   @state() private hadKeyboardEvent = false;
 
   // Used within the tests so needs to be non-private.
@@ -244,35 +249,69 @@ export class GrDropdown extends LitElement {
 
   override render() {
     return html`<div class="container">
-      <gr-button
-        id="trigger"
-        ?link=${this.link}
-        class="dropdown-trigger"
-        ?down-arrow=${this.downArrow}
-        @click=${this.dropdownTriggerTapHandler}
-        @keydown=${(e: KeyboardEvent) => {
-          this.hadKeyboardEvent = true;
-          if (
-            (e.key === Key.DOWN || e.key === Key.UP) &&
-            !this.dropdown?.open
-          ) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.dropdown?.show();
-          }
-        }}
-        @mousedown=${() => {
-          this.hadKeyboardEvent = false;
-        }}
-        @pointerdown=${() => {
-          this.hadKeyboardEvent = false;
-        }}
-        @touchstart=${() => {
-          this.hadKeyboardEvent = false;
-        }}
-      >
-        <slot></slot>
-      </gr-button>
+      ${when(
+        this.useIconButton,
+        () => html`
+          <md-icon-button
+            id="trigger"
+            touch-target="none"
+            ?link=${this.link}
+            ?down-arrow=${this.downArrow}
+            @click=${this.dropdownTriggerTapHandler}
+            @keydown=${(e: KeyboardEvent) => {
+              this.hadKeyboardEvent = true;
+              if (
+                (e.key === Key.DOWN || e.key === Key.UP) &&
+                !this.dropdown?.open
+              ) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.dropdown?.show();
+              }
+            }}
+            @mousedown=${() => {
+              this.hadKeyboardEvent = false;
+            }}
+            @pointerdown=${() => {
+              this.hadKeyboardEvent = false;
+            }}
+            @touchstart=${() => {
+              this.hadKeyboardEvent = false;
+            }}
+          >
+            <slot></slot>
+          </md-icon-button>
+        `,
+        () => html` <gr-button
+          id="trigger"
+          ?link=${this.link}
+          class="dropdown-trigger"
+          ?down-arrow=${this.downArrow}
+          @click=${this.dropdownTriggerTapHandler}
+          @keydown=${(e: KeyboardEvent) => {
+            this.hadKeyboardEvent = true;
+            if (
+              (e.key === Key.DOWN || e.key === Key.UP) &&
+              !this.dropdown?.open
+            ) {
+              e.preventDefault();
+              e.stopPropagation();
+              this.dropdown?.show();
+            }
+          }}
+          @mousedown=${() => {
+            this.hadKeyboardEvent = false;
+          }}
+          @pointerdown=${() => {
+            this.hadKeyboardEvent = false;
+          }}
+          @touchstart=${() => {
+            this.hadKeyboardEvent = false;
+          }}
+        >
+          <slot></slot>
+        </gr-button>`
+      )}
       <div class="dropdown-menu">
         <md-menu
           default-focus="none"

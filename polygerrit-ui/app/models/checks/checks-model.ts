@@ -53,6 +53,7 @@ import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Execution, Interaction, Timing} from '../../constants/reporting';
 import {fire, fireAlert} from '../../utils/event-util';
+import {confirmAction} from '../../elements/checks/gr-checks-action-confirm';
 import {Model} from '../base/model';
 import {define} from '../dependency';
 import {
@@ -818,6 +819,20 @@ export class ChecksModel extends Model<ChecksState> {
     context: string
   ) {
     if (!action?.callback) return;
+    if (action.confirmation) {
+      confirmAction(action).then(confirmed => {
+        if (confirmed) this.callAction(action, run, context);
+      });
+      return;
+    }
+    this.callAction(action, run, context);
+  }
+
+  private callAction(
+    action: Action,
+    run: CheckRun | RunResult | undefined,
+    context: string
+  ) {
     if (!this.changeNum) return;
     const patchSet = run?.patchset ?? this.latestPatchNum;
     if (!patchSet) return;

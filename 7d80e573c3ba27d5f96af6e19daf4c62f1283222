@@ -134,6 +134,24 @@
       "parentUuid": "21400fc3_c4b3da86",
       "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8838b236_d0a13504",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-25T15:04:13Z",
+      "side": 1,
+      "message": "\u003e I originally added this API to allow the replication plugin to initialize repositories using REFTABLE as the ref storage format (https://gerrit-review.googlesource.com/c/plugins/replication/+/657446). I subsequently extended it to accept the complete repository configuration, with the intention of making the API future-proof for other settings that we might need to replicate later.\n\u003e \n\u003e However, exposing the complete Git configuration significantly increases the attack surface, and that risk may not be justified by the future-proofing argument.\n\u003e \n\u003e I am therefore inclined to discard the `git_config` addition and limit the API and the replication plugin to passing only the `ref_storage` value. If additional settings need to be replicated in the future, we can assess them individually and expose them through explicit fields. WDYT?\n\nActually, why don\u0027t you just check then that the client has permission to replicate?\nThat would restrict any project configuration to the sole purpose of replicating it, thereby addressing the concern.",
+      "parentUuid": "b9de4ad2_79a84943",
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

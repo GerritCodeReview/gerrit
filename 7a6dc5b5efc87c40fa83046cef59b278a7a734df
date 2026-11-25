@@ -103,6 +103,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f19b377_089b8bdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-11-25T08:07:41Z",
+      "side": 1,
+      "message": "Could it be an idea to switch order here? https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.15.0/java/com/google/gerrit/httpd/init/WebAppInitializer.java#456\n\nThis will cause the plugin requests to not get swallowed by the catch-all REST servlet.",
+      "parentUuid": "3a209152_aee8c845",
+      "revId": "7a6dc5b5efc87c40fa83046cef59b278a7a734df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46097e16_23f78d7f",
         "filename": "java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 1

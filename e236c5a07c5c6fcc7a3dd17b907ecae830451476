@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40387b7d_81b6b9c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-11-25T00:05:09Z",
+      "side": 1,
+      "message": "with recent raise of \n```\nHello this is good, a human sentence:\n\nAnd Here is my AI Agents Dump:\nFollowed by a gazillion of infos\n```\n\n\ni realized that gerrit misses the github-markdown `\u003cdetail\u003e` piece, that does an fantastic job, sometimes the agent burps are super awesome, they just make it hard to skim over and follow the human part of the discussion.\n\n\nbefore i start filing issues and stuff, could you maby PTAL and give it let me know if this is a keep or kill?\n\n\nthanks in advance",
+      "revId": "e236c5a07c5c6fcc7a3dd17b907ecae830451476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

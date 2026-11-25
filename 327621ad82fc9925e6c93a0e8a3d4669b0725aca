@@ -16,6 +16,24 @@
       "message": "I believe this fix is in the wrong place: this is a bug in the LFS plugin and should be resolved there.",
       "revId": "327621ad82fc9925e6c93a0e8a3d4669b0725aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97bc7a2a_92bae764",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-11-25T23:31:19Z",
+      "side": 1,
+      "message": "I’ll have to disagree here. The LFS servlet registration is happening in core Gerrit [1].\n\nThe plugin never even sees this request, so there’s nothing to fix in the LFS code path. The request gets swallowed within core Gerrit.\n\nSo I believe the options we have are:\n* preventing new repositories to be made with certain prefixes (but this doesn’t fix previously made repositories)\n* Reorder the servlet order (but this is fragile, a bug can be introduced upon reordering)\n\nWere you potentially thinking about the plugin’s `AllRequestFilter`? This might be able to be configured in just the LFS plugin and essentially skips the servlet routing.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/tags/v3.15.0/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java#37",
+      "parentUuid": "0e26ddf9_807c58f8",
+      "revId": "327621ad82fc9925e6c93a0e8a3d4669b0725aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

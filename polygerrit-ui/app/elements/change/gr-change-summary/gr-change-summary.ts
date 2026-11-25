@@ -61,6 +61,9 @@ function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   handler();
 }
 
+/** How many results the tooltip of a collapsed chip lists at most. */
+const MAX_TOOLTIP_LINES = 10;
+
 /** What is the maximum number of detailed checks chips? */
 const DETAILS_QUOTA: Map<RunStatus | Category, number> = new Map();
 DETAILS_QUOTA.set(Category.ERROR, 7);
@@ -533,9 +536,30 @@ export class GrChangeSummary extends LitElement {
     return html`<gr-checks-chip
       .statusOrCategory=${statusOrCategory}
       .text=${`${count}`}
+      title=${this.describeCollapsed(runs, resultFilter)}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;
+  }
+
+  /**
+   * What a collapsed chip counts, as a line per result: "<check>: <summary>",
+   * or just "<check>" for a run without results.
+   */
+  private describeCollapsed(
+    runs: CheckRun[],
+    resultFilter: (run: CheckRun) => CheckResult[]
+  ) {
+    const lines = runs.flatMap(run => {
+      const results = resultFilter(run);
+      if (results.length === 0) return [run.checkName];
+      return results.map(result => `${run.checkName}: ${result.summary}`);
+    });
+    if (lines.length > MAX_TOOLTIP_LINES + 1) {
+      const more = lines.length - MAX_TOOLTIP_LINES;
+      lines.splice(MAX_TOOLTIP_LINES, more, `and ${more} more`);
+    }
+    return lines.join('\n');
   }
 
   private renderChecksChipPlusMore(

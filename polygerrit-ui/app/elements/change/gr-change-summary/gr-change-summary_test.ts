@@ -262,6 +262,35 @@ suite('gr-change-summary test', () => {
         ]
       );
     });
+
+    test('collapsed chips tell what they count', async () => {
+      element.runs = [
+        createRun({status: RunStatus.RUNNING}),
+        createRun({
+          checkName: 'lint',
+          status: RunStatus.COMPLETED,
+          results: [
+            createCheckResult({category: Category.INFO, summary: 'Skipped'}),
+            createCheckResult({category: Category.INFO, summary: '2 notes'}),
+          ],
+        }),
+        createRun({checkName: 'build', status: RunStatus.COMPLETED}),
+      ];
+      element.showChecksSummary = true;
+      await element.updateComplete;
+      const chips = [...queryAll<GrChecksChip>(element, 'gr-checks-chip')];
+      assert.deepEqual(
+        chips.map(c => [
+          `${c.statusOrCategory} ${c.text}`,
+          c.getAttribute('title'),
+        ]),
+        [
+          ['INFO 2', 'lint: Skipped\nlint: 2 notes'],
+          ['SUCCESS 1', 'build'],
+          ['RUNNING test-name', null],
+        ]
+      );
+    });
   });
 
   suite('ai chips', () => {

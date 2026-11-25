@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e26ddf9_807c58f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-11-25T20:02:25Z",
+      "side": 1,
+      "message": "I believe this fix is in the wrong place: this is a bug in the LFS plugin and should be resolved there.",
+      "revId": "327621ad82fc9925e6c93a0e8a3d4669b0725aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

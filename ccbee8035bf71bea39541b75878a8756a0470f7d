@@ -16,6 +16,24 @@
       "message": "I have created a related fix for high-avilability.\nI\u0027d like that to be agreed upon before we submit this change.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/high-availability/+/658405",
       "revId": "ccbee8035bf71bea39541b75878a8756a0470f7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9cef29b_a3ba68f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-11-25T07:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d611311c_5ba9a11b",
+      "revId": "ccbee8035bf71bea39541b75878a8756a0470f7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,7 @@ import {
   stubRestApi,
   visualDiffDarkTheme,
 } from '../../../test/test-utils';
+import {createAccountDetailWithIdNameAndEmail} from '../../../test/test-data-generators';
 
 suite('gr-main-header screenshot tests', () => {
   let element: GrMainHeader;
@@ -131,5 +132,32 @@ suite('gr-main-header screenshot tests', () => {
     } finally {
       customThemeEl.remove();
     }
+  });
+
+  test('header screenshot logged in', async () => {
+    const account = createAccountDetailWithIdNameAndEmail(5);
+
+    stubRestApi('getAccount').returns(Promise.resolve(account));
+
+    element.account = account;
+    element.loggedIn = true;
+
+    await element.updateComplete;
+    await visualDiff(element, 'gr-main-header-logged-in');
+    await visualDiffDarkTheme(element, 'gr-main-header-logged-in');
+  });
+
+  test('mobile header screenshot logged in', async () => {
+    await setViewport({width: 390, height: 900});
+    const account = createAccountDetailWithIdNameAndEmail(5);
+
+    stubRestApi('getAccount').returns(Promise.resolve(account));
+
+    element.account = account;
+    element.loggedIn = true;
+
+    await element.updateComplete;
+    await visualDiff(element, 'gr-main-header-mobile-logged-in');
+    await visualDiffDarkTheme(element, 'gr-main-header-mobile-logged-in');
   });
 });

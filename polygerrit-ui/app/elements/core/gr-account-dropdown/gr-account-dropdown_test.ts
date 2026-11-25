@@ -24,8 +24,14 @@ suite('gr-account-dropdown tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-dropdown link="">
-          <span>John Doe</span>
+        <gr-dropdown link="" useiconbutton="">
+          <span
+            aria-label="John Doe"
+            class="generated-avatar"
+            style="background-color: #37474f"
+          >
+            J
+          </span>
           <gr-avatar aria-label="Account avatar" hidden=""> </gr-avatar>
         </gr-dropdown>
       `

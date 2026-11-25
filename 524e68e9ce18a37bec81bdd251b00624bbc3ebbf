@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2fac9f9_2a5a1f28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-25T23:11:39Z",
+      "side": 1,
+      "message": "s/added/were added/",
+      "revId": "524e68e9ce18a37bec81bdd251b00624bbc3ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97589f46_0c45615f",
+        "filename": "Documentation/pgm-SetSshKeyExpiry.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-25T23:11:39Z",
+      "side": 1,
+      "message": "Might be worth a future switch to override this.",
+      "revId": "524e68e9ce18a37bec81bdd251b00624bbc3ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

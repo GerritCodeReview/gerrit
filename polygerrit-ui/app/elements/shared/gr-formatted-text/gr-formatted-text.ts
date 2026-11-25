@@ -68,13 +68,15 @@ export class GrFormattedText extends LitElement {
         p,
         ul,
         code,
-        blockquote {
+        blockquote,
+        details {
           margin: 0 0 var(--spacing-m) 0;
           max-width: var(--gr-formatted-text-prose-max-width, none);
         }
         p:last-child,
         ul:last-child,
         blockquote:last-child,
+        details:last-child,
         pre:last-child,
         pre.plaintext {
           margin: 0;
@@ -83,6 +85,16 @@ export class GrFormattedText extends LitElement {
           border-left: var(--spacing-xxs) solid
             var(--comment-quote-marker-color);
           padding: 0 var(--spacing-m);
+        }
+        summary {
+          cursor: pointer;
+          font-weight: var(--font-weight-bold);
+        }
+        summary:hover {
+          color: var(--link-color);
+        }
+        details > :not(summary) {
+          margin-left: var(--spacing-m);
         }
         code {
           background-color: var(--background-color-secondary);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f31f74a_7e060066",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-25T16:13:02Z",
+      "side": 1,
+      "message": "Isn\u0027t this going to lead to a memory leak? As it\u0027s not removed from the body after? And will just be continuously added.",
+      "revId": "0ae9d964558ac7bb5bbea58d607a77c5af2ae1cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

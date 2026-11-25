@@ -818,16 +818,57 @@ export class ChecksModel extends Model<ChecksState> {
     context: string
   ) {
     if (!action?.callback) return;
-    if (!this.changeNum) return;
+    // Read before asking: while the dialog is open, the user can go back to
+    // another change, and the action must still run on this one.
+    const changeNum = this.changeNum;
     const patchSet = run?.patchset ?? this.latestPatchNum;
-    if (!patchSet) return;
+    if (!changeNum || !patchSet) return;
+    if (action.confirmation) {
+      this.confirm(action).then(confirmed => {
+        if (confirmed) {
+          this.callAction(action, run, context, changeNum, patchSet);
+        }
+      });
+      return;
+    }
+    this.callAction(action, run, context, changeNum, patchSet);
+  }
+
+  /**
+   * Asks the user to confirm `action` in a modal dialog. Resolves to true if
+   * the user confirmed.
+   *
+   * Actions can be triggered from the summary, the runs and the results, so the
+   * dialog is added to the document and removed once answered, like alerts.
+   * This doesn't import <gr-checks-action-confirm>, gr-change-view does: every
+   * page and every test creates this model, and they shouldn't all get the
+   * dialog elements registered.
+   */
+  private async confirm(action: Action) {
+    const element = document.createElement('gr-checks-action-confirm');
+    element.action = action;
+    document.body.appendChild(element);
+    try {
+      return await element.ask();
+    } finally {
+      element.remove();
+    }
+  }
+
+  private callAction(
+    action: Action,
+    run: CheckRun | RunResult | undefined,
+    context: string,
+    changeNum: NumericChangeId,
+    patchSet: number
+  ) {
     this.reporting.reportInteraction(Interaction.CHECKS_ACTION_TRIGGERED, {
       checkName: run?.checkName,
       actionName: action.name,
       context,
     });
     const promise = action.callback(
-      this.changeNum,
+      changeNum,
       patchSet,
       run?.attempt,
       run?.externalId,

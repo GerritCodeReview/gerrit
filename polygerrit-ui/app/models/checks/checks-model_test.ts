@@ -6,6 +6,7 @@
 import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import './checks-model';
+import '../../elements/checks/gr-checks-action-confirm';
 import {
   CheckResult,
   ChecksModel,
@@ -338,6 +339,65 @@ suite('checks-model tests', () => {
     const spy = sinon.spy(action, 'callback');
     model.triggerAction(action, undefined, 'none');
     assert.isTrue(spy.calledOnce);
+    assert.equal(spy.lastCall.args[0], 314);
+    assert.equal(spy.lastCall.args[1], 13);
+  });
+
+  test('triggerAction asks for confirmation', async () => {
+    model.changeNum = 314 as NumericChangeId;
+    model.latestPatchNum = 13 as PatchSetNumber;
+    const action: Action = {
+      name: 'Stop',
+      confirmation: 'Stop the build?',
+      callback: () => undefined,
+    };
+    const spy = sinon.spy(action, 'callback');
+    const openDialog = async () => {
+      model.triggerAction(action, undefined, 'none');
+      await waitUntil(
+        () => !!document.querySelector('gr-checks-action-confirm')?.dialog?.open
+      );
+      const confirm = document.querySelector('gr-checks-action-confirm')!;
+      assert.equal(
+        confirm.shadowRoot!.querySelector('.main')!.textContent,
+        'Stop the build?'
+      );
+      return confirm.shadowRoot!.querySelector('gr-dialog')!;
+    };
+
+    (await openDialog()).cancelButton!.click();
+    await waitUntil(() => !document.querySelector('gr-checks-action-confirm'));
+    assert.isFalse(spy.called);
+
+    (await openDialog()).confirmButton!.click();
+    await waitUntil(() => spy.calledOnce);
+    assert.equal(spy.lastCall.args[0], 314);
+    assert.isNull(document.querySelector('gr-checks-action-confirm'));
+  });
+
+  test('triggerAction runs on the change it was triggered on', async () => {
+    model.changeNum = 314 as NumericChangeId;
+    model.latestPatchNum = 13 as PatchSetNumber;
+    const action: Action = {
+      name: 'Stop',
+      confirmation: 'Stop the build?',
+      callback: () => undefined,
+    };
+    const spy = sinon.spy(action, 'callback');
+    model.triggerAction(action, undefined, 'none');
+    await waitUntil(
+      () => !!document.querySelector('gr-checks-action-confirm')?.dialog?.open
+    );
+
+    // The user goes back to another change while the dialog is open.
+    model.changeNum = 271 as NumericChangeId;
+    model.latestPatchNum = 2 as PatchSetNumber;
+    document
+      .querySelector('gr-checks-action-confirm')!
+      .shadowRoot!.querySelector('gr-dialog')!
+      .confirmButton!.click();
+
+    await waitUntil(() => spy.calledOnce);
     assert.equal(spy.lastCall.args[0], 314);
     assert.equal(spy.lastCall.args[1], 13);
   });

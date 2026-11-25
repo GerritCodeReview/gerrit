@@ -329,6 +329,20 @@ suite('gr-formatted-text tests', () => {
       assert.equal(style.overflowWrap, 'break-word');
     });
 
+    test('indents lists on the list element instead of on every item', async () => {
+      element.content = '- one\n  - nested\n- two';
+      await element.updateComplete;
+
+      const ul = queryAndAssert<HTMLUListElement>(element, 'ul');
+      const nestedUl = queryAndAssert<HTMLUListElement>(element, 'ul ul');
+      const li = queryAndAssert<HTMLLIElement>(element, 'li');
+      const step = getComputedStyle(ul).paddingLeft;
+
+      assert.isAbove(parseFloat(step), 0);
+      assert.equal(getComputedStyle(nestedUl).paddingLeft, step);
+      assert.equal(getComputedStyle(li).marginLeft, '0px');
+    });
+
     test('renders text with links and rewrites', async () => {
       element.content = `text
         \ntext with plain link: http://google.com

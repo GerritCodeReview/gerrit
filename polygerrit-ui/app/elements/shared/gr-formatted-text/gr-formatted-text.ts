@@ -102,8 +102,18 @@ export class GrFormattedText extends LitElement {
         :not(pre) > code {
           display: inline;
         }
-        li {
-          margin-left: var(--spacing-xl);
+        /* Indent on the list element, the way GitHub's markdown css does, so
+         every nesting level adds one step instead of stacking the browser's
+         list padding on top of a margin on every item. */
+        ul,
+        ol {
+          padding-left: var(--spacing-xl);
+        }
+        ul ul,
+        ul ol,
+        ol ol,
+        ol ul {
+          margin-bottom: 0;
         }
         gr-account-chip {
           display: inline;

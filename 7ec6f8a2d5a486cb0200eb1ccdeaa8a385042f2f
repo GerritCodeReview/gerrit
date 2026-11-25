@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "335f9257_14433388",
+        "filename": "java/com/google/gerrit/server/account/SshKeyExpiryNotifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-11-25T23:22:05Z",
+      "side": 1,
+      "message": "This is fragile, if this is not the exact same time everyday, it will either send out duplicates or miss some notifications.",
+      "revId": "7ec6f8a2d5a486cb0200eb1ccdeaa8a385042f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

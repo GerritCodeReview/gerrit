@@ -152,6 +152,24 @@
       "parentUuid": "b9de4ad2_79a84943",
       "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e564ed1_bf246a81",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-25T15:26:56Z",
+      "side": 1,
+      "message": "\u003e why don\u0027t you just check then that the client has permission to replicate?\n\nDo you mean \"Start Replication\" capability? As in the same needed to start a replication from an SSH command [1]?\n\n[1]: https://gerrit.googlesource.com/plugins/replication/+/master/src/main/resources/Documentation/cmd-start.md#access",
+      "parentUuid": "8838b236_d0a13504",
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

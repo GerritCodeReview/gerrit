@@ -16,6 +16,24 @@
       "message": "Isn\u0027t this going to lead to a memory leak? As it\u0027s not removed from the body after? And will just be continuously added.",
       "revId": "0ae9d964558ac7bb5bbea58d607a77c5af2ae1cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12771a62_71f8871c",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-11-25T16:38:56Z",
+      "side": 1,
+      "message": "No leak, it\u0027s removed in the finally right below. ask() resolves on confirm, cancel and Escape, so there\u0027s at most one element, and only while the dialog is open. The test checks it\u0027s gone in both cases.\n\nWhile looking at this I found a real issue: if you go back to another change while the dialog is open, confirming ran the action on the new change. Fixed in PS4.",
+      "parentUuid": "3f31f74a_7e060066",
+      "revId": "0ae9d964558ac7bb5bbea58d607a77c5af2ae1cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

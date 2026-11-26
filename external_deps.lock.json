@@ -24,8 +24,8 @@
     "com.google.flogger:flogger-system-backend": 1831570954,
     "com.google.flogger:google-extensions": 1156659279,
     "com.google.guava:failureaccess": 892280507,
-    "com.google.guava:guava": -506018038,
-    "com.google.guava:guava-testlib": 2001730020,
+    "com.google.guava:guava": -278329907,
+    "com.google.guava:guava-testlib": -2065549145,
     "com.google.inject.extensions:guice-assistedinject": -1633579390,
     "com.google.inject.extensions:guice-servlet": 1331904556,
     "com.google.inject:guice": 285885373,
@@ -229,7 +229,7 @@
     "com.dylibso.chicory:wasm:jar:sources": 970374469,
     "com.github.ben-manes.caffeine:caffeine": -1342502459,
     "com.github.ben-manes.caffeine:caffeine:jar:sources": 1780037606,
-    "com.github.ben-manes.caffeine:guava": 1717885520,
+    "com.github.ben-manes.caffeine:guava": 2132082326,
     "com.github.ben-manes.caffeine:guava:jar:sources": 1590068668,
     "com.github.jnr:jffi": 1596008543,
     "com.github.jnr:jffi:jar:native": -1334695591,
@@ -250,9 +250,9 @@
     "com.github.jnr:jnr-unixsocket:jar:sources": 219616201,
     "com.github.jnr:jnr-x86asm": 2124831399,
     "com.github.jnr:jnr-x86asm:jar:sources": 1619799649,
-    "com.github.rholder:guava-retrying": -789983219,
+    "com.github.rholder:guava-retrying": -375786413,
     "com.github.rholder:guava-retrying:jar:sources": 2030887181,
-    "com.google.auto.factory:auto-factory": 2025609377,
+    "com.google.auto.factory:auto-factory": -716533215,
     "com.google.auto.factory:auto-factory:jar:sources": -861333607,
     "com.google.auto.service:auto-service-annotations": 195984873,
     "com.google.auto.service:auto-service-annotations:jar:sources": -902556490,
@@ -260,13 +260,13 @@
     "com.google.auto.value:auto-value-annotations": 641752776,
     "com.google.auto.value:auto-value-annotations:jar:sources": -2083311588,
     "com.google.auto.value:auto-value:jar:sources": -30292358,
-    "com.google.auto:auto-common": -195836273,
+    "com.google.auto:auto-common": 218360533,
     "com.google.auto:auto-common:jar:sources": -2100626169,
     "com.google.code.findbugs:jsr305": -998441376,
     "com.google.code.findbugs:jsr305:jar:sources": -640520676,
     "com.google.code.gson:gson": -2014404431,
     "com.google.code.gson:gson:jar:sources": 935710753,
-    "com.google.common.html.types:types": -621178945,
+    "com.google.common.html.types:types": 1832628997,
     "com.google.common.html.types:types:jar:sources": -1323749402,
     "com.google.errorprone:error_prone_annotations": 804114225,
     "com.google.errorprone:error_prone_annotations:jar:sources": -2115535816,
@@ -280,34 +280,34 @@
     "com.google.flogger:google-extensions:jar:sources": -1667103726,
     "com.google.guava:failureaccess": 1715931538,
     "com.google.guava:failureaccess:jar:sources": 1303858893,
-    "com.google.guava:guava": 555169272,
-    "com.google.guava:guava-testlib": 1085873063,
-    "com.google.guava:guava-testlib:jar:sources": 1351030420,
-    "com.google.guava:guava:jar:sources": 1246910673,
+    "com.google.guava:guava": 932766883,
+    "com.google.guava:guava-testlib": 1478425263,
+    "com.google.guava:guava-testlib:jar:sources": 321153161,
+    "com.google.guava:guava:jar:sources": -1067173521,
     "com.google.guava:listenablefuture": 1079558157,
     "com.google.inject.extensions:guice-assistedinject": -205980308,
     "com.google.inject.extensions:guice-assistedinject:jar:sources": 550961491,
     "com.google.inject.extensions:guice-servlet": -325370690,
     "com.google.inject.extensions:guice-servlet:jar:sources": -828654042,
-    "com.google.inject:guice:jar:classes": 1808670374,
+    "com.google.inject:guice:jar:classes": -1001250580,
     "com.google.inject:guice:jar:sources": -2060215316,
     "com.google.j2objc:j2objc-annotations": 1702790440,
     "com.google.j2objc:j2objc-annotations:jar:sources": -1254484583,
-    "com.google.jimfs:jimfs": 375012684,
+    "com.google.jimfs:jimfs": 789209490,
     "com.google.jimfs:jimfs:jar:sources": -555304721,
     "com.google.jsinterop:jsinterop-annotations": 1636460091,
     "com.google.jsinterop:jsinterop-annotations:jar:sources": 694679492,
     "com.google.protobuf:protobuf-java": -1812001120,
     "com.google.protobuf:protobuf-java:jar:sources": -322237137,
-    "com.google.template:soy": -564082616,
+    "com.google.template:soy": -997159907,
     "com.google.template:soy:jar:sources": 613026710,
-    "com.google.truth.extensions:truth-java8-extension": 456440921,
+    "com.google.truth.extensions:truth-java8-extension": -91281205,
     "com.google.truth.extensions:truth-java8-extension:jar:sources": 1257445795,
-    "com.google.truth.extensions:truth-liteproto-extension": -1538959201,
+    "com.google.truth.extensions:truth-liteproto-extension": -1244120662,
     "com.google.truth.extensions:truth-liteproto-extension:jar:sources": -754757455,
-    "com.google.truth.extensions:truth-proto-extension": -1864641248,
+    "com.google.truth.extensions:truth-proto-extension": 702762574,
     "com.google.truth.extensions:truth-proto-extension:jar:sources": -171856482,
-    "com.google.truth:truth": -1929929434,
+    "com.google.truth:truth": -1272987563,
     "com.google.truth:truth:jar:sources": 494258718,
     "com.googlecode.javaewah:JavaEWAH": 536180633,
     "com.googlecode.javaewah:JavaEWAH:jar:sources": 1003442530,
@@ -528,8 +528,8 @@
     "org.jruby:jzlib:jar:sources": -942778938,
     "org.jsoup:jsoup": 1818671647,
     "org.jsoup:jsoup:jar:sources": 1318808240,
-    "org.jspecify:jspecify": 117231129,
-    "org.jspecify:jspecify:jar:sources": -2134060298,
+    "org.jspecify:jspecify": -109882726,
+    "org.jspecify:jspecify:jar:sources": 345277939,
     "org.mockito:mockito-core": -1058138256,
     "org.mockito:mockito-core:jar:sources": 1799409451,
     "org.nibor.autolink:autolink": -443901116,
@@ -823,17 +823,17 @@
     },
     "com.google.guava:guava": {
       "shasums": {
-        "jar": "1e301f0c52ac248b0b14fdc3d12283c77252d4d6f48521d572e7d8c4c2cc4ac7",
-        "sources": "79423ae87a2203950e0e3ce2a00682b3b8d8557e631bbf662dba5494fe3b55cb"
+        "jar": "97b79ec3f2c0a6313a0c2df51ce1abdf8907e6531803467b81efcaaf99b35161",
+        "sources": "4f183ff540044f5ce4f9c1084888510632dfac2953ced0da45760bc74d99f4ca"
       },
-      "version": "33.5.0-jre"
+      "version": "33.8.0-jre"
     },
     "com.google.guava:guava-testlib": {
       "shasums": {
-        "jar": "d98a26c3c32803007ca4a1126f36d66cc0ba4b4471eb650ed2e329a2b49b285b",
-        "sources": "b535fa90b57f7b44167383e5c60d73f4086c6cbab474fb6cadb29df9d241b321"
+        "jar": "000e5ed77a98960f3a4d09d46ee81eae97a910f5d1ee581de7c75ac693c4f488",
+        "sources": "ac33201d640297c9ca59930254ad219130231591a1c325ea0aa0dab6729c6122"
       },
-      "version": "33.5.0-jre"
+      "version": "33.8.0-jre"
     },
     "com.google.guava:listenablefuture": {
       "shasums": {
@@ -1701,10 +1701,10 @@
     },
     "org.jspecify:jspecify": {
       "shasums": {
-        "jar": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab",
-        "sources": "adf0898191d55937fb3192ba971826f4f294292c4a960740f3c27310e7b70296"
+        "jar": "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
+        "sources": "230c491aac6d2a2b7e66b68d4331b1d2626f1bf3a372c33bbe2b077297e46c45"
       },
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     "org.mockito:mockito-core": {
       "shasums": {

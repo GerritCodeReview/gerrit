@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.server.project.RefPattern;
 import java.util.Comparator;
@@ -89,7 +90,36 @@ public final class MostSpecificComparator implements Comparator<AccessSection> {
     } else {
       return Math.max(pattern.length(), refName.length());
     }
-    return LevenshteinDistance.getDefaultInstance().apply(example, refName);
+    return levenshtein(example, refName);
+  }
+
+  /**
+   * Levenshtein distance of {@code a} and {@code b}. A common prefix and suffix do not change the
+   * distance, so they are skipped before computing it; patterns and ref names usually share a long
+   * prefix such as {@code refs/tags/}.
+   */
+  @VisibleForTesting
+  static int levenshtein(String a, String b) {
+    int min = Math.min(a.length(), b.length());
+    int prefix = 0;
+    while (prefix < min && a.charAt(prefix) == b.charAt(prefix)) {
+      prefix++;
+    }
+    int suffix = 0;
+    while (suffix < min - prefix
+        && a.charAt(a.length() - 1 - suffix) == b.charAt(b.length() - 1 - suffix)) {
+      suffix++;
+    }
+    int aEnd = a.length() - suffix;
+    int bEnd = b.length() - suffix;
+    if (prefix == aEnd) {
+      return bEnd - prefix;
+    }
+    if (prefix == bEnd) {
+      return aEnd - prefix;
+    }
+    return LevenshteinDistance.getDefaultInstance()
+        .apply(a.substring(prefix, aEnd), b.substring(prefix, bEnd));
   }
 
   private boolean finite(String pattern) {

@@ -87,6 +87,7 @@ junit_tests(
         "//lib:soy",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/commons:text",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/mockito",

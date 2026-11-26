@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.util;
 
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.junit.Test;
 
 public class MostSpecificComparatorTest {
@@ -70,6 +74,40 @@ public class MostSpecificComparatorTest {
   public void longerPatternWins() {
     cmp = new MostSpecificComparator("refs/heads/x");
     moreSpecificFirst("^refs/heads/[a-z].*", "^refs/heads/..*");
+  }
+
+  @Test
+  public void levenshteinMatchesUntrimmedDistance() {
+    List<String> strings = new ArrayList<>();
+    strings.add("");
+    for (int len = 1; len <= 4; len++) {
+      for (int bits = 0; bits < 1 << len; bits++) {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+          s.append((bits & (1 << i)) != 0 ? 'b' : 'a');
+        }
+        strings.add(s.toString());
+      }
+    }
+    strings.addAll(
+        List.of(
+            "refs/tags/*",
+            "refs/tags/v1",
+            "refs/tags/v1.0",
+            "refs/tags/v1.0/*",
+            "refs/tags/v2.0",
+            "refs/heads/master",
+            "refs/heads/maste",
+            "refs/heads/master2",
+            "refs/heads/abc/spam/branch1",
+            "refs/heads/abc/*"));
+    for (String a : strings) {
+      for (String b : strings) {
+        assertWithMessage("levenshtein(\"%s\", \"%s\")", a, b)
+            .that(MostSpecificComparator.levenshtein(a, b))
+            .isEqualTo(LevenshteinDistance.getDefaultInstance().apply(a, b));
+      }
+    }
   }
 
   private void moreSpecificFirst(String first, String second) {

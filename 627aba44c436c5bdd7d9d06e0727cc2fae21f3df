@@ -21,12 +21,9 @@
       "updated": "2026-11-26T13:06:13Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/3952/console",
-      "started": "2026-11-26T13:06:10Z",
-      "finished": "2026-11-26T13:08:22Z",
+      "state": "NOT_STARTED",
       "created": "2026-11-26T13:06:10Z",
-      "updated": "2026-11-26T13:08:23Z"
+      "updated": "2026-11-26T13:09:48Z"
     }
   }
 }

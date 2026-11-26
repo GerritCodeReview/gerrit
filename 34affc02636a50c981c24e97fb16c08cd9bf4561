@@ -1,0 +1,111 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dab5d068_db7a8830",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T10:16:20Z",
+      "side": 1,
+      "message": "I think it\u0027s good idea, there are some ai comments. If you can do a screenshot test it would be great. If you have time, it would be great if you keep this and just improve",
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67510cc4_2f9ff689",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T10:16:20Z",
+      "side": 1,
+      "message": "Nit: please scope the new `details` / `summary` rules under `.markdown-html` (e.g. `.markdown-html details`, `.markdown-html summary`, `.markdown-html details \u003e :not(summary)`) so they don\u0027t accidentally style any non-markdown `\u003cdetails\u003e` chrome rendered inside `gr-formatted-text`\u0027s shadow DOM.",
+      "isAi": true,
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "150bb80c_92dac277",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/details-extension.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T10:16:20Z",
+      "side": 1,
+      "message": "Nit — a few minor tag/attribute edge cases here:\n1. `SUMMARY_TAG` starts with `^[ \\t]*`, so a blank line between `\u003cdetails\u003e` and `\u003csummary\u003e` (common in GitHub-flavored markdown) prevents `\u003csummary\u003e` from matching and renders it as escaped text. Using `^\\s*` handles that.\n2. Both `OPEN_TAG` and `SUMMARY_TAG` use `\\b`, which also matches hyphenated custom elements like `\u003cdetails-foo\u003e` / `\u003csummary-bar\u003e`; `(?\u003d[\\s\u003e])` avoids that.\n3. `OPEN_ATTR` scans the raw attribute string without skipping quoted values, so `\u003cdetails title\u003d\"leave open\"\u003e` would falsely set `open`.",
+      "isAi": true,
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4dda23a_19d519c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/details-extension.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T10:16:20Z",
+      "side": 1,
+      "message": "`findClosingTag` counts `\u003cdetails\u003e` / `\u003c/details\u003e` occurrences inside fenced code blocks (``` / ~~~) and inline code spans (backticks). In code review comments (e.g. HTML/markdown diffs or docs mentioning `\u003cdetails\u003e`), this either closes the block prematurely mid-fence or leaves `depth \u003e 0` and falls back to escaped plaintext for the whole section.\n\nAlso, `\u003cdetails\\b` matches hyphenated custom elements like `\u003cdetails-foo\u003e` because `-` is a word boundary — `\u003cdetails(?\u003d[\\s\u003e])` is safer.\n\nCould we skip fenced code blocks and inline backtick spans while scanning in `findClosingTag` and add unit tests for both?",
+      "isAi": true,
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "948b0269_18b33c7e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/details-extension.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T10:16:20Z",
+      "side": 1,
+      "message": "`marked` calls `start(src.slice(1))` to find where a block extension interrupts a paragraph. Because `/^ {0,3}\u003cdetails\\b/i` has no multiline/newline anchor:\n\n1. It never matches a `\u003cdetails\u003e` on a subsequent line after a paragraph without a blank line.\n2. For inline text like `a\u003cdetails\u003efoo\u003c/details\u003e`, `src.slice(1)` starts at `\u003cdetails\u003e`, so `start()` returns `0`, splitting `a` into its own `\u003cp\u003ea\u003c/p\u003e` and turning the inline `\u003cdetails\u003e` into a block.\n\nMatching after a newline and using `(?\u003d[\\s\u003e])` instead of `\\b` (so custom elements like `\u003cdetails-foo\u003e` don\u0027t match) avoids both issues:\n```ts\nstart(src) {\n  const match \u003d /\\n {0,3}\u003cdetails(?\u003d[\\s\u003e])/i.exec(src);\n  return match ? match.index + 1 : undefined;\n},\n```",
+      "isAi": true,
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a33c8849_f974d0ae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/details-extension.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T10:16:20Z",
+      "side": 1,
+      "message": "`findClosingTag` matches `\u003c\\/details\\s*\u003e` (allowing whitespace before `\u003e`), so hardcoding `\u0027\u003c/details\u003e\u0027.length` here truncates `token.raw` on tags like `\u003c/details \u003e` or `\u003c/details\\n\u003e`. The leftover ` \u003e` remains in the lexer stream and gets parsed as a separate `\u003cblockquote\u003e` or trailing text.\n\nConsider returning `{start, end}` (using `match.index + match[0].length`) from `findClosingTag` and consuming any trailing `[ \\t]*\\n?` after `end`.",
+      "isAi": true,
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

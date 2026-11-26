@@ -16,6 +16,25 @@
       "message": "with recent raise of \n```\nHello this is good, a human sentence:\n\nAnd Here is my AI Agents Dump:\nFollowed by a gazillion of infos\n```\n\n\ni realized that gerrit misses the github-markdown `\u003cdetail\u003e` piece, that does an fantastic job, sometimes the agent burps are super awesome, they just make it hard to skim over and follow the human part of the discussion.\n\n\nbefore i start filing issues and stuff, could you maby PTAL and give it let me know if this is a keep or kill?\n\n\nthanks in advance",
       "revId": "e236c5a07c5c6fcc7a3dd17b907ecae830451476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bcc5ef7_e7864d8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T10:16:20Z",
+      "side": 1,
+      "message": "Definitely a keep! Collapsible `\u003cdetails\u003e` blocks are very useful for verbose CI output and AI review comments, and implementing this as a `marked` block extension while relying on `safevalues` is clean.\n\nLeft a few inline comments on tokenizer edge cases (closing-tag whitespace, `start()` paragraph clipping, and `\u003cdetails\u003e`/`\u003c/details\u003e` inside code blocks) and CSS scoping.",
+      "parentUuid": "40387b7d_81b6b9c9",
+      "isAi": true,
+      "revId": "e236c5a07c5c6fcc7a3dd17b907ecae830451476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

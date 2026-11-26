@@ -105,6 +105,28 @@ export class GrFormattedText extends LitElement {
         li {
           margin-left: var(--spacing-xl);
         }
+        .markdown-html table {
+          display: block;
+          width: max-content;
+          max-width: 100%;
+          margin-bottom: var(--spacing-m);
+          overflow-x: auto;
+          border-collapse: collapse;
+        }
+        .markdown-html tr {
+          background-color: var(--background-color-primary);
+        }
+        .markdown-html tr:nth-child(even) {
+          background-color: var(--background-color-tertiary);
+        }
+        .markdown-html th,
+        .markdown-html td {
+          padding: var(--spacing-s) var(--spacing-l);
+          border: 1px solid var(--border-color);
+        }
+        .markdown-html th {
+          background-color: var(--background-color-tertiary);
+        }
         gr-account-chip {
           display: inline;
         }

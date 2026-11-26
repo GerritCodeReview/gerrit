@@ -188,6 +188,24 @@
       "parentUuid": "7e564ed1_bf246a81",
       "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd21ab21_ea12fb06",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-26T14:34:08Z",
+      "side": 1,
+      "message": "\u003e Not sure that\u0027s the correct one we want to use, though: you could be enabled to trigger the replication, not be the user that performs the replication.\n\nI agree, the identity performing the replication should be distinguished from the user who is allowed to trigger it. `Start Replication` authorizes triggering a replication job, while project creation on the destination is performed using separately configured remote credentials.\n\n\u003e In the pull-replication plugin, there is a specific bearer account that allows unrestricted access. Maybe we have to do the same with the replication plugin also.\n\nI don\u0027t think the bearer-token mechanism used by pull-replication would be an option either. It just identify the possession of a shared secret. Once the token is accepted the request is mapped to a trusted internal plugin user, whose capabilities are checked, i.e.: the `Create Project` global capability is needed by the internal user to create a repository. \n\nIf we keep `git_config`, one option would be to introduce a dedicated global capability such as `Set Git Repository Configuration`. A caller providing `git_config` would need both `Create Project` and this new capability.\nIt should be global rather than project-scoped because the project does not exist yet. The capability could then be granted specifically to the replication service account.\n\nThat said, my preferred solution is still to remove `git_config` and expose only  `ref_storage`, which is the immediate requirement/use case.\n\nThis also seems more consistent with Git semantics: local repository configuration  is not transferred by a clone (normal or mirror).\n\nIf other creation-time settings need to be propagated in the future, we can evaluate them individually and expose them explicitelly. If we will have a proliferation of creation-time settings in future we could reconsider.\n\nThis way we won\u0027t expose more attack surface and we won\u0027t add other capabilities to an already complex ACL system, unless strictly needed.\n\nWDYT?",
+      "parentUuid": "c1760e9b_bc288926",
+      "revId": "7d80e573c3ba27d5f96af6e19daf4c62f1283222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

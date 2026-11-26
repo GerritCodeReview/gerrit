@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c723fa4_a985bbaa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T09:59:45Z",
+      "side": 1,
+      "message": "Update type to  (importing  from ) since  can now be an .",
+      "revId": "123b0ca743c0f7c41bf42c86d574aa3ea89ee8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22c7a983_9bfe7c58",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T09:59:45Z",
+      "side": 1,
+      "message": "Consider extracting the shared  and pointer/mouse/touch handlers to class methods to avoid duplicating 25+ lines between  and . Also note  and  are -specific properties and have no effect on  (and please add a unit test in  covering ).",
+      "revId": "123b0ca743c0f7c41bf42c86d574aa3ea89ee8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

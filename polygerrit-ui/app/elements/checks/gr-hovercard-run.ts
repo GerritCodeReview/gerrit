@@ -296,7 +296,11 @@ export class GrHovercardRun extends base {
       this.run.finishedTimestamp && this.run.status === RunStatus.RUNNING
         ? html`<div class="row">
             <div class="title">ETA</div>
-            <div>${durationString(new Date(), this.run.finishedTimestamp)}</div>
+            <div>
+              ${this.run.finishedTimestamp > new Date()
+                ? durationString(new Date(), this.run.finishedTimestamp)
+                : 'Running longer than estimated'}
+            </div>
           </div>`
         : '';
 

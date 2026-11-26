@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d69c7f_265daaa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-11-26T13:51:24Z",
+      "side": 1,
+      "message": "Note to reviewers: This failure was observed in Gerrit’s downstream Bazel CI on Buildkite after upgrading from Ubuntu 24.04 to 26.04.",
+      "revId": "842501589c9372d488ad0e0d1dd83bf383ed8f73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

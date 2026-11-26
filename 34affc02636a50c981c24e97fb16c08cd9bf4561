@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c7cde50_c124ca02",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/details-extension.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-11-26T22:19:19Z",
+      "side": 1,
+      "message": "Done. The tokenizer consumes the matched closing tag and trailing whitespace.",
+      "parentUuid": "c4dda23a_19d519c1",
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "948b0269_18b33c7e",
@@ -90,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5801fc3_580dbcf5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/details-extension.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-11-26T22:19:19Z",
+      "side": 1,
+      "message": "Updated start() to find line-start \u003cdetails\u003e tags without splitting inline text. Added regression cases.",
+      "parentUuid": "948b0269_18b33c7e",
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a33c8849_f974d0ae",
@@ -104,6 +140,24 @@
       "side": 1,
       "message": "`findClosingTag` matches `\u003c\\/details\\s*\u003e` (allowing whitespace before `\u003e`), so hardcoding `\u0027\u003c/details\u003e\u0027.length` here truncates `token.raw` on tags like `\u003c/details \u003e` or `\u003c/details\\n\u003e`. The leftover ` \u003e` remains in the lexer stream and gets parsed as a separate `\u003cblockquote\u003e` or trailing text.\n\nConsider returning `{start, end}` (using `match.index + match[0].length`) from `findClosingTag` and consuming any trailing `[ \\t]*\\n?` after `end`.",
       "isAi": true,
+      "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4f22e43_90d48b0f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-marked-element/details-extension.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-11-26T22:19:19Z",
+      "side": 1,
+      "message": "Updated the closing-tag scan to skip fenced code and backtick spans, and to ignore hyphenated custom tags. Added regression cases.",
+      "parentUuid": "a33c8849_f974d0ae",
       "revId": "34affc02636a50c981c24e97fb16c08cd9bf4561",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

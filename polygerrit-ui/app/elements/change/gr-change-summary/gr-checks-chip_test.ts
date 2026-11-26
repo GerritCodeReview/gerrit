@@ -111,8 +111,8 @@ suite('gr-checks-chip test', () => {
   test('renders progress of running check', async () => {
     element.text = 'Slow Check';
     element.statusOrCategory = RunStatus.RUNNING;
-    element.startedTimestamp = new Date(Date.now() - 60 * 1000);
-    element.finishedTimestamp = new Date(Date.now() + 60 * 60 * 1000);
+    element.startedTimestamp = new Date(Date.now() - 3 * 60 * 1000);
+    element.finishedTimestamp = new Date(Date.now() + 7.5 * 60 * 1000);
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -122,9 +122,32 @@ suite('gr-checks-chip test', () => {
           class="checksChip font-small timelapse"
           role="link"
           tabindex="0"
+          title="28% done, ETA: 7 minutes"
         >
           <gr-checks-progress></gr-checks-progress>
           <div class="text">Slow Check</div>
+        </div>
+      `
+    );
+  });
+
+  test('renders since when a scheduled check waits', async () => {
+    element.text = 'Queued Check';
+    element.statusOrCategory = RunStatus.SCHEDULED;
+    element.scheduledTimestamp = new Date(Date.now() - 5.5 * 60 * 1000);
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div
+          aria-label="scheduled for check Queued Check"
+          class="checksChip font-small pending_actions"
+          role="link"
+          tabindex="0"
+          title="Scheduled, waiting for 5 minutes"
+        >
+          <gr-icon icon="pending_actions"></gr-icon>
+          <div class="text">Queued Check</div>
         </div>
       `
     );

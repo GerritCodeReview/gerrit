@@ -608,6 +608,7 @@ export class GrChangeSummary extends LitElement {
       .isAi=${!!run.isAiPowered}
       .startedTimestamp=${progress ? run.startedTimestamp : undefined}
       .finishedTimestamp=${progress ? run.finishedTimestamp : undefined}
+      .scheduledTimestamp=${run.scheduledTimestamp}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;

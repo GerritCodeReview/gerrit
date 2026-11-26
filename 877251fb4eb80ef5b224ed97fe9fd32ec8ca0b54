@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd6b8914_c956ee30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-11-26T22:46:24Z",
+      "side": 1,
+      "message": "Hi @milutin@google.com, here is another markdown optimization, making tables actually usable without killing one\u0027s eyes.\n\nBefore: https://static.januschka.com/table_before.png\nAfter: https://static.januschka.com/table_after.png",
+      "revId": "877251fb4eb80ef5b224ed97fe9fd32ec8ca0b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

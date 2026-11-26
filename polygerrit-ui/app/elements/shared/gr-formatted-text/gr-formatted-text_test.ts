@@ -343,6 +343,32 @@ suite('gr-formatted-text tests', () => {
       assert.equal(getComputedStyle(li).marginLeft, '0px');
     });
 
+    test('styles markdown table cells and keeps wide tables scrollable', async () => {
+      element.content = `| Left | Right |
+| :--- | ---: |
+| short | a long value that needs to wrap |
+| second | \`code\` |`;
+      await element.updateComplete;
+
+      const table = queryAndAssert<HTMLTableElement>(element, 'table');
+      const cells = table.querySelectorAll('td');
+      assert.lengthOf(cells, 4);
+      assert.equal(cells[0].textContent, 'short');
+      assert.equal(getComputedStyle(table).overflowX, 'auto');
+      assert.equal(getComputedStyle(table).maxWidth, '100%');
+      assert.equal(getComputedStyle(cells[0]).borderTopWidth, '1px');
+      assert.isAbove(parseFloat(getComputedStyle(cells[0]).paddingLeft), 0);
+      assert.notEqual(
+        getComputedStyle(table.querySelectorAll('tr')[1]).backgroundColor,
+        getComputedStyle(table.querySelectorAll('tr')[2]).backgroundColor
+      );
+      assert.notEqual(
+        getComputedStyle(queryAndAssert<HTMLTableCellElement>(element, 'th'))
+          .backgroundColor,
+        getComputedStyle(table.querySelectorAll('tr')[1]).backgroundColor
+      );
+    });
+
     test('renders text with links and rewrites', async () => {
       element.content = `text
         \ntext with plain link: http://google.com

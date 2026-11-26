@@ -58,7 +58,8 @@ public class UploadArchiveIT extends StandaloneSiteTest {
   private static final String[] SSH_KEYGEN_CMD =
       new String[] {"ssh-keygen", "-t", "rsa", "-q", "-P", "", "-f"};
   private static final String GIT_SSH_COMMAND =
-      "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o 'IdentitiesOnly yes' -i";
+      "ssh -F none -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+          + " -o 'IdentitiesOnly yes' -i";
   private static final String ARCHIVE = "archive";
 
   @Inject private GerritApi gApi;

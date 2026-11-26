@@ -77,6 +77,8 @@ public class NoShellIT extends StandaloneSiteTest {
   private ImmutableList<String> cmd() {
     return ImmutableList.<String>builder()
         .add("ssh")
+        .add("-F")
+        .add("none")
         .add("-tt")
         .add("-o")
         .add("StrictHostKeyChecking=no")

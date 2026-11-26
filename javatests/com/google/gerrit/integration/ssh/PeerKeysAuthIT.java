@@ -43,6 +43,8 @@ public class PeerKeysAuthIT extends StandaloneSiteTest {
   private static final String[] SSH_COMMAND =
       new String[] {
         "ssh",
+        "-F",
+        "none",
         "-o",
         "UserKnownHostsFile=/dev/null",
         "-o",

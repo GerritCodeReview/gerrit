@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
@@ -16,7 +16,7 @@ import {
 } from '../../../models/checks/checks-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {Interaction} from '../../../constants/reporting';
-import '../../checks/gr-checks-progress';
+import {progressOf} from '../../checks/gr-checks-progress';
 
 @customElement('gr-checks-chip')
 export class GrChecksChip extends LitElement {
@@ -221,8 +221,17 @@ export class GrChecksChip extends LitElement {
     icon: ChecksIcon,
     isAi: boolean
   ) {
+    // The progress is in the tooltip of the whole chip, not only of the ring.
+    // Hovering renders it again, so that it isn't stale.
     return html`
-      <div class=${clazz} role="link" tabindex="0" aria-label=${ariaLabel}>
+      <div
+        class=${clazz}
+        role="link"
+        tabindex="0"
+        aria-label=${ariaLabel}
+        title=${this.progressLabel() ?? nothing}
+        @mouseenter=${() => this.requestUpdate()}
+      >
         ${this.renderIcon(icon)} ${this.renderLinks()}
         <div class="text">${this.text}</div>
         ${isAi ? html`<gr-icon icon="ai" class="ai-sparkle"></gr-icon>` : ''}
@@ -230,12 +239,21 @@ export class GrChecksChip extends LitElement {
     `;
   }
 
-  private renderIcon(icon: ChecksIcon) {
-    if (
+  private hasProgress() {
+    return (
       this.statusOrCategory === RunStatus.RUNNING &&
-      this.startedTimestamp &&
-      this.finishedTimestamp
-    ) {
+      !!this.startedTimestamp &&
+      !!this.finishedTimestamp
+    );
+  }
+
+  private progressLabel() {
+    if (!this.hasProgress()) return undefined;
+    return progressOf(this.startedTimestamp!, this.finishedTimestamp!).label;
+  }
+
+  private renderIcon(icon: ChecksIcon) {
+    if (this.hasProgress()) {
       return html`<gr-checks-progress
         .startedTimestamp=${this.startedTimestamp}
         .finishedTimestamp=${this.finishedTimestamp}

@@ -111,8 +111,8 @@ suite('gr-checks-chip test', () => {
   test('renders progress of running check', async () => {
     element.text = 'Slow Check';
     element.statusOrCategory = RunStatus.RUNNING;
-    element.startedTimestamp = new Date(Date.now() - 60 * 1000);
-    element.finishedTimestamp = new Date(Date.now() + 60 * 60 * 1000);
+    element.startedTimestamp = new Date(Date.now() - 3 * 60 * 1000);
+    element.finishedTimestamp = new Date(Date.now() + 7.5 * 60 * 1000);
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -122,6 +122,7 @@ suite('gr-checks-chip test', () => {
           class="checksChip font-small timelapse"
           role="link"
           tabindex="0"
+          title="28% done, ETA: 7 minutes"
         >
           <gr-checks-progress></gr-checks-progress>
           <div class="text">Slow Check</div>

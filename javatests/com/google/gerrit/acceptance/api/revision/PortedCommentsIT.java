@@ -185,6 +185,80 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void commentsOnMergeFilesUnchangedAgainstFirstParentArePortedAcrossRebase()
+      throws Exception {
+    String modifiedFile = "f_modified.txt";
+    String deletedFile = "f_deleted.txt";
+    String upstreamFile = "f_upstream.txt";
+    String baseContent =
+        IntStream.rangeClosed(1, 10)
+            .mapToObj(number -> String.format("Line %d\n", number))
+            .collect(joining());
+
+    Change.Id parent1AChangeId =
+        changeOps
+            .newChange()
+            .project(project)
+            .file(modifiedFile)
+            .content(baseContent)
+            .file(deletedFile)
+            .content("To be deleted\n")
+            .createV1();
+    Change.Id parent2ChangeId =
+        changeOps.newChange().project(project).file(upstreamFile).content("Upstream\n").createV1();
+
+    // PS1 merges parent2 into parent1A: neither modifiedFile nor deletedFile is in PS1 vs Parent 1,
+    // though both appear when viewing PS1 against Parent 2.
+    Change.Id mergeChangeId =
+        changeOps
+            .newChange()
+            .project(project)
+            .mergeOf()
+            .change(parent1AChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .createV1();
+    PatchSet.Id ps1Id = changeOps.change(mergeChangeId).currentPatchset().get().patchsetId();
+    String modifiedFileCommentUuid =
+        newComment(ps1Id).message("Line comment").onLine(10).ofFile(modifiedFile).create();
+    String deletedFileCommentUuid =
+        newComment(ps1Id).message("Deleted file comment").onLine(1).ofFile(deletedFile).create();
+
+    // Target branch advances (parent1A -> parent1B): deletes line 4 in modifiedFile and deletes
+    // deletedFile.
+    Change.Id parent1BChangeId =
+        changeOps
+            .newChange()
+            .project(project)
+            .childOf()
+            .change(parent1AChangeId)
+            .file(modifiedFile)
+            .content(baseContent.replace("Line 4\n", ""))
+            .file(deletedFile)
+            .delete()
+            .createV1();
+    ObjectId parent1BCommit = changeOps.change(parent1BChangeId).currentPatchset().get().commitId();
+
+    rebaseChangeOn(mergeChangeId.toString(), parent1BCommit);
+    PatchSet.Id ps2Id = changeOps.change(mergeChangeId).currentPatchset().get().patchsetId();
+
+    Map<String, List<CommentInfo>> portedComments = getPortedComments(ps2Id);
+    assertThatMap(portedComments).keys().containsExactly(modifiedFile, Patch.PATCHSET_LEVEL);
+
+    CommentInfo portedModifiedComment =
+        extractSpecificComment(portedComments, modifiedFileCommentUuid);
+    assertThat(portedModifiedComment).line().isEqualTo(9);
+    BinaryResult fileContent =
+        gApi.changes().id(mergeChangeId.get()).current().file(modifiedFile).content();
+    List<String> lines = Splitter.on("\n").splitToList(fileContent.asString());
+    assertThat(lines.get(portedModifiedComment.line - 1)).isEqualTo("Line 10");
+
+    CommentInfo portedDeletedComment =
+        extractSpecificComment(portedComments, deletedFileCommentUuid);
+    assertThat(portedDeletedComment).line().isNull();
+  }
+
+  @Test
   public void resolvedAndUnresolvedDraftCommentsArePorted() throws Exception {
     Account.Id accountId = accountOps.newAccount().create();
     // Set up change and patchsets.

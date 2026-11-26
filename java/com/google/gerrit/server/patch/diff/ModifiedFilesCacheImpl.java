@@ -70,7 +70,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
             .valueSerializer(GitModifiedFilesCacheImpl.ValueSerializer.INSTANCE)
             .maximumWeight(10 << 20)
             .weigher(ModifiedFilesWeigher.class)
-            .version(4)
+            .version(5)
             .loader(Loader.class);
       }
     };

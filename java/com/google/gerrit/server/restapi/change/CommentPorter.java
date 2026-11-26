@@ -319,7 +319,10 @@ public class CommentPorter {
               project,
               originalCommit,
               targetCommit,
-              DiffOptions.builder().skipFilesWithAllEditsDueToRebase(false).build());
+              DiffOptions.builder()
+                  .skipFilesWithAllEditsDueToRebase(false)
+                  .skipRebaseFiltering(true)
+                  .build());
       return modifiedFiles.values().stream()
           .map(CommentPorter::getFileEdits)
           .map(DiffMappings::toMapping)

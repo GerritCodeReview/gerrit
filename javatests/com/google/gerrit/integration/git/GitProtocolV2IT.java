@@ -66,7 +66,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   private final String[] GIT_FETCH = new String[] {"git", "-c", "protocol.version=2", "fetch"};
   private final String[] GIT_INIT = new String[] {"git", "init"};
   private final String GIT_SSH_COMMAND =
-      "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i";
+      "ssh -F none -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i";
 
   @Inject private GerritApi gApi;
   @Inject private AccountCreator accountCreator;

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-icon/gr-icon';
 import {css, html, LitElement, TemplateResult} from 'lit';
@@ -43,6 +45,10 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
         .comma:first-of-type {
           display: none;
         }
+        gr-endpoint-decorator:has(> [replace-content])
+          > .requirements-summary-content {
+          display: none;
+        }
       `,
     ];
   }
@@ -66,6 +72,20 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
   }
 
   renderActiveStatus() {
+    // Keep the static wrapper span before <gr-endpoint-param> so that in
+    // {replace: true} mode Lit's dynamic ChildPart stays inside the detached
+    // wrapper across row reuse, and firstElementChild refers to the summary.
+    return html`<gr-endpoint-decorator name="change-list-requirements-summary"
+      ><span class="requirements-summary-content"
+        >${this.renderActiveStatusContent()}</span
+      ><gr-endpoint-param
+        name="change"
+        .value=${this.change}
+      ></gr-endpoint-param
+    ></gr-endpoint-decorator>`;
+  }
+
+  private renderActiveStatusContent() {
     const submitRequirements = getRequirements(this.change);
     if (!submitRequirements.length) return html`n/a`;
     const numRequirements = submitRequirements.length;

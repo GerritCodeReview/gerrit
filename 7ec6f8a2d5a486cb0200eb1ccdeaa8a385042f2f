@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8b35ed4_09fa828b",
+        "filename": "java/com/google/gerrit/server/account/SshKeyExpiryNotifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-26T08:07:34Z",
+      "side": 1,
+      "message": "This gets installed via `SshKeyCacheImpl.module()`, which `Daemon` adds whenever sshd is on, including `--replica`. So every SSH-serving replica runs the job at midnight and the user gets one copy per replica. Other periodic jobs like `AccountDeactivatorModule` are only added for `!replica`. Could we skip scheduling on replicas, e.g. via `@GerritIsReplica`?",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 5
+      },
+      "revId": "7ec6f8a2d5a486cb0200eb1ccdeaa8a385042f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "335f9257_14433388",
         "filename": "java/com/google/gerrit/server/account/SshKeyExpiryNotifier.java",
         "patchSetId": 5
@@ -14,6 +37,29 @@
       "writtenOn": "2026-11-25T23:22:05Z",
       "side": 1,
       "message": "This is fragile, if this is not the exact same time everyday, it will either send out duplicates or miss some notifications.",
+      "revId": "7ec6f8a2d5a486cb0200eb1ccdeaa8a385042f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7425d847_081583f4",
+        "filename": "java/com/google/gerrit/server/account/SshKeyExpiryNotifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-26T08:07:34Z",
+      "side": 1,
+      "message": "This is the same \"expired in the last 24h\" check as AuthTokenExpiryNotifier.shouldNotifyExpired, but here both ends are exclusive, so a key that expires exactly at a run time is never notified. Could you reuse one shared helper for both notifiers so they don\u0027t drift apart?",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 3
+      },
       "revId": "7ec6f8a2d5a486cb0200eb1ccdeaa8a385042f2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

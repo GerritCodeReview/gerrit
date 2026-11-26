@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.entities.Project;
@@ -524,6 +525,173 @@ public class DiffOperationsTest {
     assertThat(file3Diff.newMode())
         .hasValue(com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE);
     assertThat(file3Diff.edits()).isEmpty();
+  }
+
+  @Test
+  public void listModifiedFiles_rebasedMergeCommit_excludesRebaseOnlyFilesAndTagsRebaseEdits()
+      throws Exception {
+    String sharedFile = "file_shared.txt";
+    String concurrentFile = "file_concurrent.txt";
+    String upstreamFile = "file_upstream.txt";
+    String baseSharedContent =
+        "line 1\nline 2\nline 3\nline 4\nline 5\n" + "line 6\nline 7\nline 8\nline 9\nline 10\n";
+
+    ObjectId base =
+        createCommit(repo, null, ImmutableList.of(new FileEntity(sharedFile, baseSharedContent)));
+    ObjectId parent1A =
+        createCommit(repo, base, ImmutableList.of(new FileEntity(sharedFile, baseSharedContent)));
+    // Upstream branch (parent2) edits line 1 of sharedFile and adds upstreamFile.
+    String upstreamSharedContent = baseSharedContent.replace("line 1\n", "line 1 upstream\n");
+    ObjectId parent2 =
+        createCommit(
+            repo,
+            base,
+            ImmutableList.of(
+                new FileEntity(sharedFile, upstreamSharedContent),
+                new FileEntity(upstreamFile, "upstream 1\n")));
+
+    // PS1 merges parent2 onto parent1A.
+    ObjectId mergePs1 =
+        createMergeCommit(
+            repo,
+            ImmutableList.of(
+                new FileEntity(sharedFile, upstreamSharedContent),
+                new FileEntity(upstreamFile, "upstream 1\n")),
+            parent1A,
+            parent2);
+
+    // Target branch advances to parent1B: concurrent change touches concurrentFile and line 5 of
+    // sharedFile.
+    String concurrentSharedContent = baseSharedContent.replace("line 5\n", "line 5 concurrent\n");
+    ObjectId parent1B =
+        createCommit(
+            repo,
+            parent1A,
+            ImmutableList.of(
+                new FileEntity(concurrentFile, "concurrent\n"),
+                new FileEntity(sharedFile, concurrentSharedContent)));
+
+    // PS2 rebases merge onto parent1B and makes an author edit on line 10 and upstreamFile.
+    String rebasedSharedContent =
+        baseSharedContent
+            .replace("line 1\n", "line 1 upstream\n")
+            .replace("line 5\n", "line 5 concurrent\n")
+            .replace("line 10\n", "line 10 author\n");
+    ObjectId mergePs2 =
+        createMergeCommit(
+            repo,
+            ImmutableList.of(
+                new FileEntity(concurrentFile, "concurrent\n"),
+                new FileEntity(sharedFile, rebasedSharedContent),
+                new FileEntity(upstreamFile, "upstream 2\n")),
+            parent1B,
+            parent2);
+
+    Map<String, FileDiffOutput> modifiedFiles =
+        diffOperations.listModifiedFiles(testProjectName, mergePs1, mergePs2, DiffOptions.DEFAULTS);
+
+    assertThat(modifiedFiles.keySet()).containsExactly(Patch.COMMIT_MSG, sharedFile, upstreamFile);
+    FileDiffOutput sharedDiff = modifiedFiles.get(sharedFile);
+    assertThat(sharedDiff.edits()).hasSize(2);
+    assertThat(sharedDiff.edits().get(0).dueToRebase()).isTrue();
+    assertThat(sharedDiff.edits().get(1).dueToRebase()).isFalse();
+    assertThat(sharedDiff.insertions()).isEqualTo(1);
+    assertThat(sharedDiff.deletions()).isEqualTo(1);
+
+    FileDiffOutput upstreamDiff = modifiedFiles.get(upstreamFile);
+    assertThat(upstreamDiff.edits()).hasSize(1);
+    assertThat(upstreamDiff.edits().get(0).dueToRebase()).isFalse();
+  }
+
+  @Test
+  public void listModifiedFiles_rebasedMergeCommit_excludesSharedFileWhenAllEditsDueToRebase()
+      throws Exception {
+    String sharedFile = "file_shared.txt";
+    String baseSharedContent = "line 1\nline 2\nline 3\nline 4\nline 5\n";
+
+    ObjectId base =
+        createCommit(repo, null, ImmutableList.of(new FileEntity(sharedFile, baseSharedContent)));
+    ObjectId parent1A =
+        createCommit(repo, base, ImmutableList.of(new FileEntity(sharedFile, baseSharedContent)));
+    String upstreamSharedContent = baseSharedContent.replace("line 1\n", "line 1 upstream\n");
+    ObjectId parent2 =
+        createCommit(
+            repo, base, ImmutableList.of(new FileEntity(sharedFile, upstreamSharedContent)));
+
+    ObjectId mergePs1 =
+        createMergeCommit(
+            repo,
+            ImmutableList.of(new FileEntity(sharedFile, upstreamSharedContent)),
+            parent1A,
+            parent2);
+
+    String concurrentSharedContent = baseSharedContent.replace("line 5\n", "line 5 concurrent\n");
+    ObjectId parent1B =
+        createCommit(
+            repo, parent1A, ImmutableList.of(new FileEntity(sharedFile, concurrentSharedContent)));
+
+    // Rebased PS2 cleanly combines upstream line 1 and concurrent line 5 with no extra author
+    // edits.
+    String rebasedSharedContent =
+        baseSharedContent
+            .replace("line 1\n", "line 1 upstream\n")
+            .replace("line 5\n", "line 5 concurrent\n");
+    ObjectId mergePs2 =
+        createMergeCommit(
+            repo,
+            ImmutableList.of(new FileEntity(sharedFile, rebasedSharedContent)),
+            parent1B,
+            parent2);
+
+    Map<String, FileDiffOutput> modifiedFiles =
+        diffOperations.listModifiedFiles(testProjectName, mergePs1, mergePs2, DiffOptions.DEFAULTS);
+    assertThat(modifiedFiles.keySet()).containsExactly(Patch.COMMIT_MSG);
+
+    FileDiffOutput sharedDiff =
+        diffOperations.getModifiedFile(
+            testProjectName,
+            mergePs1,
+            mergePs2,
+            sharedFile,
+            null,
+            DiffOptions.builder().skipFilesWithAllEditsDueToRebase(false).build());
+    assertThat(sharedDiff.allEditsDueToRebase()).isTrue();
+  }
+
+  @Test
+  public void listModifiedFiles_mergeCommitWithUpdatedSecondParent_marksNoEditsAsRebase()
+      throws Exception {
+    ObjectId base =
+        createCommit(repo, null, ImmutableList.of(new FileEntity(fileName1, "base 1\n")));
+    ObjectId parent1 =
+        createCommit(repo, base, ImmutableList.of(new FileEntity(fileName1, "base 1\n")));
+    ObjectId parent2A =
+        createCommit(repo, base, ImmutableList.of(new FileEntity(fileName1, "upstream 1\n")));
+    ObjectId parent2B =
+        createCommit(
+            repo,
+            parent2A,
+            ImmutableList.of(
+                new FileEntity(fileName1, "upstream 2\n"), new FileEntity(fileName2, "new\n")));
+
+    ObjectId mergePs1 =
+        createMergeCommit(
+            repo, ImmutableList.of(new FileEntity(fileName1, "upstream 1\n")), parent1, parent2A);
+    ObjectId mergePs2 =
+        createMergeCommit(
+            repo,
+            ImmutableList.of(
+                new FileEntity(fileName1, "upstream 2\n"), new FileEntity(fileName2, "new\n")),
+            parent1,
+            parent2B);
+
+    Map<String, FileDiffOutput> modifiedFiles =
+        diffOperations.listModifiedFiles(testProjectName, mergePs1, mergePs2, DiffOptions.DEFAULTS);
+    assertThat(modifiedFiles.keySet()).containsExactly(Patch.COMMIT_MSG, fileName1, fileName2);
+    assertThat(modifiedFiles.get(fileName1).edits().stream().anyMatch(e -> e.dueToRebase()))
+        .isFalse();
+    assertThat(modifiedFiles.get(fileName2).edits().stream().anyMatch(e -> e.dueToRebase()))
+        .isFalse();
   }
 
   static class FileEntity {

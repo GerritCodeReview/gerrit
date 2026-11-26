@@ -108,15 +108,17 @@ public class DiffUtil {
   }
 
   /**
-   * Returns true if the commitA and commitB parameters are parent/child, if they have a common
-   * parent, or if any of them is a root or merge commit.
+   * Returns true if {@code commitA} or {@code commitB} is {@code null}, if either is a root commit
+   * (zero parents), if one commit is a direct parent of the other, or if both commits share the
+   * same first parent.
    */
-  public static boolean areRelated(RevCommit commitA, RevCommit commitB) {
+  public static boolean areRelated(@Nullable RevCommit commitA, @Nullable RevCommit commitB) {
     return commitA == null
-        || isRootOrMergeCommit(commitA)
-        || isRootOrMergeCommit(commitB)
+        || commitB == null
+        || isRootCommit(commitA)
+        || isRootCommit(commitB)
         || areParentAndChild(commitA, commitB)
-        || haveCommonParent(commitA, commitB);
+        || haveCommonFirstParent(commitA, commitB);
   }
 
   public static int stringSize(String str) {
@@ -224,16 +226,24 @@ public class DiffUtil {
     return normalizePatchForComparison(bin.asString());
   }
 
-  private static boolean isRootOrMergeCommit(RevCommit commit) {
-    return commit.getParentCount() != 1;
+  private static boolean isRootCommit(RevCommit commit) {
+    return commit.getParentCount() == 0;
   }
 
   private static boolean areParentAndChild(RevCommit commitA, RevCommit commitB) {
-    return ObjectId.isEqual(commitA.getParent(0), commitB)
-        || ObjectId.isEqual(commitB.getParent(0), commitA);
+    return isParentOf(commitA, commitB) || isParentOf(commitB, commitA);
   }
 
-  private static boolean haveCommonParent(RevCommit commitA, RevCommit commitB) {
+  private static boolean isParentOf(RevCommit potentialParent, RevCommit commit) {
+    for (RevCommit parent : commit.getParents()) {
+      if (ObjectId.isEqual(parent, potentialParent)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean haveCommonFirstParent(RevCommit commitA, RevCommit commitB) {
     return ObjectId.isEqual(commitA.getParent(0), commitB.getParent(0));
   }
 }

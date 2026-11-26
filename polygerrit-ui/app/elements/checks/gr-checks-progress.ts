@@ -14,6 +14,28 @@ const UPDATE_INTERVAL_MS = 10 * 1000;
 const RADIUS = 6;
 
 /**
+ * How far along a run is that started at `started` and is expected to finish
+ * at `finished`, and a label that tells it, for example "75% done, ETA: 5
+ * minutes".
+ */
+export function progressOf(started: Date, finished: Date, now = new Date()) {
+  const start = started.getTime();
+  const end = finished.getTime();
+  const late = now.getTime() >= end;
+  const fraction =
+    late || end <= start
+      ? 1
+      : Math.max(0, (now.getTime() - start) / (end - start));
+  const label = late
+    ? 'Running longer than estimated'
+    : `${Math.floor(fraction * 100)}% done, ETA: ${durationString(
+        now,
+        finished
+      )}`;
+  return {fraction, late, label};
+}
+
+/**
  * Shows how far along a running check is, as a ring that fills up clockwise
  * between the start of the run and its ETA. If the run takes longer than
  * estimated, the ring stays full and turns to the warning color.
@@ -82,20 +104,10 @@ export class GrChecksProgress extends LitElement {
 
   override render() {
     if (!this.startedTimestamp || !this.finishedTimestamp) return nothing;
-    const now = new Date();
-    const start = this.startedTimestamp.getTime();
-    const end = this.finishedTimestamp.getTime();
-    const late = now.getTime() >= end;
-    const fraction =
-      late || end <= start
-        ? 1
-        : Math.max(0, (now.getTime() - start) / (end - start));
-    const label = late
-      ? 'Running longer than estimated'
-      : `${Math.floor(fraction * 100)}% done, ETA: ${durationString(
-          now,
-          this.finishedTimestamp
-        )}`;
+    const {fraction, late, label} = progressOf(
+      this.startedTimestamp,
+      this.finishedTimestamp
+    );
     const length = 2 * Math.PI * RADIUS;
     return html`
       <svg viewBox="0 0 16 16" role="img" aria-label=${label}>

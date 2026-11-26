@@ -12,9 +12,8 @@ import {GerritView} from '../../../services/router/router-model';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrRepoList} from '../gr-repo-list/gr-repo-list';
 import {GroupId, GroupName, RepoName, Timestamp} from '../../../types/common';
-import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrGroup} from '../gr-group/gr-group';
-import {assert, fixture, html} from '@open-wc/testing';
+import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import {AdminChildView} from '../../../models/views/admin';
 import {GroupDetailView} from '../../../models/views/group';
 import {RepoDetailView} from '../../../models/views/repo';
@@ -69,7 +68,7 @@ suite('gr-admin-view tests', () => {
     };
 
     await element.updateComplete;
-    assert.equal(queryAll<HTMLLIElement>(element, '.selected').length, 1);
+    assert.equal(queryAll(element, 'md-primary-tab[active]').length, 1);
     assert.ok(queryAndAssert<GrRepoList>(element, 'gr-repo-list'));
     assert.isNotOk(query(element, 'gr-admin-create-repo'));
   });
@@ -163,15 +162,12 @@ suite('gr-admin-view tests', () => {
     );
     await element.reload();
     await element.updateComplete;
-    assert.equal(queryAll<HTMLLIElement>(element, '.sectionTitle').length, 4);
+    assert.equal(queryAll(element, 'md-primary-tab').length, 4);
     assert.equal(
-      queryAndAssert<HTMLSpanElement>(element, '.breadcrumbText').innerText,
+      queryAndAssert<HTMLSpanElement>(element, '.breadcrumbCurrent').innerText,
       'Test Repo'
     );
-    assert.equal(
-      queryAndAssert<GrDropdownList>(element, '#pageSelect').items!.length,
-      9
-    );
+    assert.equal(queryAll(element, 'md-secondary-tab').length, 8);
   });
 
   test('Group shows up in nav', async () => {
@@ -204,6 +200,7 @@ suite('gr-admin-view tests', () => {
     stubRestApi('getAccountCapabilities').returns(
       Promise.resolve(createAdminCapabilities())
     );
+
     stubRestApi('getAccount').returns(
       Promise.resolve({
         _id: 1,
@@ -212,12 +209,18 @@ suite('gr-admin-view tests', () => {
     );
 
     element.view = GerritView.REPO;
-    element.repoViewState = {repo: 'Repo 1' as RepoName, view: GerritView.REPO};
+    element.repoViewState = {
+      repo: 'Repo 1' as RepoName,
+      view: GerritView.REPO,
+    };
     assert.isTrue(element.needsReload());
     await element.reload();
     await element.updateComplete;
 
-    element.repoViewState = {repo: 'Repo 2' as RepoName, view: GerritView.REPO};
+    element.repoViewState = {
+      repo: 'Repo 2' as RepoName,
+      view: GerritView.REPO,
+    };
     assert.isTrue(element.needsReload());
     await element.updateComplete;
   });
@@ -227,14 +230,19 @@ suite('gr-admin-view tests', () => {
     stubRestApi('getAccountCapabilities').returns(
       Promise.resolve(createAdminCapabilities())
     );
+
     stubRestApi('getAccount').returns(
       Promise.resolve({
         _id: 1,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       })
     );
+
     element.view = GerritView.GROUP;
-    element.groupViewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
+    element.groupViewState = {
+      groupId: '1' as GroupId,
+      view: GerritView.GROUP,
+    };
     assert.isTrue(element.needsReload());
   });
 
@@ -270,7 +278,10 @@ suite('gr-admin-view tests', () => {
     const newName = 'newName' as GroupName;
     sinon.stub(element, 'computeGroupName');
     element.view = GerritView.GROUP;
-    element.groupViewState = {groupId: '1' as GroupId, view: GerritView.GROUP};
+    element.groupViewState = {
+      groupId: '1' as GroupId,
+      view: GerritView.GROUP,
+    };
     element.groupName = 'oldName' as GroupName;
     assert.isTrue(element.needsReload());
     await element.reload();
@@ -286,26 +297,31 @@ suite('gr-admin-view tests', () => {
     assert.equal(element.groupName, newName);
   });
 
-  test('dropdown displays if there is a subsection', async () => {
+  test('secondary tabs display if there is a subsection', async () => {
     element.view = GerritView.REPO;
-    assert.isNotOk(query(element, '.mainHeader'));
+    element.repoName = 'my-repo' as RepoName;
+    await element.updateComplete;
+    assert.isNotOk(query(element, '.secondaryTabs md-tabs'));
+
     element.subsectionLinks = [
       {
-        text: 'Home',
-        value: 'repo',
+        text: 'General',
+        value: 'repogeneral',
         view: GerritView.REPO,
         parent: 'my-repo' as RepoName,
-        detailType: undefined,
+        detailType: RepoDetailView.GENERAL,
       },
     ];
     await element.updateComplete;
-    assert.isOk(query(element, '.mainHeader'));
+    assert.isOk(query(element, '.secondaryTabs md-tabs'));
+    assert.equal(queryAll(element, 'md-secondary-tab').length, 1);
+
     element.subsectionLinks = undefined;
     await element.updateComplete;
-    assert.isNotOk(query(element, '.mainHeader'));
+    assert.isNotOk(query(element, '.secondaryTabs md-tabs'));
   });
 
-  test('Dropdown only triggers navigation on explicit select', async () => {
+  test('Secondary tabs only trigger navigation on explicit select', async () => {
     element.repoName = 'my-repo' as RepoName;
     element.view = GerritView.REPO;
     element.repoViewState = {
@@ -405,15 +421,8 @@ suite('gr-admin-view tests', () => {
         view: 'gr-server-info' as GerritView,
       },
     ];
+
     const expectedSubsectionLinks = [
-      {
-        text: 'Home',
-        value: 'repo',
-        view: GerritView.REPO,
-        url: undefined,
-        parent: 'my-repo' as RepoName,
-        detailType: undefined,
-      },
       {
         text: 'General',
         value: 'repogeneral',
@@ -479,30 +488,34 @@ suite('gr-admin-view tests', () => {
         parent: 'my-repo' as RepoName,
       },
     ];
+
     const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
-    const selectedIsCurrentPageSpy = sinon.spy(
-      element,
-      'selectedIsCurrentPage'
-    );
-    sinon.spy(element, 'handleSubsectionChange');
+
     await element.reload();
     await element.updateComplete;
     assert.deepEqual(element.filteredLinks, expectedFilteredLinks);
     assert.deepEqual(element.subsectionLinks, expectedSubsectionLinks);
-    assert.equal(
-      queryAndAssert<GrDropdownList>(element, '#pageSelect').value,
-      'repoaccess'
+
+    const activeTab = queryAndAssert<HTMLElement>(
+      element,
+      'md-secondary-tab[active]'
     );
-    assert.equal(selectedIsCurrentPageSpy.callCount, 1);
-    // Doesn't trigger navigation from the page select menu.
+    assert.equal(activeTab.textContent.trim(), 'Access');
     assert.isFalse(setUrlStub.called);
 
-    // When explicitly changed, navigation is called
-    queryAndAssert<GrDropdownList>(element, '#pageSelect').value =
-      'repogeneral';
-    await queryAndAssert<GrDropdownList>(element, '#pageSelect').updateComplete;
-    assert.equal(selectedIsCurrentPageSpy.callCount, 2);
-    assert.isTrue(setUrlStub.calledOnce);
+    // Clicking the currently selected tab doesn't trigger navigation.
+    activeTab.click();
+    assert.isFalse(setUrlStub.called);
+
+    // When explicitly selecting another tab, navigation is called.
+    queryAndAssert<HTMLElement>(
+      element,
+      'md-secondary-tab:first-of-type'
+    ).click();
+
+    assert.isTrue(
+      setUrlStub.calledOnceWithExactly('/admin/repos/my-repo,general')
+    );
   });
 
   test('selectedIsCurrentPage', () => {
@@ -550,32 +563,50 @@ suite('gr-admin-view tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <gr-page-nav class="navStyles">
-            <ul class="sectionContent">
-              <li class="sectionTitle selected">
-                <a class="title" href="/admin/repos" rel="noopener">
-                  Repositories
-                </a>
-              </li>
-              <li class="sectionTitle">
-                <a class="title" href="/admin/groups" rel="noopener">
-                  Groups
-                </a>
-              </li>
-              <li class="sectionTitle">
-                <a class="title" href="/admin/plugins" rel="noopener">
-                  Plugins
-                </a>
-              </li>
-              <li class="sectionTitle">
-                <a class="title" href="/admin/server-info" rel="noopener">
-                  Server Info
-                </a>
-              </li>
-            </ul>
-          </gr-page-nav>
-          <div class="main table">
-            <gr-repo-list class="table"></gr-repo-list>
+          <div class="breadcrumb">
+            <span class="breadcrumbCurrent">Repositories</span>
+          </div>
+          <div class="primaryTabs tabRow">
+            <button
+              aria-label="Show previous tabs"
+              class="moreTabs previous"
+              disabled=""
+              type="button"
+            >
+              <gr-icon icon="chevron_left"></gr-icon>
+            </button>
+            <md-tabs aria-label="Admin sections">
+              <md-primary-tab
+                active=""
+                aria-label="Repositories"
+                md-tab=""
+                tabindex="0"
+              >
+                Repositories
+              </md-primary-tab>
+              <md-primary-tab aria-label="Groups" md-tab="" tabindex="0">
+                Groups
+              </md-primary-tab>
+              <md-primary-tab aria-label="Plugins" md-tab="" tabindex="0">
+                Plugins
+              </md-primary-tab>
+              <md-primary-tab aria-label="Server Info" md-tab="" tabindex="0">
+                Server Info
+              </md-primary-tab>
+            </md-tabs>
+            <button
+              aria-label="Show more tabs"
+              class="moreTabs"
+              disabled=""
+              type="button"
+            >
+              <gr-icon icon="chevron_right"></gr-icon>
+            </button>
+          </div>
+          <div class="content">
+            <div class="main table">
+              <gr-repo-list class="table"></gr-repo-list>
+            </div>
           </div>
         `
       );
@@ -596,7 +627,7 @@ suite('gr-admin-view tests', () => {
           openCreateModal: false,
         };
         await element.updateComplete;
-        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        const selected = queryAndAssert(element, 'md-primary-tab[active]');
         assert.isOk(selected);
         assert.equal(selected.textContent.trim(), 'Repositories');
       });
@@ -610,9 +641,18 @@ suite('gr-admin-view tests', () => {
         element.repoName = 'foo' as RepoName;
         await element.reload();
         await element.updateComplete;
-        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+
+        const selected = queryAndAssert(element, 'md-secondary-tab[active]');
         assert.isOk(selected);
-        assert.equal(selected.textContent.trim(), 'foo');
+        assert.equal(selected.textContent.trim(), 'General');
+        assert.equal(
+          queryAndAssert(element, '.breadcrumbCurrent').textContent.trim(),
+          'foo'
+        );
+        assert.equal(
+          queryAndAssert(element, 'md-primary-tab[active]').textContent.trim(),
+          'Repositories'
+        );
       });
 
       test('repo access', async () => {
@@ -625,7 +665,7 @@ suite('gr-admin-view tests', () => {
         element.repoName = 'foo' as RepoName;
         await element.reload();
         await element.updateComplete;
-        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        const selected = queryAndAssert(element, 'md-secondary-tab[active]');
         assert.isOk(selected);
         assert.equal(selected.textContent.trim(), 'Access');
       });
@@ -640,7 +680,7 @@ suite('gr-admin-view tests', () => {
         element.repoName = 'foo' as RepoName;
         await element.reload();
         await element.updateComplete;
-        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        const selected = queryAndAssert(element, 'md-secondary-tab[active]');
         assert.isOk(selected);
         assert.equal(selected.textContent.trim(), 'Dashboards');
       });
@@ -674,7 +714,7 @@ suite('gr-admin-view tests', () => {
           openCreateModal: false,
         };
         await element.updateComplete;
-        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+        const selected = queryAndAssert(element, 'md-primary-tab[active]');
         assert.isOk(selected);
         assert.equal(selected.textContent.trim(), 'Groups');
       });
@@ -687,16 +727,29 @@ suite('gr-admin-view tests', () => {
         };
         element.groupName = 'foo' as GroupName;
         if (element.needsReload()) await element.reload();
-        await element.updateComplete;
-        const subsectionItems = queryAll<HTMLLIElement>(
-          element,
-          '.subsectionItem'
+
+        await waitUntil(
+          () =>
+            element.groupIsInternal === true &&
+            element.subsectionLinks?.length === 3
         );
-        assert.equal(subsectionItems.length, 2);
+        await element.updateComplete;
+
+        const subsectionItems = queryAll(element, 'md-secondary-tab');
+        assert.equal(subsectionItems.length, 3);
         assert.isTrue(element.groupIsInternal);
-        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+
+        const selected = queryAndAssert(element, 'md-secondary-tab[active]');
         assert.isOk(selected);
-        assert.equal(selected.textContent.trim(), 'foo');
+        assert.equal(selected.textContent.trim(), 'General');
+        assert.equal(
+          queryAndAssert(element, '.breadcrumbCurrent').textContent.trim(),
+          'foo'
+        );
+        assert.equal(
+          queryAndAssert(element, 'md-primary-tab[active]').textContent.trim(),
+          'Groups'
+        );
       });
 
       test('external group', async () => {
@@ -713,16 +766,29 @@ suite('gr-admin-view tests', () => {
         };
         element.groupName = 'foo' as GroupName;
         if (element.needsReload()) await element.reload();
-        await element.updateComplete;
-        const subsectionItems = queryAll<HTMLLIElement>(
-          element,
-          '.subsectionItem'
+
+        await waitUntil(
+          () =>
+            element.groupIsInternal === false &&
+            element.subsectionLinks?.length === 1
         );
-        assert.equal(subsectionItems.length, 0);
+        await element.updateComplete;
+
+        const subsectionItems = queryAll(element, 'md-secondary-tab');
+        assert.equal(subsectionItems.length, 1);
         assert.isFalse(element.groupIsInternal);
-        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+
+        const selected = queryAndAssert(element, 'md-secondary-tab[active]');
         assert.isOk(selected);
-        assert.equal(selected.textContent.trim(), 'foo');
+        assert.equal(selected.textContent.trim(), 'General');
+        assert.equal(
+          queryAndAssert(element, '.breadcrumbCurrent').textContent.trim(),
+          'foo'
+        );
+        assert.equal(
+          queryAndAssert(element, 'md-primary-tab[active]').textContent.trim(),
+          'Groups'
+        );
       });
 
       test('group members', async () => {
@@ -734,8 +800,15 @@ suite('gr-admin-view tests', () => {
         };
         element.groupName = 'foo' as GroupName;
         if (element.needsReload()) await element.reload();
+
+        await waitUntil(
+          () =>
+            element.groupIsInternal === true &&
+            element.subsectionLinks?.length === 3
+        );
         await element.updateComplete;
-        const selected = queryAndAssert(element, 'gr-page-nav .selected');
+
+        const selected = queryAndAssert(element, 'md-secondary-tab[active]');
         assert.isOk(selected);
         assert.equal(selected.textContent.trim(), 'Members');
       });

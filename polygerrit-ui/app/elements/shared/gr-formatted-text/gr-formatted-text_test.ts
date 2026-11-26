@@ -832,6 +832,159 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
       );
     });
 
+    test('renders details blocks with markdown inside', async () => {
+      element.content = `
+<details><summary>header</summary>more **stuff**</details>
+
+<details>
+<summary>a **list**</summary>
+
+- one
+- two
+
+</details>`;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <details>
+                  <summary>header</summary>
+                  <p>more <strong>stuff</strong></p>
+                </details>
+                <details>
+                  <summary>a <strong>list</strong></summary>
+                  <ul>
+                    <li>one</li>
+                    <li>two</li>
+                  </ul>
+                </details>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('keeps the open attribute of details blocks, drops the rest', async () => {
+      element.content = `<details open class="foo" onclick="alert(1)">
+body
+</details>
+
+<details data-open="yes">
+body
+</details>`;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <details open>
+                  <p>body</p>
+                </details>
+                <details>
+                  <p>body</p>
+                </details>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('consumes whitespace in and after the closing details tag', async () => {
+      element.content =
+        '<details><summary>header</summary>body</details >   \n\nAfter';
+      await element.updateComplete;
+
+      const content = queryAndAssert<HTMLElement>(element, '.markdown-html');
+      assert.equal(
+        content.querySelector('details')?.textContent?.trim(),
+        'headerbody'
+      );
+      assert.equal(content.querySelector(':scope > p')?.textContent, 'After');
+      assert.equal(content.textContent?.replace(/\s+/g, ''), 'headerbodyAfter');
+    });
+
+    test('renders nested details blocks', async () => {
+      element.content = `<details>
+<summary>outer</summary>
+outer body
+
+<details><summary>inner</summary>inner body</details>
+</details>`;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <details>
+                  <summary>outer</summary>
+                  <p>outer body</p>
+                  <details>
+                    <summary>inner</summary>
+                    <p>inner body</p>
+                  </details>
+                </details>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders code containing details tags inside details blocks', async () => {
+      element.content = `<details><summary>code</summary>
+
+\`\`\`html
+</details>
+\`\`\`
+
+\`<details>\` is text.
+</details>
+
+After`;
+      await element.updateComplete;
+
+      const content = queryAndAssert<HTMLElement>(element, '.markdown-html');
+      assert.lengthOf(content.querySelectorAll('details'), 1);
+      assert.include(
+        content.querySelector('pre code')?.textContent,
+        '</details>'
+      );
+      assert.include(content.querySelector('p code')?.textContent, '<details>');
+      assert.equal(content.querySelector(':scope > p')?.textContent, 'After');
+    });
+
+    test('renders unclosed details blocks as text', async () => {
+      element.content = '<details><summary>header</summary>no end tag';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  &lt;details&gt;&lt;summary&gt;header&lt;/summary&gt;no end tag
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
     test('renders nested block quotes', async () => {
       element.content = '> > > block quote';
       await element.updateComplete;

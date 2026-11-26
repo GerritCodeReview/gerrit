@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aab4749_2499e5fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-11-26T11:54:20Z",
+      "side": 1,
+      "message": "should we update to 33.8.0-jre instead which also fixes\nhttps://guide.sonatype.com/vulnerability/CVE-2026-118042 ?",
+      "revId": "4d12ee1e396b9c3ef2362dd4eb3cd0777065abeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

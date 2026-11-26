@@ -11,6 +11,7 @@ import {GrHovercardRun} from './gr-hovercard-run';
 import {checkRun4_4, checkRun4Att} from '../../test/test-data-generators';
 import {createAttemptMap} from '../../models/checks/checks-util';
 import {CheckRun} from '../../models/checks/checks-model';
+import {RunStatus} from '../../api/checks';
 
 suite('gr-hovercard-run tests', () => {
   let element: GrHovercardRun;
@@ -210,6 +211,26 @@ suite('gr-hovercard-run tests', () => {
           </div>
         </div>
       `
+    );
+  });
+
+  test('tells when a run takes longer than estimated', async () => {
+    const attemptMap = createAttemptMap(checkRun4Att);
+    const attemptDetails = attemptMap.get(checkRun4_4.checkName)!.attempts;
+    element.run = {
+      ...checkRun4_4,
+      attemptDetails,
+      status: RunStatus.RUNNING,
+      startedTimestamp: new Date('Sep 26 2022 11:00:00'),
+      finishedTimestamp: new Date('Sep 26 2022 11:30:00'),
+    };
+    await element.updateComplete;
+    const eta = [...element.shadowRoot!.querySelectorAll('.row')].find(
+      row => row.querySelector('.title')?.textContent?.trim() === 'ETA'
+    );
+    assert.equal(
+      eta?.querySelector('.title + div')?.textContent?.trim(),
+      'Running longer than estimated'
     );
   });
 });

@@ -53,6 +53,25 @@ The `banner` extension point is located at the top of all pages. The purpose
 is to allow plugins to show outage information and important announcements to
 all users.
 
+=== change-list-requirements-summary
+The `change-list-requirements-summary` extension point wraps the active submit
+requirements summary in the change list status column (such as `Ready`,
+`N missing`, or `n/a`, including its dashboard hovercard). Non-active change
+statuses (such as `Merged`, `Abandoned`, `WIP`, or `Merge Conflict`) and the
+unresolved comment icon are rendered outside this endpoint.
+
+Plugins can decorate this endpoint to append content or conditionally hide
+`content` on specific changes while preserving the default summary for other
+changes, or register with `{replace: true}` to replace the active summary
+unconditionally.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change of the row, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
 === change-view-integration
 The `change-view-integration` extension point is located between `Files` and
 `Change Log` section on the change view page, and it may take full page's

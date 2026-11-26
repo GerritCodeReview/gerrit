@@ -663,7 +663,7 @@ block repo1.maven.org
 EOF
 
 repo='@@rules_jvm_external++maven+'
-repo="${repo}com_google_guava_guava_33_5_0_jre"
+repo="${repo}com_google_guava_guava_33_7_2_jre"
 target="${repo}//file:file"
 
 bazelisk --batch --output_user_root=/tmp/gerrit-mirror-fetch \

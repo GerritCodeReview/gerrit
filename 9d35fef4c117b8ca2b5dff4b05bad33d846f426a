@@ -16,6 +16,23 @@
       "message": "hi milutin,\nsame as the other CL, before polishing and pushing it into a bug, are you in general open to consider a change in the styling of bullet lists?\n\n\nits driving me nuts, on chromium that i cant use these lists without breaking my eyes :D \n\nscreenshots:\n- https://static.januschka.com/list_before.png\n- https://static.januschka.com/list_after.png (with CL)",
       "revId": "9d35fef4c117b8ca2b5dff4b05bad33d846f426a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c676bd33_47c3c7a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T11:44:59Z",
+      "side": 1,
+      "message": "This looks good, thanks to make it more consistent with other products that use  markdown",
+      "revId": "9d35fef4c117b8ca2b5dff4b05bad33d846f426a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

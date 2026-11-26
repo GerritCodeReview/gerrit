@@ -17,7 +17,10 @@ package com.google.gerrit.server.util;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.server.project.RefPattern;
+import dk.brics.automaton.Automaton;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
 /**
@@ -40,9 +43,14 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
  * <p>Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the distances are both 6. Both
  * are infinite, but refs/heads/[a-zA-Z]* has more transitions, which after all turns it more
  * specific.
+ *
+ * <p>An instance caches the distance and the automaton of each pattern it has seen. It is meant for
+ * a single sort and is not thread-safe.
  */
 public final class MostSpecificComparator implements Comparator<AccessSection> {
   private final String refName;
+  private final Map<String, Integer> distances = new HashMap<>();
+  private final Map<String, Automaton> automata = new HashMap<>();
 
   public MostSpecificComparator(String refName) {
     this.refName = refName;
@@ -77,6 +85,10 @@ public final class MostSpecificComparator implements Comparator<AccessSection> {
   }
 
   private int distance(String pattern) {
+    return distances.computeIfAbsent(pattern, this::computeDistance);
+  }
+
+  private int computeDistance(String pattern) {
     String example;
     if (RefPattern.isRE(pattern)) {
       example = RefPattern.shortestExample(pattern);
@@ -124,7 +136,7 @@ public final class MostSpecificComparator implements Comparator<AccessSection> {
 
   private boolean finite(String pattern) {
     if (RefPattern.isRE(pattern)) {
-      return RefPattern.toAutomaton(pattern).isFinite();
+      return automaton(pattern).isFinite();
 
     } else if (pattern.endsWith("/*")) {
       return false;
@@ -134,9 +146,13 @@ public final class MostSpecificComparator implements Comparator<AccessSection> {
     }
   }
 
+  private Automaton automaton(String pattern) {
+    return automata.computeIfAbsent(pattern, RefPattern::toAutomaton);
+  }
+
   private int transitions(String pattern) {
     if (RefPattern.isRE(pattern)) {
-      return RefPattern.toAutomaton(pattern).getNumberOfTransitions();
+      return automaton(pattern).getNumberOfTransitions();
 
     } else if (pattern.endsWith("/*")) {
       return pattern.length();

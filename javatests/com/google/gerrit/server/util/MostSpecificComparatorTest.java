@@ -110,6 +110,29 @@ public class MostSpecificComparatorTest {
     }
   }
 
+  @Test
+  public void reusedInstanceMatchesFreshInstances() {
+    List<String> patterns =
+        List.of(
+            "refs/*",
+            "refs/heads/*",
+            "refs/heads/master",
+            "^refs/heads/.*",
+            "^refs/heads/maste.",
+            "^refs/heads/[a-z].*",
+            "^refs/heads/......");
+    for (String ref : List.of("refs/heads/master", "refs/heads/x")) {
+      MostSpecificComparator reused = new MostSpecificComparator(ref);
+      for (String a : patterns) {
+        for (String b : patterns) {
+          assertWithMessage("compare(\"%s\", \"%s\") for %s", a, b, ref)
+              .that(Integer.signum(reused.compare(a, b)))
+              .isEqualTo(Integer.signum(new MostSpecificComparator(ref).compare(a, b)));
+        }
+      }
+    }
+  }
+
   private void moreSpecificFirst(String first, String second) {
     assertTrue(cmp.compare(first, second) < 0);
   }

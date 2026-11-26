@@ -2555,6 +2555,362 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseHunksInMergeCommitAreIdentified() throws Exception {
+    String upstreamFile = "upstream_file.txt";
+    String concurrentFile = "concurrent_file.txt";
+    String targetInitFile = "target_init.txt";
+
+    ObjectId parent1A = addCommit(commit1, targetInitFile, "target init\n");
+    ObjectId parent2 =
+        addCommit(
+            commit1,
+            ImmutableMap.of(
+                upstreamFile,
+                "upstream content\n",
+                FILE_NAME,
+                FILE_CONTENT.replace("Line 1\n", "Line 1 upstream\n")));
+
+    String mergedFileContent =
+        FILE_CONTENT
+            .replace("Line 1\n", "Line 1 upstream\n")
+            .replace("Line 10\n", "Line 10 merged\n");
+    RevCommit p1aCommit = testRepo.getRevWalk().parseCommit(parent1A);
+    RevCommit p2Commit = testRepo.getRevWalk().parseCommit(parent2);
+    testRepo.reset(parent1A);
+    PushOneCommit mergePush =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge upstream",
+            ImmutableMap.of(upstreamFile, "upstream content\n", FILE_NAME, mergedFileContent));
+    mergePush.setParents(ImmutableList.of(p1aCommit, p2Commit));
+    PushOneCommit.Result mergeResult = mergePush.to("refs/for/master");
+    mergeResult.assertOkStatus();
+    String mergeChangeId = mergeResult.getChangeId();
+    String ps1Rev = mergeResult.getCommit().name();
+
+    // Concurrent target-branch commits between PS1 and PS2 touch an unrelated file, FILE_NAME2,
+    // and a disjoint line in FILE_NAME.
+    ObjectId parent1B =
+        addCommit(
+            parent1A,
+            ImmutableMap.of(
+                concurrentFile,
+                "concurrent\n",
+                FILE_NAME,
+                FILE_CONTENT.replace("Line 50\n", "Line fifty concurrent\n"),
+                FILE_NAME2,
+                FILE_CONTENT2.replace("2nd line\n", "Second line concurrent\n")));
+
+    rebaseChangeOn(mergeChangeId, parent1B);
+    String ps2Rev = gApi.changes().id(mergeChangeId).get().currentRevision;
+
+    // Between PS1 and rebased PS2, no file was edited by the CL author, so only COMMIT_MSG
+    // remains in the changed files list (even FILE_NAME, which was touched by the merge AND the
+    // concurrent commit on disjoint lines, is filtered out).
+    assertThat(gApi.changes().id(mergeChangeId).revision(ps2Rev).files(ps1Rev).keySet())
+        .containsExactly(COMMIT_MSG);
+    DiffInfo ps2RebaseDiff =
+        getDiffRequest(mergeChangeId, ps2Rev, FILE_NAME).withBase(ps1Rev).get();
+    ContentEntrySubject skippedEntry = assertThat(ps2RebaseDiff).content().onlyElement();
+    skippedEntry.linesOfA().isNull();
+    skippedEntry.linesOfB().isNull();
+    skippedEntry.commonLines().isNull();
+    skippedEntry.numberOfSkippedLines().isGreaterThan(0);
+
+    // Follow-up PS3 adds an author edit in FILE_NAME.
+    addModifiedPatchSet(
+        mergeChangeId, FILE_NAME, content -> content.replace("Line 80\n", "Line eighty\n"));
+    String ps3Rev = gApi.changes().id(mergeChangeId).get().currentRevision;
+
+    Map<String, FileInfo> changedFilesPs1ToPs3 =
+        gApi.changes().id(mergeChangeId).current().files(ps1Rev);
+    assertThat(changedFilesPs1ToPs3.keySet()).containsExactly(COMMIT_MSG, FILE_NAME);
+    assertThat(changedFilesPs1ToPs3.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFilesPs1ToPs3.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+
+    DiffInfo forwardDiff = getDiffRequest(mergeChangeId, CURRENT, FILE_NAME).withBase(ps1Rev).get();
+    assertThat(forwardDiff).content().element(0).commonLines().isNotEmpty();
+    assertThat(forwardDiff).content().element(1).linesOfA().containsExactly("Line 50");
+    assertThat(forwardDiff)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line fifty concurrent");
+    assertThat(forwardDiff).content().element(1).isDueToRebase();
+    assertThat(forwardDiff).content().element(2).commonLines().isNotEmpty();
+    assertThat(forwardDiff).content().element(3).linesOfA().containsExactly("Line 80");
+    assertThat(forwardDiff).content().element(3).linesOfB().containsExactly("Line eighty");
+    assertThat(forwardDiff).content().element(3).isNotDueToRebase();
+    assertThat(forwardDiff).content().element(4).commonLines().isNotEmpty();
+
+    DiffInfo reverseDiff = getDiffRequest(mergeChangeId, ps1Rev, FILE_NAME).withBase(ps3Rev).get();
+    assertThat(reverseDiff)
+        .content()
+        .element(1)
+        .linesOfA()
+        .containsExactly("Line fifty concurrent");
+    assertThat(reverseDiff).content().element(1).linesOfB().containsExactly("Line 50");
+    assertThat(reverseDiff).content().element(1).isDueToRebase();
+    assertThat(reverseDiff).content().element(3).linesOfA().containsExactly("Line eighty");
+    assertThat(reverseDiff).content().element(3).linesOfB().containsExactly("Line 80");
+    assertThat(reverseDiff).content().element(3).isNotDueToRebase();
+
+    // Diffing against Parent 1, Parent 2, or AutoMerge still treats edits as non-rebase.
+    Map<String, FileInfo> parent1Files = gApi.changes().id(mergeChangeId).current().files(1);
+    assertThat(parent1Files.keySet())
+        .containsExactly(COMMIT_MSG, MERGE_LIST, FILE_NAME, upstreamFile);
+    DiffInfo parent1Diff = getDiffRequest(mergeChangeId, CURRENT, FILE_NAME).withParent(1).get();
+    for (DiffInfo.ContentEntry entry : parent1Diff.content) {
+      assertThat(entry.dueToRebase).isNull();
+    }
+
+    Map<String, FileInfo> parent2Files = gApi.changes().id(mergeChangeId).current().files(2);
+    assertThat(parent2Files.keySet()).contains(targetInitFile);
+    DiffInfo parent2Diff =
+        getDiffRequest(mergeChangeId, CURRENT, targetInitFile).withParent(2).get();
+    for (DiffInfo.ContentEntry entry : parent2Diff.content) {
+      assertThat(entry.dueToRebase).isNull();
+    }
+
+    DiffInfo autoMergeDiff = getDiffRequest(mergeChangeId, CURRENT, FILE_NAME).get();
+    for (DiffInfo.ContentEntry entry : autoMergeDiff.content) {
+      assertThat(entry.dueToRebase).isNull();
+    }
+  }
+
+  @Test
+  public void rebasedMergeCommitConflictResolutionIsNotMarkedDueToRebase() throws Exception {
+    ObjectId parent1A = commit1;
+    ObjectId parent2 = addCommit(commit1, "upstream.txt", "upstream\n");
+
+    RevCommit p1aCommit = testRepo.getRevWalk().parseCommit(parent1A);
+    RevCommit p2Commit = testRepo.getRevWalk().parseCommit(parent2);
+    testRepo.reset(parent1A);
+    PushOneCommit mergePs1Push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge upstream",
+            ImmutableMap.of(
+                "upstream.txt",
+                "upstream\n",
+                FILE_NAME,
+                FILE_CONTENT.replace("Line 1\n", "Line 1 merged\n")));
+    mergePs1Push.setParents(ImmutableList.of(p1aCommit, p2Commit));
+    PushOneCommit.Result ps1Result = mergePs1Push.to("refs/for/master");
+    String mergeChangeId = ps1Result.getChangeId();
+    String ps1Rev = ps1Result.getCommit().name();
+
+    // Concurrent target commit modifies FILE_NAME line 50 and FILE_NAME2.
+    ObjectId parent1B =
+        addCommit(
+            parent1A,
+            ImmutableMap.of(
+                FILE_NAME,
+                FILE_CONTENT.replace("Line 50\n", "Line fifty concurrent\n"),
+                FILE_NAME2,
+                FILE_CONTENT2.replace("2nd line\n", "Second line concurrent\n")));
+
+    // PS2 rebases onto parent1B and resolves conflict at Line 50 differently.
+    RevCommit p1bCommit = testRepo.getRevWalk().parseCommit(parent1B);
+    testRepo.reset(parent1B);
+    PushOneCommit mergePs2Push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge upstream",
+            ImmutableMap.of(
+                "upstream.txt",
+                "upstream\n",
+                FILE_NAME,
+                FILE_CONTENT
+                    .replace("Line 1\n", "Line 1 merged\n")
+                    .replace("Line 50\n", "Line fifty conflict resolved\n")),
+            mergeChangeId);
+    mergePs2Push.setParents(ImmutableList.of(p1bCommit, p2Commit));
+    mergePs2Push.to("refs/for/master").assertOkStatus();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(mergeChangeId).current().files(ps1Rev);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, FILE_NAME);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+
+    DiffInfo diffInfo = getDiffRequest(mergeChangeId, CURRENT, FILE_NAME).withBase(ps1Rev).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 50");
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line fifty conflict resolved");
+    assertThat(diffInfo).content().element(1).isNotDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
+  }
+
+  @Test
+  public void mergeCommitWithUpdatedSecondParentAndSameFirstParentIsNotMarkedDueToRebase()
+      throws Exception {
+    ObjectId parent1 = commit1;
+    ObjectId parent2A =
+        addCommit(
+            commit1,
+            ImmutableMap.of(
+                "upstream_v1.txt",
+                "v1\n",
+                FILE_NAME,
+                FILE_CONTENT.replace("Line 1\n", "Line 1 upstream\n")));
+    ObjectId parent2B =
+        addCommit(
+            parent2A,
+            ImmutableMap.of(
+                "upstream_v2.txt",
+                "v2\n",
+                FILE_NAME,
+                FILE_CONTENT
+                    .replace("Line 1\n", "Line 1 upstream\n")
+                    .replace("Line 20\n", "Line twenty upstream v2\n")));
+
+    RevCommit p1Commit = testRepo.getRevWalk().parseCommit(parent1);
+    RevCommit p2aCommit = testRepo.getRevWalk().parseCommit(parent2A);
+    RevCommit p2bCommit = testRepo.getRevWalk().parseCommit(parent2B);
+
+    testRepo.reset(parent1);
+    PushOneCommit mergePs1Push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge upstream",
+            ImmutableMap.of(
+                "upstream_v1.txt",
+                "v1\n",
+                FILE_NAME,
+                FILE_CONTENT.replace("Line 1\n", "Line 1 upstream\n")));
+    mergePs1Push.setParents(ImmutableList.of(p1Commit, p2aCommit));
+    PushOneCommit.Result ps1Result = mergePs1Push.to("refs/for/master");
+    String mergeChangeId = ps1Result.getChangeId();
+    String ps1Rev = ps1Result.getCommit().name();
+
+    testRepo.reset(parent1);
+    PushOneCommit mergePs2Push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge upstream",
+            ImmutableMap.of(
+                "upstream_v1.txt",
+                "v1\n",
+                "upstream_v2.txt",
+                "v2\n",
+                FILE_NAME,
+                FILE_CONTENT
+                    .replace("Line 1\n", "Line 1 upstream\n")
+                    .replace("Line 20\n", "Line twenty upstream v2\n")),
+            mergeChangeId);
+    mergePs2Push.setParents(ImmutableList.of(p1Commit, p2bCommit));
+    mergePs2Push.to("refs/for/master").assertOkStatus();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(mergeChangeId).current().files(ps1Rev);
+    assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, FILE_NAME, "upstream_v2.txt");
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+
+    DiffInfo diffInfo = getDiffRequest(mergeChangeId, CURRENT, FILE_NAME).withBase(ps1Rev).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 20");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line twenty upstream v2");
+    assertThat(diffInfo).content().element(1).isNotDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
+
+    DiffInfo newFileDiff =
+        getDiffRequest(mergeChangeId, CURRENT, "upstream_v2.txt").withBase(ps1Rev).get();
+    assertThat(newFileDiff).content().element(0).isNotDueToRebase();
+  }
+
+  @Test
+  public void mergeCommitWithUpdatedFirstAndSecondParentsDistinguishesRebaseFromUpstream()
+      throws Exception {
+    ObjectId parent1A = commit1;
+    ObjectId parent2A =
+        addCommit(commit1, FILE_NAME, FILE_CONTENT.replace("Line 1\n", "Line 1 upstream\n"));
+    ObjectId parent1B =
+        addCommit(
+            parent1A,
+            ImmutableMap.of(
+                "concurrent_file.txt",
+                "concurrent\n",
+                FILE_NAME,
+                FILE_CONTENT.replace("Line 50\n", "Line fifty concurrent\n")));
+    ObjectId parent2B =
+        addCommit(
+            parent2A,
+            ImmutableMap.of(
+                "new_upstream_file.txt",
+                "new upstream\n",
+                FILE_NAME,
+                FILE_CONTENT
+                    .replace("Line 1\n", "Line 1 upstream\n")
+                    .replace("Line 20\n", "Line twenty new upstream\n")));
+
+    RevCommit p1aCommit = testRepo.getRevWalk().parseCommit(parent1A);
+    RevCommit p2aCommit = testRepo.getRevWalk().parseCommit(parent2A);
+    RevCommit p1bCommit = testRepo.getRevWalk().parseCommit(parent1B);
+    RevCommit p2bCommit = testRepo.getRevWalk().parseCommit(parent2B);
+
+    testRepo.reset(parent1A);
+    PushOneCommit mergePs1Push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge upstream",
+            FILE_NAME,
+            FILE_CONTENT.replace("Line 1\n", "Line 1 upstream\n"));
+    mergePs1Push.setParents(ImmutableList.of(p1aCommit, p2aCommit));
+    PushOneCommit.Result ps1Result = mergePs1Push.to("refs/for/master");
+    String mergeChangeId = ps1Result.getChangeId();
+    String ps1Rev = ps1Result.getCommit().name();
+
+    testRepo.reset(parent1B);
+    PushOneCommit mergePs2Push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Merge upstream",
+            ImmutableMap.of(
+                "new_upstream_file.txt",
+                "new upstream\n",
+                FILE_NAME,
+                FILE_CONTENT
+                    .replace("Line 1\n", "Line 1 upstream\n")
+                    .replace("Line 20\n", "Line twenty new upstream\n")
+                    .replace("Line 50\n", "Line fifty concurrent\n")),
+            mergeChangeId);
+    mergePs2Push.setParents(ImmutableList.of(p1bCommit, p2bCommit));
+    mergePs2Push.to("refs/for/master").assertOkStatus();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(mergeChangeId).current().files(ps1Rev);
+    assertThat(changedFiles.keySet())
+        .containsExactly(COMMIT_MSG, FILE_NAME, "new_upstream_file.txt");
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+
+    DiffInfo diffInfo = getDiffRequest(mergeChangeId, CURRENT, FILE_NAME).withBase(ps1Rev).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 20");
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line twenty new upstream");
+    assertThat(diffInfo).content().element(1).isNotDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 50");
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line fifty concurrent");
+    assertThat(diffInfo).content().element(3).isDueToRebase();
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
+  }
+
+  @Test
   public void intralineEditsInNonRebaseHunksAreIdentified() throws Exception {
     assume().that(intraline).isTrue();
 

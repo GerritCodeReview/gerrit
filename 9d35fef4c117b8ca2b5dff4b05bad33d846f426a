@@ -51,6 +51,24 @@
       "parentUuid": "c676bd33_47c3c7a3",
       "revId": "9d35fef4c117b8ca2b5dff4b05bad33d846f426a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52c198d4_fb75246d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-11-26T12:40:48Z",
+      "side": 1,
+      "message": "It\u0027s ok, it\u0027s small styling change explained well in commit message. doesn\u0027t need bug",
+      "parentUuid": "93b87116_4295ab0b",
+      "revId": "9d35fef4c117b8ca2b5dff4b05bad33d846f426a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

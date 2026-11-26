@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35427014_512f36ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-11-26T10:31:41Z",
+      "side": 1,
+      "message": "hi milutin,\nsame as the other CL, before polishing and pushing it into a bug, are you in general open to consider a change in the styling of bullet lists?\n\n\nits driving me nuts, on chromium that i cant use these lists without breaking my eyes :D \n\nscreenshots:\n- https://static.januschka.com/list_before.png\n- https://static.januschka.com/list_after.png (with CL)",
+      "revId": "9d35fef4c117b8ca2b5dff4b05bad33d846f426a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,24 @@
       "parentUuid": "e32c1a28_f216fb0e",
       "revId": "327621ad82fc9925e6c93a0e8a3d4669b0725aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48503584_e5bd7dc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-11-26T00:16:59Z",
+      "side": 1,
+      "message": "\u003e Gerrit core should not rely on the implementation details of the Git LFS plugin.\n\nRight, this makes sense to me too. The unfortunate situation is that currently LFS is somewhat managed within Gerrit core (LfsPluginServlet, LfsDefinitions, and the serveRegex are all managed in Gerrit core\u0027s HttpPluginModule).\n\nIf we truly wanted LFS to work standalone from Gerrit, I feel like the correct fix would be to completely remove this from Gerrit core, and then make changes to the LFS plugin to have it work standalone. But... That is a considerable change, and considering that LFS is pretty much dead this is a big ask.\n\nA filter rather than a servlet would work for `tools/`, but not for other prefixes like `projects/`, as you mentioned. So this solution would be incomplete.\n\nI\u0027d be happy to contribute to a change where we just add a prevention on creating certain repositories with specific prefixes, and then ignoring this LFS issue.",
+      "parentUuid": "9c196922_9eb76b57",
+      "revId": "327621ad82fc9925e6c93a0e8a3d4669b0725aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

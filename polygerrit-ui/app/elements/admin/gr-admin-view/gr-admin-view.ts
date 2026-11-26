@@ -3,9 +3,10 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../shared/gr-dropdown-list/gr-dropdown-list';
+import {MdTabs} from '@material/web/tabs/tabs.js';
+import '@material/web/tabs/primary-tab.js';
+import '@material/web/tabs/secondary-tab.js';
 import '../../shared/gr-icon/gr-icon';
-import '../../shared/gr-page-nav/gr-page-nav';
 import '../gr-admin-group-list/gr-admin-group-list';
 import '../gr-group/gr-group';
 import '../gr-group-audit-log/gr-group-audit-log';
@@ -33,12 +34,9 @@ import {
   GerritView,
   routerModelToken,
 } from '../../../services/router/router-model';
-import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
-import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
   AdminChildView,
@@ -64,6 +62,14 @@ import {subscribe} from '../../lit/subscription-controller';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
+
+type TabType = 'primary' | 'secondary';
+type ScrollDirection = 'left' | 'right';
+
+interface TabScrollState {
+  left: boolean;
+  right: boolean;
+}
 
 export interface AdminSubsectionLink {
   text: string;
@@ -109,6 +115,23 @@ export class GrAdminView extends LitElement {
 
   // private but used in test
   @state() filteredLinks?: NavLink[];
+
+  @state()
+  private primaryScroll: TabScrollState = {
+    left: false,
+    right: false,
+  };
+
+  @state()
+  private secondaryScroll: TabScrollState = {
+    left: false,
+    right: false,
+  };
+
+  private readonly tabScrollObservers = new Map<
+    TabType,
+    IntersectionObserver
+  >();
 
   private reloading = false;
 
@@ -169,36 +192,188 @@ export class GrAdminView extends LitElement {
     this.reload();
   }
 
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+
+    for (const observer of this.tabScrollObservers.values()) {
+      observer.disconnect();
+    }
+
+    this.tabScrollObservers.clear();
+  }
+
   static override get styles() {
     return [
       sharedStyles,
-      menuPageStyles,
-      pageNavStyles,
       css`
-        .breadcrumbText {
-          /* Same as dropdown trigger so chevron spacing is consistent. */
-          padding: 5px 4px;
-        }
-        gr-icon {
-          margin: 0 var(--spacing-xs);
+        :host {
+          display: block;
+          background: var(--background-color-secondary);
         }
         .breadcrumb {
           align-items: center;
+          background: var(--background-color-primary);
+          color: var(--primary-text-color);
           display: flex;
+          flex-wrap: wrap;
+          font-size: 24px;
+          gap: var(--spacing-s);
+          line-height: 32px;
+          padding: var(--spacing-l) var(--spacing-xxl);
         }
-        .mainHeader {
-          align-items: baseline;
+        .breadcrumb gr-icon {
+          --gr-icon-size: 20px;
+          color: var(--deemphasized-text-color);
+        }
+        .breadcrumbCurrent {
+          font-weight: 600;
+          overflow-wrap: anywhere;
+        }
+        .tabRow {
+          align-items: stretch;
           border-bottom: 1px solid var(--border-color);
+          box-sizing: border-box;
           display: flex;
+          min-width: 0;
         }
-        .selectText {
-          display: none;
+        .tabRow md-tabs {
+          flex: 0 1 auto;
+          margin-inline-end: auto;
+          min-width: 0;
+          width: max-content;
+
+          --md-sys-color-primary: var(--link-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--primary-text-color);
+
+          --md-divider-color: transparent;
+
+          --md-primary-tab-active-indicator-color: transparent;
+          --md-primary-tab-active-label-text-color: var(--link-color);
+          --md-primary-tab-active-hover-label-text-color: var(--link-color);
+          --md-primary-tab-active-focus-label-text-color: var(--link-color);
+          --md-primary-tab-active-pressed-label-text-color: var(--link-color);
+          --md-primary-tab-label-text-color: var(--primary-text-color);
+          --md-primary-tab-label-text-size: 14px;
+          --md-primary-tab-label-text-weight: 500;
+
+          --md-secondary-tab-active-indicator-color: var(--link-color);
+          --md-secondary-tab-active-indicator-height: 3px;
+          --md-secondary-tab-active-label-text-color: var(--link-color);
+          --md-secondary-tab-active-hover-label-text-color: var(--link-color);
+          --md-secondary-tab-active-focus-label-text-color: var(--link-color);
+          --md-secondary-tab-active-pressed-label-text-color: var(--link-color);
+          --md-secondary-tab-label-text-color: var(--primary-text-color);
+          --md-secondary-tab-label-text-size: 14px;
+          --md-secondary-tab-label-text-weight: 500;
         }
-        .selectText.show {
-          display: inline-block;
+        .primaryTabs {
+          background: var(--background-color-primary);
+          --md-primary-tab-container-color: var(--background-color-primary);
+          --md-primary-tab-container-height: 48px;
         }
-        .main.breadcrumbs:not(.table) {
-          margin-top: var(--spacing-l);
+        .secondaryTabs {
+          background: var(--background-color-tertiary);
+          --md-secondary-tab-container-color: var(--background-color-tertiary);
+          --md-secondary-tab-container-height: 44px;
+        }
+        md-primary-tab,
+        md-secondary-tab {
+          flex: 0 0 auto;
+          white-space: nowrap;
+          padding-inline: var(--spacing-xxl);
+        }
+        md-primary-tab {
+          position: relative;
+        }
+        md-primary-tab[active]::after {
+          background: var(--link-color);
+          content: '';
+          height: 3px;
+          inset: auto 0 0;
+          pointer-events: none;
+          position: absolute;
+        }
+        .externalLinkIcon {
+          --gr-icon-size: 16px;
+          color: inherit;
+        }
+        .moreTabs {
+          align-items: center;
+          background: inherit;
+          border: 0;
+          color: var(--link-color);
+          cursor: pointer;
+          display: flex;
+          flex: 0 0 44px;
+          justify-content: center;
+          padding: 0;
+        }
+        .moreTabs:not(:disabled):hover {
+          background-image: linear-gradient(
+            var(--hover-background-color),
+            var(--hover-background-color)
+          );
+        }
+        .moreTabs:disabled {
+          color: var(--disabled-foreground);
+          cursor: default;
+        }
+        .moreTabs.previous:disabled {
+          visibility: hidden;
+        }
+        .moreTabs gr-icon {
+          --gr-icon-size: 20px;
+          color: inherit;
+        }
+        .content {
+          box-sizing: border-box;
+          min-width: 0;
+          padding: var(--spacing-xxl);
+        }
+        .main {
+          box-sizing: border-box;
+          margin: 0 auto;
+          max-width: 50em;
+          min-width: 0;
+          width: 100%;
+        }
+        .main.table {
+          max-width: none;
+        }
+        @media only screen and (max-width: 50em) {
+          .breadcrumb {
+            font-size: 20px;
+            padding: var(--spacing-l);
+          }
+          .tabRow {
+            position: relative;
+            padding-inline-start: var(--spacing-l);
+            --tab-scroll-button-width: 36px;
+          }
+          md-primary-tab,
+          md-secondary-tab {
+            padding-inline: var(--spacing-l);
+          }
+          md-primary-tab:not(:first-child),
+          md-secondary-tab:not(:first-child) {
+            scroll-margin-inline-start: calc(
+              var(--tab-scroll-button-width) - var(--spacing-l)
+            );
+          }
+          .content {
+            padding: var(--spacing-l);
+          }
+          .moreTabs {
+            flex-basis: var(--tab-scroll-button-width);
+          }
+          .moreTabs.previous {
+            position: absolute;
+            inset-block: 0;
+            inset-inline-start: 0;
+            width: var(--tab-scroll-button-width);
+            z-index: 2;
+          }
         }
       `,
     ];
@@ -206,78 +381,116 @@ export class GrAdminView extends LitElement {
 
   override render() {
     if (!this.isAdminView()) return nothing;
+
     return html`
-      <gr-page-nav class="navStyles">
-        <ul class="sectionContent">
-          ${this.filteredLinks?.map(item => this.renderAdminNav(item))}
-        </ul>
-      </gr-page-nav>
-      ${this.renderSubsectionLinks()} ${this.renderRepoList()}
-      ${this.renderGroupList()} ${this.renderPluginList()}
-      ${this.renderRepoMain()} ${this.renderGroup()}
-      ${this.renderGroupMembers()} ${this.renderGroupAuditLog()}
-      ${this.renderRepoDetailList()} ${this.renderRepoCommands()}
-      ${this.renderRepoAccess()} ${this.renderRepoDashboards()}
-      ${this.renderRepoSubmitRequirements()} ${this.renderRepoLabels()}
-      ${this.renderServerInfo()}
+      ${this.renderBreadcrumb()} ${this.renderAdminTabs()}
+      ${this.renderSubsectionLinks()}
+      <div class="content">
+        ${this.renderRepoList()} ${this.renderGroupList()}
+        ${this.renderPluginList()} ${this.renderRepoMain()}
+        ${this.renderGroup()} ${this.renderGroupMembers()}
+        ${this.renderGroupAuditLog()} ${this.renderRepoDetailList()}
+        ${this.renderRepoCommands()} ${this.renderRepoAccess()}
+        ${this.renderRepoDashboards()} ${this.renderRepoSubmitRequirements()}
+        ${this.renderRepoLabels()} ${this.renderServerInfo()}
+      </div>
     `;
   }
 
-  private renderAdminNav(item: NavLink) {
+  private renderBreadcrumb() {
+    if (this.view === GerritView.ADMIN) {
+      let title = this.filteredLinks?.find(
+        item => item.view === this.adminViewState?.adminView
+      )?.name;
+
+      if (!title) {
+        switch (this.adminViewState?.adminView) {
+          case AdminChildView.REPOS:
+            title = 'Repositories';
+            break;
+          case AdminChildView.GROUPS:
+            title = 'Groups';
+            break;
+          case AdminChildView.PLUGINS:
+            title = 'Plugins';
+            break;
+          case AdminChildView.SERVER_INFO:
+            title = 'Server Info';
+            break;
+          default:
+            title = 'Admin';
+        }
+      }
+
+      return html`
+        <div class="breadcrumb">
+          <span class="breadcrumbCurrent">${title}</span>
+        </div>
+      `;
+    }
+
+    const name =
+      this.view === GerritView.REPO
+        ? this.repoName
+        : this.groupName ?? this.groupId;
+
+    if (!name) return nothing;
+
     return html`
-      <li class="sectionTitle ${this.computeSelectedClass(item.view)}">
-        <a class="title" href=${this.computeLinkURL(item)} rel="noopener"
-          >${item.name}</a
-        >
-      </li>
-      ${item.children?.map(child => this.renderAdminNavChild(child))}
-      ${this.renderAdminNavSubsection(item)}
+      <div class="breadcrumb">
+        <span> ${this.view === GerritView.REPO ? 'Repository' : 'Group'} </span>
+        <gr-icon icon="chevron_right"></gr-icon>
+        <span class="breadcrumbCurrent">${name}</span>
+      </div>
     `;
   }
 
-  private renderAdminNavChild(child: SubsectionInterface) {
-    return html`
-      <li class=${this.computeSelectedClass(child.view)}>
-        <a href=${this.computeLinkURL(child)} rel="noopener">${child.name}</a>
-      </li>
-    `;
-  }
-
-  private renderAdminNavSubsection(item: NavLink) {
-    if (!item.subsection) return nothing;
+  private renderAdminTabs() {
+    if (!this.filteredLinks?.length) return nothing;
 
     return html`
-      <!--If a section has a subsection, render that.-->
-      <li class=${this.computeSelectedClass(item.subsection.view)}>
-        ${this.renderAdminNavSubsectionUrl(item.subsection)}
-      </li>
-      <!--Loop through the links in the sub-section.-->
-      ${item.subsection?.children?.map(child =>
-        this.renderAdminNavSubsectionChild(child)
-      )}
-    `;
-  }
+      <div class="tabRow primaryTabs">
+        ${this.renderScrollButton('primary', 'left')}
+        <md-tabs aria-label="Admin sections">
+          ${this.filteredLinks.map(
+            item => html`
+              <md-primary-tab
+                ?inline-icon=${item.view === undefined}
+                ?active=${item.view !== undefined &&
+                this.computeSelectedClass(item.view) === 'selected'}
+                aria-label=${item.view === undefined
+                  ? `${item.name} (opens in a new tab)`
+                  : item.name}
+                @click=${(e: MouseEvent) => {
+                  const url = this.computeLinkURL(item);
+                  if (!url) return;
 
-  private renderAdminNavSubsectionUrl(subsection?: SubsectionInterface) {
-    if (!subsection!.url) return html`${subsection!.name}`;
+                  if (item.view === undefined) {
+                    e.preventDefault();
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                    return;
+                  }
 
-    return html`
-      <a class="title" href=${this.computeLinkURL(subsection)} rel="noopener">
-        ${subsection!.name}</a
-      >
-    `;
-  }
-
-  private renderAdminNavSubsectionChild(child: SubsectionInterface) {
-    return html`
-      <li
-        class="subsectionItem ${this.computeSelectedClass(
-          child.view,
-          child.detailType
-        )}"
-      >
-        <a href=${this.computeLinkURL(child)}>${child.name}</a>
-      </li>
+                  this.getNavigation().setUrl(url);
+                }}
+              >
+                ${item.view === undefined
+                  ? html`
+                      <gr-icon
+                        slot="icon"
+                        class="externalLinkIcon"
+                        icon="open_in_new"
+                        aria-hidden="true"
+                      ></gr-icon>
+                    `
+                  : nothing}
+                ${item.name}
+              </md-primary-tab>
+            `
+          )}
+        </md-tabs>
+        ${this.renderScrollButton('primary', 'right')}
+      </div>
     `;
   }
 
@@ -285,20 +498,157 @@ export class GrAdminView extends LitElement {
     if (!this.subsectionLinks?.length) return nothing;
 
     return html`
-      <section class="mainHeader">
-        <span class="breadcrumb">
-          <span class="breadcrumbText">${this.breadcrumbParentName}</span>
-          <gr-icon icon="chevron_right"></gr-icon>
-        </span>
-        <gr-dropdown-list
-          id="pageSelect"
-          value=${ifDefined(this.computeSelectValue())}
-          .items=${this.subsectionLinks}
-          @value-change=${this.handleSubsectionChange}
+      <div class="tabRow secondaryTabs">
+        ${this.renderScrollButton('secondary', 'left')}
+        <md-tabs
+          aria-label=${this.view === GerritView.REPO
+            ? 'Repository sections'
+            : 'Group sections'}
         >
-        </gr-dropdown-list>
-      </section>
+          ${this.subsectionLinks.map(
+            section => html`
+              <md-secondary-tab
+                ?active=${this.selectedIsCurrentPage(section)}
+                @click=${() => this.navigateToSubsection(section)}
+              >
+                ${section.text}
+              </md-secondary-tab>
+            `
+          )}
+        </md-tabs>
+        ${this.renderScrollButton('secondary', 'right')}
+      </div>
     `;
+  }
+
+  private renderScrollButton(type: TabType, direction: ScrollDirection) {
+    const scroll =
+      type === 'primary' ? this.primaryScroll : this.secondaryScroll;
+
+    return html`
+      <button
+        type="button"
+        class="moreTabs ${direction === 'left' ? 'previous' : ''}"
+        aria-label=${direction === 'left'
+          ? 'Show previous tabs'
+          : 'Show more tabs'}
+        ?disabled=${!scroll[direction]}
+        @click=${() => this.scrollTabs(type, direction)}
+      >
+        <gr-icon
+          icon=${direction === 'left' ? 'chevron_left' : 'chevron_right'}
+        ></gr-icon>
+      </button>
+    `;
+  }
+
+  private scrollTabs(type: TabType, direction: ScrollDirection) {
+    const tabs = this.shadowRoot?.querySelector<MdTabs>(`.${type}Tabs md-tabs`);
+
+    if (!tabs?.tabs.length) return;
+
+    const bounds = tabs.getBoundingClientRect();
+    const tabBounds = tabs.tabs.map(tab => tab.getBoundingClientRect());
+
+    const leftButton =
+      tabs.parentElement?.querySelector<HTMLButtonElement>(
+        '.moreTabs.previous'
+      );
+
+    const visibleStart = leftButton?.disabled
+      ? bounds.left
+      : Math.max(
+          bounds.left,
+          leftButton?.getBoundingClientRect().right ?? bounds.left
+        );
+
+    const currentIndex = tabBounds.reduce(
+      (closest, tab, index) =>
+        Math.abs(tab.left - visibleStart) <
+        Math.abs(tabBounds[closest].left - visibleStart)
+          ? index
+          : closest,
+      0
+    );
+
+    const nextIndex =
+      direction === 'right'
+        ? Math.min(currentIndex + 1, tabs.tabs.length - 1)
+        : Math.max(currentIndex - 1, 0);
+
+    tabs.tabs[nextIndex].scrollIntoView({
+      behavior: 'instant',
+      block: 'nearest',
+      inline: 'start',
+    });
+
+    this.updateTabScrollState(type, tabs);
+  }
+
+  private setTabScrollState(type: TabType, left: boolean, right: boolean) {
+    const current =
+      type === 'primary' ? this.primaryScroll : this.secondaryScroll;
+
+    if (current.left === left && current.right === right) return;
+
+    if (type === 'primary') {
+      this.primaryScroll = {left, right};
+    } else {
+      this.secondaryScroll = {left, right};
+    }
+  }
+
+  private updateTabScrollState(type: TabType, tabs: MdTabs) {
+    const first = tabs.tabs[0];
+    const last = tabs.tabs[tabs.tabs.length - 1];
+
+    if (!first || !last) {
+      this.setTabScrollState(type, false, false);
+      return;
+    }
+
+    const bounds = tabs.getBoundingClientRect();
+
+    this.setTabScrollState(
+      type,
+      Math.round(first.getBoundingClientRect().left - bounds.left) < 0,
+      Math.round(last.getBoundingClientRect().right - bounds.right) > 0
+    );
+  }
+
+  private observeTabScroll(type: TabType) {
+    this.tabScrollObservers.get(type)?.disconnect();
+    this.tabScrollObservers.delete(type);
+
+    const tabs = this.shadowRoot?.querySelector<MdTabs>(`.${type}Tabs md-tabs`);
+
+    if (!tabs || !tabs.children.length) {
+      this.setTabScrollState(type, false, false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      () => {
+        if (
+          !this.isConnected ||
+          this.tabScrollObservers.get(type) !== observer
+        ) {
+          return;
+        }
+
+        this.updateTabScrollState(type, tabs);
+      },
+      {
+        root: tabs,
+        threshold: [0, 1],
+      }
+    );
+
+    this.tabScrollObservers.set(type, observer);
+
+    for (const tab of tabs.children) {
+      observer.observe(tab);
+    }
   }
 
   private renderRepoList() {
@@ -503,6 +853,24 @@ export class GrAdminView extends LitElement {
     }
   }
 
+  override updated(changedProperties: PropertyValues) {
+    if (!this.isConnected) return;
+
+    if (
+      changedProperties.has('filteredLinks') ||
+      changedProperties.has('view')
+    ) {
+      this.observeTabScroll('primary');
+    }
+
+    if (
+      changedProperties.has('subsectionLinks') ||
+      changedProperties.has('view')
+    ) {
+      this.observeTabScroll('secondary');
+    }
+  }
+
   async reload() {
     try {
       this.reloading = true;
@@ -518,12 +886,14 @@ export class GrAdminView extends LitElement {
         ];
       const result = await Promise.all(promises);
       const account = result[0];
+
       if (account) {
         const capabilities = await this.restApiService.getAccountCapabilities([
           'deleteGroup',
         ]);
         this.canDeleteCapability = !!capabilities?.deleteGroup;
       }
+
       let options: AdminNavLinksOption | undefined = undefined;
       if (this.repoName) {
         options = {repoName: this.repoName};
@@ -532,6 +902,7 @@ export class GrAdminView extends LitElement {
         const isOwner = await this.restApiService.getIsGroupOwner(
           this.groupName
         );
+
         options = {
           groupId: this.groupId,
           groupName: this.groupName,
@@ -548,11 +919,13 @@ export class GrAdminView extends LitElement {
             if (!capabilities) {
               throw new Error('getAccountCapabilities returns undefined');
             }
+
             return capabilities;
           }),
         () => this.getPluginLoader().jsApiService.getAdminMenuLinks(),
         options
       );
+
       this.filteredLinks = res.links;
       this.breadcrumbParentName = res.expandedSection
         ? res.expandedSection.name
@@ -561,18 +934,26 @@ export class GrAdminView extends LitElement {
       if (!res.expandedSection) {
         return;
       }
-      this.subsectionLinks = [res.expandedSection]
-        .concat(res.expandedSection.children ?? [])
-        .map(section => {
-          return {
-            text: !section.detailType ? 'Home' : section.name,
-            value: section.view + (section.detailType ?? ''),
-            view: section.view,
-            url: section.url,
-            detailType: section.detailType,
-            parent: this.groupId ?? this.repoName,
-          };
-        });
+
+      const children = res.expandedSection.children ?? [];
+      const hasGeneral =
+        this.view === GerritView.REPO &&
+        children.some(section => section.detailType === RepoDetailView.GENERAL);
+
+      const sections = hasGeneral
+        ? children
+        : [res.expandedSection].concat(children);
+
+      this.subsectionLinks = sections.map(section => {
+        return {
+          text: !section.detailType ? 'General' : section.name,
+          value: section.view + (section.detailType ?? ''),
+          view: section.view,
+          url: section.url,
+          detailType: section.detailType,
+          parent: this.groupId ?? this.repoName,
+        };
+      });
     } finally {
       this.reloading = false;
     }
@@ -584,10 +965,6 @@ export class GrAdminView extends LitElement {
     return undefined;
   }
 
-  private computeSelectValue() {
-    return `${this.view}${this.getDetailView() ?? ''}`;
-  }
-
   // private but used in test
   selectedIsCurrentPage(selected: AdminSubsectionLink) {
     if (!this.view) return false;
@@ -595,7 +972,10 @@ export class GrAdminView extends LitElement {
     return (
       selected.parent === (this.repoName ?? this.groupId) &&
       selected.view === this.view &&
-      selected.detailType === this.getDetailView()
+      (this.view === GerritView.REPO
+        ? (selected.detailType ?? RepoDetailView.GENERAL) ===
+          (this.getDetailView() ?? RepoDetailView.GENERAL)
+        : selected.detailType === this.getDetailView())
     );
   }
 
@@ -603,16 +983,18 @@ export class GrAdminView extends LitElement {
   handleSubsectionChange(e: ValueChangedEvent<string>) {
     if (!this.subsectionLinks) return;
 
-    // The GrDropdownList items are subsectionLinks, so find(...) always return
-    // an item subsectionLinks and never returns undefined
     const selected = this.subsectionLinks.find(
       section => section.value === e.detail.value
-    )!;
+    );
 
-    // This is when it gets set initially.
+    if (selected) this.navigateToSubsection(selected);
+  }
+
+  private navigateToSubsection(selected: AdminSubsectionLink) {
     if (this.selectedIsCurrentPage(selected)) return;
     if (selected.url === undefined) return;
     if (this.reloading) return;
+
     this.getNavigation().setUrl(selected.url);
   }
 
@@ -630,18 +1012,22 @@ export class GrAdminView extends LitElement {
     let needsReload = false;
     const newRepoName =
       this.view === GerritView.REPO ? this.repoViewState?.repo : undefined;
+
     if (newRepoName !== this.repoName) {
       this.repoName = newRepoName;
       // Reloads the admin menu.
       needsReload = true;
     }
+
     const newGroupId =
       this.view === GerritView.GROUP ? this.groupViewState?.groupId : undefined;
+
     if (newGroupId !== this.groupId) {
       this.groupId = newGroupId;
       // Reloads the admin menu.
       needsReload = true;
     }
+
     if (
       this.breadcrumbParentName &&
       (this.view !== GerritView.GROUP || !this.groupViewState?.groupId) &&
@@ -658,33 +1044,17 @@ export class GrAdminView extends LitElement {
     return link?.url || '';
   }
 
-  private computeSelectedClass(
-    itemView?: GerritView | AdminChildView,
-    detailType?: GroupDetailView | RepoDetailView
-  ) {
+  private computeSelectedClass(itemView?: GerritView | AdminChildView) {
     if (!this.view) return '';
-    // Group view state is structured differently than admin view state. Compute
-    // selected differently for groups.
-    // TODO(wyatta): Simplify this when all routes work like group view state.
-    if (this.view === GerritView.GROUP && itemView === GerritView.GROUP) {
-      if (!this.groupViewState?.detail && !detailType) {
-        return 'selected';
-      }
-      if (this.groupViewState?.detail === detailType) {
-        return 'selected';
-      }
-      return '';
+
+    if (this.view === GerritView.REPO) {
+      return itemView === AdminChildView.REPOS ? 'selected' : '';
     }
 
-    if (this.view === GerritView.REPO && itemView === GerritView.REPO) {
-      if (!this.repoViewState?.detail && !detailType) {
-        return 'selected';
-      }
-      if (this.repoViewState?.detail === detailType) {
-        return 'selected';
-      }
-      return '';
+    if (this.view === GerritView.GROUP) {
+      return itemView === AdminChildView.GROUPS ? 'selected' : '';
     }
+
     return this.view === GerritView.ADMIN &&
       itemView === this.adminViewState?.adminView
       ? 'selected'
@@ -702,6 +1072,7 @@ export class GrAdminView extends LitElement {
 
     this.groupName = group.name;
     this.groupIsInternal = !!group.id.match(INTERNAL_GROUP_REGEX);
+
     await this.reload();
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afefe12a_e05f108c",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-11-27T10:54:36Z",
+      "side": 1,
+      "message": "This also changes comment porting for merges. `CommentPorter.loadCommitMappings` uses `listModifiedFiles(PS_A, PS_B)` without `skipRebaseFiltering`, and `GitPositionTransformer` treats files missing from the mappings as unchanged. On a merge you can comment on files that aren\u0027t in `PS vs Parent 1` (e.g. while viewing against Parent 2). If P1_A -\u003e P1_B changed such a file, the comment now stays on the old line, or on a file that was deleted. Before, merges were always \"related\", so all files were in the mappings. Should `CommentPorter` pass `skipRebaseFiltering(true)`?",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 51
+      },
+      "revId": "eb3894dcdf523e349fb20a689d82f1f92429b7a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

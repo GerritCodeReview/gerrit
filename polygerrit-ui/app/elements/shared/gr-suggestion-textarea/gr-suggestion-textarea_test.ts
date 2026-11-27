@@ -18,8 +18,12 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {assert, fixture, html} from '@open-wc/testing';
-import {createAccountWithEmail} from '../../../test/test-data-generators';
+import {
+  createAccountWithEmail,
+  createServerInfo,
+} from '../../../test/test-data-generators';
 import {Key} from '../../../utils/dom-util';
+import {NumericChangeId} from '../../../api/rest-api';
 
 suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
   let element: GrSuggestionTextarea;
@@ -65,6 +69,57 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
     ];
     element.emojis = ALL_SUGGESTIONS;
     await element.updateComplete;
+  });
+
+  test('dropping an image uploads it and inserts markdown at the cursor', async () => {
+    element['allowMarkdownImagesInComments'] = true;
+    const config = createServerInfo();
+    config.change.image_attachment_uploads_enabled = true;
+    element['serverConfig'] = config;
+    element['changeNum'] = 123 as NumericChangeId;
+    await setText('before after');
+    element.setCursorPosition(7);
+    const send = stubRestApi('send').resolves(
+      new Response(`)]}'\n{"id":"${'a'.repeat(40)}"}`, {status: 200})
+    );
+    const transfer = new DataTransfer();
+    const image = new File([new Uint8Array([1, 2])], 'diagram.png', {
+      type: 'image/png',
+    });
+    transfer.items.add(image);
+    element.dispatchEvent(
+      new DragEvent('drop', {dataTransfer: transfer, bubbles: true})
+    );
+    await waitUntil(() => element.text.includes('attachments/'));
+    assert.equal(
+      element.text,
+      `before ![diagram.png](/changes/123/attachments/${'a'.repeat(40)})after`
+    );
+    assert.equal(send.firstCall.args[2], image);
+    assert.equal(send.firstCall.args[4], 'image/png');
+  });
+
+  test('pasting an image uploads it', async () => {
+    element['allowMarkdownImagesInComments'] = true;
+    const config = createServerInfo();
+    config.change.image_attachment_uploads_enabled = true;
+    element['serverConfig'] = config;
+    element['changeNum'] = 123 as NumericChangeId;
+    const send = stubRestApi('send').resolves(
+      new Response(`)]}'\n{"id":"${'b'.repeat(40)}"}`, {status: 200})
+    );
+    const transfer = new DataTransfer();
+    transfer.items.add(
+      new File([new Uint8Array([1])], 'paste.png', {
+        type: 'image/png',
+      })
+    );
+    element.dispatchEvent(
+      new ClipboardEvent('paste', {clipboardData: transfer, bubbles: true})
+    );
+    await waitUntil(() => element.text.includes('attachments/'));
+    assert.include(element.text, '/changes/123/attachments/');
+    assert.isTrue(send.calledOnce);
   });
 
   test('renders', () => {

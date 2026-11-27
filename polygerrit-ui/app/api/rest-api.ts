@@ -377,6 +377,7 @@ export declare interface ChangeConfigInfo {
   allow_markdown_base64_images_in_comments?: boolean;
   allow_markdown_images_in_comments?: boolean;
   allowed_image_origins?: string[];
+  image_attachment_uploads_enabled?: boolean;
 }
 
 export type ChangeId = BrandType<string, '_changeId'>;

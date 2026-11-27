@@ -245,7 +245,9 @@ export function getFetchOptions(init: FetchOptionsInit): AuthRequestInit {
       init.contentType || 'application/json'
     );
     options.body =
-      typeof init.body === 'string' ? init.body : JSON.stringify(init.body);
+      typeof init.body === 'string' || init.body instanceof Blob
+        ? init.body
+        : JSON.stringify(init.body);
   }
   if (init.requestOrigin) {
     options.headers!.set(REQUEST_ORIGIN_HEADER, init.requestOrigin);

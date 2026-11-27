@@ -162,6 +162,10 @@ export class GrFormattedText extends LitElement {
           white-space: var(--linked-text-white-space, pre-wrap);
           word-wrap: var(--linked-text-word-wrap, break-word);
         }
+        .markdown-html img {
+          max-width: 100%;
+          height: auto;
+        }
         .markdown-html {
           /* code overrides white-space to pre, everything else should wrap as
            normal. */

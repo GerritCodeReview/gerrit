@@ -14,7 +14,10 @@ import {
   ItemSelectedEventDetail,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {Key} from '../../../utils/dom-util';
-import {fire} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
+import {getBaseUrl} from '../../../utils/url-util';
+import {HttpMethod} from '../../../api/rest';
+import {readJSONResponsePayload} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -122,6 +125,10 @@ export class GrSuggestionTextarea extends LitElement {
 
   @state() private allowMarkdownBase64ImagesInComments = false;
 
+  @state() private allowMarkdownImagesInComments = false;
+
+  @state() private uploadingImage = false;
+
   @state() emojis?: EmojiSuggestion[];
 
   // Accessed in tests.
@@ -157,6 +164,7 @@ export class GrSuggestionTextarea extends LitElement {
     this.addEventListener('dragover', this.handleDragOver);
     this.addEventListener('dragleave', this.handleDragLeave);
     this.addEventListener('drop', this.handleDrop);
+    this.addEventListener('paste', this.handlePaste);
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,
@@ -174,6 +182,13 @@ export class GrSuggestionTextarea extends LitElement {
       () => this.getConfigModel().allowMarkdownBase64ImagesInComments$,
       allow => {
         this.allowMarkdownBase64ImagesInComments = allow;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().allowMarkdownImagesInComments$,
+      allow => {
+        this.allowMarkdownImagesInComments = allow;
       }
     );
     this.shortcuts.addLocal({key: Key.UP}, e => this.handleUpKey(e), {
@@ -287,6 +302,9 @@ export class GrSuggestionTextarea extends LitElement {
       <span id="caratSpan"></span>
       ${this.renderEmojiDropdown()} ${this.renderMentionsDropdown()}
       ${this.renderTextarea()}
+      ${this.uploadingImage
+        ? html`<span role="status">Uploading image...</span>`
+        : ''}
     `;
   }
 
@@ -296,7 +314,7 @@ export class GrSuggestionTextarea extends LitElement {
       putCursorAtEndOnFocus
       class=${classMap({noBorder: this.hideBorder})}
       .placeholder=${this.placeholder}
-      ?disabled=${!!this.disabled}
+      ?disabled=${!!this.disabled || this.uploadingImage}
       .value=${this.text}
       .hint=${this.autocompleteHint}
       @input=${(e: InputEvent) => {
@@ -738,33 +756,55 @@ export class GrSuggestionTextarea extends LitElement {
     return !!this.textarea?.isFocused;
   }
 
+  private canUploadImage() {
+    return (
+      this.allowMarkdownImagesInComments &&
+      !!this.serverConfig?.change?.image_attachment_uploads_enabled &&
+      !!this.changeNum &&
+      !this.disabled
+    );
+  }
+
   private handleDragEnter(e: DragEvent) {
-    if (!this.allowMarkdownBase64ImagesInComments) return;
+    if (!this.canUploadImage() && !this.allowMarkdownBase64ImagesInComments)
+      return;
     e.preventDefault();
     this.isDragging = true;
   }
 
   private handleDragOver(e: DragEvent) {
-    if (!this.allowMarkdownBase64ImagesInComments) return;
+    if (!this.canUploadImage() && !this.allowMarkdownBase64ImagesInComments)
+      return;
     e.preventDefault();
-    e.dataTransfer!.dropEffect = 'copy';
+    if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
   }
 
   private handleDragLeave(e: DragEvent) {
-    if (!this.allowMarkdownBase64ImagesInComments) return;
+    if (!this.canUploadImage() && !this.allowMarkdownBase64ImagesInComments)
+      return;
     e.preventDefault();
     this.isDragging = false;
   }
 
+  private async handlePaste(e: ClipboardEvent) {
+    const file = e.clipboardData?.files[0];
+    if (!file || !this.canUploadImage()) return;
+    e.preventDefault();
+    await this.uploadImage(file);
+  }
+
   private async handleDrop(e: DragEvent) {
-    if (!this.allowMarkdownBase64ImagesInComments) return;
+    if (!this.canUploadImage() && !this.allowMarkdownBase64ImagesInComments)
+      return;
     e.preventDefault();
     this.isDragging = false;
 
-    const files = e.dataTransfer?.files;
-    if (!files?.length) return;
-
-    const file = files[0];
+    const file = e.dataTransfer?.files[0];
+    if (!file) return;
+    if (this.canUploadImage()) {
+      await this.uploadImage(file);
+      return;
+    }
     if (!file.type.startsWith('image/')) {
       console.warn('Only image files are supported');
       return;
@@ -773,11 +813,54 @@ export class GrSuggestionTextarea extends LitElement {
     try {
       const base64 = await this.fileToBase64(file);
       const imageMarkdown = `![${file.name}](${base64})`;
-
-      // Add the image markdown to the text
       this.text = this.text ? `${this.text}\n${imageMarkdown}` : imageMarkdown;
     } catch (err) {
       console.error('Error processing dropped image:', err);
+    }
+  }
+
+  private async uploadImage(file: File) {
+    if (
+      !['image/png', 'image/jpeg', 'image/gif', 'image/webp'].includes(
+        file.type
+      )
+    ) {
+      fireAlert(this, 'Only PNG, JPEG, GIF and WebP images can be uploaded');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      fireAlert(this, 'Image exceeds the 5 MiB limit');
+      return;
+    }
+    const position = Math.max(
+      0,
+      this.textarea?.getCursorPosition() ?? this.text.length
+    );
+    this.uploadingImage = true;
+    try {
+      const response = await this.restApiService.send(
+        HttpMethod.POST,
+        `/changes/${this.changeNum}/attachments`,
+        file,
+        undefined,
+        file.type
+      );
+      if (!response?.ok) throw new Error('Image upload failed');
+      const {parsed} = await readJSONResponsePayload(response);
+      const {id} = parsed as unknown as {id: string};
+      const name = file.name.replace(/[\\\][\r\n]/g, '_').replace('[', '_');
+      const markdown = `![${name}](${getBaseUrl()}/changes/${
+        this.changeNum
+      }/attachments/${id})`;
+      this.text =
+        this.text.slice(0, position) + markdown + this.text.slice(position);
+      await this.updateComplete;
+      this.textarea?.setCursorPosition(position + markdown.length);
+    } catch (err) {
+      console.error('Image upload failed:', err);
+      fireAlert(this, 'Image upload failed');
+    } finally {
+      this.uploadingImage = false;
     }
   }
 

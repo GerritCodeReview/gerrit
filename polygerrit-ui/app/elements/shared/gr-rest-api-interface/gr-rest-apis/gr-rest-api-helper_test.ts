@@ -36,6 +36,17 @@ function makeParsedJSON<T>(val: T): ParsedJSON {
 }
 
 suite('gr-rest-api-helper tests', () => {
+  test('getFetchOptions sends image blobs without JSON serialization', () => {
+    const image = new Blob([new Uint8Array([1, 2, 3])], {type: 'image/png'});
+    const options = getFetchOptions({
+      method: HttpMethod.POST,
+      body: image,
+      contentType: image.type,
+    });
+    assert.equal(options.body, image);
+    assert.equal((options.headers as Headers).get('Content-Type'), 'image/png');
+  });
+
   let clock: SinonFakeTimers;
   let helper: GrRestApiHelper;
 

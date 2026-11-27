@@ -16,6 +16,23 @@
       "message": "I am sending that for the EOL stable-3.12 since the script was introduced in stable-3.12 and I imagine people upgrading one version at the time would be interested in knowing about the option.\n\nReleases-notes skipped since there is already one for the introduction of the script and that is a tiny doc change.",
       "revId": "38d3d24d64f8e48649e8109d8e2a7f4d3c61fde2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da47c725_e830fbe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-27T17:43:52Z",
+      "side": 1,
+      "message": "It has no CI because 3.12 @luca.milanesio@gmail.com being EOL. Also hashar is in the trusted user group.",
+      "revId": "38d3d24d64f8e48649e8109d8e2a7f4d3c61fde2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

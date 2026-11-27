@@ -75,6 +75,8 @@ class SyntaxWorker {
 
   highlightCode(language: string, code: string) {
     if (!this.highlightJsLib) throw new Error('worker not initialized');
+    // Markdown fence labels are supplied by the author and may name any language.
+    if (!this.highlightJsLib.getLanguage(language)) return [];
     const highlighted = this.highlightJsLib.highlight(language, code, true);
     return highlightedStringToRanges(highlighted.value);
   }

@@ -124,6 +124,16 @@ suite('gr-syntax-layer-worker tests', () => {
     assert.equal(layer.leftRanges, leftRanges);
   });
 
+  test('annotates UTF-16 offsets after and inside surrogate pairs', () => {
+    const text = '🐟🚀 "🌱"';
+    layer.rightRanges = [
+      {ranges: [{start: 5, length: 4, className: 'string'}]},
+    ];
+    const el = annotate(Side.RIGHT, 1, text);
+    assert.equal(el.textContent, text);
+    assert.equal(el.querySelector('.gr-syntax-string')?.textContent, '"🌱"');
+  });
+
   suite('annotate and listen', () => {
     setup(() => {
       listener = sinon.stub();

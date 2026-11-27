@@ -15,10 +15,13 @@
 package com.google.gerrit.json;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gson.JsonPrimitive;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
+import java.util.Locale;
 import org.junit.Test;
 
 public class SqlTimestampDeserializerTest {
@@ -29,5 +32,33 @@ public class SqlTimestampDeserializerTest {
   public void emptyStringIsDeserializedToMagicTimestamp() {
     Timestamp timestamp = deserializer.deserialize(new JsonPrimitive(""), Timestamp.class, null);
     assertThat(timestamp).isEqualTo(Timestamp.from(Instant.EPOCH));
+  }
+
+  @Test
+  public void serializesTheSameInEveryDefaultLocale() {
+    List<Timestamp> timestamps =
+        List.of(
+            Timestamp.from(Instant.parse("2026-11-26T14:34:35.160Z")),
+            Timestamp.from(Instant.parse("1000-01-01T00:00:00Z")),
+            Timestamp.from(Instant.parse("+10000-01-01T00:00:00Z")));
+    Locale saved = Locale.getDefault();
+    try {
+      Locale.setDefault(Locale.US);
+      List<String> expected =
+          timestamps.stream()
+              .map(t -> deserializer.serialize(t, Timestamp.class, null).getAsString())
+              .toList();
+      for (Locale l : List.of(Locale.forLanguageTag("th-TH"), Locale.forLanguageTag("ar-EG"))) {
+        Locale.setDefault(l);
+        assertWithMessage("%s", l)
+            .that(
+                timestamps.stream()
+                    .map(t -> deserializer.serialize(t, Timestamp.class, null).getAsString())
+                    .toList())
+            .isEqualTo(expected);
+      }
+    } finally {
+      Locale.setDefault(saved);
+    }
   }
 }

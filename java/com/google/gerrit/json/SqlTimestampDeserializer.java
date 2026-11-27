@@ -26,6 +26,7 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.TimeZone;
 
 class SqlTimestampDeserializer implements JsonDeserializer<Timestamp>, JsonSerializer<Timestamp> {
@@ -66,7 +67,7 @@ class SqlTimestampDeserializer implements JsonDeserializer<Timestamp>, JsonSeria
   }
 
   private static SimpleDateFormat newFormat() {
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);
     f.setTimeZone(UTC);
     f.setLenient(true);
     return f;

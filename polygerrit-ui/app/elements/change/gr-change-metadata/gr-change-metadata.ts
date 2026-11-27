@@ -9,6 +9,7 @@ import '../../../styles/gr-change-metadata-shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-account-chip/gr-account-chip';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-editable-label/gr-editable-label';
 import '../../shared/gr-icon/gr-icon';
@@ -665,7 +666,15 @@ export class GrChangeMetadata extends LitElement {
             href=${createSearchUrl({topic: this.change!.topic!})}
             ?removable=${!this.topicReadOnly}
             @remove=${this.handleTopicRemoved}
-          ></gr-linked-chip>`
+          >
+            <gr-copy-clipboard
+              hideInput
+              hasTooltip
+              buttonTitle="Copy topic to clipboard"
+              copyTargetName="Topic"
+              .text=${this.change?.topic ?? ''}
+            ></gr-copy-clipboard>
+          </gr-linked-chip>`
         )}
         ${when(
           this.showAddTopic(),

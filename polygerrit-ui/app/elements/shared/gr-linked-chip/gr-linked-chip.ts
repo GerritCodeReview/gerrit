@@ -65,6 +65,10 @@ export class GrLinkedChip extends LitElement {
         gr-icon {
           font-size: 1.2rem;
         }
+        ::slotted(*) {
+          margin-left: var(--spacing-xs);
+          --gr-icon-size: 1.2rem;
+        }
         gr-button::part(md-text-button),
         gr-button.remove:hover::part(md-text-button),
         gr-button.remove:focus::part(md-text-button) {
@@ -92,6 +96,7 @@ export class GrLinkedChip extends LitElement {
           .text=${this.text}
         ></gr-limited-text>
       </a>
+      <slot></slot>
       <gr-button
         id="remove"
         link=""

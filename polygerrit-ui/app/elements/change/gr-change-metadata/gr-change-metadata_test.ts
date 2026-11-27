@@ -51,6 +51,7 @@ import {
 } from '../../../test/test-utils';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
+import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {nothing} from 'lit';
 import {assert, fixture, html} from '@open-wc/testing';
@@ -786,6 +787,15 @@ suite('gr-change-metadata tests', () => {
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const button = queryAndAssert<GrButton>(chip, 'gr-button');
       assert.isTrue(button.hasAttribute('hidden'));
+      const copyClipboard = queryAndAssert<GrCopyClipboard>(
+        chip,
+        'gr-copy-clipboard'
+      );
+      assert.isTrue(copyClipboard.hideInput);
+      assert.isTrue(copyClipboard.hasTooltip);
+      assert.equal(copyClipboard.text, 'the topic');
+      assert.equal(copyClipboard.buttonTitle, 'Copy topic to clipboard');
+      assert.equal(copyClipboard.copyTargetName, 'Topic');
     });
 
     test('topic not read only does not hide delete button', async () => {
@@ -856,6 +866,7 @@ suite('gr-change-metadata tests', () => {
       const chip = queryAndAssert<GrLinkedChip>(element, 'gr-linked-chip');
       const button = queryAndAssert<GrButton>(chip, 'gr-button');
       assert.isTrue(button.hasAttribute('hidden'), 'button hidden');
+      assert.isNull(chip.querySelector('gr-copy-clipboard'));
     });
 
     test('hashtag not read only does not hide delete button', async () => {

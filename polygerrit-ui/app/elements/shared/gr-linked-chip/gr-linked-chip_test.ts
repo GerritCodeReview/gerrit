@@ -23,6 +23,7 @@ suite('gr-linked-chip tests', () => {
       element,
       /* HTML */ `<div class="container">
         <a href=""> <gr-limited-text> </gr-limited-text> </a>
+        <slot></slot>
         <gr-button
           aria-disabled="false"
           class="remove"
@@ -44,5 +45,15 @@ suite('gr-linked-chip tests', () => {
     await waitEventLoop();
     queryAndAssert<GrButton>(element, '#remove').click();
     assert.isTrue(spy.called);
+  });
+
+  test('renders slotted content', async () => {
+    const slottedEl = await fixture<GrLinkedChip>(
+      html`<gr-linked-chip><span id="extra">extra</span></gr-linked-chip>`
+    );
+    const slot = queryAndAssert<HTMLSlotElement>(slottedEl, 'slot');
+    const assigned = slot.assignedElements();
+    assert.equal(assigned.length, 1);
+    assert.equal(assigned[0].id, 'extra');
   });
 });

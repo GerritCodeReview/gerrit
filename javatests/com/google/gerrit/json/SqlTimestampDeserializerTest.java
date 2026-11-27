@@ -19,9 +19,13 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gson.JsonPrimitive;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+import java.util.TimeZone;
 import org.junit.Test;
 
 public class SqlTimestampDeserializerTest {
@@ -32,6 +36,43 @@ public class SqlTimestampDeserializerTest {
   public void emptyStringIsDeserializedToMagicTimestamp() {
     Timestamp timestamp = deserializer.deserialize(new JsonPrimitive(""), Timestamp.class, null);
     assertThat(timestamp).isEqualTo(Timestamp.from(Instant.EPOCH));
+  }
+
+  @Test
+  public void serializesLikeSimpleDateFormat() {
+    List<Timestamp> timestamps = new ArrayList<>();
+    for (String t :
+        List.of(
+            "1970-01-01T00:00:00Z",
+            "2026-11-26T14:34:35.160Z",
+            "1582-10-14T23:59:59.999Z",
+            "1582-10-15T00:00:00Z",
+            "1582-10-15T00:00:00.001Z",
+            "1900-02-28T23:59:59.999Z",
+            "2000-02-29T12:00:00Z",
+            "9999-12-31T23:59:59.999Z",
+            "+10000-01-01T00:00:00Z",
+            "0001-01-01T00:00:00Z")) {
+      timestamps.add(Timestamp.from(Instant.parse(t)));
+    }
+    Timestamp withNanos = Timestamp.from(Instant.parse("2026-11-26T14:34:35Z"));
+    withNanos.setNanos(123_456_789);
+    timestamps.add(withNanos);
+    Random random = new Random(1);
+    long min = Instant.parse("0001-01-01T00:00:00Z").toEpochMilli();
+    long max = Instant.parse("+12000-01-01T00:00:00Z").toEpochMilli();
+    for (int i = 0; i < 100_000; i++) {
+      timestamps.add(new Timestamp(min + (long) (random.nextDouble() * (max - min))));
+    }
+
+    SimpleDateFormat reference = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);
+    reference.setTimeZone(TimeZone.getTimeZone("UTC"));
+    reference.setLenient(true);
+    for (Timestamp t : timestamps) {
+      assertWithMessage("%s", t.toInstant())
+          .that(deserializer.serialize(t, Timestamp.class, null).getAsString())
+          .isEqualTo(reference.format(t) + "000000");
+    }
   }
 
   @Test

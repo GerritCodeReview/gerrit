@@ -26,11 +26,25 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.TimeZone;
 
 class SqlTimestampDeserializer implements JsonDeserializer<Timestamp>, JsonSerializer<Timestamp> {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
+  private static final DateTimeFormatter FORMAT =
+      DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss.SSS", Locale.US).withZone(ZoneOffset.UTC);
+
+  /**
+   * {@link #FORMAT} gives the same text as {@link #newFormat()} from this instant on: before it,
+   * SimpleDateFormat uses the Julian calendar.
+   */
+  private static final Instant GREGORIAN_START = Instant.parse("1582-10-15T00:00:00Z");
+
+  /** From this instant on, {@link #FORMAT} prints a '+' before the year. */
+  private static final Instant YEAR_10000 = Instant.parse("+10000-01-01T00:00:00Z");
 
   @Nullable
   @Override
@@ -63,7 +77,12 @@ class SqlTimestampDeserializer implements JsonDeserializer<Timestamp>, JsonSeria
     if (src == null) {
       return JsonNull.INSTANCE;
     }
-    return new JsonPrimitive(newFormat().format(src) + "000000");
+    Instant t = src.toInstant();
+    String formatted =
+        t.isBefore(GREGORIAN_START) || !t.isBefore(YEAR_10000)
+            ? newFormat().format(src)
+            : FORMAT.format(t);
+    return new JsonPrimitive(formatted + "000000");
   }
 
   private static SimpleDateFormat newFormat() {

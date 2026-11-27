@@ -2338,6 +2338,10 @@ bit is indexed.
 link:config-gerrit.html#change.conflictsPredicateEnabled[Are conflicts enabled?].
 |`allow_markdown_base64_images_in_comments`|not set if `false`|
 link:config-gerrit.html#change.allowMarkdownBase64ImagesInComments[Are markdown base64 images in comments allowed?].
+|`allow_markdown_images_in_comments`|not set if `false`|
+link:config-gerrit.html#change.allowMarkdownImagesInComments[Are images hosted on this Gerrit site allowed in comments?].
+|`allowed_image_origins` ||
+link:config-gerrit.html#change.allowedImageOrigins[Origins markdown images in comments may be loaded from].
 |=============================
 
 [[change-index-config-info]]

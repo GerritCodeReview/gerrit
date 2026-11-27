@@ -241,6 +241,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         toBoolean(config.getBoolean("change", "conflictsPredicateEnabled", true));
     info.allowMarkdownBase64ImagesInComments =
         toBoolean(config.getBoolean("change", "allowMarkdownBase64ImagesInComments", false));
+    info.allowMarkdownImagesInComments =
+        toBoolean(config.getBoolean("change", "allowMarkdownImagesInComments", false));
+    info.allowedImageOrigins =
+        Arrays.asList(config.getStringList("change", null, "allowedImageOrigins"));
     return info;
   }
 

@@ -30,6 +30,39 @@ const IMAGE_MIME_PATTERN =
   /^data:image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp);base64,/;
 
 /**
+ * Origins images may be loaded from in addition to this Gerrit site, taken from
+ * `change.allowedImageOrigins`. Entries that are not absolute http(s) URLs are
+ * dropped, along with their paths, since only the origin is comparable.
+ */
+export function normalizeImageOrigins(entries: string[]): string[] {
+  const origins: string[] = [];
+  for (const entry of entries) {
+    try {
+      const url = new URL(entry);
+      if (
+        (url.protocol === 'https:' || url.protocol === 'http:') &&
+        !origins.includes(url.origin)
+      ) {
+        origins.push(url.origin);
+      }
+    } catch {
+      // Not an absolute URL, so it cannot match the origin of an image url.
+    }
+  }
+  return origins;
+}
+
+function isAllowedImageOrigin(href: string, allowedOrigins: string[]): boolean {
+  let origin: string;
+  try {
+    origin = new URL(href, window.location.origin).origin;
+  } catch {
+    return false;
+  }
+  return origin === window.location.origin || allowedOrigins.includes(origin);
+}
+
+/**
  * This element optionally renders markdown and also applies some regex
  * replacements to linkify key parts of the text defined by the host's config.
  */
@@ -54,6 +87,12 @@ export class GrFormattedText extends LitElement {
 
   @state()
   private allowMarkdownBase64ImagesInComments = false;
+
+  @state()
+  private allowMarkdownImagesInComments = false;
+
+  @state()
+  private allowedImageOrigins: string[] = [];
 
   /**
    * Note: Do not use sharedStyles or other styles here that should not affect
@@ -207,6 +246,22 @@ export class GrFormattedText extends LitElement {
         this.allowMarkdownBase64ImagesInComments = allow;
       }
     );
+
+    subscribe(
+      this,
+      () => this.getConfigModel().allowMarkdownImagesInComments$,
+      allow => {
+        this.allowMarkdownImagesInComments = allow;
+      }
+    );
+
+    subscribe(
+      this,
+      () => this.getConfigModel().allowedImageOrigins$,
+      origins => {
+        this.allowedImageOrigins = normalizeImageOrigins(origins);
+      }
+    );
   }
 
   override render() {
@@ -241,6 +296,8 @@ export class GrFormattedText extends LitElement {
 
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
+    const allowMarkdownImagesInComments = this.allowMarkdownImagesInComments;
+    const allowedImageOrigins = this.allowedImageOrigins;
 
     // We are overriding some gr-marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
@@ -286,7 +343,23 @@ export class GrFormattedText extends LitElement {
             title ? `title="${title}"` : ''
           } />`;
         }
-        // For non-base64 images just return the markdown
+        // Images served by this Gerrit site, e.g. uploaded attachments, plus
+        // any origin the administrator allowlisted. Everything else stays text,
+        // so that reading a comment cannot leak the reader's IP address and
+        // user agent to a third party.
+        if (
+          allowMarkdownImagesInComments &&
+          isAllowedImageOrigin(href, allowedImageOrigins)
+        ) {
+          const alt = htmlEscape(text).toString();
+          const titleAttr = title
+            ? ` title="${htmlEscape(title).toString()}"`
+            : '';
+          return `<img src="${htmlEscape(
+            href
+          ).toString()}" alt="${alt}"${titleAttr} />`;
+        }
+        // For images that are not rendered just return the markdown
         return `![${text}](${href})`;
       };
 

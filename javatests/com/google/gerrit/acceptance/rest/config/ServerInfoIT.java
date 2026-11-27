@@ -74,6 +74,10 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.updateDelay", value = "50s")
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
   @GerritConfig(name = "change.allowMarkdownBase64ImagesInComments", value = "false")
+  @GerritConfig(name = "change.allowMarkdownImagesInComments", value = "true")
+  @GerritConfig(
+      name = "change.allowedImageOrigins",
+      values = {"https://cdn.example.org", "not a url"})
   // download
   @GerritConfig(
       name = "download.archive",
@@ -115,6 +119,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.updateDelay).isEqualTo(50);
     assertThat(i.change.disablePrivateChanges).isTrue();
     assertThat(i.change.allowMarkdownBase64ImagesInComments).isNull();
+    assertThat(i.change.allowMarkdownImagesInComments).isTrue();
+    assertThat(i.change.allowedImageOrigins)
+        .containsExactly("https://cdn.example.org", "not a url");
 
     // download
     assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.List;
+
 /** API response containing values from the {@code change} section of {@code gerrit.config}. */
 public class ChangeConfigInfo {
   public Boolean allowBlame;
@@ -33,4 +35,6 @@ public class ChangeConfigInfo {
   public String mergeabilityComputationBehavior;
   public Boolean conflictsPredicateEnabled;
   public Boolean allowMarkdownBase64ImagesInComments;
+  public Boolean allowMarkdownImagesInComments;
+  public List<String> allowedImageOrigins;
 }

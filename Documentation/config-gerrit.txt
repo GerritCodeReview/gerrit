@@ -1989,6 +1989,36 @@ link:#change.cumulativeCommentSizeLimit[cumulative comment size limit].
 +
 By default `false`.
 
+[[change.allowMarkdownImagesInComments]]change.allowMarkdownImagesInComments::
++
+Allows images to be rendered in Gerrit comments when written with Markdown
+image syntax, for example `![diagram](/changes/123/attachments/abc)`.
++
+Images hosted on this Gerrit site are always allowed once this is enabled.
+Images from any other origin are rendered as plain text unless the origin is
+listed in link:#change.allowedImageOrigins[change.allowedImageOrigins], so that
+reading a comment cannot leak the reader's IP address and user agent to a third
+party. Base64 encoded images are covered separately by
+link:#change.allowMarkdownBase64ImagesInComments[change.allowMarkdownBase64ImagesInComments].
++
+By default `false`.
+
+[[change.allowedImageOrigins]]change.allowedImageOrigins::
++
+Additional origins, beyond this Gerrit site, that Markdown images in comments
+may be loaded from. Only meaningful when
+link:#change.allowMarkdownImagesInComments[change.allowMarkdownImagesInComments]
+is enabled. Repeat the key for each origin:
++
+----
+[change]
+  allowedImageOrigins = https://images.example.com
+  allowedImageOrigins = https://cdn.example.org
+----
++
+Only the scheme and host are used, any path in the value is ignored. Values that
+are not absolute `http` or `https` URLs are ignored. By default empty.
+
 [[change.propagateSubmitRequirementErrors]]change.propagateSubmitRequirementErrors::
 +
 If set, requests that access the submit requirements of a change fail with an

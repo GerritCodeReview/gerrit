@@ -16,7 +16,12 @@ import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
 import './gr-formatted-text';
 import {GrFormattedText} from './gr-formatted-text';
-import {createComment, createConfig} from '../../../test/test-data-generators';
+import {
+  createChangeConfig,
+  createComment,
+  createConfig,
+  createServerInfo,
+} from '../../../test/test-data-generators';
 import {
   query,
   queryAndAssert,
@@ -39,6 +44,21 @@ suite('gr-formatted-text tests', () => {
     await waitUntilObserved(
       configModel.repoCommentLinks$,
       links => links === commentlinks
+    );
+  }
+
+  async function enableImageRendering(origins: string[] = []) {
+    configModel.updateServerConfig({
+      ...createServerInfo(),
+      change: {
+        ...createChangeConfig(),
+        allow_markdown_images_in_comments: true,
+        allowed_image_origins: origins,
+      },
+    });
+    await waitUntilObserved(
+      configModel.allowMarkdownImagesInComments$,
+      allow => allow
     );
   }
 
@@ -327,6 +347,89 @@ suite('gr-formatted-text tests', () => {
       const div = queryAndAssert<HTMLElement>(element, 'div.markdown-html');
       const style = window.getComputedStyle(div);
       assert.equal(style.overflowWrap, 'break-word');
+    });
+
+    test('renders images hosted on this site when enabled', async () => {
+      await enableImageRendering();
+      element.content = '![diagram](/changes/123/attachments/abc)';
+      await element.updateComplete;
+
+      const img = queryAndAssert<HTMLImageElement>(
+        element,
+        '.markdown-html img'
+      );
+      assert.equal(img.getAttribute('src'), '/changes/123/attachments/abc');
+      assert.equal(img.getAttribute('alt'), 'diagram');
+    });
+
+    test('does not render site hosted images when disabled', async () => {
+      element.content = '![diagram](/changes/123/attachments/abc)';
+      await element.updateComplete;
+
+      assert.isNotOk(query(element, '.markdown-html img'));
+      assert.equal(
+        queryAndAssert<HTMLElement>(element, '.markdown-html p').textContent,
+        '![diagram](/changes/123/attachments/abc)'
+      );
+    });
+
+    test('does not render other origins even when enabled', async () => {
+      await enableImageRendering();
+      element.content = '![x](https://example.com/img.png)';
+      await element.updateComplete;
+
+      assert.isNotOk(query(element, '.markdown-html img'));
+    });
+
+    test('renders allowlisted origins', async () => {
+      await enableImageRendering(['https://cdn.example.org']);
+      element.content = '![x](https://cdn.example.org/img.png)';
+      await element.updateComplete;
+
+      const img = queryAndAssert<HTMLImageElement>(
+        element,
+        '.markdown-html img'
+      );
+      assert.equal(img.getAttribute('src'), 'https://cdn.example.org/img.png');
+    });
+
+    test('ignores the path, scheme mismatch and junk in allowed origins', async () => {
+      await enableImageRendering([
+        'https://cdn.example.org/some/path',
+        'ftp://ftp.example.org',
+        'not a url',
+      ]);
+      element.content =
+        '![a](https://cdn.example.org/img.png) ![b](http://cdn.example.org/img.png) ![c](https://other.example.org/img.png)';
+      await element.updateComplete;
+
+      const imgs = element.shadowRoot!.querySelectorAll('.markdown-html img');
+      assert.lengthOf(imgs, 1);
+      assert.equal(
+        imgs[0].getAttribute('src'),
+        'https://cdn.example.org/img.png'
+      );
+    });
+
+    test('does not render javascript urls even when enabled', async () => {
+      await enableImageRendering();
+      element.content = '![x](javascript:alert(1))';
+      await element.updateComplete;
+
+      assert.isNotOk(query(element, '.markdown-html img'));
+    });
+
+    test('escapes alt text and title of rendered images', async () => {
+      await enableImageRendering();
+      element.content = "![a\"b](/img.png 'the title')";
+      await element.updateComplete;
+
+      const img = queryAndAssert<HTMLImageElement>(
+        element,
+        '.markdown-html img'
+      );
+      assert.equal(img.getAttribute('alt'), 'a"b');
+      assert.equal(img.getAttribute('title'), 'the title');
     });
 
     test('indents lists on the list element instead of on every item', async () => {

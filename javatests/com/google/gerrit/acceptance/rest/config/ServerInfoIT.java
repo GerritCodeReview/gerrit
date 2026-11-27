@@ -75,6 +75,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
   @GerritConfig(name = "change.allowMarkdownBase64ImagesInComments", value = "false")
   @GerritConfig(name = "change.allowMarkdownImagesInComments", value = "true")
+  @GerritConfig(name = "attachments.enabled", value = "true")
   @GerritConfig(
       name = "change.allowedImageOrigins",
       values = {"https://cdn.example.org", "not a url"})
@@ -120,6 +121,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.disablePrivateChanges).isTrue();
     assertThat(i.change.allowMarkdownBase64ImagesInComments).isNull();
     assertThat(i.change.allowMarkdownImagesInComments).isTrue();
+    assertThat(i.change.imageAttachmentUploadsEnabled).isTrue();
     assertThat(i.change.allowedImageOrigins)
         .containsExactly("https://cdn.example.org", "not a url");
 

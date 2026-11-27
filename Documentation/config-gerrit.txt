@@ -1989,6 +1989,29 @@ link:#change.cumulativeCommentSizeLimit[cumulative comment size limit].
 +
 By default `false`.
 
+[[attachments.enabled]]attachments.enabled::
++
+Enables image uploads on changes through the REST API and the comment editor.
+Uploads require a signed-in user who can read the change. By default `false`.
++
+Only PNG, JPEG, GIF and WebP images are accepted, up to 5 MiB each. A change
+can hold at most 20 distinct images. Uploaded images are stored as blobs in the
+project repository, not inside the comment text. Anyone who can read the
+change can view its attachments, including anonymous users on public changes.
+
+[[attachments.allowedGroup]]attachments.allowedGroup::
++
+Group whose members may upload images. This key may be repeated to allow
+multiple groups. If no group is configured, any signed-in user who can read
+the change may upload images. An unknown group denies uploads rather than
+grants access.
++
+----
+[attachments]
+  enabled = true
+  allowedGroup = Committers
+----
+
 [[change.allowMarkdownImagesInComments]]change.allowMarkdownImagesInComments::
 +
 Allows images to be rendered in Gerrit comments when written with Markdown

@@ -106,6 +106,9 @@ public class RefNames {
   /** Draft inline comments of a user on a change */
   public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
 
+  /** Images attached to changes, keyed by content ID. */
+  public static final String REFS_ATTACHMENTS = "refs/attachments/";
+
   /** A change starred by a user */
   public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
 
@@ -121,6 +124,7 @@ public class RefNames {
           REFS_EXTERNAL_IDS,
           REFS_CACHE_AUTOMERGE,
           REFS_DRAFT_COMMENTS,
+          REFS_ATTACHMENTS,
           REFS_DELETED_GROUPS,
           REFS_SEQUENCES,
           REFS_GROUPS,
@@ -206,6 +210,14 @@ public class RefNames {
   public static String refsUsers(Account.Id accountId) {
     StringBuilder r = newStringBuilder().append(REFS_USERS);
     return shard(accountId.get(), r).toString();
+  }
+
+  public static String refsAttachmentsPrefix(Change.Id changeId) {
+    return buildRefsPrefix(REFS_ATTACHMENTS, changeId.get()).toString();
+  }
+
+  public static boolean isRefsAttachments(String ref) {
+    return ref.startsWith(REFS_ATTACHMENTS);
   }
 
   public static String refsDraftComments(Change.Id changeId, Account.Id accountId) {

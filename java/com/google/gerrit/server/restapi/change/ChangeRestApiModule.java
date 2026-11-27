@@ -26,6 +26,7 @@ import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT_KIND;
 import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
+import static com.google.gerrit.server.restapi.change.Attachments.ATTACHMENT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -36,6 +37,7 @@ public class ChangeRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(ChangesCollection.class);
+    bind(Attachments.class);
     bind(Comments.class);
     bind(DraftComments.class);
     bind(Files.class);
@@ -47,6 +49,7 @@ public class ChangeRestApiModule extends RestApiModule {
     bind(Votes.class);
 
     DynamicMap.mapOf(binder(), ATTENTION_SET_ENTRY_KIND);
+    DynamicMap.mapOf(binder(), ATTACHMENT_KIND);
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), CHANGE_EDIT_KIND);
     DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
@@ -63,6 +66,10 @@ public class ChangeRestApiModule extends RestApiModule {
     delete(CHANGE_KIND).to(DeleteChange.class);
     get(CHANGE_KIND).to(GetChange.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
+
+    child(CHANGE_KIND, "attachments").to(Attachments.class);
+    postOnCollection(ATTACHMENT_KIND).to(UploadAttachment.class);
+    get(ATTACHMENT_KIND).to(GetAttachment.class);
 
     child(CHANGE_KIND, "attention").to(AttentionSet.class);
     postOnCollection(ATTENTION_SET_ENTRY_KIND).to(AddToAttentionSet.class);

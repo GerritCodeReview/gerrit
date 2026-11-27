@@ -2342,6 +2342,8 @@ link:config-gerrit.html#change.allowMarkdownBase64ImagesInComments[Are markdown 
 link:config-gerrit.html#change.allowMarkdownImagesInComments[Are images hosted on this Gerrit site allowed in comments?].
 |`allowed_image_origins` ||
 link:config-gerrit.html#change.allowedImageOrigins[Origins markdown images in comments may be loaded from].
+|`image_attachment_uploads_enabled`|not set if `false`|
+Whether image uploads are enabled on this site.
 |=============================
 
 [[change-index-config-info]]

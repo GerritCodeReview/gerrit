@@ -37,4 +37,5 @@ public class ChangeConfigInfo {
   public Boolean allowMarkdownBase64ImagesInComments;
   public Boolean allowMarkdownImagesInComments;
   public List<String> allowedImageOrigins;
+  public Boolean imageAttachmentUploadsEnabled;
 }

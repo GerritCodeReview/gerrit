@@ -545,6 +545,51 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
   ]
 ----
 
+[[upload-attachment]]
+=== Upload Image Attachment
+--
+'POST /changes/link:#change-id[\{change-id\}]/attachments'
+--
+
+Uploads an image on a change. Requires link:config-gerrit.html#attachments.enabled[
+attachments.enabled] and a signed-in user with access to the change. If
+link:config-gerrit.html#attachments.allowedGroup[attachments.allowedGroup]
+is configured, the user must also belong to one of the allowed groups.
+
+The request body is the raw image bytes (PNG, JPEG, GIF or WebP), limited to
+5 MiB. Up to 20 distinct images are stored on a change. The response contains
+an `id` field with the content ID. Reuploading the same image on the same
+change returns the same ID. The client can insert
+`![image](/changes/123/attachments/<id>)` in a comment.
+
+.Request
+----
+  POST /changes/123/attachments HTTP/1.0
+  Content-Type: image/png
+
+  <image bytes>
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {"id":"a1b2..."}
+----
+
+[[get-attachment]]
+=== Get Image Attachment
+--
+'GET /changes/link:#change-id[\{change-id\}]/attachments/\{id\}'
+--
+
+Retrieves an image attachment by its 40-character content ID. The caller must
+be allowed to read the change; images on private changes are not public. The
+response is the original image bytes with an image `Content-Type` and
+`X-Content-Type-Options: nosniff`.
+
 [[get-change]]
 === Get Change
 --

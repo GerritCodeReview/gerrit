@@ -245,6 +245,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         toBoolean(config.getBoolean("change", "allowMarkdownImagesInComments", false));
     info.allowedImageOrigins =
         Arrays.asList(config.getStringList("change", null, "allowedImageOrigins"));
+    info.imageAttachmentUploadsEnabled =
+        toBoolean(config.getBoolean("attachments", "enabled", false));
     return info;
   }
 

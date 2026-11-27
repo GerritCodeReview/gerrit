@@ -3,8 +3,8 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   htmlEscape,
   sanitizeHtmlToFragment,
@@ -23,6 +23,18 @@ import {
 import {sameOrigin} from '../../../utils/url-util';
 import '../gr-marked-element/gr-marked-element';
 import {Renderer, Tokenizer, Tokens} from 'marked';
+import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {userModelToken} from '../../../models/user/user-model';
+import {getAppContext} from '../../../services/app-context';
+import {getShadowOrDocumentSelection} from '../../../utils/dom-util';
+import {
+  SyntaxLayerLine,
+  SyntaxLayerRange,
+} from '../../../types/syntax-worker-api';
+import {
+  getSyntaxClassName,
+  grSyntaxTheme,
+} from '../../../embed/diff/gr-syntax-themes/gr-syntax-theme';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -46,6 +58,19 @@ export class GrFormattedText extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
+  private readonly getHighlightService = resolve(this, highlightServiceToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  @query('gr-marked-element > .markdown-html')
+  private markdownOutput?: HTMLElement;
+
+  @state() private syntaxHighlighting = true;
+
+  // Markdown can render again as preferences and comment links arrive.
+  // Reuse worker results for identical fences in the current comment.
+  private readonly highlights = new Map<string, Promise<SyntaxLayerLine[]>>();
+
   // Private const but used in tests.
   // Limit the length of markdown because otherwise the markdown lexer will
   // run out of memory causing the tab to crash.
@@ -61,6 +86,7 @@ export class GrFormattedText extends LitElement {
    */
   static override get styles() {
     return [
+      grSyntaxTheme,
       css`
         a {
           color: var(--link-color);
@@ -140,6 +166,11 @@ export class GrFormattedText extends LitElement {
     super();
     subscribe(
       this,
+      () => this.getUserModel().diffPreferences$,
+      prefs => (this.syntaxHighlighting = !!prefs.syntax_highlighting)
+    );
+    subscribe(
+      this,
       () => this.getConfigModel().repoCommentLinks$,
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
@@ -209,6 +240,10 @@ export class GrFormattedText extends LitElement {
     );
   }
 
+  override willUpdate(changed: PropertyValues<this>) {
+    if (changed.has('content')) this.highlights.clear();
+  }
+
   override render() {
     return html`
       <gr-endpoint-decorator name="formatted-text-endpoint">
@@ -242,6 +277,11 @@ export class GrFormattedText extends LitElement {
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
 
+    // The sanitizer drops Marked's language classes. Keep the fence info in
+    // render order, including untagged blocks. Suggestions render as <mark>
+    // and do not occupy a <pre><code> slot.
+    const languages: (string | undefined)[] = [];
+
     // We are overriding some gr-marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
     // 2. Rewrite plain text ("text") to apply linking and other config-based
@@ -249,6 +289,7 @@ export class GrFormattedText extends LitElement {
     // 3. Open links in a new tab by rendering with target="_blank" attribute.
     // 4. Relative links without "/" prefix are assumed to be absolute links.
     function patchRenderer(renderer: Renderer) {
+      languages.length = 0;
       // Use the `function` syntax, so that we can add type annotation for
       // `this`, allowing the overridden methods access to all members of
       // the merged Renderer object, including to `this.parser`.
@@ -303,7 +344,7 @@ export class GrFormattedText extends LitElement {
             token.escaped ? token.text : htmlEscape(token.text)
           }</mark>`;
         }
-        // Fall back to default renderer's `code` function.
+        languages.push(token.lang?.trim().split(/\s+/, 1)[0]);
         return Renderer.prototype.code.call(this, token);
       };
 
@@ -365,25 +406,67 @@ export class GrFormattedText extends LitElement {
         .breaks=${true}
         .renderer=${patchRenderer}
         .tokenizer=${patchTokenizer}
+        @marked-render-complete=${() => this.markedRenderComplete(languages)}
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>
     `;
   }
 
-  override updated() {
-    this.removeEventListener(
-      'marked-render-complete',
-      this.markedRenderComplete
-    );
-    this.addEventListener('marked-render-complete', this.markedRenderComplete);
-  }
-
-  readonly markedRenderComplete = () => {
+  private markedRenderComplete(languages: (string | undefined)[]) {
     // Look for @mentions and replace them with an account-label chip.
     this.convertEmailsToAccountChips();
     this.convertCodeToSuggestions();
-  };
+    if (!this.syntaxHighlighting || !languages.some(Boolean)) return;
+    this.markdownOutput
+      ?.querySelectorAll<HTMLElement>('pre > code')
+      .forEach((code, index) => {
+        const language = languages[index];
+        if (language) this.highlightCode(code, language);
+      });
+  }
+
+  private async highlightCode(code: HTMLElement, language: string) {
+    const text = code.textContent ?? '';
+    const key = language + '\n' + text;
+    let result = this.highlights.get(key);
+    if (!result) {
+      result = this.requestHighlight(language, text);
+      this.highlights.set(key, result);
+    }
+    const lines = await result;
+    // A new Markdown render replaces the old nodes while the worker runs.
+    if (!code.isConnected || !this.renderRoot.contains(code)) return;
+    if (!lines.some(line => line.ranges.length)) return;
+    const selection = getShadowOrDocumentSelection(this.shadowRoot, null);
+    if (
+      selection instanceof Range
+        ? !selection.collapsed && selection.intersectsNode(code)
+        : selection &&
+          !selection.isCollapsed &&
+          selection.containsNode(code, true)
+    )
+      return;
+
+    const fragment = document.createDocumentFragment();
+    text.split('\n').forEach((line, index) => {
+      if (index) fragment.append('\n');
+      appendSyntaxLine(fragment, line, lines[index]?.ranges ?? []);
+    });
+    code.replaceChildren(fragment);
+  }
+
+  private async requestHighlight(language: string, text: string) {
+    try {
+      return await this.getHighlightService().highlight(language, text);
+    } catch (err) {
+      getAppContext().reportingService.error(
+        'Comment syntax highlighting',
+        err as Error
+      );
+      return [];
+    }
+  }
 
   private convertEmailsToAccountChips() {
     for (const emailLink of this.renderRoot.querySelectorAll(
@@ -427,6 +510,44 @@ export class GrFormattedText extends LitElement {
       );
     });
   }
+}
+
+// Worker ranges arrive in opening-tag order. Append text once in UTF-16
+// offsets and close nested spans as their ranges end.
+function appendSyntaxLine(
+  fragment: DocumentFragment,
+  text: string,
+  ranges: SyntaxLayerRange[]
+) {
+  if (!ranges.length) {
+    fragment.append(text);
+    return;
+  }
+  const scopes: {node: ParentNode; end: number}[] = [
+    {node: fragment, end: text.length},
+  ];
+  let position = 0;
+  function appendTextUntil(offset: number) {
+    while (scopes.length) {
+      const scope = scopes[scopes.length - 1];
+      const end = Math.min(offset, scope.end);
+      if (position < end) scope.node.append(text.slice(position, end));
+      position = end;
+      if (offset < scope.end) break;
+      scopes.pop();
+    }
+  }
+
+  for (const {start, length, className} of ranges) {
+    const syntaxClass = getSyntaxClassName(className);
+    if (!syntaxClass || !length || start >= text.length) continue;
+    appendTextUntil(start);
+    const span = document.createElement('span');
+    span.className = syntaxClass;
+    scopes[scopes.length - 1].node.append(span);
+    scopes.push({node: span, end: Math.min(start + length, text.length)});
+  }
+  appendTextUntil(text.length);
 }
 
 declare global {

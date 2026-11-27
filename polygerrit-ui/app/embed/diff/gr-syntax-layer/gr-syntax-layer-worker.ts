@@ -3,12 +3,16 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {getSyntaxClassName} from '../gr-syntax-themes/gr-syntax-theme';
 import {annotateElement} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
-import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
+import {
+  SyntaxLayerLine,
+  SyntaxLayerRange,
+} from '../../../types/syntax-worker-api';
 import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {HighlightService} from '../../../services/highlight/highlight-service';
 import {Provider} from '../../../models/dependency';
@@ -108,47 +112,23 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/vbscript', 'vbscript'],
 ]);
 
-const CLASS_PREFIX = 'gr-syntax gr-syntax-';
-
-const CLASS_SAFELIST = new Set<string>([
-  'attr',
-  'attribute',
-  'built_in',
-  'bullet',
-  'code',
-  'comment',
-  'doctag',
-  'emphasis',
-  'formula',
-  'function',
-  'keyword',
-  'link',
-  'literal',
-  'meta',
-  'meta-keyword',
-  'name',
-  'number',
-  'params',
-  'property',
-  'quote',
-  'regexp',
-  'section',
-  'selector-attr',
-  'selector-class',
-  'selector-id',
-  'selector-pseudo',
-  'selector-tag',
-  'string',
-  'strong',
-  'tag',
-  'template-tag',
-  'template-variable',
-  'title',
-  'title function_',
-  'type',
-  'variable',
-  'variable language_',
-]);
+/** Apply syntax ranges without disturbing existing diff annotations. */
+function annotateSyntaxRanges(el: HTMLElement, ranges: SyntaxLayerRange[]) {
+  if (ranges.length === 0) return;
+  const text = el.textContent ?? '';
+  // The worker indexes UTF-16 code units; annotateElement counts code points.
+  const hasAstral = /[\u{10000}-\u{10ffff}]/u.test(text);
+  for (const {start, length, className} of ranges) {
+    const syntaxClass = getSyntaxClassName(className);
+    if (!syntaxClass || !length) continue;
+    annotateElement(
+      el,
+      hasAstral ? Array.from(text.slice(0, start)).length : start,
+      hasAstral ? Array.from(text.slice(start, start + length)).length : length,
+      syntaxClass
+    );
+  }
+}
 
 export class GrSyntaxLayerWorker implements DiffLayer {
   diff?: DiffInfo;
@@ -218,16 +198,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     const rangesPerLine = isLeft ? this.leftRanges : this.rightRanges;
     const ranges = rangesPerLine[lineNumber - 1]?.ranges ?? [];
 
-    for (const range of ranges) {
-      if (!CLASS_SAFELIST.has(range.className)) continue;
-      if (range.length === 0) continue;
-      annotateElement(
-        el,
-        range.start,
-        range.length,
-        CLASS_PREFIX + range.className
-      );
-    }
+    annotateSyntaxRanges(el, ranges);
   }
 
   _getLanguage(metaInfo?: DiffFileMetaInfo) {

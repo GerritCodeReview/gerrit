@@ -8,7 +8,10 @@ import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
-import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
+import {
+  SyntaxLayerLine,
+  SyntaxLayerRange,
+} from '../../../types/syntax-worker-api';
 import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {HighlightService} from '../../../services/highlight/highlight-service';
 import {Provider} from '../../../models/dependency';
@@ -111,12 +114,14 @@ const LANGUAGE_MAP = new Map<string, string>([
 const CLASS_PREFIX = 'gr-syntax gr-syntax-';
 
 const CLASS_SAFELIST = new Set<string>([
+  'addition',
   'attr',
   'attribute',
   'built_in',
   'bullet',
   'code',
   'comment',
+  'deletion',
   'doctag',
   'emphasis',
   'formula',
@@ -149,6 +154,26 @@ const CLASS_SAFELIST = new Set<string>([
   'variable',
   'variable language_',
 ]);
+
+/** Apply Highlight.js ranges to one line of plain text. */
+export function annotateSyntaxRanges(
+  el: HTMLElement,
+  ranges: SyntaxLayerRange[]
+) {
+  if (ranges.length === 0) return;
+  const text = el.textContent ?? '';
+  // The worker indexes UTF-16 code units; annotateElement counts code points.
+  const hasAstral = /[\u{10000}-\u{10ffff}]/u.test(text);
+  for (const {start, length, className} of ranges) {
+    if (!CLASS_SAFELIST.has(className) || !length) continue;
+    annotateElement(
+      el,
+      hasAstral ? Array.from(text.slice(0, start)).length : start,
+      hasAstral ? Array.from(text.slice(start, start + length)).length : length,
+      CLASS_PREFIX + className
+    );
+  }
+}
 
 export class GrSyntaxLayerWorker implements DiffLayer {
   diff?: DiffInfo;
@@ -218,16 +243,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     const rangesPerLine = isLeft ? this.leftRanges : this.rightRanges;
     const ranges = rangesPerLine[lineNumber - 1]?.ranges ?? [];
 
-    for (const range of ranges) {
-      if (!CLASS_SAFELIST.has(range.className)) continue;
-      if (range.length === 0) continue;
-      annotateElement(
-        el,
-        range.start,
-        range.length,
-        CLASS_PREFIX + range.className
-      );
-    }
+    annotateSyntaxRanges(el, ranges);
   }
 
   _getLanguage(metaInfo?: DiffFileMetaInfo) {

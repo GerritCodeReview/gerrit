@@ -8,7 +8,7 @@ import {css} from 'lit';
 /**
  * HighlightJS emits the following classes that do not have styles here:
  *    subst, symbol, class, function, doctag, meta-string, section, name,
- *    builtin-name, bulletm, code, formula, quote, addition, deletion,
+ *    builtin-name, bulletm, code, formula, quote,
  *    attribute
  *
  * @see {@link http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html}
@@ -16,6 +16,12 @@ import {css} from 'lit';
 export const grSyntaxTheme = css`
   .contentText {
     color: var(--syntax-default-color);
+  }
+  .gr-syntax-addition {
+    color: var(--positive-green-text-color);
+  }
+  .gr-syntax-deletion {
+    color: var(--negative-red-text-color);
   }
   .gr-syntax-attr {
     color: var(--syntax-attr-color);

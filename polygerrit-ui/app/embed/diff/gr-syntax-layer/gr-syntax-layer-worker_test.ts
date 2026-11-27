@@ -124,6 +124,24 @@ suite('gr-syntax-layer-worker tests', () => {
     assert.equal(layer.leftRanges, leftRanges);
   });
 
+  test('maps nested and adjacent UTF-16 ranges around surrogate pairs', () => {
+    const text = '🐟🚀 "🌱" 42';
+    layer.rightRanges = [
+      {
+        ranges: [
+          {start: 5, length: 4, className: 'string'},
+          {start: 6, length: 2, className: 'name'},
+          {start: 10, length: 2, className: 'number'},
+        ],
+      },
+    ];
+    const el = annotate(Side.RIGHT, 1, text);
+    assert.equal(el.textContent, text);
+    assert.equal(el.querySelector('.gr-syntax-string')?.textContent, '"🌱"');
+    assert.equal(el.querySelector('.gr-syntax-name')?.textContent, '🌱');
+    assert.equal(el.querySelector('.gr-syntax-number')?.textContent, '42');
+  });
+
   suite('annotate and listen', () => {
     setup(() => {
       listener = sinon.stub();

@@ -6,8 +6,9 @@ MigrateLabelFunctions - Migrates label functions to submit requirements
 == SYNOPSIS
 [verse]
 --
-_java_ -jar gerrit.war MigrateLabelFunctions_
+_java_ -jar gerrit.war _MigrateLabelFunctions_
   -d <SITE_PATH>
+  [--project <PROJECT>]
 --
 
 == DESCRIPTION
@@ -35,6 +36,9 @@ not altered.
 --site-path::
 	Location of the gerrit.config file, and all other per-site
 	configuration data, supporting libraries and log files.
+--project <PROJECT>::
+  Migrate an individual project. Without this option, the program will migrate
+  ALL projects.
 
 GERRIT
 ------

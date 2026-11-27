@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d017d32_de865f91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-27T08:33:56Z",
+      "side": 1,
+      "message": "This seems to be already imposed in this change.",
+      "range": {
+        "startLine": 17,
+        "startChar": 49,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "b4cd142cd78f17a1cb14cb5bce04814182fdc270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45fdfb79_4bec0d3c",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractChangeControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-27T08:33:56Z",
+      "side": 1,
+      "message": "In the documentation you correctly state: \"both the real and the effective user must qualify...\".\n\nI don\u0027t see any check for impersonated users. Am I missing something?",
+      "range": {
+        "startLine": 233,
+        "startChar": 2,
+        "endLine": 241,
+        "endChar": 0
+      },
+      "revId": "b4cd142cd78f17a1cb14cb5bce04814182fdc270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73fce1d7_c78ebc89",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/PermissionBackendIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-11-27T08:33:56Z",
+      "side": 1,
+      "message": "What about splitting this test in multiple ones? It would help in identifying the issue more precisely.",
+      "range": {
+        "startLine": 102,
+        "startChar": 14,
+        "endLine": 102,
+        "endChar": 45
+      },
+      "revId": "b4cd142cd78f17a1cb14cb5bce04814182fdc270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

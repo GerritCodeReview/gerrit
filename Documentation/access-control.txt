@@ -735,23 +735,11 @@ merges that enter the system will be those created by Gerrit.
 
 For pushes for review, a `Push Merge Commit` entry must be prefixed with
 `refs/for/`, for example `refs/for/refs/heads/BRANCH`; granting it only on
-`refs/heads/BRANCH` does not authorize review uploads. For direct pushes, the
-permission should be granted on `refs/heads/BRANCH`; for legacy reasons an
-entry prefixed with `refs/for/` also continues to authorize direct pushes (the
-fallback applies to direct pushes only, not the other way around). Note that
-this fallback matches the ref pattern of the `refs/for/` entry, so a broad
-entry such as `refs/for/*` authorizes direct merge pushes to every matching
-branch.
+`refs/heads/BRANCH` does not authorize review uploads. For direct pushes,
+grant the permission on `refs/heads/BRANCH`.
 
-[NOTE]
-The `refs/for/` fallback for direct merge pushes is deprecated and will be
-removed in a future release. Grant `Push Merge Commit` on `refs/heads/BRANCH`
-for direct merge pushes. A direct merge push authorized only through the
-fallback logs a warning on the server.
-
-The `refs/for/` fallback above applies only to the direct-push merge check.
-The `skip-validation` push option's merge requirement is not subject to it: it
-requires `Push Merge Commit` on the destination ref itself.
+The `skip-validation` push option's merge requirement likewise requires
+`Push Merge Commit` on the destination ref.
 
 [[category_push_annotated]]
 [[category_create_annotated]]

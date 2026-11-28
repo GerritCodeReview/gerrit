@@ -81,9 +81,9 @@ export const UNCLOSED = -1;
 
 /** Range of characters in a line to be syntax highlighted. */
 export interface SyntaxLayerRange {
-  /** 0-based inclusive. */
+  /** Inclusive UTF-16 offset from the start of the line. */
   start: number;
-  /** Can only be UNCLOSED during processing. */
+  /** UTF-16 length. Can only be UNCLOSED during processing. */
   length: number;
   /** HighlightJS specific names, e.g. 'literal'. */
   className: string;

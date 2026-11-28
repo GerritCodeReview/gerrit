@@ -5,6 +5,7 @@
  */
 import {assert} from '@open-wc/testing';
 import '../../test/common-test-setup';
+import {isRequest} from '../../types/syntax-worker-api';
 import {waitUntil} from '../../test/test-utils';
 import {grReportingMock} from '../gr-reporting/gr-reporting_mock';
 import {MockHighlightServiceManual} from './highlight-service-mock';
@@ -52,6 +53,28 @@ suite('highlight-service tests', () => {
     assert.equal(service.poolIdle.size, 3);
     assert.equal(service.queueForResult.size, 0);
     assert.equal(service.queueForWorker.length, 0);
+  });
+
+  test('only requests plain fallback when the caller asks for it', async () => {
+    service.sendToAll({});
+    const strict = service.highlight('unknown', 'diff');
+    const fallback = service.highlight('unknown', 'comment', {
+      ignoreUnknownLanguage: true,
+    });
+    await waitUntil(() => service.queueForResult.size === 2);
+    const requests = Array.from(
+      service.busy,
+      worker => worker.messages[worker.messages.length - 1]
+    ).filter(isRequest);
+    assert.deepEqual(
+      requests.map(r => [r.code, !!r.ignoreUnknownLanguage]),
+      [
+        ['diff', false],
+        ['comment', true],
+      ]
+    );
+    service.sendToAll({ranges: []});
+    await Promise.all([strict, fallback]);
   });
 
   test('highlight 5', async () => {

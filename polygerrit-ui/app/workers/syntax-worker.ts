@@ -8,6 +8,7 @@ import {
   isInit,
   isRequest,
   SyntaxWorkerMessage,
+  SyntaxWorkerRequest,
   SyntaxWorkerResult,
 } from '../types/syntax-worker-api';
 import {highlightedStringToRanges} from '../utils/syntax-util';
@@ -49,7 +50,7 @@ ctx.onmessage = function (e: MessageEvent<SyntaxWorkerMessage>) {
       ctx.postMessage(result);
     }
     if (isRequest(message)) {
-      const ranges = worker.highlightCode(message.language, message.code);
+      const ranges = worker.highlightCode(message);
       const result: SyntaxWorkerResult = {ranges};
       ctx.postMessage(result);
     }
@@ -73,8 +74,11 @@ class SyntaxWorker {
     this.highlightJsLib.configure({classPrefix: ''});
   }
 
-  highlightCode(language: string, code: string) {
+  highlightCode({language, code, ignoreUnknownLanguage}: SyntaxWorkerRequest) {
     if (!this.highlightJsLib) throw new Error('worker not initialized');
+    if (ignoreUnknownLanguage && !this.highlightJsLib.getLanguage(language)) {
+      return [];
+    }
     const highlighted = this.highlightJsLib.highlight(language, code, true);
     return highlightedStringToRanges(highlighted.value);
   }

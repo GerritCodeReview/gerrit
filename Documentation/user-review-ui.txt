@@ -715,6 +715,18 @@ attach several comments to the same code.
 The comments support markdown. It follows the CommonMark spec, except inline
 images and direct HTML are not rendered and kept as plaintext.
 
+To highlight a fenced code block, put the language name after the opening
+backticks:
+
+----
+```cpp
+int answer = 42;
+```
+----
+
+Blocks with an omitted or unknown language use plain text. Highlighting follows
+your link:#syntax-highlighting[Syntax Highlighting] preference.
+
 [[line-links]]
 The lines of the patch file are linkable: simply append
 '#<linenumber>' to the URL, or click on the line-number. This not only

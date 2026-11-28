@@ -51,6 +51,8 @@ export interface SyntaxWorkerRequest extends SyntaxWorkerMessage {
   type: SyntaxWorkerMessageType.REQUEST;
   language: string;
   code: string;
+  /** A Markdown author may use a label without a registered grammar. */
+  ignoreUnknownLanguage?: boolean;
 }
 
 export function isRequest(

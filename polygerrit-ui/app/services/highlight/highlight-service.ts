@@ -133,13 +133,15 @@ export class HighlightService implements Finalizable {
 
   async highlight(
     language?: string,
-    code?: string
+    code?: string,
+    options?: Pick<SyntaxWorkerRequest, 'ignoreUnknownLanguage'>
   ): Promise<SyntaxLayerLine[]> {
     if (!language || !code) return [];
     if (code.length > CODE_MAX_LENGTH) return [];
     const worker = await this.requestWorker();
     if (!worker) return [];
     const message: SyntaxWorkerRequest = {
+      ...options,
       type: SyntaxWorkerMessageType.REQUEST,
       language,
       code,

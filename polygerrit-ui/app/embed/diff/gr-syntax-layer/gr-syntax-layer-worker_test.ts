@@ -163,4 +163,23 @@ suite('gr-syntax-layer-worker tests', () => {
       assert.equal(listener.callCount, 2);
     });
   });
+
+  test('applies title styling to class names and base classes', () => {
+    layer.rightRanges = [
+      {
+        ranges: [
+          {start: 6, length: 1, className: 'title class_'},
+          {start: 16, length: 1, className: 'title class_ inherited__'},
+        ],
+      },
+    ];
+    const el = annotate(Side.RIGHT, 1, 'class A extends B {}');
+    assert.deepEqual(
+      Array.from(
+        el.querySelectorAll('.gr-syntax-title'),
+        node => node.textContent
+      ),
+      ['A', 'B']
+    );
+  });
 });

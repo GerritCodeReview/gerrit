@@ -8,12 +8,14 @@ import {css} from 'lit';
 const CLASS_PREFIX = 'gr-syntax gr-syntax-';
 
 const CLASS_SAFELIST = new Set<string>([
+  'addition',
   'attr',
   'attribute',
   'built_in',
   'bullet',
   'code',
   'comment',
+  'deletion',
   'doctag',
   'emphasis',
   'formula',
@@ -54,6 +56,12 @@ export function getSyntaxClassName(token: string): string | undefined {
 export const grSyntaxTheme = css`
   .contentText {
     color: var(--syntax-default-color);
+  }
+  .gr-syntax-addition {
+    color: var(--positive-green-text-color);
+  }
+  .gr-syntax-deletion {
+    color: var(--negative-red-text-color);
   }
   .gr-syntax-attr {
     color: var(--syntax-attr-color);

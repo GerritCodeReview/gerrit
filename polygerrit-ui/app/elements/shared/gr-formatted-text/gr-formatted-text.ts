@@ -3,8 +3,8 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   htmlEscape,
   sanitizeHtmlToFragment,
@@ -21,8 +21,18 @@ import {
   USER_SUGGESTION_INFO_STRING,
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
-import '../gr-marked-element/gr-marked-element';
+import {FENCE_ATTRIBUTE} from '../gr-marked-element/gr-marked-element';
+import {uuid} from '../../../utils/common-util';
 import {Renderer, Tokenizer, Tokens} from 'marked';
+import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {userModelToken} from '../../../models/user/user-model';
+import {getAppContext} from '../../../services/app-context';
+import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
+import {grSyntaxTheme} from '../../../embed/diff/gr-syntax-themes/gr-syntax-theme';
+import {
+  highlightedCodeFragment,
+  updateCodePreservingSelection,
+} from './code-fence';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -41,10 +51,36 @@ export class GrFormattedText extends LitElement {
   @property({type: Boolean})
   markdown = false;
 
+  /** Streaming callers can highlight once the final text is available. */
+  @property({attribute: false})
+  deferHighlighting = false;
+
   @state()
   private repoCommentLinks: CommentLinks = {};
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getHighlightService = resolve(this, highlightServiceToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  @query('gr-marked-element > .markdown-html')
+  private markdownOutput?: HTMLElement;
+
+  private syntaxHighlighting = false;
+
+  private readonly fences = new Map<HTMLElement, string>();
+
+  private highlights = new Map<
+    string,
+    {
+      request: AbortController;
+      result: Promise<SyntaxLayerLine[]>;
+    }
+  >();
+
+  // A new render or preference invalidates DOM writes and selection listeners.
+  private highlightRender?: AbortController;
 
   // Private const but used in tests.
   // Limit the length of markdown because otherwise the markdown lexer will
@@ -61,6 +97,7 @@ export class GrFormattedText extends LitElement {
    */
   static override get styles() {
     return [
+      grSyntaxTheme,
       css`
         a {
           color: var(--link-color);
@@ -140,6 +177,16 @@ export class GrFormattedText extends LitElement {
     super();
     subscribe(
       this,
+      () => this.getUserModel().diffPreferences$,
+      prefs => {
+        const enabled = !!prefs.syntax_highlighting;
+        if (this.syntaxHighlighting === enabled) return;
+        this.syntaxHighlighting = enabled;
+        this.updateHighlights();
+      }
+    );
+    subscribe(
+      this,
       () => this.getConfigModel().repoCommentLinks$,
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
@@ -209,6 +256,34 @@ export class GrFormattedText extends LitElement {
     );
   }
 
+  override disconnectedCallback() {
+    this.clearFences();
+    this.syntaxHighlighting = false;
+    super.disconnectedCallback();
+  }
+
+  protected override shouldUpdate(changed: PropertyValues<this>) {
+    // Completion can arrive without another text change. Keep the existing DOM.
+    if (
+      this.hasUpdated &&
+      changed.size === 1 &&
+      changed.has('deferHighlighting')
+    ) {
+      this.updateHighlights();
+      return false;
+    }
+    return true;
+  }
+
+  override updated() {
+    if (!this.content || !this.markdownOutput) this.clearFences();
+  }
+
+  private clearFences() {
+    this.fences.clear();
+    this.updateHighlights();
+  }
+
   override render() {
     return html`
       <gr-endpoint-decorator name="formatted-text-endpoint">
@@ -242,6 +317,11 @@ export class GrFormattedText extends LitElement {
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
 
+    // A comment-link rewrite can produce its own <pre><code>. Associate only
+    // nodes emitted by this Marked render with a fence language.
+    const renderId = uuid();
+    const languages = new Map<string, string>();
+
     // We are overriding some gr-marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
     // 2. Rewrite plain text ("text") to apply linking and other config-based
@@ -249,6 +329,7 @@ export class GrFormattedText extends LitElement {
     // 3. Open links in a new tab by rendering with target="_blank" attribute.
     // 4. Relative links without "/" prefix are assumed to be absolute links.
     function patchRenderer(renderer: Renderer) {
+      languages.clear();
       // Use the `function` syntax, so that we can add type annotation for
       // `this`, allowing the overridden methods access to all members of
       // the merged Renderer object, including to `this.parser`.
@@ -303,8 +384,15 @@ export class GrFormattedText extends LitElement {
             token.escaped ? token.text : htmlEscape(token.text)
           }</mark>`;
         }
-        // Fall back to default renderer's `code` function.
-        return Renderer.prototype.code.call(this, token);
+        const language = token.lang?.trim().split(/\s+/, 1)[0];
+        if (!language) return Renderer.prototype.code.call(this, token);
+        const id = `${renderId}-${languages.size}`;
+        languages.set(id, language);
+        // Match Marked's trailing newline for both open and closed fences.
+        const text = token.text.endsWith('\n') ? token.text : token.text + '\n';
+        return `<pre><code ${FENCE_ATTRIBUTE}="${id}">${
+          token.escaped ? text : htmlEscape(text)
+        }</code></pre>\n`;
       };
 
       // Treat HTML as plaintext and don't render it.
@@ -365,25 +453,111 @@ export class GrFormattedText extends LitElement {
         .breaks=${true}
         .renderer=${patchRenderer}
         .tokenizer=${patchTokenizer}
+        @marked-render-complete=${() => this.markedRenderComplete(languages)}
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>
     `;
   }
 
-  override updated() {
-    this.removeEventListener(
-      'marked-render-complete',
-      this.markedRenderComplete
-    );
-    this.addEventListener('marked-render-complete', this.markedRenderComplete);
-  }
-
-  readonly markedRenderComplete = () => {
-    // Look for @mentions and replace them with an account-label chip.
+  private markedRenderComplete(languages: ReadonlyMap<string, string>) {
     this.convertEmailsToAccountChips();
     this.convertCodeToSuggestions();
-  };
+    this.fences.clear();
+    const codes = this.markdownOutput?.querySelectorAll<HTMLElement>(
+      `pre > code[${FENCE_ATTRIBUTE}]`
+    );
+    for (const code of codes ?? []) {
+      const language = languages.get(code.getAttribute(FENCE_ATTRIBUTE)!);
+      code.removeAttribute(FENCE_ATTRIBUTE);
+      if (language !== undefined) this.fences.set(code, language);
+    }
+    this.updateHighlights();
+  }
+
+  private updateHighlights() {
+    this.highlightRender?.abort();
+    if (!this.fences.size && !this.highlights.size) return;
+    const previous = this.highlights;
+    this.highlights = new Map();
+    const controller = new AbortController();
+    this.highlightRender = controller;
+    for (const [code, language] of this.fences) {
+      const text = code.textContent ?? '';
+      if (!this.syntaxHighlighting || this.deferHighlighting) {
+        if (code.childElementCount) {
+          this.updateWhenUnselected(code, controller.signal, () => {
+            code.textContent = text;
+          });
+        }
+        continue;
+      }
+
+      const key = language + '\n' + text;
+      let entry = this.highlights.get(key) ?? previous.get(key);
+      if (!entry) {
+        const request = new AbortController();
+        entry = {
+          request,
+          result: this.requestHighlight(language, text, request.signal),
+        };
+      }
+      previous.delete(key);
+      this.highlights.set(key, entry);
+      entry.result.then(lines => {
+        if (
+          controller.signal.aborted ||
+          !lines.some(line => line.ranges.length)
+        )
+          return;
+        this.updateWhenUnselected(code, controller.signal, () => {
+          code.replaceChildren(highlightedCodeFragment(text, lines));
+        });
+      });
+    }
+    for (const entry of previous.values()) entry.request.abort();
+  }
+
+  private updateWhenUnselected(
+    code: HTMLElement,
+    signal: AbortSignal,
+    update: () => void
+  ) {
+    const apply = () => {
+      if (
+        signal.aborted ||
+        !code.isConnected ||
+        !this.renderRoot.contains(code)
+      )
+        return;
+      if (!updateCodePreservingSelection(code, this.shadowRoot!, update)) {
+        code.ownerDocument.addEventListener('selectionchange', apply, {
+          once: true,
+          signal,
+        });
+      }
+    };
+    apply();
+  }
+
+  private async requestHighlight(
+    language: string,
+    text: string,
+    signal: AbortSignal
+  ) {
+    try {
+      return await this.getHighlightService().highlight(language, text, {
+        ignoreUnknownLanguage: true,
+        signal,
+      });
+    } catch (err) {
+      getAppContext().reportingService.error(
+        'Comment syntax highlighting',
+        err as Error
+      );
+      return [];
+    }
+  }
 
   private convertEmailsToAccountChips() {
     for (const emailLink of this.renderRoot.querySelectorAll(

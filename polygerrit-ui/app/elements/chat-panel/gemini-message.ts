@@ -344,6 +344,7 @@ export class GeminiMessage extends LitElement {
                 <p class="text-content text-response">
                   <gr-formatted-text
                     .markdown=${true}
+                    .deferHighlighting=${!message.responseComplete}
                     .content=${responsePart.content}
                   ></gr-formatted-text>
                 </p>

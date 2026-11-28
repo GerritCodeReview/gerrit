@@ -27,6 +27,10 @@ import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../types/types';
 import {CommentsModel} from '../../models/comments/comments-model';
 import {AiAgentChatEventDetails, Interaction} from '../../constants/reporting';
+import {highlightServiceToken} from '../../services/highlight/highlight-service';
+import {waitUntil} from '../../test/test-utils';
+import {userModelToken} from '../../models/user/user-model';
+import {createDefaultDiffPrefs} from '../../constants/constants';
 import {getAppContext} from '../../services/app-context';
 
 suite('gemini-message tests', () => {
@@ -128,6 +132,45 @@ suite('gemini-message tests', () => {
       `
     );
   });
+
+  for (const enabled of [true, false]) {
+    test(`streaming code waits for completion with highlighting ${enabled}`, async () => {
+      testResolver(userModelToken).setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        syntax_highlighting: enabled,
+      });
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .resolves([{ranges: [{start: 0, length: 5, className: 'keyword'}]}]);
+      async function stream(content: string, responseComplete: boolean) {
+        const turn = createTurn({
+          responseComplete,
+          responseParts: [{...RESPONSE_TEXT, content}],
+        });
+        chatModel.updateState({...chatModel.getState(), turns: [turn]});
+        await element.updateComplete;
+        const formatted =
+          element.shadowRoot!.querySelector('gr-formatted-text')!;
+        await formatted.updateComplete;
+        const marked =
+          formatted.shadowRoot!.querySelector('gr-marked-element')!;
+        await marked.updateComplete;
+        return formatted.shadowRoot!.querySelector('pre > code')!;
+      }
+      const open = '~~~js\nconst x = ';
+      await stream(open, false);
+      const code = await stream(open + '42;\n~~~', false);
+      assert.equal(code.textContent, 'const x = 42;\n');
+      assert.isFalse(highlight.called);
+      assert.strictEqual(await stream(open + '42;\n~~~', true), code);
+      if (enabled) {
+        await waitUntil(() => !!code.querySelector('.gr-syntax-keyword'));
+        assert.isTrue(highlight.calledOnce);
+      } else {
+        assert.isFalse(highlight.called);
+      }
+    });
+  }
 
   test('renders text response', async () => {
     const turn = createTurn({

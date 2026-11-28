@@ -48,7 +48,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
             "--bundleConfigAsCjs=true",
         ],
         config_file = ":rollup.config.js",
-        entry_point = "_pg_ts_out/workers/syntax-worker.js",
+        entry_point = "_pg_ts_out/workers/syntax-worker-entry.js",
         silent = True,
         sourcemap = "hidden",
         deps = [

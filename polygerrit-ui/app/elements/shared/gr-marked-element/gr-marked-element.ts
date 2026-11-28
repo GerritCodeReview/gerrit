@@ -13,9 +13,15 @@ import {
 import {Marked, Renderer, Tokenizer} from 'marked';
 
 import {
-  sanitizeHtml,
+  HtmlSanitizerBuilder,
   setElementInnerHtml,
 } from '../../../utils/inner-html-util';
+
+// Only this renderer-owned marker needs to survive Markdown sanitization.
+export const FENCE_ATTRIBUTE = 'data-gerrit-fence';
+const markdownSanitizer = new HtmlSanitizerBuilder()
+  .allowDataAttributes([FENCE_ATTRIBUTE])
+  .build();
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -109,7 +115,7 @@ export class GrMarkedElement extends LitElement {
         renderer,
         tokenizer,
       }) || '';
-    const safeHtml = sanitizeHtml(unsafeHtml);
+    const safeHtml = markdownSanitizer.sanitize(unsafeHtml);
 
     setElementInnerHtml(this.outputElement[0], safeHtml);
     this.dispatchEvent(

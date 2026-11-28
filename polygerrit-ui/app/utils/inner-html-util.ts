@@ -8,7 +8,12 @@
 // Internally at Google it has different a implementation.
 
 import {BrandType} from '../types/common';
-export {sanitizeHtml, htmlEscape, sanitizeHtmlToFragment} from 'safevalues';
+export {
+  HtmlSanitizerBuilder,
+  sanitizeHtml,
+  htmlEscape,
+  sanitizeHtmlToFragment,
+} from 'safevalues';
 export {setElementInnerHtml} from 'safevalues/dom';
 
 export type SafeStyleSheet = BrandType<string, '_safeHtml'>;

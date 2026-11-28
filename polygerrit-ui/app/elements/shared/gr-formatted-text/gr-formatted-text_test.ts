@@ -6,7 +6,7 @@
 
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
-import {assert, fixture, html} from '@open-wc/testing';
+import {assert, aTimeout, fixture, html} from '@open-wc/testing';
 import {changeModelToken} from '../../../models/change/change-model';
 import {
   ConfigModel,
@@ -18,13 +18,21 @@ import './gr-formatted-text';
 import {GrFormattedText} from './gr-formatted-text';
 import {createComment, createConfig} from '../../../test/test-data-generators';
 import {
+  mockPromise,
   query,
   queryAndAssert,
+  waitUntil,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
+import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {MockHighlightServiceManual} from '../../../services/highlight/highlight-service-mock';
+import {isRequest} from '../../../types/syntax-worker-api';
+import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
+import {userModelToken} from '../../../models/user/user-model';
+import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {
   CommentModel,
   commentModelToken,
@@ -534,6 +542,346 @@ suite('gr-formatted-text tests', () => {
           </gr-endpoint-decorator>
         `
       );
+    });
+
+    test('keeps a queued fence on rerender and releases it on disconnect', async () => {
+      const pool = new MockHighlightServiceManual(
+        getAppContext().reportingService
+      );
+      pool.sendToAll({});
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .callsFake((language, code, options) =>
+          pool.highlight(language, code, options)
+        );
+      element.content = ['one', 'two', 'three', 'four']
+        .map(code => '~~~js\n' + code + '\n~~~')
+        .join('\n\n');
+      await waitUntil(
+        () => pool.queueForResult.size === 3 && pool.queueForWorker.size === 1
+      );
+      const first = queryAndAssert(element, 'pre > code');
+      element.content += '\n\nMore prose';
+      await waitUntil(() => query(element, 'pre > code') !== first);
+      assert.equal(highlight.callCount, 4);
+      assert.equal(pool.queueForWorker.size, 1);
+      element.remove();
+      assert.equal(pool.queueForWorker.size, 0);
+      const diff = pool.highlight('js', 'visible diff');
+      const [worker] = pool.busy;
+      worker.sendResult({ranges: []});
+      await waitUntil(() => worker.messages.filter(isRequest).length === 2);
+      assert.equal(worker.messages.filter(isRequest)[1].code, 'visible diff');
+      pool.sendToAll({ranges: []});
+      await diff;
+      pool.finalize();
+    });
+
+    test('highlights tagged fences and preserves the original code', async () => {
+      const highlight = sinon.stub(
+        testResolver(highlightServiceToken),
+        'highlight'
+      );
+      highlight.resolves([]);
+      highlight
+        .withArgs('cpp')
+        .resolves([
+          {ranges: [{start: 3, length: 3, className: 'type'}]},
+          {ranges: [{start: 0, length: 6, className: 'keyword'}]},
+        ]);
+      highlight
+        .withArgs('python')
+        .resolves([{ranges: [{start: 0, length: 6, className: 'keyword'}]}]);
+      element.content = [
+        '`inline`',
+        '',
+        '```',
+        'plain',
+        '```',
+        '',
+        '```cpp extra',
+        '🐟 int x;',
+        'return "<tag>";',
+        '```',
+        '',
+        '> ~~~python',
+        '> return 42',
+        '> ~~~',
+        '',
+        '```unknown',
+        '<tag>',
+        '```',
+        '',
+        '```suggestion',
+        'replacement',
+        '```',
+      ].join('\n');
+      await waitUntil(
+        () =>
+          element.shadowRoot!.querySelectorAll('.gr-syntax-keyword').length ===
+          2
+      );
+      const blocks = element.shadowRoot!.querySelectorAll('pre > code');
+      assert.lengthOf(blocks, 4);
+      assert.equal(blocks[1].textContent, '🐟 int x;\nreturn "<tag>";\n');
+      assert.equal(
+        blocks[1].querySelector('.gr-syntax-type')?.textContent,
+        'int'
+      );
+      assert.equal(
+        blocks[2].querySelector('.gr-syntax-keyword')?.textContent,
+        'return'
+      );
+      assert.equal(blocks[3].textContent, '<tag>\n');
+      assert.lengthOf(blocks[3].children, 0);
+      assert.isNull(blocks[1].querySelector('tag'));
+      assert.exists(query(element, 'gr-user-suggestion-fix'));
+      assert.sameMembers(
+        highlight.getCalls().map(call => call.args[0]),
+        ['cpp', 'python', 'unknown']
+      );
+    });
+
+    test('preserves a code-formatted comment link before a tagged fence', async () => {
+      await setCommentLinks({
+        issue: {
+          match: 'ISSUE-42',
+          link: '/q/42',
+          prefix: '<pre><code>',
+          suffix: '</code></pre>',
+        },
+      });
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .resolves([{ranges: [{start: 0, length: 5, className: 'keyword'}]}]);
+      element.content = 'ISSUE-42\n\n~~~js\nconst x = 42;\n~~~';
+      await waitUntil(() => !!query(element, '.gr-syntax-keyword'));
+      assert.isTrue(highlight.calledOnce);
+      const [language, text, options] = highlight.firstCall.args;
+      assert.equal(language, 'js');
+      assert.equal(text, 'const x = 42;\n');
+      assert.isTrue(options?.ignoreUnknownLanguage);
+      assert.equal(
+        queryAndAssert(element, 'pre code a').getAttribute('href'),
+        '/q/42'
+      );
+      assert.equal(
+        queryAndAssert(element, 'pre code .gr-syntax-keyword').textContent,
+        'const'
+      );
+    });
+
+    test('reuses unchanged fences and evicts removed ones', async () => {
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .resolves([{ranges: [{start: 0, length: 1, className: 'number'}]}]);
+      async function show(content: string, count: number) {
+        element.content = content;
+        await element.updateComplete;
+        await waitUntil(
+          () =>
+            element.shadowRoot!.querySelectorAll('.gr-syntax-number').length ===
+            count
+        );
+      }
+      const one = '~~~js\n1\n~~~';
+      const two = '~~~js\n2\n~~~';
+      const three = '~~~js\n3\n~~~';
+      await show([one, one, two].join('\n\n'), 3);
+      await show([one, one, two, 'more prose'].join('\n\n'), 3);
+      await show([one, three].join('\n\n'), 2);
+      await show([one, two].join('\n\n'), 2);
+      await show('', 0);
+      await show(one, 1);
+      assert.deepEqual(
+        highlight.args.map(args => args[1]),
+        ['1\n', '2\n', '3\n', '2\n', '1\n']
+      );
+    });
+
+    test('waits for a preference before touching an already rendered fence', async () => {
+      const model = testResolver(userModelToken);
+      model.updateState({diffPreferences: undefined});
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .resolves([{ranges: [{start: 0, length: 3, className: 'type'}]}]);
+      const fresh = document.createElement('gr-formatted-text');
+      fresh.markdown = true;
+      fresh.content = '~~~cpp\nint i;\n~~~';
+      element.parentElement!.appendChild(fresh);
+      await fresh.updateComplete;
+      const code = queryAndAssert(fresh, 'pre > code');
+      assert.equal(code.textContent, 'int i;\n');
+      assert.isFalse(highlight.called);
+      model.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        syntax_highlighting: false,
+      });
+      await fresh.updateComplete;
+      assert.isFalse(highlight.called);
+      model.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        syntax_highlighting: true,
+      });
+      await waitUntil(() => !!code.querySelector('.gr-syntax-type'));
+      assert.isTrue(highlight.calledOnce);
+      model.setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        syntax_highlighting: false,
+      });
+      await waitUntil(() => !code.querySelector('.gr-syntax-type'));
+      assert.strictEqual(queryAndAssert(fresh, 'pre > code'), code);
+      assert.equal(code.textContent, 'int i;\n');
+    });
+
+    test('disabling highlighting discards an outstanding result', async () => {
+      const pending = mockPromise<SyntaxLayerLine[]>();
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .returns(pending);
+      element.content = '~~~cpp\nint x;\n~~~';
+      await waitUntil(() => highlight.called);
+      const code = queryAndAssert(element, 'pre > code');
+      testResolver(userModelToken).setDiffPreferences({
+        ...createDefaultDiffPrefs(),
+        syntax_highlighting: false,
+      });
+      pending.resolve([{ranges: [{start: 0, length: 3, className: 'type'}]}]);
+      await element.updateComplete;
+      await aTimeout(0);
+      assert.strictEqual(queryAndAssert(element, 'pre > code'), code);
+      assert.equal(code.textContent, 'int x;\n');
+      assert.lengthOf(code.children, 0);
+    });
+
+    test('submits a fence once on mount and when comment links arrive', async () => {
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .resolves([{ranges: [{start: 0, length: 5, className: 'keyword'}]}]);
+      const fresh = document.createElement('gr-formatted-text');
+      fresh.markdown = true;
+      fresh.content = '~~~js\nconst x = 42;\n~~~';
+      element.parentElement!.appendChild(fresh);
+      await waitUntil(() => !!query(fresh, '.gr-syntax-keyword'));
+      const block = queryAndAssert(fresh, 'pre > code');
+      await setCommentLinks({});
+      await waitUntil(() => query(fresh, 'pre > code') !== block);
+      await waitUntil(() => !!query(fresh, '.gr-syntax-keyword'));
+      assert.isTrue(highlight.calledOnce);
+    });
+
+    test('replacing a comment while highlighting leaves the replacement intact', async () => {
+      const pending = mockPromise<SyntaxLayerLine[]>();
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .returns(pending);
+      element.content = '```cpp\nint x;\n```';
+      await waitUntil(() => highlight.called);
+      const original = queryAndAssert(element, 'pre > code');
+      element.content = '```\nnew text\n```';
+      await element.updateComplete;
+      pending.resolve([{ranges: [{start: 0, length: 3, className: 'type'}]}]);
+      await pending;
+      const block = queryAndAssert(element, 'pre > code');
+      assert.lengthOf(original.children, 0);
+      assert.equal(block.textContent, 'new text\n');
+      assert.lengthOf(block.children, 0);
+    });
+
+    test('keeps a code selection while a worker result arrives', async () => {
+      const pending = mockPromise<SyntaxLayerLine[]>();
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .returns(pending);
+      element.content = '~~~cpp\nint x;\n~~~\n\n~~~cpp\nint y;\n~~~';
+      await waitUntil(() => highlight.called);
+      const code = queryAndAssert(element, 'pre > code');
+      const range = document.createRange();
+      range.setStart(code.firstChild!, 0);
+      range.setEnd(code.firstChild!, 3);
+      const selection = window.getSelection()!;
+      selection.removeAllRanges();
+      selection.setBaseAndExtent(
+        range.startContainer,
+        range.startOffset,
+        range.endContainer,
+        range.endOffset
+      );
+      try {
+        assert.equal(selection.toString(), 'int');
+        pending.resolve([{ranges: [{start: 0, length: 3, className: 'type'}]}]);
+        await waitUntil(
+          () => !!query(element, 'pre:nth-of-type(2) .gr-syntax-type')
+        );
+        assert.equal(selection.toString(), 'int');
+        assert.lengthOf(code.children, 0);
+        selection.removeAllRanges();
+        await waitUntil(() => !!code.querySelector('.gr-syntax-type'));
+        assert.equal(code.textContent, 'int x;\n');
+        assert.equal(highlight.callCount, 2);
+      } finally {
+        selection.removeAllRanges();
+      }
+    });
+
+    test('reports a rejected worker request once and keeps plain text', async () => {
+      const error = new Error('Worker unavailable');
+      const report = sinon.stub(getAppContext().reportingService, 'error');
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .rejects(error);
+      element.content = '~~~cpp\nint x;\n~~~';
+      await waitUntil(() => report.called);
+      const first = queryAndAssert(element, 'pre > code');
+      await setCommentLinks({});
+      await waitUntil(() => query(element, 'pre > code') !== first);
+      assert.isTrue(
+        report.calledOnceWithExactly('Comment syntax highlighting', error)
+      );
+      assert.isTrue(highlight.calledOnce);
+      const code = queryAndAssert(element, 'pre > code');
+      assert.equal(code.textContent, 'int x;\n');
+      assert.lengthOf(code.children, 0);
+    });
+
+    test('preserves a caret when adding and removing syntax spans', async () => {
+      const pending = mockPromise<SyntaxLayerLine[]>();
+      const highlight = sinon
+        .stub(testResolver(highlightServiceToken), 'highlight')
+        .returns(pending);
+      element.content = '~~~js\nconst x = 42;\n~~~';
+      await waitUntil(() => highlight.called);
+      const code = queryAndAssert(element, 'pre > code');
+      const selection = window.getSelection()!;
+      const selectedOffset = () => {
+        const range = selection.getComposedRanges({
+          shadowRoots: [element.shadowRoot!],
+        })[0];
+        assert.isTrue(range.collapsed);
+        assert.isTrue(code.contains(range.startContainer));
+        const prefix = document.createRange();
+        prefix.selectNodeContents(code);
+        prefix.setEnd(range.startContainer, range.startOffset);
+        return prefix.toString().length;
+      };
+      try {
+        selection.collapse(code.firstChild, 8);
+        assert.equal(selectedOffset(), 8);
+        pending.resolve([
+          {ranges: [{start: 0, length: 5, className: 'keyword'}]},
+        ]);
+        await waitUntil(() => !!code.querySelector('span'));
+        assert.equal(selectedOffset(), 8);
+        selection.collapse(code.querySelector('span')!.firstChild, 3);
+        testResolver(userModelToken).setDiffPreferences({
+          ...createDefaultDiffPrefs(),
+          syntax_highlighting: false,
+        });
+        await waitUntil(() => !code.querySelector('span'));
+        assert.equal(selectedOffset(), 3);
+      } finally {
+        selection.removeAllRanges();
+      }
     });
 
     test('does not render inline images into <img> tags', async () => {

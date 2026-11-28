@@ -55,7 +55,7 @@ export class HighlightService implements Finalizable {
 
   // visible for testing
   /** Queue for waiting that a worker becomes available. */
-  queueForWorker: Array<() => void> = [];
+  readonly queueForWorker = new Set<(worker?: Worker) => void>();
 
   // visible for testing
   /** Queue for waiting on the results of a worker. */
@@ -94,24 +94,30 @@ export class HighlightService implements Finalizable {
     return worker;
   }
 
-  private moveBusyToIdle(worker: Worker) {
-    this.poolBusy.delete(worker);
-    this.poolIdle.add(worker);
-    const resolver = this.queueForWorker.shift();
-    if (resolver) resolver();
+  private releaseWorker(worker: Worker) {
+    const next = this.queueForWorker.values().next().value;
+    if (next) {
+      next(worker);
+    } else {
+      this.poolBusy.delete(worker);
+      this.poolIdle.add(worker);
+    }
   }
 
-  /**
-   * If there is worker in the idle pool, then return it. Otherwise wait for a
-   * worker to become a available.
-   */
-  private async requestWorker(): Promise<Worker | undefined> {
-    if (this.poolIdle.size > 0) {
-      const worker = this.moveIdleToBusy();
-      return Promise.resolve(worker);
-    }
-    await new Promise<void>(r => this.queueForWorker.push(r));
-    return this.requestWorker();
+  private requestWorker(signal?: AbortSignal): Promise<Worker | undefined> {
+    if (signal?.aborted) return Promise.resolve(undefined);
+    if (this.poolIdle.size) return Promise.resolve(this.moveIdleToBusy());
+
+    return new Promise(resolve => {
+      const finish = (worker?: Worker) => {
+        this.queueForWorker.delete(finish);
+        signal?.removeEventListener('abort', cancel);
+        resolve(worker);
+      };
+      const cancel = () => finish();
+      this.queueForWorker.add(finish);
+      signal?.addEventListener('abort', cancel, {once: true});
+    });
   }
 
   /**
@@ -119,7 +125,7 @@ export class HighlightService implements Finalizable {
    * resolver that is waiting for the results.
    */
   private handleResult(worker: Worker, result: SyntaxWorkerResult) {
-    this.moveBusyToIdle(worker);
+    this.releaseWorker(worker);
     if (result.error) {
       this.reporting.error(
         'Diff Syntax Layer',
@@ -133,13 +139,23 @@ export class HighlightService implements Finalizable {
 
   async highlight(
     language?: string,
-    code?: string
+    code?: string,
+    options: Pick<SyntaxWorkerRequest, 'ignoreUnknownLanguage'> & {
+      signal?: AbortSignal;
+    } = {}
   ): Promise<SyntaxLayerLine[]> {
     if (!language || !code) return [];
     if (code.length > CODE_MAX_LENGTH) return [];
-    const worker = await this.requestWorker();
-    if (!worker) return [];
+    const {signal, ...workerOptions} = options;
+    const worker = await this.requestWorker(signal);
+    if (!worker || !this.poolBusy.has(worker)) return [];
+    // The last consumer can disappear between reservation and dispatch.
+    if (signal?.aborted) {
+      this.releaseWorker(worker);
+      return [];
+    }
     const message: SyntaxWorkerRequest = {
+      ...workerOptions,
       type: SyntaxWorkerMessageType.REQUEST,
       language,
       code,
@@ -160,7 +176,8 @@ export class HighlightService implements Finalizable {
       worker?.terminate();
     }
     this.poolBusy.clear();
+    for (const finish of this.queueForResult.values()) finish([]);
     this.queueForResult.clear();
-    this.queueForWorker.length = 0;
+    for (const finish of this.queueForWorker) finish();
   }
 }

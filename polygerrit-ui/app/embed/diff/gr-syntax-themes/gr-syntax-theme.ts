@@ -41,6 +41,8 @@ const CLASS_SAFELIST = new Set<string>([
   'template-tag',
   'template-variable',
   'title',
+  'title class_',
+  'title class_ inherited__',
   'title function_',
   'type',
   'variable',

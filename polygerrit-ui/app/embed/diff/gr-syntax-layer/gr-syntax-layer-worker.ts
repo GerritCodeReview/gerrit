@@ -8,7 +8,10 @@ import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
-import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
+import {
+  SyntaxLayerLine,
+  SyntaxLayerRange,
+} from '../../../types/syntax-worker-api';
 import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {HighlightService} from '../../../services/highlight/highlight-service';
 import {Provider} from '../../../models/dependency';
@@ -216,7 +219,9 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     const lineNumber = isLeft ? line.beforeNumber : line.afterNumber;
     assert(typeof lineNumber === 'number', 'lineNumber must be a number');
     const rangesPerLine = isLeft ? this.leftRanges : this.rightRanges;
-    const ranges = rangesPerLine[lineNumber - 1]?.ranges ?? [];
+    const lineRanges = rangesPerLine[lineNumber - 1]?.ranges;
+    if (!lineRanges?.length) return;
+    const ranges = toCodePointRanges(line.text, lineRanges);
 
     for (const range of ranges) {
       if (!CLASS_SAFELIST.has(range.className)) continue;
@@ -333,4 +338,22 @@ export class GrSyntaxLayerWorker implements DiffLayer {
       if (rightStart > -1) listener(rightStart + 1, rightEnd + 1, Side.RIGHT);
     }
   }
+}
+
+// Worker offsets are UTF-16 units, but diff annotations count code points.
+function toCodePointRanges(text: string, ranges: SyntaxLayerRange[]) {
+  if (!/[\u{10000}-\u{10ffff}]/u.test(text)) return ranges;
+  const offsets = new Uint32Array(text.length + 1);
+  let unit = 0;
+  let point = 0;
+  for (const char of text) {
+    point++;
+    offsets[++unit] = point;
+    if (char.length === 2) offsets[++unit] = point;
+  }
+  return ranges.map(({start, length, className}) => {
+    const from = offsets[Math.min(start, text.length)];
+    const to = offsets[Math.min(start + length, text.length)];
+    return {start: from, length: to - from, className};
+  });
 }

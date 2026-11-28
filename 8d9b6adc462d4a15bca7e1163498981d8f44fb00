@@ -16,6 +16,24 @@
       "message": "Can you link a before and after screenshot showing the broken syntax highlighting and fixed highlighting?\n\n@epulatov.dev@gmail.com unrelated to your current change but do you know how to fix the syntax highlighting of:\n\n```\n\u003c?php\nclass SyntaxHlTest {\n\tpublic function onNewline( NlTk $token ): ?array {\n\t\t$this-\u003eenv-\u003etrace( \u0027tsp\u0027, $this-\u003epipelineId,\n\t\t\tstatic function () use ( $self, $token ) {\n\t\t\t\treturn \"(indep\u003d\" . ( $self-\u003einIndependentParse ? \"yes\" : \"no \" ) .\n\t\t\t\t\t\";sol\u003d\" . ( $self-\u003esol ? \"yes\" : \"no \" ) . \u0027) \u0027 .\n\t\t\t\t\tPHPUtils::jsonEncode( $token );\n\t\t\t}\n\t\t);\n\t\t$this-\u003esrcOffset \u003d $token-\u003edataParsoid-\u003etsr-\u003eend ?? null;\n\t\t$this-\u003etokenBuf[] \u003d $token;\n\t\t$this-\u003esol \u003d true;\n\t\treturn [];\n\t}\n}\n```\n\nThis was fixed in highlight.js [0] but somehow still broken in gerrit, even though we have updated to the release with the fix.\n\nSee https://postimg.cc/qhYt27fd\n\n[0] https://github.com/highlightjs/highlight.js/commit/d86474408778cbb8f0c0a37404512bdb070c181d",
       "revId": "8d9b6adc462d4a15bca7e1163498981d8f44fb00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c23ddfd_30307860",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-11-28T13:07:56Z",
+      "side": 1,
+      "message": "Oh... i guess it requires another fix in highlight.js as it\u0027s broken on highlight.js demo as well. (i suppose that change wasn\u0027t suppose to fix it https://phabricator.wikimedia.org/T395324#10859384) \n\nhttps://postimg.cc/CZCTjPWy",
+      "parentUuid": "0dedeec5_e3301a3f",
+      "revId": "8d9b6adc462d4a15bca7e1163498981d8f44fb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

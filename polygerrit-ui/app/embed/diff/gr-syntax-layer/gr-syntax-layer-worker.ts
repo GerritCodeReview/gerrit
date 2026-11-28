@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {getSyntaxClassName} from '../gr-syntax-themes/gr-syntax-theme';
 import {annotateElement} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
@@ -108,48 +109,6 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/vbscript', 'vbscript'],
 ]);
 
-const CLASS_PREFIX = 'gr-syntax gr-syntax-';
-
-const CLASS_SAFELIST = new Set<string>([
-  'attr',
-  'attribute',
-  'built_in',
-  'bullet',
-  'code',
-  'comment',
-  'doctag',
-  'emphasis',
-  'formula',
-  'function',
-  'keyword',
-  'link',
-  'literal',
-  'meta',
-  'meta-keyword',
-  'name',
-  'number',
-  'params',
-  'property',
-  'quote',
-  'regexp',
-  'section',
-  'selector-attr',
-  'selector-class',
-  'selector-id',
-  'selector-pseudo',
-  'selector-tag',
-  'string',
-  'strong',
-  'tag',
-  'template-tag',
-  'template-variable',
-  'title',
-  'title function_',
-  'type',
-  'variable',
-  'variable language_',
-]);
-
 export class GrSyntaxLayerWorker implements DiffLayer {
   diff?: DiffInfo;
 
@@ -219,14 +178,10 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     const ranges = rangesPerLine[lineNumber - 1]?.ranges ?? [];
 
     for (const range of ranges) {
-      if (!CLASS_SAFELIST.has(range.className)) continue;
+      const syntaxClass = getSyntaxClassName(range.className);
+      if (!syntaxClass) continue;
       if (range.length === 0) continue;
-      annotateElement(
-        el,
-        range.start,
-        range.length,
-        CLASS_PREFIX + range.className
-      );
+      annotateElement(el, range.start, range.length, syntaxClass);
     }
   }
 

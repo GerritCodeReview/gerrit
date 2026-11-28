@@ -34,6 +34,24 @@
       "parentUuid": "0dedeec5_e3301a3f",
       "revId": "8d9b6adc462d4a15bca7e1163498981d8f44fb00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50a724e6_b6469b9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5359295
+      },
+      "writtenOn": "2026-11-28T13:10:18Z",
+      "side": 1,
+      "message": "Hi! \n\nInteresting, let me see, thanks for the links! I can try to address it",
+      "parentUuid": "0dedeec5_e3301a3f",
+      "revId": "8d9b6adc462d4a15bca7e1163498981d8f44fb00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

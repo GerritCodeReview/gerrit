@@ -61,7 +61,7 @@ export class GrMarkedElement extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.renderMarkdown();
+    if (this.hasUpdated) this.renderMarkdown();
   }
 
   protected override updated(changedProps: PropertyValues) {
@@ -75,10 +75,6 @@ export class GrMarkedElement extends LitElement {
     if (propsToWatch.some(prop => changedProps.has(prop))) {
       this.renderMarkdown();
     }
-  }
-
-  override firstUpdated() {
-    this.renderMarkdown();
   }
 
   private renderMarkdown() {

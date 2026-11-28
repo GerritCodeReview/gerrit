@@ -59,7 +59,6 @@ export interface OwnerRoot {
 /** https://highlightjs.readthedocs.io/en/latest/api.html */
 export interface HighlightJSResult {
   value: string;
-  top: unknown;
 }
 
 /** https://highlightjs.readthedocs.io/en/latest/api.html */
@@ -67,10 +66,8 @@ export interface HighlightJS {
   configure(options: {classPrefix: string}): void;
   getLanguage(languageName: string): unknown | undefined;
   highlight(
-    languageName: string,
     code: string,
-    ignore_illegals: boolean,
-    continuation?: unknown
+    options: {language: string; ignoreIllegals: boolean}
   ): HighlightJSResult;
 }
 

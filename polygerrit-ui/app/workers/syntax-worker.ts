@@ -79,7 +79,10 @@ class SyntaxWorker {
     if (ignoreUnknownLanguage && !this.highlightJsLib.getLanguage(language)) {
       return [];
     }
-    const highlighted = this.highlightJsLib.highlight(language, code, true);
+    const highlighted = this.highlightJsLib.highlight(code, {
+      language,
+      ignoreIllegals: true,
+    });
     return highlightedStringToRanges(highlighted.value);
   }
 }

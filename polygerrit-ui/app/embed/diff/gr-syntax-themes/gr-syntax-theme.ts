@@ -5,14 +5,52 @@
  */
 import {css} from 'lit';
 
-/**
- * HighlightJS emits the following classes that do not have styles here:
- *    subst, symbol, class, function, doctag, meta-string, section, name,
- *    builtin-name, bulletm, code, formula, quote, addition, deletion,
- *    attribute
- *
- * @see {@link http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html}
- */
+const CLASS_PREFIX = 'gr-syntax gr-syntax-';
+
+const CLASS_SAFELIST = new Set<string>([
+  'attr',
+  'attribute',
+  'built_in',
+  'bullet',
+  'code',
+  'comment',
+  'doctag',
+  'emphasis',
+  'formula',
+  'function',
+  'keyword',
+  'link',
+  'literal',
+  'meta',
+  'meta-keyword',
+  'name',
+  'number',
+  'params',
+  'property',
+  'quote',
+  'regexp',
+  'section',
+  'selector-attr',
+  'selector-class',
+  'selector-id',
+  'selector-pseudo',
+  'selector-tag',
+  'string',
+  'strong',
+  'tag',
+  'template-tag',
+  'template-variable',
+  'title',
+  'title function_',
+  'type',
+  'variable',
+  'variable language_',
+]);
+
+export function getSyntaxClassName(token: string): string | undefined {
+  return CLASS_SAFELIST.has(token) ? CLASS_PREFIX + token : undefined;
+}
+
 export const grSyntaxTheme = css`
   .contentText {
     color: var(--syntax-default-color);

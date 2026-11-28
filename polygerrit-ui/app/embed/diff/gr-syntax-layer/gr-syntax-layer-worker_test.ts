@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import * as sinon from 'sinon';
-import {assert} from '@open-wc/testing';
+import {assert, fixture, html} from '@open-wc/testing';
+import {adoptStyles} from 'lit';
+import {applyTheme as applyDarkTheme} from '../../../styles/themes/dark-theme';
+import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
 import {DiffInfo, GrDiffLineType, Side} from '../../../api/diff';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -89,6 +92,52 @@ suite('gr-syntax-layer-worker tests', () => {
       () => highlightService,
       () => getAppContext().reportingService
     );
+  });
+
+  test('colors added and removed lines in a patch file', async () => {
+    const highlight = sinon.stub(highlightService, 'highlight').resolves([]);
+    highlight
+      .withArgs('diff', '-old\n+new')
+      .resolves([
+        {ranges: [{start: 0, length: 4, className: 'deletion'}]},
+        {ranges: [{start: 0, length: 4, className: 'addition'}]},
+      ]);
+    await layer.process({
+      ...diff,
+      meta_b: {name: 'change.patch', content_type: 'text/x-diff', lines: 2},
+      content: [{b: ['-old', '+new']}],
+    });
+    const removed = annotate(Side.RIGHT, 1, '-old');
+    const added = annotate(Side.RIGHT, 2, '+new');
+    const deletion = removed.querySelector('.gr-syntax-deletion')!;
+    const addition = added.querySelector('.gr-syntax-addition')!;
+    assert.equal(deletion.textContent, '-old');
+    assert.equal(addition.textContent, '+new');
+
+    const host = await fixture<HTMLElement>(html`<div></div>`);
+    const root = host.attachShadow({mode: 'open'});
+    adoptStyles(root, [grSyntaxTheme]);
+    const reference = document.createElement('span');
+    root.append(removed, added, reference);
+    function assertColors() {
+      reference.style.color = 'var(--negative-red-text-color)';
+      assert.equal(
+        getComputedStyle(deletion).color,
+        getComputedStyle(reference).color
+      );
+      reference.style.color = 'var(--positive-green-text-color)';
+      assert.equal(
+        getComputedStyle(addition).color,
+        getComputedStyle(reference).color
+      );
+      assert.notEqual(
+        getComputedStyle(deletion).color,
+        getComputedStyle(addition).color
+      );
+    }
+    assertColors();
+    applyDarkTheme();
+    assertColors();
   });
 
   test('cancel processing', async () => {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {
   customElement,
   property,
@@ -61,23 +61,11 @@ export class GrMarkedElement extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.renderMarkdown();
+    // An update may have completed while the output was detached.
+    this.requestUpdate();
   }
 
-  protected override updated(changedProps: PropertyValues) {
-    const propsToWatch = [
-      'markdown',
-      'breaks',
-      'pedantic',
-      'renderer',
-      'tokenizer',
-    ];
-    if (propsToWatch.some(prop => changedProps.has(prop))) {
-      this.renderMarkdown();
-    }
-  }
-
-  override firstUpdated() {
+  protected override updated() {
     this.renderMarkdown();
   }
 

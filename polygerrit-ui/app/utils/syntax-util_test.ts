@@ -178,6 +178,20 @@ suite('file syntax-util', () => {
       );
     });
 
+    test('counts escaped characters in multiline spans as source text', () => {
+      const markup =
+        'x<span class="comment">/* &lt; &amp; 🐟\nend */</span> <span class="type">int</span>';
+      assert.deepEqual(highlightedStringToRanges(markup), [
+        {ranges: [{start: 1, length: 9, className: 'comment'}]},
+        {
+          ranges: [
+            {start: 0, length: 6, className: 'comment'},
+            {start: 7, length: 3, className: 'type'},
+          ],
+        },
+      ]);
+    });
+
     test('one span over two lines', async () => {
       assert.deepEqual(
         highlightedStringToRanges(

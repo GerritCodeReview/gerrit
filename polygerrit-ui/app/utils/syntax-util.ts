@@ -89,10 +89,11 @@ export function highlightedStringToRanges(
     // All unclosed spans need to have the length set such that they extend to
     // the end of the line. And they have to be carried over to the next line
     // as cloned objects with start:0.
-    const lineLength = line.length;
+    let lineLength: number | undefined;
     for (const range of ranges) {
       if (isUnclosed(range)) {
         carryOverRanges.push({...range, start: 0});
+        lineLength ??= unescapeHTML(line).length;
         range.length = lineLength - range.start;
       }
     }

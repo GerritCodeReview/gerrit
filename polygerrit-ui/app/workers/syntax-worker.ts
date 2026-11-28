@@ -75,7 +75,10 @@ class SyntaxWorker {
 
   highlightCode(language: string, code: string) {
     if (!this.highlightJsLib) throw new Error('worker not initialized');
-    const highlighted = this.highlightJsLib.highlight(language, code, true);
+    const highlighted = this.highlightJsLib.highlight(code, {
+      language,
+      ignoreIllegals: true,
+    });
     return highlightedStringToRanges(highlighted.value);
   }
 }

@@ -3,6 +3,7 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import type {HLJSApi} from 'highlight.js';
 import {DiffLayer as DiffLayerApi} from '../api/diff';
 import {MessageTag, Side} from '../constants/constants';
 import {
@@ -51,28 +52,10 @@ export interface AuthRequestInit extends RequestInit {
   headers?: Headers;
 }
 
-/*
-export interface OwnerRoot {
-  host?: HTMLElement;
-}
-
-/** https://highlightjs.readthedocs.io/en/latest/api.html */
-export interface HighlightJSResult {
-  value: string;
-  top: unknown;
-}
-
-/** https://highlightjs.readthedocs.io/en/latest/api.html */
-export interface HighlightJS {
-  configure(options: {classPrefix: string}): void;
-  getLanguage(languageName: string): unknown | undefined;
-  highlight(
-    languageName: string,
-    code: string,
-    ignore_illegals: boolean,
-    continuation?: unknown
-  ): HighlightJSResult;
-}
+export type HighlightJS = Pick<
+  HLJSApi,
+  'configure' | 'getLanguage' | 'highlight'
+>;
 
 export type DiffLayerListener = (
   /** 1-based inclusive */
